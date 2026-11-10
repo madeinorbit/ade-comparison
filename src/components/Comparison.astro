@@ -1,0 +1,138 @@
+---
+import Checked from './Checked.astro'
+import { answerLabel, cellFor, facets, products, receiptHref, requirements, sunsetIds } from '../lib/data'
+import { shotFor, shortLabel } from '../lib/sheet'
+import type { Product, Requirement } from '../lib/types'
+interface Props { mode: 'compare' | 'matrix'; selected?: string[] }
+const { mode, selected = [] } = Astro.props
+const compare = mode === 'compare'
+const covered = products.filter(p => p.researchStatus === 'covered')
+const current = selected.length ? selected : compare ? covered.slice(0, 2).map(p => p.id) : covered.map(p => p.id)
+// A pair page carries its own two products only. Other selections move to /compare/.
+const columns = selected.length ? covered.filter(p => selected.includes(p.id)) : covered
+const SLOTS = 4
+// Rows grouped the way the Finder groups its words. A single-choice facet (licence, price) is one row, not one per option.
+const sections: [string, string[]][] = [
+  ['Where you work', ['desktop-os', 'web-client', 'phone-client', 'cli']],
+  ['Agents', ['agents', 'byo-subscription']],
+  ['Where it runs', ['execution', 'laptop-independent']],
+  ['How it works', ['isolation', 'parallel-runs', 'coordinator', 'issue-tracking', 'unattended-triggers']],
+  ['Team and shipping', ['multiplayer', 'roles', 'sso', 'pr-workflow', 'review-ui']],
+  ['Ownership and price', ['license', 'self-hosting', 'telemetry-opt-out', 'free-tier', 'starting-price']],
+  ['Status', ['lifecycle-status']],
+]
+const placed = new Set(sections.flatMap(([, f]) => f))
+const extra = facets.map(f => f.id).filter(id => !placed.has(id))
+if (extra.length) sections.splice(-1, 0, ['More', extra])
+interface Row { key: string; label: string; keys: string[]; reqs: Requirement[]; single: boolean }
+const rowsFor = (facetIds: string[]): Row[] => facetIds.flatMap(id => {
+  const facet = facets.find(f => f.id === id)
+  if (!facet) return []
+  const reqs = requirements.filter(r => r.facetId === id && !r.anyOf)
+  if (facet.type === 'enum' && !facet.multiple) return [{ key: id, label: facet.label, keys: [...reqs.map(r => r.key), ...requirements.filter(r => r.facetId === id && r.anyOf).map(r => r.key)], reqs, single: true }]
+  return reqs.map(r => ({ key: r.key, label: shortLabel(r.key), keys: [r.key, ...requirements.filter(a => a.anyOf?.includes(r.key)).map(a => a.key)], reqs: [r], single: false }))
+})
+const grouped = sections.map(([title, ids]) => ({ title, rows: rowsFor(ids) })).filter(g => g.rows.length)
+// One value per cell: the typed answer, its receipt, and how to show it.
+function value(p: Product, row: Row) {
+  if (row.single) {
+    const cell = cellFor(p, row.reqs[0])
+    const option = facets.find(f => f.id === row.key)?.options?.find(o => o.id === cell.value)
+    const req = row.reqs.find(r => r.option === cell.value) || row.reqs[0]
+    return { raw: cell.value, text: option?.label || (cell.value === 'unknown' ? 'Not listed' : cell.value), kind: cell.value === 'unknown' ? 'u' : 'v', cell, req }
+  }
+  const req = row.reqs[0], cell = cellFor(p, req), label = answerLabel(p, req)
+  return { raw: cell.value, text: label === 'Unknown' ? 'Not listed' : label, kind: cell.value === 'yes' ? 'y' : cell.value === 'no' ? 'n' : 'u', cell, req }
+}
+// Visible columns: the labels plus four (chosen or empty) in Compare, every product in the matrix.
+const span = compare ? SLOTS + 1 : columns.length + 1
+---
+<div data-url-state id="comparison" class={`cmp cmp-${mode}`} data-mode={mode} data-pair={selected.length ? 'true' : undefined} data-initial={JSON.stringify(current)} data-slots={compare ? SLOTS : undefined}>
+  <form id="table-controls" class="cmp-controls">
+    <label class="cmp-diff"><input type="checkbox" id="differences" name="diff" /> Differences only</label>
+    <p id="table-status" class="status-line cmp-status" role="status"></p>
+    <details class="cmp-pick">
+      <summary>{compare ? `All ${covered.length} researched ADEs` : `Choose products (${covered.length} shown)`}</summary>
+      <fieldset>
+        <legend class="vh">{compare ? 'Choose 2 to 4 products' : 'Products in the matrix'}</legend>
+        <div class="pick-grid">{covered.map(p => <label><input type="checkbox" data-table-product={p.id} checked={current.includes(p.id)} /> {p.name}</label>)}</div>
+      </fieldset>
+      <button type="submit" class="btn-line">Update comparison</button>
+    </details>
+  </form>
+  <noscript><p class="cmp-noscript">This table is rendered in HTML. Changing products and showing differences needs JavaScript. <a href="/compare/#pairs">Open a static pair comparison</a> to compare another pair.</p></noscript>
+  <div class="table-scroll" id="comparison-scroll" tabindex="0" role="region" aria-label={`${compare ? 'Comparison' : 'Matrix'} table, scroll for more products`}>
+    <table>
+      <caption class="vh">Open any value for its finding, source, scope and check date.</caption>
+      <thead><tr><th scope="col" class="corner">{compare ? <span>Open any value for its source</span> : 'Requirement'}</th>{columns.map(p => <th scope="col" data-column-id={p.id} hidden={!current.includes(p.id)}>
+        <a class="cmp-name" href={`/ade/${p.id}/`}>{p.name}</a>
+        {sunsetIds.includes(p.id) && <a class="cmp-closing" href={`/ade/${p.id}/#lifecycle`} aria-label={`${p.name} shutdown notice`}>Shutdown notice</a>}
+        {compare && <button type="button" class="cmp-remove needs-js" data-remove={p.id}>Remove<span class="vh"> {p.name}</span></button>}
+      </th>)}{compare && Array.from({ length: SLOTS }, (_, i) => <th scope="col" data-slot={i} class="slot" hidden={i >= SLOTS - current.length}><label class="needs-js"><span class="vh">Add an ADE to compare</span><select data-add><option value="">Add an ADE</option></select></label></th>)}</tr></thead>
+      {compare && <tbody class="cmp-shots"><tr><th scope="row">Screenshot</th>{columns.map(p => { const shot = shotFor(p.id); return <td data-column-id={p.id} hidden={!current.includes(p.id)}>{shot ? <img src={`/media/${shot.path}`} width={shot.width} height={shot.height} loading="lazy" decoding="async" alt={`${p.name} product interface`} /> : <span class="no-shot">No screenshot yet</span>}</td> })}{Array.from({ length: SLOTS }, (_, i) => <td data-slot={i} class="slot" hidden={i >= SLOTS - current.length}></td>)}</tr></tbody>}
+      {grouped.map(g => <tbody data-section>
+        <tr class="sec"><th scope="colgroup" colspan={span}>{g.title}</th></tr>
+        {g.rows.map(row => <tr data-requirement-row={row.key} data-keys={row.keys.join(' ')} data-values={JSON.stringify(Object.fromEntries(columns.map(p => [p.id, value(p, row).raw])))}>
+          <th scope="row">{row.label}</th>
+          {columns.map(p => { const v = value(p, row); return <td data-column-id={p.id} hidden={!current.includes(p.id)} class={`v-${v.kind}`}><a class="receipt-link" href={receiptHref(p.id, v.req.key)} aria-label={`${p.name}, ${row.label}: ${v.text}. Open finding.`}>{v.text}</a>{v.kind !== 'u' && <> <Checked date={v.cell.checkedAt} /></>}{v.cell.verificationStatus === 'agent-cross-checked' && <small class="badge">cross-checked</small>}</td> })}
+          {compare && Array.from({ length: SLOTS }, (_, i) => <td data-slot={i} class="slot" hidden={i >= SLOTS - current.length}></td>)}
+        </tr>)}
+      </tbody>)}
+    </table>
+  </div>
+  <p id="same-answers" hidden>No recorded answers differ across these products.</p>
+</div>
+<script src="../scripts/comparison.ts"></script>
+<style is:global>
+  .cmp-controls { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-xs) var(--s-xl); margin-block: var(--s-lg) var(--s-md); }
+  .cmp-diff { font-weight: 500; }
+  .cmp-status { color: var(--ink-2); font-size: var(--t-sm); margin-right: auto; }
+  .cmp-pick { order: 3; width: 100%; }
+  .cmp-pick > summary { font-size: var(--t-sm); color: var(--ink-2); }
+  .cmp-pick[open] { display: grid; gap: var(--s-md); padding-bottom: var(--s-md); border-bottom: 1px solid var(--rule); }
+  .pick-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 13rem), 1fr)); column-gap: var(--gap); }
+  .pick-grid label { font-size: var(--t-sm); min-height: 36px; }
+  .cmp-pick .btn-line { justify-self: start; }
+  .js .cmp-pick .btn-line { display: none; }
+  .cmp-noscript { margin-bottom: var(--s-md); color: var(--ink-2); }
+  .cmp .table-scroll { border: 0; border-top: 2px solid var(--ink); }
+  .cmp-compare .table-scroll { max-height: none; overflow: visible; }
+  .cmp-compare table { table-layout: fixed; }
+  .cmp-compare thead .corner { width: 13rem; }
+  .cmp th, .cmp td { min-width: 0; border-right: 0; padding: var(--s-xs) var(--s-md) var(--s-xs) 0; }
+  .cmp-matrix th, .cmp-matrix td { min-width: 11rem; padding-left: var(--s-sm); border-right: 1px solid var(--rule); }
+  .cmp thead th { background: var(--paper); vertical-align: bottom; padding-block: var(--s-md); border-bottom: 1px solid var(--ink); }
+  .cmp thead .corner { color: var(--muted); font-size: var(--t-xs); font-weight: 400; }
+  .cmp-name { display: block; font: 700 var(--t-xl)/1.1 var(--display); letter-spacing: -.02em; text-decoration: none; overflow-wrap: anywhere; }
+  .cmp-name:hover { text-decoration: underline; }
+  .cmp-closing { display: inline-block; margin-top: var(--s-2xs); padding: 0 var(--s-2xs); background: var(--mark-deep); color: var(--mark-ink); font-size: var(--t-xs); font-weight: 500; text-decoration: none; }
+  .cmp-remove { display: inline-flex; align-items: center; min-height: 32px; margin-top: var(--s-2xs); font-size: var(--t-xs); color: var(--muted); text-decoration: underline; text-underline-offset: .2em; }
+  .cmp-remove:hover { color: var(--mark-deep); }
+  .slot { color: var(--muted); }
+  thead .slot { vertical-align: bottom; }
+  .slot select { width: 100%; border-style: dashed; color: var(--ink-2); font-weight: 500; cursor: pointer; }
+  tbody td.slot { background: repeating-linear-gradient(135deg, transparent 0 6px, color-mix(in oklab, var(--rule) 45%, transparent) 6px 7px); }
+  .cmp-shots td, .cmp-shots th { border-bottom: 0; padding-top: var(--s-md); }
+  .cmp-shots img { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; object-position: top left; outline: 1px solid color-mix(in oklab, var(--ink) 10%, transparent); outline-offset: -1px; background: var(--paper-2); }
+  .no-shot { display: grid; place-items: center; aspect-ratio: 16 / 10; background: var(--paper-2); font-size: var(--t-xs); }
+  .cmp tr.sec th { position: static; padding-top: var(--s-xl); font: 700 var(--t-lg)/1.2 var(--display); letter-spacing: -.01em; color: var(--ink); border-bottom: 1px solid var(--ink); background: var(--paper); }
+  .cmp tbody th[scope=row] { color: var(--ink-2); font-weight: 500; background: var(--paper); }
+  .cmp td { background: var(--paper); }
+  .cmp td .receipt-link { text-decoration-color: color-mix(in oklab, currentColor 35%, transparent); }
+  .cmp .v-y .receipt-link { font-weight: 500; }
+  .cmp .v-y .receipt-link::before { content: ""; display: inline-block; width: 11px; height: 11px; margin-right: 6px; background: currentColor; -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2 6.3 4.8 9 10 3' fill='none' stroke='%23000' stroke-width='2'/%3E%3C/svg%3E") center / contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2 6.3 4.8 9 10 3' fill='none' stroke='%23000' stroke-width='2'/%3E%3C/svg%3E") center / contain no-repeat; }
+  .cmp .v-n, .cmp .v-u { color: var(--muted); }
+  .cmp .checked-age { display: block; font-size: var(--t-xs); }
+  .cmp-compare .checked-age, .cmp-compare .badge { display: none; }
+  /* Rows that differ get a faint wash; rows you asked for, the ultramarine square. */
+  .cmp tr.is-diff td:not(.slot), .cmp tr.is-diff th[scope=row] { background: color-mix(in oklab, var(--paper-2) 70%, var(--paper)); }
+  .cmp tr.is-wanted th[scope=row] { color: var(--accent); }
+  .cmp tr.is-wanted th[scope=row]::before { content: ""; display: inline-block; width: .55em; height: .55em; margin-right: .45em; background: var(--accent); }
+  @media (max-width: 40rem) {
+    .cmp-compare .table-scroll { overflow-x: auto; }
+    .cmp-compare table { width: max(100%, calc(8.5rem + (var(--n, 2) + 1) * 9.5rem)); }
+    .cmp-compare .slot:not([data-slot="0"]) { display: none; }
+    .cmp-compare thead .corner { width: 8.5rem; }
+    .cmp-name { font-size: var(--t-md); }
+  }
+</style>

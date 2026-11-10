@@ -1,0 +1,22 @@
+---
+import type { Identity } from '../lib/types'
+import { productById } from '../lib/data'
+import { summary, shotFor, noticeFor, shutdownLine, firstSentence } from '../lib/sheet'
+interface Props { identity: Identity; row: number; eager?: boolean }
+const { identity, row, eager = false } = Astro.props
+const product = productById.get(identity.id)!
+const shot = shotFor(identity.id)
+const notice = noticeFor(identity.id)
+const href = `/ade/${identity.id}/`
+---
+<li class="e" data-index-row={row} data-researched="true" data-product-id={identity.id} data-former-names={identity.formerNames ? JSON.stringify(identity.formerNames) : undefined}>
+  <a class="e-shot" href={href} tabindex="-1" aria-hidden="true" data-open>{shot
+    ? <img src={`/media/${shot.path}`} width={shot.width} height={shot.height} loading={eager ? 'eager' : 'lazy'} decoding="async" alt="" />
+    : <span class="e-noshot">{identity.name}</span>}</a>
+  <div class="e-txt">
+    <h3><a data-product-name data-open href={href}>{identity.name}</a></h3>
+    {notice ? <><p class="e-when">{shutdownLine(notice)}</p><p class="e-sum">{firstSentence(notice.note)} <a href={`${href}#lifecycle`}>Shutdown notice<span class="vh"> for {identity.name}</span></a></p></> : <p class="e-sum">{summary(product)}</p>}
+    <ul class="fit" data-fit aria-label={`What ${identity.name} has from your list`} hidden></ul>
+    <button type="button" class="add needs-js" data-compare={identity.id} aria-pressed="false"><span class="add-box" aria-hidden="true"></span>Compare<span class="vh"> {identity.name}</span></button>
+  </div>
+</li>

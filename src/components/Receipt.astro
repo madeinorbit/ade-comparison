@@ -1,0 +1,26 @@
+---
+import type { Cell, Claim, Source, Identity } from '../lib/types'
+import Sources from './Sources.astro'
+import SubmissionActions from './SubmissionActions.astro'
+import Checked from './Checked.astro'
+interface Props { product: Pick<Identity, 'id' | 'name'>; receiptPath: string; receiptLabel: string; cell?: Cell; claim?: Claim; sources: Source[] }
+const { product, receiptPath, receiptLabel, cell, claim, sources } = Astro.props
+const status = cell?.verificationStatus || claim?.verificationStatus || 'unknown'
+const checkedAt = cell?.checkedAt || claim?.checkedAt
+// The answer that a filter value rests on can be narrower than the finding's summary.
+const answers = cell ? (claim?.questions || []).filter(q => q.evidenceIds.some(id => cell.evidenceIds.includes(id))) : []
+const availability = claim && ['beta', 'source-only'].includes(claim.availability) ? claim.availability.replace('-', ' ') : null
+---
+{claim && <p>{claim.answer}</p>}
+{answers.length > 0 && <ul>{answers.map(q => <li>{q.question}: {q.answer}</li>)}</ul>}
+<dl class="metadata">
+  <dt>Checked</dt><dd><time datetime={checkedAt || undefined}>{checkedAt}</time> · <Checked date={checkedAt} /></dd>
+  {status === 'agent-cross-checked' && <><dt>Cross-check</dt><dd><small class="badge">cross-checked</small>{' '}<time datetime={(cell ? cell.crossCheckedAt : claim?.crossCheckedAt) || undefined}>{cell ? cell.crossCheckedAt : claim?.crossCheckedAt}</time></dd></>}
+  <dt>Plan</dt><dd>{claim?.scope.plan || 'Not specified in this finding'}</dd>
+  <dt>Surface</dt><dd>{claim?.scope.surfaces.map(s => s.name).join('; ') || 'Not specified in this finding'}</dd>
+  {availability && <><dt>Availability</dt><dd>{availability}</dd></>}
+  <dt>Version</dt><dd>{claim?.scope.version || 'Not specified in this finding'}</dd>
+</dl>
+{claim?.limitations.length ? <ul>{claim.limitations.map(l => <li>{l}</li>)}</ul> : null}
+<Sources sources={sources} />
+<SubmissionActions product={product} pagePath={receiptPath} receipt={receiptLabel} />

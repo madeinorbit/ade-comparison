@@ -1,0 +1,16 @@
+---
+import Layout from '../layouts/Layout.astro'
+import Comparison from '../components/Comparison.astro'
+import { products } from '../lib/data'
+const unresearched = products.filter(p => p.researchStatus === 'not-researched')
+---
+<Layout title="ADE matrix" description="Compare public filters across ADEs. Each value links to its receipt and check date.">
+  <div class="in page">
+  <h1>ADE matrix</h1>
+  <p class="page-lead">Every typed filter for products with public research. Sticky row and column headings stay visible as you scroll.</p>
+  <Comparison mode="matrix" />
+  <section><h2>More ADEs</h2>
+    <ul class="listing-list">{unresearched.map(p => <li><a href={`/ade/${p.id}/`}>{p.name}</a></li>)}</ul>
+  </section>
+  </div>
+</Layout>

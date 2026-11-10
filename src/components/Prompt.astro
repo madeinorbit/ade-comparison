@@ -1,0 +1,29 @@
+---
+import { promptFor, emptyState } from '../lib/filter'
+import { requirements } from '../lib/data'
+import { siteConfig } from '../../config.mjs'
+---
+<section class="prompt" aria-labelledby="prompt-title">
+  <h2 id="prompt-title">Ask your coding agent</h2>
+  <p>The prompt includes your requirements and receipt rules. <a href="/llms.txt">Browse the agent files</a>.</p>
+  <label for="agent-prompt">Prompt to copy</label>
+  <textarea id="agent-prompt" rows="8" readonly>{promptFor(emptyState(), requirements, siteConfig.baseUrl)}</textarea>
+  <button type="button" id="copy-prompt" class="btn-line">Copy prompt</button>
+  <p id="copy-status" class="status-line" role="status"></p>
+</section>
+<script>
+  const button = document.querySelector<HTMLButtonElement>('#copy-prompt')
+  button?.addEventListener('click', async () => {
+    const input = document.querySelector<HTMLTextAreaElement>('#agent-prompt')!
+    const status = document.querySelector<HTMLElement>('#copy-status')!
+    try { await navigator.clipboard.writeText(input.value); status.textContent = 'Prompt copied.' }
+    catch { input.focus(); input.select(); status.textContent = 'Select and copy the prompt with your keyboard.' }
+  })
+</script>
+<style is:global>
+  .prompt { display: grid; gap: var(--s-sm); align-content: start; }
+  .prompt h2 { font-size: var(--t-xl); }
+  .prompt > p { color: var(--ink-2); font-size: var(--t-sm); }
+  .prompt label { min-height: 0; font-size: var(--t-sm); color: var(--muted); font-weight: 500; }
+  .prompt .btn-line { justify-self: start; }
+</style>

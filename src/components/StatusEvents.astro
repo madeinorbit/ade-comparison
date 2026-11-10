@@ -1,0 +1,44 @@
+---
+import SubmissionActions from './SubmissionActions.astro'
+import { claimAnchor, notices, productById } from '../lib/data'
+import type { StatusDay } from '../lib/status'
+interface Props { days: StatusDay[]; moved?: StatusDay[] }
+const { days, moved = [] } = Astro.props
+const count = (n: number, noun: string) => `${n} ${noun}${n === 1 ? '' : 's'}`
+const excerpt = (answer: string) => {
+  const first = answer.split(/(?<=\.) /)[0]
+  return first.length > 120 ? `${first.slice(0, 117).replace(/\s+\S*$/, '')}…` : first
+}
+const receipts = days.map(day => {
+  const product = productById.get(day.productId)!
+  const notice = notices.find(n => n.productId === product.id)
+  const evidence = new Set(day.events.flatMap(e => e.evidenceIds))
+  const claimIds = [...new Set(day.events.flatMap(e => e.claimIds))]
+  const sources = [...new Map([...(product.sources || []), ...(notice?.sources || [])].filter(s => evidence.has(s.id)).map(s => [s.id, s])).values()]
+  return { ...day, product, types: [...new Set(day.events.map(e => e.type.replace(/-/g, ' ')))], claimIds, sources }
+})
+---
+{receipts.map(day => <article class="receipt" id={day.id}>
+  <h3><time datetime={day.date}>{day.date}</time> · <a href={`/ade/${day.product.id}/`}>{day.product.name}</a></h3>
+  <p>{day.types.join(', ')}</p>
+  <details><summary>{count(day.claimIds.length, 'finding')} and {count(day.sources.length, 'current source')}</summary>
+    <ul>{day.claimIds.map(id => <li><a href={`/ade/${day.product.id}/#${claimAnchor(id)}`}>{excerpt(day.product.claims?.find(c => c.claimId === id)?.answer || id)}</a></li>)}</ul>
+    <ul>{day.sources.map(s => <li><a href={s.url} rel="noopener noreferrer">{s.title}</a></li>)}</ul>
+    <SubmissionActions product={day.product} pagePath={`${Astro.url.pathname}#${day.id}`} receipt={`${day.date}: ${day.types.join(', ')}`} />
+  </details>
+</article>)}
+{/* Small fallback targets preserve old bookmarks even without JavaScript. */}
+{moved.length > 0 && <details>
+  <summary>Archived event links</summary>
+  <ul>{moved.map(day => <li id={day.id}><a data-status-archive href={`${day.archivePath}#${day.id}`}>{day.date} · {productById.get(day.productId)!.name}</a></li>)}</ul>
+</details>}
+<script>
+  const followArchive = () => {
+    let id: string
+    try { id = decodeURIComponent(location.hash.slice(1)) } catch { return }
+    const link = document.getElementById(id)?.querySelector<HTMLAnchorElement>('a[data-status-archive]')
+    if (link) location.replace(link.href)
+  }
+  followArchive()
+  addEventListener('hashchange', followArchive)
+</script>

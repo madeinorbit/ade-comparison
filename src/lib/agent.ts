@@ -1,0 +1,10 @@
+import type { Product } from './types.ts'
+import { absolute } from '../../config.mjs'
+import { methodology, notices } from './data.ts'
+export function productMarkdown(product: Product): string {
+  const intro = `# ${product.name}\n\n${methodology.publisher.disclosure}\n\nPage: ${absolute(`/ade/${product.id}/`)}\nWebsite: ${product.website || 'Not supplied'}\nResearch: ${product.researchStatus}\n`
+  const notice = notices.find(n => n.productId === product.id)
+  const lifecycle = notice ? `\n## Published lifecycle notice\n\n${notice.note}\n\nScope: ${notice.scope}\nAnnouncement date: ${notice.announcementDate || 'Not specified'}\nService end date: ${notice.serviceEndDate || 'Not specified'}\nContinuation: ${notice.continuation || 'Not specified'}\nChecked: ${notice.checkedAt}\n\n${notice.sources.map(s => `Source: ${s.url}\nLocator: ${s.locator}\nFinding: ${s.finding}\nRetrieved: ${s.retrievedAt}`).join('\n\n')}\n` : ''
+  if (product.researchStatus === 'not-researched') return intro + lifecycle
+  return intro + lifecycle + `\nMethod: ${absolute('/method/')}\n\nRank by must-haves met, then preferences, then name. Read each finding's checked date. Findings stay published after their scheduled recheck. Checks over six months old may be outdated.\n\n` + product.claims!.map(claim => `## ${claim.claimId}\n\nFinding: ${claim.answer}\n\nVerification: ${claim.verificationStatus}\nChecked: ${claim.checkedAt}\nScheduled recheck: ${claim.nextCheckAt}\nPlan: ${claim.scope.plan || 'Not specified'}\nSurface: ${claim.scope.surfaces.map(s => s.name).join('; ') || 'Not specified'}\nVersion: ${claim.scope.version || 'Not specified'}\n\n${claim.limitations.join('\n')}\n\n${product.sources!.filter(s => [...claim.evidenceIds, ...claim.questions.flatMap(q => q.evidenceIds)].includes(s.id)).map(s => `Source: ${s.url}\nLocator: ${s.locator}\nFinding: ${s.finding}\nRetrieved: ${s.retrievedAt}`).join('\n\n')}`).join('\n\n')
+}

@@ -1,0 +1,10 @@
+---
+// The ADE sheet alone, for the Finder's dialog. Never a destination: robots.txt keeps it out of search.
+import AdeSheet from '../../../components/AdeSheet.astro'
+import { products, notices } from '../../../lib/data'
+export function getStaticPaths() {
+  return products.filter(p => p.researchStatus === 'covered' || notices.some(n => n.productId === p.id)).map(product => ({ params: { id: product.id }, props: { product } }))
+}
+const { product } = Astro.props
+---
+<AdeSheet product={product} mode="dialog" />

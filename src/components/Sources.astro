@@ -1,0 +1,14 @@
+---
+import type { Source } from '../lib/types'
+interface Props { sources: Source[] }
+const { sources } = Astro.props
+---
+<ol class="findings">{sources.map(source => <li>
+  <p><a href={source.url} rel="noopener noreferrer">{source.title}</a></p>
+  <p><strong>Finding:</strong> {source.finding}</p>
+  <dl class="metadata">
+    <dt>Locator</dt><dd>{source.locator || 'Not specified'}</dd>
+    <dt>Retrieved</dt><dd><time datetime={source.retrievedAt}>{source.retrievedAt}</time></dd>
+    {source.sourceDate && <><dt>Source date</dt><dd>{source.sourceDate}</dd></>}
+  </dl>
+</li>)}</ol>

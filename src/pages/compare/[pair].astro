@@ -1,0 +1,17 @@
+---
+import Layout from '../../layouts/Layout.astro'
+import Comparison from '../../components/Comparison.astro'
+import { notices, pairs } from '../../lib/data'
+export function getStaticPaths() { return pairs.map(p => ({ params: { pair: p.slug }, props: { pair: p } })) }
+const { pair } = Astro.props
+const names = pair.products.map(p => p.name).join(' vs ')
+const closing = pair.products.filter(p => notices.some(n => n.productId === p.id))
+---
+<Layout title={names} description={`Compare public findings for ${names}. Each value links to its evidence, scope and checked date.`}>
+  <div class="in page">
+  <h1>{names}</h1>
+  <p class="page-lead">Compare {pair.shared} filters with recorded values on both sides. {pair.different === 0 ? 'Those values agree' : `${pair.different} of those values differ`}. <a href="/method/#pairs">How we select pairs</a>.</p>
+  {closing.map(p => <p class="notice" style="margin-top: var(--s-md)">{p.name} has a published shutdown notice. <a href={`/ade/${p.id}/#lifecycle`}>Read its dates and scope</a>.</p>)}
+  <Comparison mode="compare" selected={pair.products.map(p => p.id)} />
+  </div>
+</Layout>

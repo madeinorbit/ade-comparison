@@ -1,0 +1,115 @@
+---
+import '../styles/tokens.css'
+import '../styles/site.css'
+import { siteConfig, absolute } from '../../config.mjs'
+import { index, methodology, jsonScript, stats, longDate, shortDate, formatCount } from '../lib/data'
+interface Props { title: string; description: string; canonical?: string; productId?: string; noindex?: boolean; about?: Record<string, unknown>; wide?: boolean }
+const { title, description, canonical = Astro.url.pathname, productId, noindex = false, about } = Astro.props
+const nav = [['/', 'Finder'], ['/compare/', 'Compare'], ['/matrix/', 'Matrix'], ['/status/', 'Status'], ['/method/', 'Method']]
+const here = Astro.url.pathname
+const current = (href: string) => href === '/' ? here === '/' : here.startsWith(href)
+const dataset = {
+  '@context': 'https://schema.org', '@type': 'Dataset', name: 'ade-comparison.com public ADE findings',
+  description: 'Vendor-authored research on agent development environments with finding receipts, typed filters and source check dates.',
+  url: absolute('/'), dateModified: index.generatedAt, license: 'https://creativecommons.org/licenses/by/4.0/',
+  creator: { '@type': 'Organization', name: methodology.publisher.name, url: methodology.publisher.url },
+  distribution: [{ '@type': 'DataDownload', encodingFormat: 'application/json', contentUrl: absolute('/products/index.json') }],
+  variableMeasured: 'Sourced ADE capabilities and lifecycle status',
+}
+// The Dataset describes the whole site, so it belongs on one page. Other pages name themselves.
+const webPage = {
+  '@context': 'https://schema.org', '@type': 'WebPage', name: title, description, url: absolute(canonical),
+  isPartOf: { '@type': 'WebSite', name: siteConfig.name, url: absolute('/') },
+  publisher: { '@type': 'Organization', name: methodology.publisher.name, url: methodology.publisher.url },
+  ...(about ? { about } : {}),
+}
+const steps = [
+  { title: 'Read', text: 'Agents read each ADE’s public docs, repositories, changelogs and pricing pages.', count: stats.sources, unit: 'public sources' },
+  { title: 'Record', text: 'Each answer keeps the page it came from, the place on that page and the plan or surface it covers.', count: stats.findings, unit: 'findings' },
+  { title: 'Cross-check', text: 'A second agent rereads the source and checks the answer and its scope before the badge appears.', count: stats.crossChecked, unit: 'cross-checked' },
+  { title: 'Date', text: `Every answer keeps its own check date. Checks run from ${shortDate(stats.oldestCheck)} to ${shortDate(stats.newestCheck)}.`, count: stats.researched, unit: `of ${formatCount(stats.names)} ADEs researched` },
+]
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <script is:inline>
+      document.documentElement.classList.add('js')
+      // Hold only the enhanced region until URL state is applied. No-JS HTML stays visible.
+      if (location.search && /^(\/$|\/matrix\/|\/compare\/)/.test(location.pathname)) {
+        document.documentElement.dataset.statePending = 'true'
+        setTimeout(() => { delete document.documentElement.dataset.statePending }, 3000)
+      }
+    </script>
+    <link rel="preload" href="/fonts/radio-canada-big-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/radio-canada-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <title>{title} | {siteConfig.name}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#f7f6f2" />
+    <link rel="canonical" href={absolute(canonical)} />
+    {noindex && <meta name="robots" content="noindex,follow" />}
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={`${title} | ${siteConfig.name}`} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={absolute(canonical)} />
+    <meta property="og:image" content={absolute(`/og/${productId || 'ade-comparison'}.png`)} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={`${title}. ade-comparison.com by Podium, an ADE vendor.`} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script type="application/ld+json" set:html={jsonScript(canonical === '/' ? dataset : webPage)} />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="bar">
+      <div class="in">
+        <a class="wordmark" href="/" aria-label="ade comparison, home"><b>ade</b><span>comparison</span></a>
+        <nav aria-label="Main navigation">{nav.map(([href, label]) => <a href={href} aria-current={current(href) ? 'page' : undefined}>{label}</a>)}</nav>
+        <a class="btn-ink" href="/method/#open-data"><svg viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 2v8m0 0 3-3m-3 3L5 7M3 13h10"/></svg>Open data</a>
+      </div>
+    </header>
+    <main id="main" tabindex="-1"><slot /></main>
+    <footer class="foot" aria-labelledby="foot-title">
+      <div class="in">
+        <h2 id="foot-title">How we sort them</h2>
+        <p class="foot-lead">One method and one set of rules for every ADE, Podium’s included. <a href="/method/">The Method page</a> has every rule in full.</p>
+        <ol class="steps">{steps.map(step => <li><h3>{step.title}</h3><p>{step.text}</p><b>{formatCount(step.count)}<small>{step.unit}</small></b></li>)}</ol>
+        <div class="foot-data">
+          <ul class="files" aria-label="Open data files">
+            <li><a href="/llms.txt">/llms.txt</a><span>Start here if you are an agent: every file below, explained.</span></li>
+            <li><a href="/products/index.json">/products/index.json</a><span>All {formatCount(stats.names)} names with their typed filters, as bitsets.</span></li>
+            <li><a href="/products/codex.md">/products/&lt;id&gt;.md</a><span>One ADE: findings, sources, scope and dates. Also as .json.</span></li>
+            <li><a href="/data/lifecycle-notices.json">/data/lifecycle-notices.json</a><span>Shutdown notices with their dates and sources.</span></li>
+          </ul>
+          <div class="rules">
+            <p><b>Unknown stays unknown.</b> A capability no source states never counts for or against an ADE.</p>
+            <p><b>Every answer has a receipt.</b> Open any value for its source, the place on the page, the plan and the check date.</p>
+            <p><b>No paid placement.</b> No sponsored spots, affiliate links or tracking. Code Apache-2.0, data <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.</p>
+          </div>
+        </div>
+        <div class="made">
+          <div class="made-by">
+            <a class="wordmark" href="/" aria-label="ade comparison, home"><b>ade</b><span>comparison</span></a>
+            <p><a href="/method/#disclosure">Made by Podium, an ADE vendor</a>. Same rules for every product, Podium included.</p>
+            <p>Data as of <time datetime={index.generatedAt}>{longDate(index.generatedAt)}</time>.</p>
+          </div>
+          <div class="made-links">
+            <ul aria-label="Site"><li><a href="/method/">Method</a></li><li><a href="/status/">Status log</a></li><li><a href="/matrix/">Matrix</a></li></ul>
+            <ul aria-label="Help"><li><a href="/method/#corrections">Corrections and suggestions</a></li><li><a href="/llms.txt">For agents</a></li><li><a href="/method/#disclosure">Disclosure</a></li></ul>
+          </div>
+        </div>
+      </div>
+    </footer>
+    <script>
+      import { refreshAges, openTargetDetails } from '../lib/client'
+      // The static fallback shows age at build time. Reopening a page updates it
+      // from the original dates, including pages served long after that build.
+      refreshAges(document)
+      // Fragment links open a native details receipt and keep the no-JS anchor usable.
+      openTargetDetails()
+      addEventListener('hashchange', openTargetDetails)
+    </script>
+  </body>
+</html>

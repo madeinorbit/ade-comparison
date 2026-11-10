@@ -1,0 +1,27 @@
+---
+import Layout from '../../layouts/Layout.astro'
+import StatusEvents from '../../components/StatusEvents.astro'
+import { index, statusLog } from '../../lib/data'
+import { planStatus } from '../../lib/status'
+export function getStaticPaths() {
+  const { pages } = planStatus(statusLog, index.generatedAt)
+  return pages.map(page => ({ params: { archive: page.archive }, props: { page } }))
+}
+const { page } = Astro.props
+const { months, pages } = planStatus(statusLog, index.generatedAt)
+const month = months.find(month => month.month === page.month)!
+const current = new Set(page.days.map(day => day.id))
+const siblings = pages.filter(sibling => sibling.month === page.month)
+const suffix = page.total > 1 ? `, page ${page.number} of ${page.total}` : ''
+---
+<Layout title={`${page.label} status archive${suffix}`} description={`Cited ADE product changes and research rechecks for ${page.label}${suffix}. Events link to current findings and primary sources.`}>
+  <div class="in page">
+  <h1>{page.label} status archive{suffix}</h1>
+  <p><a href="/status/">Shutdown notices, recent changes and all monthly archives</a></p>
+  <p>These events link to today's eligible findings, not historical before-and-after claims.</p>
+  {siblings.length > 1 && <nav aria-label="Archive pages"><ul>{siblings.map(sibling => <li><a href={sibling.path} aria-current={sibling.number === page.number ? 'page' : undefined}>Page {sibling.number}</a></li>)}</ul></nav>}
+  <section><h2>Cited events</h2>
+    <StatusEvents days={page.days} moved={month.days.filter(day => !current.has(day.id))} />
+  </section>
+  </div>
+</Layout>

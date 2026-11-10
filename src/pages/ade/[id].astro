@@ -1,0 +1,78 @@
+---
+import '../../styles/sheet.css'
+import Layout from '../../layouts/Layout.astro'
+import AdeSheet from '../../components/AdeSheet.astro'
+import Receipt from '../../components/Receipt.astro'
+import Screenshot from '../../components/Screenshot.astro'
+import SubmissionActions from '../../components/SubmissionActions.astro'
+import Checked from '../../components/Checked.astro'
+import { answerLabel, cellFor, claimAnchor, facetAnchor, hasPage, jsonScript, products, requirements, notices, screenshots } from '../../lib/data'
+import { shortLabel } from '../../lib/sheet'
+export function getStaticPaths() { return products.map(product => ({ params: { id: product.id }, props: { product } })) }
+const { product } = Astro.props
+const researched = product.researchStatus === 'covered'
+const hasScreenshot = screenshots.some(shot => shot.productId === product.id)
+const notice = notices.find(n => n.productId === product.id)
+const description = notice
+  ? `${product.name} has a published shutdown notice. Read its dates, scope and sources${researched ? ', plus public findings' : ''}.`
+  : researched ? `Public findings for ${product.name}, with source links, plans, surfaces and check dates.` : `${product.name} is listed in the ade-comparison.com directory. Visit its product website.`
+const title = notice ? `${product.name} shutdown notice${researched ? ' and findings' : ''}` : researched ? `${product.name} findings with sources` : product.name
+const about = product.website ? { '@type': 'SoftwareApplication', name: product.name, url: product.website } : undefined
+const known = requirements.filter(r => cellFor(product, r).value !== 'unknown')
+const labels = Object.fromEntries(requirements.map(r => [r.key, shortLabel(r.key)]))
+---
+<Layout title={title} description={description} productId={hasPage(product) ? product.id : undefined} noindex={!hasPage(product)} about={about}>
+  <article class="in adepage">
+    <a class="back" href="/" data-back>Back to the Finder</a>
+    {researched || notice || hasScreenshot ? <AdeSheet product={product} mode="page" /> : <div class="sheet sheet-page"><header class="sheet-head"><h1>{product.name}</h1>
+      <p class="sheet-lead">Listed in the directory. No findings are published for it yet.</p>
+      {product.website && <p class="sheet-act"><a class="btn-ink" href={product.website} rel="noopener noreferrer">Product website</a></p>}</header></div>}
+    <section class="agent-files" aria-label="For agents and corrections">
+      <p class="actions"><a href={`/products/${product.id}.json`}>JSON for agents</a><a href={`/products/${product.id}.md`}>Markdown for agents</a></p>
+      <SubmissionActions product={product} />
+    </section>
+    {researched && <>
+      <section class="ledger" aria-labelledby="typed-title"><h2 id="typed-title">Typed filters</h2><p>Every value links to its receipt below. Read plan and surface restrictions before using a filter to decide.</p>
+        <div class="table-scroll" tabindex="0" role="region" aria-label={`${product.name} filter values`}><table><caption>Typed filter values</caption><thead><tr><th scope="col">Filter</th><th scope="col">Value</th></tr></thead><tbody>
+          {requirements.map(req => <tr data-keys={req.key}><th scope="row">{req.label}</th><td id={cellFor(product, req).value === 'unknown' ? facetAnchor(req.key) : undefined}><a class="receipt-link" href={cellFor(product, req).value === 'unknown' ? '/method/#unknown' : `#${facetAnchor(req.key)}`}>{answerLabel(product, req)}</a> <Checked date={cellFor(product, req).checkedAt} />{cellFor(product, req).verificationStatus === 'agent-cross-checked' && <small class="badge">cross-checked</small>}</td></tr>)}
+        </tbody></table></div>
+      </section>
+      <section class="ledger" aria-labelledby="receipts-title"><h2 id="receipts-title">Filter receipts</h2>
+        {known.map(req => {
+          const cell = cellFor(product, req), claim = product.claims?.find(c => c.claimId === cell.claimId)
+          const sources = (req.facetId === 'lifecycle-status' ? notice?.sources || [] : product.sources || []).filter(s => cell.evidenceIds.includes(s.id))
+          return <details class="receipt" data-keys={req.key}><summary>{req.label}: {answerLabel(product, req)} <Checked date={cell.checkedAt} />{cell.verificationStatus === 'agent-cross-checked' && <small class="badge">cross-checked</small>}</summary><div id={facetAnchor(req.key)}>
+            <h3>{req.label}</h3><p>Typed value: {answerLabel(product, req)}.</p><Receipt product={product} receiptPath={`/ade/${product.id}/#${facetAnchor(req.key)}`} receiptLabel={req.label} cell={cell} claim={claim} sources={sources} />
+            {req.facetId === 'lifecycle-status' && notice && <p>Plan not specified. Surface and scope: {String(notice.scope)}. {notice.note}</p>}
+          </div></details>
+        })}
+      </section>
+      <section class="ledger" id="findings" aria-labelledby="findings-title"><h2 id="findings-title">All public findings</h2><p>Findings may summarize a source. They are not presented as verbatim statements.</p>
+        {product.claims?.map(claim => <details class="receipt"><summary>{claim.claimId}: {claim.answer} <Checked date={claim.checkedAt} />{claim.verificationStatus === 'agent-cross-checked' && <small class="badge">cross-checked</small>}</summary><div id={claimAnchor(claim.claimId)}><h3>{claim.claimId}</h3><Receipt product={product} receiptPath={`/ade/${product.id}/#${claimAnchor(claim.claimId)}`} receiptLabel={claim.claimId} claim={claim} sources={(product.sources || []).filter(s => [...claim.evidenceIds, ...claim.questions.flatMap(q => q.evidenceIds)].includes(s.id))} /></div></details>)}
+      </section>
+    </>}
+  </article>
+  <script id="sheet-labels" type="application/json" set:html={jsonScript(labels)} />
+  <script>
+    import { enhanceSheet } from '../../lib/sheet-client'
+    const labels = JSON.parse(document.getElementById('sheet-labels')!.textContent!)
+    enhanceSheet(document, location.search, labels)
+    // Back to the Finder keeps the selection that led here.
+    const p = new URLSearchParams(location.search), back = new URLSearchParams()
+    for (const k of ['must', 'nice', 'use']) if (p.get(k)) back.set(k, p.get(k)!)
+    if (back.size) document.querySelector<HTMLAnchorElement>('[data-back]')!.href = `/?${back}`
+  </script>
+</Layout>
+<style is:global>
+  .adepage { padding-top: var(--s-lg); }
+  .back { display: inline-flex; align-items: center; min-height: 40px; font-size: var(--t-sm); color: var(--ink-2); margin-bottom: var(--s-md); }
+  .back::before { content: ""; width: 7px; height: 7px; border-left: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transform: rotate(45deg); margin-right: var(--s-xs); }
+  .back:hover { color: var(--mark-deep); }
+  .agent-files { margin-top: var(--s-xl); display: flex; flex-wrap: wrap; gap: 0 var(--s-xl); align-items: center; font-size: var(--t-sm); }
+  .ledger { margin-top: var(--s-2xl); display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--s-sm); }
+  .ledger > p { color: var(--ink-2); max-width: 68ch; }
+  .ledger table td, .ledger table th { min-width: 0; }
+  .ledger .table-scroll { max-height: none; }
+  .ledger tr.is-wanted th { color: var(--accent); }
+  .ledger .receipt.is-wanted > summary { font-weight: 500; }
+</style>

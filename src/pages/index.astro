@@ -1,0 +1,233 @@
+---
+import Layout from '../layouts/Layout.astro'
+import Prompt from '../components/Prompt.astro'
+import Entry from '../components/Entry.astro'
+import HeroBoard from '../components/HeroBoard.astro'
+import { clientPayload, index, jsonScript, requirements, stats, sunsetIds } from '../lib/data'
+import { createFilter, emptyState, presets } from '../lib/filter'
+import { groupLabel, groupLabels } from '../lib/view'
+import { wordGroups, shortLabel } from '../lib/sheet'
+import { siteConfig } from '../../config.mjs'
+import '../styles/sheet.css'
+const state = emptyState()
+const filter = createFilter(index, requirements, sunsetIds)
+const results = filter.run(state)
+const groups = Object.keys(groupLabels) as (keyof typeof groupLabels)[]
+const notes = { fits: 'Pick what you need above. Until then, every ADE fits.', 'kind-of': 'Has most of your must-haves.', 'shutting-down': 'Would fit, but has a published shutdown notice.' }
+const shown = 10
+const shortLabels = Object.fromEntries(requirements.map(r => [r.key, shortLabel(r.key)]))
+---
+<Layout title="Find an ADE that fits how you work" description="Choose requirements and check the public finding behind each answer. An ADE finder by Podium, an ADE vendor.">
+  <section class="hero in" aria-labelledby="hero-title">
+    <div class="hero-txt">
+      <h1 id="hero-title">Which ADE fits how you work?</h1>
+      <p class="hero-lead">We read the public docs of <span class="hl">{stats.researched} agent development environments</span> and sort them by what you need. Every answer links to its source.</p>
+    </div>
+    <HeroBoard />
+  </section>
+  <noscript><p class="in noscript-note">Every ADE is listed below. Sorting by your needs and comparing need JavaScript; every ADE page, receipt and pair comparison works without it.</p></noscript>
+  <div data-url-state>
+    <section class="need in" aria-labelledby="need-title" id="finder-controls">
+      <div class="need-main">
+        <div class="need-head">
+          <h2 id="need-title">I need an ADE with</h2>
+          <p class="key needs-js" id="key-note"><span class="key-m">Press a word once for a must-have,</span> <span class="key-n">twice for a nice-to-have.</span></p>
+        </div>
+        <p class="need-sum needs-js"><span id="need-summary">Nothing picked yet</span> <button type="button" id="need-toggle" aria-expanded="false" aria-controls="need-words">Change</button></p>
+        <div class="need-words needs-js" id="need-words" data-open="false">
+          <dl class="groups">{wordGroups.map(g => <div class="grp"><dt>{g.title}</dt><dd>{g.words.map(([key, label]) => <button type="button" class="w" data-word={key} aria-pressed="false" aria-describedby="key-note">{label}<span class="vh" data-word-state></span></button>)}</dd></div>)}</dl>
+        </div>
+      </div>
+      <div class="need-side">
+        <h3 id="pre-title" class="side-h">Common needs</h3>
+        <div class="pre" role="group" aria-labelledby="pre-title">{presets.filter(p => !p.hidden).map(p => <a href={`/?use=${p.id}`} data-preset={p.id}>{p.label}</a>)}</div>
+        <p id="preset-note" class="preset-note needs-js"></p>
+        <form class="find" role="search" action="/" aria-label="Find an ADE by name">
+          <label for="find-name">Find an ADE by name</label>
+          <input id="find-name" name="q" type="search" autocomplete="off" spellcheck="false" />
+        </form>
+        <button id="reset-finder" type="button" class="reset needs-js">Clear my picks</button>
+      </div>
+    </section>
+    <p id="finder-status" role="status" class="vh"></p>
+    <section id="name-matches" class="in names" hidden aria-labelledby="name-matches-title">
+      <h2 id="name-matches-title">Names that match</h2>
+      <ul class="listing-list" id="directory-search-results"></ul>
+      <p id="name-empty" hidden>No ADE by that name yet. <a href="/method/#corrections">Suggest one</a>.</p>
+    </section>
+    <div id="results" class="board in">
+      {groups.map(group => {
+        const rows = results.filter(r => r.group === group)
+        return <section class={`f f-${group}`} aria-labelledby={`group-${group}`}>
+          <h2 id={`group-${group}`}><b class="num" data-count={group}>{rows.length}</b> <span data-group-label={group}>{groupLabel(group)}</span></h2>
+          <p class="f-note" data-note={group}>{notes[group]}</p>
+          <ul class="f-list" data-group={group} id={`list-${group}`}>{rows.map((r, i) => <Entry identity={r.product} row={r.index} eager={group === 'fits' && i < 4} />)}</ul>
+          <p class="f-empty" data-empty={group} hidden={rows.length > 0}>{group === 'fits' ? 'No ADE has every must-have. Fits kind of has the closest.' : 'None for these picks.'}</p>
+          <button type="button" class="more needs-js" data-more={group} aria-controls={`list-${group}`} aria-expanded="false" hidden={rows.length <= shown}>Show {Math.max(0, rows.length - shown)} more</button>
+        </section>
+      })}
+    </div>
+    <ul hidden id="entry-pool"></ul>
+    <div class="extras in">
+      <details id="plain-listings"><summary>Browse all {index.products.length} ADEs by name</summary><ul class="listing-list">{index.products.map((product, row) => <li {...product.researchStatus === 'not-researched' ? { 'data-index-row': row } : {}}><a data-product-name href={`/ade/${product.id}/`}>{product.name}</a></li>)}</ul></details>
+      <Prompt />
+    </div>
+    <div class="tray needs-js" id="compare-tray" role="region" aria-label="Compare" data-on="false">
+      <div class="in tray-in">
+        <p id="compare-count" role="status"><span class="tray-n">Compare</span> <span id="compare-names">Pick up to 4 ADEs</span></p>
+        <a id="compare-link" class="tray-go" href="/compare/">Compare them</a>
+        <button type="button" class="tray-x" id="compare-clear">Clear</button>
+      </div>
+    </div>
+  </div>
+  <script id="finder-data" type="application/json" set:html={jsonScript({ ...clientPayload, baseUrl: siteConfig.baseUrl, shortLabels, shown })} />
+  <script src="../scripts/finder.ts"></script>
+  <script src="../scripts/sheet-dialog.ts"></script>
+</Layout>
+<style is:global>
+  /* Hero: one line of promise, one of method, and the board in miniature. */
+  .hero { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: var(--s-lg) var(--gap); align-items: center; padding-top: var(--s-xl); }
+  .hero h1 { font-size: clamp(2.2rem, 3.7vw, 3.2rem); line-height: 1; max-width: 20ch; }
+  .hero-lead { margin-top: var(--s-md); font-size: var(--t-lg); line-height: 1.45; max-width: 46ch; color: var(--ink-2); }
+  .hl { background: var(--ink); color: var(--paper); padding: 0 .25em; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+  .hero .hero-board { justify-self: end; width: clamp(240px, 24vw, 330px); }
+  .noscript-note { margin-top: var(--s-lg); color: var(--ink-2); }
+
+  /* The filter words: a sentence that starts "I need an ADE with". */
+  .need { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gap); margin-top: var(--s-xl); padding-top: var(--s-xl); border-top: 1px solid var(--rule); }
+  .need-main { grid-column: 1 / 9; }
+  .need-side { grid-column: 10 / 13; display: grid; gap: var(--s-xs); align-content: start; }
+  .need-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--s-2xs) var(--s-lg); margin-bottom: var(--s-lg); }
+  .need-head h2 { font-size: var(--t-4xl); }
+  .key { font-size: var(--t-sm); color: var(--ink-2); }
+  .key-m::before, .key-n::before { content: ""; display: inline-block; width: 1.4em; height: 2px; margin-right: .4em; vertical-align: .3em; background: var(--mark); }
+  .key-n::before { background: none; border-top: 2px dotted var(--ink-2); }
+  .need-sum { display: none; }
+  .groups { display: grid; gap: var(--s-2xs); }
+  .grp { display: grid; grid-template-columns: 9rem minmax(0, 1fr); column-gap: var(--s-lg); align-items: baseline; }
+  .grp dt { color: var(--muted); font-size: var(--t-sm); font-weight: 500; }
+  .grp dd { margin: 0; display: flex; flex-wrap: wrap; column-gap: var(--s-md); }
+  .w { font-size: 1.0625rem; color: var(--muted); font-weight: 500; min-height: 40px; white-space: nowrap; text-decoration: underline; text-decoration-color: transparent; text-decoration-thickness: 2px; text-underline-offset: .32em; transition: color var(--dur-micro) var(--ease-out), text-decoration-color var(--dur-micro) var(--ease-out); }
+  .w:hover { color: var(--ink); text-decoration-color: var(--rule); }
+  .w[aria-pressed="true"] { color: var(--ink); text-decoration-color: var(--mark-deep); }
+  .w[aria-pressed="mixed"] { color: var(--ink); text-decoration-style: dotted; text-decoration-color: var(--ink-2); }
+  .side-h { font: 500 var(--t-sm)/1.4 var(--font); letter-spacing: 0; color: var(--muted); }
+  .pre { display: grid; justify-items: start; }
+  .pre a { display: inline-flex; align-items: center; min-height: 38px; color: var(--ink-2); font-weight: 500; text-decoration: underline; text-decoration-color: transparent; text-decoration-thickness: 2px; text-underline-offset: .3em; }
+  .pre a:hover { color: var(--ink); text-decoration-color: var(--rule); }
+  .pre a[aria-current] { color: var(--ink); text-decoration-color: var(--mark-deep); }
+  .preset-note { font-size: var(--t-sm); color: var(--ink-2); min-height: 1.4em; }
+  .preset-note:empty { display: none; }
+  .find { display: grid; gap: var(--s-2xs); margin-top: var(--s-md); }
+  .find label { min-height: 0; font-size: var(--t-sm); color: var(--muted); font-weight: 500; }
+  .find input { border: 0; border-bottom: 1px solid var(--muted); background: transparent; padding: 0 var(--s-2xs); min-height: 40px; outline: 2px solid transparent; }
+  .find input:focus-visible { outline-color: var(--focus); }
+  .reset { justify-self: start; min-height: 40px; font-size: var(--t-sm); color: var(--ink-2); text-decoration: underline; text-underline-offset: .2em; }
+  .reset:hover { color: var(--mark-deep); }
+  .names { margin-top: var(--s-xl); }
+  .names h2 { font-size: var(--t-xl); margin-bottom: var(--s-sm); }
+
+  /* The board: Fits beside Fits kind of, then shutting down as its own row. */
+  .board { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); margin-top: var(--s-2xl); }
+  .f { padding: var(--s-xl); min-width: 0; display: flex; flex-direction: column; }
+  /* Fields render when they come near the screen; the first paint only lays out what is visible. */
+  .extras { content-visibility: auto; contain-intrinsic-size: auto 900px; }
+  .f-fits { background: var(--field); color: var(--field-ink); --focus: var(--field-ink); }
+  .f-kind-of { background: var(--paper-2); }
+  .f-shutting-down { grid-column: 1 / -1; background: var(--paper-3); }
+  .f h2 { display: grid; gap: var(--s-xs); letter-spacing: 0; }
+  .f h2 b { font: 700 clamp(4.5rem, 7vw, 7.5rem)/.86 var(--display); letter-spacing: -.045em; }
+  .f h2 span { font: 500 var(--t-lg)/1.2 var(--font); }
+  .f-shutting-down h2 { grid-template-columns: auto minmax(0, 1fr); align-items: end; column-gap: var(--s-md); }
+  .f-shutting-down h2 b { font-size: clamp(3rem, 4.5vw, 4.5rem); }
+  .f-note { margin-top: var(--s-2xs); font-size: var(--t-sm); color: var(--ink-2); }
+  .f-fits .f-note { color: var(--field-ink); }
+  .f-list { list-style: none; padding: 0; margin: var(--s-xl) 0 0; display: grid; gap: var(--s-xl); }
+  .f-fits .f-list { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--s-lg); }
+  .f-shutting-down .f-list { grid-template-columns: repeat(5, minmax(0, 1fr)); column-gap: var(--s-lg); }
+  .f-kind-of .f-list { gap: var(--s-lg); }
+  .js .f-list:not([data-all]) > li:nth-child(n+11) { display: none; }
+  .f-empty { margin-top: var(--s-xl); }
+  /* An empty field shrinks to its message, and an empty Fits hands its width to Fits kind of. */
+  .f:has(> [data-empty]:not([hidden])) { align-self: start; }
+  .board:has(> .f-fits > [data-empty]:not([hidden])) { grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); }
+  .more { margin-top: auto; padding-top: var(--s-xl); align-self: flex-start; min-height: var(--control); font-weight: 500; text-decoration: underline; text-underline-offset: .24em; }
+  .more:hover { color: var(--mark-deep); }
+  .f-fits .more:hover { color: var(--field-ink); text-decoration-thickness: 2px; }
+
+  /* An entry: the screenshot, the name, one line, what it has from your list. */
+  .e { display: grid; gap: var(--s-sm); align-content: start; min-width: 0; }
+  .f-kind-of .e { grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); column-gap: var(--s-md); }
+  .f-shutting-down .e { gap: var(--s-xs); }
+  .e-shot { display: block; position: relative; overflow: hidden; background: var(--paper-2); outline: 1px solid color-mix(in oklab, var(--ink) 10%, transparent); outline-offset: -1px; aspect-ratio: 16 / 10; }
+  .f-fits .e-shot { outline-color: color-mix(in oklab, var(--field-ink) 18%, transparent); }
+  .e-shot img { width: 100%; height: 100%; object-fit: cover; object-position: top left; transition: transform var(--dur-short) var(--ease-out); }
+  .e-shot:hover img { transform: scale(1.025); }
+  .e-noshot { position: absolute; inset: 0; display: grid; place-items: center; padding: var(--s-sm); font: 700 var(--t-lg)/1.1 var(--display); color: var(--muted); text-align: center; }
+  .e-txt { display: grid; gap: var(--s-2xs); align-content: start; min-width: 0; }
+  .e h3 { font-size: var(--t-xl); line-height: 1.1; }
+  .f-kind-of .e h3, .f-shutting-down .e h3 { font-size: var(--t-lg); }
+  .e h3 a { text-decoration: none; }
+  .e h3 a:hover { text-decoration: underline; text-decoration-thickness: 2px; }
+  .e-sum { font-size: var(--t-sm); line-height: 1.45; color: var(--ink-2); }
+  .f-fits .e-sum { color: var(--field-ink); }
+  .e-when { font: 700 var(--t-md)/1.2 var(--display); }
+  .f-shutting-down .e-sum a { white-space: nowrap; }
+
+  /* Compare: a box that ticks, always the same width, so nothing moves when it changes. */
+  .add { display: inline-flex; align-items: center; gap: var(--s-xs); justify-self: start; min-height: 36px; margin-top: var(--s-2xs); font-size: var(--t-sm); font-weight: 500; }
+  .add-box { width: 16px; height: 16px; border: 1.5px solid currentColor; display: grid; place-items: center; flex: none; transition: background-color var(--dur-micro) var(--ease-out); }
+  .add[aria-pressed="true"] .add-box { background: currentColor; }
+  .add[aria-pressed="true"] .add-box::after { content: ""; width: 10px; height: 10px; background: var(--paper); -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2 6.3 4.8 9 10 3' fill='none' stroke='%23000' stroke-width='2.2'/%3E%3C/svg%3E") center / contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2 6.3 4.8 9 10 3' fill='none' stroke='%23000' stroke-width='2.2'/%3E%3C/svg%3E") center / contain no-repeat; }
+  .f-fits .add[aria-pressed="true"] .add-box::after { background: var(--field); }
+  .add:hover { text-decoration: underline; text-underline-offset: .2em; }
+
+  .extras { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--s-xl) var(--gap); margin-top: var(--s-2xl); align-items: start; }
+  #plain-listings > summary { font: 700 var(--t-xl)/1.2 var(--display); letter-spacing: -.02em; }
+  #plain-listings[open] { grid-column: 1 / -1; }
+
+  /* The compare tray sits on top of the page, so showing it never moves the content. */
+  .tray { position: fixed; left: 0; right: 0; bottom: 0; z-index: var(--z-sticky); background: var(--ink); color: var(--paper); --focus: var(--paper); transform: translateY(105%); visibility: hidden; transition: transform var(--dur-short) var(--ease-out), visibility 0s linear var(--dur-short); }
+  .tray[data-on="true"] { transform: none; visibility: visible; transition: transform var(--dur-short) var(--ease-out), visibility 0s; }
+  .tray-in { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-xs) var(--s-lg); padding-block: var(--s-sm) calc(var(--s-sm) + env(safe-area-inset-bottom, 0px)); }
+  .tray p { margin-right: auto; min-width: 0; }
+  .tray-n { color: var(--paper-3); margin-right: var(--s-xs); font-variant-numeric: tabular-nums; }
+  .tray-go { display: inline-flex; align-items: center; min-height: 40px; padding: 0 var(--s-lg); background: var(--paper); color: var(--ink); font-weight: 500; text-decoration: none; white-space: nowrap; }
+  .tray-go:hover { background: var(--paper-3); }
+  .tray-go[aria-disabled="true"] { background: transparent; color: var(--paper-3); outline: 1px solid var(--paper-3); outline-offset: -1px; pointer-events: none; }
+  .tray-x { min-height: 40px; text-decoration: underline; text-underline-offset: .2em; }
+  .js body:has(.tray[data-on="true"]) .foot { padding-bottom: calc(var(--s-xl) + 72px); }
+
+  @media (max-width: 75rem) {
+    .f-shutting-down .f-list { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  }
+  @media (max-width: 60rem) {
+    .hero { grid-template-columns: minmax(0, 1fr); }
+    .hero .hero-board { justify-self: start; max-width: 320px; }
+    .need { display: flex; flex-direction: column; gap: var(--s-xl); margin-top: var(--s-xl); }
+    .pre { display: flex; flex-wrap: wrap; gap: 0 var(--s-lg); }
+    .board { grid-template-columns: minmax(0, 1fr); }
+    .f-shutting-down .f-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .extras { grid-template-columns: minmax(0, 1fr); }
+  }
+  @media (max-width: 40rem) {
+    .hero { padding-top: var(--s-lg); gap: var(--s-md); }
+    .hero .hero-board { max-width: 260px; }
+    .need-head h2 { font-size: var(--t-3xl); }
+    .js .need-sum { display: block; font-size: var(--t-lg); font-weight: 500; line-height: 1.35; }
+    .need-sum button { display: inline-flex; align-items: center; min-height: 36px; margin-left: var(--s-xs); font-size: var(--t-sm); color: var(--accent); text-decoration: underline; text-underline-offset: .2em; }
+    .js .need-words[data-open="false"] { display: none; }
+    .need-words { margin-top: var(--s-md); }
+    .grp { grid-template-columns: minmax(0, 1fr); }
+    .pre { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; -webkit-mask-image: linear-gradient(to right, #000 85%, transparent); mask-image: linear-gradient(to right, #000 85%, transparent); padding-right: var(--s-xl); }
+    .pre a { white-space: nowrap; }
+    .board.in { padding-left: 0; padding-right: 0; margin-top: var(--s-xl); }
+    .f { padding: var(--s-xl) var(--s-md); }
+    .f h2 { grid-template-columns: auto minmax(0, 1fr); align-items: end; column-gap: var(--s-md); }
+    .f h2 b { font-size: 4.5rem; }
+    .f-list { margin-top: var(--s-lg); gap: var(--s-lg); }
+    .f-fits .f-list, .f-shutting-down .f-list { grid-template-columns: minmax(0, 1fr); }
+    .f-fits .e, .f-shutting-down .e { grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); column-gap: var(--s-md); }
+    .e h3 { font-size: var(--t-lg); }
+  }
+</style>

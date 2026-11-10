@@ -1,0 +1,14 @@
+---
+import { submissionLinks } from '../lib/submissions'
+import type { SubmissionContext } from '../lib/submissions'
+interface Props extends Omit<SubmissionContext, 'pagePath'> { pagePath?: string }
+const { product, receipt, pagePath = Astro.url.pathname } = Astro.props
+const links = submissionLinks({ product, receipt, pagePath })
+---
+{/* Before the forms open, say so once per page. A receipt repeating it would drown the receipts. */}
+{(links || !receipt) && <div data-submission-actions>
+  {links ? <p class="actions">
+    <a href={links.reportWrongData} rel="noopener noreferrer">Report wrong data</a>
+    <a href={links.suggestMissingAde} rel="noopener noreferrer">Suggest a missing ADE</a>
+  </p> : <p class="muted">Public correction and ADE suggestion forms are not open yet.</p>}
+</div>}

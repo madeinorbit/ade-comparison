@@ -1,0 +1,11 @@
+---
+import { screenshots } from '../lib/data'
+interface Props { productId: string; name: string; caption?: boolean; eager?: boolean }
+const { productId, name, caption = true, eager = false } = Astro.props
+const shot = screenshots.find(s => s.productId === productId)
+const selfCaptured = shot?.provenance === 'self-captured'
+---
+<figure class="shot">
+  {shot ? <img src={`/media/${shot.path}`} width={shot.width} height={shot.height} loading={eager ? 'eager' : 'lazy'} decoding="async" alt={`${name} product interface, ${selfCaptured ? 'captured locally' : 'supplied by its publisher'}`} /> : <div class="shot-missing">No reviewed screenshot available.</div>}
+  {caption && <figcaption>{shot ? <>{selfCaptured ? <>Self-captured with {shot.capture?.version}. Captured {shot.capture?.capturedAt}. <a href={shot.sourcePage}>Product documentation</a>.</> : <><a href={shot.sourcePage}>Publisher image</a>. {shot.provenance.replace(/-/g, ' ')}. Retrieved {shot.retrievedAt}.</>} Shows appearance, not capability.</> : 'No capability claim is inferred from images.'}</figcaption>}
+</figure>

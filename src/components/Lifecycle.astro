@@ -1,0 +1,27 @@
+---
+import { notices, productById } from '../lib/data'
+import Sources from './Sources.astro'
+import SubmissionActions from './SubmissionActions.astro'
+import Checked from './Checked.astro'
+interface Props { productId?: string; compact?: boolean }
+const compact = Boolean(Astro.props.compact)
+const Wrap = compact ? 'details' : 'div'
+const single = Boolean(Astro.props.productId)
+const list = single ? notices.filter(n => n.productId === Astro.props.productId) : notices
+---
+{list.length > 0 && <section aria-label={single ? undefined : 'Published shutdown notices'}>
+  {!single && <h2>Published shutdown notices</h2>}
+  {list.map(notice => <article id={`lifecycle-${notice.productId}`} class="notice">
+    {!single && <h3><a href={`/ade/${notice.productId}/#lifecycle`}>{productById.get(notice.productId)?.name || notice.productId}</a></h3>}
+    <p>{notice.note}</p>
+    <Wrap class="notice-body">{compact && <summary>Dates, scope and sources</summary>}<dl class="metadata">
+      <dt>Scope</dt><dd>{String(notice.scope || 'Not specified')}</dd>
+      <dt>Announcement date</dt><dd>{String(notice.announcementDate || 'Not specified')}</dd>
+      <dt>Service end date</dt><dd>{String(notice.serviceEndDate || 'Not specified')}</dd>
+      <dt>Continuation</dt><dd>{notice.continuation || 'Not specified'}</dd>
+      <dt>Checked</dt><dd><time datetime={notice.checkedAt}>{notice.checkedAt}</time> · <Checked date={notice.checkedAt} /> {notice.facet.verificationStatus === 'agent-cross-checked' && <small class="badge">cross-checked</small>}</dd>
+    </dl>
+    <Sources sources={notice.sources} />
+    <SubmissionActions product={{ id: notice.productId, name: productById.get(notice.productId)?.name || notice.productId }} pagePath={`/ade/${notice.productId}/#lifecycle`} receipt="Lifecycle status" /></Wrap>
+  </article>)}
+</section>}

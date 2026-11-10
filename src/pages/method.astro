@@ -1,0 +1,91 @@
+---
+import Layout from '../layouts/Layout.astro'
+import { methodology, typedCoverage, stats, longDate, formatCount, index } from '../lib/data'
+import { siteConfig } from '../../config.mjs'
+import SubmissionActions from '../components/SubmissionActions.astro'
+const toc = [['steps', 'The four steps'], ['disclosure', 'Who publishes this'], ['unknown', 'What each label means'], ['ranking', 'Fit and order'], ['age', 'Data age'], ['shutdowns', 'Shutdowns and status'], ['pairs', 'Pair pages'], ['open-data', 'Open data and code'], ['limits', 'What we cannot establish'], ['corrections', 'Corrections'], ['privacy', 'Reuse and privacy']]
+---
+<Layout title="Method and disclosure" description="Who publishes ade-comparison.com, how findings and filters are checked, how ranking works, and what this research cannot establish.">
+  <div class="in page method">
+    <header class="m-head">
+      <h1>How we check</h1>
+      <p class="page-lead">One method and one set of rules for every ADE, Podium’s included. This page has each rule in full; the footer of every page has the short version.</p>
+    </header>
+    <nav class="m-toc" aria-label="On this page"><ol>{toc.map(([id, label]) => <li><a href={`#${id}`}>{label}</a></li>)}</ol></nav>
+    <article class="m-body prose">
+      <section id="steps" aria-labelledby="steps-title">
+        <h2 id="steps-title">The four steps</h2>
+        <ol class="m-steps">
+          <li id="read"><h3>Read <span class="num">{formatCount(stats.sources)} public sources</span></h3><p>We inspect public documentation, repositories, release records, pricing pages and other cited public material. Word of mouth, private messages and vendor briefings are not sources.</p></li>
+          <li id="record"><h3>Record <span class="num">{formatCount(stats.findings)} findings</span></h3><p>Each finding keeps its source links, the locator on that page, its check date, and the plan, surface and version it covers. We publish only findings that pass the publication checks for public visibility, review, source ownership, dates and scope.</p><p>Typed filter values need their own evidence-bound interpretation. A public finding alone does not establish every possible typed filter. The site reads the sanitized public package; private research notes and review identities do not enter it.</p><p>{methodology.evidenceText}</p></li>
+          <li id="cross-check"><h3>Cross-check <span class="num">{formatCount(stats.crossChecked)} cross-checked</span></h3><p>A second agent rereads the source and checks the answer and its scope. Only then does a value carry the small cross-checked badge. A first-party source can establish a value before that second read; agent cross-checks do not mean a human reviewed every claim.</p></li>
+          <li id="date"><h3>Date <span class="num">{stats.researched} of {formatCount(stats.names)} ADEs researched</span></h3><p>Every answer keeps its own check date. In this snapshot, checks run from <time datetime={stats.oldestCheck}>{longDate(stats.oldestCheck)}</time> to <time datetime={stats.newestCheck}>{longDate(stats.newestCheck)}</time>, and the package was built on <time datetime={index.generatedAt}>{longDate(index.generatedAt)}</time>.</p></li>
+        </ol>
+        <p>Worktrees separate files; they do not establish security isolation. A self-managed execution worker does not establish a self-hosted control plane. A model provider does not establish support for a coding-agent harness. Read the definition beside each filter.</p>
+      </section>
+      <section id="disclosure"><h2>Who publishes this</h2><p>{methodology.publisher.disclosure}</p><p>{methodology.publisher.editorialControl}</p><p>We say "by Podium" and "same rules for everyone". This is vendor-authored research. There are no sponsored positions, affiliate links or vendor calls to action inside results.</p></section>
+      <section id="unknown"><h2>What each label means</h2><dl class="m-labels">{Object.entries(methodology.verification).map(([key, value]) => <><dt>{key === 'agent-cross-checked' ? 'Agent cross-checked' : key === 'sourced' ? 'Sourced' : 'Unknown'}</dt><dd>{value}</dd></>)}</dl><p>{methodology.unknownMeans}</p><p>Sourced values appear as normal values. The small cross-checked badge is optional additional verification.</p><p>A sourced negative needs an explicit restriction or a bounded test. Silence, a missing page, and missing research do not establish no. Unknown cells link here; they do not count as failed requirements. A narrative finding can exist while its typed filter remains unknown. On the Finder an unknown stays quiet: a faint word with a dashed ring, never a cross.</p></section>
+      <section id="ranking"><h2>Fit and order</h2><p>"Fits" means every must-have has a confirmed yes. "Fits kind of" means a strict majority of must-haves have a confirmed yes. "Fits but shutting down" contains products with a published shutdown or acquisition notice that would otherwise fit in either group; it sits in its own row after the other two. Nice-to-haves affect order within a group and do not disqualify a product.</p><p>Within each group, products sort by must-haves met, then nice-to-haves met, then name. With no requirements selected, every researched ADE appears under Fits or, when it has a published notice, Fits but shutting down. There is no overall score, no extra tie-break by coverage and no rule that places Podium higher.</p><p>Products below the matching threshold remain in name search and the list of all ADEs. They have not necessarily failed your requirements. Unknown answers, missing evidence and research gaps do not establish a missing capability.</p><p>Research depth still affects order, because only a confirmed answer counts. Podium has {typedCoverage.publisher} typed filter values in this snapshot. The median researched product has {typedCoverage.median}. A product with fewer typed values can rank below Podium, or below others, because we have not typed its answers yet, without lacking the capability.</p><p>The Leaving Conductor preset makes parallel runs a must-have. Mac, agent, subscription, execution, worktree, pull request and review preferences rank the shortlist. Conductor is the baseline and stays out of that preset's matching results.</p><p>The phone word accepts a native iPhone app, a native Android app or a phone browser client; the desktop word accepts a Mac, Windows or Linux app. The open-source word accepts an explicitly established Apache-2.0, MIT, GPL-3.0 or AGPL-3.0 main-application license, including the listed or-later variants. Component and hosted-service exceptions remain in each receipt. Other licenses and unknown values stay outside this selection.</p></section>
+      <section id="age"><h2>Data age</h2><ul><li>Price and availability findings are normally scheduled for a recheck within {methodology.freshnessDays.priceAndAvailability} days.</li><li>Capability findings are normally scheduled within {methodology.freshnessDays.capability} days.</li><li>Stable architecture and license findings are normally scheduled within {methodology.freshnessDays.stableArchitectureAndLicense} days.</li></ul><p>{methodology.freshnessRule}</p><p>These dates are research reminders. Going past one never hides a finding or a typed value. Values retain their original checked date, which may differ from the page build date. Only checks more than six calendar months old receive the quiet "may be outdated" note. Contradictions, private evidence, changed review digests and unsupported interpretations still prevent publication.</p></section>
+      <section id="shutdowns"><h2>Shutdowns and status</h2><p>A published first-party shutdown or acquisition notice is enough to put an otherwise matching product in Fits but shutting down. A cross-check adds the badge. Dates, service scope and any local-app continuation remain in the notice. There is no inclusion toggle. An absent notice means unknown, never active.</p><p>The <a href="/status/">status log</a> contains eligible research and product-change events with published citations. It is not a complete history. Today's finding is not necessarily the exact answer at the date of an older event. A research recheck is not proof of a hands-on test.</p></section>
+      <section id="pairs"><h2>Pair pages</h2><p>A generated pair comparison requires at least {siteConfig.minimumPairFindings} public findings on each side and at least {siteConfig.minimumPairSharedValues} filters with a typed answer on both sides. We apply the threshold to every product. Unknown is not a difference and not a match. If corrected evidence removes that coverage, the next build omits the pair page and its sitemap entry. Age alone never removes it.</p></section>
+      <section id="open-data"><h2>Open data and code</h2><p>Everything the site shows is in a public package you can read without the site. Agents should start at <a href="/llms.txt">/llms.txt</a>.</p>
+        <dl class="m-files">
+          <dt><a href="/llms.txt">/llms.txt</a></dt><dd>An index for agents: every file, what it holds, and the rules for citing it.</dd>
+          <dt><a href="/products/index.json">/products/index.json</a></dt><dd>All {formatCount(stats.names)} names and the typed filters as bitsets, in a fixed row order.</dd>
+          <dt><a href="/products/codex.json">/products/&lt;id&gt;.json</a> and <a href="/products/codex.md">.md</a></dt><dd>One ADE: every finding with its sources, locators, scope and dates, plus any shutdown notice.</dd>
+          <dt><a href="/data/facets.json">/data/facets.json</a></dt><dd>What each filter means, word for word.</dd>
+          <dt><a href="/data/lifecycle-notices.json">/data/lifecycle-notices.json</a></dt><dd>Published shutdown and acquisition notices, with dates and sources.</dd>
+          <dt><a href="/data/status-log.json">/data/status-log.json</a></dt><dd>Cited research and product-change events.</dd>
+          <dt><a href="/data/methodology.json">/data/methodology.json</a></dt><dd>The rules on this page, as data.</dd>
+        </dl>
+        <p>Site code is Apache-2.0. The data package is CC BY 4.0.{siteConfig.publicRepositoryUrl ? <> The code and data live at <a href={siteConfig.publicRepositoryUrl}>{siteConfig.publicRepositoryUrl.replace('https://', '')}</a>.</> : ' The public repository opens with the correction forms.'}</p>
+      </section>
+      <section id="limits"><h2>What we cannot establish</h2><ul>{methodology.limitations.map(l => <li>{l}</li>)}</ul><p>Documentation does not establish reliability, usability, task quality or performance in your environment. We do not publish runtime benchmarks or estimate your total agent, compute or subscription bill.</p><p>Unresearched names are plain listings, without product or capability endorsements. Screenshots show appearance. Their provenance and retrieval dates appear beside them; a fallback image is labeled. Images do not prove that a capability works.</p></section>
+      <section id="corrections">
+        <h2>Corrections and missing ADEs</h2>
+        <p>{siteConfig.publicRepositoryUrl ? 'Anyone can report wrong data or suggest a missing ADE.' : 'Anyone will be able to report wrong data or suggest a missing ADE once the public forms open.'} Include the product, what is wrong or missing, a public source URL and the exact sentence that supports the change. A finding on this site may summarize a source, so quote the source itself.</p>
+        <p>Word of mouth and private messages are not evidence. Vendors get no exception, including Podium.</p>
+        {siteConfig.publicRepositoryUrl && <p>Both actions open GitHub issue forms. Submissions are public and require a GitHub account. Page and receipt context is prefilled; you supply the supporting source and sentence.</p>}
+        <SubmissionActions pagePath="/method/#corrections" />
+        <p>We verify the source and scope, update the private catalog, then regenerate the sanitized public export after its publication checks pass. The export is generated; direct edits to its answers would be overwritten. Submitting an issue does not change the site automatically.</p>
+      </section>
+      <section id="privacy"><h2>Reuse and privacy</h2><p>Site code is Apache-2.0. The public data package is CC BY 4.0, with attribution to ade-comparison.com by Podium and the linked primary sources. Third-party screenshots retain their owners' rights and provenance. The Radio Canada typefaces are under the SIL Open Font License.</p><p>This site has no analytics, advertising pixels, accounts or tracking cookies. Filter and compare state lives in the URL. Copying a prompt uses your browser clipboard only when you press the button.</p><p>Rubric version {methodology.rubricVersion}.</p></section>
+    </article>
+  </div>
+</Layout>
+<style is:global>
+  .method { display: grid; grid-template-columns: 14rem minmax(0, 1fr); gap: var(--s-xl) var(--s-2xl); align-items: start; }
+  .m-head { grid-column: 1 / -1; }
+  .m-head h1 { font-size: clamp(2.4rem, 5vw, 3.583rem); }
+  .m-toc { position: sticky; top: var(--s-lg); font-size: var(--t-sm); }
+  .m-toc ol { list-style: none; padding: 0 !important; display: grid; border-top: 2px solid var(--ink); }
+  .m-toc li { margin: 0 !important; border-bottom: 1px solid var(--rule); }
+  .m-toc a { display: flex; align-items: center; min-height: 36px; text-decoration: none; color: var(--ink-2); }
+  .m-toc a:hover { color: var(--mark-deep); }
+  .m-body > section { margin-top: 0; padding-block: var(--s-xl); border-top: 1px solid var(--rule); scroll-margin-top: var(--s-md); }
+  .m-body > section:first-child { border-top: 2px solid var(--ink); padding-top: var(--s-lg); }
+  .m-body h2 { font-size: var(--t-2xl); }
+  .m-steps { list-style: none; padding: 0 !important; display: grid; gap: var(--s-lg); counter-reset: s; }
+  .m-steps > li { display: grid; gap: var(--s-xs); padding-left: var(--s-2xl); position: relative; counter-increment: s; margin: 0 !important; }
+  .m-steps > li::before { content: counter(s); position: absolute; left: 0; top: -.1em; font: 700 var(--t-3xl)/1 var(--display); color: var(--accent); }
+  .m-steps h3 { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--s-xs) var(--s-md); font-size: var(--t-xl); }
+  .m-steps h3 .num { font: 500 var(--t-sm)/1.3 var(--mono); letter-spacing: 0; color: var(--accent); }
+  .m-steps p { color: var(--ink-2); }
+  .m-labels, .m-files { display: grid; grid-template-columns: minmax(10rem, max-content) minmax(0, 1fr); gap: var(--s-xs) var(--s-lg); }
+  .m-labels dt { font-weight: 600; }
+  .m-labels dd, .m-files dd { margin: 0; color: var(--ink-2); }
+  .m-files { font-size: var(--t-sm); padding: var(--s-md) var(--s-lg); background: var(--ink); color: var(--paper); --focus: var(--paper); }
+  .m-files dt { font-family: var(--mono); font-size: .8125rem; }
+  .m-files dd { color: var(--paper-3); }
+  @media (max-width: 60rem) {
+    .method { grid-template-columns: minmax(0, 1fr); }
+    .m-toc { position: static; }
+    .m-toc ol { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--gap); }
+  }
+  @media (max-width: 40rem) {
+    .m-labels, .m-files { grid-template-columns: minmax(0, 1fr); gap: 0; }
+    .m-labels dd + dt, .m-files dd + dt { margin-top: var(--s-sm); }
+    .m-steps > li { padding-left: var(--s-xl); }
+  }
+</style>

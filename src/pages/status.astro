@@ -1,0 +1,25 @@
+---
+import Layout from '../layouts/Layout.astro'
+import Lifecycle from '../components/Lifecycle.astro'
+import StatusEvents from '../components/StatusEvents.astro'
+import { index, statusLog } from '../lib/data'
+import { planStatus, statusPageSize } from '../lib/status'
+const { since, days, months, recent } = planStatus(statusLog, index.generatedAt)
+const current = new Set(recent.map(day => day.id))
+---
+<Layout title="Status and research log" description="Published ADE shutdown notices and recent cited research events, with monthly archives. Read the source, scope and checked date behind each event.">
+  <div class="in page">
+  <h1>Status and research log</h1>
+  <p class="page-lead">Shutdowns, product changes and research rechecks from eligible public records. This is not a complete history. An event links to today's eligible findings, not a historical before-and-after claim.</p>
+  <Lifecycle />
+  <section><h2>Recent cited events</h2>
+    <p>Up to {statusPageSize} product-day summaries from the last 30 days, <time datetime={since}>{since}</time> through <time datetime={index.generatedAt}>{index.generatedAt}</time>. The monthly archives include all cited events.</p>
+    {!recent.length && <p>No eligible events in the last 30 days of this snapshot.</p>}
+    <StatusEvents days={recent} moved={days.filter(day => !current.has(day.id))} />
+  </section>
+  <section aria-labelledby="archives"><h2 id="archives">Monthly archives</h2>
+    {!months.length && <p>No archived events in this snapshot.</p>}
+    <ul>{months.map(month => <li><a href={`/status/${month.month}/`}>{month.label}</a> · {month.days.length} product-day summaries</li>)}</ul>
+  </section>
+  </div>
+</Layout>
