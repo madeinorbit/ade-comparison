@@ -4,7 +4,7 @@ import type { Product } from '../lib/types'
 import Screenshot from './Screenshot.astro'
 import Lifecycle from './Lifecycle.astro'
 import Checked from './Checked.astro'
-import { cellFor, claimAnchor, requirements, stats } from '../lib/data'
+import { cellFor, claimAnchor, formatCount, requirements, stats } from '../lib/data'
 import { facts, summary, shotFor, noticeFor, hostname, shutdownLine } from '../lib/sheet'
 import { submissionLinks } from '../lib/submissions'
 interface Props { product: Product; mode: 'page' | 'dialog' }
@@ -28,7 +28,7 @@ for (const req of requirements) {
 // The findings people read first, under plain titles, with the requirement keys each one speaks to.
 const story: [string, string, string[]][] = [
   ['ACC-01', 'Where you use it', ['any-desktop', 'desktop-os:macos', 'desktop-os:windows', 'desktop-os:linux', 'web-client', 'any-phone-client', 'phone-client:ios', 'phone-client:android', 'phone-client:mobile-web', 'cli']],
-  ['ACC-02', 'Agents it runs', ['agents:codex', 'agents:claude-code', 'agents:cursor', 'agents:opencode', 'agents:gemini-cli', 'agents:pi', 'agents:grok', 'agents:aider']],
+  ['ACC-02', 'Agents it runs', ['agents:codex', 'agents:claude-code', 'agents:cursor', 'agents:opencode', 'agents:gemini-cli', 'agents:pi', 'agents:grok', 'agents:aider', 'agents:antigravity']],
   ['ACC-03', 'Accounts and subscriptions', ['byo-subscription']],
   ['RUN-01', 'Where agents run', ['execution:local', 'execution:own-server', 'execution:vendor-cloud', 'laptop-independent']],
   ['RUN-02', 'How work is kept apart', ['isolation:worktree', 'isolation:container', 'isolation:vm']],
@@ -36,7 +36,7 @@ const story: [string, string, string[]][] = [
   ['COORD-04', 'Scheduled runs', ['unattended-triggers']],
   ['SHIP-03', 'Git and pull requests', ['pr-workflow']],
   ['OWN-01', 'Licence and source', ['open-source-license', 'self-hosting']],
-  ['OWN-04', 'Price', ['free-tier']],
+  ['OWN-04', 'Price', ['free-tier', ...requirements.filter(r => ['pricing-model', 'paid-from', 'starting-price'].includes(r.facetId)).map(r => r.key)]],
 ].flatMap(([id, title, keys]) => {
   const claim = product.claims?.find(c => c.claimId === `${product.id}:${id}`)
   return claim && claim.answer && claim.support !== 'unknown' ? [[`${product.id}:${id}`, title as string, keys as string[]]] : []
@@ -46,6 +46,8 @@ const hosts = [...new Set((product.sources || []).map(s => hostname(s.url)))]
 const crossChecked = (product.claims || []).filter(c => c.verificationStatus === 'agent-cross-checked').length
 const links = submissionLinks({ product, pagePath: page })
 const site = product.website ? hostname(product.website) : null
+const stars = product.githubStars
+const starSource = stars && product.sources?.find(s => s.id === stars.evidenceIds[0])
 ---
 <div class={`sheet sheet-${mode}`} data-sheet={product.id} data-name={product.name} data-answers={JSON.stringify(answers)} data-closing={notice ? 'true' : undefined}>
   {notice && <section id="lifecycle" class="sheet-close" aria-labelledby="lifecycle-title"><h2 id="lifecycle-title">Shutdown notice</h2><p class="sheet-when">{shutdownLine(notice)}</p><Lifecycle productId={product.id} compact /></section>}
@@ -71,6 +73,7 @@ const site = product.website ? hostname(product.website) : null
       <div><dt>Checked</dt><dd><time datetime={product.lastCheckedAt || undefined}>{product.lastCheckedAt}</time> <Checked date={product.lastCheckedAt} />{product.oldestCheckedAt && product.oldestCheckedAt !== product.lastCheckedAt && <span class="r-dim"> · oldest answer {product.oldestCheckedAt}</span>}</dd></div>
       <div><dt>Findings</dt><dd>{product.claims?.length || 0} published · {crossChecked} cross-checked by a second agent · <a href={at('findings')}>read them all</a></dd></div>
       <div><dt>Sources</dt><dd>{product.sources?.length || 0} public pages on {hosts.length} {hosts.length === 1 ? 'site' : 'sites'}: {hosts.slice(0, 4).join(', ')}{hosts.length > 4 && <span class="r-dim"> and {hosts.length - 4} more</span>}</dd></div>
+      {stars && <div><dt>GitHub stars</dt><dd>{formatCount(stars.value)} on <time datetime={stars.observedAt}>{stars.observedAt}</time>{starSource && <> · <a href={starSource.url} rel="noopener noreferrer">{hostname(starSource.url)}</a></>} · repository attention, not users or capability</dd></div>}
       <div><dt>Screenshot</dt><dd>{shot ? <><a href={shot.sourcePage} rel="noopener noreferrer">{hostname(shot.sourcePage)}</a>, retrieved <time datetime={shot.retrievedAt}>{shot.retrievedAt}</time> · {shot.provenance.replace(/-/g, ' ')} · shows appearance, not capability</> : 'None accepted yet'}</dd></div>
       <div><dt>Data</dt><dd><a href={`/products/${product.id}.json`}>/products/{product.id}.json</a> · <a href={`/products/${product.id}.md`}>.md</a></dd></div>
       <div><dt>Method</dt><dd>Same rules for all {stats.researched} researched ADEs. <a href="/method/">How we check</a>{links && <> · <a href={links.reportWrongData} rel="noopener noreferrer">Report wrong data</a></>}</dd></div>

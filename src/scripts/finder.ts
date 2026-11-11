@@ -21,7 +21,8 @@ function initializeFinder() {
         ...(el.dataset.formerNames ? { formerNames: JSON.parse(el.dataset.formerNames) as string[] } : {}),
         researchStatus: el.hasAttribute('data-researched') ? 'covered' as const : 'not-researched' as const }
     })
-  const filter = createFilter(index, requirements, sunsetIds)
+  const stars = Object.fromEntries([...document.querySelectorAll<HTMLElement>('.e[data-stars]')].map(el => [el.dataset.productId!, Number(el.dataset.stars)]))
+  const filter = createFilter(index, requirements, sunsetIds, stars)
   const label = (key: string) => shortLabels[key] || key
   const comparable = index.products.filter(p => p.researchStatus === 'covered')
   const nameOf = new Map(index.products.map(p => [p.id, p.name]))
@@ -37,6 +38,10 @@ function initializeFinder() {
   const query = $<HTMLInputElement>('#find-name')
   const status = $('#finder-status')
   const tray = $('#compare-tray')
+  const sort = $<HTMLSelectElement>('#finder-sort')
+  const orderNote = $('#order-note')
+  const fitOrder = orderNote.textContent!
+  const starred = Number(orderNote.dataset.starred)
 
   function href(extra?: URLSearchParams) {
     const p = new URLSearchParams(serializeState(state))
@@ -130,8 +135,10 @@ function initializeFinder() {
     }
     $('#need-summary').textContent = state.must.length ? list(state.must.map(label)) + (state.nice.length ? `, plus ${state.nice.length} nice-to-have${state.nice.length === 1 ? '' : 's'}` : '') : state.nice.length ? `Nice to have: ${list(state.nice.map(label))}` : 'Nothing picked yet'
     if (query.value !== state.query) query.value = state.query
+    sort.value = state.sort
+    orderNote.textContent = state.sort === 'stars' ? `Within each group: must-haves met, then GitHub stars. ${starred} of ${comparable.length} researched ADEs have a sourced count; the rest follow by fit. Stars measure repository attention, not users or quality.` : fitOrder
     const preset = presets.find(p => p.id === state.preset)
-    $('#preset-note').textContent = preset?.baseline ? 'Conductor is the baseline and stays out of these results. Parallel runs is required; the rest rank the list.' : ''
+    $('#preset-note').textContent = preset?.note ?? ''
     for (const link of document.querySelectorAll<HTMLAnchorElement>('[data-preset]')) {
       if (link.dataset.preset === state.preset) link.setAttribute('aria-current', 'true'); else link.removeAttribute('aria-current')
     }
@@ -175,7 +182,8 @@ function initializeFinder() {
     if (preset && !(e as MouseEvent).metaKey && !(e as MouseEvent).ctrlKey && !(e as MouseEvent).shiftKey && !(e as MouseEvent).altKey) {
       e.preventDefault()
       const keep = state.query
-      state = parseState(new URL(preset.href).search, requirements); state.query = keep
+      const order = state.sort
+      state = parseState(new URL(preset.href).search, requirements); state.query = keep; state.sort = order
       save(true); render()
       return
     }
@@ -191,7 +199,7 @@ function initializeFinder() {
     const more = target.closest<HTMLButtonElement>('[data-more]')
     if (more) { all[more.dataset.more!] = !all[more.dataset.more!]; render(false); return }
     if (target.closest('#compare-clear')) { compared = []; save(); updateCompare(); status.textContent = 'Compare cleared.'; return }
-    if (target.closest('#reset-finder')) { state = { ...emptyState(), query: state.query }; save(true); render(); return }
+    if (target.closest('#reset-finder')) { state = { ...emptyState(), query: state.query, sort: state.sort }; save(true); render(); return }
     const toggle = target.closest<HTMLButtonElement>('#need-toggle')
     if (toggle) {
       const open = toggle.getAttribute('aria-expanded') !== 'true'
@@ -201,6 +209,7 @@ function initializeFinder() {
   })
   // A sheet opened over the Finder shows the same compare state as the list.
   document.addEventListener('sheet:open', updateCompare)
+  sort.addEventListener('change', () => { state.sort = sort.value === 'stars' ? 'stars' : 'fit'; save(); render() })
   query.form!.addEventListener('submit', e => { e.preventDefault(); state.query = query.value; save(); render() })
   query.addEventListener('input', () => { state.query = query.value; save(); render() })
   addEventListener('popstate', () => {

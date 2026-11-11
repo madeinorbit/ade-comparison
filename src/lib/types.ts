@@ -20,13 +20,14 @@ export interface Claim {
   limitations: string[]; checkedAt: string; crossCheckedAt: string | null; nextCheckAt: string; evidenceIds: string[]
 }
 export interface Identity { id: string; name: string; website: string | null; researchStatus: 'covered' | 'not-researched'; formerNames?: string[] }
+export interface GithubStars { value: number; observedAt: string; evidenceIds: string[] }
 export interface Product extends Identity {
-  repository?: string | null; facets?: Record<string, Cell | Record<string, Cell>>
+  repository?: string | null; githubStars?: GithubStars; facets?: Record<string, Cell | Record<string, Cell>>
   claims?: Claim[]; sources?: Source[]; lifecycle?: { status: string; note: string | null }
   sourcedClaimCount?: number; crossCheckedClaimCount?: number
   oldestCheckedAt?: string | null; lastCheckedAt?: string | null
 }
-export interface Facet { id: string; label: string; type: 'tri-state' | 'enum'; multiple?: boolean; options?: { id: string; label: string }[]; description: string }
+export interface Facet { id: string; label: string; type: 'tri-state' | 'enum'; multiple?: boolean; options?: { id: string; label: string; addedAt?: string }[]; description: string }
 export interface Requirement { key: string; label: string; facetId: string; option: string | null; description: string; anyOf?: string[] }
 export interface Index { schemaVersion: number; generatedAt: string; products: Identity[]; bitsets: { encoding: string; bitOrder: string; rowOrder: string; unknown: string; columns: Record<string, { yes: string; no: string; crossChecked: string }> } }
 export interface LifecycleNotice {

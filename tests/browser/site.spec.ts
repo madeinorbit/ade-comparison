@@ -20,7 +20,9 @@ test('cold home has no layout shift, framework runtime, off-site requests or acc
 })
 test('every page type passes axe, and Conductor shows its notice in the first screen', async ({ page }) => {
   test.setTimeout(120_000)
-  for (const path of ['/ade/conductor/', '/ade/jules/', '/ade/podium/', '/ade/codex/', '/status/', '/method/', '/compare/capy-vs-podium/', '/404.html']) {
+  await page.goto('/compare/')
+  const pair = (await page.locator('.pairs a').first().getAttribute('href'))!
+  for (const path of ['/ade/conductor/', '/ade/jules/', '/ade/podium/', '/ade/codex/', '/status/', '/method/', pair, '/404.html']) {
     await page.goto(path)
     expect((await new AxeBuilder({ page }).analyze()).violations, path).toEqual([])
   }
@@ -77,29 +79,48 @@ test('former-name search finds Paradev in directory matches and filtered results
   await expect(page.locator('[data-product-id=superset] [data-product-name]')).toHaveText('Paradev')
 })
 test('leaving a pair page reaches the full comparison, with back restoring the pair', async ({ page }) => {
-  await page.goto('/compare/capy-vs-podium/')
+  await page.goto('/compare/')
+  const pair = (await page.locator('.pairs a').first().getAttribute('href'))!
+  await page.goto(pair)
   await expect(page.locator('thead [data-column-id]')).toHaveCount(2)
   await page.getByRole('checkbox', { name: 'Differences only', exact: true }).check()
-  await expect(page).toHaveURL(/\/compare\/capy-vs-podium\/\?.*diff=1/)
+  await expect(page).toHaveURL(new RegExp(`${pair}\\?.*diff=1`))
+  await expect(page.locator('thead [data-column-id]')).toHaveCount(2)
+  await page.getByRole('link', { name: 'Add an ADE to this comparison', exact: true }).click()
+  await expect(page).toHaveURL(/\/compare\/\?products=[a-z0-9-]+,[a-z0-9-]+$/)
+  await expect(page.locator('thead [data-column-id]:visible')).toHaveCount(2)
+  // Compare fetches a column it did not render.
   await page.getByRole('combobox', { name: 'Add an ADE to compare' }).first().selectOption('cursor')
-  await expect(page).toHaveURL(/\/compare\/\?products=/)
   await expect(page.locator('thead [data-column-id]:visible')).toHaveCount(3)
-  await page.goBack()
-  await expect(page).toHaveURL(/capy-vs-podium/)
+  await expect(page.locator('thead [data-column-id="cursor"] .cmp-name')).toBeFocused()
+  await page.goBack(); await page.goBack()
+  await expect(page).toHaveURL(new RegExp(pair))
+})
+test('a pair without a static page opens in Compare with receipts', async ({ page }) => {
+  // Pick a pair with no static page, so the test follows the cap as the catalog changes.
+  const pairs = await (await page.request.get('/compare/')).text()
+  const ids = [...new Set([...pairs.matchAll(/data-table-product="([^"]+)"/g)].map(m => m[1]))]
+  const [a, b] = ids.flatMap((x, i) => ids.slice(i + 1).map(y => [x, y])).find(([x, y]) => !pairs.includes(`/compare/${[x, y].sort().join('-vs-')}/`))!
+  await page.goto(`/compare/?products=${a},${b}`)
+  await expect(page.locator('thead [data-column-id]:visible')).toHaveCount(2)
+  await expect(page.locator(`thead [data-column-id="${a}"] .cmp-name`)).toBeVisible()
+  const receipt = page.locator(`td[data-column-id="${b}"] .receipt-link`).first()
+  await expect(receipt).toHaveAttribute('href', new RegExp(`^/ade/${b}/#receipt-`))
+  await expect(page.locator('#table-status')).not.toContainText('Loading')
+  expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([])
 })
 test('presets, preferences and back restore URL state', async ({ page }) => {
   await page.goto('/')
-  await page.getByRole('link', { name: 'Leaving Conductor', exact: true }).click()
-  await expect(page).toHaveURL(/use=leaving-conductor/)
+  await page.getByRole('link', { name: 'Parallel local agents', exact: true }).click()
+  await expect(page).toHaveURL(/use=parallel-local/)
   await expect(page.locator('#agent-prompt')).toHaveValue(/Must have: Parallel runs/)
   await page.getByRole('button', { name: 'Copy prompt', exact: true }).click()
   await expect(page.locator('#copy-status')).toContainText(/Prompt copied|Select and copy/)
   expect(Number(await page.locator('[data-count=fits]').textContent())).toBeGreaterThan(0)
-  await expect(page.locator('[data-product-id=conductor]')).toBeHidden()
   await page.getByRole('link', { name: 'Windows', exact: true }).click()
   await expect(page).toHaveURL(/use=windows/)
   await page.goBack()
-  await expect(page).toHaveURL(/use=leaving-conductor/)
+  await expect(page).toHaveURL(/use=parallel-local/)
   await page.reload()
   await expect(page.locator('#preset-note')).toContainText('Parallel runs is required')
   await expect(page.locator('[data-group=fits] .e:visible')).not.toHaveCount(0)
@@ -213,7 +234,7 @@ test('shared finder URL restores preferences before user interaction without a l
     ;(window as any).cls = 0
     new PerformanceObserver(list => { for (const entry of list.getEntries()) if (!(entry as any).hadRecentInput) (window as any).cls += (entry as any).value }).observe({ type: 'layout-shift', buffered: true })
   })
-  await page.goto('/?use=leaving-conductor&products=capy,podium')
+  await page.goto('/?use=parallel-local&products=capy,podium')
   await page.waitForLoadState('networkidle')
   await expect(page.locator('#preset-note')).toContainText('Parallel runs is required')
   await expect(page.locator('#include-sunset')).toHaveCount(0)
@@ -289,4 +310,19 @@ test('an ADE deep link is a full page and the dialog keeps working after reload'
   expect(page.url()).toBe(url)
   await expect(page.locator('[data-sheet-fit]')).toBeVisible()
   await expect(page.locator('[data-back]')).toHaveAttribute('href', /^\/\?must=/)
+})
+test('the GitHub stars order is opt-in, keeps groups and survives reload', async ({ page }) => {
+  await page.goto('/')
+  await expect(page.locator('#order-note')).toContainText('Must-haves met')
+  await page.getByLabel('Order').selectOption('stars')
+  await expect(page).toHaveURL(/sort=stars/)
+  await expect(page.locator('#order-note')).toContainText('repository attention')
+  const stars = await page.locator('[data-group=fits] .e').evaluateAll(els => els.map(el => Number((el as HTMLElement).dataset.stars ?? -1)))
+  const known = stars.filter(n => n >= 0)
+  expect(known.length).toBeGreaterThan(0)
+  expect(stars.slice(0, known.length)).toEqual([...known].sort((a, b) => b - a))
+  await page.reload()
+  await expect(page.getByLabel('Order')).toHaveValue('stars')
+  await page.getByLabel('Order').selectOption('fit')
+  await expect(page).not.toHaveURL(/sort=/)
 })

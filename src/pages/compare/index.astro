@@ -8,8 +8,8 @@ import { pairs } from '../../lib/data'
     <h1>Compare ADEs</h1>
     <p class="page-lead">Up to four side by side. Add one from an empty column, remove one from its heading. The address keeps your choice, so you can share it.</p>
     <Comparison mode="compare" />
-    <section id="pairs"><h2>Pair comparisons</h2><p>These pages also work without JavaScript. <a href="/method/#pairs">How we select pairs</a>.</p>
-      <details class="pairs"><summary>All {pairs.length} pairs</summary><ul class="listing-list">{pairs.map(pair => <li><a href={`/compare/${pair.slug}/`}>{pair.products.map(p => p.name).join(' vs ')}</a></li>)}</ul></details>
+    <section id="pairs"><h2>Pair comparisons</h2><p>These pages also work without JavaScript. Any other pair opens in the table above. <a href="/method/#pairs">How we select pairs</a>.</p>
+      <details class="pairs"><summary>{pairs.length} pair pages</summary><ul class="listing-list">{[...pairs].map(pair => ({ pair, name: pair.products.map(p => p.name).join(' vs ') })).sort((a, b) => a.name.localeCompare(b.name, 'en')).map(({ pair, name }) => <li><a href={`/compare/${pair.slug}/`}>{name}</a></li>)}</ul></details>
     </section>
   </div>
 </Layout>

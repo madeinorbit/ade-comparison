@@ -37,7 +37,8 @@ test('both issue forms require public evidence, a product and the requested chan
     const intro = template.body.filter(f => f.type === 'markdown').map(f => f.attributes.value).join('\n')
     assert.match(intro, /Word of mouth.*not evidence/)
     assert.match(intro, /Vendors get no exception, including Podium/)
-    assert.match(intro, /private catalog/)
+    assert.match(intro, /research catalog \(`research\/`\)/)
+    assert.doesNotMatch(intro, /private catalog|private repository/)
     assert.ok(template.body.some(f => f.type === 'checkboxes' && f.attributes.options?.some(o => o.required && /source is public.*exact sentence/.test(o.label))))
   }
   assert.equal(parse(readFileSync(new URL('config.yml', templates), 'utf8')).blank_issues_enabled, false)

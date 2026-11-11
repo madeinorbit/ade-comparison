@@ -39,6 +39,12 @@ button:disabled { opacity: .55; cursor: not-allowed; transform: none; }
 .wordmark::before { content: ""; grid-row: span 2; width: 1.84em; height: 1.84em; background: var(--mark); transition: transform var(--dur-short) var(--ease-out); }
 .wordmark:hover::before { transform: rotate(-8deg); }
 .wordmark span { font-weight: 400; }
+/* The maker, quiet beside the site name: Podium is the publisher, not a pick. */
+.brand { display: flex; align-items: center; gap: var(--s-md); }
+.by { display: inline-flex; align-items: center; gap: var(--s-2xs); min-height: var(--control); padding-left: var(--s-md); border-left: 1px solid var(--rule); color: var(--muted); font-size: var(--t-sm); text-decoration: none; }
+.by:hover { color: var(--ink); }
+.podium-logo { display: block; fill: currentColor; aspect-ratio: 826.4 / 317.7; }
+.by .podium-logo { height: 18px; width: auto; }
 .bar nav { display: flex; gap: var(--s-lg); margin-right: auto; }
 .bar nav a { display: inline-flex; align-items: center; min-height: var(--control); color: var(--ink-2); text-decoration: none; }
 .bar nav a:hover { color: var(--ink); text-decoration: underline; text-decoration-color: var(--rule); text-decoration-thickness: 2px; text-underline-offset: .3em; }
@@ -50,7 +56,7 @@ button:disabled { opacity: .55; cursor: not-allowed; transform: none; }
 @media (max-width: 52rem) {
   .bar .in { gap: 0 var(--s-md); }
   .bar nav { order: 3; width: 100%; overflow-x: auto; scrollbar-width: none; gap: var(--s-md); margin-right: 0; }
-  .wordmark { margin-right: auto; }
+  .brand { margin-right: auto; }
 }
 
 /* Footer: how the data is made, in four steps, then who makes it. */
@@ -73,6 +79,10 @@ button:disabled { opacity: .55; cursor: not-allowed; transform: none; }
 .made { margin-top: var(--s-2xl); padding-top: var(--s-lg); border-top: 1px solid var(--rule); display: flex; flex-wrap: wrap; gap: var(--s-md) var(--s-xl); align-items: start; justify-content: space-between; font-size: var(--t-sm); color: var(--ink-2); }
 .made-by { display: grid; gap: var(--s-xs); }
 .made-by p { max-width: 46ch; }
+.made-mark { justify-self: start; color: var(--ink); }
+.made-mark:hover { color: var(--ink-2); }
+.made-mark .podium-logo { height: 48px; width: auto; }
+.made-note { margin-top: var(--s-xs); font-size: var(--t-md); color: var(--ink); }
 .made ul { list-style: none; padding: 0; display: grid; }
 .made ul a { display: inline-flex; align-items: center; min-height: 32px; }
 .made-links { display: flex; gap: var(--s-xl); }
@@ -82,6 +92,11 @@ button:disabled { opacity: .55; cursor: not-allowed; transform: none; }
 }
 @media (max-width: 40rem) {
   .foot h2 { font-size: var(--t-2xl); }
+  .made-mark .podium-logo { height: 40px; }
+  /* Too narrow for a side-by-side byline: it moves under the site name. */
+  .brand { flex-direction: column; align-items: flex-start; gap: var(--s-3xs); }
+  .by { min-height: 24px; padding-left: 0; border-left: 0; }
+  .by .podium-logo { height: 15px; }
   .steps { grid-template-columns: minmax(0, 1fr); }
   .files li { grid-template-columns: minmax(0, 1fr); gap: 0; }
 }
@@ -151,4 +166,3 @@ thead th:first-child { left: 0; z-index: 3; }
 /* Long URLs and identifiers in receipts wrap instead of widening the page. */
 main { overflow-wrap: anywhere; }
 main h1, main h2, main h3, .fit, .w { overflow-wrap: break-word; }
-.made-by .wordmark { justify-self: start; }

@@ -1,4 +1,4 @@
-// Explicit private-repo preparation only. The portable site build never invokes this importer.
+// Explicit data preparation; the site build never invokes this importer.
 import { createHash } from 'node:crypto'
 import { readFileSync, mkdirSync, renameSync, rmSync, writeFileSync, realpathSync } from 'node:fs'
 import { resolve, sep } from 'node:path'
@@ -34,6 +34,7 @@ export async function prepareScreenshots(sourceDirectory, outputDirectory, ident
       }
       records.push(record)
     }
+    records.sort((a, b) => a.productId.localeCompare(b.productId, 'en'))
     validateMedia(records, registered)
     writeFileSync(resolve(stage, 'index.json'), JSON.stringify(records, null, 2) + '\n')
     rmSync(outputDirectory, { recursive: true, force: true }); renameSync(stage, outputDirectory)
@@ -41,8 +42,10 @@ export async function prepareScreenshots(sourceDirectory, outputDirectory, ident
   } catch (error) { rmSync(stage, { recursive: true, force: true }); throw error }
 }
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
-  const source = process.argv[process.argv.indexOf('--source') + 1]
-  if (!process.argv.includes('--source') || !source) throw new Error('Usage: npm run screenshots:import -- --source <catalog screenshot directory>')
+  // Defaults to the research screenshot library in this repository.
+  const source = process.argv.includes('--source') ? process.argv[process.argv.indexOf('--source') + 1]
+    : fileURLToPath(new URL('../research/screenshots/', import.meta.url))
+  if (!source) throw new Error('Usage: npm run screenshots:import [-- --source <screenshot directory>]')
   const index = JSON.parse(readFileSync(new URL('../data/index.json', import.meta.url)))
   const records = await prepareScreenshots(source, fileURLToPath(new URL('../media/', import.meta.url)), index.products)
   console.log(`Prepared ${records.length} reviewed screenshot previews with public provenance.`)

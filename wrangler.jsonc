@@ -1,0 +1,19 @@
+// Production Worker for https://adecomparison.com: static assets only, no Worker script.
+// GitHub Actions deploys it from main (.github/workflows/deploy.yml). README "Deploy" lists
+// the account setup. Security headers come from dist/_headers (scripts/headers.mjs).
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "ade-comparison",
+  "compatibility_date": "2026-09-23",
+  "workers_dev": false,
+  "preview_urls": false,
+  "routes": [{ "pattern": "adecomparison.com", "custom_domain": true }],
+  "assets": {
+    "directory": "./dist",
+    // Astro builds directory pages (trailingSlash: 'always'), so /compare redirects to /compare/.
+    "html_handling": "force-trailing-slash",
+    // Unknown paths get dist/404.html with a 404 status.
+    "not_found_handling": "404-page"
+  },
+  "observability": { "enabled": true }
+}

@@ -50,17 +50,17 @@ function assertDates(record, label, asOf) {
 export function validatePackage(data, asOf = new Date().toISOString().slice(0, 10)) {
   const { index, definitions, products, notices, status, methodology } = data
   if (!calendarDate(asOf) || !calendarDate(index.generatedAt) || index.generatedAt > asOf) throw new Error('Invalid or future package date')
-  assertShape(definitions, object({ schemaVersion: choice(1), unknownValue: choice('unknown'), booleanValues: strings, facets: array(object({ id: text, label: text, type: choice('enum', 'tri-state'), multiple: optional(value => typeof value === 'boolean'), description: text, options: optional(array(object({ id: text, label: text }))) })) }))
+  assertShape(definitions, object({ schemaVersion: choice(1), unknownValue: choice('unknown'), booleanValues: strings, facets: array(object({ id: text, label: text, type: choice('enum', 'tri-state'), multiple: optional(value => typeof value === 'boolean'), description: text, options: optional(array(object({ id: text, label: text, addedAt: optional(text) }))) })) }))
   const facetSchemas = {}, columnSchemas = {}
   for (const f of definitions.facets) {
     facetSchemas[f.id] = f.multiple ? object(Object.fromEntries(f.options.map(o => [o.id, receipt(['yes', 'no'])]))) : receipt(f.type === 'tri-state' ? ['yes', 'no'] : f.options.map(o => o.id))
     for (const key of f.type === 'tri-state' ? [f.id] : f.options.map(o => `${f.id}:${o.id}`)) columnSchemas[key] = object({ yes: text, no: text, crossChecked: text })
   }
   assertShape(index, object({ schemaVersion: choice(1), generatedAt: text, products: array(object(searchIdentity)), bitsets: object({ encoding: choice('base64'), bitOrder: choice('least-significant-bit-first'), rowOrder: choice('products'), unknown: choice('neither-yes-nor-no'), columns: object(columnSchemas) }) }))
-  for (const p of products) assertShape(p, p.researchStatus === 'not-researched' ? object(identity) : object({ ...searchIdentity, repository: nullable(url), lifecycle, sourcedClaimCount: number, crossCheckedClaimCount: number, oldestCheckedAt: maybeText, lastCheckedAt: maybeText, facets: object(facetSchemas), claims: array(claim), sources: array(source) }), `product:${p.id}`)
+  for (const p of products) assertShape(p, p.researchStatus === 'not-researched' ? object(identity) : object({ ...searchIdentity, repository: nullable(url), githubStars: optional(object({ value: number, observedAt: text, evidenceIds: strings })), lifecycle, sourcedClaimCount: number, crossCheckedClaimCount: number, oldestCheckedAt: maybeText, lastCheckedAt: maybeText, facets: object(facetSchemas), claims: array(claim), sources: array(source) }), `product:${p.id}`)
   assertShape(notices, array(object({ productId: text, ...lifecycleFields, facet: receipt(['active', 'sunset']), sources: array(source) })))
   assertShape(status, array(object({ id: text, productId: text, date: text, type: choice('initial-research', 'product-change', 'research-correction', 'rubric-change', 'freshness-recheck'), claimIds: strings, evidenceIds: strings })))
-  assertShape(methodology, object({ schemaVersion: choice(1), rubricVersion: text, publisher: object({ name: text, url, marketParticipant: value => value === true, editorialControl: text, disclosure: text }), unknownMeans: text, verification: object({ sourced: text, 'agent-cross-checked': text, unknown: text }), freshnessDays: object({ priceAndAvailability: number, capability: number, stableArchitectureAndLicense: number }), freshnessRule: text, evidenceText: text, ranking: object({ overallScore: choice(false), order: strings, publisherPlacementAdvantage: choice(false) }), listingLabel: choice('not-researched'), correctionRule: text, limitations: strings }))
+  assertShape(methodology, object({ schemaVersion: choice(1), rubricVersion: text, publisher: object({ name: text, url, marketParticipant: value => value === true, editorialControl: text, disclosure: text }), unknownMeans: text, verification: object({ sourced: text, 'agent-cross-checked': text, unknown: text }), freshnessDays: object({ priceAndAvailability: number, capability: number, stableArchitectureAndLicense: number }), freshnessRule: text, evidenceText: text, ranking: object({ overallScore: choice(false), order: strings, optionalOrder: strings, publisherPlacementAdvantage: choice(false) }), listingLabel: choice('not-researched'), correctionRule: text, limitations: strings }))
   if (new Set(index.products.map(p => p.id)).size !== index.products.length || products.length !== index.products.length) throw new Error('Duplicate or missing products')
   for (const [row, p] of products.entries()) {
     for (const key of Object.keys(searchIdentity)) if (JSON.stringify(p[key]) !== JSON.stringify(index.products[row][key])) throw new Error(`Index identity differs for ${p.id}`)
@@ -70,6 +70,8 @@ export function validatePackage(data, asOf = new Date().toISOString().slice(0, 1
       const surfaces = [p.name, ...c.scope.surfaces.map(surface => surface.name.split(', formerly ')[0])]
       return surfaces.some(surface => hasFormerNameFinding(p, c, name, surface))
     })) throw new Error(`Former name has no rename finding for ${p.id}`)
+    if (p.githubStars && (!Number.isInteger(p.githubStars.value) || p.githubStars.value < 0 || !p.githubStars.evidenceIds.length ||
+      p.githubStars.evidenceIds.some(id => !sources.has(id)) || p.githubStars.observedAt > asOf)) throw new Error(`GitHub stars without a public source for ${p.id}`)
     for (const c of claims.values()) {
       if (c.productId !== p.id) throw new Error(`Wrong-owner finding ${c.claimId}`)
       if (!c.evidenceIds.length || c.evidenceIds.some(id => !sources.has(id))) throw new Error(`Missing finding source ${c.claimId}`)
@@ -117,8 +119,11 @@ export function validatePackage(data, asOf = new Date().toISOString().slice(0, 1
     const known = new Set([...(p.sources || []), ...(notices.find(n => n.productId === p.id)?.sources || [])].map(s => s.id))
     if (event.claimIds.some(id => !(p.claims || []).some(c => c.claimId === id)) || event.evidenceIds.some(id => !known.has(id))) throw new Error(`Status event without a current receipt ${event.id}`)
   }
-  const serialized = JSON.stringify(data)
-  if (/(?:\/Users\/|file:\/\/|podium-asset:)/i.test(serialized)) throw new Error('Private path or internal-only text in public package')
+  // Same private markers as research/publication/security.mjs, checked per string, plus asset links from the publisher's own tooling.
+  const texts = []
+  const collect = value => typeof value === 'string' ? texts.push(value) : value && typeof value === 'object' && Object.values(value).forEach(collect)
+  collect(data)
+  if (texts.some(text => /internal-file:|file:\/\/|\/home\/[^/\s]+\/|\/Users\/[^/\s]+\/|[a-z]:\\users\\|\.worktrees\/|\.ts\.net|\/files\/asset\?|podium-asset:/i.test(text))) throw new Error('Private path or internal-only text in public package')
   return true
 }
 export function loadPackage(rootUrl = root) {

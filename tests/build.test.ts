@@ -3,6 +3,7 @@ import assert from 'node:assert/strict'
 import { readFileSync, readdirSync, existsSync } from 'node:fs'
 import { gzipSync, brotliCompressSync } from 'node:zlib'
 import { requirementsFrom } from '../src/lib/filter.ts'
+import { pairCutoff } from '../src/lib/pairs.ts'
 import { siteConfig } from '../config.mjs'
 import { planStatus, statusPageSize } from '../src/lib/status.ts'
 import type { StatusEvent } from '../src/lib/types.ts'
@@ -61,9 +62,15 @@ test('generated pairs require enough evidence on both sides and match sitemap en
   const answers = (p: any) => Object.fromEntries(Object.entries(p.facets).filter(([key]) => key !== 'lifecycle-status').flatMap(([key, v]: [string, any]) => 'value' in v ? [[key, v.value]] : Object.entries(v).map(([o, c]: [string, any]) => [`${key}:${o}`, c.value])).filter(([, value]) => value !== 'unknown'))
   const enough = products.filter(p => p.researchStatus === 'covered' && p.sourcedClaimCount >= 20 && Object.keys(answers(p)).length > 0)
   const shared = (a: any, b: any) => Object.keys(answers(a)).filter(key => key in answers(b)).length
-  const expected = new Set(enough.flatMap((a, i) => enough.slice(i + 1).filter(b => shared(a, b) >= 6).map(b => [a.id, b.id].sort().join('-vs-'))))
-  const actual = readdirSync(new URL('compare/', dist), { withFileTypes: true }).filter(e => e.isDirectory()).map(e => e.name)
+  const candidates = enough.flatMap((a, i) => enough.slice(i + 1).map(b => ({ slug: [a.id, b.id].sort().join('-vs-'), shared: shared(a, b) }))).filter(p => p.shared >= 6)
+  const cutoff = pairCutoff(candidates.map(p => p.shared), siteConfig.maximumStaticPairs, siteConfig.minimumPairSharedValues)
+  const expected = new Set(candidates.filter(p => p.shared >= cutoff).map(p => p.slug))
+  const actual = readdirSync(new URL('compare/', dist), { withFileTypes: true }).filter(e => e.isDirectory() && e.name.includes('-vs-')).map(e => e.name)
   assert.deepEqual(new Set(actual), expected)
+  // Static pages stay bounded however large the catalog grows; the rest open in Compare.
+  assert.ok(actual.length <= siteConfig.maximumStaticPairs, `${actual.length} static pair pages`)
+  assert.ok(candidates.length <= siteConfig.maximumStaticPairs || actual.length >= siteConfig.maximumStaticPairs / 2, 'The cap keeps a useful number of pairs')
+  assert.equal((text('sitemap.xml').match(/\/compare\/[^<]+-vs-[^<]+\//g) || []).length, actual.length)
   for (const slug of actual) assert.ok(text('sitemap.xml').includes(`/compare/${slug}/`))
 })
 test('every local href, image and fragment in generated HTML resolves', () => {
@@ -103,12 +110,43 @@ test('a shutdown notice comes first on its ADE page and in the agent files', () 
   }
 })
 test('comparisons carry a shutdown link and pair pages hold only their two products', () => {
-  const pair = readdirSync(new URL('compare/', dist)).find(name => notices.some((n: { productId: string }) => name.split('-vs-').includes(n.productId)) && name.includes('-vs-'))!
+  const slugs = readdirSync(new URL('compare/', dist)).filter(name => name.includes('-vs-'))
+  const closing = (name: string) => notices.some((n: { productId: string }) => name.split('-vs-').includes(n.productId))
+  // The pair cap may leave no static page with a closing product. Compare still carries the notice link.
+  const pair = slugs.find(closing) || slugs[0]
   const html = text(`compare/${pair}/index.html`)
-  assert.match(html, /has a published shutdown notice/)
+  if (closing(pair)) assert.match(html, /has a published shutdown notice/)
+  // Compare fetches a column per ADE; a closing product's column carries its notice link.
+  assert.equal(JSON.parse(text('compare/columns/conductor.json')).closing, true)
   assert.equal(new Set([...html.matchAll(/<th scope="col" data-column-id="([^"]+)"/g)].map(m => m[1])).size, 2)
   assert.match(text('matrix/index.html'), /aria-label="Conductor shutdown notice"/)
   assert.ok(gzipSync(html).length < 12_000, 'Pair page stays small')
+})
+test('Compare renders two columns and serves every researched ADE as a fetchable column', () => {
+  const html = text('compare/index.html')
+  assert.equal(new Set([...html.matchAll(/<th scope="col" data-column-id="([^"]+)"/g)].map(m => m[1])).size, 2)
+  assert.ok(gzipSync(html).length < 25_000, `Compare weighs ${gzipSync(html).length} gzip bytes`)
+  const covered = readdirSync(new URL('../data/products/', import.meta.url)).map(file => JSON.parse(readFileSync(new URL(`../data/products/${file}`, import.meta.url), 'utf8'))).filter(p => p.researchStatus === 'covered')
+  const rows = [...html.matchAll(/data-requirement-row="([^"]+)"/g)].map(m => m[1])
+  for (const p of covered) {
+    const column = JSON.parse(text(`compare/columns/${p.id}.json`))
+    assert.equal(column.name, p.name)
+    assert.deepEqual(Object.keys(column.cells).sort(), [...rows].sort(), `${p.id} has a cell for every row`)
+    const page = text(`ade/${p.id}/index.html`)
+    for (const [, , , href] of Object.values(column.cells) as string[][]) {
+      assert.match(href, new RegExp(`^/ade/${p.id}/#receipt-`))
+      assert.ok(page.includes(`id="${href.split('#')[1]}"`), `Broken receipt ${href}`)
+    }
+  }
+})
+test('every static pair page keeps its budget and links unbuilt pairs to Compare', () => {
+  const slugs = readdirSync(new URL('compare/', dist)).filter(name => name.includes('-vs-'))
+  const sizes = slugs.map(slug => [slug, gzipSync(text(`compare/${slug}/index.html`)).length] as const).sort((a, b) => b[1] - a[1])
+  console.log(`Largest pair page: ${sizes[0][0]} ${sizes[0][1]} bytes gzip`)
+  assert.ok(sizes[0][1] < 11_000, `${sizes[0][0]} weighs ${sizes[0][1]} gzip bytes`)
+  const html = text(`compare/${slugs[0]}/index.html`)
+  assert.doesNotMatch(html, /data-table-product=/, 'A pair page carries no product picker')
+  assert.match(html, /class="slot-add" href="\/compare\/\?products=[a-z0-9-]+,[a-z0-9-]+"/)
 })
 test('structured data: one Dataset on the home page, WebPage elsewhere', () => {
   const ld = (html: string) => JSON.parse(html.match(/<script type="application\/ld\+json">([\s\S]+?)<\/script>/)![1])
@@ -226,7 +264,10 @@ test('status windows and page limits handle empty logs, boundaries and large new
 
 test('the disclosure stays honest', () => {
   const method = text('method/index.html')
-  assert.match(method, /Podium has \d+ typed filter values in this snapshot\. The median researched product has \d+\./)
+  assert.match(method, /researched products have between \d+ and \d+ typed filter values; the median is \d+\./)
+  assert.doesNotMatch(method, /Podium has \d+ typed/)
+  assert.match(method, /research depth can affect order/)
+  assert.doesNotMatch(method, /never changes fit or order/)
   for (const label of ['Fits', 'Fits kind of', 'Fits but shutting down']) assert.ok(home.includes(`>${label}</span>`))
   assert.doesNotMatch(home, /Not enough evidence|Fits except|Must-haves unknown|Preferences unknown|Named gaps|Include shutdown products|not researched yet/i)
   for (const path of ['matrix/index.html', 'compare/index.html', 'ade/podium/index.html']) assert.doesNotMatch(text(path), /What we could not establish|No eligible current|not enough evidence|not researched yet/i)

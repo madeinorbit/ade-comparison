@@ -1,4 +1,5 @@
-// The public repository is undecided. Leave this unset until it is available.
+// The public repository (https://github.com/madeinorbit/ade-comparison) is set at build time by
+// the CI and deploy workflows. Unset, the site hides the GitHub submission links.
 const repositorySetting = process.env.ADE_COMPARISON_PUBLIC_REPOSITORY_URL?.trim()
 let publicRepositoryUrl = null
 if (repositorySetting) {
@@ -13,12 +14,15 @@ if (repositorySetting) {
 }
 
 export const siteConfig = {
-  name: 'ade-comparison.com',
-  baseUrl: process.env.ADE_COMPARISON_BASE_URL || 'https://ade-comparison.com',
+  name: 'adecomparison.com',
+  baseUrl: process.env.ADE_COMPARISON_BASE_URL || 'https://adecomparison.com',
   publicRepositoryUrl,
   minimumPairFindings: 20,
   // Typed questions both products answer. Below this, a pair page is mostly Unknown.
   minimumPairSharedValues: 6,
+  // Static pair pages grow with the square of the catalog. Build at most this many; every other
+  // pair still opens in the Compare view from /compare/?products=a,b.
+  maximumStaticPairs: 300,
 }
 const base = new URL(siteConfig.baseUrl)
 if (!['http:', 'https:'].includes(base.protocol) || base.pathname !== '/') {

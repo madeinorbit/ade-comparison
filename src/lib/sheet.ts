@@ -2,14 +2,15 @@ import type { Cell, LifecycleNotice, Product } from './types.ts'
 import { facets, index, notices, requirements, screenshots, shortDate } from './data'
 
 // The filter words, grouped. Keys are requirement keys. Groups and first words follow the core features
-// people judge Conductor alternatives by: the agents, a worktree per task, routines, a native app, a phone, cloud runs, team work.
+// people compare ADEs by: the agents, a worktree per task, routines, a native app, a phone, where agents run, team work and price.
 export const wordGroups: { title: string; words: [key: string, label: string][] }[] = [
-  { title: 'Agents', words: [['agents:codex', 'Codex'], ['agents:claude-code', 'Claude Code'], ['agents:cursor', 'Cursor Agent'], ['agents:opencode', 'OpenCode'], ['agents:gemini-cli', 'Gemini CLI'], ['byo-subscription', 'Uses my subscription']] },
+  { title: 'Agents', words: [['agents:codex', 'Codex'], ['agents:claude-code', 'Claude Code'], ['agents:cursor', 'Cursor Agent'], ['agents:opencode', 'OpenCode'], ['agents:gemini-cli', 'Gemini CLI'], ['agents:antigravity', 'Antigravity'], ['byo-subscription', 'Uses my subscription']] },
   { title: 'How it works', words: [['isolation:worktree', 'Worktree per task'], ['unattended-triggers', 'Scheduled runs'], ['parallel-runs', 'Parallel agents'], ['isolation:container', 'Containers'], ['coordinator', 'Coordinator agent'], ['issue-tracking', 'Built-in issues']] },
   { title: 'Where you work', words: [['any-desktop', 'Desktop app'], ['any-phone-client', 'Phone'], ['desktop-os:macos', 'Mac app'], ['desktop-os:windows', 'Windows app'], ['desktop-os:linux', 'Linux app'], ['web-client', 'Browser'], ['cli', 'Command line']] },
-  { title: 'Where it runs', words: [['laptop-independent', 'Runs with laptop closed'], ['execution:vendor-cloud', 'In their cloud'], ['execution:own-server', 'On my server'], ['execution:local', 'On my machine']] },
+  { title: 'Where it runs', words: [['execution:local', 'On your computer'], ['execution:own-server', 'On your own server'], ['execution:vendor-cloud', "In the vendor's cloud"], ['laptop-independent', 'Keeps going with laptop closed']] },
   { title: 'Team and shipping', words: [['multiplayer', 'Team sessions'], ['roles', 'Team roles'], ['sso', 'SSO'], ['pr-workflow', 'Pull requests'], ['review-ui', 'Review screen']] },
-  { title: 'Ownership', words: [['open-source-license', 'Open source'], ['self-hosting', 'Self-hosting'], ['free-tier', 'Free tier']] },
+  { title: 'Ownership', words: [['open-source-license', 'Open source'], ['self-hosting', 'Self-hosting']] },
+  { title: 'Price', words: [['free-tier', 'Free to use'], ['pricing-model:no-paid-plan', 'No paid plan'], ['pricing-model:subscription', 'Subscription'], ['pricing-model:per-seat', 'Per seat'], ['pricing-model:usage-based', 'Usage-based'], ['pricing-model:compute', 'Per machine or compute'], ['pricing-model:byok', 'Bring your own key'], ['pricing-model:one-time', 'One-time purchase'], ['paid-up-to-20', 'Paid plan up to $20/month'], ['paid-up-to-40', 'Paid plan up to $40/month']] },
 ]
 const shortLabels = Object.fromEntries(wordGroups.flatMap(g => g.words))
 // A short label for every requirement: the word when there is one, the facet option otherwise.
@@ -26,7 +27,8 @@ const or = (a: string[]) => a.length < 2 ? a.join('') : `${a.slice(0, -1).join('
 const yesOptions = (p: Product, facet: string, names: Record<string, string>) => Object.keys(names).filter(o => value(p, facet, o) === 'yes').map(o => names[o])
 const OS = { macos: 'Mac', windows: 'Windows', linux: 'Linux' }
 const PHONE = { ios: 'iPhone', android: 'Android', 'mobile-web': 'phone browser' }
-const RUNS = { local: 'your machine', 'own-server': 'your server', 'vendor-cloud': 'their cloud' }
+const RUNS = { local: 'on your computer', 'own-server': 'on your own server', 'vendor-cloud': "in the vendor's cloud" }
+const PRICING = { 'no-paid-plan': 'no paid plan', 'free-plan': 'free plan', subscription: 'subscription', 'per-seat': 'per seat', 'usage-based': 'usage-based', compute: 'per machine or compute', byok: 'bring your own key', 'one-time': 'one-time purchase' }
 const OPEN = ['apache-2-0', 'mit', 'gpl-3-0', 'gpl-3-0-or-later', 'agpl-3-0', 'agpl-3-0-or-later']
 const enumValue = (p: Product, facet: string) => { const v = value(p, facet); return v === 'unknown' ? null : facetOf(facet)?.options?.find(o => o.id === v)?.label || null }
 
@@ -38,7 +40,7 @@ export function summary(p: Product): string {
   const runs = yesOptions(p, 'execution', RUNS)
   const parts = []
   if (what) parts.push(`${(oss + what)[0].toUpperCase()}${(oss + what).slice(1)}.`)
-  if (runs.length) parts.push(`Agents run on ${or(runs)}.`)
+  if (runs.length) parts.push(`Agents run ${or(runs)}.`)
   return parts.join(' ') || 'An agent development environment.'
 }
 
@@ -57,6 +59,8 @@ export function facts(p: Product): Fact[] {
   const agents = Object.fromEntries((facetOf('agents')?.options || []).map(o => [o.id, o.label]))
   const isolation = Object.fromEntries((facetOf('isolation')?.options || []).map(o => [o.id, o.id === 'vm' ? 'VM' : o.label.replace(/^Git /, '')]))
   const licence = enumValue(p, 'license'), price = enumValue(p, 'starting-price'), free = value(p, 'free-tier')
+  const models = yesOptions(p, 'pricing-model', PRICING), paid = enumValue(p, 'paid-from')
+  const from = price ? `${price}${free === 'yes' && !/free/i.test(price) ? ', free tier' : ''}` : free === 'yes' ? 'Free tier' : null
   const team = [['multiplayer', 'shared sessions'], ['roles', 'roles'], ['sso', 'SSO']].filter(([f]) => value(p, f) === 'yes').map(([, l]) => l)
   const teamNo = ['multiplayer', 'roles', 'sso'].every(f => value(p, f) === 'no')
   const cap = (f: Fact): Fact => f.value ? { ...f, value: f.value[0].toUpperCase() + f.value.slice(1) } : f
@@ -67,8 +71,8 @@ export function facts(p: Product): Fact[] {
     flag('Command line', 'cli'),
     multi('Agents', 'agents', agents),
     flag('Your subscription', 'byo-subscription', 'Works with your own plan'),
-    multi('Agents run on', 'execution', RUNS),
-    flag('Laptop closed', 'laptop-independent', 'Keeps running'),
+    multi('Agents run', 'execution', RUNS),
+    flag('Laptop closed', 'laptop-independent', 'Keeps going'),
     multi('Isolation', 'isolation', isolation),
     flag('Parallel agents', 'parallel-runs'),
     flag('Scheduled runs', 'unattended-triggers'),
@@ -79,7 +83,9 @@ export function facts(p: Product): Fact[] {
     { label: 'Team', value: team.length ? list(team).replace(/^./, c => c.toUpperCase()) : teamNo ? 'No' : null, no: !team.length && teamNo, keys: ['multiplayer', 'roles', 'sso'] },
     flag('Self-hosting', 'self-hosting'),
     { label: 'Licence', value: licence, keys: ['open-source-license', ...(facetOf('license')?.options || []).map(o => `license:${o.id}`)] },
-    { label: 'Price from', value: price ? `${price}${free === 'yes' && !/free/i.test(price) ? ', free tier' : ''}` : free === 'yes' ? 'Free tier' : null, keys: ['free-tier', ...(facetOf('starting-price')?.options || []).map(o => `starting-price:${o.id}`)] },
+    { label: 'Price from', value: from, keys: ['free-tier', ...(facetOf('starting-price')?.options || []).map(o => `starting-price:${o.id}`)] },
+    { label: 'How it charges', value: models.length ? list(models) : null, keys: Object.keys(PRICING).map(o => `pricing-model:${o}`) },
+    { label: 'Paid plans from', value: paid, keys: (facetOf('paid-from')?.options || []).map(o => `paid-from:${o.id}`) },
   ].map(cap)
 }
 

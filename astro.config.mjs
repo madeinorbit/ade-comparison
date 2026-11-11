@@ -4,6 +4,7 @@ import { dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { readMedia } from './scripts/media.mjs'
 import { siteConfig } from './config.mjs'
+import { writeHeaders } from './scripts/headers.mjs'
 export default defineConfig({
   site: siteConfig.baseUrl,
   output: 'static',
@@ -14,6 +15,8 @@ export default defineConfig({
       mkdirSync(dirname(fileURLToPath(target)), { recursive: true })
       copyFileSync(new URL(`media/${image.path}`, import.meta.url), target)
     }
+    // Security headers for the Cloudflare host. Runs last so it sees every built page.
+    writeHeaders(fileURLToPath(dir))
   } } }],
   build: { inlineStylesheets: 'always' },
   vite: { build: { assetsInlineLimit: 0 }, ssr: { external: ['sharp'] } },

@@ -3,7 +3,7 @@ import Layout from '../layouts/Layout.astro'
 import Prompt from '../components/Prompt.astro'
 import Entry from '../components/Entry.astro'
 import HeroBoard from '../components/HeroBoard.astro'
-import { clientPayload, index, jsonScript, requirements, stats, sunsetIds } from '../lib/data'
+import { clientPayload, index, jsonScript, products, requirements, stats, sunsetIds } from '../lib/data'
 import { createFilter, emptyState, presets } from '../lib/filter'
 import { groupLabel, groupLabels } from '../lib/view'
 import { wordGroups, shortLabel } from '../lib/sheet'
@@ -15,6 +15,7 @@ const results = filter.run(state)
 const groups = Object.keys(groupLabels) as (keyof typeof groupLabels)[]
 const notes = { fits: 'Pick what you need above. Until then, every ADE fits.', 'kind-of': 'Has most of your must-haves.', 'shutting-down': 'Would fit, but has a published shutdown notice.' }
 const shown = 10
+const starred = products.filter(p => p.researchStatus === 'covered' && p.githubStars).length
 const shortLabels = Object.fromEntries(requirements.map(r => [r.key, shortLabel(r.key)]))
 ---
 <Layout title="Find an ADE that fits how you work" description="Choose requirements and check the public finding behind each answer. An ADE finder by Podium, an ADE vendor.">
@@ -40,7 +41,7 @@ const shortLabels = Object.fromEntries(requirements.map(r => [r.key, shortLabel(
       </div>
       <div class="need-side">
         <h3 id="pre-title" class="side-h">Common needs</h3>
-        <div class="pre" role="group" aria-labelledby="pre-title">{presets.filter(p => !p.hidden).map(p => <a href={`/?use=${p.id}`} data-preset={p.id}>{p.label}</a>)}</div>
+        <div class="pre" role="group" aria-labelledby="pre-title">{presets.map(p => <a href={`/?use=${p.id}`} data-preset={p.id}>{p.label}</a>)}</div>
         <p id="preset-note" class="preset-note needs-js"></p>
         <form class="find" role="search" action="/" aria-label="Find an ADE by name">
           <label for="find-name">Find an ADE by name</label>
@@ -55,6 +56,11 @@ const shortLabels = Object.fromEntries(requirements.map(r => [r.key, shortLabel(
       <ul class="listing-list" id="directory-search-results"></ul>
       <p id="name-empty" hidden>No ADE by that name yet. <a href="/method/#corrections">Suggest one</a>.</p>
     </section>
+    <div class="order in needs-js">
+      <label for="finder-sort">Order</label>
+      <select id="finder-sort" name="sort" aria-describedby="order-note"><option value="fit">Best fit</option><option value="stars">GitHub stars</option></select>
+      <p id="order-note" class="order-note" data-starred={starred}>Must-haves met, then nice-to-haves, then name.</p>
+    </div>
     <div id="results" class="board in">
       {groups.map(group => {
         const rows = results.filter(r => r.group === group)
@@ -170,6 +176,12 @@ const shortLabels = Object.fromEntries(requirements.map(r => [r.key, shortLabel(
   .e h3 a { text-decoration: none; }
   .e h3 a:hover { text-decoration: underline; text-decoration-thickness: 2px; }
   .e-sum { font-size: var(--t-sm); line-height: 1.45; color: var(--ink-2); }
+  .e-stars { font-size: var(--t-xs); color: var(--ink-2); font-variant-numeric: tabular-nums; }
+  .e-stars span { color: var(--muted); }
+  .order { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-2xs) var(--s-sm); margin-top: var(--s-lg); font-size: var(--t-sm); }
+  .order label { font-weight: 500; }
+  .order select { min-height: 36px; }
+  .order-note { color: var(--ink-2); flex: 1 1 20rem; }
   .f-fits .e-sum { color: var(--field-ink); }
   .e-when { font: 700 var(--t-md)/1.2 var(--display); }
   .f-shutting-down .e-sum a { white-space: nowrap; }

@@ -61,8 +61,9 @@ test('Method explains evidence, vendor rules and generated corrections beside it
   else assert.doesNotMatch(contents, /Both actions open|Anyone can report/, 'Method must not describe forms that are not open')
   assert.match(contents, /Word of mouth and private messages are not evidence/)
   assert.match(contents, /Vendors get no exception, including Podium/)
-  assert.match(contents, /update the private catalog/)
-  assert.match(contents, /export is generated/)
+  assert.match(contents, /update the research catalog in <code>research\/<\/code>/)
+  assert.match(contents, /data package is generated/)
+  assert.doesNotMatch(contents, /private catalog|private repository/)
 })
 
 test('status day receipts carry the product and their day anchor', () => {

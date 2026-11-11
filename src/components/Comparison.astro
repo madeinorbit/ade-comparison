@@ -1,49 +1,21 @@
 ---
 import Checked from './Checked.astro'
-import { answerLabel, cellFor, facets, products, receiptHref, requirements, sunsetIds } from '../lib/data'
-import { shotFor, shortLabel } from '../lib/sheet'
-import type { Product, Requirement } from '../lib/types'
+import { products, receiptHref, sunsetIds } from '../lib/data'
+import { shotFor } from '../lib/sheet'
+import { grouped, value } from '../lib/comparison'
 interface Props { mode: 'compare' | 'matrix'; selected?: string[] }
 const { mode, selected = [] } = Astro.props
 const compare = mode === 'compare'
 const covered = products.filter(p => p.researchStatus === 'covered')
 const current = selected.length ? selected : compare ? covered.slice(0, 2).map(p => p.id) : covered.map(p => p.id)
-// A pair page carries its own two products only. Other selections move to /compare/.
-const columns = selected.length ? covered.filter(p => selected.includes(p.id)) : covered
+// A pair page carries its own two products only; other selections move to /compare/. Compare renders its
+// starting columns and fetches others from /compare/columns/<id>.json. The matrix renders every product.
+const columns = compare ? covered.filter(p => current.includes(p.id)) : covered
 const SLOTS = 4
-// Rows grouped the way the Finder groups its words. A single-choice facet (licence, price) is one row, not one per option.
-const sections: [string, string[]][] = [
-  ['Where you work', ['desktop-os', 'web-client', 'phone-client', 'cli']],
-  ['Agents', ['agents', 'byo-subscription']],
-  ['Where it runs', ['execution', 'laptop-independent']],
-  ['How it works', ['isolation', 'parallel-runs', 'coordinator', 'issue-tracking', 'unattended-triggers']],
-  ['Team and shipping', ['multiplayer', 'roles', 'sso', 'pr-workflow', 'review-ui']],
-  ['Ownership and price', ['license', 'self-hosting', 'telemetry-opt-out', 'free-tier', 'starting-price']],
-  ['Status', ['lifecycle-status']],
-]
-const placed = new Set(sections.flatMap(([, f]) => f))
-const extra = facets.map(f => f.id).filter(id => !placed.has(id))
-if (extra.length) sections.splice(-1, 0, ['More', extra])
-interface Row { key: string; label: string; keys: string[]; reqs: Requirement[]; single: boolean }
-const rowsFor = (facetIds: string[]): Row[] => facetIds.flatMap(id => {
-  const facet = facets.find(f => f.id === id)
-  if (!facet) return []
-  const reqs = requirements.filter(r => r.facetId === id && !r.anyOf)
-  if (facet.type === 'enum' && !facet.multiple) return [{ key: id, label: facet.label, keys: [...reqs.map(r => r.key), ...requirements.filter(r => r.facetId === id && r.anyOf).map(r => r.key)], reqs, single: true }]
-  return reqs.map(r => ({ key: r.key, label: shortLabel(r.key), keys: [r.key, ...requirements.filter(a => a.anyOf?.includes(r.key)).map(a => a.key)], reqs: [r], single: false }))
-})
-const grouped = sections.map(([title, ids]) => ({ title, rows: rowsFor(ids) })).filter(g => g.rows.length)
-// One value per cell: the typed answer, its receipt, and how to show it.
-function value(p: Product, row: Row) {
-  if (row.single) {
-    const cell = cellFor(p, row.reqs[0])
-    const option = facets.find(f => f.id === row.key)?.options?.find(o => o.id === cell.value)
-    const req = row.reqs.find(r => r.option === cell.value) || row.reqs[0]
-    return { raw: cell.value, text: option?.label || (cell.value === 'unknown' ? 'Not listed' : cell.value), kind: cell.value === 'unknown' ? 'u' : 'v', cell, req }
-  }
-  const req = row.reqs[0], cell = cellFor(p, req), label = answerLabel(p, req)
-  return { raw: cell.value, text: label === 'Unknown' ? 'Not listed' : label, kind: cell.value === 'yes' ? 'y' : cell.value === 'no' ? 'n' : 'u', cell, req }
-}
+const pairPage = selected.length > 0
+// A pair page never adds a column in place: adding one opens Compare. It renders only the slots it shows.
+const slotCount = pairPage ? SLOTS - columns.length : SLOTS
+const addHref = `/compare/?products=${current.join(',')}`
 // Visible columns: the labels plus four (chosen or empty) in Compare, every product in the matrix.
 const span = compare ? SLOTS + 1 : columns.length + 1
 ---
@@ -51,14 +23,14 @@ const span = compare ? SLOTS + 1 : columns.length + 1
   <form id="table-controls" class="cmp-controls">
     <label class="cmp-diff"><input type="checkbox" id="differences" name="diff" /> Differences only</label>
     <p id="table-status" class="status-line cmp-status" role="status"></p>
-    <details class="cmp-pick">
+    {!pairPage && <details class="cmp-pick">
       <summary>{compare ? `All ${covered.length} researched ADEs` : `Choose products (${covered.length} shown)`}</summary>
       <fieldset>
         <legend class="vh">{compare ? 'Choose 2 to 4 products' : 'Products in the matrix'}</legend>
         <div class="pick-grid">{covered.map(p => <label><input type="checkbox" data-table-product={p.id} checked={current.includes(p.id)} /> {p.name}</label>)}</div>
       </fieldset>
       <button type="submit" class="btn-line">Update comparison</button>
-    </details>
+    </details>}
   </form>
   <noscript><p class="cmp-noscript">This table is rendered in HTML. Changing products and showing differences needs JavaScript. <a href="/compare/#pairs">Open a static pair comparison</a> to compare another pair.</p></noscript>
   <div class="table-scroll" id="comparison-scroll" tabindex="0" role="region" aria-label={`${compare ? 'Comparison' : 'Matrix'} table, scroll for more products`}>
@@ -68,14 +40,14 @@ const span = compare ? SLOTS + 1 : columns.length + 1
         <a class="cmp-name" href={`/ade/${p.id}/`}>{p.name}</a>
         {sunsetIds.includes(p.id) && <a class="cmp-closing" href={`/ade/${p.id}/#lifecycle`} aria-label={`${p.name} shutdown notice`}>Shutdown notice</a>}
         {compare && <button type="button" class="cmp-remove needs-js" data-remove={p.id}>Remove<span class="vh"> {p.name}</span></button>}
-      </th>)}{compare && Array.from({ length: SLOTS }, (_, i) => <th scope="col" data-slot={i} class="slot" hidden={i >= SLOTS - current.length}><label class="needs-js"><span class="vh">Add an ADE to compare</span><select data-add><option value="">Add an ADE</option></select></label></th>)}</tr></thead>
-      {compare && <tbody class="cmp-shots"><tr><th scope="row">Screenshot</th>{columns.map(p => { const shot = shotFor(p.id); return <td data-column-id={p.id} hidden={!current.includes(p.id)}>{shot ? <img src={`/media/${shot.path}`} width={shot.width} height={shot.height} loading="lazy" decoding="async" alt={`${p.name} product interface`} /> : <span class="no-shot">No screenshot yet</span>}</td> })}{Array.from({ length: SLOTS }, (_, i) => <td data-slot={i} class="slot" hidden={i >= SLOTS - current.length}></td>)}</tr></tbody>}
+      </th>)}{compare && Array.from({ length: slotCount }, (_, i) => <th scope="col" data-slot={i} class="slot" hidden={i >= SLOTS - current.length}>{pairPage ? i === 0 ? <a class="slot-add" href={addHref}>Add an ADE<span class="vh"> to this comparison</span></a> : <span class="vh">Empty column</span> : <label class="needs-js"><span class="vh">Add an ADE to compare</span><select data-add><option value="">Add an ADE</option></select></label>}</th>)}</tr></thead>
+      {compare && <tbody class="cmp-shots"><tr><th scope="row">Screenshot</th>{columns.map(p => { const shot = shotFor(p.id); return <td data-column-id={p.id} hidden={!current.includes(p.id)}>{shot ? <img src={`/media/${shot.path}`} width={shot.width} height={shot.height} loading="lazy" decoding="async" alt={`${p.name} product interface`} /> : <span class="no-shot">No screenshot yet</span>}</td> })}{Array.from({ length: slotCount }, (_, i) => <td data-slot={i} class="slot" hidden={i >= SLOTS - current.length}></td>)}</tr></tbody>}
       {grouped.map(g => <tbody data-section>
         <tr class="sec"><th scope="colgroup" colspan={span}>{g.title}</th></tr>
         {g.rows.map(row => <tr data-requirement-row={row.key} data-keys={row.keys.join(' ')} data-values={JSON.stringify(Object.fromEntries(columns.map(p => [p.id, value(p, row).raw])))}>
           <th scope="row">{row.label}</th>
-          {columns.map(p => { const v = value(p, row); return <td data-column-id={p.id} hidden={!current.includes(p.id)} class={`v-${v.kind}`}><a class="receipt-link" href={receiptHref(p.id, v.req.key)} aria-label={`${p.name}, ${row.label}: ${v.text}. Open finding.`}>{v.text}</a>{v.kind !== 'u' && <> <Checked date={v.cell.checkedAt} /></>}{v.cell.verificationStatus === 'agent-cross-checked' && <small class="badge">cross-checked</small>}</td> })}
-          {compare && Array.from({ length: SLOTS }, (_, i) => <td data-slot={i} class="slot" hidden={i >= SLOTS - current.length}></td>)}
+          {columns.map(p => { const v = value(p, row); return <td data-column-id={p.id} hidden={!current.includes(p.id)} class={`v-${v.kind}`}><a class="receipt-link" href={receiptHref(p.id, v.req.key)} aria-label={`${p.name}, ${row.label}: ${v.text}. Open finding.`}>{v.text}</a>{!compare && v.kind !== 'u' && <> <Checked date={v.cell.checkedAt} /></>}{!compare && v.cell.verificationStatus === 'agent-cross-checked' && <small class="badge">cross-checked</small>}</td> })}
+          {compare && Array.from({ length: slotCount }, (_, i) => <td data-slot={i} class="slot" hidden={i >= SLOTS - current.length}></td>)}
         </tr>)}
       </tbody>)}
     </table>
@@ -123,7 +95,8 @@ const span = compare ? SLOTS + 1 : columns.length + 1
   .cmp .v-y .receipt-link::before { content: ""; display: inline-block; width: 11px; height: 11px; margin-right: 6px; background: currentColor; -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2 6.3 4.8 9 10 3' fill='none' stroke='%23000' stroke-width='2'/%3E%3C/svg%3E") center / contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2 6.3 4.8 9 10 3' fill='none' stroke='%23000' stroke-width='2'/%3E%3C/svg%3E") center / contain no-repeat; }
   .cmp .v-n, .cmp .v-u { color: var(--muted); }
   .cmp .checked-age { display: block; font-size: var(--t-xs); }
-  .cmp-compare .checked-age, .cmp-compare .badge { display: none; }
+  .slot-add { display: block; padding: var(--s-xs) var(--s-sm); border: 1px dashed var(--muted); color: var(--ink-2); font-weight: 500; text-decoration: none; }
+  .slot-add:hover { border-color: var(--ink); color: var(--ink); }
   /* Rows that differ get a faint wash; rows you asked for, the ultramarine square. */
   .cmp tr.is-diff td:not(.slot), .cmp tr.is-diff th[scope=row] { background: color-mix(in oklab, var(--paper-2) 70%, var(--paper)); }
   .cmp tr.is-wanted th[scope=row] { color: var(--accent); }

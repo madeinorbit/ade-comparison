@@ -5,7 +5,7 @@ import { performance } from 'node:perf_hooks'
 import { createFilter, emptyState, parseProducts, parseState, presets, promptFor, requirementsFrom, serializeState } from '../src/lib/filter.ts'
 import { answersDiffer, groupLabel, resultMessage } from '../src/lib/view.ts'
 import type { Index, Requirement } from '../src/lib/types.ts'
-const rows = ['Alpha', 'Beta', 'Podium', 'Unresearched'].map((name, i) => ({ id: name.toLowerCase(), name, website: null, researchStatus: i === 3 ? 'not-researched' as const : 'covered' as const }))
+const rows = ['Alpha', 'Beta', 'Zeta', 'Unresearched'].map((name, i) => ({ id: name.toLowerCase(), name, website: null, researchStatus: i === 3 ? 'not-researched' as const : 'covered' as const }))
 const bits = (n: number) => Buffer.from([n]).toString('base64')
 const fixture: Index = { schemaVersion: 1, generatedAt: '2026-11-07', products: rows, bitsets: { encoding: 'base64', bitOrder: 'least-significant-bit-first', rowOrder: 'products', unknown: 'neither-yes-nor-no', columns: {
   parallel: { yes: bits(0b0111), no: bits(0), crossChecked: bits(0) },
@@ -19,18 +19,18 @@ test('a majority of confirmed must-haves fits kind of, and unknown never becomes
   const results = engine.run({ ...emptyState(), must: ['parallel', 'windows', 'remote'] })
   const alpha = results.find(r => r.product.id === 'alpha')!
   assert.equal(alpha.group, 'kind-of'); assert.equal(alpha.mustMet, 2)
-  assert.equal(results.some(r => r.product.id === 'podium'), false)
+  assert.equal(results.some(r => r.product.id === 'zeta'), false)
   assert.equal(engine.answer(2, 'remote'), 'unknown')
 })
 test('preferences rank a shortlist without disqualifying must-have fits', () => {
   const results = engine.run({ ...emptyState(), must: ['parallel'], nice: ['remote'] })
-  assert.deepEqual(results.slice(0, 3).map(r => r.product.id), ['beta', 'alpha', 'podium'])
+  assert.deepEqual(results.slice(0, 3).map(r => r.product.id), ['beta', 'alpha', 'zeta'])
   assert.ok(results.slice(0, 3).every(r => r.group === 'fits'))
   assert.equal(results.some(r => r.product.id === 'unresearched'), false)
 })
 test('publisher has no placement or extra coverage tie-break advantage', () => {
   const results = engine.run({ ...emptyState(), must: ['parallel'] })
-  assert.deepEqual(results.map(r => r.product.name), ['Alpha', 'Beta', 'Podium'])
+  assert.deepEqual(results.map(r => r.product.name), ['Alpha', 'Beta', 'Zeta'])
 })
 test('otherwise matching shutdown products always use the third group', () => {
   const filter = createFilter(fixture, reqs, ['alpha'])
@@ -47,24 +47,26 @@ test('a sourced former name finds the current product without changing its ident
   const results = filter.run({ ...emptyState(), query: 'sUpErSeT' })
   assert.deepEqual(results.map(result => result.product.name), ['Paradev'])
   assert.equal(results[0].product.id, rows[0].id)
-  assert.deepEqual(filter.run(emptyState()).map(result => result.product.name), ['Beta', 'Paradev', 'Podium'])
+  assert.deepEqual(filter.run(emptyState()).map(result => result.product.name), ['Beta', 'Paradev', 'Zeta'])
 })
 test('URL round trips preserve priorities and reject invalid keys', () => {
-  const state = { must: ['parallel'], nice: ['windows'], query: '<x> & q', preset: null }
+  const state = { must: ['parallel'], nice: ['windows'], query: '<x> & q', preset: null, sort: 'fit' as const }
   assert.deepEqual(parseState('?' + serializeState(state), reqs), state)
+  const starred = { ...state, sort: 'stars' as const }
+  assert.deepEqual(parseState('?' + serializeState(starred), reqs), starred)
+  assert.equal(parseState('?sort=popular', reqs).sort, 'fit')
   assert.deepEqual(parseState('?must=parallel,parallel,invalid&nice=parallel,windows', reqs).nice, ['windows'])
   assert.deepEqual(parseState('?use=nonexistent', reqs), emptyState())
-  assert.deepEqual(parseProducts('?products=alpha,alpha,beta,unresearched,podium,invalid', rows), ['alpha', 'beta', 'unresearched', 'podium'])
+  assert.deepEqual(parseProducts('?products=alpha,alpha,beta,unresearched,zeta,invalid', rows), ['alpha', 'beta', 'unresearched', 'zeta'])
 })
-test('leaving Conductor produces ranked fits with the shipped public package', () => {
+test('the parallel local agents preset produces ranked fits with the shipped public package', () => {
   const index = JSON.parse(readFileSync(new URL('../data/index.json', import.meta.url), 'utf8'))
   const facets = JSON.parse(readFileSync(new URL('../data/facets.json', import.meta.url), 'utf8')).facets
   const requirements = requirementsFrom(facets)
-  const state = parseState('?use=leaving-conductor', requirements)
+  const state = parseState('?use=parallel-local', requirements)
   assert.deepEqual(state.must, ['parallel-runs']); assert.ok(state.nice.length > 1)
   const results = createFilter(index, requirements).run(state)
   assert.ok(results.some(r => r.group === 'fits'))
-  assert.ok(!results.some(r => r.product.id === 'conductor'))
   const prompt = promptFor(state, requirements, 'https://ade-comparison.example')
   assert.match(prompt, /Must have: Parallel runs/); assert.match(prompt, /Check source age and lifecycle dates/)
   for (const p of presets) for (const k of [...p.must, ...p.nice]) assert.ok(requirements.some(r => r.key === k), k)
@@ -144,7 +146,8 @@ test('the open-source preset finds all newly sourced copyleft applications in th
 })
 test('no preset names the publisher, and order ignores coverage beyond confirmed requirements', () => {
   for (const preset of presets) assert.doesNotMatch(JSON.stringify(preset), /podium/i)
-  assert.ok(!presets.some(p => p.baseline === 'podium'))
+  assert.ok(presets.every(p => !('baseline' in p)), 'no preset excludes a product')
+  for (const preset of presets) assert.doesNotMatch(`${preset.id} ${preset.label}`, /conductor|leaving/i)
 })
 test('an empty prompt URL has no stray query mark', () => {
   assert.match(promptFor(emptyState(), reqs, 'https://ade-comparison.example'), /Finder: https:\/\/ade-comparison\.example\/\n/)
@@ -162,8 +165,23 @@ test('must-have matches outrank preferences, with name breaking equal match coun
   const columns = Object.fromEntries(['a', 'b', 'c', 'd', 'e'].map(key => [key, { yes: bits(key === 'd' || key === 'e' ? 0b010 : key === 'c' ? 0b101 : 0b111), no: bits(0), crossChecked: bits(0) }]))
   const index = { ...fixture, products: rows.slice(0, 3), bitsets: { ...fixture.bitsets, columns } }
   const keys = Object.keys(columns).map(key => ({ key, label: key }))
-  const results = createFilter(index, keys, ['alpha', 'beta', 'podium']).run({ ...emptyState(), must: ['a', 'b', 'c'], nice: ['d', 'e'] })
-  assert.deepEqual(results.map(r => r.product.id), ['alpha', 'podium', 'beta'])
+  const results = createFilter(index, keys, ['alpha', 'beta', 'zeta']).run({ ...emptyState(), must: ['a', 'b', 'c'], nice: ['d', 'e'] })
+  assert.deepEqual(results.map(r => r.product.id), ['alpha', 'zeta', 'beta'])
   assert.ok(results.every(r => r.group === 'shutting-down'))
   assert.deepEqual(results.map(r => r.mustMet), [3, 3, 2])
+})
+test('the GitHub stars order sorts inside groups after must-haves, and a missing count is not zero', () => {
+  const filter = createFilter(fixture, reqs, [], { zeta: 10, beta: 500 })
+  assert.deepEqual(filter.run({ ...emptyState(), must: ['parallel'], sort: 'stars' }).map(r => r.product.id), ['beta', 'zeta', 'alpha'])
+  // Must-haves met still come first: alpha meets both, zeta only one.
+  assert.deepEqual(filter.run({ ...emptyState(), must: ['parallel', 'windows'], sort: 'stars' }).map(r => [r.product.id, r.group]), [['beta', 'fits'], ['alpha', 'fits']])
+  assert.deepEqual(filter.run({ ...emptyState(), must: ['parallel'] }).map(r => r.product.id), ['alpha', 'beta', 'zeta'])
+})
+test('static pair cutoff keeps whole ties and respects the cap and the minimum', async () => {
+  const { pairCutoff } = await import('../src/lib/pairs.ts')
+  assert.equal(pairCutoff([9, 9, 8, 8, 8, 7], 4, 6), 9)
+  assert.equal(pairCutoff([9, 9, 8, 8, 8, 7], 5, 6), 8)
+  assert.equal(pairCutoff([9, 9, 8, 8, 8, 7], 100, 8), 8)
+  assert.equal(pairCutoff([9, 9, 9], 2, 6), Infinity)
+  assert.equal(pairCutoff([], 300, 6), Infinity)
 })

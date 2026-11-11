@@ -7,9 +7,12 @@ interface Props { title: string; description: string; canonical?: string; produc
 const { title, description, canonical = Astro.url.pathname, productId, noindex = false, about } = Astro.props
 const nav = [['/', 'Finder'], ['/compare/', 'Compare'], ['/matrix/', 'Matrix'], ['/status/', 'Status'], ['/method/', 'Method']]
 const here = Astro.url.pathname
+// One logo file, drawn in the text colour of wherever it sits, so it follows the theme.
+const logo = '/brand/podium-logo.svg#podium-logo', logoBox = '290.9 225.3 826.4 317.7'
+const maker = methodology.publisher
 const current = (href: string) => href === '/' ? here === '/' : here.startsWith(href)
 const dataset = {
-  '@context': 'https://schema.org', '@type': 'Dataset', name: 'ade-comparison.com public ADE findings',
+  '@context': 'https://schema.org', '@type': 'Dataset', name: 'adecomparison.com public ADE findings',
   description: 'Vendor-authored research on agent development environments with finding receipts, typed filters and source check dates.',
   url: absolute('/'), dateModified: index.generatedAt, license: 'https://creativecommons.org/licenses/by/4.0/',
   creator: { '@type': 'Organization', name: methodology.publisher.name, url: methodology.publisher.url },
@@ -57,7 +60,7 @@ const steps = [
     <meta property="og:image" content={absolute(`/og/${productId || 'ade-comparison'}.png`)} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content={`${title}. ade-comparison.com by Podium, an ADE vendor.`} />
+    <meta property="og:image:alt" content={`${title}. adecomparison.com`} />
     <meta name="twitter:card" content="summary_large_image" />
     <script type="application/ld+json" set:html={jsonScript(canonical === '/' ? dataset : webPage)} />
   </head>
@@ -65,7 +68,10 @@ const steps = [
     <a class="skip-link" href="#main">Skip to content</a>
     <header class="bar">
       <div class="in">
-        <a class="wordmark" href="/" aria-label="ade comparison, home"><b>ade</b><span>comparison</span></a>
+        <div class="brand">
+          <a class="wordmark" href="/" aria-label="ade comparison, home"><b>ade</b> <span>comparison</span></a>
+          <a class="by" href={maker.url} aria-label={`By ${maker.name}, an ADE vendor`}><span aria-hidden="true">by</span><svg class="podium-logo" viewBox={logoBox} aria-hidden="true"><use href={logo} /></svg></a>
+        </div>
         <nav aria-label="Main navigation">{nav.map(([href, label]) => <a href={href} aria-current={current(href) ? 'page' : undefined}>{label}</a>)}</nav>
         <a class="btn-ink" href="/method/#open-data"><svg viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 2v8m0 0 3-3m-3 3L5 7M3 13h10"/></svg>Open data</a>
       </div>
@@ -91,8 +97,8 @@ const steps = [
         </div>
         <div class="made">
           <div class="made-by">
-            <a class="wordmark" href="/" aria-label="ade comparison, home"><b>ade</b><span>comparison</span></a>
-            <p><a href="/method/#disclosure">Made by Podium, an ADE vendor</a>. Same rules for every product, Podium included.</p>
+            <a class="made-mark" href={maker.url} aria-label={`${maker.name}, ${maker.url.replace('https://', '')}`}><svg class="podium-logo" viewBox={logoBox} aria-hidden="true"><use href={logo} /></svg></a>
+            <p class="made-note"><a href="/method/#disclosure">Made by Podium, an ADE vendor</a>. Same rules for every product, Podium included.</p>
             <p>Data as of <time datetime={index.generatedAt}>{longDate(index.generatedAt)}</time>.</p>
           </div>
           <div class="made-links">

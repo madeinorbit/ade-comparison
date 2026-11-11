@@ -5,6 +5,7 @@ import statusData from '../../data/status-log.json'
 import methodData from '../../data/methodology.json'
 import type { Cell, Facet, Index, LifecycleNotice, Product, Requirement, Screenshot, StatusEvent } from './types.ts'
 import { requirementsFrom } from './filter.ts'
+import { pairCutoff } from './pairs.ts'
 import { siteConfig } from '../../config.mjs'
 const productFiles = import.meta.glob<Product>('../../data/products/*.json', { eager: true, import: 'default' })
 export const index = indexData as Index
@@ -62,11 +63,15 @@ export function sharedTyped(a: Product, b: Product) {
 }
 const researched = products.filter(p => p.researchStatus === 'covered')
 const middle = [...researched.map(typedCount)].sort((a, b) => a - b)
-export const typedCoverage = { publisher: productById.get('podium') ? typedCount(productById.get('podium')!) : 0, median: middle[Math.floor(middle.length / 2)] || 0 }
+// The same range and median for every covered product; no product is singled out.
+export const typedCoverage = { min: middle[0] || 0, max: middle.at(-1) || 0, median: middle.length ? (middle.length % 2 ? middle[(middle.length - 1) / 2] : Math.round((middle[middle.length / 2 - 1] + middle[middle.length / 2]) / 2)) : 0 }
 export const enoughEvidence = (product: Product) => product.researchStatus === 'covered' && (product.sourcedClaimCount || 0) >= siteConfig.minimumPairFindings && typedCount(product) > 0
 export const pairProducts = products.filter(enoughEvidence)
 // Twenty findings per side do not make a comparison. Most rows must not be one-sided or empty.
-export const pairs = pairProducts.flatMap((a, i) => pairProducts.slice(i + 1).map(b => ({ slug: [a.id, b.id].sort().join('-vs-'), products: [a, b], ...sharedTyped(a, b) }))).filter(pair => pair.shared >= siteConfig.minimumPairSharedValues)
+const candidatePairs = pairProducts.flatMap((a, i) => pairProducts.slice(i + 1).map(b => ({ slug: [a.id, b.id].sort().join('-vs-'), products: [a, b], ...sharedTyped(a, b) }))).filter(pair => pair.shared >= siteConfig.minimumPairSharedValues)
+export const pairSharedCutoff = pairCutoff(candidatePairs.map(p => p.shared), siteConfig.maximumStaticPairs, siteConfig.minimumPairSharedValues)
+export const pairs = candidatePairs.filter(pair => pair.shared >= pairSharedCutoff).sort((a, b) => b.shared - a.shared || a.slug.localeCompare(b.slug))
+export const pairSlugs = new Set(pairs.map(p => p.slug))
 export const clientPayload = {
   index: { ...index, products: [], bitsets: { ...index.bitsets, columns: Object.fromEntries(Object.entries(index.bitsets.columns).map(([key, value]) => [key, { yes: value.yes, no: value.no, crossChecked: '' }])) } },
   requirements: requirements.map(({ key, label, anyOf }) => ({ key, label, ...(anyOf ? { anyOf } : {}) })),
