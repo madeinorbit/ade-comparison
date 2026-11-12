@@ -25,7 +25,7 @@ export function createUnknownClaim(productId, criterionId, options = {}) {
     scope: { surfaceIds: [], version: null, plan: null, os: [], executionModes: [], region: null, harness: null },
     subanswers: Object.fromEntries(criterion.subquestions.map(q => [q.id, { support: 'unknown', answer: `${q.question}: ${gap}`, evidenceIds: [] }])),
     limitations: [], unknownReason: gap, evidenceIds: [], checkedAt: date,
-    nextReviewAt: afterDays(date, 14), researcher: options.researcher ?? 'unassigned-researcher',
+    nextReviewAt: afterDays(date, 120), researcher: options.researcher ?? 'unassigned-researcher',
     publication: 'internal-only', review: null, contradictions: [],
   };
 }

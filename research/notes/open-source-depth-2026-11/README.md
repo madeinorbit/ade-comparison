@@ -2,6 +2,8 @@
 
 This pass covered every covered ADE with a public source repository. It answered the directory filters and product-page criteria that were still unknown, using the public repository (code, in-repo docs, release assets) and the first-party website. Its scope was limited to what the site uses: the 25 capability filters in `research/directory/facets.json` and the ten story criteria on the product page (ACC-01, ACC-02, ACC-03, RUN-01, RUN-02, COORD-01, COORD-04, SHIP-03, OWN-01, OWN-04).
 
+The framework's open-source rule of 2026-11-12 supersedes the two evidence rules below that keep absence of code unknown: a bounded inspection of the pinned release now establishes no.
+
 ## Filter to criterion map
 
 | Filter | Criterion (claim) |

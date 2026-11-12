@@ -140,7 +140,7 @@ function applyPass(spec) {
       commit: item.commit ?? null, path: item.path ?? null })
     known.add(item.id)
   }
-  const days = { 'OWN-04': 14, 'OWN-08': 14, 'OWN-01': 90, 'OWN-02': 90 }
+  const days = { 'OWN-04': 60, 'OWN-08': 60, 'OWN-01': 180, 'OWN-02': 180, 'ACC-07': 180 }
   for (const [criterionId, patch] of Object.entries(spec.claims ?? {})) {
     const claim = profile.claims.find(row => row.criterionId === criterionId)
     if (!claim) throw new Error(`Missing claim ${criterionId}`)
@@ -160,7 +160,7 @@ function applyPass(spec) {
     claim.evidenceIds = [...new Set([...claim.evidenceIds, ...cited])]
     if (wasUnknown) {
       claim.checkedAt = date
-      claim.nextReviewAt = new Date(Date.parse(`${date}T00:00:00Z`) + (days[criterionId] ?? 30) * 86400000).toISOString().slice(0, 10)
+      claim.nextReviewAt = new Date(Date.parse(`${date}T00:00:00Z`) + (days[criterionId] ?? 120) * 86400000).toISOString().slice(0, 10)
       if (claim.support !== 'unknown') claim.unknownReason = patch.unknownReason ?? (Object.values(claim.subanswers).some(a => a.support === 'unknown') ? 'See unknown atomic answers for the source and test gaps.' : null)
     }
     claim.researcher = researcher

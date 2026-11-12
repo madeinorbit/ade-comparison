@@ -17,13 +17,13 @@ node --test research/publication/directory.test.mjs
 
 The same checks run through `npm run research:validate`, `npm run test:research`, `npm run data:build` and `npm run data:check`. Set `ADE_COMPARISON_PUBLICATION_DATE=YYYY-MM-DD` to rebuild a snapshot for a fixed date; without it the build uses today's UTC date. Use Node 22+ or Bun. No dependency installation is needed for the catalog itself.
 
-Each claim has a stable product/criterion ID, atomic answers, scope, dates, evidence references, gaps and review state. Support states belong to the atomic answers. The criterion-level `support` field only marks a record as answered or unknown; it is not a quality score and is not published. Evidence distinguishes vendor claims, documentation, inspected code and observed tests. A source-only implementation is not proof of a released feature. An unknown is never a negative finding.
+Each claim has a stable product/criterion ID, atomic answers, scope, dates, evidence references, gaps and review state. Support states belong to the atomic answers. The criterion-level `support` field only marks a record as answered or unknown; it is not a quality score and is not published. Evidence distinguishes vendor claims, documentation and inspected code. A source-only implementation is not proof of a released feature. An unknown is never a negative finding.
 
-Use atomic support states for capability questions. The dated [review record](notes/review.json) gives claim-level cross-check coverage, roadmap scan coverage, unresolved contradictions and remaining hands-on work as of its date.
+Use atomic support states for capability questions. The dated [review record](notes/review.json) gives claim-level cross-check coverage, roadmap scan coverage, and unresolved contradictions as of its date.
 
 Researchers own separate product files. A different reviewer checks the evidence before facts become `public-reviewed`. Each full-profile pass also maintains its real product screenshot and provenance record. Changes append dated before/after records. Run validation before rebuilding. Details, screenshot selection rules and freshness requirements are in [AGENTS.md](AGENTS.md); the judgment rubric and evidence rules are in [comparison-framework.md](comparison-framework.md).
 
-Cross-checks are done by agents working for the publisher. A human audit of a sample from each research batch, with a published error rate, is planned and not yet in place. Agent claim cross-checks do not complete hands-on recovery, multiplayer, fleet or shipping scenarios. The product files, rather than a page build date, record what was checked and when.
+Cross-checks are done by agents working for the publisher. A human audit of a sample from each research batch, with a published error rate, is planned and not yet in place. The catalog is an automated comparison of first-party sources and public code. Nobody installs or runs the products. The product files, rather than a page build date, record what was checked and when.
 
 ## Research depth and Podium
 

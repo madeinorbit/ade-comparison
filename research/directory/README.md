@@ -6,7 +6,7 @@ The directory builder consumes `buildPublication({ format: 'products', directory
 
 ## Filters and receipts
 
-`facets.json` defines 26 filters. A `tri-state` has `yes`, `no` or `unknown`. An `enum` has one declared option or `unknown`. An enum with `multiple: true` has a separate tri-state receipt for each option. This allows Windows to be unknown while macOS is yes. A missing mapping never implies no. A negative value needs an explicit sourced restriction, a bounded test or a complete first-party list that omits the option, just like a negative catalog finding.
+`facets.json` defines 26 filters. A `tri-state` has `yes`, `no` or `unknown`. An `enum` has one declared option or `unknown`. An enum with `multiple: true` has a separate tri-state receipt for each option. This allows Windows to be unknown while macOS is yes. A missing mapping never implies no. A negative value needs an explicit sourced restriction, a bounded source inspection or a complete first-party list that omits the option, just like a negative catalog finding.
 
 The definitions cover desktop OS, web and phone clients, CLI, coding agents, subscription reuse, execution location, isolation, concurrency, coordination, issues, triggers, shared prompting, roles, SSO, pull requests, review UI, license, self-hosting, telemetry controls, free access, starting price, pricing model, paid-plan price, lifecycle and laptop-independent execution. Their descriptions define the thresholds. A model provider is not a coding harness, a worktree is not a security sandbox, and a self-managed worker is not a self-hosted control plane. The starting-price options are public monthly USD brackets for the ADE alone. They exclude model and own-compute charges and do not convert currencies or annual prices.
 

@@ -1,12 +1,12 @@
-// Product analytics: every event goes to the Google Tag Manager dataLayer as `ade_<name>`.
-// GTM forwards them to GA4 (one GA4 Event tag on a Custom Event trigger matching ^ade_).
+// Product analytics: every event goes straight to Google Analytics 4 through gtag (loaded in Layout.astro).
+// Parameters show in GA reports once they are registered as custom dimensions (docs/development.md).
 // Values are short ids, never free text a visitor typed, except the name search, which is
 // what tells us which ADEs people look for and do not find.
 type Params = Record<string, string | number | boolean | undefined>
-declare global { interface Window { dataLayer?: unknown[] } }
+declare global { interface Window { dataLayer?: unknown[]; gtag?: (...args: unknown[]) => void } }
 
 export function track(name: string, params: Params = {}) {
-  try { (window.dataLayer ||= []).push({ event: `ade_${name}`, ...params }) } catch { /* analytics never breaks the page */ }
+  try { window.gtag?.('event', name, Object.fromEntries(Object.entries(params).filter(([, v]) => v !== undefined))) } catch { /* analytics never breaks the page */ }
 }
 
 // Fires once the value stops changing for `ms`, so typing or rapid toggling sends one event.

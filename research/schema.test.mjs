@@ -61,7 +61,7 @@ test('public claims fail for unresolved contradictions or expired verification',
   const p = sourced(); Object.assign(p.claims[0], { publication: 'public-reviewed', review: { reviewer: 'reviewer', date: '2026-11-16', contentHash: claimReviewHash(p, p.claims[0]) }, contradictions: ['Conflicting docs need investigation.'] });
   assert.match(validateProfile(p).join('\n'), /unresolved claim/);
   p.claims[0].contradictions = [];
-  assert.match(validateProfile(p, { publicationDate: '2026-12-30' }).join('\n'), /due for review/);
+  assert.match(validateProfile(p, { publicationDate: '2027-06-30' }).join('\n'), /due for review/);
 });
 
 test('code inspection requires a revision and path; tests require reproducible configuration', () => {

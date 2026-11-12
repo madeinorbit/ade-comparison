@@ -71,7 +71,7 @@ The optional `profile.lifecycle` object requires these fields when present:
 }
 ```
 
-Use null for an unstated exact service end date. Preserve relative transition wording in the note or evidence finding without deriving a calendar deadline. An announcement is not a runtime test. Record the announcement date separately from retrieval and check dates. Review fast-changing service transitions within 14 days, and sooner when new evidence appears.
+Use null for an unstated exact service end date. Preserve relative transition wording in the note or evidence finding without deriving a calendar deadline. An announcement is not a runtime test. Record the announcement date separately from retrieval and check dates. Review a notice with a stated end date within 30 days, and sooner when new evidence appears.
 
 Research leaves `publication: 'public-candidate'` and `review: null`. An independent reviewer checks the primary evidence, notice, scope, continuation and dates, then records `{ reviewer, date, contentHash: lifecycleReviewHash(profile) }` and sets `public-reviewed`. The helper in `../lib.mjs` hashes lifecycle factual fields and cited evidence, including check dates and researcher identity. Direct factual or cited-evidence edits invalidate the digest. `updateLifecycle(profile, patch)` also clears the old review on factual patches unless a replacement review is explicitly supplied. Append lifecycle changes to the profile history with `claimIds: []` and cited evidence; later changes need before and after values.
 

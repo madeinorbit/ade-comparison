@@ -22,7 +22,7 @@ export const methodologyConstants = {
     'agent-cross-checked': 'On a claim, a different agent checked its evidence, wording, scope and dates. On a filter value, a different agent checked both the public finding and the typed mapping. Lifecycle status copies the verification of its typed notice. This does not imply a hands-on test or human claim review.',
     unknown: 'The filter value has no eligible receipt.',
   },
-  freshnessDays: { priceAndAvailability: 14, capability: 30, stableArchitectureAndLicense: 90 },
+  freshnessDays: { priceAndAvailability: 60, capability: 120, stableArchitectureAndLicense: 180 },
   freshnessRule: 'Findings and typed values stay published after nextCheckAt. Show their checked date and age; add a quiet "may be outdated" note only after six calendar months. A rebuild never refreshes evidence.',
   evidenceText: 'Evidence contains a finding and a locator. A finding may summarize a source and must not be presented as a verbatim quote.',
   ranking: { overallScore: false, order: ['must-haves-met-descending', 'preferences-met-descending', 'name-ascending'],

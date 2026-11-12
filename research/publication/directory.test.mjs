@@ -398,7 +398,7 @@ test('register names outside the covered set are identity-only listings', () => 
   assert.equal(data.methodology.publisher.disclosure, publicationConfig.publisher.disclosure)
   assert.equal(data.methodology.ranking.overallScore, false)
   assert.equal(data.methodology.ranking.publisherPlacementAdvantage, false)
-  assert.deepEqual(data.methodology.freshnessDays, { priceAndAvailability: 14, capability: 30, stableArchitectureAndLicense: 90 })
+  assert.deepEqual(data.methodology.freshnessDays, { priceAndAvailability: 60, capability: 120, stableArchitectureAndLicense: 180 })
 })
 
 test('the same mapping contract accepts products beyond the initial coverage cohort', () => {
