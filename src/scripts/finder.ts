@@ -9,8 +9,8 @@ const MAX_COMPARE = 4
 const list = (a: string[]) => a.length < 2 ? a.join('') : `${a.slice(0, -1).join(', ')} and ${a.at(-1)}`
 
 function initializeFinder() {
-  const { index, requirements, sunsetIds, baseUrl, shortLabels, shown } = JSON.parse(document.querySelector('#finder-data')!.textContent!) as {
-    index: Index; requirements: FilterRequirement[]; sunsetIds: string[]; baseUrl: string; shortLabels: Record<string, string>; shown: number
+  const { index, requirements, sunsetIds, baseUrl, shortLabels, shown, seed } = JSON.parse(document.querySelector('#finder-data')!.textContent!) as {
+    index: Index; requirements: FilterRequirement[]; sunsetIds: string[]; baseUrl: string; shortLabels: Record<string, string>; shown: number; seed: string
   }
   // The identities are already in the server-rendered listings. Preserve bitset row order.
   index.products = [...document.querySelectorAll<HTMLElement>('[data-index-row]')]
@@ -23,7 +23,7 @@ function initializeFinder() {
         researchStatus: el.hasAttribute('data-researched') ? 'covered' as const : 'not-researched' as const }
     })
   const stars = Object.fromEntries([...document.querySelectorAll<HTMLElement>('.e[data-stars]')].map(el => [el.dataset.productId!, Number(el.dataset.stars)]))
-  const filter = createFilter(index, requirements, sunsetIds, stars)
+  const filter = createFilter(index, requirements, sunsetIds, stars, seed)
   const label = (key: string) => shortLabels[key] || key
   const comparable = index.products.filter(p => p.researchStatus === 'covered')
   const nameOf = new Map(index.products.map(p => [p.id, p.name]))
@@ -190,7 +190,7 @@ function initializeFinder() {
     if (tip) {
       const wrap = tip.parentElement!, open = !wrap.hasAttribute('data-open')
       wrap.toggleAttribute('data-open', open); tip.setAttribute('aria-expanded', String(open))
-      if (open) track('filter_info_open', { filter_key: tip.dataset.tipFor })
+      if (open) track(tip.dataset.tipFor === 'sort' ? 'sort_info_open' : 'filter_info_open', { filter_key: tip.dataset.tipFor })
       return
     }
     const word = target.closest<HTMLButtonElement>('[data-word]')

@@ -51,8 +51,17 @@ export interface Result { product: Identity; index: number; group: 'fits' | 'kin
 export function matchesProductQuery(product: Identity, query: string, sunset = false): boolean {
   return `${product.name} ${(product.formerNames || []).join(' ')} ${sunset ? 'shutting down sunset' : ''}`.toLowerCase().includes(query.toLowerCase())
 }
+// Best fit breaks ties with a shuffle that changes once a day, so no ADE always comes first.
+// The build stamps its UTC date as the seed and the browser reuses it, so both render one order.
+export const shuffleSeed = (date = new Date()) => date.toISOString().slice(0, 10)
+const tieRank = (seed: string, id: string) => {
+  let h = 2166136261
+  for (const c of `${seed}:${id}`) h = Math.imul(h ^ c.charCodeAt(0), 16777619)
+  return h >>> 0
+}
 // `stars` maps product IDs to a sourced GitHub star count. Missing means no public count, never zero.
-export function createFilter(index: Index, requirements: FilterRequirement[], sunsetIds: string[] = [], stars: Record<string, number> = {}) {
+// Without a `seed`, ties fall back to A to Z.
+export function createFilter(index: Index, requirements: FilterRequirement[], sunsetIds: string[] = [], stars: Record<string, number> = {}, seed = '') {
   const columns = Object.fromEntries(Object.entries(index.bitsets.columns).map(([key, c]) => [key, { yes: decode(c.yes), no: decode(c.no) }]))
   const byKey = new Map(requirements.map(r => [r.key, r]))
   const closing = new Set(sunsetIds)
@@ -67,6 +76,7 @@ export function createFilter(index: Index, requirements: FilterRequirement[], su
     }
     return { yes, no }
   }
+  const rank = new Map(index.products.map(p => [p.id, seed ? tieRank(seed, p.id) : 0]))
   const compiled = Object.fromEntries(requirements.map(r => [r.key, bitsFor(r.key)]))
   const answer = (row: number, key: string): Answer => {
     const c = compiled[key]
@@ -93,7 +103,7 @@ export function createFilter(index: Index, requirements: FilterRequirement[], su
       const starsOf = (r: Result) => stars[r.product.id] ?? -1
       // Name order is plain A to Z inside each group.
       if (state.sort === 'name') return results.sort((a, b) => compareNames(a.product.name, b.product.name) || compareNames(a.product.id, b.product.id))
-      return results.sort((a, b) => b.mustMet - a.mustMet || (state.sort === 'stars' ? starsOf(b) - starsOf(a) : 0) || b.met - a.met || compareNames(a.product.name, b.product.name) || compareNames(a.product.id, b.product.id))
+      return results.sort((a, b) => b.mustMet - a.mustMet || (state.sort === 'stars' ? starsOf(b) - starsOf(a) : 0) || b.met - a.met || rank.get(a.product.id)! - rank.get(b.product.id)! || compareNames(a.product.name, b.product.name) || compareNames(a.product.id, b.product.id))
     },
   }
 }
@@ -104,5 +114,5 @@ export function parseProducts(search: string, products: Identity[]): string[] {
 export function promptFor(state: FinderState, requirements: FilterRequirement[], baseUrl: string): string {
   const query = serializeState(state)
   const names = (keys: string[]) => keys.map(k => requirements.find(r => r.key === k)?.label).filter(Boolean).join('; ') || 'None selected'
-  return `Help me choose an agent development environment using adecomparison.com.\nMust have: ${names(state.must)}.\nNice to have: ${names(state.nice)}.\nFinder: ${new URL(query ? '/?' + query : '/', baseUrl).href}\nRead ${new URL('/llms.txt', baseUrl).href} and the per-product JSON or Markdown. Cite each finding with its public source, locator, checked date, plan and surface. Read the Method page for the evidence rules. Rank by must-haves met, then preferences, then name. Do not invent an overall score. Check source age and lifecycle dates before recommending a product.`
+  return `Help me choose an agent development environment using adecomparison.com.\nMust have: ${names(state.must)}.\nNice to have: ${names(state.nice)}.\nFinder: ${new URL(query ? '/?' + query : '/', baseUrl).href}\nRead ${new URL('/llms.txt', baseUrl).href} and the per-product JSON or Markdown. Cite each finding with its public source, locator, checked date, plan and surface. Read the Method page for the evidence rules. Rank by must-haves met, then preferences, without favouring any product among ties. Do not invent an overall score. Check source age and lifecycle dates before recommending a product.`
 }

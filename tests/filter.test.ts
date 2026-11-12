@@ -2,7 +2,7 @@ import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
 import { performance } from 'node:perf_hooks'
-import { createFilter, emptyState, parseProducts, parseState, presets, promptFor, requirementsFrom, serializeState } from '../src/lib/filter.ts'
+import { createFilter, emptyState, shuffleSeed, parseProducts, parseState, presets, promptFor, requirementsFrom, serializeState } from '../src/lib/filter.ts'
 import { answersDiffer, groupLabel, resultMessage } from '../src/lib/view.ts'
 import type { Index, Requirement } from '../src/lib/types.ts'
 const rows = ['Alpha', 'Beta', 'Zeta', 'Unresearched'].map((name, i) => ({ id: name.toLowerCase(), name, website: null, researchStatus: i === 3 ? 'not-researched' as const : 'covered' as const }))
@@ -176,6 +176,16 @@ test('the GitHub stars order sorts inside groups after must-haves, and a missing
   // Must-haves met still come first: alpha meets both, zeta only one.
   assert.deepEqual(filter.run({ ...emptyState(), must: ['parallel', 'windows'], sort: 'stars' }).map(r => [r.product.id, r.group]), [['beta', 'fits'], ['alpha', 'fits']])
   assert.deepEqual(filter.run({ ...emptyState(), must: ['parallel'] }).map(r => r.product.id), ['alpha', 'beta', 'zeta'])
+})
+test('Best fit shuffles ties with the day seed, the same way every time, and never above a better fit', () => {
+  const order = (seed: string, must: string[] = [], nice: string[] = []) => createFilter(fixture, reqs, [], {}, seed).run({ ...emptyState(), must, nice }).map(r => r.product.id)
+  const days = Array.from({ length: 30 }, (_, i) => shuffleSeed(new Date(Date.UTC(2026, 10, 1 + i))))
+  assert.deepEqual(order(days[0]), order(days[0]), 'one day, one order')
+  assert.ok(new Set(days.map(d => order(d)[0])).size > 1, 'different days put different ADEs first')
+  // All three meet the must-have; alpha and beta also meet the nice-to-have, so zeta stays last whatever the day.
+  for (const d of days) assert.equal(order(d, ['parallel'], ['windows']).at(-1), 'zeta')
+  assert.ok(new Set(days.map(d => order(d, ['parallel'], ['windows'])[0])).size > 1, 'the tied pair still rotates')
+  assert.equal(shuffleSeed(new Date('2026-11-12T23:59:00Z')), '2026-11-12')
 })
 test('static pair cutoff keeps whole ties and respects the cap and the minimum', async () => {
   const { pairCutoff } = await import('../src/lib/pairs.ts')

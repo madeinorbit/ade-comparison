@@ -1,4 +1,6 @@
-# Deploys https://adecomparison.com from main: catalog checks, build, unit tests, wrangler
+# Deploys https://adecomparison.com from main, and again every night so Best fit ties get a new
+# daily shuffle (src/lib/filter.ts seeds them with the build date).
+# Each run: catalog checks, build, unit tests, wrangler
 # deploy, then a smoke check that compares the live pages with the build. A manual run on
 # another branch checks, builds, tests and dry-runs only, without secrets. Account setup: README "Deploy".
 name: Deploy
@@ -7,6 +9,9 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+  schedule:
+    # 00:07 UTC, just after the date changes. GitHub Actions minutes are free for public repositories.
+    - cron: '7 0 * * *'
 
 permissions:
   contents: read

@@ -4,14 +4,15 @@ import Prompt from '../components/Prompt.astro'
 import Entry from '../components/Entry.astro'
 import HeroBoard from '../components/HeroBoard.astro'
 import { clientPayload, index, jsonScript, products, requirements, stats, sunsetIds } from '../lib/data'
-import { createFilter, emptyState, presets } from '../lib/filter'
+import { createFilter, emptyState, presets, shuffleSeed } from '../lib/filter'
 import { groupLabel, groupLabels } from '../lib/view'
 import { wordGroups, wordTips, shortLabel } from '../lib/sheet'
 import { submissionLinks } from '../lib/submissions'
 import { siteConfig } from '../../config.mjs'
 import '../styles/sheet.css'
 const state = emptyState()
-const filter = createFilter(index, requirements, sunsetIds)
+const seed = shuffleSeed()
+const filter = createFilter(index, requirements, sunsetIds, {}, seed)
 const results = filter.run(state)
 const groups = Object.keys(groupLabels) as (keyof typeof groupLabels)[]
 const notes = { fits: 'Pick what you need above. Until then, every ADE fits.', 'kind-of': 'Has most of your must-haves.', 'shutting-down': 'Would fit, but has a published shutdown notice.' }
@@ -65,7 +66,8 @@ const shortLabels = Object.fromEntries(requirements.map(r => [r.key, shortLabel(
         <label><input type="radio" name="sort" value="stars" /><span>GitHub stars</span></label>
         <label><input type="radio" name="sort" value="name" /><span>Name</span></label>
       </fieldset>
-      <p id="order-note" class="order-note" data-starred={starred}>Most must-haves first, then most nice-to-haves, then A to Z.</p>
+      <span class="wt wt-sort"><button type="button" class="wi needs-js" data-tip-for="sort" aria-expanded="false" aria-controls="tip-sort"><span class="vh">How Best fit sorts</span></button><span class="tip" role="tooltip" id="tip-sort">Best fit puts the ADEs that meet the most must-haves first, then the most nice-to-haves. ADEs that tie are shuffled once a day, so no ADE always comes first.</span></span>
+      <p id="order-note" class="order-note" data-starred={starred}>Most must-haves first, then most nice-to-haves. Ties are shuffled daily.</p>
     </div></div>
     <div id="results" class="board in">
       {groups.map(group => {
@@ -92,7 +94,7 @@ const shortLabels = Object.fromEntries(requirements.map(r => [r.key, shortLabel(
       </div>
     </div>
   </div>
-  <script id="finder-data" type="application/json" set:html={jsonScript({ ...clientPayload, baseUrl: siteConfig.baseUrl, shortLabels, shown })} />
+  <script id="finder-data" type="application/json" set:html={jsonScript({ ...clientPayload, baseUrl: siteConfig.baseUrl, shortLabels, shown, seed })} />
   <script src="../scripts/finder.ts"></script>
   <script src="../scripts/sheet-dialog.ts"></script>
 </Layout>
@@ -207,12 +209,16 @@ const shortLabels = Object.fromEntries(requirements.map(r => [r.key, shortLabel(
   .wi { display: inline-grid; place-items: center; width: 28px; height: 32px; margin-left: -2px; color: var(--muted); }
   .wi::before { content: "i"; display: grid; place-items: center; width: 15px; height: 15px; border: 1.25px solid currentColor; border-radius: 50%; font: 600 10px/1 var(--font); font-style: italic; }
   .wi[aria-expanded="true"] { color: var(--ink); }
+  .wt-sort { margin-left: calc(-1 * var(--s-sm)); }
+  .wt-sort .tip { left: auto; right: 0; }
+  .wt-sort .wi { display: inline-grid !important; height: var(--control); width: 32px; }
+  .wt-sort:hover .tip { opacity: 1; visibility: visible; transform: none; }
   @media (hover: hover) {
     .wt:hover .tip, .w:focus-visible ~ .tip { opacity: 1; visibility: visible; transform: none; transition: opacity var(--dur-micro) var(--ease-out) .35s, transform var(--dur-micro) var(--ease-out) .35s, visibility 0s linear .35s; }
     .wi { display: none; }
   }
   .grp dd { column-gap: var(--s-sm) !important; }
-  .f-fits .e-sum { color: var(--field-ink); }
+  .f-fits .e-sum, .f-fits .e-stars, .f-fits .e-stars span { color: var(--field-ink); }
   .e-when { font: 700 var(--t-md)/1.2 var(--display); }
   .f-shutting-down .e-sum a { white-space: nowrap; }
 
