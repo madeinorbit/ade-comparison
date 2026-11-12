@@ -66,7 +66,7 @@ test('Method explains evidence, vendor rules and generated corrections beside it
   assert.doesNotMatch(contents, /private catalog|private repository/)
 })
 
-test('status day receipts carry the product and their day anchor', () => {
+test('status day receipts carry the product and their day anchor, with one set of actions per page', () => {
   const events = JSON.parse(readFileSync(new URL('../data/status-log.json', import.meta.url), 'utf8')) as StatusEvent[]
   const snapshot = JSON.parse(readFileSync(new URL('../data/index.json', import.meta.url), 'utf8')).generatedAt
   const plan = planStatus(events, snapshot)
@@ -79,9 +79,11 @@ test('status day receipts carry the product and their day anchor', () => {
       assert.ok(days.has(article[1]), `Unknown status anchor ${article[1]}`)
       const product = index.products.find(p => article[1].endsWith(`-${p.id}`) && article[1].length === p.id.length + 11)!
       assert.ok(product)
-      const blocks = actions(article[2])
-      assert.equal(blocks.length, siteConfig.publicRepositoryUrl ? 1 : 0, `Wrong status receipt actions on ${article[1]}`)
-      if (blocks.length) checkActions(blocks[0], contents, `${page.path}#${article[1]}`, product, true)
+      assert.equal(actions(article[2]).length, 0, `Status receipt ${article[1]} repeats the submission actions`)
     }
+    // The links appear once at the foot of each status page, not on every event.
+    const blocks = actions(contents)
+    assert.equal(blocks.length, 1, `${page.path} needs exactly one set of submission actions`)
+    checkActions(blocks[0], contents, page.path)
   }
 })
