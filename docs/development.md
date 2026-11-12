@@ -79,7 +79,7 @@ Compare uses `products=id,id` and `diff=1`; Matrix accepts any researched produc
 
 ## Design replacement
 
-All presentation lives in `src/styles/tokens.css`, `site.css`, `sheet.css` and `og.css`. There are no component style blocks or inline component styles. Fonts are self-hosted from `public/fonts/` (SIL Open Font License texts beside them), the publisher logo is `public/brand/podium-logo.svg`, and the few short transitions are turned off under `prefers-reduced-motion`. No font, script or asset loads from a third-party origin. Token and CSS replacement can change the final visual direction without rewriting the data or filtering logic. OG cards use the same tokens and `og.css` in a small SVG endpoint.
+All presentation lives in `src/styles/tokens.css`, `site.css` and `sheet.css`; sharing cards are drawn in `src/lib/og.ts`. There are no component style blocks or inline component styles. Fonts are self-hosted from `public/fonts/` (SIL Open Font License texts beside them), the publisher logo is `public/brand/podium-logo.svg`, and the few short transitions are turned off under `prefers-reduced-motion`. No font, script or asset loads from a third-party origin. Token and CSS replacement can change the final visual direction without rewriting the data or filtering logic. OG cards use the same tokens and `og.css` in a small SVG endpoint.
 
 The site's behavior follows earlier design prototypes for three fit groups, visible gaps, receipt scope and shutdown handling. It does not import the prototypes' data, notices, ranking tie-breaks or styling.
 

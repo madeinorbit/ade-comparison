@@ -18,6 +18,7 @@ export default defineConfig({
     // Security headers for the Cloudflare host. Runs last so it sees every built page.
     writeHeaders(fileURLToPath(dir))
   } } }],
-  build: { inlineStylesheets: 'always' },
+  // Four pages at a time: the sharing cards (src/lib/og.ts) are CPU-bound and otherwise dominate the build.
+  build: { inlineStylesheets: 'always', concurrency: 4 },
   vite: { build: { assetsInlineLimit: 0 }, ssr: { external: ['sharp'] } },
 })

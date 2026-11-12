@@ -4,8 +4,8 @@ import '../styles/site.css'
 import { siteConfig, absolute } from '../../config.mjs'
 import { submissionLinks } from '../lib/submissions'
 import { index, methodology, jsonScript, stats, longDate, shortDate, formatCount } from '../lib/data'
-interface Props { title: string; fullTitle?: string; description: string; canonical?: string; productId?: string; noindex?: boolean; about?: Record<string, unknown>; wide?: boolean }
-const { title, fullTitle, description, canonical = Astro.url.pathname, productId, noindex = false, about } = Astro.props
+interface Props { title: string; fullTitle?: string; description: string; canonical?: string; productId?: string; ogImage?: string; noindex?: boolean; about?: Record<string, unknown>; wide?: boolean }
+const { title, fullTitle, description, canonical = Astro.url.pathname, productId, ogImage, noindex = false, about } = Astro.props
 const pageTitle = fullTitle || `${title} | ${siteConfig.name}`
 const repo = siteConfig.publicRepositoryUrl
 const links = submissionLinks({ pagePath: canonical })
@@ -67,7 +67,7 @@ const steps = [
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={absolute(canonical)} />
-    <meta property="og:image" content={absolute(`/og/${productId || 'ade-comparison'}.png`)} />
+    <meta property="og:image" content={absolute(ogImage || `/og/${productId || 'ade-comparison'}.png`)} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content={`${title}. adecomparison.com`} />
@@ -79,7 +79,7 @@ const steps = [
     <header class="bar">
       <div class="in">
         <div class="brand">
-          <a class="wordmark" href="/" aria-label="ade comparison, home"><b>ade</b> <span>comparison</span></a>
+          <a class="wordmark" href="/" aria-label="ADE comparison, home"><b>ADE</b> <span>comparison</span></a>
           <a class="by" href={maker.url} aria-label={`By ${maker.name}, an ADE vendor`}><span aria-hidden="true">by</span><svg class="podium-logo" viewBox={logoBox} aria-hidden="true"><use href={logo} /></svg></a>
         </div>
         <nav aria-label="Main navigation">{nav.map(([href, label]) => <a href={href} aria-current={current(href) ? 'page' : undefined}>{label}</a>)}</nav>
