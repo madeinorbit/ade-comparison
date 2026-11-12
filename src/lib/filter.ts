@@ -1,6 +1,6 @@
 import type { Facet, Identity, Index, Requirement } from './types.ts'
 export type FilterRequirement = Pick<Requirement, 'key' | 'label' | 'anyOf'>
-export type FinderSort = 'fit' | 'stars'
+export type FinderSort = 'fit' | 'stars' | 'name'
 export interface FinderState { must: string[]; nice: string[]; query: string; preset: string | null; sort: FinderSort }
 export interface Preset { id: string; label: string; must: string[]; nice: string[]; note?: string }
 const localParallelNice = ['desktop-os:macos', 'agents:claude-code', 'agents:codex', 'byo-subscription', 'execution:local', 'isolation:worktree', 'pr-workflow', 'review-ui']
@@ -31,7 +31,7 @@ export function parseState(search: string, requirements: FilterRequirement[]): F
   const preset = presets.find(x => x.id === p.get('use'))
   const clean = (key: string, fallback: string[]) => [...new Set((p.has(key) ? p.get(key)!.split(',') : fallback).filter(k => valid.has(k)))]
   const must = clean('must', preset?.must || [])
-  return { must, nice: clean('nice', preset?.nice || []).filter(k => !must.includes(k)), query: (p.get('q') || '').slice(0, 200), preset: preset?.id || null, sort: p.get('sort') === 'stars' ? 'stars' : 'fit' }
+  return { must, nice: clean('nice', preset?.nice || []).filter(k => !must.includes(k)), query: (p.get('q') || '').slice(0, 200), preset: preset?.id || null, sort: p.get('sort') === 'stars' || p.get('sort') === 'name' ? p.get('sort') as FinderSort : 'fit' }
 }
 export function serializeState(state: FinderState): string {
   const p = new URLSearchParams()
@@ -40,7 +40,7 @@ export function serializeState(state: FinderState): string {
   if (state.must.length || state.preset) p.set('must', state.must.join(','))
   if (state.nice.length || state.preset) p.set('nice', state.nice.join(','))
   if (state.query) p.set('q', state.query)
-  if (state.sort === 'stars') p.set('sort', 'stars')
+  if (state.sort !== 'fit') p.set('sort', state.sort)
   return p.toString()
 }
 export type Answer = 'yes' | 'no' | 'unknown'
@@ -91,6 +91,8 @@ export function createFilter(index: Index, requirements: FilterRequirement[], su
       // The stars order applies inside each group and after must-haves met, so it never lifts a weaker fit.
       // Products without a public count follow in the usual fit order.
       const starsOf = (r: Result) => stars[r.product.id] ?? -1
+      // Name order is plain A to Z inside each group.
+      if (state.sort === 'name') return results.sort((a, b) => compareNames(a.product.name, b.product.name) || compareNames(a.product.id, b.product.id))
       return results.sort((a, b) => b.mustMet - a.mustMet || (state.sort === 'stars' ? starsOf(b) - starsOf(a) : 0) || b.met - a.met || compareNames(a.product.name, b.product.name) || compareNames(a.product.id, b.product.id))
     },
   }

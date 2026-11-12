@@ -77,11 +77,14 @@ test('media exports have only the approved fields and registered products', () =
   assert.throws(() => validateMedia([{ ...records[0], productId: 'not-registered' }], ids), /registered product/)
   assert.throws(() => validateMedia([{ ...records[0], path: '../private.png' }], ids), /Unsafe media path/)
 })
-test('production code and package have no private workspace imports or analytics', () => {
+test('production code and package have no private workspace imports, and analytics is GTM only', () => {
   const walk = (url: URL): string[] => readdirSync(url, { withFileTypes: true }).flatMap(e => e.isDirectory() ? walk(new URL(e.name + '/', url)) : [readFileSync(new URL(e.name, url), 'utf8')])
   const source = walk(new URL('../src/', import.meta.url)).join('\n')
   assert.doesNotMatch(source, /from\s+['"][^'"]*(?:catalog\/|@podium|packages\/)/)
-  assert.doesNotMatch(source, /(?:google-analytics|googletagmanager|plausible|posthog|segment\.com)/i)
+  assert.doesNotMatch(source, /(?:plausible|posthog|segment\.com)/i)
+  // Google Tag Manager is the one analytics script, loaded after page load on the production host only.
+  assert.equal(source.match(/googletagmanager\.com\/gtm\.js/g)?.length, 1)
+  assert.match(source, /location\.hostname\s*===\s*'adecomparison\.com'/)
   assert.doesNotMatch(readFileSync(new URL('../package.json', import.meta.url), 'utf8'), /workspace:/)
 })
 test('a reviewed lifecycle-only notice can survive without adding claims to a plain listing', () => {

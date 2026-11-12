@@ -2,9 +2,13 @@
 import '../styles/tokens.css'
 import '../styles/site.css'
 import { siteConfig, absolute } from '../../config.mjs'
+import { submissionLinks } from '../lib/submissions'
 import { index, methodology, jsonScript, stats, longDate, shortDate, formatCount } from '../lib/data'
-interface Props { title: string; description: string; canonical?: string; productId?: string; noindex?: boolean; about?: Record<string, unknown>; wide?: boolean }
-const { title, description, canonical = Astro.url.pathname, productId, noindex = false, about } = Astro.props
+interface Props { title: string; fullTitle?: string; description: string; canonical?: string; productId?: string; noindex?: boolean; about?: Record<string, unknown>; wide?: boolean }
+const { title, fullTitle, description, canonical = Astro.url.pathname, productId, noindex = false, about } = Astro.props
+const pageTitle = fullTitle || `${title} | ${siteConfig.name}`
+const repo = siteConfig.publicRepositoryUrl
+const links = submissionLinks({ pagePath: canonical })
 const nav = [['/', 'Finder'], ['/compare/', 'Compare'], ['/matrix/', 'Matrix'], ['/status/', 'Status'], ['/method/', 'Method']]
 const here = Astro.url.pathname
 // One logo file, drawn in the text colour of wherever it sits, so it follows the theme.
@@ -48,13 +52,19 @@ const steps = [
     </script>
     <link rel="preload" href="/fonts/radio-canada-big-latin.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/radio-canada-latin.woff2" as="font" type="font/woff2" crossorigin />
-    <title>{title} | {siteConfig.name}</title>
+    <title>{pageTitle}</title>
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    {/* Google Tag Manager, production host only. It loads once the page has loaded and the browser is idle,
+        so it never competes with the first paint. Events queue in dataLayer until then (src/lib/track.ts). */}
+    <script is:inline>window.dataLayer=window.dataLayer||[];if(location.hostname==='adecomparison.com'){dataLayer.push({'gtm.start':Date.now(),event:'gtm.js'});addEventListener('load',()=>{const go=()=>{const s=document.createElement('script');s.async=true;s.src='https://www.googletagmanager.com/gtm.js?id=GTM-KBHC6XK7';document.head.append(s)};'requestIdleCallback'in window?requestIdleCallback(go,{timeout:3000}):setTimeout(go,1500)},{once:true})}</script>
     <meta name="description" content={description} />
     <meta name="theme-color" content="#f7f6f2" />
     <link rel="canonical" href={absolute(canonical)} />
     {noindex && <meta name="robots" content="noindex,follow" />}
     <meta property="og:type" content="website" />
-    <meta property="og:title" content={`${title} | ${siteConfig.name}`} />
+    <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={absolute(canonical)} />
     <meta property="og:image" content={absolute(`/og/${productId || 'ade-comparison'}.png`)} />
@@ -73,7 +83,10 @@ const steps = [
           <a class="by" href={maker.url} aria-label={`By ${maker.name}, an ADE vendor`}><span aria-hidden="true">by</span><svg class="podium-logo" viewBox={logoBox} aria-hidden="true"><use href={logo} /></svg></a>
         </div>
         <nav aria-label="Main navigation">{nav.map(([href, label]) => <a href={href} aria-current={current(href) ? 'page' : undefined}>{label}</a>)}</nav>
-        <a class="btn-ink" href="/method/#open-data"><svg viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 2v8m0 0 3-3m-3 3L5 7M3 13h10"/></svg>Open data</a>
+        <div class="bar-act">
+          {repo && <a class="btn-line gh-star" href={repo} rel="noopener" data-track="github_star_click"><svg viewBox="0 0 16 16" aria-hidden="true" fill="currentColor"><path d="M8 .9l2.2 4.5 4.9.7-3.6 3.5.9 4.9L8 12.2l-4.4 2.3.9-4.9L.9 6.1l4.9-.7z"/></svg><span>Star<span class="gh-long"> on GitHub</span></span></a>}
+          <a class="btn-ink od" href="/method/#open-data" aria-label="Open data"><svg viewBox="0 0 16 16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 2v8m0 0 3-3m-3 3L5 7M3 13h10"/></svg><span class="od-label">Open data</span></a>
+        </div>
       </div>
     </header>
     <main id="main" tabindex="-1"><slot /></main>
@@ -92,7 +105,7 @@ const steps = [
           <div class="rules">
             <p><b>Unknown stays unknown.</b> A capability no source states never counts for or against an ADE.</p>
             <p><b>Every answer has a receipt.</b> Open any value for its source, the place on the page, the plan and the check date.</p>
-            <p><b>No paid placement.</b> No sponsored spots, affiliate links or tracking. Code Apache-2.0, data <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.</p>
+            <p><b>No paid placement.</b> No sponsored spots or affiliate links. We count anonymous page use to learn what people look for (<a href="/method/#privacy">privacy</a>). Code Apache-2.0, data <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.</p>
           </div>
         </div>
         <div class="made">
@@ -100,6 +113,7 @@ const steps = [
             <a class="made-mark" href={maker.url} aria-label={`${maker.name}, ${maker.url.replace('https://', '')}`}><svg class="podium-logo" viewBox={logoBox} aria-hidden="true"><use href={logo} /></svg></a>
             <p class="made-note"><a href="/method/#disclosure">Made by Podium, an ADE vendor</a>. Same rules for every product, Podium included.</p>
             <p>Data as of <time datetime={index.generatedAt}>{longDate(index.generatedAt)}</time>.</p>
+            {(repo || links) && <p class="made-act">{links && <a class="btn-ink" href={links.suggestMissingAde} rel="noopener noreferrer">My ADE is missing</a>}{repo && <a class="btn-line gh-star" href={repo} rel="noopener" data-track="github_star_click"><svg viewBox="0 0 16 16" aria-hidden="true" fill="currentColor"><path d="M8 .9l2.2 4.5 4.9.7-3.6 3.5.9 4.9L8 12.2l-4.4 2.3.9-4.9L.9 6.1l4.9-.7z"/></svg>Star us on GitHub</a>}</p>}
           </div>
           <div class="made-links">
             <ul aria-label="Site"><li><a href="/method/">Method</a></li><li><a href="/status/">Status log</a></li><li><a href="/matrix/">Matrix</a></li></ul>
@@ -110,6 +124,8 @@ const steps = [
     </footer>
     <script>
       import { refreshAges, openTargetDetails } from '../lib/client'
+      import { trackClicks } from '../lib/track'
+      trackClicks()
       // The static fallback shows age at build time. Reopening a page updates it
       // from the original dates, including pages served long after that build.
       refreshAges(document)

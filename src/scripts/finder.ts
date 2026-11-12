@@ -2,6 +2,7 @@ import { createFilter, emptyState, matchesProductQuery, parseProducts, parseStat
 import { groupLabel, groupLabels } from '../lib/view'
 import type { FilterRequirement, FinderState } from '../lib/filter'
 import type { Index } from '../lib/types'
+import { track, debounced } from '../lib/track'
 
 type Group = keyof typeof groupLabels
 const MAX_COMPARE = 4
@@ -38,7 +39,8 @@ function initializeFinder() {
   const query = $<HTMLInputElement>('#find-name')
   const status = $('#finder-status')
   const tray = $('#compare-tray')
-  const sort = $<HTMLSelectElement>('#finder-sort')
+  const sort = $<HTMLFieldSetElement>('#finder-sort')
+  const groupOf = new Map([...document.querySelectorAll<HTMLElement>('[data-word]')].map(w => [w.dataset.word!, w.closest('.grp')?.querySelector('dt')?.textContent || '']))
   const orderNote = $('#order-note')
   const fitOrder = orderNote.textContent!
   const starred = Number(orderNote.dataset.starred)
@@ -50,6 +52,8 @@ function initializeFinder() {
     return `${location.pathname}${p.size ? '?' + p : ''}`
   }
   function save(push = false) {
+    // While an ADE dialog is open the address is the ADE's own. The Finder state is written back when it closes.
+    if (location.pathname !== '/') return
     const url = href() + location.hash
     if (url !== location.pathname + location.search + location.hash) history[push ? 'pushState' : 'replaceState'](history.state, '', url)
   }
@@ -135,8 +139,9 @@ function initializeFinder() {
     }
     $('#need-summary').textContent = state.must.length ? list(state.must.map(label)) + (state.nice.length ? `, plus ${state.nice.length} nice-to-have${state.nice.length === 1 ? '' : 's'}` : '') : state.nice.length ? `Nice to have: ${list(state.nice.map(label))}` : 'Nothing picked yet'
     if (query.value !== state.query) query.value = state.query
-    sort.value = state.sort
-    orderNote.textContent = state.sort === 'stars' ? `Within each group: must-haves met, then GitHub stars. ${starred} of ${comparable.length} researched ADEs have a sourced count; the rest follow by fit. Stars measure repository attention, not users or quality.` : fitOrder
+    for (const radio of sort.querySelectorAll<HTMLInputElement>('input')) radio.checked = radio.value === state.sort
+    orderNote.textContent = state.sort === 'stars' ? `Most must-haves first, then most GitHub stars. ${starred} of ${comparable.length} ADEs have a public count; the rest follow by fit. Stars measure attention, not quality.`
+      : state.sort === 'name' ? 'A to Z within each group.' : fitOrder
     const preset = presets.find(p => p.id === state.preset)
     $('#preset-note').textContent = preset?.note ?? ''
     for (const link of document.querySelectorAll<HTMLAnchorElement>('[data-preset]')) {
@@ -163,8 +168,31 @@ function initializeFinder() {
     if (announce) status.textContent = `${counts.fits} fit. ${counts['kind-of']} fit kind of. ${counts['shutting-down']} fit but shutting down.`
   }
 
+  // One event per settled selection: which needs people combine, and how many ADEs meet them.
+  const sendSelection = debounced((params: Record<string, string | number | undefined>) => track('selection', params), 2500)
+  const trackSelection = () => {
+    if (!state.must.length && !state.nice.length) return
+    sendSelection({ must: [...state.must].sort().join(','), nice: [...state.nice].sort().join(','), must_count: state.must.length, nice_count: state.nice.length,
+      preset: state.preset || undefined, fits_count: Number($('[data-count=fits]').textContent), kind_of_count: Number($('[data-count=kind-of]').textContent) })
+  }
+  const trackSearch = debounced(() => {
+    if (state.query.trim().length < 2) return
+    const n = $('#directory-search-results').childElementCount
+    track('name_search', { search_term: state.query.trim().toLowerCase().slice(0, 60), results_count: n, found: n > 0 })
+  }, 1500)
+  const closeTips = (except?: Element) => document.querySelectorAll('.wt[data-open]').forEach(t => { if (t !== except) { t.removeAttribute('data-open'); t.querySelector('.wi')?.setAttribute('aria-expanded', 'false') } })
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeTips() })
+
   document.addEventListener('click', e => {
     const target = e.target as HTMLElement
+    const tip = target.closest<HTMLButtonElement>('[data-tip-for]')
+    closeTips(tip?.parentElement || undefined)
+    if (tip) {
+      const wrap = tip.parentElement!, open = !wrap.hasAttribute('data-open')
+      wrap.toggleAttribute('data-open', open); tip.setAttribute('aria-expanded', String(open))
+      if (open) track('filter_info_open', { filter_key: tip.dataset.tipFor })
+      return
+    }
     const word = target.closest<HTMLButtonElement>('[data-word]')
     if (word) {
       const key = word.dataset.word!
@@ -175,6 +203,8 @@ function initializeFinder() {
       state.preset = null
       save(); render(false)
       const now = state.must.includes(key) ? 'a must-have' : state.nice.includes(key) ? 'a nice-to-have' : 'off'
+      track('filter_toggle', { filter_key: key, filter_label: label(key), filter_group: groupOf.get(key), filter_state: now === 'off' ? 'off' : now === 'a must-have' ? 'must' : 'nice', picks_count: state.must.length + state.nice.length })
+      trackSelection()
       status.textContent = `${label(key)} is ${now}. ${$('[data-count=fits]').textContent} fit, ${$('[data-count=kind-of]').textContent} fit kind of.`
       return
     }
@@ -185,6 +215,7 @@ function initializeFinder() {
       const order = state.sort
       state = parseState(new URL(preset.href).search, requirements); state.query = keep; state.sort = order
       save(true); render()
+      track('preset_select', { preset: preset.dataset.preset }); trackSelection()
       return
     }
     const add = target.closest<HTMLButtonElement>('[data-compare]')
@@ -194,12 +225,20 @@ function initializeFinder() {
       else if (compared.length >= MAX_COMPARE) { status.textContent = `You can compare ${MAX_COMPARE} at a time. Remove one first.`; return }
       else compared = [...compared, id]
       save(); updateCompare()
+      track(compared.includes(id) ? 'compare_add' : 'compare_remove', { ade_id: id, compare_count: compared.length, location: add.closest('dialog') ? 'dialog' : 'finder_card' })
       return
     }
     const more = target.closest<HTMLButtonElement>('[data-more]')
-    if (more) { all[more.dataset.more!] = !all[more.dataset.more!]; render(false); return }
+    if (more) { all[more.dataset.more!] = !all[more.dataset.more!]; render(false); if (all[more.dataset.more!]) track('show_more', { group: more.dataset.more }); return }
+    const go = target.closest<HTMLAnchorElement>('#compare-link')
+    if (go && compared.length > 1) track('compare_start', { ade_ids: [...compared].sort().join(','), compare_count: compared.length, location: 'tray' })
+    const open = target.closest<HTMLAnchorElement>('a[data-open]')
+    if (open) {
+      const card = open.closest<HTMLElement>('.e'), list = card?.parentElement
+      if (card && list) track('detail_open', { ade_id: card.dataset.productId, group: list.dataset.group, position: [...list.children].indexOf(card) + 1, sort: state.sort, has_picks: state.must.length + state.nice.length > 0 })
+    }
     if (target.closest('#compare-clear')) { compared = []; save(); updateCompare(); status.textContent = 'Compare cleared.'; return }
-    if (target.closest('#reset-finder')) { state = { ...emptyState(), query: state.query, sort: state.sort }; save(true); render(); return }
+    if (target.closest('#reset-finder')) { state = { ...emptyState(), query: state.query, sort: state.sort }; save(true); render(); track('filters_reset'); return }
     const toggle = target.closest<HTMLButtonElement>('#need-toggle')
     if (toggle) {
       const open = toggle.getAttribute('aria-expanded') !== 'true'
@@ -209,12 +248,19 @@ function initializeFinder() {
   })
   // A sheet opened over the Finder shows the same compare state as the list.
   document.addEventListener('sheet:open', updateCompare)
-  sort.addEventListener('change', () => { state.sort = sort.value === 'stars' ? 'stars' : 'fit'; save(); render() })
-  query.form!.addEventListener('submit', e => { e.preventDefault(); state.query = query.value; save(); render() })
-  query.addEventListener('input', () => { state.query = query.value; save(); render() })
+  sort.addEventListener('change', e => {
+    const v = (e.target as HTMLInputElement).value
+    state.sort = v === 'stars' || v === 'name' ? v : 'fit'; save(); render()
+    track('sort_change', { sort: state.sort, has_picks: state.must.length + state.nice.length > 0 })
+  })
+  query.form!.addEventListener('submit', e => { e.preventDefault(); state.query = query.value; save(); render(); trackSearch() })
+  query.addEventListener('input', () => { state.query = query.value; save(); render(); trackSearch() })
   addEventListener('popstate', () => {
     if (location.pathname !== '/') return
-    state = parseState(location.search, requirements); compared = parseProducts(location.search, comparable); render()
+    state = parseState(location.search, requirements)
+    // Compare picks are not history entries (they replace the address), so Back keeps them,
+    // including Back out of an ADE dialog where they were picked.
+    render(); save()
   })
   // The default first paint is already correct. Avoid reordering it on hydration.
   if (location.search) render(false)
@@ -227,7 +273,7 @@ function initializeFinder() {
 if (location.search) initializeFinder()
 else {
   const region = document.querySelector('[data-url-state]')!
-  const events = ['focusin', 'pointerdown', 'keydown', 'click', 'input']
+  const events = ['focusin', 'pointerdown', 'keydown', 'click', 'input', 'change']
   const initialize = () => {
     events.forEach(type => region.removeEventListener(type, initialize, true))
     initializeFinder()

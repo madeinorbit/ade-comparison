@@ -6,7 +6,8 @@ import HeroBoard from '../components/HeroBoard.astro'
 import { clientPayload, index, jsonScript, products, requirements, stats, sunsetIds } from '../lib/data'
 import { createFilter, emptyState, presets } from '../lib/filter'
 import { groupLabel, groupLabels } from '../lib/view'
-import { wordGroups, shortLabel } from '../lib/sheet'
+import { wordGroups, wordTips, shortLabel } from '../lib/sheet'
+import { submissionLinks } from '../lib/submissions'
 import { siteConfig } from '../../config.mjs'
 import '../styles/sheet.css'
 const state = emptyState()
@@ -16,9 +17,10 @@ const groups = Object.keys(groupLabels) as (keyof typeof groupLabels)[]
 const notes = { fits: 'Pick what you need above. Until then, every ADE fits.', 'kind-of': 'Has most of your must-haves.', 'shutting-down': 'Would fit, but has a published shutdown notice.' }
 const shown = 10
 const starred = products.filter(p => p.researchStatus === 'covered' && p.githubStars).length
+const suggest = submissionLinks({ pagePath: '/' })?.suggestMissingAde || '/method/#corrections'
 const shortLabels = Object.fromEntries(requirements.map(r => [r.key, shortLabel(r.key)]))
 ---
-<Layout title="Find an ADE that fits how you work" description="Choose requirements and check the public finding behind each answer. An ADE finder by Podium, an ADE vendor.">
+<Layout title="Find an ADE that fits how you work" fullTitle="ADE Comparison: Compare Agent Development Environments" description={`Compare ${stats.researched} agent development environments (ADEs) for Claude Code, Codex and more. Filter by what you need and check the public source behind every answer.`}>
   <section class="hero in" aria-labelledby="hero-title">
     <div class="hero-txt">
       <h1 id="hero-title">Which ADE fits how you work?</h1>
@@ -36,7 +38,7 @@ const shortLabels = Object.fromEntries(requirements.map(r => [r.key, shortLabel(
         </div>
         <p class="need-sum needs-js"><span id="need-summary">Nothing picked yet</span> <button type="button" id="need-toggle" aria-expanded="false" aria-controls="need-words">Change</button></p>
         <div class="need-words needs-js" id="need-words" data-open="false">
-          <dl class="groups">{wordGroups.map(g => <div class="grp"><dt>{g.title}</dt><dd>{g.words.map(([key, label]) => <button type="button" class="w" data-word={key} aria-pressed="false" aria-describedby="key-note">{label}<span class="vh" data-word-state></span></button>)}</dd></div>)}</dl>
+          <dl class="groups">{wordGroups.map(g => <div class="grp"><dt>{g.title}</dt><dd>{g.words.map(([key, label]) => <span class="wt"><button type="button" class="w" data-word={key} aria-pressed="false" aria-describedby={`tip-${key.replace(':', '-')} key-note`}>{label}<span class="vh" data-word-state></span></button>{wordTips[key] && <><button type="button" class="wi needs-js" data-tip-for={key} aria-expanded="false" aria-controls={`tip-${key.replace(':', '-')}`}><span class="vh">What is {label}?</span></button><span class="tip" role="tooltip" id={`tip-${key.replace(':', '-')}`}>{wordTips[key]}</span></>}</span>)}</dd></div>)}</dl>
         </div>
       </div>
       <div class="need-side">
@@ -54,13 +56,17 @@ const shortLabels = Object.fromEntries(requirements.map(r => [r.key, shortLabel(
     <section id="name-matches" class="in names" hidden aria-labelledby="name-matches-title">
       <h2 id="name-matches-title">Names that match</h2>
       <ul class="listing-list" id="directory-search-results"></ul>
-      <p id="name-empty" hidden>No ADE by that name yet. <a href="/method/#corrections">Suggest one</a>.</p>
+      <p id="name-empty" hidden>No ADE by that name yet. <a href={suggest} rel="noopener noreferrer">Suggest it</a>.</p>
     </section>
-    <div class="order in needs-js">
-      <label for="finder-sort">Order</label>
-      <select id="finder-sort" name="sort" aria-describedby="order-note"><option value="fit">Best fit</option><option value="stars">GitHub stars</option></select>
-      <p id="order-note" class="order-note" data-starred={starred}>Must-haves met, then nice-to-haves, then name.</p>
-    </div>
+    <div class="order in needs-js"><div class="order-in">
+      <fieldset class="seg" id="finder-sort" aria-describedby="order-note">
+        <legend>Sort by</legend>
+        <label><input type="radio" name="sort" value="fit" checked /><span>Best fit</span></label>
+        <label><input type="radio" name="sort" value="stars" /><span>GitHub stars</span></label>
+        <label><input type="radio" name="sort" value="name" /><span>Name</span></label>
+      </fieldset>
+      <p id="order-note" class="order-note" data-starred={starred}>Most must-haves first, then most nice-to-haves, then A to Z.</p>
+    </div></div>
     <div id="results" class="board in">
       {groups.map(group => {
         const rows = results.filter(r => r.group === group)
@@ -178,10 +184,34 @@ const shortLabels = Object.fromEntries(requirements.map(r => [r.key, shortLabel(
   .e-sum { font-size: var(--t-sm); line-height: 1.45; color: var(--ink-2); }
   .e-stars { font-size: var(--t-xs); color: var(--ink-2); font-variant-numeric: tabular-nums; }
   .e-stars span { color: var(--muted); }
-  .order { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-2xs) var(--s-sm); margin-top: var(--s-lg); font-size: var(--t-sm); }
-  .order label { font-weight: 500; }
-  .order select { min-height: 36px; }
-  .order-note { color: var(--ink-2); flex: 1 1 20rem; }
+  /* Sort: a segmented control between the filters and the board, with its rule spelled out beside it. */
+  .order { margin-top: var(--s-2xl); }
+  .order-in { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-sm) var(--s-lg); padding-block: var(--s-md); border-block: 1px solid var(--rule); font-size: var(--t-sm); }
+  .seg { display: flex; align-items: center; gap: 0; }
+  .seg legend { float: left; font-weight: 500; color: var(--muted); padding: 0; margin-right: var(--s-xs); }
+  .seg label { position: relative; min-height: 0; gap: 0; }
+  .seg input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+  .seg span { display: inline-flex; align-items: center; min-height: 36px; padding: 0 var(--s-md); border: 1px solid var(--rule); background: var(--paper); color: var(--ink-2); font-weight: 500; transition: background-color var(--dur-micro) var(--ease-out), color var(--dur-micro) var(--ease-out); }
+  .seg label + label span { margin-left: -1px; }
+  .seg label:hover span { color: var(--ink); background: var(--paper-2); }
+  .seg input:checked + span { background: var(--ink); border-color: var(--ink); color: var(--paper); }
+  .seg input:focus-visible + span { outline: 2px solid var(--focus); outline-offset: 2px; }
+  .seg legend + label span { margin-left: 0; }
+  .order-note { color: var(--ink-2); flex: 1 1 18rem; max-width: 70ch; }
+  .board { margin-top: var(--s-lg) !important; }
+
+  /* Filter explanations: a tooltip on hover or keyboard focus; on touch screens, behind a small i. */
+  .wt { position: relative; display: inline-flex; align-items: center; }
+  .tip { position: absolute; left: 0; top: calc(100% - 2px); z-index: var(--z-sticky); width: max-content; max-width: min(20rem, 80vw); padding: var(--s-xs) var(--s-sm); background: var(--ink); color: var(--paper); font-size: var(--t-sm); line-height: 1.4; font-weight: 400; white-space: normal; pointer-events: none; opacity: 0; visibility: hidden; transform: translateY(-2px); transition: opacity var(--dur-micro) var(--ease-out), transform var(--dur-micro) var(--ease-out), visibility 0s linear var(--dur-micro); }
+  .wt[data-open] .tip { opacity: 1; visibility: visible; transform: none; transition-delay: 0s; }
+  .wi { display: inline-grid; place-items: center; width: 28px; height: 32px; margin-left: -2px; color: var(--muted); }
+  .wi::before { content: "i"; display: grid; place-items: center; width: 15px; height: 15px; border: 1.25px solid currentColor; border-radius: 50%; font: 600 10px/1 var(--font); font-style: italic; }
+  .wi[aria-expanded="true"] { color: var(--ink); }
+  @media (hover: hover) {
+    .wt:hover .tip, .w:focus-visible ~ .tip { opacity: 1; visibility: visible; transform: none; transition: opacity var(--dur-micro) var(--ease-out) .35s, transform var(--dur-micro) var(--ease-out) .35s, visibility 0s linear .35s; }
+    .wi { display: none; }
+  }
+  .grp dd { column-gap: var(--s-sm) !important; }
   .f-fits .e-sum { color: var(--field-ink); }
   .e-when { font: 700 var(--t-md)/1.2 var(--display); }
   .f-shutting-down .e-sum a { white-space: nowrap; }

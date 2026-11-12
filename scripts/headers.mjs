@@ -31,12 +31,13 @@ export function inlineScriptHashes(dir) {
 export function headersFile(hashes) {
   const csp = [
     "default-src 'self'",
-    `script-src 'self' ${hashes.join(' ')}`.trim(),
+    // Google Tag Manager and GA4 (Layout.astro). GTM loads after the page load event, on the production host only.
+    `script-src 'self' https://www.googletagmanager.com ${hashes.join(' ')}`.trim(),
     // Astro inlines every stylesheet (astro.config.mjs), and icons use data: SVGs in CSS.
     "style-src 'self' 'unsafe-inline'",
-    "img-src 'self' data:",
+    "img-src 'self' data: https://*.google-analytics.com https://www.googletagmanager.com",
     "font-src 'self'",
-    "connect-src 'self'",
+    "connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com",
     "object-src 'none'",
     "base-uri 'self'",
     "form-action 'self'",

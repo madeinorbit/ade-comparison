@@ -40,7 +40,7 @@ const span = compare ? SLOTS + 1 : columns.length + 1
         <a class="cmp-name" href={`/ade/${p.id}/`}>{p.name}</a>
         {sunsetIds.includes(p.id) && <a class="cmp-closing" href={`/ade/${p.id}/#lifecycle`} aria-label={`${p.name} shutdown notice`}>Shutdown notice</a>}
         {compare && <button type="button" class="cmp-remove needs-js" data-remove={p.id}>Remove<span class="vh"> {p.name}</span></button>}
-      </th>)}{compare && Array.from({ length: slotCount }, (_, i) => <th scope="col" data-slot={i} class="slot" hidden={i >= SLOTS - current.length}>{pairPage ? i === 0 ? <a class="slot-add" href={addHref}>Add an ADE<span class="vh"> to this comparison</span></a> : <span class="vh">Empty column</span> : <label class="needs-js"><span class="vh">Add an ADE to compare</span><select data-add><option value="">Add an ADE</option></select></label>}</th>)}</tr></thead>
+      </th>)}{compare && Array.from({ length: slotCount }, (_, i) => <th scope="col" data-slot={i} class="slot" hidden={i >= SLOTS - current.length}>{pairPage ? i === 0 ? <a class="slot-add" href={addHref}>Add an ADE<span class="vh"> to this comparison</span></a> : <span class="vh">Empty column</span> : <div class="cbx needs-js" data-add><label class="vh" for={`add-${i}`}>Add an ADE to compare</label><input id={`add-${i}`} type="text" role="combobox" aria-expanded="false" aria-autocomplete="list" aria-controls={`add-${i}-list`} autocomplete="off" spellcheck="false" placeholder="Add an ADE" /><ul id={`add-${i}-list`} role="listbox" class="cbx-list" hidden aria-label="Matching ADEs"></ul></div>}</th>)}</tr></thead>
       {compare && <tbody class="cmp-shots"><tr><th scope="row">Screenshot</th>{columns.map(p => { const shot = shotFor(p.id); return <td data-column-id={p.id} hidden={!current.includes(p.id)}>{shot ? <img src={`/media/${shot.path}`} width={shot.width} height={shot.height} loading="lazy" decoding="async" alt={`${p.name} product interface`} /> : <span class="no-shot">No screenshot yet</span>}</td> })}{Array.from({ length: slotCount }, (_, i) => <td data-slot={i} class="slot" hidden={i >= SLOTS - current.length}></td>)}</tr></tbody>}
       {grouped.map(g => <tbody data-section>
         <tr class="sec"><th scope="colgroup" colspan={span}>{g.title}</th></tr>
@@ -82,7 +82,18 @@ const span = compare ? SLOTS + 1 : columns.length + 1
   .cmp-remove:hover { color: var(--mark-deep); }
   .slot { color: var(--muted); }
   thead .slot { vertical-align: bottom; }
-  .slot select { width: 100%; border-style: dashed; color: var(--ink-2); font-weight: 500; cursor: pointer; }
+  /* The add picker: type to filter every researched ADE. Built in the page script, no library. */
+  .cbx { position: relative; }
+  .cbx input { width: 100%; min-height: var(--control); padding: 0 var(--s-sm) 0 2rem; border: 1px dashed var(--muted); background: var(--paper) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%236b7083' stroke-width='1.6'%3E%3Ccircle cx='7' cy='7' r='4.5'/%3E%3Cpath d='m10.5 10.5 3 3'/%3E%3C/svg%3E") no-repeat .6rem center / 15px; color: var(--ink); font-weight: 500; outline: 2px solid transparent; }
+  .cbx input::placeholder { color: var(--ink-2); }
+  .cbx input:focus { border-style: solid; border-color: var(--ink); outline-color: var(--focus); outline-offset: 2px; }
+  .cbx-list { position: absolute; left: 0; top: calc(100% + 4px); z-index: var(--z-sticky); width: max(100%, 16rem); max-height: min(22rem, 60vh); overflow-y: auto; margin: 0; padding: var(--s-2xs) 0; list-style: none; background: var(--paper); border: 1px solid var(--ink); box-shadow: 0 10px 30px -12px color-mix(in oklab, var(--ink) 40%, transparent); font-weight: 400; }
+  .cbx-list li { padding: var(--s-xs) var(--s-sm); cursor: pointer; font-size: var(--t-sm); color: var(--ink); }
+  .cbx-list li[aria-selected="true"] { background: var(--ink); color: var(--paper); }
+  .cbx-list li[aria-disabled="true"] { color: var(--muted); cursor: default; }
+  .cbx-list li mark { background: none; color: inherit; font-weight: 600; text-decoration: underline; text-underline-offset: .15em; }
+  .cbx-list .cbx-empty { color: var(--muted); cursor: default; }
+  .cmp thead th { overflow: visible; }
   tbody td.slot { background: repeating-linear-gradient(135deg, transparent 0 6px, color-mix(in oklab, var(--rule) 45%, transparent) 6px 7px); }
   .cmp-shots td, .cmp-shots th { border-bottom: 0; padding-top: var(--s-md); }
   .cmp-shots img { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; object-position: top left; outline: 1px solid color-mix(in oklab, var(--ink) 10%, transparent); outline-offset: -1px; background: var(--paper-2); }

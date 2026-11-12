@@ -14,7 +14,7 @@ npm run check
 npm run preview
 ```
 
-`npm run dev` starts the development server. `npm run build` checks the public data, renders every page and agent file, and copies the reviewed public media bundle into `dist/`. Serve `dist/` on any static host; the production host is Cloudflare Workers static assets (see [Deploy](#deploy)). No analytics, framework runtime, private package or catalog import is part of this app.
+`npm run dev` starts the development server. `npm run build` checks the public data, renders every page and agent file, and copies the reviewed public media bundle into `dist/`. Serve `dist/` on any static host; the production host is Cloudflare Workers static assets (see [Deploy](#deploy)). Google Tag Manager (GA4) loads after the page load event on the production host only; see `src/lib/track.ts` for the events. No framework runtime, private package or catalog import is part of this app.
 
 For a full browser check, install Chromium once, then run:
 

@@ -1,5 +1,6 @@
 import { answersDiffer } from '../lib/view'
 import { markWanted, refreshAges } from '../lib/client'
+import { track } from '../lib/track'
 const root = document.querySelector<HTMLElement>('#comparison')!
 const mode = root.dataset.mode!
 const compare = mode === 'compare'
@@ -17,8 +18,74 @@ const table = scroller.querySelector('table')!
 // A pair page has no product picker; its two names come from the column headings.
 const nameOf = new Map(inputs.length ? inputs.map(el => [el.dataset.tableProduct!, el.parentElement!.textContent!.trim()])
   : [...root.querySelectorAll<HTMLElement>('thead [data-column-id]')].map(el => [el.dataset.columnId!, el.querySelector('.cmp-name')!.textContent!.trim()]))
-// The add menus are filled here: they only work with JavaScript, and pair pages stay small without them.
-for (const select of root.querySelectorAll<HTMLSelectElement>('[data-add]')) for (const [id, name] of nameOf) select.add(new Option(name, id))
+// The add pickers are searchable comboboxes: type part of a name, pick with the arrow keys and Enter.
+// They work on any catalog size and need no library, so this page stays as light as the rest.
+const fold = (t: string) => t.normalize('NFKD').replace(/[\u0300-\u036f]/g, '').toLowerCase()
+const catalog = [...nameOf].map(([id, name]) => ({ id, name, key: fold(name) })).sort((a, b) => a.name.localeCompare(b.name, 'en'))
+function picker(box: HTMLElement) {
+  const input = box.querySelector('input')!, list = box.querySelector('ul')!
+  let items: typeof catalog = [], active = -1
+  const place = () => {
+    // Fixed, so the scrolling table never clips the list.
+    const r = input.getBoundingClientRect()
+    const below = innerHeight - r.bottom
+    list.style.position = 'fixed'; list.style.left = `${Math.max(8, Math.min(r.left, innerWidth - Math.max(r.width, 256) - 8))}px`
+    list.style.width = `${Math.max(r.width, 256)}px`
+    if (below < 240 && r.top > below) { list.style.top = 'auto'; list.style.bottom = `${innerHeight - r.top + 4}px` } else { list.style.bottom = 'auto'; list.style.top = `${r.bottom + 4}px` }
+    list.style.maxHeight = `${Math.max(160, Math.min(352, (list.style.top === 'auto' ? r.top : below) - 16))}px`
+  }
+  const highlight = (name: string, q: string) => {
+    const li = document.createElement('span'), i = q ? fold(name).indexOf(q) : -1
+    if (i < 0) { li.textContent = name; return li }
+    const m = document.createElement('mark'); m.textContent = name.slice(i, i + q.length)
+    li.append(name.slice(0, i), m, name.slice(i + q.length)); return li
+  }
+  const setActive = (n: number) => {
+    active = n
+    list.querySelectorAll<HTMLElement>('[role=option]').forEach((li, i) => li.setAttribute('aria-selected', String(i === n)))
+    const li = list.children[n] as HTMLElement | undefined
+    if (li?.id) { input.setAttribute('aria-activedescendant', li.id); li.scrollIntoView({ block: 'nearest' }) } else input.removeAttribute('aria-activedescendant')
+  }
+  const fill = () => {
+    const q = fold(input.value.trim())
+    // Names that start with the query come first, then names that contain it.
+    items = q ? [...catalog.filter(c => c.key.startsWith(q)), ...catalog.filter(c => !c.key.startsWith(q) && c.key.includes(q))] : catalog
+    list.replaceChildren(...items.slice(0, 80).map((c, i) => {
+      const li = document.createElement('li'); li.id = `${list.id}-${i}`; li.setAttribute('role', 'option'); li.dataset.id = c.id
+      if (selected.includes(c.id)) { li.setAttribute('aria-disabled', 'true'); li.append(highlight(c.name, q), ' · added') } else li.append(highlight(c.name, q))
+      return li
+    }))
+    if (!items.length) { const li = document.createElement('li'); li.className = 'cbx-empty'; li.textContent = 'No researched ADE by that name'; list.append(li) }
+    setActive(items.findIndex(c => !selected.includes(c.id)))
+  }
+  const open = () => { fill(); list.hidden = false; input.setAttribute('aria-expanded', 'true'); place() }
+  const close = () => { list.hidden = true; input.setAttribute('aria-expanded', 'false'); input.removeAttribute('aria-activedescendant') }
+  const choose = (id: string | undefined) => {
+    if (!id || selected.includes(id)) return
+    const query = input.value.trim()
+    input.value = ''; close()
+    track('compare_add', { ade_id: id, compare_count: selected.length + 1, location: 'compare_picker', searched: query.length > 0 })
+    set([...selected.filter(x => x !== id), id]).then(() => {
+      if (!pairPage) root.querySelector<HTMLElement>(`thead [data-column-id="${CSS.escape(id)}"] .cmp-name`)?.focus()
+    })
+  }
+  input.addEventListener('focus', open)
+  input.addEventListener('click', () => { if (list.hidden) open() })
+  input.addEventListener('input', () => { if (list.hidden) open(); else { fill(); place() } })
+  input.addEventListener('blur', () => setTimeout(close, 120))
+  input.addEventListener('keydown', e => {
+    const step = (d: number) => { if (list.hidden) open(); let n = active; do { n = (n + d + items.length) % items.length } while (items.length && selected.includes(items[n].id) && n !== active); setActive(n) }
+    if (e.key === 'ArrowDown') { e.preventDefault(); step(1) }
+    else if (e.key === 'ArrowUp') { e.preventDefault(); step(-1) }
+    else if (e.key === 'Enter') { e.preventDefault(); choose(items[active]?.id) }
+    else if (e.key === 'Escape') { if (!list.hidden) { e.preventDefault(); close() } else input.value = '' }
+  })
+  // pointerdown, so the choice lands before the input blurs.
+  list.addEventListener('pointerdown', e => { e.preventDefault(); choose((e.target as HTMLElement).closest<HTMLElement>('[role=option]')?.dataset.id) })
+  addEventListener('resize', () => { if (!list.hidden) place() })
+  addEventListener('scroll', () => { if (!list.hidden) place() }, { capture: true, passive: true })
+}
+root.querySelectorAll<HTMLElement>('[data-add]').forEach(picker)
 // Keyboard focus must not stay under the sticky headers, whose size depends on the content.
 // The browser scrolls after this event, so correct on the next frame.
 scroller.addEventListener('focusin', e => {
@@ -105,10 +172,6 @@ function render(announce = true) {
   // Columns keep their place: a chosen ADE fills a column, the rest stay as empty slots, so nothing reflows.
   root.querySelectorAll<HTMLElement>('[data-column-id]').forEach(el => { el.hidden = !selected.includes(el.dataset.columnId!) })
   root.querySelectorAll<HTMLElement>('[data-slot]').forEach(el => { el.hidden = Number(el.dataset.slot) >= slots - selected.length })
-  for (const select of root.querySelectorAll<HTMLSelectElement>('[data-add]')) {
-    for (const option of select.options) option.disabled = Boolean(option.value) && selected.includes(option.value)
-    select.value = ''
-  }
   table.style.setProperty('--n', String(selected.length))
   let shown = 0
   root.querySelectorAll<HTMLElement>('[data-requirement-row]').forEach(row => {
@@ -137,27 +200,22 @@ function save() {
 function set(next: string[]) { selected = next.slice(0, max); save(); return show() }
 root.querySelector('#table-controls')!.addEventListener('change', e => {
   if ((e.target as HTMLElement).closest('[data-add]')) return
+  if (differences !== diffControl.checked) track('differences_toggle', { on: diffControl.checked, compare_count: selected.length })
   differences = diffControl.checked
   set(inputs.length ? inputs.filter(el => el.checked).map(el => el.dataset.tableProduct!) : selected)
 })
 root.querySelector('#table-controls')!.addEventListener('submit', e => { e.preventDefault(); save(); show() })
-root.addEventListener('change', e => {
-  const select = (e.target as HTMLElement).closest<HTMLSelectElement>('[data-add]')
-  if (!select || !select.value) return
-  const id = select.value
-  // Focus moves to the new column's name, so keyboard users land on what they added.
-  set([...selected.filter(x => x !== id), id]).then(() => {
-    if (!pairPage) root.querySelector<HTMLElement>(`thead [data-column-id="${CSS.escape(id)}"] .cmp-name`)?.focus()
-  })
-})
 root.addEventListener('click', e => {
   const remove = (e.target as HTMLElement).closest<HTMLButtonElement>('[data-remove]')
   if (!remove) return
+  track('compare_remove', { ade_id: remove.dataset.remove, compare_count: selected.length - 1, location: 'compare_table' })
   set(selected.filter(x => x !== remove.dataset.remove))
-  if (!pairPage) root.querySelector<HTMLSelectElement>('[data-slot]:not([hidden]) [data-add]')?.focus()
+  if (!pairPage) root.querySelector<HTMLInputElement>('[data-slot]:not([hidden]) [data-add] input')?.focus()
 })
 addEventListener('popstate', () => { read(); show() })
 const marked = markWanted(root, location.search)
 refreshAges(root)
 const ready = () => { delete document.documentElement.dataset.statePending }
 if (location.search) { read(); show(marked.count > 0 || false).then(ready) } else { render(false); ready() }
+// Which sets of ADEs people put side by side: the core signal of who competes with whom.
+if (pairPage || (compare && new URLSearchParams(location.search).has('products'))) track('compare_view', { ade_ids: [...selected].sort().join(','), compare_count: selected.length, page_type: pairPage ? 'pair' : mode })

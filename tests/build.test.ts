@@ -143,7 +143,8 @@ test('every static pair page keeps its budget and links unbuilt pairs to Compare
   const slugs = readdirSync(new URL('compare/', dist)).filter(name => name.includes('-vs-'))
   const sizes = slugs.map(slug => [slug, gzipSync(text(`compare/${slug}/index.html`)).length] as const).sort((a, b) => b[1] - a[1])
   console.log(`Largest pair page: ${sizes[0][0]} ${sizes[0][1]} bytes gzip`)
-  assert.ok(sizes[0][1] < 11_000, `${sizes[0][0]} weighs ${sizes[0][1]} gzip bytes`)
+  // 12 KB since the analytics loader and the GitHub and missing-ADE buttons joined every page.
+  assert.ok(sizes[0][1] < 12_000, `${sizes[0][0]} weighs ${sizes[0][1]} gzip bytes`)
   const html = text(`compare/${slugs[0]}/index.html`)
   assert.doesNotMatch(html, /data-table-product=/, 'A pair page carries no product picker')
   assert.match(html, /class="slot-add" href="\/compare\/\?products=[a-z0-9-]+,[a-z0-9-]+"/)

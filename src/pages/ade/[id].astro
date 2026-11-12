@@ -55,8 +55,15 @@ const labels = Object.fromEntries(requirements.map(r => [r.key, shortLabel(r.key
   <script id="sheet-labels" type="application/json" set:html={jsonScript(labels)} />
   <script>
     import { enhanceSheet } from '../../lib/sheet-client'
+    import { track } from '../../lib/track'
     const labels = JSON.parse(document.getElementById('sheet-labels')!.textContent!)
     enhanceSheet(document, location.search, labels)
+    // Which receipts people open tells us which answers they doubt or care about.
+    const ade = location.pathname.split('/')[2]
+    document.addEventListener('toggle', e => {
+      const d = e.target as HTMLDetailsElement
+      if (d.open && d.classList.contains('receipt')) track('receipt_open', { ade_id: ade, receipt: d.dataset.keys || d.querySelector('[id]')?.id })
+    }, true)
     // Back to the Finder keeps the selection that led here.
     const p = new URLSearchParams(location.search), back = new URLSearchParams()
     for (const k of ['must', 'nice', 'use']) if (p.get(k)) back.set(k, p.get(k)!)
