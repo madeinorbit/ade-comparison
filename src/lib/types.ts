@@ -14,7 +14,7 @@ export interface Source {
 }
 export interface Claim {
   productId: string; claimId: string; verificationStatus: Verification
-  support: string; answer: string; availability: string; delivery: string
+  answer: string; availability: string; delivery: string
   scope: { plan: string | null; version: string | null; os: string[]; executionModes: string[]; region: string | null; harness: string | null; surfaceIds: string[]; surfaces: { id: string; name: string; type: string }[] }
   questions: { id: string; question: string; support: string; answer: string; evidenceIds: string[] }[]
   limitations: string[]; checkedAt: string; crossCheckedAt: string | null; nextCheckAt: string; evidenceIds: string[]

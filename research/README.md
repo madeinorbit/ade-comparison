@@ -4,7 +4,7 @@ This directory holds the full research behind adecomparison.com: the product reg
 
 Agents read `registry.json`, `criteria.json` and `products/<id>.json`. `registry.json` lists every known identity and its category; the [qualification reports](qualification-2026-11.md) give the first-party evidence behind each category. A full profile with 51 criterion rows can still be queued or mostly unknown.
 
-The [screenshot library](screenshots/manifest.json) contains one sourced product view for every full-profile tool. Images live at `screenshots/<product-id>/home.<extension>`. The manifest records the page, direct asset URL, retrieval date, visible surface, task coverage, visual status and file digest. Visual review is bound to those digests, so replacing any image invalidates the review. Full validation rejects missing, changed or unregistered images and undocumented visual fallbacks. See the [latest visual review](screenshots/review-2026-09-22.md) for accepted replacements and open gaps.
+The [screenshot library](screenshots/manifest.json) contains one sourced product view for every full-profile tool. Images live at `screenshots/<product-id>/home.<extension>`. The manifest records the page, direct asset URL, retrieval date, visible surface, task coverage, visual status and file digest. Visual review is bound to those digests, so replacing any image invalidates the review. Full validation rejects missing, changed or unregistered images and undocumented visual fallbacks.
 
 ```sh
 node research/validate.mjs
@@ -17,13 +17,13 @@ node --test research/publication/directory.test.mjs
 
 The same checks run through `npm run research:validate`, `npm run test:research`, `npm run data:build` and `npm run data:check`. Set `ADE_COMPARISON_PUBLICATION_DATE=YYYY-MM-DD` to rebuild a snapshot for a fixed date; without it the build uses today's UTC date. Use Node 22+ or Bun. No dependency installation is needed for the catalog itself.
 
-Each claim has a stable product/criterion ID, atomic answers, scope, dates, evidence references, gaps and review state. `partial` means the named criterion is only partly established; it is not a quality score. Evidence distinguishes vendor claims, documentation, inspected code and observed tests. A source-only implementation is not proof of a released feature. An unknown is never a negative finding.
+Each claim has a stable product/criterion ID, atomic answers, scope, dates, evidence references, gaps and review state. Support states belong to the atomic answers. The criterion-level `support` field only marks a record as answered or unknown; it is not a quality score and is not published. Evidence distinguishes vendor claims, documentation, inspected code and observed tests. A source-only implementation is not proof of a released feature. An unknown is never a negative finding.
 
 Use atomic support states for capability questions. The dated [review record](notes/review.json) gives claim-level cross-check coverage, roadmap scan coverage, unresolved contradictions and remaining hands-on work as of its date.
 
 Researchers own separate product files. A different reviewer checks the evidence before facts become `public-reviewed`. Each full-profile pass also maintains its real product screenshot and provenance record. Changes append dated before/after records. Run validation before rebuilding. Details, screenshot selection rules and freshness requirements are in [AGENTS.md](AGENTS.md); the judgment rubric and evidence rules are in [comparison-framework.md](comparison-framework.md).
 
-Agent claim cross-checks do not complete hands-on recovery, multiplayer, fleet or shipping scenarios. The product files, rather than a page build date, record what was checked and when.
+Cross-checks are done by agents working for the publisher. A human audit of a sample from each research batch, with a published error rate, is planned and not yet in place. Agent claim cross-checks do not complete hands-on recovery, multiplayer, fleet or shipping scenarios. The product files, rather than a page build date, record what was checked and when.
 
 ## Research depth and Podium
 

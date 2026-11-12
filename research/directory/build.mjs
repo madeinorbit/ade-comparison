@@ -32,6 +32,7 @@ export const methodologyConstants = {
   correctionRule: 'Provide a public source URL and its exact sentence. Verify the correction in the catalog before regenerating this package.',
   limitations: [
     'Documentation and source inspection do not establish successful hands-on use.',
+    'Cross-checks are done by agents working for the publisher. No human has audited a sample of them yet; a human-audited sample with a published error rate is planned.',
     'A missing sourced finding is not evidence that a capability is absent.',
     'Clients, plans, versions and execution modes may have different capabilities. Read the receipt scope.',
     'Register listings identify products and contain no capability claims. A sourced first-party lifecycle notice can name a listed product before an independent cross-check.',
@@ -103,7 +104,9 @@ export function buildDirectoryFromPublication(publication, {
       crossCheckedClaimCount: product.crossCheckedClaimCount,
       oldestCheckedAt: product.oldestCheckedAt, lastCheckedAt: product.lastCheckedAt,
       facets: productFacets(product, definitions, mappings[id], date),
-      claims: product.claims, sources: product.sources }
+      // The row-level support state only marks a record as answered inside the catalog.
+      // It is not a rating, so the package carries the atomic answers alone.
+      claims: product.claims.map(({ support: _row, ...claim }) => claim), sources: product.sources }
   }).sort((a, b) => a.name.localeCompare(b.name, 'en') || a.id.localeCompare(b.id, 'en'))
   const coveredIds = new Set(products.filter(product => product.researchStatus === 'covered').map(product => product.id))
   const statusLog = publication.products.flatMap(product => product.changes

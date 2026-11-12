@@ -20,7 +20,7 @@ const source = object({ id: text, productId: text, kind: text, url, title: text,
 const lifecycleFields = { status: choice('sunset'), note: text, scope: text, continuation: maybeText, announcementDate: maybeText, serviceEndDate: maybeText, checkedAt: text, crossCheckedAt: maybeText, nextCheckAt: text, evidenceIds: strings }
 const lifecycle = (value, path) => assertShape(value, value?.status === 'unknown' ? object({ status: choice('unknown'), note: choice(null) }) : object(lifecycleFields), path)
 const receipt = values => object({ value: choice('unknown', ...values), verificationStatus: choice('unknown', 'sourced', 'agent-cross-checked'), claimId: maybeText, evidenceIds: strings, checkedAt: maybeText, crossCheckedAt: maybeText, nextCheckAt: maybeText })
-const claim = object({ productId: text, claimId: text, verificationStatus: choice('sourced', 'agent-cross-checked'), support: text, answer: text, availability: text, delivery: text,
+const claim = object({ productId: text, claimId: text, verificationStatus: choice('sourced', 'agent-cross-checked'), answer: text, availability: text, delivery: text,
   scope: object({ surfaceIds: strings, version: maybeText, plan: maybeText, os: strings, executionModes: strings, region: maybeText, harness: maybeText, surfaces: array(object({ id: text, name: text, type: text })) }),
   questions: array(object({ id: text, question: text, support: text, answer: text, evidenceIds: strings })), limitations: strings, checkedAt: text, crossCheckedAt: maybeText, nextCheckAt: text, evidenceIds: strings })
 export function assertShape(value, schema, path = '$') {

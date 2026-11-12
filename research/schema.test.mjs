@@ -4,11 +4,11 @@ import { readFileSync } from 'node:fs';
 import { claimReviewHash, createUnknownProfile, criteria, updateClaim, validateProfile, validateRubric } from './lib.mjs';
 
 function fixture() {
-  return createUnknownProfile({ id: 'fixture', name: 'Fixture', category: 'A', surfaces: [{ id: 'web', name: 'Web', type: 'web' }] }, { date: '2026-09-16', researcher: 'researcher' });
+  return createUnknownProfile({ id: 'fixture', name: 'Fixture', category: 'A', surfaces: [{ id: 'web', name: 'Web', type: 'web' }] }, { date: '2026-11-16', researcher: 'researcher' });
 }
 function sourced() {
   const p = fixture();
-  p.evidence.push({ id: 'official-docs', kind: 'documented', url: 'https://example.com/docs', title: 'Official docs', locator: 'Browser access', sourceDate: null, retrievedAt: '2026-09-16', finding: 'The product documents browser access.', visibility: 'public', commit: null, path: null });
+  p.evidence.push({ id: 'official-docs', kind: 'documented', url: 'https://example.com/docs', title: 'Official docs', locator: 'Browser access', sourceDate: null, retrievedAt: '2026-11-16', finding: 'The product documents browser access.', visibility: 'public', commit: null, path: null });
   updateClaim(p, 'ACC-01', { answer: 'Browser access is documented. Other clients are unverified.', support: 'partial', limitations: ['Other clients have not been verified.'], availability: 'generally-available', delivery: 'native', evidenceIds: ['official-docs'], scope: { surfaceIds: ['web'], plan: 'All documented plans' }, subanswers: { browser: { support: 'supported', answer: 'Browser access is documented.', evidenceIds: ['official-docs'] } } });
   return p;
 }
@@ -49,7 +49,7 @@ test('source references and evidence for negative assertions are required', () =
 test('public review requires an independent reviewer and publicly checkable evidence', () => {
   const p = sourced(); p.claims[0].publication = 'public-reviewed';
   assert.match(validateProfile(p).join('\n'), /requires reviewer/);
-  p.claims[0].review = { reviewer: 'researcher', date: '2026-09-16', contentHash: claimReviewHash(p, p.claims[0]) };
+  p.claims[0].review = { reviewer: 'researcher', date: '2026-11-16', contentHash: claimReviewHash(p, p.claims[0]) };
   assert.match(validateProfile(p).join('\n'), /independent/);
   p.claims[0].review.reviewer = 'reviewer';
   assert.deepEqual(validateProfile(p), []);
@@ -58,10 +58,10 @@ test('public review requires an independent reviewer and publicly checkable evid
 });
 
 test('public claims fail for unresolved contradictions or expired verification', () => {
-  const p = sourced(); Object.assign(p.claims[0], { publication: 'public-reviewed', review: { reviewer: 'reviewer', date: '2026-09-16', contentHash: claimReviewHash(p, p.claims[0]) }, contradictions: ['Conflicting docs need investigation.'] });
+  const p = sourced(); Object.assign(p.claims[0], { publication: 'public-reviewed', review: { reviewer: 'reviewer', date: '2026-11-16', contentHash: claimReviewHash(p, p.claims[0]) }, contradictions: ['Conflicting docs need investigation.'] });
   assert.match(validateProfile(p).join('\n'), /unresolved claim/);
   p.claims[0].contradictions = [];
-  assert.match(validateProfile(p, { publicationDate: '2026-10-30' }).join('\n'), /due for review/);
+  assert.match(validateProfile(p, { publicationDate: '2026-12-30' }).join('\n'), /due for review/);
 });
 
 test('code inspection requires a revision and path; tests require reproducible configuration', () => {
@@ -90,7 +90,7 @@ test('updates preserve unsourced atomic unknowns and reject invented keys', () =
 
 test('change records preserve before and after, dates and stable references', () => {
   const p = sourced();
-  p.changes.push({ date: '2026-09-16', author: 'researcher', type: 'research-correction', summary: 'Corrected access scope.', claimIds: ['fixture:ACC-01'] });
+  p.changes.push({ date: '2026-11-16', author: 'researcher', type: 'research-correction', summary: 'Corrected access scope.', claimIds: ['fixture:ACC-01'] });
   assert.match(validateProfile(p).join('\n'), /before and after/);
   Object.assign(p.changes[0], { before: 'Unverified', after: 'Browser access documented' });
   assert.deepEqual(validateProfile(p), []);
@@ -103,7 +103,7 @@ test('roadmap review records searched locations and cited announcements', () => 
   p.researchState = 'documented';
   assert.match(validateProfile(p).join('\n'), /documented full profile needs a roadmap review/);
   p.context.roadmapReview = {
-    checkedAt: '2026-09-23',
+    checkedAt: '2026-11-23',
     locations: [{ url: 'https://example.com/roadmap', result: 'Announced browser access for a future release.' }],
     announced: [{ criterionId: 'ACC-01', summary: 'Browser access announced.', sourceDate: null, targetDate: null, evidenceIds: ['official-docs'] }],
     gaps: [],
@@ -119,7 +119,7 @@ test('roadmap review records searched locations and cited announcements', () => 
 test('editing a reviewed fact requires a fresh independent review', () => {
   const p = sourced();
   const c = p.claims.find(c => c.criterionId === 'ACC-01');
-  c.publication = 'public-reviewed'; c.review = { reviewer: 'independent-reviewer', date: '2026-09-16', contentHash: claimReviewHash(p, c) };
+  c.publication = 'public-reviewed'; c.review = { reviewer: 'independent-reviewer', date: '2026-11-16', contentHash: claimReviewHash(p, c) };
   updateClaim(p, 'ACC-01', { answer: 'Browser access is documented only for the paid plan.' });
   assert.equal(c.review, null);
   assert.equal(c.publication, 'public-candidate');
@@ -128,17 +128,17 @@ test('editing a reviewed fact requires a fresh independent review', () => {
 test('claim reviews require a digest of the claim and all cited evidence', () => {
   const p = sourced(), claim = p.claims[0];
   claim.publication = 'public-reviewed';
-  claim.review = { reviewer: 'independent-reviewer', date: '2026-09-16', contentHash: claimReviewHash(p, claim) };
+  claim.review = { reviewer: 'independent-reviewer', date: '2026-11-16', contentHash: claimReviewHash(p, claim) };
   assert.deepEqual(validateProfile(p), []);
   for (const mutate of [
     p => p.claims[0].answer = 'Changed answer.',
     p => p.claims[0].subanswers.browser.answer = 'Changed atomic answer.',
     p => p.claims[0].scope.plan = 'Enterprise only',
-    p => p.claims[0].nextReviewAt = '2026-10-01',
+    p => p.claims[0].nextReviewAt = '2026-12-01',
     p => p.claims[0].researcher = 'different-researcher',
     p => p.evidence[0].finding = 'Changed source finding.',
     p => p.evidence[0].locator = 'Different section',
-    p => p.evidence[0].retrievedAt = '2026-09-17',
+    p => p.evidence[0].retrievedAt = '2026-11-17',
     p => p.claims[0].review.contentHash = '0'.repeat(64),
   ]) {
     const changed = structuredClone(p); mutate(changed);
@@ -158,11 +158,11 @@ test('claim digests bind atomic-only citations, and ignore unrelated edits and o
   p.evidence[1].finding = 'Additional browser detail.';
   p.evidence.push({ id: 'unrelated', finding: 'Private research note.' });
   p.context.note = 'Unrelated context';
-  claim.review = { reviewer: 'reviewer', date: '2026-09-16', contentHash: hash };
+  claim.review = { reviewer: 'reviewer', date: '2026-11-16', contentHash: hash };
   claim.publication = 'public-reviewed';
   claim.scope = Object.fromEntries(Object.entries(claim.scope).reverse());
   assert.equal(claimReviewHash(p, Object.fromEntries(Object.entries(claim).reverse())), hash);
-  for (const patch of [{ nextReviewAt: '2026-10-01' }, { researcher: 'another-researcher' }]) {
+  for (const patch of [{ nextReviewAt: '2026-12-01' }, { researcher: 'another-researcher' }]) {
     const changed = structuredClone(p);
     updateClaim(changed, 'ACC-01', patch);
     assert.equal(changed.claims[0].review, null);
@@ -176,23 +176,23 @@ test('lifecycle is optional, scoped and independently reviewed with an evidence-
   const claims = structuredClone(p.claims);
   p.lifecycle = {
     status: 'sunset', note: 'Hosted service is sunsetting.', scope: 'Hosted service',
-    continuation: 'Local open-source workspaces continue.', announcementDate: '2026-09-01', serviceEndDate: null,
-    checkedAt: '2026-09-16', nextReviewAt: '2026-09-30', evidenceIds: ['official-docs'],
+    continuation: 'Local open-source workspaces continue.', announcementDate: '2026-11-01', serviceEndDate: null,
+    checkedAt: '2026-11-16', nextReviewAt: '2026-11-30', evidenceIds: ['official-docs'],
     researcher: 'researcher', publication: 'public-candidate', review: null, contradictions: [],
   };
   assert.deepEqual(validateProfile(p), []);
   p.lifecycle.publication = 'public-reviewed';
   assert.match(validateProfile(p).join('\n'), /lifecycle public-reviewed requires reviewer/);
-  p.lifecycle.review = { reviewer: 'reviewer', date: '2026-09-16', contentHash: lifecycleReviewHash(p) };
+  p.lifecycle.review = { reviewer: 'reviewer', date: '2026-11-16', contentHash: lifecycleReviewHash(p) };
   assert.deepEqual(validateProfile(p), []);
   const reviewed = structuredClone(p);
   for (const [mutate, expected] of [
     [p => p.lifecycle.review.reviewer = 'researcher', /independent/],
-    [p => p.lifecycle.review.date = '2026-09-15', /predates/],
+    [p => p.lifecycle.review.date = '2026-11-15', /predates/],
     [p => p.lifecycle.note = 'Changed wording.', /content hash differs/],
     [p => p.lifecycle.scope = 'Entire product', /content hash differs/],
     [p => p.lifecycle.continuation = null, /content hash differs/],
-    [p => p.lifecycle.nextReviewAt = '2026-10-30', /content hash differs/],
+    [p => p.lifecycle.nextReviewAt = '2026-12-30', /content hash differs/],
     [p => p.evidence[0].finding = 'Changed source.', /content hash differs/],
     [p => p.lifecycle.evidenceIds = ['missing'], /missing evidence/],
     [p => p.evidence[0].visibility = 'internal', /public resolved evidence/],
@@ -206,8 +206,8 @@ test('lifecycle is optional, scoped and independently reviewed with an evidence-
     const changed = structuredClone(reviewed); mutate(changed);
     assert.match(validateProfile(changed).join('\n'), expected);
   }
-  assert.match(validateProfile(p, { publicationDate: '2026-10-01' }).join('\n'), /lifecycle public finding is due/);
-  assert.match(validateProfile(p, { publicationDate: '2026-09-15' }).join('\n'), /dated after publication/);
+  assert.match(validateProfile(p, { publicationDate: '2026-12-01' }).join('\n'), /lifecycle public finding is due/);
+  assert.match(validateProfile(p, { publicationDate: '2026-11-15' }).join('\n'), /dated after publication/);
   updateLifecycle(p, { note: 'A revised scoped notice.' });
   assert.equal(p.lifecycle.review, null);
   assert.equal(p.lifecycle.publication, 'public-candidate');
@@ -217,11 +217,11 @@ test('lifecycle is optional, scoped and independently reviewed with an evidence-
 test('lifecycle review digest ignores key ordering and unrelated evidence, but binds check dates', async () => {
   const { lifecycleReviewHash } = await import('./lib.mjs');
   const p = sourced();
-  p.lifecycle = { status: 'sunset', evidenceIds: ['official-docs'], checkedAt: '2026-09-16' };
+  p.lifecycle = { status: 'sunset', evidenceIds: ['official-docs'], checkedAt: '2026-11-16' };
   const hash = lifecycleReviewHash(p);
   p.lifecycle = Object.fromEntries(Object.entries(p.lifecycle).reverse());
   p.evidence.push({ id: 'unrelated', finding: 'Private note.' });
   assert.equal(lifecycleReviewHash(p), hash);
-  p.lifecycle.checkedAt = '2026-09-17';
+  p.lifecycle.checkedAt = '2026-11-17';
   assert.notEqual(lifecycleReviewHash(p), hash);
 });

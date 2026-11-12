@@ -1,12 +1,12 @@
 # Shared comparison framework
 
-Rubric v0.3 · approved 2026-09-16
+Rubric v0.3 · approved 2026-11-12
 
 This document defines the questions every product researcher must answer and the evidence rules that apply to every product. The machine-readable rubric is [criteria.json](criteria.json); `validate.mjs` fails if the two diverge. The catalog itself is described in [README.md](README.md) and [AGENTS.md](AGENTS.md).
 
 ## Approved research basis
 
-The product scope and revised 51-criterion framework were approved on 2026-09-16. Research uses these seven groups and evidence rules, with scenario-based advice and no overall product score. An editor, a remote agent service, and a multi-agent workspace can each be the right choice for different work.
+The product scope and revised 51-criterion framework were approved on 2026-11-12. Research uses these seven groups and evidence rules, with scenario-based advice and no overall product score. An editor, a remote agent service, and a multi-agent workspace can each be the right choice for different work.
 
 Researchers cover every criterion for every included product. A presentation can summarize the criteria relevant to its audience, but it cannot drop a criterion for one product and keep it for another.
 
@@ -25,7 +25,7 @@ Each product × criterion record needs all of these dimensions:
 | Dimension | Allowed values or rule |
 | --- | --- |
 | Answer | The concrete answer and limitations, using the values in the criterion table. Never just a checkmark. |
-| Support | `supported`, `partial`, `unsupported`, `unknown`, or `not-applicable`. Partial names the unmet part. Unsupported needs affirmative evidence for the scoped product. Unknown names the search or access gap. Not-applicable needs an explanation accepted by the reviewer. |
+| Support | Recorded per atomic question: `supported`, `partial`, `unsupported`, `unknown`, or `not-applicable`. Partial names the unmet part. Unsupported needs affirmative evidence for the scoped product, which includes a complete first-party list that omits the option (see below). Unknown names the search or access gap. Not-applicable needs an explanation accepted by the reviewer. The criterion record keeps one catalog-internal marker that says whether the record is answered or unknown. That marker is not a rating and is not published. |
 | Availability | `generally-available`, `beta`, `private-preview`, `announced`, `source-only`, `removed`, or `unknown`. An announcement is not current support. |
 | Delivery | `native`, `official-integration`, `community-integration`, `manual-workaround`, or `unknown`. Record the extra tool, plan and setup burden. A prompt asking an agent to do something is not native enforcement. |
 | Evidence | `observed`, `source-inspected`, `documented`, `vendor-claimed`, or `unresolved`. Multiple evidence records can coexist. These are methods, not interchangeable confidence scores. |
@@ -35,7 +35,9 @@ Each product × criterion record needs all of these dimensions:
 
 Store analyst interpretation separately from observed facts. A justified conclusion can cite several facts; it must not silently replace them. An unresolved contradiction remains visible and blocks a definitive public claim about that criterion.
 
-Apply support states to atomic questions, such as "can approve from the mobile browser," rather than giving an entire broad row one yes/no result. Supported means the scoped behavior meets the recorded question completely; partial means only part of that same behavior works and names the limitation. A macOS-only product is supported on macOS and unsupported or unknown on other named platforms, not generically "partial access." Do not average subfields into a group score. During schema work, freeze the enumerated subfields from each row and their required answers before any product agent starts; new subfields require a rubric revision for every product.
+Apply support states to atomic questions, such as "can approve from the mobile browser," rather than giving an entire broad row one yes/no result. Supported means the scoped behavior meets the recorded question completely; partial means only part of that same behavior works and names the limitation. A macOS-only product is supported on macOS and unsupported or unknown on other named platforms, not generically "partial access." Do not average subfields into a group score.
+
+A complete first-party list can establish `unsupported` for what it leaves out. The source must present itself as the full list for one closed dimension of the scoped release: a download page with its builds, a system-requirements or supported-platforms section, a pricing page with every plan, a license file. The answer cites that source and says the list omits the option. A README that happens to mention one platform, a marketing sentence, an example or a "such as" list is not complete, and neither is a list the vendor calls partial. If another first-party source disagrees, the answer stays unknown and the contradiction is recorded. This applies only to closed dimensions such as operating systems, client types, execution locations, plans and licenses. For open-ended capabilities, silence in the documentation is never `unsupported`. The rule is the same for every product. During schema work, freeze the enumerated subfields from each row and their required answers before any product agent starts; new subfields require a rubric revision for every product.
 
 ## Six high-level judgments
 
@@ -161,9 +163,9 @@ Treat product anecdotes as research leads with unknown test dates, versions or p
 3. For public code, pin a release or commit and inspect the relevant implementation, configuration and tests. Save repository URL, commit, file path and line anchors, a short finding, and the path linking it to a user-accessible feature. A symbol or README promise alone is insufficient. Inspect license files separately.
 4. Distinguish released code from default-branch work and hosted behavior. For closed products, use precise official documentation and scoped hands-on evidence where access exists; do not penalize a product for lacking public source.
 5. Save one real product screenshot for every full-profile tool. First require a readable, direct product interface with meaningful work. Then prefer a populated home or overview with chat, a populated board or list, an active workspace with a work list, and finally a single-task fallback. Reject promotional overlays, device montages, conceptual cards, isolated widgets and empty views even when first-party. Inspect the downloaded pixels, preserve the original asset, bind visual review to its digest, and record any unresolved fallback honestly. The catalog research contract defines the path and validation requirements.
-6. Answer all 51 criteria. Log searched locations and access limits for unknowns. A failed request, paywall or missing search result is not proof of absence. Reserve unsupported for an explicit current restriction, or an adequately bounded test/source inspection of the named release.
+6. Answer all 51 criteria. Log searched locations and access limits for unknowns. A failed request, paywall or missing search result is not proof of absence. Reserve unsupported for an explicit current restriction, a complete first-party list that omits the option, or an adequately bounded test/source inspection of the named release.
 7. Record conflicting evidence and resolve dates, plans and surfaces where possible. Older research provides leads and historical context, never automatic current values. Store announced changes separately with source, announcement date, affected criterion and stated target date if any. Recheck the announcement after a release; do not silently turn it into a shipped capability.
-8. Submit a product profile, evidence ledger and screenshot record for an independent review. The reviewer checks criterion coverage, public wording, source sufficiency, screenshot provenance and equal treatment of every product. No comparative winner claim can exceed its evidence.
+8. Submit a product profile, evidence ledger and screenshot record for an independent review. The reviewer checks criterion coverage, public wording, source sufficiency, screenshot provenance and equal treatment of every product. No comparative winner claim can exceed its evidence. Reviews are agent cross-checks by the publisher. A human audit of a sample from each research batch, with a published error rate, is planned and not yet in place.
 
 ### Shared scenarios
 
@@ -203,11 +205,8 @@ Review intervals are 14 days for pricing, availability and fast-changing feature
 
 ## Framework changes
 
-- **v0.1, 2026-09-16:** Initial shared evidence rules and 38 criteria.
-- **v0.2, 2026-09-16:** Expanded to 51 criteria from maintainer review notes. Made agent-native issue operations, persistent product specs, fleet UI, human takeover, task costs, resource-aware testing, batch shipping, free-tier usefulness, pricing transparency and enterprise assurance explicit. Added six derived judgments, market-context metadata and four scenarios. These are evaluation requirements, not new product findings.
-
-- **v0.3, 2026-09-16:** Folded the separate feedback notes into this framework. The 51-criterion rubric remains intact.
 - **Public release, 2026-11:** Prepared for public release. No criterion or atomic question changed meaning.
+- **Approval renewed, 2026-11-12:** The product scope, 51 criteria and evidence rules were reviewed and approved again as rubric v0.3. No criterion or atomic question changed meaning. Two evidence rules changed. A complete first-party list can now establish `unsupported` for the options it omits. The criterion-level support state is an internal answered-or-unknown marker and no longer appears in the public data. A human audit of sampled cross-checks is planned.
 
 ### Product lifecycle context
 

@@ -39,7 +39,7 @@ const story: [string, string, string[]][] = [
   ['OWN-04', 'Price', ['free-tier', ...requirements.filter(r => ['pricing-model', 'paid-from', 'starting-price'].includes(r.facetId)).map(r => r.key)]],
 ].flatMap(([id, title, keys]) => {
   const claim = product.claims?.find(c => c.claimId === `${product.id}:${id}`)
-  return claim && claim.answer && claim.support !== 'unknown' ? [[`${product.id}:${id}`, title as string, keys as string[]]] : []
+  return claim && claim.answer ? [[`${product.id}:${id}`, title as string, keys as string[]]] : []
 })
 const claimText = (id: string) => product.claims!.find(c => c.claimId === id)!.answer
 const hosts = [...new Set((product.sources || []).map(s => hostname(s.url)))]

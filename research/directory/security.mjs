@@ -55,7 +55,7 @@ const source = object({ id: String, productId: String, kind: String, url: public
   sourceDate: textOrNull, retrievedAt: String, finding: String, commit: optional(String), path: optional(String),
   method: optional(String), configuration: optional(String), fixture: optional(String), result: optional(String) })
 const claim = object({ productId: String, claimId: String, verificationStatus: choice('sourced', 'agent-cross-checked'),
-  support: String, answer: String, availability: String, delivery: String,
+  answer: String, availability: String, delivery: String,
   scope: object({ surfaceIds: strings, version: textOrNull, plan: textOrNull, os: strings, executionModes: strings,
     region: textOrNull, harness: textOrNull, surfaces: list(object({ id: String, name: String, type: String })) }),
   questions: list(object({ id: String, question: String, support: String, answer: String, evidenceIds: strings })),
