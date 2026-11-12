@@ -20,6 +20,10 @@ const shown = 10
 const starred = products.filter(p => p.researchStatus === 'covered' && p.githubStars).length
 const suggest = submissionLinks({ pagePath: '/' })?.suggestMissingAde || '/method/#corrections'
 const shortLabels = Object.fromEntries(requirements.map(r => [r.key, shortLabel(r.key)]))
+// A few names from the research queue, picked fresh with each nightly build so no ADE always gets the spotlight.
+const waiting = index.products.filter(p => p.researchStatus === 'not-researched')
+const rank = (id: string) => { let h = 2166136261; for (const c of `${seed}:${id}`) h = Math.imul(h ^ c.charCodeAt(0), 16777619); return h >>> 0 }
+const teased = [...waiting].sort((a, b) => rank(a.id) - rank(b.id)).slice(0, 14).sort((a, b) => a.name.localeCompare(b.name))
 ---
 <Layout title="Find an ADE that fits how you work" fullTitle="ADE Comparison: Compare Agent Development Environments" description={`Compare ${stats.researched} agent development environments (ADEs) for Claude Code, Codex and more. Filter by what you need and check the public source behind every answer.`}>
   <section class="hero in" aria-labelledby="hero-title">
@@ -60,8 +64,9 @@ const shortLabels = Object.fromEntries(requirements.map(r => [r.key, shortLabel(
       <p id="name-empty" hidden>No ADE by that name yet. <a href={suggest} rel="noopener noreferrer">Suggest it</a>.</p>
     </section>
     <div class="order in needs-js"><div class="order-in">
+      <span class="seg-label" aria-hidden="true">Sort by</span>
       <fieldset class="seg" id="finder-sort" aria-describedby="order-note">
-        <legend>Sort by</legend>
+        <legend class="vh">Sort by</legend>
         <label><input type="radio" name="sort" value="fit" checked /><span>Best fit</span></label>
         <label><input type="radio" name="sort" value="stars" /><span>GitHub stars</span></label>
         <label><input type="radio" name="sort" value="name" /><span>Name</span></label>
@@ -83,8 +88,27 @@ const shortLabels = Object.fromEntries(requirements.map(r => [r.key, shortLabel(
     </div>
     <ul hidden id="entry-pool"></ul>
     <div class="extras in">
-      <details id="plain-listings"><summary>Browse all {index.products.length} ADEs by name</summary><ul class="listing-list">{index.products.map((product, row) => <li {...product.researchStatus === 'not-researched' ? { 'data-index-row': row } : {}}><a data-product-name href={`/ade/${product.id}/`}>{product.name}</a></li>)}</ul></details>
-      <Prompt />
+      <Prompt covered={stats.researched} />
+      <section class="queue" aria-labelledby="queue-title">
+        <div class="queue-head">
+          <p class="queue-count"><b class="num">{waiting.length}</b> <span>more ADEs on our list</span></p>
+          <div>
+            <h2 id="queue-title">We know about {index.products.length} ADEs. We’re working through the rest.</h2>
+            <p class="queue-lead">New agent development environments appear every week. Agents research {stats.researched} of them in depth so far, and every night they pick up more from the queue. Until an ADE is researched, it has a page with its name and links, but no answers in the Finder.</p>
+          </div>
+        </div>
+        <div class="queue-tease">
+          <h3 class="vh">Waiting for research, a few of them</h3>
+          <ul class="queue-chips">{teased.map(p => <li><a href={`/ade/${p.id}/`}>{p.name}</a></li>)}<li class="queue-more" aria-hidden="true">and {waiting.length - teased.length} more</li></ul>
+          <p class="queue-act"><a href={suggest} rel="noopener noreferrer">Missing one? Suggest it</a></p>
+        </div>
+        <details id="plain-listings">
+          <summary><span class="queue-sum">Browse all {index.products.length} ADEs by name</span><span class="queue-key" aria-hidden="true"><i></i> researched</span></summary>
+          <ul class="listing-list queue-all">{index.products.map((product, row) => product.researchStatus === 'not-researched'
+            ? <li data-index-row={row}><a data-product-name href={`/ade/${product.id}/`}>{product.name}</a></li>
+            : <li class="is-covered"><a href={`/ade/${product.id}/`}>{product.name}<span class="vh"> (researched)</span></a></li>)}</ul>
+        </details>
+      </section>
     </div>
     <div class="tray needs-js" id="compare-tray" role="region" aria-label="Compare" data-on="false">
       <div class="in tray-in">
@@ -190,7 +214,7 @@ const shortLabels = Object.fromEntries(requirements.map(r => [r.key, shortLabel(
   .order { margin-top: var(--s-2xl); }
   .order-in { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-sm) var(--s-lg); padding-block: var(--s-md); border-block: 1px solid var(--rule); font-size: var(--t-sm); }
   .seg { display: flex; align-items: center; gap: 0; }
-  .seg legend { float: left; font-weight: 500; color: var(--muted); padding: 0; margin-right: var(--s-xs); }
+  .seg-label { font-weight: 500; color: var(--muted); margin-right: calc(var(--s-xs) - var(--s-lg)); }
   .seg label { position: relative; min-height: 0; gap: 0; }
   .seg input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
   .seg span { display: inline-flex; align-items: center; min-height: 36px; padding: 0 var(--s-md); border: 1px solid var(--rule); background: var(--paper); color: var(--ink-2); font-weight: 500; transition: background-color var(--dur-micro) var(--ease-out), color var(--dur-micro) var(--ease-out); }
@@ -230,9 +254,36 @@ const shortLabels = Object.fromEntries(requirements.map(r => [r.key, shortLabel(
   .f-fits .add[aria-pressed="true"] .add-box::after { background: var(--field); }
   .add:hover { text-decoration: underline; text-underline-offset: .2em; }
 
-  .extras { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--s-xl) var(--gap); margin-top: var(--s-2xl); align-items: start; }
-  #plain-listings > summary { font: 700 var(--t-xl)/1.2 var(--display); letter-spacing: -.02em; }
-  #plain-listings[open] { grid-column: 1 / -1; }
+  /* Below the board: hand the reading to an agent, then the research queue. Both full width. */
+  .extras { display: grid; gap: var(--s-2xl); margin-top: var(--s-2xl); }
+  .queue { display: grid; gap: var(--s-lg); padding-top: var(--s-xl); border-top: 1px solid var(--rule); }
+  .queue-head { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: var(--s-md) var(--gap); align-items: end; }
+  .queue-count { display: grid; gap: var(--s-2xs); }
+  .queue-count b { font: 700 clamp(4rem, 6vw, 6rem)/.86 var(--display); letter-spacing: -.045em; }
+  .queue-count span { font: 500 var(--t-lg)/1.2 var(--font); color: var(--ink-2); }
+  .queue h2 { font-size: var(--t-2xl); line-height: 1.1; max-width: 26ch; text-wrap: balance; }
+  .queue-lead { margin-top: var(--s-sm); color: var(--ink-2); max-width: 62ch; }
+  .queue-tease { display: grid; gap: var(--s-sm); }
+  .queue-chips { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: var(--s-xs); }
+  .queue-chips a { display: inline-flex; align-items: center; min-height: 36px; padding: 0 var(--s-sm); border: 1px dashed color-mix(in oklab, var(--ink) 30%, transparent); color: var(--ink-2); font-size: var(--t-sm); font-weight: 500; text-decoration: none; transition: border-color var(--dur-micro) var(--ease-out), color var(--dur-micro) var(--ease-out); }
+  .queue-chips a:hover { border-style: solid; border-color: var(--ink); color: var(--ink); }
+  .queue-more { display: inline-flex; align-items: center; min-height: 36px; padding: 0 var(--s-2xs); font-size: var(--t-sm); color: var(--muted); }
+  .queue-act { font-size: var(--t-sm); }
+  #plain-listings { border-block: 1px solid var(--rule); }
+  #plain-listings > summary { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-xs) var(--s-lg); min-height: 56px; cursor: pointer; list-style: none; }
+  #plain-listings > summary::-webkit-details-marker { display: none; }
+  .queue-sum { display: inline-flex; align-items: center; gap: var(--s-xs); font-weight: 600; }
+  .queue-sum::before { content: ""; width: 8px; height: 8px; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: translateY(-2px) rotate(45deg); transition: transform var(--dur-short) var(--ease-out); }
+  #plain-listings[open] .queue-sum::before { transform: translateY(1px) rotate(-135deg); }
+  #plain-listings > summary:hover .queue-sum { text-decoration: underline; text-underline-offset: .24em; }
+  .queue-key { display: none; align-items: center; gap: var(--s-2xs); font-size: var(--t-xs); color: var(--muted); }
+  #plain-listings[open] .queue-key { display: inline-flex; }
+  .queue-key i, .queue-all .is-covered a::before { content: ""; display: inline-block; width: 6px; height: 6px; background: var(--accent); flex: none; }
+  .queue-all { list-style: none; padding: 0 0 var(--s-lg); margin: 0; columns: 13rem auto; column-gap: var(--gap); }
+  .queue-all li { break-inside: avoid; margin: 0 !important; }
+  .queue-all a { display: inline-flex; align-items: center; gap: var(--s-xs); min-height: 32px; font-size: var(--t-sm); color: var(--ink-2); text-decoration: none; }
+  .queue-all a:hover { color: var(--ink); text-decoration: underline; text-underline-offset: .2em; }
+  .queue-all .is-covered a { color: var(--ink); font-weight: 500; }
 
   /* The compare tray sits on top of the page, so showing it never moves the content. */
   .tray { position: fixed; left: 0; right: 0; bottom: 0; z-index: var(--z-sticky); background: var(--ink); color: var(--paper); --focus: var(--paper); transform: translateY(105%); visibility: hidden; transition: transform var(--dur-short) var(--ease-out), visibility 0s linear var(--dur-short); }
@@ -256,7 +307,7 @@ const shortLabels = Object.fromEntries(requirements.map(r => [r.key, shortLabel(
     .pre { display: flex; flex-wrap: wrap; gap: 0 var(--s-lg); }
     .board { grid-template-columns: minmax(0, 1fr); }
     .f-shutting-down .f-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .extras { grid-template-columns: minmax(0, 1fr); }
+    .queue-head { grid-template-columns: minmax(0, 1fr); align-items: start; }
   }
   @media (max-width: 40rem) {
     .hero { padding-top: var(--s-lg); gap: var(--s-md); }

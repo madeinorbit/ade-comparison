@@ -158,6 +158,7 @@ function initializeFinder() {
     }))
     $('#name-empty').hidden = matches.length > 0
     $<HTMLTextAreaElement>('#agent-prompt').value = promptFor(state, requirements, baseUrl)
+    $('#prompt-picks').textContent = [state.must.length ? `must-have ${list(state.must.map(label))}` : '', state.nice.length ? `nice-to-have ${list(state.nice.map(label))}` : ''].filter(Boolean).join('; ') || 'nothing picked yet, so it asks about every ADE'
     // ADE links carry the selection, so the sheet can light up what you asked for.
     const sel = selection().toString()
     for (const a of document.querySelectorAll<HTMLAnchorElement>('.e a[data-open]')) {

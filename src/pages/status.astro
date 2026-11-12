@@ -2,6 +2,7 @@
 import Layout from '../layouts/Layout.astro'
 import Lifecycle from '../components/Lifecycle.astro'
 import StatusEvents from '../components/StatusEvents.astro'
+import SubmissionActions from '../components/SubmissionActions.astro'
 import { index, statusLog } from '../lib/data'
 import { planStatus, statusPageSize } from '../lib/status'
 const { since, days, months, recent } = planStatus(statusLog, index.generatedAt)
@@ -13,13 +14,26 @@ const current = new Set(recent.map(day => day.id))
   <p class="page-lead">Shutdowns, product changes and research rechecks from eligible public records. This is not a complete history. An event links to today's eligible findings, not a historical before-and-after claim.</p>
   <Lifecycle />
   <section><h2>Recent cited events</h2>
-    <p>Up to {statusPageSize} product-day summaries from the last 30 days, <time datetime={since}>{since}</time> through <time datetime={index.generatedAt}>{index.generatedAt}</time>. The monthly archives include all cited events.</p>
+    <p class="st-note">Up to {statusPageSize} product-day summaries from the last 30 days, <time datetime={since}>{since}</time> through <time datetime={index.generatedAt}>{index.generatedAt}</time>. The monthly archives include all cited events.</p>
     {!recent.length && <p>No eligible events in the last 30 days of this snapshot.</p>}
     <StatusEvents days={recent} moved={days.filter(day => !current.has(day.id))} />
   </section>
   <section aria-labelledby="archives"><h2 id="archives">Monthly archives</h2>
     {!months.length && <p>No archived events in this snapshot.</p>}
-    <ul>{months.map(month => <li><a href={`/status/${month.month}/`}>{month.label}</a> · {month.days.length} product-day summaries</li>)}</ul>
+    <ul class="st-months">{months.map(month => <li><a href={`/status/${month.month}/`}>{month.label}</a><span>{month.days.length} product-day summaries</span></li>)}</ul>
+  </section>
+  <section aria-labelledby="fix-title" class="st-fix"><h2 id="fix-title">Something wrong or missing?</h2>
+    <SubmissionActions />
   </section>
   </div>
 </Layout>
+<style is:global>
+  .st-note { font-size: var(--t-sm); color: var(--ink-2); max-width: 70ch; }
+  .page .st-months { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr)); gap: var(--s-sm); }
+  .page .st-months li { position: relative; display: grid; gap: 2px; margin: 0; padding: var(--s-md); background: var(--paper-2); transition: background-color var(--dur-micro) var(--ease-out); }
+  .page .st-months li:hover { background: var(--paper-3); }
+  .st-months a { font: 700 var(--t-lg)/1.2 var(--display); text-decoration: none; }
+  .st-months a::after { content: ""; position: absolute; inset: 0; }
+  .st-months span { font-size: var(--t-xs); color: var(--muted); }
+  .st-fix h2 { font-size: var(--t-xl); }
+</style>

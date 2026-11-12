@@ -1,6 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro'
 import StatusEvents from '../../components/StatusEvents.astro'
+import SubmissionActions from '../../components/SubmissionActions.astro'
 import { index, statusLog } from '../../lib/data'
 import { planStatus } from '../../lib/status'
 export function getStaticPaths() {
@@ -19,9 +20,19 @@ const suffix = page.total > 1 ? `, page ${page.number} of ${page.total}` : ''
   <h1>{page.label} status archive{suffix}</h1>
   <p><a href="/status/">Shutdown notices, recent changes and all monthly archives</a></p>
   <p>These events link to today's eligible findings, not historical before-and-after claims.</p>
-  {siblings.length > 1 && <nav aria-label="Archive pages"><ul>{siblings.map(sibling => <li><a href={sibling.path} aria-current={sibling.number === page.number ? 'page' : undefined}>Page {sibling.number}</a></li>)}</ul></nav>}
+  {siblings.length > 1 && <nav aria-label="Archive pages"><ul class="st-pages">{siblings.map(sibling => <li><a href={sibling.path} aria-current={sibling.number === page.number ? 'page' : undefined}><span class="vh">Page </span>{sibling.number}</a></li>)}</ul></nav>}
   <section><h2>Cited events</h2>
     <StatusEvents days={page.days} moved={month.days.filter(day => !current.has(day.id))} />
   </section>
+  <section aria-labelledby="fix-title"><h2 id="fix-title">Something wrong or missing?</h2>
+    <SubmissionActions />
+  </section>
   </div>
 </Layout>
+<style is:global>
+  .page .st-pages { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: var(--s-2xs); margin-top: var(--s-md); }
+  .page .st-pages li { margin: 0; }
+  .st-pages a { display: inline-grid; place-items: center; min-width: 40px; min-height: 40px; padding: 0 var(--s-xs); border: 1px solid var(--rule); text-decoration: none; font-variant-numeric: tabular-nums; }
+  .st-pages a:hover { border-color: var(--ink); }
+  .st-pages a[aria-current] { background: var(--ink); border-color: var(--ink); color: var(--paper); }
+</style>

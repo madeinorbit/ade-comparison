@@ -3,16 +3,38 @@ import { notices, productById } from '../lib/data'
 import Sources from './Sources.astro'
 import SubmissionActions from './SubmissionActions.astro'
 import Checked from './Checked.astro'
+import { shutdownLine, firstSentence } from '../lib/sheet'
 interface Props { productId?: string; compact?: boolean }
 const compact = Boolean(Astro.props.compact)
 const Wrap = compact ? 'details' : 'div'
 const single = Boolean(Astro.props.productId)
 const list = single ? notices.filter(n => n.productId === Astro.props.productId) : notices
 ---
-{list.length > 0 && <section aria-label={single ? undefined : 'Published shutdown notices'}>
-  {!single && <h2>Published shutdown notices</h2>}
+{/* The status page lists every notice, so each one folds to a single line: name, date, first sentence. */}
+{!single && list.length > 0 && <section class="notices" aria-labelledby="notices-title">
+  <h2 id="notices-title">Published shutdown notices</h2>
+  <div class="notice-list">{list.map(notice => <details id={`lifecycle-${notice.productId}`} class="notice-c">
+    <summary>
+      <span class="nc-name">{productById.get(notice.productId)?.name || notice.productId}</span>
+      <span class="nc-when">{shutdownLine(notice)}</span>
+      <span class="nc-note">{firstSentence(notice.note)}</span>
+    </summary>
+    <div class="nc-body">
+      <p>{notice.note}</p>
+      <dl class="metadata">
+        <dt>Scope</dt><dd>{String(notice.scope || 'Not specified')}</dd>
+        <dt>Announced</dt><dd>{String(notice.announcementDate || 'Not specified')}</dd>
+        <dt>Service ends</dt><dd>{String(notice.serviceEndDate || 'Not specified')}</dd>
+        <dt>Continuation</dt><dd>{notice.continuation || 'Not specified'}</dd>
+        <dt>Checked</dt><dd><time datetime={notice.checkedAt}>{notice.checkedAt}</time> · <Checked date={notice.checkedAt} /> {notice.facet.verificationStatus === 'agent-cross-checked' && <small class="badge">cross-checked</small>}</dd>
+      </dl>
+      <Sources sources={notice.sources} />
+      <p><a href={`/ade/${notice.productId}/#lifecycle`}>Open the {productById.get(notice.productId)?.name || notice.productId} page</a></p>
+    </div>
+  </details>)}</div>
+</section>}
+{single && list.length > 0 && <section>
   {list.map(notice => <article id={`lifecycle-${notice.productId}`} class="notice">
-    {!single && <h3><a href={`/ade/${notice.productId}/#lifecycle`}>{productById.get(notice.productId)?.name || notice.productId}</a></h3>}
     <p>{notice.note}</p>
     <Wrap class="notice-body">{compact && <summary>Dates, scope and sources</summary>}<dl class="metadata">
       <dt>Scope</dt><dd>{String(notice.scope || 'Not specified')}</dd>
@@ -25,3 +47,22 @@ const list = single ? notices.filter(n => n.productId === Astro.props.productId)
     <SubmissionActions product={{ id: notice.productId, name: productById.get(notice.productId)?.name || notice.productId }} pagePath={`/ade/${notice.productId}/#lifecycle`} receipt="Lifecycle status" /></Wrap>
   </article>)}
 </section>}
+<style is:global>
+  .notice-list { display: grid; border-top: 1px solid var(--rule); }
+  .notice-c { border-bottom: 1px solid var(--rule); }
+  .notice-c > summary { display: grid; grid-template-columns: auto minmax(8rem, 13rem) auto minmax(0, 1fr); align-items: baseline; gap: var(--s-2xs) var(--s-md); padding: var(--s-sm) var(--s-xs); cursor: pointer; list-style: none; }
+  .notice-c > summary::-webkit-details-marker { display: none; }
+  .notice-c > summary::before { content: ""; width: .55em; height: .55em; background: var(--mark); align-self: center; }
+  .notice-c > summary:hover { background: var(--paper-2); }
+  .nc-name { font-weight: 600; }
+  .nc-when { font: 700 var(--t-sm)/1.3 var(--display); white-space: nowrap; }
+  .nc-note { font-size: var(--t-sm); color: var(--ink-2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+  .notice-c[open] .nc-note { display: none; }
+  .nc-body { display: grid; gap: var(--s-sm); padding: 0 var(--s-xs) var(--s-lg) calc(.55em + var(--s-md) + var(--s-xs)); max-width: 80ch; }
+  .notice-c:target { background: var(--paper-2); }
+  @media (max-width: 40rem) {
+    .notice-c > summary { grid-template-columns: auto minmax(0, 1fr); }
+    .nc-when, .nc-note { grid-column: 2; }
+    .nc-body { padding-left: var(--s-xs); }
+  }
+</style>

@@ -2,28 +2,57 @@
 import { promptFor, emptyState } from '../lib/filter'
 import { requirements } from '../lib/data'
 import { siteConfig } from '../../config.mjs'
+interface Props { covered: number }
+const { covered } = Astro.props
 ---
 <section class="prompt" aria-labelledby="prompt-title">
-  <h2 id="prompt-title">Ask your coding agent</h2>
-  <p>The prompt includes your requirements and receipt rules. <a href="/llms.txt">Browse the agent files</a>.</p>
-  <label for="agent-prompt">Prompt to copy</label>
-  <textarea id="agent-prompt" rows="8" readonly>{promptFor(emptyState(), requirements, siteConfig.baseUrl)}</textarea>
-  <button type="button" id="copy-prompt" class="btn-line">Copy prompt</button>
-  <p id="copy-status" class="status-line" role="status"></p>
+  <div class="prompt-txt">
+    <p class="prompt-kicker">Ask your coding agent</p>
+    <h2 id="prompt-title">No time to read through {covered} entries? We’ve got you covered.</h2>
+    <p class="prompt-lead">Hand the reading to your coding agent. We write the prompt for you from what you picked above, so the agent goes straight to the ADEs that fit and cites a public source for every answer.</p>
+    <ol class="prompt-steps">
+      <li><span><b>Pick</b> your must-haves and nice-to-haves above.</span></li>
+      <li><span><b>Copy</b> the prompt. It updates with every pick.</span></li>
+      <li><span><b>Paste</b> it into Claude Code, Codex or any agent that can read the web.</span></li>
+    </ol>
+    <p class="prompt-picks needs-js">Built from: <span id="prompt-picks">nothing picked yet, so it asks about every ADE</span></p>
+    <p class="prompt-files">Prefer the raw data? <a href="/llms.txt">Browse the agent files</a>.</p>
+  </div>
+  <div class="prompt-box">
+    <label for="agent-prompt" class="vh">Prompt to copy</label>
+    <textarea id="agent-prompt" rows="9" readonly spellcheck="false">{promptFor(emptyState(), requirements, siteConfig.baseUrl)}</textarea>
+    <div class="prompt-bar">
+      <button type="button" id="copy-prompt" class="btn-ink">Copy prompt</button>
+      <p id="copy-status" class="status-line" role="status"></p>
+    </div>
+  </div>
 </section>
 <script>
   const button = document.querySelector<HTMLButtonElement>('#copy-prompt')
   button?.addEventListener('click', async () => {
     const input = document.querySelector<HTMLTextAreaElement>('#agent-prompt')!
     const status = document.querySelector<HTMLElement>('#copy-status')!
-    try { await navigator.clipboard.writeText(input.value); status.textContent = 'Prompt copied.' }
+    try { await navigator.clipboard.writeText(input.value); status.textContent = 'Prompt copied. Paste it into your agent.' }
     catch { input.focus(); input.select(); status.textContent = 'Select and copy the prompt with your keyboard.' }
   })
 </script>
 <style is:global>
-  .prompt { display: grid; gap: var(--s-sm); align-content: start; }
-  .prompt h2 { font-size: var(--t-xl); }
-  .prompt > p { color: var(--ink-2); font-size: var(--t-sm); }
-  .prompt label { min-height: 0; font-size: var(--t-sm); color: var(--muted); font-weight: 500; }
-  .prompt .btn-line { justify-self: start; }
+  .prompt { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: var(--s-xl) var(--gap); padding: var(--s-xl); background: var(--paper-2); align-items: start; }
+  .prompt-txt { display: grid; gap: var(--s-sm); align-content: start; }
+  .prompt-kicker { font-size: var(--t-sm); font-weight: 500; color: var(--muted); }
+  .prompt h2 { font-size: var(--t-2xl); line-height: 1.1; max-width: 22ch; text-wrap: balance; }
+  .prompt-lead { color: var(--ink-2); max-width: 52ch; }
+  .prompt-steps { list-style: none; padding: 0; margin: var(--s-2xs) 0 0; display: grid; gap: var(--s-2xs); counter-reset: ps; font-size: var(--t-sm); color: var(--ink-2); }
+  .prompt-steps li { counter-increment: ps; display: grid; grid-template-columns: 1.6rem minmax(0, 1fr); align-items: baseline; }
+  .prompt-steps li::before { content: counter(ps); font: 700 var(--t-sm)/1 var(--display); color: var(--accent); }
+  .prompt-steps b { color: var(--ink); font-weight: 600; }
+  .prompt-picks { font-size: var(--t-sm); color: var(--muted); }
+  .prompt-picks span { color: var(--ink); font-weight: 500; }
+  .prompt-files { font-size: var(--t-sm); color: var(--ink-2); }
+  .prompt-box { display: grid; gap: var(--s-sm); min-width: 0; }
+  .prompt textarea { width: 100%; min-height: 15rem; resize: vertical; padding: var(--s-md); border: 1px solid var(--rule); background: var(--paper); font-size: var(--t-xs); line-height: 1.6; }
+  .prompt-bar { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-xs) var(--s-md); }
+  .prompt-bar .status-line { font-size: var(--t-sm); color: var(--ink-2); }
+  @media (max-width: 60rem) { .prompt { grid-template-columns: minmax(0, 1fr); } }
+  @media (max-width: 40rem) { .prompt { padding: var(--s-lg) var(--s-md); } }
 </style>

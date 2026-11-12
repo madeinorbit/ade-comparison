@@ -1,6 +1,5 @@
 ---
-import SubmissionActions from './SubmissionActions.astro'
-import { claimAnchor, notices, productById } from '../lib/data'
+import { claimAnchor, notices, productById, shortDate } from '../lib/data'
 import type { StatusDay } from '../lib/status'
 interface Props { days: StatusDay[]; moved?: StatusDay[] }
 const { days, moved = [] } = Astro.props
@@ -17,18 +16,28 @@ const receipts = days.map(day => {
   const sources = [...new Map([...(product.sources || []), ...(notice?.sources || [])].filter(s => evidence.has(s.id)).map(s => [s.id, s])).values()]
   return { ...day, product, types: [...new Set(day.events.map(e => e.type.replace(/-/g, ' ')))], claimIds, sources }
 })
+// One heading per day; the products changed that day sit under it.
+const byDate = [...Map.groupBy(receipts, r => r.date)]
 ---
-{receipts.map(day => <article class="receipt" id={day.id}>
-  <h3><time datetime={day.date}>{day.date}</time> · <a href={`/ade/${day.product.id}/`}>{day.product.name}</a></h3>
-  <p>{day.types.join(', ')}</p>
-  <details><summary>{count(day.claimIds.length, 'finding')} and {count(day.sources.length, 'current source')}</summary>
-    <ul>{day.claimIds.map(id => <li><a href={`/ade/${day.product.id}/#${claimAnchor(id)}`}>{excerpt(day.product.claims?.find(c => c.claimId === id)?.answer || id)}</a></li>)}</ul>
-    <ul>{day.sources.map(s => <li><a href={s.url} rel="noopener noreferrer">{s.title}</a></li>)}</ul>
-    <SubmissionActions product={day.product} pagePath={`${Astro.url.pathname}#${day.id}`} receipt={`${day.date}: ${day.types.join(', ')}`} />
-  </details>
-</article>)}
+{byDate.length > 0 && <div class="ev-log">{byDate.map(([date, items]) => <div class="ev-day">
+  <h3 class="ev-date"><time datetime={date}>{shortDate(date)}</time> <span>{count(items.length, 'ADE')}</span></h3>
+  <div class="ev-items">{items.map(day => <article class="receipt" id={day.id}>
+    <details class="ev-more">
+      <summary>
+        <span class="ev-name">{day.product.name}</span>
+        <span class="ev-types">{day.types.map(t => <span class="ev-type">{t}</span>)}</span>
+        <span class="ev-count">{count(day.claimIds.length, 'finding')} · {count(day.sources.length, 'source')}</span>
+      </summary>
+      <div class="ev-body">
+        {day.claimIds.length > 0 && <><h4>Findings today</h4><ul>{day.claimIds.map(id => <li><a href={`/ade/${day.product.id}/#${claimAnchor(id)}`}>{excerpt(day.product.claims?.find(c => c.claimId === id)?.answer || id)}</a></li>)}</ul></>}
+        {day.sources.length > 0 && <><h4>Sources</h4><ul>{day.sources.map(s => <li><a href={s.url} rel="noopener noreferrer">{s.title}</a></li>)}</ul></>}
+        <p><a href={`/ade/${day.product.id}/`}>Open the {day.product.name} page</a></p>
+      </div>
+    </details>
+  </article>)}</div>
+</div>)}</div>}
 {/* Small fallback targets preserve old bookmarks even without JavaScript. */}
-{moved.length > 0 && <details>
+{moved.length > 0 && <details class="ev-moved">
   <summary>Archived event links</summary>
   <ul>{moved.map(day => <li id={day.id}><a data-status-archive href={`${day.archivePath}#${day.id}`}>{day.date} · {productById.get(day.productId)!.name}</a></li>)}</ul>
 </details>}
@@ -42,3 +51,31 @@ const receipts = days.map(day => {
   followArchive()
   addEventListener('hashchange', followArchive)
 </script>
+<style is:global>
+  /* The log: a date column, then one folded line per ADE. */
+  .ev-log { display: grid; }
+  .ev-day { display: grid; grid-template-columns: 11rem minmax(0, 1fr); gap: var(--s-xs) var(--gap); padding-block: var(--s-md); border-top: 1px solid var(--rule); }
+  .ev-date { display: grid; gap: 2px; align-content: start; padding-top: var(--s-xs); font: 700 var(--t-lg)/1.2 var(--display); letter-spacing: -.01em; }
+  .ev-date span { font: 400 var(--t-xs)/1.4 var(--font); color: var(--muted); letter-spacing: 0; }
+  .ev-items { display: grid; }
+  .page .ev-items .receipt { border-top: 0; margin: 0; }
+  .ev-items .receipt + .receipt { border-top: 1px solid color-mix(in oklab, var(--rule) 60%, transparent); }
+  .ev-more > summary { display: grid; grid-template-columns: minmax(8rem, 14rem) minmax(0, 1fr) auto; align-items: center; gap: var(--s-2xs) var(--s-md); min-height: 48px; padding: var(--s-2xs) var(--s-xs); cursor: pointer; list-style: none; }
+  .ev-more > summary::-webkit-details-marker { display: none; }
+  .ev-more > summary:hover { background: var(--paper-2); }
+  .ev-name { font-weight: 600; }
+  .ev-types { display: flex; flex-wrap: wrap; gap: var(--s-2xs); }
+  .ev-type { padding: 0 .5em; font-size: var(--t-xs); line-height: 1.7; background: var(--paper-2); color: var(--ink-2); }
+  .ev-count { display: inline-flex; align-items: center; gap: var(--s-xs); font-size: var(--t-xs); color: var(--muted); white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .ev-count::after { content: ""; width: 6px; height: 6px; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transform: translateY(-2px) rotate(45deg); transition: transform var(--dur-short) var(--ease-out); }
+  .ev-more[open] .ev-count::after { transform: translateY(1px) rotate(-135deg); }
+  .ev-body { display: grid; gap: var(--s-2xs); padding: var(--s-xs) var(--s-xs) var(--s-md); font-size: var(--t-sm); max-width: 80ch; }
+  .ev-body h4 { margin-top: var(--s-xs); font: 500 var(--t-xs)/1.4 var(--font); color: var(--muted); }
+  .ev-body ul { margin: 0; }
+  .ev-moved { margin-top: var(--s-lg); font-size: var(--t-sm); color: var(--ink-2); }
+  @media (max-width: 40rem) {
+    .ev-day { grid-template-columns: minmax(0, 1fr); }
+    .ev-more > summary { grid-template-columns: minmax(0, 1fr) auto; }
+    .ev-types { grid-row: 2; grid-column: 1 / -1; }
+  }
+</style>
