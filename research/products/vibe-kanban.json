@@ -53,7 +53,7 @@
     {
       "id": "vibe-kanban:ACC-01",
       "criterionId": "ACC-01",
-      "answer": "Local browser workspaces and Tauri desktop packages remain available as project distributions. Mobile parity and post-sunset extension compatibility are untested.",
+      "answer": "The continuing local product provides browser workspaces, a product CLI and Tauri desktop packages. Its complete pinned native build/distribution matrix covers macOS, Windows and Linux, with no released native iOS or Android package. Phone-browser parity and cross-device continuity remain unestablished.",
       "support": "partial",
       "availability": "generally-available",
       "delivery": "native",
@@ -82,9 +82,12 @@
           ]
         },
         "mobile_apps": {
-          "support": "unknown",
-          "answer": "mobile apps remains unverified. Client/start docs, desktop release assets and extension docs; no install, mobile handoff or OS-minimum test.",
-          "evidenceIds": []
+          "support": "unsupported",
+          "answer": "The complete pinned native client build/distribution matrix contains desktop macOS, Windows and Linux packages only; no iOS or Android client is released.",
+          "evidenceIds": [
+            "nov13-native-client-targets",
+            "release-044"
+          ]
         },
         "browser": {
           "support": "supported",
@@ -145,17 +148,14 @@
         "extension",
         "chat",
         "general",
-        "src2-vk-cli"
+        "src2-vk-cli",
+        "nov13-native-client-targets"
       ],
       "checkedAt": "2026-11-07",
       "nextReviewAt": "2026-12-07",
-      "researcher": "researcher-05",
-      "publication": "public-reviewed",
-      "review": {
-        "reviewer": "reviewer-05",
-        "date": "2026-11-10",
-        "contentHash": "3fb7aa079fbf4bb3a1c668fed750c520cc78498e6b759c01394ed5f4b1fe42f9"
-      },
+      "researcher": "researcher-ade42",
+      "publication": "public-candidate",
+      "review": null,
       "contradictions": []
     },
     {
@@ -5872,6 +5872,19 @@
       "visibility": "public",
       "commit": "4deb7eca8f381f7cbc1f9d15515a9ab8f8009053",
       "path": "crates/local-deployment/src/container.rs"
+    },
+    {
+      "id": "nov13-native-client-targets",
+      "kind": "source-inspected",
+      "url": "https://github.com/BloopAI/vibe-kanban/blob/4deb7eca8f381f7cbc1f9d15515a9ab8f8009053/.github/workflows/pre-release.yml",
+      "title": "Vibe Kanban complete native client distribution matrix",
+      "locator": "build-binaries matrix; build-tauri matrix lines 702-730; complete installer collection lines 986-1000 and 1123 onward",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-13",
+      "finding": "The pinned release workflow builds native server/CLI and Tauri client targets for macOS, Windows and Linux, and publishes desktop DMG, AppImage, DEB, MSI and EXE installers. Its complete native build and installer inventory has no iOS or Android phone package. Browser clients are separate.",
+      "visibility": "public",
+      "commit": "4deb7eca8f381f7cbc1f9d15515a9ab8f8009053",
+      "path": ".github/workflows/pre-release.yml"
     }
   ],
   "changes": [
@@ -8549,6 +8562,55 @@
       "evidenceIds": [
         "nov13-local-execution"
       ]
+    },
+    {
+      "date": "2026-11-13",
+      "author": "researcher-ade42",
+      "type": "research-correction",
+      "summary": "Add typed facet interpretations: phone-client:ios, phone-client:android.",
+      "claimIds": [
+        "vibe-kanban:ACC-01"
+      ],
+      "before": {
+        "mappedCells": []
+      },
+      "after": {
+        "mappedCells": [
+          "phone-client:ios=no",
+          "phone-client:android=no"
+        ]
+      },
+      "evidenceIds": [
+        "nov13-native-client-targets",
+        "release-044"
+      ]
+    },
+    {
+      "date": "2026-11-13",
+      "author": "researcher-ade42",
+      "type": "research-correction",
+      "summary": "Fill missing vibe-kanban facets from first-party evidence and record remaining source gaps.",
+      "claimIds": [
+        "vibe-kanban:ACC-01"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Local browser workspaces and Tauri desktop packages remain available as project distributions. Mobile parity and post-sunset extension compatibility are untested.",
+        "subanswers": {
+          "mobile_apps": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "The continuing local product provides browser workspaces, a product CLI and Tauri desktop packages. Its complete pinned native build/distribution matrix covers macOS, Windows and Linux, with no released native iOS or Android package. Phone-browser parity and cross-device continuity remain unestablished.",
+        "subanswers": {
+          "mobile_apps": "unsupported"
+        }
+      },
+      "evidenceIds": [
+        "nov13-native-client-targets",
+        "release-044"
+      ]
     }
   ],
   "context": {
@@ -8604,6 +8666,10 @@
         {
           "url": "https://github.com/BloopAI/vibe-kanban/tree/4deb7eca8f381f7cbc1f9d15515a9ab8f8009053/crates",
           "result": "Inspected local routes, execution service, agent enum and MCP tools; remote webhook implementation is a separate retired component."
+        },
+        {
+          "url": "https://github.com/BloopAI/vibe-kanban/blob/4deb7eca8f381f7cbc1f9d15515a9ab8f8009053/.github/workflows/pre-release.yml",
+          "result": "Inspected the complete native CLI/Tauri target matrices and desktop installer collection; no native phone package is distributed."
         }
       ],
       "announced": [],
