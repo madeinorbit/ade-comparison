@@ -2546,7 +2546,7 @@
   {
    "id": "claude-code-action:TEAM-01",
    "criterionId": "TEAM-01",
-   "answer": "Each action invocation executes a separate Claude run from its trigger and fetched GitHub context. The pinned orchestrator has no live channel for multiple humans to prompt that running job.",
+   "answer": "Distinct GitHub users with repository write access can @claude on the same PR. Each instruction starts a new job that reads the shared PR history and operates on its head branch; an already-running job does not accept live input from other people.",
    "support": "partial",
    "availability": "unknown",
    "delivery": "unknown",
@@ -2563,9 +2563,13 @@
    },
    "subanswers": {
     "visibility": {
-     "support": "unknown",
-     "answer": "Live human collaboration, visibility: Claude Code Action's checked sources did not establish this requirement or its rubric scenario. No installed-product fixture was run.",
-     "evidenceIds": []
+     "support": "supported",
+     "answer": "PR participants can see the common PR comment history, agent replies and branch changes. This is shared GitHub context rather than live terminal visibility.",
+     "evidenceIds": [
+      "gap-shared-pr-users",
+      "gap-shared-pr-history",
+      "gap-shared-pr-branch"
+     ]
     },
     "discussion": {
      "support": "unknown",
@@ -2583,10 +2587,12 @@
      "evidenceIds": []
     },
     "coprompting": {
-     "support": "unsupported",
-     "answer": "GitHub comments can trigger additional runs; they are not live inputs to the already-running action session.",
+     "support": "supported",
+     "answer": "Distinct authorized GitHub users can give successive @claude instructions on the same PR work. Each job uses the current trigger as instructions and shared prior comments as context.",
      "evidenceIds": [
-      "gap-session-boundary"
+      "gap-shared-pr-users",
+      "gap-shared-pr-history",
+      "gap-shared-pr-branch"
      ]
     },
     "ordering": {
@@ -2605,9 +2611,11 @@
      "evidenceIds": []
     },
     "permissions": {
-     "support": "unknown",
-     "answer": "Live human collaboration, permissions: Claude Code Action's checked sources did not establish this requirement or its rubric scenario. No installed-product fixture was run.",
-     "evidenceIds": []
+     "support": "supported",
+     "answer": "The action checks each triggering GitHub account for repository write/admin permission, with configurable explicit exceptions.",
+     "evidenceIds": [
+      "gap-shared-pr-users"
+     ]
     },
     "plan_restrictions": {
      "support": "unknown",
@@ -2621,11 +2629,14 @@
     }
    },
    "limitations": [
-    "Only the named documented or inspected parts are established; other atomic questions retain their recorded gaps."
+    "Shared work is the GitHub PR and its branch/history; each instruction starts a fresh action job, not a shared live terminal session."
    ],
    "unknownReason": "See unknown atomic answers for the source and test gaps.",
    "evidenceIds": [
-    "gap-session-boundary"
+    "gap-session-boundary",
+    "gap-shared-pr-users",
+    "gap-shared-pr-history",
+    "gap-shared-pr-branch"
    ],
    "checkedAt": "2026-11-13",
    "nextReviewAt": "2027-03-13",
@@ -4688,6 +4699,45 @@
    "visibility": "public",
    "commit": "4fa93a88de49bbef68b10eb15aabedf28ca0e1ed",
    "path": "src/entrypoints/run.ts"
+  },
+  {
+   "id": "gap-shared-pr-users",
+   "kind": "source-inspected",
+   "url": "https://github.com/anthropics/claude-code-action/blob/4fa93a88de49bbef68b10eb15aabedf28ca0e1ed/src/github/validation/permissions.ts",
+   "title": "Claude Code Action per-user write authorization",
+   "locator": "checkWritePermissions; getCollaboratorPermissionLevel",
+   "sourceDate": null,
+   "retrievedAt": "2026-11-13",
+   "finding": "Each triggering GitHub actor is checked against repository write/admin access (or an explicitly configured user allowlist). Distinct authorized GitHub users can invoke the action on a shared PR.",
+   "visibility": "public",
+   "commit": "4fa93a88de49bbef68b10eb15aabedf28ca0e1ed",
+   "path": "src/github/validation/permissions.ts"
+  },
+  {
+   "id": "gap-shared-pr-history",
+   "kind": "source-inspected",
+   "url": "https://github.com/anthropics/claude-code-action/blob/4fa93a88de49bbef68b10eb15aabedf28ca0e1ed/src/create-prompt/index.ts",
+   "title": "Claude Code Action shared PR context",
+   "locator": "create prompt; formattedComments; trigger_comment",
+   "sourceDate": null,
+   "retrievedAt": "2026-11-13",
+   "finding": "Each mention job reads the shared PR body, comments, reviews and changed files. The current trigger comment supplies instructions; previous comments remain context. Multiple authorized people can give successive instructions on the same PR work, with each instruction starting a fresh job and no live input to an already-running job.",
+   "visibility": "public",
+   "commit": "4fa93a88de49bbef68b10eb15aabedf28ca0e1ed",
+   "path": "src/create-prompt/index.ts"
+  },
+  {
+   "id": "gap-shared-pr-branch",
+   "kind": "source-inspected",
+   "url": "https://github.com/anthropics/claude-code-action/blob/4fa93a88de49bbef68b10eb15aabedf28ca0e1ed/src/github/operations/branch.ts",
+   "title": "Claude Code Action shared PR branch",
+   "locator": "prepareGitBranch isPR branch path",
+   "sourceDate": null,
+   "retrievedAt": "2026-11-13",
+   "finding": "The action checks out the existing PR head branch, so follow-up jobs from distinct GitHub users operate on the same PR work rather than separate private copies.",
+   "visibility": "public",
+   "commit": "4fa93a88de49bbef68b10eb15aabedf28ca0e1ed",
+   "path": "src/github/operations/branch.ts"
   }
  ],
  "changes": [
@@ -5074,6 +5124,38 @@
     "subanswers": {}
    },
    "evidenceIds": []
+  },
+  {
+   "date": "2026-11-13",
+   "author": "researcher-ade36",
+   "type": "research-correction",
+   "summary": "Correct multiplayer to include successive instructions by distinct GitHub collaborators on shared PR work.",
+   "claimIds": [
+    "claude-code-action:TEAM-01"
+   ],
+   "before": {
+    "support": "partial",
+    "answer": "Each action invocation executes a separate Claude run from its trigger and fetched GitHub context. The pinned orchestrator has no live channel for multiple humans to prompt that running job.",
+    "subanswers": {
+     "coprompting": "unsupported",
+     "visibility": "unknown",
+     "permissions": "unknown"
+    }
+   },
+   "after": {
+    "support": "partial",
+    "answer": "Distinct GitHub users with repository write access can @claude on the same PR. Each instruction starts a new job that reads the shared PR history and operates on its head branch; an already-running job does not accept live input from other people.",
+    "subanswers": {
+     "coprompting": "supported",
+     "visibility": "supported",
+     "permissions": "supported"
+    }
+   },
+   "evidenceIds": [
+    "gap-shared-pr-users",
+    "gap-shared-pr-history",
+    "gap-shared-pr-branch"
+   ]
   }
  ],
  "context": {
