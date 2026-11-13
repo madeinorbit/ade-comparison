@@ -688,6 +688,26 @@ test('a malformed date override cannot stop findings from expiring', () => {
   }
 })
 
+for (const value of ['yes', 'no', 'unknown']) test(`boolean history value ${value} stays structural after findings expire`, () => {
+  const f = fixture()
+  const privateProse = `${value}, the unpublished customer rollout requires manual clearance.`
+  f.profile.changes[0].after = { mappedCells: { cli: value }, note: privateProse }
+  for (const scanDate of [date, '2026-11-22', '2030-01-01']) {
+    const publication = f.publish(scanDate)
+    if (scanDate > due) assert.equal(publication.products.find(p => p.id === 'tool').claims.length, 0)
+    const data = buildDirectoryFromPublication(publication, { mappings: f.mappings })
+    const safety = { date: scanDate, profiles: f.profiles, registry: f.registry,
+      privateRecords: Object.values(f.mappings), vocabulary: facetVocabulary(definitions) }
+    assertDirectoryShape(data)
+    assert.doesNotThrow(() => assertPublicationSafe(Object.fromEntries(packageFiles(data)), safety))
+    for (const description of [privateProse, `Public description. ${privateProse} More text.`]) {
+      const leaked = Object.fromEntries(packageFiles(data))
+      leaked['facets.json'].facets[0].description = description
+      assert.throws(() => assertPublicationSafe(leaked, safety), /Internal-only text/)
+    }
+  }
+})
+
 test('expiry only removes data and never makes the real package fail its safety scan', () => {
   const mappings = loadFacetMappings()
   const vocabulary = facetVocabulary(definitions)
