@@ -18,7 +18,7 @@ test('cold home has no layout shift, framework runtime, off-site requests or acc
   const audit = await new AxeBuilder({ page }).analyze()
   expect(audit.violations).toEqual([])
 })
-test('every page type passes axe, and Conductor shows its notice in the first screen', async ({ page }) => {
+test('every page type passes axe, and the withdrawn Conductor notice stays absent', async ({ page }) => {
   test.setTimeout(120_000)
   await page.goto('/compare/')
   const pair = (await page.locator('.pairs a').first().getAttribute('href'))!
@@ -27,9 +27,9 @@ test('every page type passes axe, and Conductor shows its notice in the first sc
     expect((await new AxeBuilder({ page }).analyze()).violations, path).toEqual([])
   }
   await page.goto('/ade/conductor/')
-  await expect(page.getByRole('heading', { name: 'Shutdown notice', exact: true })).toBeInViewport()
-  await expect(page.getByText('joining Meta').first()).toBeInViewport()
+  await expect(page.getByRole('heading', { name: 'Shutdown notice', exact: true })).toHaveCount(0)
   await page.goto('/ade/jules/')
+  await expect(page.getByRole('heading', { name: 'Shutdown notice', exact: true })).toBeInViewport()
   await expect(page.getByText('read-only after November 11').first()).toBeInViewport()
 })
 test('the three fit groups stay visible and a phone preset accepts native apps', async ({ page }) => {
@@ -37,7 +37,8 @@ test('the three fit groups stay visible and a phone preset accepts native apps',
   await expect(page.locator('[data-group-label=fits]')).toHaveText('Fits')
   await expect(page.locator('[data-group-label=kind-of]')).toHaveText('Fits kind of')
   await expect(page.locator('[data-group-label=shutting-down]')).toHaveText('Fits but shutting down')
-  await expect(page.locator('[data-group=shutting-down] a[data-product-name][href="/ade/conductor/"]')).toBeVisible()
+  await expect(page.locator('[data-group=fits] a[data-product-name][href="/ade/conductor/"]')).toBeVisible()
+  await expect(page.locator('[data-group=shutting-down] a[data-product-name][href="/ade/conductor/"]')).toHaveCount(0)
   await expect(page.locator('#include-sunset')).toHaveCount(0)
   await page.getByRole('link', { name: 'From my phone', exact: true }).click()
   await expect(page.locator('[data-group-label=fits]')).toHaveText('Fits')
@@ -224,7 +225,8 @@ test('no JavaScript leaves the finder, product receipts and pair pages readable'
   await page.locator('#plain-listings summary').click()
   await expect(page.locator('li[data-index-row]').filter({ has: page.locator('a[href="/ade/openspec/"]') })).toBeVisible()
   await expect(page.locator('#plain-listings')).toContainText(/Browse all \d+ ADEs/)
-  await expect(page.locator('[data-group=shutting-down] a[data-product-name][href="/ade/conductor/"]')).toBeVisible()
+  await expect(page.locator('[data-group=fits] a[data-product-name][href="/ade/conductor/"]')).toBeVisible()
+  await expect(page.locator('[data-group=shutting-down] a[data-product-name][href="/ade/conductor/"]')).toHaveCount(0)
   await page.goto(origin + '/ade/podium/')
   await page.locator('a[href="#receipt-parallel-runs"]').click()
   await expect(page.locator('#receipt-parallel-runs')).toBeVisible()

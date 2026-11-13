@@ -65,7 +65,10 @@ test('former-name search identity must resolve to a public rename finding', () =
 test('status events and lifecycle states must trace to the package', () => {
   const event = structuredClone(data); event.status[0].claimIds.push('nonexistent:claim')
   assert.throws(() => validatePackage(event, data.index.generatedAt), /Status event without a current receipt/)
-  const lifecycle = structuredClone(data); lifecycle.products.find((p: Product) => p.id === 'cursor').lifecycle = lifecycle.products.find((p: Product) => p.id === 'conductor').lifecycle
+  const lifecycle = structuredClone(data)
+  const sunset = lifecycle.products.find((p: Product) => p.lifecycle?.status === 'sunset')
+  assert.ok(sunset, 'The catalog retains a sourced sunset fixture')
+  lifecycle.products.find((p: Product) => p.id === 'cursor').lifecycle = sunset.lifecycle
   assert.throws(() => validatePackage(lifecycle, data.index.generatedAt), /Lifecycle status differs/)
 })
 test('media exports have only the approved fields and registered products', () => {

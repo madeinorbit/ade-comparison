@@ -117,9 +117,13 @@ test('comparisons carry a shutdown link and pair pages hold only their two produ
   const html = text(`compare/${pair}/index.html`)
   if (closing(pair)) assert.match(html, /has a published shutdown notice/)
   // Compare fetches a column per ADE; a closing product's column carries its notice link.
-  assert.equal(JSON.parse(text('compare/columns/conductor.json')).closing, true)
+  const index = JSON.parse(readFileSync(new URL('../data/index.json', import.meta.url), 'utf8'))
+  for (const product of index.products.filter((p: any) => p.researchStatus === 'covered')) {
+    const noticed = notices.some((notice: any) => notice.productId === product.id)
+    assert.equal(JSON.parse(text(`compare/columns/${product.id}.json`)).closing, noticed, product.id)
+    assert.equal(text('matrix/index.html').includes(`aria-label="${product.name} shutdown notice"`), noticed, product.id)
+  }
   assert.equal(new Set([...html.matchAll(/<th scope="col" data-column-id="([^"]+)"/g)].map(m => m[1])).size, 2)
-  assert.match(text('matrix/index.html'), /aria-label="Conductor shutdown notice"/)
   assert.ok(gzipSync(html).length < 13_000, 'Pair page stays small')
 })
 test('Compare renders two columns and serves every researched ADE as a fetchable column', () => {

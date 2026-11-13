@@ -805,7 +805,7 @@ test('returned launch interpretations retain their corrected scope and citations
   for (const [facet, evidenceIds] of Object.entries({
     'unattended-triggers': ['conductor:release', 'conductor:cl-0870', 'conductor:api'],
     multiplayer: ['conductor:cloud-faq', 'conductor:cl-0780'],
-    'laptop-independent': ['conductor:gap37-cloud-continuation'],
+    'laptop-independent': ['conductor:cloud-20261113'],
     roles: ['conductor:gap37-cloud-org-permissions'],
   })) {
     const cell = conductor.facets[facet]
@@ -814,9 +814,9 @@ test('returned launch interpretations retain their corrected scope and citations
     assert.equal(cell.verificationStatus, 'sourced', facet)
     assert.equal(cell.crossCheckedAt, null, facet)
   }
-  const continuation = conductor.sources.find(source => source.id === 'conductor:gap37-cloud-continuation')
+  const continuation = conductor.sources.find(source => source.id === 'conductor:cloud-20261113')
   assert.equal(continuation.url, 'https://www.conductor.build/docs/cloud')
-  assert.match(continuation.finding, /after the laptop closes/)
+  assert.match(continuation.finding, /Cloud agents continue until sandbox sleep/)
   const permissions = conductor.sources.find(source => source.id === 'conductor:gap37-cloud-org-permissions')
   assert.equal(permissions.url, 'https://www.conductor.build/docs/cloud/getting-started')
   assert.match(permissions.finding, /Organization admins/)
@@ -824,7 +824,7 @@ test('returned launch interpretations retain their corrected scope and citations
   assert.deepEqual(conductor.facets.isolation.vm.evidenceIds, ['conductor:cloud-computer', 'conductor:cloud-faq'])
   assert.equal(conductor.facets.execution['vendor-cloud'].value, 'yes')
   assert.deepEqual(conductor.facets.execution['vendor-cloud'].evidenceIds,
-    ['conductor:gap37-cloud-platform', 'conductor:gap37-cloud-continuation'])
+    ['conductor:cloud-faq-20261113', 'conductor:cloud-20261113'])
   assert.equal(conductor.facets.execution.local.value, 'yes')
   assert.deepEqual(conductor.facets.isolation.worktree.evidenceIds, ['conductor:workspaces'])
   // A later source pass sourced a user-owned remote host; the earlier laptop-only receipt no longer decides this.
