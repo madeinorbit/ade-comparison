@@ -27,13 +27,18 @@
    "id": "cloud",
    "name": "OpenHands Cloud",
    "type": "managed-cloud"
+  },
+  {
+   "id": "mobile-dev",
+   "name": "Public source-built OpenHands native mobile MVP for direct Agent Server access",
+   "type": "mobile"
   }
  ],
  "claims": [
   {
    "id": "openhands:ACC-01",
    "criterionId": "ACC-01",
-   "answer": "Canvas provides desktop installation paths, browser UI and documented phone/tablet browser access.",
+   "answer": "Canvas provides desktop installation paths, browser UI and documented phone/tablet browser access. A separate public source-built native mobile MVP supports iOS/Android direct Agent Server access, including conversation listing and message sending; Cloud login and Canvas pairing remain planned. The product-owned agent-canvas command launches the local stack.",
    "support": "partial",
    "availability": "generally-available",
    "delivery": "native",
@@ -41,10 +46,10 @@
     "surfaceIds": [
      "canvas",
      "server",
-     "cloud"
+     "mobile-dev"
     ],
-    "version": "First-party sources checked 2026-11-07; pinned implementations retain their cited revision.",
-    "plan": null,
+    "version": "e14b76cca01a71597cee242c202eed730e745ce3 Canvas launcher; source-built native mobile MVP 47f815b1d111b6a71b405dcb77acb3682da59b85",
+    "plan": "Canvas desktop/browser and launcher; native mobile is limited to direct Agent Server access, without Cloud login or Canvas pairing.",
     "os": [],
     "executionModes": [],
     "region": null,
@@ -59,9 +64,12 @@
      ]
     },
     "mobile_apps": {
-     "support": "unknown",
-     "answer": "Mobile apps: The November first-party documentation and repository pass did not establish client access at the rubric's required scope. No installed-product fixture was run.",
-     "evidenceIds": []
+     "support": "partial",
+     "answer": "The native Expo source MVP builds for iOS and Android and can list/stream/send to a reachable Agent Server using a session API key. Requires native toolchains; Cloud login, QR pairing and laptop facade are not built.",
+     "evidenceIds": [
+      "gap39-mobile-doc",
+      "gap39-mobile-code"
+     ]
     },
     "browser": {
      "support": "supported",
@@ -79,10 +87,10 @@
      ]
     },
     "cli": {
-     "support": "partial",
-     "answer": "agent-canvas launches the local stack; task-operation commands were not established.",
+     "support": "supported",
+     "answer": "The agent-canvas command launches the local server/automation/frontend stack and supports help/info/version and deployment flags. This is launcher scope.",
      "evidenceIds": [
-      "nov07-readme"
+      "gap39-cli"
      ]
     },
     "editor_extensions": {
@@ -109,24 +117,22 @@
     }
    },
    "limitations": [
-    "The remaining atomic questions and the rubric scenario are unverified. Documentation is not a successful product test.",
-    "Only the named atomic facts are established by documentation. Remaining rubric scenarios and unknown answers were not demonstrated."
+    "Only the named atomic answers are established by this source pass. Remaining atomic answers retain their documented gaps."
    ],
    "unknownReason": "Remaining unknown atomic answers were checked against the first-party locations in context.gapFillReview. Sources did not establish those answers; no installed-product fixture was run.",
    "evidenceIds": [
     "nov07-readme",
     "nov07-canvas",
-    "gap-phone"
+    "gap-phone",
+    "gap39-mobile-doc",
+    "gap39-mobile-code",
+    "gap39-cli"
    ],
    "checkedAt": "2026-11-07",
    "nextReviewAt": "2026-12-07",
-   "researcher": "reviewer-51",
-   "publication": "public-reviewed",
-   "review": {
-    "reviewer": "reviewer-03",
-    "date": "2026-11-10",
-    "contentHash": "ff2e09956b0799ca0b2d961fe04601a2cb1cfb31fa773ef5c3e545c43f906d83"
-   },
+   "researcher": "facet-researcher-ade39",
+   "publication": "public-candidate",
+   "review": null,
    "contradictions": []
   },
   {
@@ -996,13 +1002,15 @@
   {
    "id": "openhands:PLAN-06",
    "criterionId": "PLAN-06",
-   "answer": "The November first-party documentation and repository pass did not establish native issue management and idea backlog at the rubric's required scope. No installed-product fixture was run.",
-   "support": "unknown",
-   "availability": "unknown",
-   "delivery": "unknown",
+   "answer": "The Canvas Task List renders the latest TaskTrackerObservation from the current conversation, with position-derived IDs and todo/in-progress/done states. Bounded inspection found no independent native issue/backlog work-item store; saved automations are trigger configurations.",
+   "support": "partial",
+   "availability": "generally-available",
+   "delivery": "native",
    "scope": {
-    "surfaceIds": [],
-    "version": null,
+    "surfaceIds": [
+     "canvas"
+    ],
+    "version": "e14b76cca01a71597cee242c202eed730e745ce3 native Canvas Task List and application stores/routes.",
     "plan": null,
     "os": [],
     "executionModes": [],
@@ -1011,9 +1019,11 @@
    },
    "subanswers": {
     "create": {
-     "support": "unknown",
-     "answer": "Create: The November first-party documentation and repository pass did not establish native issue management and idea backlog at the rubric's required scope. No installed-product fixture was run.",
-     "evidenceIds": []
+     "support": "unsupported",
+     "answer": "The inspected native interface renders agent TaskTracker observations rather than providing independent issue/backlog CRUD.",
+     "evidenceIds": [
+      "gap39-task-list"
+     ]
     },
     "edit": {
      "support": "unknown",
@@ -1076,9 +1086,11 @@
      "evidenceIds": []
     },
     "task_session_separation": {
-     "support": "unknown",
-     "answer": "Task session separation: The November first-party documentation and repository pass did not establish native issue management and idea backlog at the rubric's required scope. No installed-product fixture was run.",
-     "evidenceIds": []
+     "support": "unsupported",
+     "answer": "Task rows derive directly from the current conversation event store and do not have independent stable issue identity.",
+     "evidenceIds": [
+      "gap39-task-list"
+     ]
     },
     "metadata": {
      "support": "unknown",
@@ -1086,9 +1098,11 @@
      "evidenceIds": []
     },
     "durable_states": {
-     "support": "unknown",
-     "answer": "Durable states: The November first-party documentation and repository pass did not establish native issue management and idea backlog at the rubric's required scope. No installed-product fixture was run.",
-     "evidenceIds": []
+     "support": "partial",
+     "answer": "Task statuses are retained as conversation observations, not as separate persistent backlog work items.",
+     "evidenceIds": [
+      "gap39-task-list"
+     ]
     },
     "external_tracker_requirement": {
      "support": "unknown",
@@ -1096,13 +1110,17 @@
      "evidenceIds": []
     }
    },
-   "limitations": [],
-   "unknownReason": "The November first-party documentation and repository pass did not establish native issue management and idea backlog at the rubric's required scope. No installed-product fixture was run.",
-   "evidenceIds": [],
-   "checkedAt": "2026-11-07",
-   "nextReviewAt": "2026-11-21",
-   "researcher": "researcher-75",
-   "publication": "internal-only",
+   "limitations": [
+    "Only the named atomic answers are established by this source pass. Remaining atomic answers retain their documented gaps."
+   ],
+   "unknownReason": "See unknown atomic answers for the source and test gaps.",
+   "evidenceIds": [
+    "gap39-task-list"
+   ],
+   "checkedAt": "2026-11-13",
+   "nextReviewAt": "2027-03-13",
+   "researcher": "facet-researcher-ade39",
+   "publication": "public-candidate",
    "review": null,
    "contradictions": []
   },
@@ -4175,10 +4193,10 @@
   {
    "id": "openhands:OWN-04",
    "criterionId": "OWN-04",
-   "answer": "Free Canvas and paid Teams/Enterprise have distinct limits; model keys and infrastructure remain user-provided.",
+   "answer": "The current public self-hosted offer is free Canvas, Teams at $500/month for ten users plus $50/month additional seats with a 5000-session monthly cap, and custom Enterprise. No one-time licence is listed. The optional Cloud backend is not priced in this table; its documented OpenHands LLM credits buy model access, so product-wide metered ADE and compute pricing remain unestablished.",
    "support": "partial",
-   "availability": "unknown",
-   "delivery": "unknown",
+   "availability": "generally-available",
+   "delivery": "native",
    "scope": {
     "surfaceIds": [
      "canvas",
@@ -4225,9 +4243,9 @@
     },
     "included_usage": {
      "support": "supported",
-     "answer": "Teams capped at 5000 sessions monthly; Enterprise usage uncapped.",
+     "answer": "The current Teams table caps usage at 5000 sessions per month; Enterprise is uncapped.",
      "evidenceIds": [
-      "gap-pricing"
+      "gap39-plan-table"
      ]
     },
     "credits": {
@@ -4254,33 +4272,35 @@
     },
     "model_cost": {
      "support": "supported",
-     "answer": "Bring your own LLM key; model consumption separate from application price.",
+     "answer": "Self-hosted plans use user-provided LLM keys. Optional OpenHands Cloud LLM keys consume separately purchased model credits and can also be used in other agents.",
      "evidenceIds": [
-      "gap-pricing"
+      "gap39-plan-table",
+      "gap39-cloud-model-credits"
      ]
     },
     "compute_cost": {
      "support": "unknown",
-     "answer": "Compute cost: The November first-party documentation and repository pass did not establish price and included usage at the rubric's required scope. No installed-product fixture was run.",
-     "evidenceIds": []
+     "answer": "The self-hosted table does not price the optional Cloud backend; a vendor sandbox/compute charge is not established by model credits.",
+     "evidenceIds": [
+      "gap39-plan-table",
+      "gap39-cloud-model-credits"
+     ]
     }
    },
    "limitations": [
-    "Only the named atomic facts are established by documentation. Remaining rubric scenarios and unknown answers were not demonstrated."
+    "Only the named atomic answers are established by this source pass. Remaining atomic answers retain their documented gaps."
    ],
    "unknownReason": "Remaining unknown atomic answers were checked against the first-party locations in context.gapFillReview. Sources did not establish those answers; no installed-product fixture was run.",
    "evidenceIds": [
-    "gap-pricing"
+    "gap-pricing",
+    "gap39-plan-table",
+    "gap39-cloud-model-credits"
    ],
    "checkedAt": "2026-11-07",
    "nextReviewAt": "2026-11-21",
-   "researcher": "researcher-65",
-   "publication": "public-reviewed",
-   "review": {
-    "reviewer": "reviewer-01",
-    "date": "2026-11-10",
-    "contentHash": "2e393bca450e247b65de2b96dfa8a4ca22019c0aa0f9fe081cfc0a775fa619ba"
-   },
+   "researcher": "facet-researcher-ade39",
+   "publication": "public-candidate",
+   "review": null,
    "contradictions": []
   },
   {
@@ -5028,6 +5048,84 @@
    "sourceDate": null,
    "retrievedAt": "2026-11-10",
    "finding": "Agent Canvas is free and MIT licensed. Teams costs 500 USD per month for up to ten users plus 50 USD per extra seat and lists SSO/SAML and RBAC; Enterprise has custom pricing. The page returns HTTP 403 to some automated fetchers but loads with a browser user agent.",
+   "visibility": "public",
+   "commit": null,
+   "path": null
+  },
+  {
+   "id": "gap39-mobile-doc",
+   "kind": "documented",
+   "url": "https://github.com/OpenHands/openhands-mobile/blob/47f815b1d111b6a71b405dcb77acb3682da59b85/README.md",
+   "title": "OpenHands native mobile MVP",
+   "locator": "What works today; Prerequisites; Install",
+   "sourceDate": null,
+   "retrievedAt": "2026-11-13",
+   "finding": "The public native Expo MVP can list conversations, stream history/events and send messages to a reachable Agent Server using a session API key. Source-build instructions cover Android and iOS with native toolchains. Cloud login, QR pairing and a laptop remote-session facade are still planned; no store/release binary is asserted.",
+   "visibility": "public",
+   "commit": null,
+   "path": null
+  },
+  {
+   "id": "gap39-mobile-code",
+   "kind": "source-inspected",
+   "url": "https://github.com/OpenHands/openhands-mobile/blob/47f815b1d111b6a71b405dcb77acb3682da59b85/src/api/agent-server.ts",
+   "title": "OpenHands native mobile Agent Server client",
+   "locator": "conversation search/create; sendMessage, lines 220-238; src/screens/ChatScreen.tsx",
+   "sourceDate": null,
+   "retrievedAt": "2026-11-13",
+   "finding": "The native mobile client implements REST conversation listing/history and sends message events to /api/conversations/{id}/events; ChatScreen calls that sendMessage path, and useConversationSocket streams events through WebSocket. app.json declares iOS and Android native platforms.",
+   "visibility": "public",
+   "commit": "47f815b1d111b6a71b405dcb77acb3682da59b85",
+   "path": "src/api/agent-server.ts"
+  },
+  {
+   "id": "gap39-cli",
+   "kind": "source-inspected",
+   "url": "https://github.com/OpenHands/OpenHands/blob/e14b76cca01a71597cee242c202eed730e745ce3/bin/agent-canvas.mjs",
+   "title": "Agent Canvas command-line launcher",
+   "locator": "CLI entry point; help/info; local stack startup",
+   "sourceDate": null,
+   "retrievedAt": "2026-11-13",
+   "finding": "The product-owned agent-canvas CLI starts the local Agent Server, automation backend and pre-built frontend. It exposes version, stack-info, public/frontend-only/backend-only and help flags. This establishes a user-runnable launcher CLI, without asserting a separate task-operation CLI.",
+   "visibility": "public",
+   "commit": "e14b76cca01a71597cee242c202eed730e745ce3",
+   "path": "bin/agent-canvas.mjs"
+  },
+  {
+   "id": "gap39-task-list",
+   "kind": "source-inspected",
+   "url": "https://github.com/OpenHands/OpenHands/blob/e14b76cca01a71597cee242c202eed730e745ce3/src/hooks/use-task-list.ts",
+   "title": "Canvas conversation task list",
+   "locator": "getTaskListFromEvent; useTaskList; routes/task-list-tab.tsx",
+   "sourceDate": null,
+   "retrievedAt": "2026-11-13",
+   "finding": "The Canvas Task List derives its entries from the latest TaskTrackerObservation in the current conversation event store. IDs are generated from list position and statuses are todo/in_progress/done. Inspection of the native task-list route and API/store surfaces found no independent issue/backlog work-item entity; automations are separate trigger definitions.",
+   "visibility": "public",
+   "commit": "e14b76cca01a71597cee242c202eed730e745ce3",
+   "path": "src/hooks/use-task-list.ts"
+  },
+  {
+   "id": "gap39-plan-table",
+   "kind": "documented",
+   "url": "https://www.openhands.dev/pricing",
+   "title": "OpenHands current self-hosted plan table",
+   "locator": "Agent Canvas, Teams and Enterprise; Comparison table",
+   "sourceDate": null,
+   "retrievedAt": "2026-11-13",
+   "finding": "The current public price table lists free self-hosted Canvas, self-hosted Teams at $500/month for ten users plus $50/month additional seats, capped at 5000 sessions monthly, and custom Enterprise. It lists no one-time licence. The separately linked Cloud backend is not priced in this table.",
+   "visibility": "public",
+   "commit": null,
+   "path": null
+  },
+  {
+   "id": "gap39-cloud-model-credits",
+   "kind": "documented",
+   "url": "https://docs.openhands.dev/openhands/usage/settings/api-keys-settings",
+   "title": "OpenHands Cloud model credits",
+   "locator": "OpenHands LLM Key",
+   "sourceDate": null,
+   "retrievedAt": "2026-11-13",
+   "finding": "Cloud users must buy at least $10 in credits before generating an OpenHands LLM Key. That key can be used in the CLI, self-hosted OpenHands or other coding agents. These are model-provider credits, not proof of a metered ADE or sandbox price.",
    "visibility": "public",
    "commit": null,
    "path": null
@@ -7257,6 +7355,97 @@
    "evidenceIds": [
     "gap-pricing"
    ]
+  },
+  {
+   "date": "2026-11-13",
+   "author": "facet-researcher-ade39",
+   "type": "research-correction",
+   "summary": "Fill source-built native mobile, the product launcher CLI, native task-list scope and remaining pricing models. Preserve shared-identity, generic ACP and closed runtime-boundary gaps.",
+   "claimIds": [
+    "openhands:ACC-01"
+   ],
+   "before": {
+    "support": "partial",
+    "answer": "Canvas provides desktop installation paths, browser UI and documented phone/tablet browser access.",
+    "subanswers": {
+     "mobile_apps": "unknown",
+     "cli": "partial"
+    }
+   },
+   "after": {
+    "support": "partial",
+    "answer": "Canvas provides desktop installation paths, browser UI and documented phone/tablet browser access. A separate public source-built native mobile MVP supports iOS/Android direct Agent Server access, including conversation listing and message sending; Cloud login and Canvas pairing remain planned. The product-owned agent-canvas command launches the local stack.",
+    "subanswers": {
+     "mobile_apps": "partial",
+     "cli": "supported"
+    }
+   },
+   "evidenceIds": [
+    "gap39-mobile-doc",
+    "gap39-mobile-code",
+    "gap39-cli"
+   ]
+  },
+  {
+   "date": "2026-11-13",
+   "author": "facet-researcher-ade39",
+   "type": "research-correction",
+   "summary": "Fill source-built native mobile, the product launcher CLI, native task-list scope and remaining pricing models. Preserve shared-identity, generic ACP and closed runtime-boundary gaps.",
+   "claimIds": [
+    "openhands:PLAN-06"
+   ],
+   "before": {
+    "support": "unknown",
+    "answer": "The November first-party documentation and repository pass did not establish native issue management and idea backlog at the rubric's required scope. No installed-product fixture was run.",
+    "subanswers": {
+     "task_session_separation": "unknown",
+     "create": "unknown",
+     "durable_states": "unknown"
+    }
+   },
+   "after": {
+    "support": "partial",
+    "answer": "The Canvas Task List renders the latest TaskTrackerObservation from the current conversation, with position-derived IDs and todo/in-progress/done states. Bounded inspection found no independent native issue/backlog work-item store; saved automations are trigger configurations.",
+    "subanswers": {
+     "task_session_separation": "unsupported",
+     "create": "unsupported",
+     "durable_states": "partial"
+    }
+   },
+   "evidenceIds": [
+    "gap39-task-list"
+   ]
+  },
+  {
+   "date": "2026-11-13",
+   "author": "facet-researcher-ade39",
+   "type": "research-correction",
+   "summary": "Fill source-built native mobile, the product launcher CLI, native task-list scope and remaining pricing models. Preserve shared-identity, generic ACP and closed runtime-boundary gaps.",
+   "claimIds": [
+    "openhands:OWN-04"
+   ],
+   "before": {
+    "support": "partial",
+    "answer": "Free Canvas and paid Teams/Enterprise have distinct limits; model keys and infrastructure remain user-provided.",
+    "subanswers": {
+     "included_usage": "supported",
+     "model_cost": "supported",
+     "compute_cost": "unknown"
+    }
+   },
+   "after": {
+    "support": "partial",
+    "answer": "The current public self-hosted offer is free Canvas, Teams at $500/month for ten users plus $50/month additional seats with a 5000-session monthly cap, and custom Enterprise. No one-time licence is listed. The optional Cloud backend is not priced in this table; its documented OpenHands LLM credits buy model access, so product-wide metered ADE and compute pricing remain unestablished.",
+    "subanswers": {
+     "included_usage": "supported",
+     "model_cost": "supported",
+     "compute_cost": "unknown"
+    }
+   },
+   "evidenceIds": [
+    "gap39-plan-table",
+    "gap39-cloud-model-credits"
+   ]
   }
  ],
  "context": {
@@ -7292,7 +7481,7 @@
   "sourceRevision": "2697ec3af964f785b5bdf1b5064ed6ae7d3d312a",
   "identityBoundary": "Pinned OpenHands/OpenHands repository now owns Agent Canvas; agent runtime and automation live in separate repositories. Hosted-product parity unverified.",
   "roadmapReview": {
-   "checkedAt": "2026-11-07",
+   "checkedAt": "2026-11-13",
    "locations": [
     {
      "url": "https://github.com/OpenHands/OpenHands/releases",
@@ -7333,6 +7522,14 @@
     {
      "url": "https://github.com/OpenHands/OpenHands/releases",
      "result": "Checked current release notes for capability changes and fixes."
+    },
+    {
+     "url": "https://github.com/OpenHands/OpenHands/releases",
+     "result": "Retrieved 2 current release entries: v1.40.0; v1.39.0. The source pass remains limited to the pinned release and named capabilities; issue requests are not availability proof."
+    },
+    {
+     "url": "https://github.com/OpenHands/OpenHands/issues",
+     "result": "Retrieved 4 current issue entries: Feedback: a zero-cost local-AI supply (local weights + Cloneflare lifetime URL) built with OpenHands; fix(settings): keep a typed custom classifier in the Model Router editor; [Bug]: Model Router editor clears a typed custom classifier, blocking Save; [Bug]: Embedded VS Code broken settings / syntax highlighting after upgrade from 1.37 to 1.40. The source pass remains limited to the pinned release and named capabilities; issue requests are not availability proof."
     }
    ],
    "announced": [],
@@ -8345,6 +8542,34 @@
     "Unknown issue/specification, ownership, compute scheduling, recovery and security answers require further explicit documentation or installed-product fixtures. Enterprise cost/budget docs apply only to its managed gateway and cannot prove local Canvas costs."
    ],
    "method": "First-party documentation, release notes, roadmap and public issue search. Documentation is not an installed-product test. Every remaining unknown criterion, atomic question and typed option was considered; silence remains unknown."
+  },
+  "facetGapReview": {
+   "checkedAt": "2026-11-13",
+   "researcher": "facet-researcher-ade39",
+   "locations": [
+    {
+     "url": "https://github.com/OpenHands/OpenHands/blob/e14b76cca01a71597cee242c202eed730e745ce3/",
+     "result": "Inspected native Task List event derivation, launcher CLI and shared conversation/automation access; checked current OpenHands release/issue feeds."
+    },
+    {
+     "url": "https://github.com/OpenHands/openhands-mobile/blob/47f815b1d111b6a71b405dcb77acb3682da59b85/README.md",
+     "result": "Inspected the separate public native mobile repository, its REST message path and WebSocket client. Planned Cloud login, QR pairing and laptop facade were excluded."
+    },
+    {
+     "url": "https://www.openhands.dev/pricing",
+     "result": "Re-read the complete Canvas/Teams/Enterprise table; kept single/shared identity and third-party compute/model costs separate."
+    },
+    {
+     "url": "https://api.github.com/users/OpenHands/repos?per_page=100",
+     "result": "Checked public component repositories including Mobile, Agent Canvas, Enterprise, CLI, Server and automation; the native mobile MVP is separate from the Canvas browser client."
+    }
+   ],
+   "gaps": [
+    "Cursor, Grok, Aider and Antigravity remain unknown: generic custom ACP commands are supported, so omission from preset examples is not a complete-list negative; no named first-party integration recipe was established.",
+    "Usage-based and compute ADE pricing remain unknown: the current self-hosted licence table does not price the separately available Cloud backend; documented Cloud credits are model access, not a product execution-price statement.",
+    "VM isolation remains unknown. A self-managed/shared VM deployment is not an explicit per-agent VM isolation option, and the closed Cloud runtime boundary is not established by the local Docker implementation.",
+    "Shared prompting remains unknown. Free Canvas explicitly uses one shared identity; Teams multi-user identity/RBAC does not establish that two people can prompt the same work, while documented shared automation conversations are read-only to non-owners."
+   ]
   }
  }
 }
