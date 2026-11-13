@@ -25,22 +25,28 @@
       "id": "desktop",
       "name": "Experimental Robin macOS Electron client and CLI",
       "type": "desktop"
+    },
+    {
+      "id": "mobile-dev",
+      "name": "Public source-built Robin iOS development client",
+      "type": "mobile"
     }
   ],
   "claims": [
     {
       "id": "open-swe:ACC-01",
       "criterionId": "ACC-01",
-      "answer": "Experimental desktop installation supports Apple Silicon macOS Ventura or later. The web dashboard is the recommended Robin client. Installing the desktop app links robin and oswe CLI commands. The dashboard starts and continues threads; local desktop Changes, Terminal and file browser use the selected checkout.",
+      "answer": "Experimental desktop installation supports Apple Silicon macOS Ventura or later. The web dashboard is the recommended Robin client. Installing the desktop app links robin and oswe CLI commands. The dashboard starts and continues threads; local desktop Changes, Terminal and file browser use the selected checkout. The browser layout explicitly adapts its sidebar for phone-width screens.",
       "support": "partial",
-      "availability": "beta",
+      "availability": "generally-available",
       "delivery": "native",
       "scope": {
         "surfaceIds": [
           "dashboard",
-          "desktop"
+          "desktop",
+          "mobile-dev"
         ],
-        "version": "Repository 82364a02943300ade58376cbd19123425bcf4f4a; first-party source pass 2026-11-08. Desktop is experimental; web UI recommended. Managed Deep Agents remains required.",
+        "version": "ae120fc74d21a7b3aaaaa34a1774718408fad021; macOS desktop/nightly and source-built iOS development client have separate requirements.",
         "plan": null,
         "os": [],
         "executionModes": [],
@@ -71,9 +77,11 @@
           ]
         },
         "mobile_browser": {
-          "support": "unknown",
-          "answer": "Client access, mobile_browser: Robin's checked sources did not establish this requirement or its rubric scenario. No installed-product fixture was run.",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "The browser client implements a full-screen mobile sidebar overlay below 767px so the chat stays visible.",
+          "evidenceIds": [
+            "gap39-browser-mobile"
+          ]
         },
         "cli": {
           "support": "supported",
@@ -109,7 +117,7 @@
         }
       },
       "limitations": [
-        "Only the cited atomic findings are established. Remaining atomic requirements and the full rubric scenario remain unverified."
+        "Only the named atomic answers are established by this source pass. Remaining atomic answers retain their documented gaps."
       ],
       "unknownReason": "Checked Robin's pinned README, README.md, desktop/README.md, docs/INSTALLATION.md, docs/CUSTOMIZATION.md, docs/reference/workspaces.md, docs/reference/human-review.md, docs/AUDIT_LOGS.md, docs/MERGE_QUEUE.md, docs/reference/claude-code-sync.md, LICENSE, releases and recent public issues. This pass did not establish the remaining named requirement. No installed-product scenario or authenticated team fixture was run.",
       "evidenceIds": [
@@ -117,25 +125,22 @@
         "src2-oswe-mobile",
         "src2-oswe-release",
         "src2-oswe-readme-flow",
-        "src2-oswe-desktop-bridge"
+        "src2-oswe-desktop-bridge",
+        "gap39-browser-mobile"
       ],
       "checkedAt": "2026-11-08",
       "nextReviewAt": "2026-12-08",
-      "researcher": "researcher-05",
-      "publication": "public-reviewed",
-      "review": {
-        "reviewer": "reviewer-03",
-        "date": "2026-11-10",
-        "contentHash": "d6de536256982f3889f47046b832afba3d5728c5eea0dd4c6925a143eb708175"
-      },
+      "researcher": "facet-researcher-ade39",
+      "publication": "public-candidate",
+      "review": null,
       "contradictions": []
     },
     {
       "id": "open-swe:ACC-02",
       "criterionId": "ACC-02",
-      "answer": "Robin runs its own Deep Agents loop on Managed Deep Agents; the Claude Code connection is a read-only mirror. Anthropic, OpenAI and Google model examples are documented separately from the agent loop. Forking agent_catalog configures tools, models, subagents and loop rules.",
+      "answer": "Robin runs its own Deep Agents loop on Managed Deep Agents; the Claude Code connection is a read-only mirror. Anthropic, OpenAI and Google model examples are documented separately from the agent loop. Forking agent_catalog configures tools, models, subagents and loop rules. The scoped model/runtime catalog does not integrate the other compared coding-CLI sessions.",
       "support": "partial",
-      "availability": "beta",
+      "availability": "generally-available",
       "delivery": "native",
       "scope": {
         "surfaceIds": [
@@ -174,9 +179,10 @@
         },
         "session_integration": {
           "support": "partial",
-          "answer": "Claude Code sessions can be mirrored into the dashboard as private threads through Claude Code hooks. These threads are read-only, so Robin does not run or control the Claude Code session.",
+          "answer": "Robin owns the Deep Agents model/tool loop. Claude Code sync is read-only; it cannot prompt, steer or stop that Claude Code session. No native external coding-CLI session adapters were found in the scoped runtime/model catalog.",
           "evidenceIds": [
-            "src2-oswe-claudesync"
+            "src2-oswe-claudesync",
+            "gap39-agent-models"
           ]
         },
         "mixed_harness_operation": {
@@ -186,32 +192,29 @@
         }
       },
       "limitations": [
-        "Only the cited atomic findings are established. Remaining atomic requirements and the full rubric scenario remain unverified."
+        "Only the named atomic answers are established by this source pass. Remaining atomic answers retain their documented gaps."
       ],
       "unknownReason": "Checked Robin's pinned README, README.md, desktop/README.md, docs/INSTALLATION.md, docs/CUSTOMIZATION.md, docs/reference/workspaces.md, docs/reference/human-review.md, docs/AUDIT_LOGS.md, docs/MERGE_QUEUE.md, docs/reference/claude-code-sync.md, LICENSE, releases and recent public issues. This pass did not establish the remaining named requirement. No installed-product scenario or authenticated team fixture was run.",
       "evidenceIds": [
         "readme",
         "mirror",
         "custom",
-        "src2-oswe-claudesync"
+        "src2-oswe-claudesync",
+        "gap39-agent-models"
       ],
       "checkedAt": "2026-11-08",
       "nextReviewAt": "2026-12-08",
-      "researcher": "researcher-05",
-      "publication": "public-reviewed",
-      "review": {
-        "reviewer": "reviewer-03",
-        "date": "2026-11-10",
-        "contentHash": "f9d88ac2b5c765c9287e9d04e743bea7d42e6f26023e15e2208f6e71e2f1aa18"
-      },
+      "researcher": "facet-researcher-ade39",
+      "publication": "public-candidate",
+      "review": null,
       "contradictions": []
     },
     {
       "id": "open-swe:ACC-03",
       "criterionId": "ACC-03",
-      "answer": "Deployments use model-provider API keys or LangSmith Gateway credentials. Managed Deep Agents is required by the shipped backend; deploying without it requires adapting the code.",
+      "answer": "Deployments use model-provider API keys or LangSmith Gateway credentials. Managed Deep Agents is required by the shipped backend; deploying without it requires adapting the code. The native model runtime uses API/Gateway credentials rather than coding-agent subscription login reuse.",
       "support": "partial",
-      "availability": "beta",
+      "availability": "generally-available",
       "delivery": "native",
       "scope": {
         "surfaceIds": [
@@ -227,9 +230,12 @@
       },
       "subanswers": {
         "agent_subscriptions": {
-          "support": "unknown",
-          "answer": "Subscriptions, API keys and vendor credits, agent_subscriptions: Robin's checked sources did not establish this requirement or its rubric scenario. No installed-product fixture was run.",
-          "evidenceIds": []
+          "support": "unsupported",
+          "answer": "The shipped own-agent loop uses model API/Gateway credentials; the read-only Claude Code mirror is not agent execution under a reused subscription.",
+          "evidenceIds": [
+            "gap39-agent-models",
+            "mirror"
+          ]
         },
         "api_accounts": {
           "support": "supported",
@@ -268,23 +274,21 @@
         }
       },
       "limitations": [
-        "Only the cited atomic findings are established. Remaining atomic requirements and the full rubric scenario remain unverified."
+        "Only the named atomic answers are established by this source pass. Remaining atomic answers retain their documented gaps."
       ],
       "unknownReason": "Checked Robin's pinned README, README.md, desktop/README.md, docs/INSTALLATION.md, docs/CUSTOMIZATION.md, docs/reference/workspaces.md, docs/reference/human-review.md, docs/AUDIT_LOGS.md, docs/MERGE_QUEUE.md, docs/reference/claude-code-sync.md, LICENSE, releases and recent public issues. This pass did not establish the remaining named requirement. No installed-product scenario or authenticated team fixture was run.",
       "evidenceIds": [
         "install",
         "custom",
-        "readme"
+        "readme",
+        "gap39-agent-models",
+        "mirror"
       ],
       "checkedAt": "2026-11-08",
       "nextReviewAt": "2026-12-08",
-      "researcher": "researcher-71",
-      "publication": "public-reviewed",
-      "review": {
-        "reviewer": "reviewer-57",
-        "date": "2026-11-08",
-        "contentHash": "75cfa7c4806bde5f84326c08dea45e40483fc6c94a8b55f3937106655d89b555"
-      },
+      "researcher": "facet-researcher-ade39",
+      "publication": "public-candidate",
+      "review": null,
       "contradictions": []
     },
     {
@@ -1018,10 +1022,10 @@
     {
       "id": "open-swe:PLAN-06",
       "criterionId": "PLAN-06",
-      "answer": "Native issue management and idea backlog: Checked Robin's pinned README, README.md, desktop/README.md, docs/INSTALLATION.md, docs/CUSTOMIZATION.md, docs/reference/workspaces.md, docs/reference/human-review.md, docs/AUDIT_LOGS.md, docs/MERGE_QUEUE.md, docs/reference/claude-code-sync.md, LICENSE, releases and recent public issues. This pass did not establish the remaining named requirement. No installed-product scenario or authenticated team fixture was run.",
-      "support": "unknown",
-      "availability": "unknown",
-      "delivery": "unknown",
+      "answer": "Robin has durable native future-work suggestions with summary/details, repository/workspace and context links, independent of the originating thread. Their schema has no work-state field; Task records group coordinator/worker sessions rather than provide a general issue/backlog workflow.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
       "scope": {
         "surfaceIds": [
           "dashboard",
@@ -1036,9 +1040,11 @@
       },
       "subanswers": {
         "create": {
-          "support": "unknown",
-          "answer": "Native issue management and idea backlog, create: Robin's checked sources did not establish this requirement or its rubric scenario. No installed-product fixture was run.",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "The product-owned suggest_task tool persists summary/details and context links without starting work.",
+          "evidenceIds": [
+            "gap39-future-work"
+          ]
         },
         "edit": {
           "support": "unknown",
@@ -1091,9 +1097,11 @@
           "evidenceIds": []
         },
         "idea_parking": {
-          "support": "unknown",
-          "answer": "Native issue management and idea backlog, idea_parking: Robin's checked sources did not establish this requirement or its rubric scenario. No installed-product fixture was run.",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "Future work is recorded without launching it.",
+          "evidenceIds": [
+            "gap39-future-work"
+          ]
         },
         "explicit_dispatch": {
           "support": "unknown",
@@ -1101,9 +1109,11 @@
           "evidenceIds": []
         },
         "task_session_separation": {
-          "support": "unknown",
-          "answer": "Native issue management and idea backlog, task_session_separation: Robin's checked sources did not establish this requirement or its rubric scenario. No installed-product fixture was run.",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "SuggestedTask has its own durable UUID and can outlive its originating thread.",
+          "evidenceIds": [
+            "gap39-future-work"
+          ]
         },
         "metadata": {
           "support": "unknown",
@@ -1112,8 +1122,10 @@
         },
         "durable_states": {
           "support": "unknown",
-          "answer": "Native issue management and idea backlog, durable_states: Robin's checked sources did not establish this requirement or its rubric scenario. No installed-product fixture was run.",
-          "evidenceIds": []
+          "answer": "The suggestion model has no work-state field, while Task worker status is derived from member threads; a separate issue/backlog work-state interface remains unestablished.",
+          "evidenceIds": [
+            "gap39-future-work"
+          ]
         },
         "external_tracker_requirement": {
           "support": "unknown",
@@ -1121,12 +1133,16 @@
           "evidenceIds": []
         }
       },
-      "limitations": [],
-      "unknownReason": "Checked Robin's pinned README, README.md, desktop/README.md, docs/INSTALLATION.md, docs/CUSTOMIZATION.md, docs/reference/workspaces.md, docs/reference/human-review.md, docs/AUDIT_LOGS.md, docs/MERGE_QUEUE.md, docs/reference/claude-code-sync.md, LICENSE, releases and recent public issues. This pass did not establish the remaining named requirement. No installed-product scenario or authenticated team fixture was run.",
-      "evidenceIds": [],
-      "checkedAt": "2026-11-08",
-      "nextReviewAt": "2026-12-08",
-      "researcher": "researcher-71",
+      "limitations": [
+        "Only the named atomic answers are established by this source pass. Remaining atomic answers retain their documented gaps."
+      ],
+      "unknownReason": "See unknown atomic answers for the source and test gaps.",
+      "evidenceIds": [
+        "gap39-future-work"
+      ],
+      "checkedAt": "2026-11-13",
+      "nextReviewAt": "2027-03-13",
+      "researcher": "facet-researcher-ade39",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -4119,10 +4135,10 @@
     {
       "id": "open-swe:OWN-04",
       "criterionId": "OWN-04",
-      "answer": "open-swe (Robin) is MIT open source with no price of its own; deploying it as-is requires LangChain's Managed Deep Agents and uses LangSmith sandboxes by default, and the README does not price either.",
+      "answer": "open-swe (Robin) is MIT open source with no price of its own; deploying it as-is requires LangChain's Managed Deep Agents and uses LangSmith sandboxes by default, and the README does not price either. Model execution uses user-supplied provider API keys or LangSmith Gateway credentials; those external service costs are not an Open SWE plan price.",
       "support": "partial",
-      "availability": "unknown",
-      "delivery": "unknown",
+      "availability": "generally-available",
+      "delivery": "native",
       "scope": {
         "surfaceIds": [
           "dashboard",
@@ -4187,9 +4203,13 @@
           "evidenceIds": []
         },
         "model_cost": {
-          "support": "unknown",
-          "answer": "The README says you can choose models but does not say how model usage is billed. Checked the README.",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "Deployments use model-provider API credentials or LangSmith Gateway, billed externally; the application itself has no paid licence plan.",
+          "evidenceIds": [
+            "install",
+            "custom",
+            "gap39-agent-models"
+          ]
         },
         "compute_cost": {
           "support": "partial",
@@ -4200,16 +4220,19 @@
         }
       },
       "limitations": [
-        "First-party pricing pages, terms and licences read 2026-11-10; no purchase, billing or authenticated account test."
+        "Only the named atomic answers are established by this source pass. Remaining atomic answers retain their documented gaps."
       ],
       "unknownReason": "Atomic questions without a first-party statement remain unknown; absence of a pricing page is not treated as evidence.",
       "evidenceIds": [
         "license-nov10",
-        "readme-nov10"
+        "readme-nov10",
+        "install",
+        "custom",
+        "gap39-agent-models"
       ],
       "checkedAt": "2026-11-10",
       "nextReviewAt": "2026-11-24",
-      "researcher": "researcher-11",
+      "researcher": "facet-researcher-ade39",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -4939,6 +4962,45 @@
       "visibility": "public",
       "commit": null,
       "path": null
+    },
+    {
+      "id": "gap39-browser-mobile",
+      "kind": "source-inspected",
+      "url": "https://github.com/langchain-ai/open-swe/blob/ae120fc74d21a7b3aaaaa34a1774718408fad021/ui/src/components/sidebar-layout.tsx",
+      "title": "Robin mobile browser layout",
+      "locator": "readStoredCollapsed, lines 30-42; browser sidebar layout",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-13",
+      "finding": "The browser client explicitly uses a mobile full-screen sidebar overlay and collapses it below 767px so the chat remains visible. This is the cloud-thread browser client; This Mac threads retain their documented owning-Mac restrictions.",
+      "visibility": "public",
+      "commit": "ae120fc74d21a7b3aaaaa34a1774718408fad021",
+      "path": "ui/src/components/sidebar-layout.tsx"
+    },
+    {
+      "id": "gap39-agent-models",
+      "kind": "documented",
+      "url": "https://github.com/langchain-ai/open-swe/blob/ae120fc74d21a7b3aaaaa34a1774718408fad021/docs/CUSTOMIZATION.md",
+      "title": "Robin agent runtime and model configuration",
+      "locator": "Opening ToolSurface description; Sandbox; Model",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-13",
+      "finding": "Every run model loop runs on Managed Deep Agents and uses Robin-configured models, subagents, tools and loop rules. Bounded inspection of mda runtime/model catalog and sandbox tool surface found no runnable integration of the nine compared external coding-CLI harnesses. Claude Code hooks are separately documented read-only mirrors; provider access uses API/Gateway credentials.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "gap39-future-work",
+      "kind": "source-inspected",
+      "url": "https://github.com/langchain-ai/open-swe/blob/ae120fc74d21a7b3aaaaa34a1774718408fad021/openswe/tasks/suggestions.py",
+      "title": "Robin durable future-work suggestions",
+      "locator": "SuggestedTask and SuggestedTaskContent schemas; create; tools/suggest_task.py; tasks/store.py and service.py task_details",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-13",
+      "finding": "Robin persists independent suggested_task records with summary/details, repository/workspace and context links without starting work. The suggestion schema has no open/in-progress/done state. Its Task table instead groups coordinator/worker agent threads, and task status returns thread-derived worker status. This establishes native idea capture, not a general stateful issue/backlog interface.",
+      "visibility": "public",
+      "commit": "ae120fc74d21a7b3aaaaa34a1774718408fad021",
+      "path": "openswe/tasks/suggestions.py"
     }
   ],
   "changes": [
@@ -5220,11 +5282,151 @@
         "src2-oswe-models",
         "src2-oswe-sandbox"
       ]
+    },
+    {
+      "date": "2026-11-13",
+      "author": "facet-researcher-ade39",
+      "type": "research-correction",
+      "summary": "Fill shipped client scope, own-agent harness exclusions, API-key funding and free application pricing. Document native future-work suggestions without treating session groups as an issue tracker.",
+      "claimIds": [
+        "open-swe:ACC-01"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Experimental desktop installation supports Apple Silicon macOS Ventura or later. The web dashboard is the recommended Robin client. Installing the desktop app links robin and oswe CLI commands. The dashboard starts and continues threads; local desktop Changes, Terminal and file browser use the selected checkout.",
+        "subanswers": {
+          "mobile_browser": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Experimental desktop installation supports Apple Silicon macOS Ventura or later. The web dashboard is the recommended Robin client. Installing the desktop app links robin and oswe CLI commands. The dashboard starts and continues threads; local desktop Changes, Terminal and file browser use the selected checkout. The browser layout explicitly adapts its sidebar for phone-width screens.",
+        "subanswers": {
+          "mobile_browser": "supported"
+        }
+      },
+      "evidenceIds": [
+        "gap39-browser-mobile"
+      ]
+    },
+    {
+      "date": "2026-11-13",
+      "author": "facet-researcher-ade39",
+      "type": "research-correction",
+      "summary": "Fill shipped client scope, own-agent harness exclusions, API-key funding and free application pricing. Document native future-work suggestions without treating session groups as an issue tracker.",
+      "claimIds": [
+        "open-swe:ACC-02"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Robin runs its own Deep Agents loop on Managed Deep Agents; the Claude Code connection is a read-only mirror. Anthropic, OpenAI and Google model examples are documented separately from the agent loop. Forking agent_catalog configures tools, models, subagents and loop rules.",
+        "subanswers": {
+          "session_integration": "partial"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Robin runs its own Deep Agents loop on Managed Deep Agents; the Claude Code connection is a read-only mirror. Anthropic, OpenAI and Google model examples are documented separately from the agent loop. Forking agent_catalog configures tools, models, subagents and loop rules. The scoped model/runtime catalog does not integrate the other compared coding-CLI sessions.",
+        "subanswers": {
+          "session_integration": "partial"
+        }
+      },
+      "evidenceIds": [
+        "gap39-agent-models",
+        "src2-oswe-claudesync"
+      ]
+    },
+    {
+      "date": "2026-11-13",
+      "author": "facet-researcher-ade39",
+      "type": "research-correction",
+      "summary": "Fill shipped client scope, own-agent harness exclusions, API-key funding and free application pricing. Document native future-work suggestions without treating session groups as an issue tracker.",
+      "claimIds": [
+        "open-swe:ACC-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Deployments use model-provider API keys or LangSmith Gateway credentials. Managed Deep Agents is required by the shipped backend; deploying without it requires adapting the code.",
+        "subanswers": {
+          "agent_subscriptions": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Deployments use model-provider API keys or LangSmith Gateway credentials. Managed Deep Agents is required by the shipped backend; deploying without it requires adapting the code. The native model runtime uses API/Gateway credentials rather than coding-agent subscription login reuse.",
+        "subanswers": {
+          "agent_subscriptions": "unsupported"
+        }
+      },
+      "evidenceIds": [
+        "gap39-agent-models",
+        "mirror"
+      ]
+    },
+    {
+      "date": "2026-11-13",
+      "author": "facet-researcher-ade39",
+      "type": "research-correction",
+      "summary": "Fill shipped client scope, own-agent harness exclusions, API-key funding and free application pricing. Document native future-work suggestions without treating session groups as an issue tracker.",
+      "claimIds": [
+        "open-swe:PLAN-06"
+      ],
+      "before": {
+        "support": "unknown",
+        "answer": "Native issue management and idea backlog: Checked Robin's pinned README, README.md, desktop/README.md, docs/INSTALLATION.md, docs/CUSTOMIZATION.md, docs/reference/workspaces.md, docs/reference/human-review.md, docs/AUDIT_LOGS.md, docs/MERGE_QUEUE.md, docs/reference/claude-code-sync.md, LICENSE, releases and recent public issues. This pass did not establish the remaining named requirement. No installed-product scenario or authenticated team fixture was run.",
+        "subanswers": {
+          "create": "unknown",
+          "idea_parking": "unknown",
+          "task_session_separation": "unknown",
+          "durable_states": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Robin has durable native future-work suggestions with summary/details, repository/workspace and context links, independent of the originating thread. Their schema has no work-state field; Task records group coordinator/worker sessions rather than provide a general issue/backlog workflow.",
+        "subanswers": {
+          "create": "supported",
+          "idea_parking": "supported",
+          "task_session_separation": "supported",
+          "durable_states": "unknown"
+        }
+      },
+      "evidenceIds": [
+        "gap39-future-work"
+      ]
+    },
+    {
+      "date": "2026-11-13",
+      "author": "facet-researcher-ade39",
+      "type": "research-correction",
+      "summary": "Fill shipped client scope, own-agent harness exclusions, API-key funding and free application pricing. Document native future-work suggestions without treating session groups as an issue tracker.",
+      "claimIds": [
+        "open-swe:OWN-04"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "open-swe (Robin) is MIT open source with no price of its own; deploying it as-is requires LangChain's Managed Deep Agents and uses LangSmith sandboxes by default, and the README does not price either.",
+        "subanswers": {
+          "model_cost": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "open-swe (Robin) is MIT open source with no price of its own; deploying it as-is requires LangChain's Managed Deep Agents and uses LangSmith sandboxes by default, and the README does not price either. Model execution uses user-supplied provider API keys or LangSmith Gateway credentials; those external service costs are not an Open SWE plan price.",
+        "subanswers": {
+          "model_cost": "supported"
+        }
+      },
+      "evidenceIds": [
+        "install",
+        "custom",
+        "gap39-agent-models"
+      ]
     }
   ],
   "context": {
     "roadmapReview": {
-      "checkedAt": "2026-11-08",
+      "checkedAt": "2026-11-13",
       "locations": [
         {
           "url": "https://github.com/langchain-ai/open-swe/blob/82364a02943300ade58376cbd19123425bcf4f4a/README.md",
@@ -5277,6 +5479,14 @@
         {
           "url": "https://github.com/langchain-ai/open-swe/milestones",
           "result": "Open milestone titles: P1; P2; P0. Milestones are plans, not shipped capability."
+        },
+        {
+          "url": "https://github.com/langchain-ai/open-swe/releases",
+          "result": "Retrieved 2 current release entries: desktop-v0.3.16-nightly.20261113161415; desktop-v0.3.16-nightly.20261113150314. The source pass remains limited to the pinned release and named capabilities; issue requests are not availability proof."
+        },
+        {
+          "url": "https://github.com/langchain-ai/open-swe/issues",
+          "result": "Retrieved 4 current issue entries: chore(deps): bump soupsieve from 2.9.2 to 4.0; fix(background-tasks): suppress consumed completions and batch unread wakes; fix(quickjs): recover persistent let redeclarations safely; fix(mda): recover from sandbox startup failures. The source pass remains limited to the pinned release and named capabilities; issue requests are not availability proof."
         }
       ],
       "announced": [],
@@ -6155,6 +6365,27 @@
         ],
         "result": "No first-party service shutdown or sunset notice was established in the checked README, sampled releases and recent issue/PR pass. Absence of a lifecycle notice remains unknown; it is not an active-status claim."
       }
+    },
+    "facetGapReview": {
+      "checkedAt": "2026-11-13",
+      "researcher": "facet-researcher-ade39",
+      "locations": [
+        {
+          "url": "https://github.com/langchain-ai/open-swe/blob/ae120fc74d21a7b3aaaaa34a1774718408fad021/",
+          "result": "Inspected native future-work schemas/tools, task grouping, mobile browser layout, iOS build docs, model/runtime configuration and auth routes; compared latest release and issue feeds with the pinned scope."
+        },
+        {
+          "url": "https://github.com/langchain-ai/open-swe/blob/ae120fc74d21a7b3aaaaa34a1774718408fad021/docs/CUSTOMIZATION.md",
+          "result": "Kept Managed Deep Agents dependency and unspecified LangSmith isolation technology explicit."
+        }
+      ],
+      "gaps": [
+        "Native issue tracking remains unknown: durable future-work suggestions lack work states, and Task groups derive state from agent threads rather than a separate issue/backlog workflow.",
+        "Own-server execution remains unknown: self-hosting the control plane does not establish a self-managed shipped agent loop. The as-is model loop depends on Managed Deep Agents; local Mac bridges are separately scoped.",
+        "Container/VM isolation remain unknown because a Docker-derived snapshot does not identify the closed LangSmith sandbox boundary.",
+        "Team SSO remains unknown: public auth uses GitHub/LangSmith login, while upstream LangSmith identity entitlements do not establish a Robin SSO option.",
+        "paid-from remains unknown because the application has no paid ADE plan and required external services have no published Robin-specific monthly price."
+      ]
     }
   }
 }
