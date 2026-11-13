@@ -37,6 +37,7 @@ test('the three fit groups stay visible and a phone preset accepts native apps',
   await expect(page.locator('[data-group-label=fits]')).toHaveText('Fits')
   await expect(page.locator('[data-group-label=kind-of]')).toHaveText('Fits kind of')
   await expect(page.locator('[data-group-label=shutting-down]')).toHaveText('Fits but shutting down')
+  await page.locator('[data-more=fits]').click()
   await expect(page.locator('[data-group=fits] a[data-product-name][href="/ade/conductor/"]')).toBeVisible()
   await expect(page.locator('[data-group=shutting-down] a[data-product-name][href="/ade/conductor/"]')).toHaveCount(0)
   await expect(page.locator('#include-sunset')).toHaveCount(0)
