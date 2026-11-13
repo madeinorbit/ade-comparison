@@ -23,7 +23,7 @@
   {
    "id": "codex-action:ACC-01",
    "criterionId": "ACC-01",
-   "answer": "Repository automation runs on configured GitHub Actions runners; this action is not a standalone desktop client.",
+   "answer": "The product is a composite GitHub Action with no standalone desktop, browser or phone client. GitHub supplies the workflow-results interface; runner OS support is separate from a desktop ADE client.",
    "support": "partial",
    "availability": "generally-available",
    "delivery": "native",
@@ -40,26 +40,32 @@
    },
    "subanswers": {
     "desktop_os": {
-     "support": "unknown",
-     "answer": "Desktop os remains unknown after the first-party source pass; no direct statement or bounded test was found.",
-     "evidenceIds": []
+     "support": "unsupported",
+     "answer": "No desktop client exists in the scoped action source; Linux/macOS/Windows are runner targets.",
+     "evidenceIds": [
+      "gap37-action-boundary"
+     ]
     },
     "mobile_apps": {
-     "support": "unknown",
-     "answer": "Mobile apps remains unknown after the first-party source pass; no direct statement or bounded test was found.",
-     "evidenceIds": []
+     "support": "unsupported",
+     "answer": "No native iOS or Android app in the scoped action.",
+     "evidenceIds": [
+      "gap37-action-boundary"
+     ]
     },
     "browser": {
-     "support": "supported",
-     "answer": "Workflow results are viewed in GitHub Actions; no separate action dashboard established.",
+     "support": "unsupported",
+     "answer": "No action-owned browser client; GitHub Actions displays its logs and outputs.",
      "evidenceIds": [
-      "readme"
+      "gap37-action-boundary"
      ]
     },
     "mobile_browser": {
-     "support": "unknown",
-     "answer": "Mobile browser remains unknown after the first-party source pass; no direct statement or bounded test was found.",
-     "evidenceIds": []
+     "support": "unsupported",
+     "answer": "No action-owned phone-browser client.",
+     "evidenceIds": [
+      "gap37-action-boundary"
+     ]
     },
     "cli": {
      "support": "supported",
@@ -90,27 +96,24 @@
     }
    },
    "limitations": [
-    "Documentation establishes only the named facts. Unknown atomic questions and unrun scenarios remain open."
+    "Source inspection covers the composite action at the pinned revision. GitHub Actions, the separately installed Codex version and caller-authored workflow operations are separate components; no runtime scenario was executed."
    ],
-   "unknownReason": "Unanswered atomic questions remain open after the cited source pass. No live coding-agent, cross-device, collaboration or failure fixture was run unless explicitly recorded as observed.",
+   "unknownReason": "See the remaining unknown atomic answers for the unestablished capability and test details. This targeted pass does not establish untested parity across clients, plans or execution modes.",
    "evidenceIds": [
-    "readme"
+    "readme",
+    "gap37-action-boundary"
    ],
    "checkedAt": "2026-11-08",
    "nextReviewAt": "2026-11-22",
-   "researcher": "researcher-73",
-   "publication": "public-reviewed",
-   "review": {
-    "reviewer": "reviewer-58",
-    "date": "2026-11-08",
-    "contentHash": "901660657a294c907e2143573ac00dd7927afaf072cb962f3fcc12aab1550c9b"
-   },
+   "researcher": "facet-gap-researcher-37",
+   "publication": "public-candidate",
+   "review": null,
    "contradictions": []
   },
   {
    "id": "codex-action:ACC-02",
    "criterionId": "ACC-02",
-   "answer": "Action installs and invokes Codex CLI; a model-provider endpoint may be customized.",
+   "answer": "The action installs and invokes only Codex CLI; endpoint customization changes the model provider, not the coding harness.",
    "support": "partial",
    "availability": "generally-available",
    "delivery": "native",
@@ -128,9 +131,9 @@
    "subanswers": {
     "harnesses": {
      "support": "supported",
-     "answer": "Codex CLI.",
+     "answer": "Codex is the sole coding harness in the action entry point.",
      "evidenceIds": [
-      "readme"
+      "gap37-action-boundary"
      ]
     },
     "model_providers": {
@@ -141,10 +144,10 @@
      ]
     },
     "custom_adapters": {
-     "support": "supported",
-     "answer": "Responses endpoint override is a provider route, not another coding harness.",
+     "support": "unsupported",
+     "answer": "No generic coding-harness adapter or alternate executable input; the launcher resolves and executes codex.",
      "evidenceIds": [
-      "readme"
+      "gap37-action-boundary"
      ]
     },
     "session_integration": {
@@ -161,21 +164,18 @@
     }
    },
    "limitations": [
-    "Documentation establishes only the named facts. Unknown atomic questions and unrun scenarios remain open."
+    "Source inspection covers the composite action at the pinned revision. GitHub Actions, the separately installed Codex version and caller-authored workflow operations are separate components; no runtime scenario was executed."
    ],
-   "unknownReason": "Unanswered atomic questions remain open after the cited source pass. No live coding-agent, cross-device, collaboration or failure fixture was run unless explicitly recorded as observed.",
+   "unknownReason": "See the remaining unknown atomic answers for the unestablished capability and test details. This targeted pass does not establish untested parity across clients, plans or execution modes.",
    "evidenceIds": [
-    "readme"
+    "readme",
+    "gap37-action-boundary"
    ],
    "checkedAt": "2026-11-08",
    "nextReviewAt": "2026-11-22",
-   "researcher": "researcher-73",
-   "publication": "public-reviewed",
-   "review": {
-    "reviewer": "reviewer-58",
-    "date": "2026-11-08",
-    "contentHash": "1104b858fa31f01e2d84b053e153fdc2ffb011ddb4a7c833f275feb50f4fa9ca"
-   },
+   "researcher": "facet-gap-researcher-37",
+   "publication": "public-candidate",
+   "review": null,
    "contradictions": []
   },
   {
@@ -340,7 +340,7 @@
   {
    "id": "codex-action:ACC-05",
    "criterionId": "ACC-05",
-   "answer": "Workflow inputs configure noninteractive codex exec and expose its final message.",
+   "answer": "The bundled codex-action helper CLI provides setup, permission checks, proxy configuration and run-codex-exec commands for use by the composite workflow.",
    "support": "partial",
    "availability": "generally-available",
    "delivery": "native",
@@ -357,9 +357,11 @@
    },
    "subanswers": {
     "cli": {
-     "support": "unknown",
-     "answer": "Cli remains unknown after the first-party source pass; no direct statement or bounded test was found.",
-     "evidenceIds": []
+     "support": "supported",
+     "answer": "Product-owned supporting CLI: node dist/main.js, named codex-action, with action setup and run-codex-exec commands; distinct from Codex CLI.",
+     "evidenceIds": [
+      "gap37-action-boundary"
+     ]
     },
     "api": {
      "support": "unknown",
@@ -404,21 +406,18 @@
     }
    },
    "limitations": [
-    "Documentation establishes only the named facts. Unknown atomic questions and unrun scenarios remain open."
+    "Source inspection covers the composite action at the pinned revision. GitHub Actions, the separately installed Codex version and caller-authored workflow operations are separate components; no runtime scenario was executed."
    ],
-   "unknownReason": "Unanswered atomic questions remain open after the cited source pass. No live coding-agent, cross-device, collaboration or failure fixture was run unless explicitly recorded as observed.",
+   "unknownReason": "See the remaining unknown atomic answers for the unestablished capability and test details. This targeted pass does not establish untested parity across clients, plans or execution modes.",
    "evidenceIds": [
-    "readme"
+    "readme",
+    "gap37-action-boundary"
    ],
    "checkedAt": "2026-11-08",
    "nextReviewAt": "2026-11-22",
-   "researcher": "researcher-73",
-   "publication": "public-reviewed",
-   "review": {
-    "reviewer": "reviewer-58",
-    "date": "2026-11-08",
-    "contentHash": "8561b8c7b6a10cdf187be67a2deaa2c072910e3e362303b0cb8be803e43f38f7"
-   },
+   "researcher": "facet-gap-researcher-37",
+   "publication": "public-candidate",
+   "review": null,
    "contradictions": []
   },
   {
@@ -966,8 +965,8 @@
   {
    "id": "codex-action:PLAN-06",
    "criterionId": "PLAN-06",
-   "answer": "The first-party pass did not establish native issue management and idea backlog to the criterion threshold.",
-   "support": "unknown",
+   "answer": "The action exposes prompt inputs and final-message output, with no product-owned issue/task store. GitHub issues and workflow runs belong to GitHub.",
+   "support": "partial",
    "availability": "unknown",
    "delivery": "unknown",
    "scope": {
@@ -983,9 +982,11 @@
    },
    "subanswers": {
     "create": {
-     "support": "unknown",
-     "answer": "Create remains unknown after the first-party source pass; no direct statement or bounded test was found.",
-     "evidenceIds": []
+     "support": "unsupported",
+     "answer": "No action-owned issue creation API or persistence.",
+     "evidenceIds": [
+      "gap37-action-boundary"
+     ]
     },
     "edit": {
      "support": "unknown",
@@ -1048,9 +1049,11 @@
      "evidenceIds": []
     },
     "task_session_separation": {
-     "support": "unknown",
-     "answer": "Task session separation remains unknown after the first-party source pass; no direct statement or bounded test was found.",
-     "evidenceIds": []
+     "support": "unsupported",
+     "answer": "No native issue entity separate from workflow invocation.",
+     "evidenceIds": [
+      "gap37-action-boundary"
+     ]
     },
     "metadata": {
      "support": "unknown",
@@ -1058,9 +1061,11 @@
      "evidenceIds": []
     },
     "durable_states": {
-     "support": "unknown",
-     "answer": "Durable states remains unknown after the first-party source pass; no direct statement or bounded test was found.",
-     "evidenceIds": []
+     "support": "unsupported",
+     "answer": "No action-owned task state machine; workflow state belongs to GitHub.",
+     "evidenceIds": [
+      "gap37-action-boundary"
+     ]
     },
     "external_tracker_requirement": {
      "support": "unknown",
@@ -1068,12 +1073,16 @@
      "evidenceIds": []
     }
    },
-   "limitations": [],
-   "unknownReason": "Checked README, relevant first-party docs, releases and public issue leads at 13e9c17417b29e9a276f73ec6ed7fb574137d3c3; no sufficient statement or bounded test established this criterion.",
-   "evidenceIds": [],
-   "checkedAt": "2026-11-08",
-   "nextReviewAt": "2026-11-22",
-   "researcher": "researcher-73",
+   "limitations": [
+    "Source inspection covers the composite action at the pinned revision. GitHub Actions, the separately installed Codex version and caller-authored workflow operations are separate components; no runtime scenario was executed."
+   ],
+   "unknownReason": "See the remaining unknown atomic answers for the unestablished capability and test details. This targeted pass does not establish untested parity across clients, plans or execution modes.",
+   "evidenceIds": [
+    "gap37-action-boundary"
+   ],
+   "checkedAt": "2026-11-13",
+   "nextReviewAt": "2027-03-13",
+   "researcher": "facet-gap-researcher-37",
    "publication": "public-candidate",
    "review": null,
    "contradictions": []
@@ -1256,8 +1265,8 @@
   {
    "id": "codex-action:COORD-01",
    "criterionId": "COORD-01",
-   "answer": "The first-party pass did not establish parallel work to the criterion threshold.",
-   "support": "unknown",
+   "answer": "Separate jobs or workflow instances can run the action concurrently, subject to GitHub Actions quotas and caller concurrency settings.",
+   "support": "partial",
    "availability": "unknown",
    "delivery": "unknown",
    "scope": {
@@ -1273,14 +1282,20 @@
    },
    "subanswers": {
     "concurrent_sessions": {
-     "support": "unknown",
-     "answer": "Concurrent sessions remains unknown after the first-party source pass; no direct statement or bounded test was found.",
-     "evidenceIds": []
+     "support": "supported",
+     "answer": "Independent action invocations in concurrent GitHub Actions jobs run separate Codex processes.",
+     "evidenceIds": [
+      "gap37-concurrency",
+      "gap37-action-boundary"
+     ]
     },
     "concurrent_tasks": {
-     "support": "unknown",
-     "answer": "Concurrent tasks remains unknown after the first-party source pass; no direct statement or bounded test was found.",
-     "evidenceIds": []
+     "support": "supported",
+     "answer": "Concurrent workflow jobs can invoke the action independently.",
+     "evidenceIds": [
+      "gap37-concurrency",
+      "gap37-action-boundary"
+     ]
     },
     "quotas": {
      "support": "unknown",
@@ -1298,12 +1313,17 @@
      "evidenceIds": []
     }
    },
-   "limitations": [],
-   "unknownReason": "Checked README, relevant first-party docs, releases and public issue leads at 13e9c17417b29e9a276f73ec6ed7fb574137d3c3; no sufficient statement or bounded test established this criterion.",
-   "evidenceIds": [],
-   "checkedAt": "2026-11-08",
-   "nextReviewAt": "2026-11-22",
-   "researcher": "researcher-73",
+   "limitations": [
+    "Source inspection covers the composite action at the pinned revision. GitHub Actions, the separately installed Codex version and caller-authored workflow operations are separate components; no runtime scenario was executed."
+   ],
+   "unknownReason": "See the remaining unknown atomic answers for the unestablished capability and test details. This targeted pass does not establish untested parity across clients, plans or execution modes.",
+   "evidenceIds": [
+    "gap37-concurrency",
+    "gap37-action-boundary"
+   ],
+   "checkedAt": "2026-11-13",
+   "nextReviewAt": "2027-03-13",
+   "researcher": "facet-gap-researcher-37",
    "publication": "public-candidate",
    "review": null,
    "contradictions": []
@@ -1376,8 +1396,8 @@
   {
    "id": "codex-action:COORD-03",
    "criterionId": "COORD-03",
-   "answer": "The first-party pass did not establish inspectable delegation and communication to the criterion threshold.",
-   "support": "unknown",
+   "answer": "The action starts one Codex process per invocation and supplies no product-owned coordinator or child-agent messaging tools. Codex-native subagents and caller-written workflows are separate.",
+   "support": "partial",
    "availability": "unknown",
    "delivery": "unknown",
    "scope": {
@@ -1418,9 +1438,11 @@
      "evidenceIds": []
     },
     "orchestration_owner": {
-     "support": "unknown",
-     "answer": "Orchestration owner remains unknown after the first-party source pass; no direct statement or bounded test was found.",
-     "evidenceIds": []
+     "support": "unsupported",
+     "answer": "The action has no coordinator role or cross-session delegation controller.",
+     "evidenceIds": [
+      "gap37-action-boundary"
+     ]
     },
     "activation": {
      "support": "unknown",
@@ -1448,17 +1470,23 @@
      "evidenceIds": []
     },
     "invocation": {
-     "support": "unknown",
-     "answer": "Invocation remains unknown after the first-party source pass; no direct statement or bounded test was found.",
-     "evidenceIds": []
+     "support": "supported",
+     "answer": "A workflow invokes one codex exec process.",
+     "evidenceIds": [
+      "gap37-action-boundary"
+     ]
     }
    },
-   "limitations": [],
-   "unknownReason": "Checked README, relevant first-party docs, releases and public issue leads at 13e9c17417b29e9a276f73ec6ed7fb574137d3c3; no sufficient statement or bounded test established this criterion.",
-   "evidenceIds": [],
-   "checkedAt": "2026-11-08",
-   "nextReviewAt": "2026-11-22",
-   "researcher": "researcher-73",
+   "limitations": [
+    "Source inspection covers the composite action at the pinned revision. GitHub Actions, the separately installed Codex version and caller-authored workflow operations are separate components; no runtime scenario was executed."
+   ],
+   "unknownReason": "See the remaining unknown atomic answers for the unestablished capability and test details. This targeted pass does not establish untested parity across clients, plans or execution modes.",
+   "evidenceIds": [
+    "gap37-action-boundary"
+   ],
+   "checkedAt": "2026-11-13",
+   "nextReviewAt": "2027-03-13",
+   "researcher": "facet-gap-researcher-37",
    "publication": "public-candidate",
    "review": null,
    "contradictions": []
@@ -1792,7 +1820,7 @@
   {
    "id": "codex-action:RUN-01",
    "criterionId": "RUN-01",
-   "answer": "Codex executes on the selected Actions runner, separate from the initiating laptop.",
+   "answer": "Codex runs on the caller-selected GitHub Actions runner. A user-managed runner can execute on the user computer or server; GitHub-hosted runners are GitHub compute, not an OpenAI-managed Codex Action runtime.",
    "support": "partial",
    "availability": "generally-available",
    "delivery": "native",
@@ -1809,9 +1837,11 @@
    },
    "subanswers": {
     "local": {
-     "support": "unknown",
-     "answer": "Local remains unknown after the first-party source pass; no direct statement or bounded test was found.",
-     "evidenceIds": []
+     "support": "supported",
+     "answer": "The composite action executes in the working directory on a caller-managed runner, including a runner on the user computer.",
+     "evidenceIds": [
+      "gap37-action-boundary"
+     ]
     },
     "byo_remote": {
      "support": "supported",
@@ -1826,10 +1856,10 @@
      "evidenceIds": []
     },
     "managed_cloud": {
-     "support": "supported",
-     "answer": "README examples use GitHub-hosted ubuntu-latest.",
+     "support": "unsupported",
+     "answer": "The action provisions no OpenAI-operated runtime; GitHub-hosted Actions runners are an external compute dependency.",
      "evidenceIds": [
-      "readme"
+      "gap37-action-boundary"
      ]
     },
     "hybrid": {
@@ -1878,27 +1908,24 @@
     }
    },
    "limitations": [
-    "Documentation establishes only the named facts. Unknown atomic questions and unrun scenarios remain open."
+    "Source inspection covers the composite action at the pinned revision. GitHub Actions, the separately installed Codex version and caller-authored workflow operations are separate components; no runtime scenario was executed."
    ],
-   "unknownReason": "Unanswered atomic questions remain open after the cited source pass. No live coding-agent, cross-device, collaboration or failure fixture was run unless explicitly recorded as observed.",
+   "unknownReason": "See the remaining unknown atomic answers for the unestablished capability and test details. This targeted pass does not establish untested parity across clients, plans or execution modes.",
    "evidenceIds": [
-    "readme"
+    "readme",
+    "gap37-action-boundary"
    ],
    "checkedAt": "2026-11-08",
    "nextReviewAt": "2026-11-22",
-   "researcher": "researcher-73",
-   "publication": "public-reviewed",
-   "review": {
-    "reviewer": "reviewer-58",
-    "date": "2026-11-08",
-    "contentHash": "4748c384692f42f557b5c29b064b41fce0f6565aee3e82792af6c10d38564629"
-   },
+   "researcher": "facet-gap-researcher-37",
+   "publication": "public-candidate",
+   "review": null,
    "contradictions": []
   },
   {
    "id": "codex-action:RUN-02",
    "criterionId": "RUN-02",
-   "answer": "Command permission profiles and process privilege controls are distinct; runner VM/container isolation is not supplied by this action.",
+   "answer": "The action configures Codex permission profiles and runner privileges; it does not provide worktree, container or VM isolation options. Caller-provided runner isolation is separate.",
    "support": "partial",
    "availability": "generally-available",
    "delivery": "native",
@@ -1925,19 +1952,25 @@
      "evidenceIds": []
     },
     "worktree": {
-     "support": "unknown",
-     "answer": "Worktree remains unknown after the first-party source pass; no direct statement or bounded test was found.",
-     "evidenceIds": []
+     "support": "unsupported",
+     "answer": "No worktree provisioning in the action; checkout belongs to the caller workflow.",
+     "evidenceIds": [
+      "gap37-action-boundary"
+     ]
     },
     "container": {
-     "support": "unknown",
-     "answer": "Container remains unknown after the first-party source pass; no direct statement or bounded test was found.",
-     "evidenceIds": []
+     "support": "unsupported",
+     "answer": "No container provisioning or isolation option in the composite action.",
+     "evidenceIds": [
+      "gap37-action-boundary"
+     ]
     },
     "vm": {
-     "support": "unknown",
-     "answer": "Vm remains unknown after the first-party source pass; no direct statement or bounded test was found.",
-     "evidenceIds": []
+     "support": "unsupported",
+     "answer": "No VM provisioning or isolation option in the composite action.",
+     "evidenceIds": [
+      "gap37-action-boundary"
+     ]
     },
     "os_sandbox": {
      "support": "supported",
@@ -1988,22 +2021,19 @@
     }
    },
    "limitations": [
-    "Documentation establishes only the named facts. Unknown atomic questions and unrun scenarios remain open."
+    "Source inspection covers the composite action at the pinned revision. GitHub Actions, the separately installed Codex version and caller-authored workflow operations are separate components; no runtime scenario was executed."
    ],
-   "unknownReason": "Unanswered atomic questions remain open after the cited source pass. No live coding-agent, cross-device, collaboration or failure fixture was run unless explicitly recorded as observed.",
+   "unknownReason": "See the remaining unknown atomic answers for the unestablished capability and test details. This targeted pass does not establish untested parity across clients, plans or execution modes.",
    "evidenceIds": [
     "readme",
-    "security"
+    "security",
+    "gap37-action-boundary"
    ],
    "checkedAt": "2026-11-08",
    "nextReviewAt": "2026-11-22",
-   "researcher": "researcher-73",
-   "publication": "public-reviewed",
-   "review": {
-    "reviewer": "reviewer-58",
-    "date": "2026-11-08",
-    "contentHash": "8d6b7ae3e9b736971765559bf5f73a7623b848520ab4f6861d12ecd1e738c306"
-   },
+   "researcher": "facet-gap-researcher-37",
+   "publication": "public-candidate",
+   "review": null,
    "contradictions": []
   },
   {
@@ -2558,8 +2588,8 @@
   {
    "id": "codex-action:TEAM-01",
    "criterionId": "TEAM-01",
-   "answer": "The first-party pass did not establish live human collaboration to the criterion threshold.",
-   "support": "unknown",
+   "answer": "Each action invocation receives a fixed prompt or prompt file and writes a final message; it has no shared live prompting channel.",
+   "support": "partial",
    "availability": "unknown",
    "delivery": "unknown",
    "scope": {
@@ -2595,9 +2625,11 @@
      "evidenceIds": []
     },
     "coprompting": {
-     "support": "unknown",
-     "answer": "Coprompting remains unknown after the first-party source pass; no direct statement or bounded test was found.",
-     "evidenceIds": []
+     "support": "unsupported",
+     "answer": "The action source exposes no channel for multiple humans to instruct the same running Codex process.",
+     "evidenceIds": [
+      "gap37-action-boundary"
+     ]
     },
     "ordering": {
      "support": "unknown",
@@ -2630,12 +2662,16 @@
      "evidenceIds": []
     }
    },
-   "limitations": [],
-   "unknownReason": "Checked README, relevant first-party docs, releases and public issue leads at 13e9c17417b29e9a276f73ec6ed7fb574137d3c3; no sufficient statement or bounded test established this criterion.",
-   "evidenceIds": [],
-   "checkedAt": "2026-11-08",
-   "nextReviewAt": "2026-11-22",
-   "researcher": "researcher-73",
+   "limitations": [
+    "Source inspection covers the composite action at the pinned revision. GitHub Actions, the separately installed Codex version and caller-authored workflow operations are separate components; no runtime scenario was executed."
+   ],
+   "unknownReason": "See the remaining unknown atomic answers for the unestablished capability and test details. This targeted pass does not establish untested parity across clients, plans or execution modes.",
+   "evidenceIds": [
+    "gap37-action-boundary"
+   ],
+   "checkedAt": "2026-11-13",
+   "nextReviewAt": "2027-03-13",
+   "researcher": "facet-gap-researcher-37",
    "publication": "public-candidate",
    "review": null,
    "contradictions": []
@@ -2643,7 +2679,7 @@
   {
    "id": "codex-action:TEAM-02",
    "criterionId": "TEAM-02",
-   "answer": "Action caller authorization uses GitHub repository write access plus explicit trusted actor allowlists.",
+   "answer": "The action checks GitHub repository write permission and caller allowlists; it supplies neither native workspace roles nor an enterprise SSO implementation.",
    "support": "partial",
    "availability": "generally-available",
    "delivery": "native",
@@ -2660,9 +2696,11 @@
    },
    "subanswers": {
     "organization_roles": {
-     "support": "unknown",
-     "answer": "Organization roles remains unknown after the first-party source pass; no direct statement or bounded test was found.",
-     "evidenceIds": []
+     "support": "unsupported",
+     "answer": "No action-owned organization or role system.",
+     "evidenceIds": [
+      "gap37-action-boundary"
+     ]
     },
     "project_roles": {
      "support": "supported",
@@ -2682,9 +2720,11 @@
      "evidenceIds": []
     },
     "sso": {
-     "support": "unknown",
-     "answer": "Sso remains unknown after the first-party source pass; no direct statement or bounded test was found.",
-     "evidenceIds": []
+     "support": "unsupported",
+     "answer": "No action-owned SSO implementation; GitHub account authentication is external.",
+     "evidenceIds": [
+      "gap37-action-boundary"
+     ]
     },
     "provisioning": {
      "support": "unknown",
@@ -2712,21 +2752,18 @@
     }
    },
    "limitations": [
-    "Documentation establishes only the named facts. Unknown atomic questions and unrun scenarios remain open."
+    "Source inspection covers the composite action at the pinned revision. GitHub Actions, the separately installed Codex version and caller-authored workflow operations are separate components; no runtime scenario was executed."
    ],
-   "unknownReason": "Unanswered atomic questions remain open after the cited source pass. No live coding-agent, cross-device, collaboration or failure fixture was run unless explicitly recorded as observed.",
+   "unknownReason": "See the remaining unknown atomic answers for the unestablished capability and test details. This targeted pass does not establish untested parity across clients, plans or execution modes.",
    "evidenceIds": [
-    "security"
+    "security",
+    "gap37-action-boundary"
    ],
    "checkedAt": "2026-11-08",
    "nextReviewAt": "2026-11-22",
-   "researcher": "researcher-73",
-   "publication": "public-reviewed",
-   "review": {
-    "reviewer": "reviewer-58",
-    "date": "2026-11-08",
-    "contentHash": "b265650649c5f0596b89e5fb5283dc2992d8cb895b23bafffc21e251f46c8cfd"
-   },
+   "researcher": "facet-gap-researcher-37",
+   "publication": "public-candidate",
+   "review": null,
    "contradictions": []
   },
   {
@@ -3126,7 +3163,7 @@
   {
    "id": "codex-action:SHIP-01",
    "criterionId": "SHIP-01",
-   "answer": "Final output can be retained as workflow output or file.",
+   "answer": "The action returns final-message output or an output file. It has no product interface displaying proposed code diffs.",
    "support": "partial",
    "availability": "generally-available",
    "delivery": "native",
@@ -3143,9 +3180,11 @@
    },
    "subanswers": {
     "diffs": {
-     "support": "unknown",
-     "answer": "Diffs remains unknown after the first-party source pass; no direct statement or bounded test was found.",
-     "evidenceIds": []
+     "support": "unsupported",
+     "answer": "No action-owned diff/review interface; GitHub logs and pull request pages are external.",
+     "evidenceIds": [
+      "gap37-action-boundary"
+     ]
     },
     "documents": {
      "support": "supported",
@@ -3215,21 +3254,18 @@
     }
    },
    "limitations": [
-    "Documentation establishes only the named facts. Unknown atomic questions and unrun scenarios remain open."
+    "Source inspection covers the composite action at the pinned revision. GitHub Actions, the separately installed Codex version and caller-authored workflow operations are separate components; no runtime scenario was executed."
    ],
-   "unknownReason": "Unanswered atomic questions remain open after the cited source pass. No live coding-agent, cross-device, collaboration or failure fixture was run unless explicitly recorded as observed.",
+   "unknownReason": "See the remaining unknown atomic answers for the unestablished capability and test details. This targeted pass does not establish untested parity across clients, plans or execution modes.",
    "evidenceIds": [
-    "readme"
+    "readme",
+    "gap37-action-boundary"
    ],
    "checkedAt": "2026-11-08",
    "nextReviewAt": "2026-11-22",
-   "researcher": "researcher-73",
-   "publication": "public-reviewed",
-   "review": {
-    "reviewer": "reviewer-58",
-    "date": "2026-11-08",
-    "contentHash": "2b940644b248fbabd415e00c3c33472a7cf0ad483be6a8bf20059e92c1a6939b"
-   },
+   "researcher": "facet-gap-researcher-37",
+   "publication": "public-candidate",
+   "review": null,
    "contradictions": []
   },
   {
@@ -3334,7 +3370,7 @@
   {
    "id": "codex-action:SHIP-03",
    "criterionId": "SHIP-03",
-   "answer": "PR review example connects Codex output to a separate GitHub comment job.",
+   "answer": "The documented review bot returns Codex output to a caller-authored GitHub comment job. The action itself has no pull-request creation or management operation.",
    "support": "partial",
    "availability": "generally-available",
    "delivery": "native",
@@ -3366,17 +3402,18 @@
      "evidenceIds": []
     },
     "pull_requests": {
-     "support": "supported",
-     "answer": "Acts on PR event/context; no built-in PR creation operation established.",
+     "support": "unsupported",
+     "answer": "No built-in PR creation or management; caller workflow and arbitrary Codex shell actions are separate.",
      "evidenceIds": [
-      "readme"
+      "gap37-action-boundary"
      ]
     },
     "comments": {
-     "support": "supported",
-     "answer": "Example uses github-script createComment with final-message.",
+     "support": "partial",
+     "answer": "The README example posts comments using a separate github-script job; not an action operation.",
      "evidenceIds": [
-      "readme"
+      "readme",
+      "gap37-action-boundary"
      ]
     },
     "ci_response": {
@@ -3403,21 +3440,18 @@
     }
    },
    "limitations": [
-    "Documentation establishes only the named facts. Unknown atomic questions and unrun scenarios remain open."
+    "Source inspection covers the composite action at the pinned revision. GitHub Actions, the separately installed Codex version and caller-authored workflow operations are separate components; no runtime scenario was executed."
    ],
-   "unknownReason": "Unanswered atomic questions remain open after the cited source pass. No live coding-agent, cross-device, collaboration or failure fixture was run unless explicitly recorded as observed.",
+   "unknownReason": "See the remaining unknown atomic answers for the unestablished capability and test details. This targeted pass does not establish untested parity across clients, plans or execution modes.",
    "evidenceIds": [
-    "readme"
+    "readme",
+    "gap37-action-boundary"
    ],
    "checkedAt": "2026-11-08",
    "nextReviewAt": "2026-11-22",
-   "researcher": "researcher-73",
-   "publication": "public-reviewed",
-   "review": {
-    "reviewer": "reviewer-58",
-    "date": "2026-11-08",
-    "contentHash": "9074176a8a5cd4b1c9fb5e7cc7e1bf2ce8f39a147293eaa6f0a0ce73bef18189"
-   },
+   "researcher": "facet-gap-researcher-37",
+   "publication": "public-candidate",
+   "review": null,
    "contradictions": []
   },
   {
@@ -3734,7 +3768,7 @@
   {
    "id": "codex-action:OWN-02",
    "criterionId": "OWN-02",
-   "answer": "Source is reusable on GitHub/self-hosted runners; GitHub workflow and model services remain dependencies.",
+   "answer": "The product code and execution worker can run on user-controlled runners, but GitHub Actions supplies workflow control, triggers, secrets and logs. A self-managed execution worker alone does not establish a fully self-hosted core ADE; a complete user-managed control-plane deployment is unestablished by this source pass.",
    "support": "partial",
    "availability": "generally-available",
    "delivery": "native",
@@ -3751,10 +3785,10 @@
    },
    "subanswers": {
     "self_hosting": {
-     "support": "supported",
-     "answer": "Action code can execute on user-managed GitHub runner.",
+     "support": "partial",
+     "answer": "Self-managed runner execution is established. A full user-managed workflow/control-plane deployment is not established; runner support alone does not resolve core ADE self-hosting.",
      "evidenceIds": [
-      "readme"
+      "gap37-action-boundary"
      ]
     },
     "vendor_dependencies": {
@@ -3798,27 +3832,24 @@
     }
    },
    "limitations": [
-    "Documentation establishes only the named facts. Unknown atomic questions and unrun scenarios remain open."
+    "Source inspection covers the composite action at the pinned revision. GitHub Actions, the separately installed Codex version and caller-authored workflow operations are separate components; no runtime scenario was executed."
    ],
-   "unknownReason": "Unanswered atomic questions remain open after the cited source pass. No live coding-agent, cross-device, collaboration or failure fixture was run unless explicitly recorded as observed.",
+   "unknownReason": "The evidence establishes worker hosting, not a complete user-managed control-plane deployment. GitHub platform deployment/Enterprise Server parity is not established by the scoped source inspection.",
    "evidenceIds": [
-    "readme"
+    "readme",
+    "gap37-action-boundary"
    ],
    "checkedAt": "2026-11-08",
    "nextReviewAt": "2026-11-22",
-   "researcher": "researcher-73",
-   "publication": "public-reviewed",
-   "review": {
-    "reviewer": "reviewer-58",
-    "date": "2026-11-08",
-    "contentHash": "c3a7e4f2b1b909264102ba3c5889b755d90bf0846ae5775aa088dcdc8436c188"
-   },
+   "researcher": "facet-gap-researcher-37",
+   "publication": "public-candidate",
+   "review": null,
    "contradictions": []
   },
   {
    "id": "codex-action:OWN-03",
    "criterionId": "OWN-03",
-   "answer": "Model requests pass through the proxy to configured Responses endpoint; telemetry policy was not established for the action.",
+   "answer": "The action manages provider credentials and streams Codex output. Its source exposes no action-owned telemetry opt-out control; Codex, GitHub and model-provider collection are separate.",
    "support": "partial",
    "availability": "generally-available",
    "delivery": "native",
@@ -3898,9 +3929,11 @@
      "evidenceIds": []
     },
     "telemetry_controls": {
-     "support": "unknown",
-     "answer": "Telemetry controls remains unknown after the first-party source pass; no direct statement or bounded test was found.",
-     "evidenceIds": []
+     "support": "unsupported",
+     "answer": "No action telemetry control in action.yml inputs, src/main.ts command options or src runtime implementation.",
+     "evidenceIds": [
+      "gap37-action-boundary"
+     ]
     },
     "consent_prompt": {
      "support": "unknown",
@@ -3917,22 +3950,19 @@
     }
    },
    "limitations": [
-    "Documentation establishes only the named facts. Unknown atomic questions and unrun scenarios remain open."
+    "Source inspection covers the composite action at the pinned revision. GitHub Actions, the separately installed Codex version and caller-authored workflow operations are separate components; no runtime scenario was executed."
    ],
-   "unknownReason": "Unanswered atomic questions remain open after the cited source pass. No live coding-agent, cross-device, collaboration or failure fixture was run unless explicitly recorded as observed.",
+   "unknownReason": "See the remaining unknown atomic answers for the unestablished capability and test details. This targeted pass does not establish untested parity across clients, plans or execution modes.",
    "evidenceIds": [
     "readme",
-    "security"
+    "security",
+    "gap37-action-boundary"
    ],
    "checkedAt": "2026-11-08",
    "nextReviewAt": "2026-11-22",
-   "researcher": "researcher-73",
-   "publication": "public-reviewed",
-   "review": {
-    "reviewer": "reviewer-58",
-    "date": "2026-11-08",
-    "contentHash": "3da8917b69d095fd707ad92b16d8c43d89cf8aa05dea897af0dc3c45470db486"
-   },
+   "researcher": "facet-gap-researcher-37",
+   "publication": "public-candidate",
+   "review": null,
    "contradictions": []
   },
   {
@@ -4537,6 +4567,32 @@
    "visibility": "public",
    "commit": "13e9c17417b29e9a276f73ec6ed7fb574137d3c3",
    "path": "README.md"
+  },
+  {
+   "id": "gap37-action-boundary",
+   "kind": "source-inspected",
+   "url": "https://github.com/openai/codex-action/blob/13e9c17417b29e9a276f73ec6ed7fb574137d3c3/action.yml",
+   "title": "Codex Action entry point and runtime boundary",
+   "locator": "Entire composite action, inputs and outputs; src/main.ts command registration; src/runCodexExec.ts:255-355; package.json",
+   "sourceDate": null,
+   "retrievedAt": "2026-11-13",
+   "finding": "The composite action installs only Codex and its Responses proxy, runs one codex exec process on the selected runner, and returns a final message. Its helper CLI has action setup/run commands. Inspection of action.yml and src found no desktop/browser/mobile client, harness adapter, agent delegation controller, task database, shared-prompt server, SSO, diff viewer, PR creation, worktree/container/VM provisioning or action telemetry toggle. GitHub supplies workflow control and permissions; Codex internals are separate.",
+   "visibility": "public",
+   "commit": "13e9c17417b29e9a276f73ec6ed7fb574137d3c3",
+   "path": "action.yml"
+  },
+  {
+   "id": "gap37-concurrency",
+   "kind": "documented",
+   "url": "https://docs.github.com/en/actions/concepts/workflows-and-actions/concurrency",
+   "title": "GitHub Actions concurrency",
+   "locator": "Concurrency: default behavior",
+   "sourceDate": null,
+   "retrievedAt": "2026-11-13",
+   "finding": "GitHub Actions permits jobs and multiple instances of a workflow to run concurrently by default; caller concurrency settings and runner quotas can restrict this.",
+   "visibility": "public",
+   "commit": null,
+   "path": null
   }
  ],
  "changes": [
@@ -4730,6 +4786,398 @@
    "evidenceIds": [
     "src4-apikey-required"
    ]
+  },
+  {
+   "date": "2026-11-13",
+   "author": "facet-gap-researcher-37",
+   "type": "research-correction",
+   "summary": "Fill typed directory gaps from the pinned action entry point and its complete supported inputs; distinguish the action from GitHub UI and Codex capabilities.",
+   "claimIds": [
+    "codex-action:ACC-01"
+   ],
+   "before": {
+    "support": "partial",
+    "answer": "Repository automation runs on configured GitHub Actions runners; this action is not a standalone desktop client.",
+    "subanswers": {
+     "desktop_os": "unknown",
+     "mobile_apps": "unknown",
+     "browser": "supported",
+     "mobile_browser": "unknown"
+    }
+   },
+   "after": {
+    "support": "partial",
+    "answer": "The product is a composite GitHub Action with no standalone desktop, browser or phone client. GitHub supplies the workflow-results interface; runner OS support is separate from a desktop ADE client.",
+    "subanswers": {
+     "desktop_os": "unsupported",
+     "mobile_apps": "unsupported",
+     "browser": "unsupported",
+     "mobile_browser": "unsupported"
+    }
+   },
+   "evidenceIds": [
+    "gap37-action-boundary"
+   ]
+  },
+  {
+   "date": "2026-11-13",
+   "author": "facet-gap-researcher-37",
+   "type": "research-correction",
+   "summary": "Fill typed directory gaps from the pinned action entry point and its complete supported inputs; distinguish the action from GitHub UI and Codex capabilities.",
+   "claimIds": [
+    "codex-action:ACC-02"
+   ],
+   "before": {
+    "support": "partial",
+    "answer": "Action installs and invokes Codex CLI; a model-provider endpoint may be customized.",
+    "subanswers": {
+     "harnesses": "supported",
+     "custom_adapters": "supported"
+    }
+   },
+   "after": {
+    "support": "partial",
+    "answer": "The action installs and invokes only Codex CLI; endpoint customization changes the model provider, not the coding harness.",
+    "subanswers": {
+     "harnesses": "supported",
+     "custom_adapters": "unsupported"
+    }
+   },
+   "evidenceIds": [
+    "gap37-action-boundary"
+   ]
+  },
+  {
+   "date": "2026-11-13",
+   "author": "facet-gap-researcher-37",
+   "type": "research-correction",
+   "summary": "Fill typed directory gaps from the pinned action entry point and its complete supported inputs; distinguish the action from GitHub UI and Codex capabilities.",
+   "claimIds": [
+    "codex-action:ACC-05"
+   ],
+   "before": {
+    "support": "partial",
+    "answer": "Workflow inputs configure noninteractive codex exec and expose its final message.",
+    "subanswers": {
+     "cli": "unknown"
+    }
+   },
+   "after": {
+    "support": "partial",
+    "answer": "The bundled codex-action helper CLI provides setup, permission checks, proxy configuration and run-codex-exec commands for use by the composite workflow.",
+    "subanswers": {
+     "cli": "supported"
+    }
+   },
+   "evidenceIds": [
+    "gap37-action-boundary"
+   ]
+  },
+  {
+   "date": "2026-11-13",
+   "author": "facet-gap-researcher-37",
+   "type": "research-correction",
+   "summary": "Fill typed directory gaps from the pinned action entry point and its complete supported inputs; distinguish the action from GitHub UI and Codex capabilities.",
+   "claimIds": [
+    "codex-action:RUN-01"
+   ],
+   "before": {
+    "support": "partial",
+    "answer": "Codex executes on the selected Actions runner, separate from the initiating laptop.",
+    "subanswers": {
+     "local": "unknown",
+     "managed_cloud": "supported"
+    }
+   },
+   "after": {
+    "support": "partial",
+    "answer": "Codex runs on the caller-selected GitHub Actions runner. A user-managed runner can execute on the user computer or server; GitHub-hosted runners are GitHub compute, not an OpenAI-managed Codex Action runtime.",
+    "subanswers": {
+     "local": "supported",
+     "managed_cloud": "unsupported"
+    }
+   },
+   "evidenceIds": [
+    "gap37-action-boundary"
+   ]
+  },
+  {
+   "date": "2026-11-13",
+   "author": "facet-gap-researcher-37",
+   "type": "research-correction",
+   "summary": "Fill typed directory gaps from the pinned action entry point and its complete supported inputs; distinguish the action from GitHub UI and Codex capabilities.",
+   "claimIds": [
+    "codex-action:RUN-02"
+   ],
+   "before": {
+    "support": "partial",
+    "answer": "Command permission profiles and process privilege controls are distinct; runner VM/container isolation is not supplied by this action.",
+    "subanswers": {
+     "worktree": "unknown",
+     "container": "unknown",
+     "vm": "unknown"
+    }
+   },
+   "after": {
+    "support": "partial",
+    "answer": "The action configures Codex permission profiles and runner privileges; it does not provide worktree, container or VM isolation options. Caller-provided runner isolation is separate.",
+    "subanswers": {
+     "worktree": "unsupported",
+     "container": "unsupported",
+     "vm": "unsupported"
+    }
+   },
+   "evidenceIds": [
+    "gap37-action-boundary"
+   ]
+  },
+  {
+   "date": "2026-11-13",
+   "author": "facet-gap-researcher-37",
+   "type": "research-correction",
+   "summary": "Fill typed directory gaps from the pinned action entry point and its complete supported inputs; distinguish the action from GitHub UI and Codex capabilities.",
+   "claimIds": [
+    "codex-action:COORD-01"
+   ],
+   "before": {
+    "support": "unknown",
+    "answer": "The first-party pass did not establish parallel work to the criterion threshold.",
+    "subanswers": {
+     "concurrent_sessions": "unknown",
+     "concurrent_tasks": "unknown"
+    }
+   },
+   "after": {
+    "support": "partial",
+    "answer": "Separate jobs or workflow instances can run the action concurrently, subject to GitHub Actions quotas and caller concurrency settings.",
+    "subanswers": {
+     "concurrent_sessions": "supported",
+     "concurrent_tasks": "supported"
+    }
+   },
+   "evidenceIds": [
+    "gap37-concurrency",
+    "gap37-action-boundary"
+   ]
+  },
+  {
+   "date": "2026-11-13",
+   "author": "facet-gap-researcher-37",
+   "type": "research-correction",
+   "summary": "Fill typed directory gaps from the pinned action entry point and its complete supported inputs; distinguish the action from GitHub UI and Codex capabilities.",
+   "claimIds": [
+    "codex-action:COORD-03"
+   ],
+   "before": {
+    "support": "unknown",
+    "answer": "The first-party pass did not establish inspectable delegation and communication to the criterion threshold.",
+    "subanswers": {
+     "orchestration_owner": "unknown",
+     "invocation": "unknown"
+    }
+   },
+   "after": {
+    "support": "partial",
+    "answer": "The action starts one Codex process per invocation and supplies no product-owned coordinator or child-agent messaging tools. Codex-native subagents and caller-written workflows are separate.",
+    "subanswers": {
+     "orchestration_owner": "unsupported",
+     "invocation": "supported"
+    }
+   },
+   "evidenceIds": [
+    "gap37-action-boundary"
+   ]
+  },
+  {
+   "date": "2026-11-13",
+   "author": "facet-gap-researcher-37",
+   "type": "research-correction",
+   "summary": "Fill typed directory gaps from the pinned action entry point and its complete supported inputs; distinguish the action from GitHub UI and Codex capabilities.",
+   "claimIds": [
+    "codex-action:PLAN-06"
+   ],
+   "before": {
+    "support": "unknown",
+    "answer": "The first-party pass did not establish native issue management and idea backlog to the criterion threshold.",
+    "subanswers": {
+     "create": "unknown",
+     "task_session_separation": "unknown",
+     "durable_states": "unknown"
+    }
+   },
+   "after": {
+    "support": "partial",
+    "answer": "The action exposes prompt inputs and final-message output, with no product-owned issue/task store. GitHub issues and workflow runs belong to GitHub.",
+    "subanswers": {
+     "create": "unsupported",
+     "task_session_separation": "unsupported",
+     "durable_states": "unsupported"
+    }
+   },
+   "evidenceIds": [
+    "gap37-action-boundary"
+   ]
+  },
+  {
+   "date": "2026-11-13",
+   "author": "facet-gap-researcher-37",
+   "type": "research-correction",
+   "summary": "Fill typed directory gaps from the pinned action entry point and its complete supported inputs; distinguish the action from GitHub UI and Codex capabilities.",
+   "claimIds": [
+    "codex-action:TEAM-01"
+   ],
+   "before": {
+    "support": "unknown",
+    "answer": "The first-party pass did not establish live human collaboration to the criterion threshold.",
+    "subanswers": {
+     "coprompting": "unknown"
+    }
+   },
+   "after": {
+    "support": "partial",
+    "answer": "Each action invocation receives a fixed prompt or prompt file and writes a final message; it has no shared live prompting channel.",
+    "subanswers": {
+     "coprompting": "unsupported"
+    }
+   },
+   "evidenceIds": [
+    "gap37-action-boundary"
+   ]
+  },
+  {
+   "date": "2026-11-13",
+   "author": "facet-gap-researcher-37",
+   "type": "research-correction",
+   "summary": "Fill typed directory gaps from the pinned action entry point and its complete supported inputs; distinguish the action from GitHub UI and Codex capabilities.",
+   "claimIds": [
+    "codex-action:TEAM-02"
+   ],
+   "before": {
+    "support": "partial",
+    "answer": "Action caller authorization uses GitHub repository write access plus explicit trusted actor allowlists.",
+    "subanswers": {
+     "organization_roles": "unknown",
+     "sso": "unknown"
+    }
+   },
+   "after": {
+    "support": "partial",
+    "answer": "The action checks GitHub repository write permission and caller allowlists; it supplies neither native workspace roles nor an enterprise SSO implementation.",
+    "subanswers": {
+     "organization_roles": "unsupported",
+     "sso": "unsupported"
+    }
+   },
+   "evidenceIds": [
+    "gap37-action-boundary"
+   ]
+  },
+  {
+   "date": "2026-11-13",
+   "author": "facet-gap-researcher-37",
+   "type": "research-correction",
+   "summary": "Fill typed directory gaps from the pinned action entry point and its complete supported inputs; distinguish the action from GitHub UI and Codex capabilities.",
+   "claimIds": [
+    "codex-action:SHIP-01"
+   ],
+   "before": {
+    "support": "partial",
+    "answer": "Final output can be retained as workflow output or file.",
+    "subanswers": {
+     "diffs": "unknown"
+    }
+   },
+   "after": {
+    "support": "partial",
+    "answer": "The action returns final-message output or an output file. It has no product interface displaying proposed code diffs.",
+    "subanswers": {
+     "diffs": "unsupported"
+    }
+   },
+   "evidenceIds": [
+    "gap37-action-boundary"
+   ]
+  },
+  {
+   "date": "2026-11-13",
+   "author": "facet-gap-researcher-37",
+   "type": "research-correction",
+   "summary": "Fill typed directory gaps from the pinned action entry point and its complete supported inputs; distinguish the action from GitHub UI and Codex capabilities.",
+   "claimIds": [
+    "codex-action:SHIP-03"
+   ],
+   "before": {
+    "support": "partial",
+    "answer": "PR review example connects Codex output to a separate GitHub comment job.",
+    "subanswers": {
+     "pull_requests": "supported",
+     "comments": "supported"
+    }
+   },
+   "after": {
+    "support": "partial",
+    "answer": "The documented review bot returns Codex output to a caller-authored GitHub comment job. The action itself has no pull-request creation or management operation.",
+    "subanswers": {
+     "pull_requests": "unsupported",
+     "comments": "partial"
+    }
+   },
+   "evidenceIds": [
+    "gap37-action-boundary",
+    "readme"
+   ]
+  },
+  {
+   "date": "2026-11-13",
+   "author": "facet-gap-researcher-37",
+   "type": "research-correction",
+   "summary": "Fill typed directory gaps from the pinned action entry point and its complete supported inputs; distinguish the action from GitHub UI and Codex capabilities.",
+   "claimIds": [
+    "codex-action:OWN-02"
+   ],
+   "before": {
+    "support": "partial",
+    "answer": "Source is reusable on GitHub/self-hosted runners; GitHub workflow and model services remain dependencies.",
+    "subanswers": {
+     "self_hosting": "supported"
+    }
+   },
+   "after": {
+    "support": "partial",
+    "answer": "The product code and execution worker can run on user-controlled runners, but GitHub Actions supplies workflow control, triggers, secrets and logs. A self-managed execution worker alone does not establish a fully self-hosted core ADE; a complete user-managed control-plane deployment is unestablished by this source pass.",
+    "subanswers": {
+     "self_hosting": "partial"
+    }
+   },
+   "evidenceIds": [
+    "gap37-action-boundary"
+   ]
+  },
+  {
+   "date": "2026-11-13",
+   "author": "facet-gap-researcher-37",
+   "type": "research-correction",
+   "summary": "Fill typed directory gaps from the pinned action entry point and its complete supported inputs; distinguish the action from GitHub UI and Codex capabilities.",
+   "claimIds": [
+    "codex-action:OWN-03"
+   ],
+   "before": {
+    "support": "partial",
+    "answer": "Model requests pass through the proxy to configured Responses endpoint; telemetry policy was not established for the action.",
+    "subanswers": {
+     "telemetry_controls": "unknown"
+    }
+   },
+   "after": {
+    "support": "partial",
+    "answer": "The action manages provider credentials and streams Codex output. Its source exposes no action-owned telemetry opt-out control; Codex, GitHub and model-provider collection are separate.",
+    "subanswers": {
+     "telemetry_controls": "unsupported"
+    }
+   },
+   "evidenceIds": [
+    "gap37-action-boundary"
+   ]
   }
  ],
  "context": {
@@ -4792,24 +5240,28 @@
    ]
   },
   "roadmapReview": {
-   "checkedAt": "2026-11-08",
+   "checkedAt": "2026-11-13",
    "locations": [
     {
-     "url": "https://github.com/openai/codex-action/blob/13e9c17417b29e9a276f73ec6ed7fb574137d3c3/README.md",
-     "result": "Reviewed current product documentation and links; future work is not treated as shipped."
+     "url": "https://github.com/openai/codex-action/blob/13e9c17417b29e9a276f73ec6ed7fb574137d3c3/action.yml",
+     "result": "Read Entire composite action, inputs and outputs; src/main.ts command registration; src/runCodexExec.ts:255-355; package.json. The composite action installs only Codex and its Responses proxy, runs one codex exec process on the selected runner, and returns a final message. Its helper CLI has action setup/run commands. Inspection of action.yml and src found no desktop/browser/mobile client, harness adapter, agent delegation controller, task database, shared-prompt server, SSO, diff viewer, PR creation, worktree/container/VM provisioning or action telemetry toggle. GitHub supplies workflow control and permissions; Codex internals are separate."
+    },
+    {
+     "url": "https://docs.github.com/en/actions/concepts/workflows-and-actions/concurrency",
+     "result": "Read Concurrency: default behavior. GitHub Actions permits jobs and multiple instances of a workflow to run concurrently by default; caller concurrency settings and runner quotas can restrict this."
     },
     {
      "url": "https://github.com/openai/codex-action/releases",
-     "result": "Read the latest returned releases and dated changes."
+     "result": "Reviewed latest returned release records: . Older pinned implementation findings retain their scope."
     },
     {
      "url": "https://github.com/openai/codex-action/issues",
-     "result": "Reviewed 30 most recently updated returned open/closed issues and pull requests as leads; user reports do not establish product capabilities."
+     "result": "Bounded review of ten most recently updated open/closed issues and PRs: fix: isolate Responses proxy state by run attempt; docs: add GitHub MCP setup for Actions; fix: detach Responses proxy stdio on container runners; fix: validate prompt and working paths before setup; fix: reject conflicting inputs before setup side effects; fix: clean temporary Codex output after failed runs; fix: create custom Codex home before proxy setup; fix: validate Responses proxy liveness before reuse; feat: add pull request progress comments; fix(drop-sudo): use the shell test builtin for the socket ACL check. Reports and proposals are leads, not capability proof."
     }
    ],
    "announced": [],
    "gaps": [
-    "No hands-on scenario or independent review in this source pass. Roadmap plans without a dated shipped announcement remain separate from current findings."
+    "Targeted documentation and pinned implementation pass for missing directory cells. No installed-product or multi-account scenario was run. Future plans, private previews and issue/PR proposals do not establish shipped support."
    ]
   },
   "typedFilterPass": {
@@ -4941,6 +5393,49 @@
   "lifecycleSearch": {
    "checkedAt": "2026-11-08",
    "result": "Checked first-party README, recent releases and public issue leads. No scoped product shutdown notice established; active status is not inferred."
+  },
+  "facetGapPass": {
+   "checkedAt": "2026-11-13",
+   "keys": [
+    "desktop-os:macos",
+    "desktop-os:windows",
+    "desktop-os:linux",
+    "web-client",
+    "phone-client:ios",
+    "phone-client:android",
+    "phone-client:mobile-web",
+    "cli",
+    "agents:claude-code",
+    "agents:cursor",
+    "agents:gemini-cli",
+    "agents:opencode",
+    "agents:pi",
+    "agents:grok",
+    "agents:aider",
+    "agents:antigravity",
+    "execution:local",
+    "execution:vendor-cloud",
+    "isolation:worktree",
+    "isolation:container",
+    "isolation:vm",
+    "parallel-runs",
+    "coordinator",
+    "issue-tracking",
+    "multiplayer",
+    "roles",
+    "sso",
+    "review-ui",
+    "pr-workflow",
+    "telemetry-opt-out",
+    "starting-price",
+    "pricing-model:free-plan",
+    "pricing-model:subscription",
+    "pricing-model:per-seat",
+    "pricing-model:usage-based",
+    "pricing-model:compute",
+    "pricing-model:one-time"
+   ],
+   "method": "Read existing atomic findings and cited first-party sources, then inspect pinned public implementation for missing capability boundaries. Unestablished business facts and closed components remain unknown."
   }
  }
 }
