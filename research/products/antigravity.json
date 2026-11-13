@@ -1221,7 +1221,7 @@
     {
       "id": "antigravity:PLAN-06",
       "criterionId": "PLAN-06",
-      "answer": "Searched docs for an issue tracker, backlog or task board in Antigravity 2.0 and CLI; only conversations, projects and automations were found, and none is described as an issue system.",
+      "answer": "Source pass on 2026-11-13: Current docs were searched for independent native issues/tasks. Conversations, projects, automations and agent task groups do not establish that feature; the core application is closed-source.",
       "support": "unknown",
       "availability": "unknown",
       "delivery": "unknown",
@@ -1322,11 +1322,11 @@
         }
       },
       "limitations": [],
-      "unknownReason": "Searched docs for an issue tracker, backlog or task board in Antigravity 2.0 and CLI; only conversations, projects and automations were found, and none is described as an issue system.",
+      "unknownReason": "Current docs were searched for independent native issues/tasks. Conversations, projects, automations and agent task groups do not establish that feature; the core application is closed-source.",
       "evidenceIds": [],
-      "checkedAt": "2026-10-09",
-      "nextReviewAt": "2026-11-08",
-      "researcher": "researcher-51",
+      "checkedAt": "2026-11-13",
+      "nextReviewAt": "2027-03-13",
+      "researcher": "researcher-ade35",
       "publication": "internal-only",
       "review": null,
       "contradictions": []
@@ -2393,16 +2393,16 @@
     {
       "id": "antigravity:RUN-02",
       "criterionId": "RUN-02",
-      "answer": "Local worktree isolation and an OS-level local terminal sandbox exist (Seatbelt on macOS, namespaces on Linux; no VMs or Docker images in that sandbox); the sandbox is off by default in the CLI and in preview on Windows.",
+      "answer": "Local conversations can use project checkouts or Git worktrees, and the terminal sandbox uses native OS isolation. Linux uses namespaces, macOS uses Seatbelt, and supported Windows builds use process security environments/AppContainer. These local sandboxes do not use VM or Docker-image execution.",
       "support": "partial",
-      "availability": "unknown",
+      "availability": "generally-available",
       "delivery": "native",
       "scope": {
         "surfaceIds": [
           "app",
           "cli"
         ],
-        "version": "Antigravity 2.0 v2.21.1 and CLI v1.3.1 per changelog; docs read 2026-10-09",
+        "version": "Current App/CLI projects, subagent, Teamwork and sandbox documentation rechecked 2026-11-13",
         "plan": null,
         "os": [
           "macOS",
@@ -2419,96 +2419,95 @@
       "subanswers": {
         "checkout": {
           "support": "supported",
-          "answer": "Local mode works in the active checkout.",
+          "answer": "Local mode works directly in project folders or Git checkouts.",
           "evidenceIds": [
-            "projects"
+            "gap35-projects-recheck"
           ]
         },
         "branch": {
           "support": "partial",
-          "answer": "Subagent workspace option branch uses an isolated Git worktree.",
+          "answer": "Subagent branch workspace mode creates an isolated Git worktree.",
           "evidenceIds": [
-            "subagents"
+            "gap35-subagents-recheck"
           ]
         },
         "worktree": {
-          "support": "supported",
-          "answer": "New worktree mode creates a Git worktree per conversation.",
+          "support": "partial",
+          "answer": "The project worktree selector can create a worktree per conversation. The v2.30.0+ Knowledge Work layout instead uses project folders without that selector.",
           "evidenceIds": [
-            "projects",
-            "getting-started"
+            "gap35-projects-recheck"
           ]
         },
         "container": {
-          "support": "unsupported",
-          "answer": "Local terminal sandbox: built on OS primitives with \"no virtual machines or Docker images to manage\". The separate preview Gemini API agent runs in a Google-hosted Linux sandbox, outside this claim's app and CLI scope.",
+          "support": "supported",
+          "answer": "Linux terminal sandbox uses documented OS-level container boundaries with filesystem/process/network namespaces; this is not a Docker image.",
           "evidenceIds": [
-            "sandbox",
-            "managed-agent"
+            "gap35-sandbox"
           ]
         },
         "vm": {
           "support": "unsupported",
-          "answer": "Local terminal sandbox: \"no virtual machines\". Separately, Gemini API managed-agent environments run on VMs that shut down after brief inactivity, outside this claim's app and CLI scope.",
+          "answer": "The local terminal sandbox explicitly uses native OS primitives without virtual machines.",
           "evidenceIds": [
-            "sandbox",
-            "managed-agents-overview"
+            "gap35-sandbox"
           ]
         },
         "os_sandbox": {
           "support": "supported",
-          "answer": "Seatbelt on macOS and kernel namespaces on Linux; Windows in preview.",
+          "answer": "Linux namespaces and macOS Seatbelt isolate terminal execution. On supported Windows builds, the CLI uses process security environments with AppContainer.",
           "evidenceIds": [
-            "sandbox"
+            "gap35-sandbox"
           ]
         },
         "filesystem": {
           "support": "supported",
-          "answer": "Project folders mounted read-write; unmounted paths hidden; ~/.ssh and .env blocked.",
+          "answer": "Project folders, temporary directories and build caches are writable; system mounts are readable and sensitive files are blocked. Windows has different read visibility outside the user profile.",
           "evidenceIds": [
-            "sandbox"
+            "gap35-sandbox"
           ]
         },
         "process": {
           "support": "partial",
-          "answer": "On Linux, namespaces hide host processes.",
+          "answer": "Linux namespaces hide host processes; other operating systems use their documented native sandbox primitives.",
           "evidenceIds": [
-            "sandbox"
+            "gap35-sandbox"
           ]
         },
         "network": {
           "support": "supported",
-          "answer": "No network by default on macOS/Linux; read_url allowlist opens domains.",
+          "answer": "CLI sandbox networking is denied by default; domains permitted by read_url extend the outbound allowlist.",
           "evidenceIds": [
-            "sandbox",
-            "permissions"
+            "gap35-sandbox",
+            "gap35-permissions-recheck"
           ]
         },
         "secrets": {
           "support": "partial",
-          "answer": "~/.ssh and .env are blocked inside the sandbox.",
+          "answer": "Sensitive paths including ~/.ssh and .env are blocked in the terminal sandbox.",
           "evidenceIds": [
-            "sandbox"
+            "gap35-sandbox"
           ]
         },
         "code_separation": {
           "support": "partial",
-          "answer": "Teamwork runs in dedicated folders under ~/teamwork_projects (default ~/teamwork_projects/{PROJECT_NAME}), separate from the main repository.",
+          "answer": "Teamwork uses dedicated project folders under ~/teamwork_projects by default, plus per-agent scratch directories.",
           "evidenceIds": [
-            "teamwork"
+            "gap35-teamwork-recheck"
           ]
         },
         "security_boundary": {
           "support": "partial",
-          "answer": "Unsandboxed commands run on the host with full privileges when approved.",
+          "answer": "The chosen permission preset and allow rules can run commands on the host outside the sandbox.",
           "evidenceIds": [
-            "sandbox"
+            "gap35-sandbox",
+            "gap35-permissions-recheck"
           ]
         }
       },
       "limitations": [
-        "Windows sandbox is preview; CLI enableTerminalSandbox defaults to false.",
-        "Approved unsandboxed commands run with full host privileges."
+        "CLI Windows sandbox requires Windows 11 24H2 with the August 2026 update or later. Availability also depends on user namespaces and account/version support.",
+        "Default CLI enableTerminalSandbox is false outside Auto mode; Request Review/Turbo presets do not use the sandbox.",
+        "Commands allowed outside the sandbox run on the host. Source pass only; no runtime test ran."
       ],
       "unknownReason": null,
       "evidenceIds": [
@@ -2519,17 +2518,18 @@
         "managed-agent",
         "permissions",
         "teamwork",
-        "managed-agents-overview"
+        "managed-agents-overview",
+        "gap35-sandbox",
+        "gap35-projects-recheck",
+        "gap35-subagents-recheck",
+        "gap35-teamwork-recheck",
+        "gap35-permissions-recheck"
       ],
-      "checkedAt": "2026-10-09",
-      "nextReviewAt": "2026-11-08",
-      "researcher": "researcher-52",
-      "publication": "public-reviewed",
-      "review": {
-        "reviewer": "reviewer-19",
-        "date": "2026-10-09",
-        "contentHash": "80e293af810d5119a29a4b1916102b7c21ce6d10fa4ee16ba2182228fa3f2b0f"
-      },
+      "checkedAt": "2026-11-13",
+      "nextReviewAt": "2027-03-13",
+      "researcher": "researcher-ade35",
+      "publication": "public-candidate",
+      "review": null,
       "contradictions": []
     },
     {
@@ -3174,7 +3174,7 @@
     {
       "id": "antigravity:TEAM-01",
       "criterionId": "TEAM-01",
-      "answer": "Searched docs for multi-user sessions, presence and shared threads; only single-account Remote Control and agent teams were found. Not hands-on tested.",
+      "answer": "Source pass on 2026-11-13: Current Remote Control uses the same Google account on devices and Teamwork describes agents. No separate-human prompting contract was found; the core application is closed-source.",
       "support": "unknown",
       "availability": "unknown",
       "delivery": "unknown",
@@ -3245,11 +3245,11 @@
         }
       },
       "limitations": [],
-      "unknownReason": "Searched docs for multi-user sessions, presence and shared threads; only single-account Remote Control and agent teams were found. Not hands-on tested.",
+      "unknownReason": "Current Remote Control uses the same Google account on devices and Teamwork describes agents. No separate-human prompting contract was found; the core application is closed-source.",
       "evidenceIds": [],
-      "checkedAt": "2026-10-09",
-      "nextReviewAt": "2026-11-08",
-      "researcher": "researcher-51",
+      "checkedAt": "2026-11-13",
+      "nextReviewAt": "2027-03-13",
+      "researcher": "researcher-ade35",
       "publication": "internal-only",
       "review": null,
       "contradictions": []
@@ -4431,16 +4431,16 @@
     {
       "id": "antigravity:OWN-01",
       "criterionId": "OWN-01",
-      "answer": "The Python SDK source is Apache-2.0 and its wheel includes a pre-compiled Go binary whose license is not stated in the pages read; the CLI repository holds no client source and no license file; desktop and IDE licensing was not found.",
+      "answer": "The main Google Antigravity service and downloadable application use Google-authored service/software terms, with separate enterprise terms. The Python SDK source is Apache-2.0; that component license does not license the main application.",
       "support": "partial",
-      "availability": "unknown",
+      "availability": "generally-available",
       "delivery": "native",
       "scope": {
         "surfaceIds": [
           "sdk",
           "cli"
         ],
-        "version": "Antigravity 2.0 v2.21.1 and CLI v1.3.1 per changelog; docs read 2026-10-08",
+        "version": "Main service terms checked 2026-11-13; SDK 75ba22bd00afae2f46393ff31f30c3f0df52982f and CLI repository 1554cf9fc71ddbcd9e0d176c8f65000612bba3c2",
         "plan": null,
         "os": [],
         "executionModes": [],
@@ -4449,63 +4449,61 @@
       },
       "subanswers": {
         "client_license": {
-          "support": "partial",
-          "answer": "SDK repository Apache-2.0 (LICENSE and pyproject.toml at f61cb2f); the SDK wheel includes a pre-compiled Go binary whose license is not stated in the pages read. The CLI repository root at 968f117 has no LICENSE file and GitHub reports no license.",
+          "support": "supported",
+          "answer": "Main service/downloadable application is governed by Google Universal and Antigravity Additional Terms; enterprise usage has separate accepted terms.",
           "evidenceIds": [
-            "sdk-repo",
-            "cli-repo"
+            "gap35-main-terms"
           ]
         },
         "server_license": {
           "support": "unknown",
-          "answer": "Server license: No statement found in the sources searched on 2026-10-08 (Antigravity docs, public CLI and SDK repositories, Gemini API docs); not hands-on tested. Absence of a documented answer is not negative evidence.",
+          "answer": "The current main-service terms and public SDK/CLI component sources do not establish this closed-service detail.",
           "evidenceIds": []
         },
         "hosted_extensions": {
           "support": "unknown",
-          "answer": "Hosted extensions: No statement found in the sources searched on 2026-10-08 (Antigravity docs, public CLI and SDK repositories, Gemini API docs); not hands-on tested. Absence of a documented answer is not negative evidence.",
+          "answer": "The current main-service terms and public SDK/CLI component sources do not establish this closed-service detail.",
           "evidenceIds": []
         },
         "source_visibility": {
           "support": "partial",
-          "answer": "SDK Python source public; CLI repo has issues and examples but no client source tree.",
+          "answer": "The Python SDK metadata/source is public. The pinned CLI repository exposes documentation and examples without a main CLI implementation tree.",
           "evidenceIds": [
-            "sdk-repo",
-            "cli-repo"
+            "gap35-sdk-license-recheck",
+            "gap35-cli-source-recheck"
           ]
         },
         "source_revision": {
           "support": "supported",
-          "answer": "SDK inspected at commit f61cb2f; CLI repo at 968f117.",
+          "answer": "SDK metadata inspected at 75ba22bd00afae2f46393ff31f30c3f0df52982f; CLI public tree at 1554cf9fc71ddbcd9e0d176c8f65000612bba3c2.",
           "evidenceIds": [
-            "sdk-repo",
-            "cli-repo"
+            "gap35-sdk-license-recheck",
+            "gap35-cli-source-recheck"
           ]
         },
         "hosted_parity": {
           "support": "unknown",
-          "answer": "Hosted parity: No statement found in the sources searched on 2026-10-08 (Antigravity docs, public CLI and SDK repositories, Gemini API docs); not hands-on tested. Absence of a documented answer is not negative evidence.",
+          "answer": "The current main-service terms and public SDK/CLI component sources do not establish this closed-service detail.",
           "evidenceIds": []
         }
       },
       "limitations": [
-        "Desktop/IDE license terms not located.",
-        "SDK wheel includes a pre-compiled Go binary; its license is not stated in the pages read."
+        "The Apache-2.0 SDK metadata licenses that component and does not establish an open-source license for the main service/application.",
+        "SDK packaging includes a precompiled Go localharness binary; its separate licensing and whole-service source parity remain unestablished."
       ],
       "unknownReason": null,
       "evidenceIds": [
         "sdk-repo",
-        "cli-repo"
+        "cli-repo",
+        "gap35-main-terms",
+        "gap35-sdk-license-recheck",
+        "gap35-cli-source-recheck"
       ],
-      "checkedAt": "2026-10-09",
-      "nextReviewAt": "2026-11-07",
-      "researcher": "researcher-52",
-      "publication": "public-reviewed",
-      "review": {
-        "reviewer": "reviewer-19",
-        "date": "2026-10-09",
-        "contentHash": "2b146880655e9ca8aba623309af1fc79715c998922f2b3f5048768ba65d89805"
-      },
+      "checkedAt": "2026-11-13",
+      "nextReviewAt": "2027-05-12",
+      "researcher": "researcher-ade35",
+      "publication": "public-candidate",
+      "review": null,
       "contradictions": []
     },
     {
@@ -6775,6 +6773,110 @@
       "retrievedAt": "2026-11-07",
       "visibility": "public",
       "commit": null,
+      "path": null
+    },
+    {
+      "id": "gap35-sandbox",
+      "kind": "documented",
+      "url": "https://antigravity.google/docs/sandbox",
+      "title": "Google Antigravity sandbox",
+      "locator": "Terminal sandbox overview and operating-system technology table",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-13",
+      "finding": "The terminal-sandbox documentation explicitly describes OS-level container boundaries. Linux uses kernel namespaces for filesystem/process/network isolation; macOS uses Seatbelt. The local sandbox has no VM or Docker-image requirement, and settings depend on permission preset.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "gap35-main-terms",
+      "kind": "documented",
+      "url": "https://antigravity.google/terms",
+      "title": "Google Antigravity terms",
+      "locator": "Opening agreement and enterprise paragraph",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-13",
+      "finding": "Downloading or using Google Antigravity Services is governed by Google Universal Terms and Antigravity Additional Terms, including downloadable software. Enterprise/Cloud access instead follows administrator-accepted service/downloadable-software terms. Third-party/open-source model terms apply separately.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "gap35-projects-recheck",
+      "kind": "documented",
+      "url": "https://antigravity.google/docs/projects",
+      "title": "Antigravity project/worktree isolation",
+      "locator": "Folders; Worktree selection; scoped settings.",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-13",
+      "finding": "Local mode uses current project folders; new-worktree mode creates a Git worktree for each conversation. The Knowledge Work layout in v2.30.0+ uses project folders without showing that selector.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "gap35-subagents-recheck",
+      "kind": "documented",
+      "url": "https://antigravity.google/docs/subagents",
+      "title": "Antigravity subagent workspace options",
+      "locator": "Invoking subagents; workspace options.",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-13",
+      "finding": "A subagent can inherit the parent workspace, use branch mode for an isolated Git worktree, or share directory storage.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "gap35-teamwork-recheck",
+      "kind": "documented",
+      "url": "https://antigravity.google/docs/teamwork",
+      "title": "Antigravity Teamwork directories",
+      "locator": "Project working directory; Safety, workspaces, and isolation.",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-13",
+      "finding": "Teamwork works in a dedicated project folder, defaulting to ~/teamwork_projects/{PROJECT_NAME}, with per-agent scratch directories and assigned file ownership.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "gap35-permissions-recheck",
+      "kind": "documented",
+      "url": "https://antigravity.google/docs/permissions",
+      "title": "Antigravity current permission presets",
+      "locator": "Updated permission presets; terminal sandbox and CLI permissions.",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-13",
+      "finding": "Default and Auto use the terminal sandbox; Request Review and Turbo disable it. CLI outbound access defaults to none and approved read_url domains extend the allowlist; commands can run outside the sandbox under permission rules.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "gap35-sdk-license-recheck",
+      "kind": "documented",
+      "url": "https://github.com/google-antigravity/antigravity-sdk-python/blob/75ba22bd00afae2f46393ff31f30c3f0df52982f/pyproject.toml",
+      "title": "Antigravity SDK pinned license metadata",
+      "locator": "project license, version; package data for localharness.",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-13",
+      "finding": "The public Python SDK metadata declares Apache-2.0 and version 0.1.23. Its wheel also includes a precompiled Go localharness binary; that does not establish the main application license.",
+      "visibility": "public",
+      "commit": "75ba22bd00afae2f46393ff31f30c3f0df52982f",
+      "path": "pyproject.toml"
+    },
+    {
+      "id": "gap35-cli-source-recheck",
+      "kind": "documented",
+      "url": "https://api.github.com/repos/google-antigravity/antigravity-cli/git/trees/1554cf9fc71ddbcd9e0d176c8f65000612bba3c2",
+      "title": "Antigravity CLI pinned repository tree",
+      "locator": "Root tree: .github, CHANGELOG.md, README.md, agy-cli-demo.gif and examples; README terms links.",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-13",
+      "finding": "The pinned official CLI repository exposes documentation and examples, with no main CLI source tree at its root. Its README links the Antigravity service terms and describes the common agent engine.",
+      "visibility": "public",
+      "commit": "1554cf9fc71ddbcd9e0d176c8f65000612bba3c2",
       "path": null
     }
   ],
@@ -15455,6 +15557,240 @@
         "teamwork-nov07",
         "terms-nov07"
       ]
+    },
+    {
+      "date": "2026-11-13",
+      "author": "researcher-ade35",
+      "type": "research-correction",
+      "summary": "Fill evidenced directory gaps for Google Antigravity.",
+      "claimIds": [
+        "antigravity:RUN-02"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Local worktree isolation and an OS-level local terminal sandbox exist (Seatbelt on macOS, namespaces on Linux; no VMs or Docker images in that sandbox); the sandbox is off by default in the CLI and in preview on Windows.",
+        "subanswers": {
+          "container": "unsupported",
+          "vm": "unsupported",
+          "checkout": "supported",
+          "branch": "partial",
+          "worktree": "supported",
+          "os_sandbox": "supported",
+          "filesystem": "supported",
+          "process": "partial",
+          "network": "supported",
+          "secrets": "partial",
+          "code_separation": "partial",
+          "security_boundary": "partial"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Local conversations can use project checkouts or Git worktrees, and the terminal sandbox uses native OS isolation. Linux uses namespaces, macOS uses Seatbelt, and supported Windows builds use process security environments/AppContainer. These local sandboxes do not use VM or Docker-image execution.",
+        "subanswers": {
+          "container": "supported",
+          "vm": "unsupported",
+          "checkout": "supported",
+          "branch": "partial",
+          "worktree": "partial",
+          "os_sandbox": "supported",
+          "filesystem": "supported",
+          "process": "partial",
+          "network": "supported",
+          "secrets": "partial",
+          "code_separation": "partial",
+          "security_boundary": "partial"
+        }
+      },
+      "evidenceIds": [
+        "gap35-sandbox",
+        "gap35-projects-recheck",
+        "gap35-subagents-recheck",
+        "gap35-teamwork-recheck",
+        "gap35-permissions-recheck"
+      ]
+    },
+    {
+      "date": "2026-11-13",
+      "author": "researcher-ade35",
+      "type": "research-correction",
+      "summary": "Fill evidenced directory gaps for Google Antigravity.",
+      "claimIds": [
+        "antigravity:OWN-01"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "The Python SDK source is Apache-2.0 and its wheel includes a pre-compiled Go binary whose license is not stated in the pages read; the CLI repository holds no client source and no license file; desktop and IDE licensing was not found.",
+        "subanswers": {
+          "client_license": "partial",
+          "source_visibility": "partial",
+          "source_revision": "supported",
+          "server_license": "unknown",
+          "hosted_extensions": "unknown",
+          "hosted_parity": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "The main Google Antigravity service and downloadable application use Google-authored service/software terms, with separate enterprise terms. The Python SDK source is Apache-2.0; that component license does not license the main application.",
+        "subanswers": {
+          "client_license": "supported",
+          "source_visibility": "partial",
+          "source_revision": "supported",
+          "server_license": "unknown",
+          "hosted_extensions": "unknown",
+          "hosted_parity": "unknown"
+        }
+      },
+      "evidenceIds": [
+        "gap35-main-terms",
+        "gap35-sdk-license-recheck",
+        "gap35-cli-source-recheck"
+      ]
+    },
+    {
+      "date": "2026-11-13",
+      "author": "researcher-ade35",
+      "type": "research-correction",
+      "summary": "Fill evidenced directory gaps for Google Antigravity.",
+      "claimIds": [
+        "antigravity:PLAN-06"
+      ],
+      "before": {
+        "support": "unknown",
+        "answer": "Searched docs for an issue tracker, backlog or task board in Antigravity 2.0 and CLI; only conversations, projects and automations were found, and none is described as an issue system.",
+        "subanswers": {}
+      },
+      "after": {
+        "support": "unknown",
+        "answer": "Source pass on 2026-11-13: Current docs were searched for independent native issues/tasks. Conversations, projects, automations and agent task groups do not establish that feature; the core application is closed-source.",
+        "subanswers": {}
+      },
+      "evidenceIds": []
+    },
+    {
+      "date": "2026-11-13",
+      "author": "researcher-ade35",
+      "type": "research-correction",
+      "summary": "Fill evidenced directory gaps for Google Antigravity.",
+      "claimIds": [
+        "antigravity:TEAM-01"
+      ],
+      "before": {
+        "support": "unknown",
+        "answer": "Searched docs for multi-user sessions, presence and shared threads; only single-account Remote Control and agent teams were found. Not hands-on tested.",
+        "subanswers": {}
+      },
+      "after": {
+        "support": "unknown",
+        "answer": "Source pass on 2026-11-13: Current Remote Control uses the same Google account on devices and Teamwork describes agents. No separate-human prompting contract was found; the core application is closed-source.",
+        "subanswers": {}
+      },
+      "evidenceIds": []
+    },
+    {
+      "date": "2026-11-13",
+      "author": "researcher-ade35",
+      "type": "research-correction",
+      "summary": "Author 17 typed facet receipts from first-party findings; preserve unresolved facts as unknown.",
+      "claimIds": [
+        "antigravity:ACC-01",
+        "antigravity:ACC-02",
+        "antigravity:OWN-01",
+        "antigravity:OWN-04",
+        "antigravity:RUN-02"
+      ],
+      "before": {
+        "unmappedCells": [
+          "phone-client:ios",
+          "phone-client:android",
+          "agents:claude-code",
+          "agents:codex",
+          "agents:cursor",
+          "agents:gemini-cli",
+          "agents:opencode",
+          "agents:pi",
+          "agents:grok",
+          "agents:aider",
+          "agents:antigravity",
+          "isolation:container",
+          "license",
+          "pricing-model:no-paid-plan",
+          "pricing-model:subscription",
+          "pricing-model:one-time",
+          "paid-from"
+        ]
+      },
+      "after": {
+        "mappedCells": [
+          "phone-client:ios=no",
+          "phone-client:android=no",
+          "agents:claude-code=no",
+          "agents:codex=no",
+          "agents:cursor=no",
+          "agents:gemini-cli=no",
+          "agents:opencode=no",
+          "agents:pi=no",
+          "agents:grok=no",
+          "agents:aider=no",
+          "agents:antigravity=yes",
+          "isolation:container=yes",
+          "license=custom",
+          "pricing-model:no-paid-plan=no",
+          "pricing-model:subscription=yes",
+          "pricing-model:one-time=no",
+          "paid-from=21-to-40-usd-month"
+        ]
+      },
+      "evidenceIds": [
+        "cli-overview-nov07",
+        "gap35-main-terms",
+        "gap35-sandbox",
+        "models-nov07",
+        "pricing-current-nov07",
+        "rc-docs-nov07",
+        "sdk-nov07"
+      ]
+    },
+    {
+      "date": "2026-11-13",
+      "author": "researcher-ade35",
+      "type": "freshness-recheck",
+      "summary": "Recheck current local isolation documentation and main-service licensing before extending their review deadlines.",
+      "claimIds": [
+        "antigravity:RUN-02",
+        "antigravity:OWN-01"
+      ],
+      "before": {
+        "RUN-02": {
+          "checkedAt": "2026-10-09",
+          "nextReviewAt": "2026-11-08"
+        },
+        "OWN-01": {
+          "checkedAt": "2026-10-09",
+          "nextReviewAt": "2026-11-07"
+        }
+      },
+      "after": {
+        "RUN-02": {
+          "checkedAt": "2026-11-13",
+          "nextReviewAt": "2027-03-13"
+        },
+        "OWN-01": {
+          "checkedAt": "2026-11-13",
+          "nextReviewAt": "2027-05-12"
+        }
+      },
+      "evidenceIds": [
+        "gap35-sandbox",
+        "gap35-main-terms",
+        "gap35-projects-recheck",
+        "gap35-subagents-recheck",
+        "gap35-teamwork-recheck",
+        "gap35-permissions-recheck",
+        "gap35-sdk-license-recheck",
+        "gap35-cli-source-recheck"
+      ]
     }
   ],
   "context": {
@@ -15481,7 +15817,7 @@
       "Resolve remaining unknowns (issue tracking, batch review, scenario cost) from product access or later documentation."
     ],
     "roadmapReview": {
-      "checkedAt": "2026-11-07",
+      "checkedAt": "2026-11-13",
       "locations": [
         {
           "url": "https://antigravity.google/docs/changelog",
@@ -15506,6 +15842,50 @@
         {
           "url": "https://github.com/google-antigravity/antigravity-cli/issues",
           "result": "Checked public issue list for current gaps; user requests and bug reports were not promoted to capabilities."
+        },
+        {
+          "url": "https://antigravity.google/docs/sandbox",
+          "result": "Targeted facet source pass read Terminal sandbox overview and operating-system technology table. Component, client and plan scope retained."
+        },
+        {
+          "url": "https://antigravity.google/terms",
+          "result": "Targeted facet source pass read Opening agreement and enterprise paragraph. Component, client and plan scope retained."
+        },
+        {
+          "url": "https://antigravity.google/docs/projects",
+          "result": "Targeted facet source pass read Folders; Worktree selection; scoped settings.. Component, client and plan scope retained."
+        },
+        {
+          "url": "https://antigravity.google/docs/subagents",
+          "result": "Targeted facet source pass read Invoking subagents; workspace options.. Component, client and plan scope retained."
+        },
+        {
+          "url": "https://antigravity.google/docs/teamwork",
+          "result": "Targeted facet source pass read Project working directory; Safety, workspaces, and isolation.. Component, client and plan scope retained."
+        },
+        {
+          "url": "https://antigravity.google/docs/permissions",
+          "result": "Targeted facet source pass read Updated permission presets; terminal sandbox and CLI permissions.. Component, client and plan scope retained."
+        },
+        {
+          "url": "https://github.com/google-antigravity/antigravity-sdk-python/blob/75ba22bd00afae2f46393ff31f30c3f0df52982f/pyproject.toml",
+          "result": "Targeted facet source pass read project license, version; package data for localharness.. Component, client and plan scope retained."
+        },
+        {
+          "url": "https://api.github.com/repos/google-antigravity/antigravity-cli/git/trees/1554cf9fc71ddbcd9e0d176c8f65000612bba3c2",
+          "result": "Targeted facet source pass read Root tree: .github, CHANGELOG.md, README.md, agy-cli-demo.gif and examples; README terms links.. Component, client and plan scope retained."
+        },
+        {
+          "url": "https://antigravity.google/docs/changelog",
+          "result": "Read current first-party release/documentation index for the targeted gaps. Announcements and client-specific features are not generalized to other components."
+        },
+        {
+          "url": "https://antigravity.google/docs/teamwork",
+          "result": "Read current first-party release/documentation index for the targeted gaps. Announcements and client-specific features are not generalized to other components."
+        },
+        {
+          "url": "https://github.com/google-antigravity/antigravity-cli/issues",
+          "result": "Read current first-party release/documentation index for the targeted gaps. Announcements and client-specific features are not generalized to other components."
         }
       ],
       "announced": [
@@ -15522,7 +15902,15 @@
       "gaps": [
         "No dedicated dated roadmap found in checked navigation.",
         "Managed API HTML returned a shell; first-party Markdown pages were read instead. No binary or authenticated client tests.",
-        "No first-party evidence located for third-party coding harness sessions, native phone apps, a self-hosted control plane, human co-prompting, complete issue tracking or the unpublished client/runtime license. OS sandbox primitives do not establish Docker or VM execution for the subscription product. Remaining reliability, billing allocation and review guarantees were not established."
+        "The published main-service terms establish a custom license, and current sandbox documentation names OS-level container boundaries. A self-hostable whole control plane, distinct-human co-prompting, independent native issues and hosted VM implementation remain unestablished. Remaining reliability, billing allocation and review guarantees were not tested.",
+        "roles: Prior facet review rejects Google Cloud IAM prerequisites as proof of named roles/permissions inside the ADE. The current enterprise page does not resolve that distinction.",
+        "isolation:vm: The local sandbox explicitly has no VM, while hosted Remote Agents implementation is undisclosed. The local restriction is not generalized to all execution modes.",
+        "self-hosting: Local app/CLI/SDK execution is documented, but no first-party statement establishes a self-hostable whole service/control plane; the main service is closed.",
+        "pricing-model:compute: Local sandbox uses no paid compute backend, but current remote-agent and API surfaces lack a complete public compute-billing contract in the pricing finding.",
+        "pricing-model:byok: Consumer plans disallow BYOK for extra quota, while CLI/SDK API-key authentication is separately documented. A single pricing value would hide this unresolved scope split.",
+        "pr-workflow: Current VCS docs establish Git operations and diffs; closed-source app docs do not explicitly establish or exclude PR creation/management.",
+        "issue-tracking: Docs describe conversations, projects, automations and agent task groups, without establishing independent native issues; closed implementation prevents a bounded negative.",
+        "multiplayer: Remote Control uses one Google account; teamwork refers to agent teams. No documented multi-human prompting contract in the closed product."
       ]
     },
     "gapFillReview": {
