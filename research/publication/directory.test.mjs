@@ -721,12 +721,35 @@ test('real mappings cover all 36 launch products, use eligible receipts and rema
 test('returned launch interpretations retain their corrected scope and citations', () => {
   const data = buildDirectoryFromPublication(buildPublication({ date: packageDate, format: 'products', directory: true }))
   const product = id => data.products.find(product => product.id === id)
-  for (const facet of ['unattended-triggers', 'multiplayer', 'sso', 'laptop-independent']) {
-    assert.equal(product('conductor').facets[facet].value, 'unknown', facet)
+  // The November 13 source pass resolves the earlier Cloud-scope objections.
+  // Current enterprise SSO eligibility remains unestablished after the revised announcement.
+  const conductor = product('conductor')
+  assert.equal(conductor.facets.sso.value, 'unknown')
+  for (const [facet, evidenceIds] of Object.entries({
+    'unattended-triggers': ['conductor:release', 'conductor:cl-0870', 'conductor:api'],
+    multiplayer: ['conductor:cloud-faq', 'conductor:cl-0780'],
+    'laptop-independent': ['conductor:gap37-cloud-continuation'],
+    roles: ['conductor:gap37-cloud-org-permissions'],
+  })) {
+    const cell = conductor.facets[facet]
+    assert.equal(cell.value, 'yes', facet)
+    assert.deepEqual(cell.evidenceIds, evidenceIds, facet)
+    assert.equal(cell.verificationStatus, 'sourced', facet)
+    assert.equal(cell.crossCheckedAt, null, facet)
   }
-  assert.equal(product('conductor').facets.isolation.vm.value, 'unknown')
-  assert.equal(product('conductor').facets.execution.local.value, 'yes')
-  assert.deepEqual(product('conductor').facets.isolation.worktree.evidenceIds, ['conductor:workspaces'])
+  const continuation = conductor.sources.find(source => source.id === 'conductor:gap37-cloud-continuation')
+  assert.equal(continuation.url, 'https://www.conductor.build/docs/cloud')
+  assert.match(continuation.finding, /after the laptop closes/)
+  const permissions = conductor.sources.find(source => source.id === 'conductor:gap37-cloud-org-permissions')
+  assert.equal(permissions.url, 'https://www.conductor.build/docs/cloud/getting-started')
+  assert.match(permissions.finding, /Organization admins/)
+  assert.equal(conductor.facets.isolation.vm.value, 'yes')
+  assert.deepEqual(conductor.facets.isolation.vm.evidenceIds, ['conductor:cloud-computer', 'conductor:cloud-faq'])
+  assert.equal(conductor.facets.execution['vendor-cloud'].value, 'yes')
+  assert.deepEqual(conductor.facets.execution['vendor-cloud'].evidenceIds,
+    ['conductor:gap37-cloud-platform', 'conductor:gap37-cloud-continuation'])
+  assert.equal(conductor.facets.execution.local.value, 'yes')
+  assert.deepEqual(conductor.facets.isolation.worktree.evidenceIds, ['conductor:workspaces'])
   // A later source pass sourced a user-owned remote host; the earlier laptop-only receipt no longer decides this.
   // The 2026-11-10 recheck re-cites the same remote-access guide at a newer commit.
   assert.equal(product('t3-code').facets['laptop-independent'].value, 'yes')
