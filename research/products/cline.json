@@ -43,7 +43,7 @@
     {
       "id": "cline:ACC-01",
       "criterionId": "ACC-01",
-      "answer": "Cline Desktop ships for macOS and Windows, with Windows in beta; Linux .deb and .rpm packages are attached to Desktop releases, although the download page names only macOS and Windows. Cloud Agents provide a browser interface without installing an IDE, CLI or app. Cloud Agents support mobile browsers for reading, answering questions and sending follow-ups. The CLI offers interactive and headless modes. Users can start on a laptop, close its lid and continue via a phone browser.",
+      "answer": "Cline supplies Desktop, IDE, CLI/SDK, Kanban and Cloud Agents clients. The complete application catalog and phone access instructions offer mobile browsers rather than a native iOS or Android app. Existing platform release scope and cloud continuation restrictions remain.",
       "support": "partial",
       "availability": "unknown",
       "delivery": "native",
@@ -75,9 +75,11 @@
           ]
         },
         "mobile_apps": {
-          "support": "unknown",
-          "answer": "Not established for mobile apps in the named first-party source pass. Product access and scenario tests were not run.",
-          "evidenceIds": []
+          "support": "unsupported",
+          "answer": "No native iOS or Android app appears in the complete application list; phone instructions use a browser.",
+          "evidenceIds": [
+            "gap-client-list"
+          ]
         },
         "browser": {
           "support": "supported",
@@ -126,8 +128,7 @@
         }
       },
       "limitations": [
-        "Unknown after the targeted first-party documentation, release and repository pass: mobile_apps, task_actions, notifications. No configured product fixture was run; documentation does not establish successful hands-on behavior.",
-        "IDE extension access is excluded from this finding. JetBrains availability conflicts across official sources: current IDE page says Early Access, 2025 launch says generally available, and current license restricts production use."
+        "Only the named documented or inspected parts are established; other atomic questions retain their recorded gaps."
       ],
       "unknownReason": "Unknown after the targeted first-party documentation, release and repository pass: mobile_apps, task_actions, notifications. No configured product fixture was run; documentation does not establish successful hands-on behavior.",
       "evidenceIds": [
@@ -136,42 +137,41 @@
         "gap07-desktop",
         "gap07-cloud",
         "src1-desktop-release",
-        "src1-desktop-ssh"
+        "src1-desktop-ssh",
+        "gap-client-list"
       ],
       "checkedAt": "2026-11-07",
       "nextReviewAt": "2026-11-21",
-      "researcher": "researcher-09",
-      "publication": "public-reviewed",
-      "review": {
-        "reviewer": "reviewer-05",
-        "date": "2026-11-10",
-        "contentHash": "a4bc0afc8c76bcc7700fb5b52e117f629c649c3ea540b82543204266b27acb83"
-      },
+      "researcher": "researcher-ade36",
+      "publication": "public-candidate",
+      "review": null,
       "contradictions": []
     },
     {
       "id": "cline:ACC-02",
       "criterionId": "ACC-02",
-      "answer": "Agent and model choice: first-party sources in this pass did not establish harnesses, model_providers, custom_adapters, session_integration, mixed_harness_operation. Detailed client actions, provider-specific eligibility and first-run prerequisites need targeted access; no install timing or external-tool fixture was run. Cline v4.1.26 documents installing Cline inside the Antigravity editor. This does not establish Cline launching the Antigravity coding harness.",
-      "support": "unknown",
+      "answer": "The pinned Cline SDK includes native Claude Code and Codex CLI execution adapters and an OpenCode SDK runtime. Claude Code executes native tools with workspace cwd and user/project settings, and Codex uses its exec adapter. Optional Claude/Codex provider packages must be installed. Other model providers, editor hosting and session imports do not establish additional coding harnesses.",
+      "support": "partial",
       "availability": "unknown",
       "delivery": "unknown",
       "scope": {
-        "surfaceIds": [],
-        "version": "Public sources checked 2026-11-07; no installed release tested Antigravity source pass: v4.1.26 (a459f1d04dea030833b558be645011ab739c463b).",
+        "surfaceIds": [
+          "cli",
+          "ide"
+        ],
+        "version": "Public SDK source pinned at 92b9f722a16d2a03c1153e12f9a0e759455f509d",
         "plan": null,
         "os": [],
         "executionModes": [],
         "region": null,
-        "harness": null
+        "harness": "Cline SDK native CLI/runtime adapters"
       },
       "subanswers": {
         "harnesses": {
-          "support": "unknown",
-          "answer": "Not established for harnesses in the named first-party source pass. Product access and scenario tests were not run. Cline v4.1.26 documents installing Cline inside the Antigravity editor. This does not establish Cline launching the Antigravity coding harness.",
+          "support": "supported",
+          "answer": "Native SDK factories launch Claude Code, Codex CLI and OpenCode runtimes; the registered native CLI routes do not include Cursor Agent, Gemini CLI, Pi, Grok Build, Aider or Antigravity.",
           "evidenceIds": [
-            "agy-release-1",
-            "agy-release-2"
+            "gap-native-harnesses"
           ]
         },
         "model_providers": {
@@ -180,14 +180,18 @@
           "evidenceIds": []
         },
         "custom_adapters": {
-          "support": "unknown",
-          "answer": "Not established for custom adapters in the named first-party source pass. Product access and scenario tests were not run.",
-          "evidenceIds": []
+          "support": "partial",
+          "answer": "Programmable SDK provider extension is possible, but the inspected shipped native CLI registry names only the three established routes.",
+          "evidenceIds": [
+            "gap-native-harnesses"
+          ]
         },
         "session_integration": {
-          "support": "unknown",
-          "answer": "Not established for session integration in the named first-party source pass. Product access and scenario tests were not run.",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "The Claude adapter binds cwd and native settings, Codex uses createCodexExec and OpenCode uses its SDK runtime factory.",
+          "evidenceIds": [
+            "gap-native-harnesses"
+          ]
         },
         "mixed_harness_operation": {
           "support": "unknown",
@@ -196,17 +200,18 @@
         }
       },
       "limitations": [
-        "Antigravity harness support remains unknown; using Cline from an editor does not establish the reverse integration."
+        "Only the named documented or inspected parts are established; other atomic questions retain their recorded gaps."
       ],
-      "unknownReason": "Agent and model choice: first-party sources in this pass did not establish harnesses, model_providers, custom_adapters, session_integration, mixed_harness_operation. Detailed client actions, provider-specific eligibility and first-run prerequisites need targeted access; no install timing or external-tool fixture was run. Antigravity harness support remains unknown; using Cline from an editor does not establish the reverse integration.",
+      "unknownReason": "See unknown atomic answers for the source and test gaps.",
       "evidenceIds": [
         "agy-release-1",
-        "agy-release-2"
+        "agy-release-2",
+        "gap-native-harnesses"
       ],
-      "checkedAt": "2026-11-10",
-      "nextReviewAt": "2026-12-10",
-      "researcher": "researcher-02",
-      "publication": "internal-only",
+      "checkedAt": "2026-11-13",
+      "nextReviewAt": "2027-03-13",
+      "researcher": "researcher-ade36",
+      "publication": "public-candidate",
       "review": null,
       "contradictions": []
     },
@@ -2846,7 +2851,7 @@
     {
       "id": "cline:TEAM-01",
       "criterionId": "TEAM-01",
-      "answer": "Live human collaboration: first-party sources in this pass did not establish visibility, discussion, comments, presence, coprompting, ordering, conflicts, attribution, permissions, plan_restrictions, owner_online. No two-account permission, simultaneous steering, revocation or colleague-takeover fixture was run. Sharing and presence do not establish co-prompting.",
+      "answer": "The public core provides local interactive sessions. The remote-access guide permits trusted team access to Kanban, but the hosted collaboration implementation and same-session multi-human prompting contract are not established by the inspected public source.",
       "support": "unknown",
       "availability": "unknown",
       "delivery": "unknown",
@@ -2917,11 +2922,11 @@
         }
       },
       "limitations": [],
-      "unknownReason": "Live human collaboration: first-party sources in this pass did not establish visibility, discussion, comments, presence, coprompting, ordering, conflicts, attribution, permissions, plan_restrictions, owner_online. No two-account permission, simultaneous steering, revocation or colleague-takeover fixture was run. Sharing and presence do not establish co-prompting.",
+      "unknownReason": "The public core provides local interactive sessions. The remote-access guide permits trusted team access to Kanban, but the hosted collaboration implementation and same-session multi-human prompting contract are not established by the inspected public source.",
       "evidenceIds": [],
-      "checkedAt": "2026-11-07",
-      "nextReviewAt": "2026-11-21",
-      "researcher": "researcher-58",
+      "checkedAt": "2026-11-13",
+      "nextReviewAt": "2027-03-13",
+      "researcher": "researcher-ade36",
       "publication": "internal-only",
       "review": null,
       "contradictions": []
@@ -5166,6 +5171,32 @@
       "visibility": "public",
       "commit": "a459f1d04dea030833b558be645011ab739c463b",
       "path": "docs/cline-overview.mdx"
+    },
+    {
+      "id": "gap-native-harnesses",
+      "kind": "source-inspected",
+      "url": "https://github.com/cline/cline/blob/92b9f722a16d2a03c1153e12f9a0e759455f509d/sdk/packages/llms/src/providers/builtins.ts",
+      "title": "Cline pinned SDK source",
+      "locator": "Claude Code, openai-codex-cli and OpenCode entries; providers/vendors/community.ts factories; providers/ai-sdk.ts native tool handling",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-13",
+      "finding": "The SDK registers Claude Code and Codex CLI adapters with provider-tools and local-auth. Claude Code spawns a native CLI agent with workspace cwd, user/project settings and acceptEdits; Codex uses createCodexExec. OpenCode starts its SDK runtime with local CLI authentication. These execute native harnesses, unlike the separate OpenAI subscription HTTP model route. Claude/Codex adapters require optional provider packages.",
+      "visibility": "public",
+      "commit": "92b9f722a16d2a03c1153e12f9a0e759455f509d",
+      "path": "sdk/packages/llms/src/providers/builtins.ts"
+    },
+    {
+      "id": "gap-client-list",
+      "kind": "documented",
+      "url": "https://docs.cline.bot/cline-overview",
+      "title": "Cline Overview",
+      "locator": "Applications; Cloud Agents phone-browser documentation",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-13",
+      "finding": "The full application catalog lists Desktop, CLI, IDE extensions, SDK and Kanban. Cloud Agents documentation specifies phone browser access. Neither application catalog nor mobile instructions offers a native iOS or Android Cline app.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
     }
   ],
   "changes": [
@@ -6958,6 +6989,82 @@
         "agy-release-1",
         "agy-release-2"
       ]
+    },
+    {
+      "date": "2026-11-13",
+      "author": "researcher-ade36",
+      "type": "research-correction",
+      "summary": "Fill shipped native coding-harness adapters and client/pricing gaps without inferring hosted sandbox details.",
+      "claimIds": [
+        "cline:ACC-02"
+      ],
+      "before": {
+        "support": "unknown",
+        "answer": "Agent and model choice: first-party sources in this pass did not establish harnesses, model_providers, custom_adapters, session_integration, mixed_harness_operation. Detailed client actions, provider-specific eligibility and first-run prerequisites need targeted access; no install timing or external-tool fixture was run. Cline v4.1.26 documents installing Cline inside the Antigravity editor. This does not establish Cline launching the Antigravity coding harness.",
+        "subanswers": {
+          "harnesses": "unknown",
+          "session_integration": "unknown",
+          "custom_adapters": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "The pinned Cline SDK includes native Claude Code and Codex CLI execution adapters and an OpenCode SDK runtime. Claude Code executes native tools with workspace cwd and user/project settings, and Codex uses its exec adapter. Optional Claude/Codex provider packages must be installed. Other model providers, editor hosting and session imports do not establish additional coding harnesses.",
+        "subanswers": {
+          "harnesses": "supported",
+          "session_integration": "supported",
+          "custom_adapters": "partial"
+        }
+      },
+      "evidenceIds": [
+        "gap-native-harnesses"
+      ]
+    },
+    {
+      "date": "2026-11-13",
+      "author": "researcher-ade36",
+      "type": "research-correction",
+      "summary": "Fill shipped native coding-harness adapters and client/pricing gaps without inferring hosted sandbox details.",
+      "claimIds": [
+        "cline:ACC-01"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Cline Desktop ships for macOS and Windows, with Windows in beta; Linux .deb and .rpm packages are attached to Desktop releases, although the download page names only macOS and Windows. Cloud Agents provide a browser interface without installing an IDE, CLI or app. Cloud Agents support mobile browsers for reading, answering questions and sending follow-ups. The CLI offers interactive and headless modes. Users can start on a laptop, close its lid and continue via a phone browser.",
+        "subanswers": {
+          "mobile_apps": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Cline supplies Desktop, IDE, CLI/SDK, Kanban and Cloud Agents clients. The complete application catalog and phone access instructions offer mobile browsers rather than a native iOS or Android app. Existing platform release scope and cloud continuation restrictions remain.",
+        "subanswers": {
+          "mobile_apps": "unsupported"
+        }
+      },
+      "evidenceIds": [
+        "gap-client-list"
+      ]
+    },
+    {
+      "date": "2026-11-13",
+      "author": "researcher-ade36",
+      "type": "research-correction",
+      "summary": "Fill shipped native coding-harness adapters and client/pricing gaps without inferring hosted sandbox details.",
+      "claimIds": [
+        "cline:TEAM-01"
+      ],
+      "before": {
+        "support": "unknown",
+        "answer": "Live human collaboration: first-party sources in this pass did not establish visibility, discussion, comments, presence, coprompting, ordering, conflicts, attribution, permissions, plan_restrictions, owner_online. No two-account permission, simultaneous steering, revocation or colleague-takeover fixture was run. Sharing and presence do not establish co-prompting.",
+        "subanswers": {}
+      },
+      "after": {
+        "support": "unknown",
+        "answer": "The public core provides local interactive sessions. The remote-access guide permits trusted team access to Kanban, but the hosted collaboration implementation and same-session multi-human prompting contract are not established by the inspected public source.",
+        "subanswers": {}
+      },
+      "evidenceIds": []
     }
   ],
   "context": {
@@ -6997,103 +7104,30 @@
       "method": "Independently compared atomic answers, wording, scope, dates and source locators with live official pages or the cited pinned files; no hands-on behavior was inferred."
     },
     "roadmapReview": {
-      "checkedAt": "2026-11-07",
+      "checkedAt": "2026-11-13",
       "locations": [
         {
-          "url": "https://docs.cline.bot/cline-overview",
-          "result": "Read for the scoped findings in nov07-overview."
-        },
-        {
-          "url": "https://docs.cline.bot/usage/cline-desktop",
-          "result": "Read for the scoped findings in nov07-desktop."
-        },
-        {
-          "url": "https://docs.cline.bot/kanban/core-workflow",
-          "result": "Read for the scoped findings in nov07-kanban."
-        },
-        {
-          "url": "https://docs.cline.bot/core-workflows/checkpoints",
-          "result": "Read for the scoped findings in nov07-checkpoints."
-        },
-        {
-          "url": "https://docs.cline.bot/mcp/mcp-overview.md",
-          "result": "Read for the scoped findings in nov07-mcp."
-        },
-        {
-          "url": "https://github.com/cline/cline/blob/a459f1d04dea030833b558be645011ab739c463b/LICENSE",
-          "result": "Read for the scoped findings in nov07-license."
-        },
-        {
-          "url": "https://docs.cline.bot/usage/kanban",
-          "result": "Read for the scoped findings in nov07-kanban-preview."
-        },
-        {
-          "url": "https://github.com/cline/cline/blob/a459f1d04dea030833b558be645011ab739c463b/README.md",
-          "result": "Read for the scoped findings in nov07-implementation."
-        },
-        {
           "url": "https://github.com/cline/cline/releases",
-          "result": "Releases sampled, including v4.1.26 and distinct Desktop/CLI/SDK streams. Cloud Plan/Act controls differ from local extension."
+          "result": "Checked separate public release streams; source findings are pinned to the catalog SDK commit."
         },
         {
           "url": "https://github.com/cline/cline/issues",
-          "result": "Public issue index sampled; reports and requests are not shipped capability evidence."
+          "result": "Sampled recent public reports; did not treat proposals as shipped."
         },
         {
-          "url": "https://github.com/cline/cline/releases",
-          "result": "Read release list for current activity; release notes and doc capability boundaries checked."
+          "url": "https://github.com/cline/cline/blob/92b9f722a16d2a03c1153e12f9a0e759455f509d/CHANGELOG.md",
+          "result": "Read recent changes and native provider references; no future capability was used."
         },
         {
-          "url": "https://github.com/cline/cline/issues",
-          "result": "Read issue list and telemetry issue leads; current telemetry documentation governs the sourced control, not older issue reports."
-        },
-        {
-          "url": "https://docs.cline.bot/usage/cline-desktop",
-          "result": "Gap-fill pass read Download; Import workflows; Schedule; Remote execution."
-        },
-        {
-          "url": "https://docs.cline.bot/usage/cloud-agents",
-          "result": "Gap-fill pass read Run several agents; Phone; Saved work; Security; Limits."
-        },
-        {
-          "url": "https://docs.cline.bot/cli/agent-teams",
-          "result": "Gap-fill pass read Starting a Team; Resuming Team Work; Team State."
-        },
-        {
-          "url": "https://docs.cline.bot/features/subagents",
-          "result": "Gap-fill pass read How It Works; Approvals; Turning Subagents Off."
-        },
-        {
-          "url": "https://docs.cline.bot/cli/cli-reference",
-          "result": "Gap-fill pass read Global Options; history; JSON Output."
-        },
-        {
-          "url": "https://docs.cline.bot/best-practices/memory-bank",
-          "result": "Gap-fill pass read How It Works; Core Files; Managing Context Windows."
-        },
-        {
-          "url": "https://docs.cline.bot/enterprise-solutions/overview",
-          "result": "Gap-fill pass read Security by Design; Bring Your Own Inference; Governance."
-        },
-        {
-          "url": "https://docs.cline.bot/enterprise-solutions/monitoring/telemetry",
-          "result": "Gap-fill pass read What telemetry includes; Code and prompts; Turning telemetry off."
-        },
-        {
-          "url": "https://cline.bot/pricing",
-          "result": "Gap-fill pass read Open Source; FAQ."
-        },
-        {
-          "url": "https://docs.cline.bot/provider-config/anthropic",
-          "result": "Gap-fill pass read Claude Code Subscription."
+          "url": "https://github.com/cline/cline/tree/92b9f722a16d2a03c1153e12f9a0e759455f509d",
+          "result": "Inspected SDK native provider registry, factories, native tool handling, auth and session storage; checked client overview and remote access docs."
         }
       ],
       "announced": [],
       "gaps": [
-        "Separate roadmap dates were not inferred from crawl or retrieval dates. Public requests and release bug fixes are not hands-on proof.",
-        "Some direct HTML/Markdown requests hit browser verification; usable official pages were retrieved through the web reader or alternate documented path. Unavailable details remain unknown.",
-        "No distinct native iOS/Android client, Linux Desktop download, typed cloud container/VM technology or guaranteed multi-human shared prompting was established. Desktop conversation import and provider subscription access do not by themselves establish running external coding harnesses. Remaining atomic gaps require undocumented detail or configured scenario tests.",
-        "JetBrains availability conflicts across official sources: current IDE page says Early Access, 2025 launch says generally available, and current license restricts production use. ACC-01 is narrowed to Desktop, CLI, Kanban and Cloud Agents; no JetBrains access assertion is published."
+        "Cloud Agent sandbox implementation is not in the scoped public application source. Its container/VM technology remains unestablished.",
+        "Same-session multi-human prompting in hosted/Enterprise components is not established; public remote-access guidance alone is insufficient.",
+        "Native-harness findings cover the local SDK adapters, with optional Claude/Codex provider packages; cloud model-provider support is a separate scope."
       ]
     },
     "criterionSourcePass": {
