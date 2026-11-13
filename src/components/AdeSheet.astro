@@ -4,6 +4,8 @@ import type { Product } from '../lib/types'
 import Screenshot from './Screenshot.astro'
 import Lifecycle from './Lifecycle.astro'
 import Checked from './Checked.astro'
+import Benchmark from './Benchmark.astro'
+import { benchApp } from '../lib/benchmarks'
 import { cellFor, claimAnchor, formatCount, requirements, stats } from '../lib/data'
 import { facts, summary, shotFor, noticeFor, hostname, shutdownLine } from '../lib/sheet'
 import { submissionLinks } from '../lib/submissions'
@@ -25,6 +27,7 @@ for (const req of requirements) {
   const yes = single ? (req.anyOf ? req.anyOf.includes(`${req.facetId}:${v}`) : v === req.option) : v === 'yes'
   answers[req.key] = yes ? 'y' : 'n'
 }
+if (benchApp(product.id)) answers.ademark = 'y'
 // The findings people read first, under plain titles, with the requirement keys each one speaks to.
 const story: [string, string, string[]][] = [
   ['ACC-01', 'Where you use it', ['any-desktop', 'desktop-os:macos', 'desktop-os:windows', 'desktop-os:linux', 'web-client', 'any-phone-client', 'phone-client:ios', 'phone-client:android', 'phone-client:mobile-web', 'cli']],
@@ -67,6 +70,7 @@ const starSource = stars && product.sources?.find(s => s.id === stars.evidenceId
     <Screenshot productId={product.id} name={product.name} caption={!researched} eager={mode === 'page'} />
     {researched && <dl class="facts">{facts(product).map(f => <div data-keys={f.keys.join(' ')} class={f.value ? (f.no ? 'is-no' : '') : 'is-quiet'}><dt>{f.label}</dt><dd>{f.value ?? 'Not listed'}</dd></div>)}</dl>}
   </div>}
+  <Benchmark productId={product.id} name={product.name} />
   {researched && <section class="receipts" aria-labelledby={`receipts-${product.id}`}>
     <h2 id={`receipts-${product.id}`}>Receipts</h2>
     <dl>

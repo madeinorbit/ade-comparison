@@ -7,6 +7,7 @@ import type { Cell, Facet, Index, LifecycleNotice, Product, Requirement, Screens
 import { requirementsFrom } from './filter.ts'
 import { pairCutoff } from './pairs.ts'
 import { siteConfig } from '../../config.mjs'
+import { benchmarkedIds } from './benchmarks.ts'
 const productFiles = import.meta.glob<Product>('../../data/products/*.json', { eager: true, import: 'default' })
 export const index = indexData as Index
 export const facets = facetData.facets as Facet[]
@@ -72,9 +73,16 @@ const candidatePairs = pairProducts.flatMap((a, i) => pairProducts.slice(i + 1).
 export const pairSharedCutoff = pairCutoff(candidatePairs.map(p => p.shared), siteConfig.maximumStaticPairs, siteConfig.minimumPairSharedValues)
 export const pairs = candidatePairs.filter(pair => pair.shared >= pairSharedCutoff).sort((a, b) => b.shared - a.shared || a.slug.localeCompare(b.slug))
 export const pairSlugs = new Set(pairs.map(p => p.slug))
+// "Benchmarked by ADEMark" is a Finder word, not a typed facet: yes when ADEMark measured the ADE, unknown otherwise.
+// It never sets a no, so an ADE ADEMark has not tested is never treated as failing it.
+export const benchRequirement = { key: 'ademark', label: 'Benchmarked by ADEMark' }
+const bitset = (rows: number[]) => { const bytes = new Uint8Array(Math.ceil(index.products.length / 8)); for (const r of rows) bytes[r >> 3] |= 1 << (r & 7); return btoa(String.fromCharCode(...bytes)) }
+const benchColumn = { yes: bitset(index.products.flatMap((p, row) => benchmarkedIds.includes(p.id) ? [row] : [])), no: bitset([]), crossChecked: '' }
+export const finderIndex: Index = { ...index, bitsets: { ...index.bitsets, columns: { ...index.bitsets.columns, [benchRequirement.key]: benchColumn } } }
+export const finderRequirements = [...requirements.map(({ key, label, anyOf }) => ({ key, label, ...(anyOf ? { anyOf } : {}) })), benchRequirement]
 export const clientPayload = {
-  index: { ...index, products: [], bitsets: { ...index.bitsets, columns: Object.fromEntries(Object.entries(index.bitsets.columns).map(([key, value]) => [key, { yes: value.yes, no: value.no, crossChecked: '' }])) } },
-  requirements: requirements.map(({ key, label, anyOf }) => ({ key, label, ...(anyOf ? { anyOf } : {}) })),
+  index: { ...finderIndex, products: [], bitsets: { ...finderIndex.bitsets, columns: Object.fromEntries(Object.entries(finderIndex.bitsets.columns).map(([key, value]) => [key, { yes: value.yes, no: value.no, crossChecked: '' }])) } },
+  requirements: finderRequirements,
   sunsetIds,
 }
 export const jsonScript = (value: unknown) => JSON.stringify(value).replace(/</g, '\\u003c').replace(/\u2028/g, '\\u2028').replace(/\u2029/g, '\\u2029')

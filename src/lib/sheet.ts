@@ -10,6 +10,7 @@ export const wordGroups: { title: string; words: [key: string, label: string][] 
   { title: 'Where it runs', words: [['execution:local', 'On your computer'], ['execution:own-server', 'On your own server'], ['execution:vendor-cloud', "In the vendor's cloud"], ['laptop-independent', 'Keeps going with laptop closed']] },
   { title: 'Team and shipping', words: [['multiplayer', 'Team sessions'], ['roles', 'Team roles'], ['sso', 'SSO'], ['pr-workflow', 'Pull requests'], ['review-ui', 'Review screen']] },
   { title: 'Ownership', words: [['open-source-license', 'Open source'], ['self-hosting', 'Self-hosting']] },
+  { title: 'Measured', words: [['ademark', 'Benchmarked by ADEMark']] },
   { title: 'Price', words: [['free-tier', 'Has a free plan'], ['pricing-model:no-paid-plan', 'Entirely free'], ['pricing-model:subscription', 'Subscription'], ['pricing-model:per-seat', 'Per seat'], ['pricing-model:usage-based', 'Usage-based'], ['pricing-model:compute', 'Per machine or compute'], ['pricing-model:byok', 'Bring your own key'], ['pricing-model:one-time', 'One-time purchase'], ['paid-up-to-20', 'Paid plan up to $20/month'], ['paid-up-to-40', 'Paid plan up to $40/month']] },
 ]
 // What each filter word means, in two short sentences at most. Shown on hover, or behind the i on touch screens.
@@ -45,6 +46,7 @@ export const wordTips: Record<string, string> = {
   'review-ui': 'A screen that shows the agent’s code changes as a diff for you to review.',
   'open-source-license': 'The main app is under an open-source licence: Apache-2.0, MIT, GPL-3.0 or AGPL-3.0.',
   'self-hosting': 'You can run the whole ADE on infrastructure you control.',
+  'ademark': 'ADEMark, a third-party open benchmark, measured its speed, memory, tokens and a team build on the same Mac. Not tested is not a no.',
   'free-tier': 'You can use it without paying: a free plan or a free download. Paid plans may exist too.',
   'pricing-model:no-paid-plan': 'The ADE has no paid tier at all, as with most open-source tools. Agent or model costs can still apply.',
   'pricing-model:subscription': 'Charges a recurring monthly or yearly fee.',

@@ -120,7 +120,7 @@ test('comparisons carry a shutdown link and pair pages hold only their two produ
   assert.equal(JSON.parse(text('compare/columns/conductor.json')).closing, true)
   assert.equal(new Set([...html.matchAll(/<th scope="col" data-column-id="([^"]+)"/g)].map(m => m[1])).size, 2)
   assert.match(text('matrix/index.html'), /aria-label="Conductor shutdown notice"/)
-  assert.ok(gzipSync(html).length < 12_000, 'Pair page stays small')
+  assert.ok(gzipSync(html).length < 13_000, 'Pair page stays small')
 })
 test('Compare renders two columns and serves every researched ADE as a fetchable column', () => {
   const html = text('compare/index.html')
@@ -133,7 +133,9 @@ test('Compare renders two columns and serves every researched ADE as a fetchable
     assert.equal(column.name, p.name)
     assert.deepEqual(Object.keys(column.cells).sort(), [...rows].sort(), `${p.id} has a cell for every row`)
     const page = text(`ade/${p.id}/index.html`)
-    for (const [, , , href] of Object.values(column.cells) as string[][]) {
+    for (const [key, [, , , href]] of Object.entries(column.cells) as [string, string[]][]) {
+      // ADEMark rows are measurements without a receipt, shown as plain text.
+      if (key.startsWith('ademark:')) { assert.equal(href, ''); continue }
       assert.match(href, new RegExp(`^/ade/${p.id}/#receipt-`))
       assert.ok(page.includes(`id="${href.split('#')[1]}"`), `Broken receipt ${href}`)
     }
@@ -143,8 +145,8 @@ test('every static pair page keeps its budget and links unbuilt pairs to Compare
   const slugs = readdirSync(new URL('compare/', dist)).filter(name => name.includes('-vs-'))
   const sizes = slugs.map(slug => [slug, gzipSync(text(`compare/${slug}/index.html`)).length] as const).sort((a, b) => b[1] - a[1])
   console.log(`Largest pair page: ${sizes[0][0]} ${sizes[0][1]} bytes gzip`)
-  // 12 KB since the analytics loader and the GitHub and missing-ADE buttons joined every page.
-  assert.ok(sizes[0][1] < 12_000, `${sizes[0][0]} weighs ${sizes[0][1]} gzip bytes`)
+  // 13 KB since pair pages show the ADEMark rows; 12 KB before, after the analytics loader and the GitHub and missing-ADE buttons joined every page.
+  assert.ok(sizes[0][1] < 13_000, `${sizes[0][0]} weighs ${sizes[0][1]} gzip bytes`)
   const html = text(`compare/${slugs[0]}/index.html`)
   assert.doesNotMatch(html, /data-table-product=/, 'A pair page carries no product picker')
   assert.match(html, /class="slot-add" href="\/compare\/\?products=[a-z0-9-]+,[a-z0-9-]+"/)

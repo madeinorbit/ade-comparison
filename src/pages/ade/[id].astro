@@ -6,6 +6,7 @@ import Receipt from '../../components/Receipt.astro'
 import Screenshot from '../../components/Screenshot.astro'
 import SubmissionActions from '../../components/SubmissionActions.astro'
 import Checked from '../../components/Checked.astro'
+import { benchApp } from '../../lib/benchmarks'
 import { answerLabel, cellFor, claimAnchor, facetAnchor, hasPage, jsonScript, products, requirements, notices, screenshots } from '../../lib/data'
 import { shortLabel } from '../../lib/sheet'
 export function getStaticPaths() { return products.map(product => ({ params: { id: product.id }, props: { product } })) }
@@ -24,7 +25,7 @@ const labels = Object.fromEntries(requirements.map(r => [r.key, shortLabel(r.key
 <Layout title={title} description={description} productId={hasPage(product) ? product.id : undefined} noindex={!hasPage(product)} about={about}>
   <article class="in adepage">
     <a class="back" href="/" data-back>Back to the Finder</a>
-    {researched || notice || hasScreenshot ? <AdeSheet product={product} mode="page" /> : <div class="sheet sheet-page"><header class="sheet-head"><h1>{product.name}</h1>
+    {researched || notice || hasScreenshot || benchApp(product.id) ? <AdeSheet product={product} mode="page" /> : <div class="sheet sheet-page"><header class="sheet-head"><h1>{product.name}</h1>
       <p class="sheet-lead">Listed in the directory. No findings are published for it yet.</p>
       {product.website && <p class="sheet-act"><a class="btn-ink" href={product.website} rel="noopener noreferrer">Product website</a></p>}</header></div>}
     <section class="agent-files" aria-label="For agents and corrections">

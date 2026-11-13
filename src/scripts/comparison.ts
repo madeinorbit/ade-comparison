@@ -132,8 +132,9 @@ function addColumn(c: Column) {
   root.querySelectorAll<HTMLElement>('[data-requirement-row]').forEach(row => {
     const [raw, text, kind, href] = c.cells[row.dataset.requirementRow!] || ['unknown', 'Not listed', 'u', `/ade/${c.id}/`]
     const label = row.querySelector('th[scope=row]')!.textContent!.trim()
-    const link = el('a', { className: 'receipt-link', href, textContent: text })
-    link.setAttribute('aria-label', `${c.name}, ${label}: ${text}. Open finding.`)
+    // ADEMark rows have no receipt, so they are plain text; every other value links to its finding.
+    const link = href ? el('a', { className: 'receipt-link', href, textContent: text }) : text
+    if (typeof link !== 'string') link.setAttribute('aria-label', `${c.name}, ${label}: ${text}. Open finding.`)
     const td = el('td', { className: `v-${kind}`, hidden: true }, link)
     td.dataset.columnId = c.id
     row.insertBefore(td, beforeSlots(row))

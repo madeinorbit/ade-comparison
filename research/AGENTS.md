@@ -64,6 +64,14 @@ Agent-readable comparisons use the separate generated publication contract in `p
 
 adecomparison.com uses the [directory contract](directory/README.md) for typed filters and the generated package in `data/`. Author capability mappings only from eligible `buildPublication({ format: 'products' })` findings and their namespaced citations. Every non-unknown mapping needs a matching `facetReviewHash`; source or interpretation changes make it unknown until rechecked. A catalog claim review does not cross-check the typed mapping. A different agent must accept a separate digest-bound facet review. Lifecycle status projects the already typed `publicLifecycle` notice and reuses its independent digest-bound review, including for products without capability coverage. Unknown never becomes no, and an absent lifecycle notice never means active. Public evidence contains a finding and locator, not necessarily a verbatim quote. Keep register product files to identity-only listings when they lack capability mappings; public lifecycle receipts live separately. Site code consumes the generated JSON and never imports catalog files. Rebuild and scan this package before each site build; never hand-edit its factual output.
 
+## ADEMark benchmarks
+
+Speed, memory, CPU, token and team-build numbers come only from [ADEMark](https://ademark.dev/) (CC BY 4.0), never from catalog research. `scripts/import-ademark.mjs` copies its `results.json` unchanged into `benchmarks/ademark.json` with the mapping from ADEMark app IDs to catalog product IDs. Do not hand-edit that file, add measurements to product profiles or turn them into facets or a score.
+
+- **Refresh.** Run `node scripts/import-ademark.mjs` after each new ADEMark pass (watch https://github.com/zqkra/ademark/blob/main/CHANGELOG.md) and at least once a month, then build and commit the snapshot on its own. ADEMark marks results stale after 60 days; the site says so automatically.
+- **New entries.** When you add or research a product, check whether ADEMark lists it at https://ademark.dev/results.json (match by name, former names and website, not by ID alone). When the importer refuses because ADEMark added an app, add it to `productIds`: the catalog ID if the product exists, `null` only for a control or a non-ADE. Add a missing ADE to the catalog queue instead of guessing.
+- **Credit.** Every surface that shows the numbers names ADEMark once, links https://ademark.dev/ and states the licence, machine, model and measured date. Keep ADEMark's gaps ("Did not finish", "Not measured") and their causes; never show them as zero or rank them.
+
 ## Checks
 
 From the repository root:

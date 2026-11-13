@@ -3,7 +3,7 @@ import Layout from '../layouts/Layout.astro'
 import Prompt from '../components/Prompt.astro'
 import Entry from '../components/Entry.astro'
 import HeroBoard from '../components/HeroBoard.astro'
-import { clientPayload, index, jsonScript, products, requirements, stats, sunsetIds } from '../lib/data'
+import { clientPayload, finderIndex, finderRequirements, index, jsonScript, products, requirements, stats, sunsetIds } from '../lib/data'
 import { createFilter, emptyState, presets, shuffleSeed } from '../lib/filter'
 import { groupLabel, groupLabels } from '../lib/view'
 import { wordGroups, wordTips, shortLabel } from '../lib/sheet'
@@ -12,14 +12,14 @@ import { siteConfig } from '../../config.mjs'
 import '../styles/sheet.css'
 const state = emptyState()
 const seed = shuffleSeed()
-const filter = createFilter(index, requirements, sunsetIds, {}, seed)
+const filter = createFilter(finderIndex, finderRequirements, sunsetIds, {}, seed)
 const results = filter.run(state)
 const groups = Object.keys(groupLabels) as (keyof typeof groupLabels)[]
 const notes = { fits: 'Pick what you need above. Until then, every ADE fits.', 'kind-of': 'Has most of your must-haves.', 'shutting-down': 'Would fit, but has a published shutdown notice.' }
 const shown = 10
 const starred = products.filter(p => p.researchStatus === 'covered' && p.githubStars).length
 const suggest = submissionLinks({ pagePath: '/' })?.suggestMissingAde || '/method/#corrections'
-const shortLabels = Object.fromEntries(requirements.map(r => [r.key, shortLabel(r.key)]))
+const shortLabels = Object.fromEntries(finderRequirements.map(r => [r.key, shortLabel(r.key)]))
 // A few names from the research queue, picked fresh with each nightly build so no ADE always gets the spotlight.
 const waiting = index.products.filter(p => p.researchStatus === 'not-researched')
 const rank = (id: string) => { let h = 2166136261; for (const c of `${seed}:${id}`) h = Math.imul(h ^ c.charCodeAt(0), 16777619); return h >>> 0 }
@@ -210,6 +210,9 @@ const teased = [...waiting].sort((a, b) => rank(a.id) - rank(b.id)).slice(0, 14)
   .e-sum { font-size: var(--t-sm); line-height: 1.45; color: var(--ink-2); }
   .e-stars { font-size: var(--t-xs); color: var(--ink-2); font-variant-numeric: tabular-nums; }
   .e-stars span { color: var(--muted); }
+  .e-stars { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-2xs) var(--s-sm); }
+  .e-bench { display: inline-block; padding: 0 .4em; border: 1px solid color-mix(in oklab, currentColor 40%, transparent); font: 500 .6875rem/1.5 var(--mono); letter-spacing: .02em; color: inherit; text-decoration: none; }
+  .e-bench:hover { border-color: currentColor; }
   /* Sort: a segmented control between the filters and the board, with its rule spelled out beside it. */
   .order { margin-top: var(--s-2xl); }
   .order-in { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-sm) var(--s-lg); padding-block: var(--s-md); border-block: 1px solid var(--rule); font-size: var(--t-sm); }

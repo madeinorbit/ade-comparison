@@ -2,7 +2,8 @@
 import Checked from './Checked.astro'
 import { products, receiptHref, sunsetIds } from '../lib/data'
 import { shotFor } from '../lib/sheet'
-import { grouped, value } from '../lib/comparison'
+import { benchRows, benchValue, grouped, value } from '../lib/comparison'
+import { ademarkCount, ademarkMeasured, ademarkSource, benchApp } from '../lib/benchmarks'
 interface Props { mode: 'compare' | 'matrix'; selected?: string[] }
 const { mode, selected = [] } = Astro.props
 const compare = mode === 'compare'
@@ -50,6 +51,14 @@ const span = compare ? SLOTS + 1 : columns.length + 1
           {compare && Array.from({ length: slotCount }, (_, i) => <td data-slot={i} class="slot" hidden={i >= SLOTS - current.length}></td>)}
         </tr>)}
       </tbody>)}
+      {(!pairPage || columns.some(p => benchApp(p.id))) && <tbody data-section class="cmp-bench">
+        <tr class="sec"><th scope="colgroup" colspan={span}>Measured by ADEMark <small>Third-party, {ademarkCount} ADEs, to {ademarkMeasured} · <a href={ademarkSource.url} rel="noopener noreferrer">ademark.dev</a>, {ademarkSource.license} · <a href="/method/#benchmarks">How to read places</a></small></th></tr>
+        {benchRows.map(row => <tr data-requirement-row={row.key} data-values={JSON.stringify(Object.fromEntries(columns.map(p => [p.id, benchValue(p, row).raw])))}>
+          <th scope="row">{row.label}</th>
+          {columns.map(p => { const v = benchValue(p, row); return <td data-column-id={p.id} hidden={!current.includes(p.id)} class={`v-${v.kind}`}>{v.text}{v.place && <> · {v.place}</>}</td> })}
+          {compare && Array.from({ length: slotCount }, (_, i) => <td data-slot={i} class="slot" hidden={i >= SLOTS - current.length}></td>)}
+        </tr>)}
+      </tbody>}
     </table>
   </div>
   <p id="same-answers" hidden>No recorded answers differ across these products.</p>
@@ -99,6 +108,7 @@ const span = compare ? SLOTS + 1 : columns.length + 1
   .cmp-shots img { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; object-position: top left; outline: 1px solid color-mix(in oklab, var(--ink) 10%, transparent); outline-offset: -1px; background: var(--paper-2); }
   .no-shot { display: grid; place-items: center; aspect-ratio: 16 / 10; background: var(--paper-2); font-size: var(--t-xs); }
   .cmp tr.sec th { position: static; padding-top: var(--s-xl); font: 700 var(--t-lg)/1.2 var(--display); letter-spacing: -.01em; color: var(--ink); border-bottom: 1px solid var(--ink); background: var(--paper); }
+  .cmp-bench tr.sec small { display: block; margin-top: var(--s-2xs); font-family: var(--font); font-size: var(--t-xs); font-weight: 400; line-height: 1.4; color: var(--muted); letter-spacing: 0; }
   .cmp tbody th[scope=row] { color: var(--ink-2); font-weight: 500; background: var(--paper); }
   .cmp td { background: var(--paper); }
   .cmp td .receipt-link { text-decoration-color: color-mix(in oklab, currentColor 35%, transparent); }
