@@ -23,7 +23,7 @@
     {
       "id": "agent-teams:ACC-01",
       "criterionId": "ACC-01",
-      "answer": "Shipped desktop app targets macOS, Windows and Linux. Full web version remains in development; a limited trusted-network dashboard is not desktop-equivalent.",
+      "answer": "Desktop supports macOS, Windows and Linux. A released limited standalone dashboard serves the renderer/API over HTTP; the full web runtime remains in development. Native phone apps are absent from the scoped build targets. The product owns an agent-teams-mcp executable.",
       "support": "partial",
       "availability": "generally-available",
       "delivery": "native",
@@ -53,14 +53,18 @@
           ]
         },
         "mobile_apps": {
-          "support": "unknown",
-          "answer": "The checked first-party sources do not establish mobile apps for this scoped product.",
-          "evidenceIds": []
+          "support": "unsupported",
+          "answer": "Desktop and standalone browser build targets contain no native iOS or Android app.",
+          "evidenceIds": [
+            "gap35-clients"
+          ]
         },
         "browser": {
-          "support": "unknown",
-          "answer": "The checked first-party sources do not establish browser for this scoped product.",
-          "evidenceIds": []
+          "support": "partial",
+          "answer": "The limited standalone dashboard is shipped for local/trusted-network use; Electron-only runtime functions are stubbed.",
+          "evidenceIds": [
+            "gap35-clients"
+          ]
         },
         "mobile_browser": {
           "support": "unknown",
@@ -68,9 +72,12 @@
           "evidenceIds": []
         },
         "cli": {
-          "support": "unknown",
-          "answer": "The checked first-party sources do not establish cli for this scoped product.",
-          "evidenceIds": []
+          "support": "unsupported",
+          "answer": "Scoped product entry points launch the desktop/browser renderer or MCP protocol server; there is no separate product-owned user/session CLI command interface.",
+          "evidenceIds": [
+            "gap35-clients",
+            "gap35-command-surface"
+          ]
         },
         "editor_extensions": {
           "support": "unknown",
@@ -100,23 +107,21 @@
       ],
       "unknownReason": "First-party README, relevant documentation, license, release notes and public issue pass at d7f56e5fb1f4 did not establish client access beyond any facts stated here. No installed-product or multi-user test was run.",
       "evidenceIds": [
-        "readme"
+        "readme",
+        "gap35-clients",
+        "gap35-command-surface"
       ],
       "checkedAt": "2026-11-08",
       "nextReviewAt": "2026-12-08",
-      "researcher": "researcher-72",
-      "publication": "public-reviewed",
-      "review": {
-        "reviewer": "reviewer-58",
-        "date": "2026-11-08",
-        "contentHash": "b504625ee41980de516395d16cacc7f55d884d57591ad77a002382bb39fea1da"
-      },
+      "researcher": "researcher-ade35",
+      "publication": "public-candidate",
+      "review": null,
       "contradictions": []
     },
     {
       "id": "agent-teams:ACC-02",
       "criterionId": "ACC-02",
-      "answer": "Installed Claude Code, Codex and OpenCode runtimes are detected. Other named provider connections do not alone establish those providers as separate coding CLI harnesses.",
+      "answer": "Claude Code, Codex and OpenCode are managed runtimes. Source also establishes Cursor Agent through a CLI companion bridge. The Gemini team provider is model access through the Claude runtime, not Gemini CLI. Model-provider access such as SuperGrok does not establish Grok CLI.",
       "support": "partial",
       "availability": "generally-available",
       "delivery": "native",
@@ -140,9 +145,9 @@
       "subanswers": {
         "harnesses": {
           "support": "supported",
-          "answer": "Claude Code, Codex and OpenCode.",
+          "answer": "Managed Claude Code, Codex and OpenCode runtime paths; Cursor Agent companion CLI bridge. Gemini provider selection uses the Claude runtime rather than Gemini CLI.",
           "evidenceIds": [
-            "readme"
+            "gap35-agents"
           ]
         },
         "model_providers": {
@@ -151,9 +156,11 @@
           "evidenceIds": []
         },
         "custom_adapters": {
-          "support": "unknown",
-          "answer": "The checked first-party sources do not establish custom adapters for this scoped product.",
-          "evidenceIds": []
+          "support": "partial",
+          "answer": "Provider/model extensions use supported runtime transports; the bounded runtime/companion registry has no Pi, Grok CLI, Aider or Antigravity adapter.",
+          "evidenceIds": [
+            "gap35-agents"
+          ]
         },
         "session_integration": {
           "support": "supported",
@@ -175,17 +182,14 @@
       ],
       "unknownReason": "First-party README, relevant documentation, license, release notes and public issue pass at d7f56e5fb1f4 did not establish agent and model choice beyond any facts stated here. No installed-product or multi-user test was run.",
       "evidenceIds": [
-        "readme"
+        "readme",
+        "gap35-agents"
       ],
       "checkedAt": "2026-11-08",
       "nextReviewAt": "2026-12-08",
-      "researcher": "researcher-72",
-      "publication": "public-reviewed",
-      "review": {
-        "reviewer": "reviewer-58",
-        "date": "2026-11-08",
-        "contentHash": "6629123992cf4d0645656f6c7a54f52b9acf6a223e3ed4739379458449a9823a"
-      },
+      "researcher": "researcher-ade35",
+      "publication": "public-candidate",
+      "review": null,
       "contradictions": []
     },
     {
@@ -2035,7 +2039,7 @@
     {
       "id": "agent-teams:RUN-01",
       "criterionId": "RUN-01",
-      "answer": "Desktop orchestration and runtime/session data are local. 24/7 cloud teams are explicitly roadmap work.",
+      "answer": "Teams execute as local processes on the desktop host. Remote agent execution over SSH and 24/7 cloud teams remain roadmap work.",
       "support": "partial",
       "availability": "generally-available",
       "delivery": "native",
@@ -2065,9 +2069,11 @@
           ]
         },
         "byo_remote": {
-          "support": "unknown",
-          "answer": "The checked first-party sources do not establish byo remote for this scoped product.",
-          "evidenceIds": []
+          "support": "unsupported",
+          "answer": "README marks remote SSH launch/manage as unchecked roadmap work; SSH file monitoring is separate from execution.",
+          "evidenceIds": [
+            "gap35-local-runtime"
+          ]
         },
         "self_hosted": {
           "support": "unknown",
@@ -2112,9 +2118,11 @@
           "evidenceIds": []
         },
         "client_disconnect": {
-          "support": "unknown",
-          "answer": "The checked first-party sources do not establish client disconnect for this scoped product.",
-          "evidenceIds": []
+          "support": "unsupported",
+          "answer": "The current agent process launch path remains on the desktop host; it does not move work off the sleeping execution machine.",
+          "evidenceIds": [
+            "gap35-local-runtime"
+          ]
         },
         "other_device_continuation": {
           "support": "unknown",
@@ -2127,23 +2135,20 @@
       ],
       "unknownReason": "First-party README, relevant documentation, license, release notes and public issue pass at d7f56e5fb1f4 did not establish laptop-independent execution beyond any facts stated here. No installed-product or multi-user test was run.",
       "evidenceIds": [
-        "readme"
+        "readme",
+        "gap35-local-runtime"
       ],
       "checkedAt": "2026-11-08",
       "nextReviewAt": "2026-12-08",
-      "researcher": "researcher-72",
-      "publication": "public-reviewed",
-      "review": {
-        "reviewer": "reviewer-58",
-        "date": "2026-11-08",
-        "contentHash": "081deedcd0da58731ad0815e06381696efb0f7d37c043b183436a91bee3d586d"
-      },
+      "researcher": "researcher-ade35",
+      "publication": "public-candidate",
+      "review": null,
       "contradictions": []
     },
     {
       "id": "agent-teams:RUN-02",
       "criterionId": "RUN-02",
-      "answer": "Selected teammates can get separate Git worktrees at launch; shared main checkout is also possible.",
+      "answer": "Selected teammates can get worktrees at launch. Scoped local provisioning options provide no container or VM isolation backend.",
       "support": "partial",
       "availability": "generally-available",
       "delivery": "native",
@@ -2185,14 +2190,18 @@
           ]
         },
         "container": {
-          "support": "unknown",
-          "answer": "The checked first-party sources do not establish container for this scoped product.",
-          "evidenceIds": []
+          "support": "unsupported",
+          "answer": "The complete team launch/provisioning options spawn local processes and optional worktrees, without container isolation.",
+          "evidenceIds": [
+            "gap35-local-runtime"
+          ]
         },
         "vm": {
-          "support": "unknown",
-          "answer": "The checked first-party sources do not establish vm for this scoped product.",
-          "evidenceIds": []
+          "support": "unsupported",
+          "answer": "No VM/microVM backend in the scoped provisioning/runtime option model.",
+          "evidenceIds": [
+            "gap35-local-runtime"
+          ]
         },
         "os_sandbox": {
           "support": "unknown",
@@ -2235,17 +2244,14 @@
       ],
       "unknownReason": "First-party README, relevant documentation, license, release notes and public issue pass at d7f56e5fb1f4 did not establish workspace and process isolation beyond any facts stated here. No installed-product or multi-user test was run.",
       "evidenceIds": [
-        "readme"
+        "readme",
+        "gap35-local-runtime"
       ],
       "checkedAt": "2026-11-08",
       "nextReviewAt": "2026-12-08",
-      "researcher": "researcher-72",
-      "publication": "public-reviewed",
-      "review": {
-        "reviewer": "reviewer-58",
-        "date": "2026-11-08",
-        "contentHash": "d3896c9b9236dcfb3f6d40b111ba2d2349cb8dcb35d243d7aa8b4b1e5f04945d"
-      },
+      "researcher": "researcher-ade35",
+      "publication": "public-candidate",
+      "review": null,
       "contradictions": []
     },
     {
@@ -2881,7 +2887,7 @@
     {
       "id": "agent-teams:TEAM-01",
       "criterionId": "TEAM-01",
-      "answer": "First-party README, relevant documentation, license, release notes and public issue pass at d7f56e5fb1f4 did not establish live human collaboration beyond any facts stated here. No installed-product or multi-user test was run.",
+      "answer": "Source pass on 2026-11-13: Inspected desktop/standalone HTTP routes and controller messages use one human user identity. Standalone runtime services are stubbed; no distinct-human session participant model was found.",
       "support": "unknown",
       "availability": "unknown",
       "delivery": "unknown",
@@ -2960,11 +2966,11 @@
         }
       },
       "limitations": [],
-      "unknownReason": "First-party README, relevant documentation, license, release notes and public issue pass at d7f56e5fb1f4 did not establish live human collaboration beyond any facts stated here. No installed-product or multi-user test was run.",
+      "unknownReason": "Inspected desktop/standalone HTTP routes and controller messages use one human user identity. Standalone runtime services are stubbed; no distinct-human session participant model was found.",
       "evidenceIds": [],
-      "checkedAt": "2026-11-08",
-      "nextReviewAt": "2026-12-08",
-      "researcher": "researcher-72",
+      "checkedAt": "2026-11-13",
+      "nextReviewAt": "2027-03-13",
+      "researcher": "researcher-ade35",
       "publication": "internal-only",
       "review": null,
       "contradictions": []
@@ -2972,10 +2978,10 @@
     {
       "id": "agent-teams:TEAM-02",
       "criterionId": "TEAM-02",
-      "answer": "First-party README, relevant documentation, license, release notes and public issue pass at d7f56e5fb1f4 did not establish roles and access boundaries beyond any facts stated here. No installed-product or multi-user test was run.",
-      "support": "unknown",
-      "availability": "unknown",
-      "delivery": "unknown",
+      "answer": "The scoped desktop/trusted-network dashboard has no named human workspace roles or enterprise SSO. Agent organization roles do not grant human permissions.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
       "scope": {
         "surfaceIds": [
           "workspace"
@@ -2995,9 +3001,11 @@
       },
       "subanswers": {
         "organization_roles": {
-          "support": "unknown",
-          "answer": "The checked first-party sources do not establish organization roles for this scoped product.",
-          "evidenceIds": []
+          "support": "unsupported",
+          "answer": "Organization/teammate roles organize AI agents; the inspected HTTP/app context has no human roles or membership permission model.",
+          "evidenceIds": [
+            "gap35-human-access"
+          ]
         },
         "project_roles": {
           "support": "unknown",
@@ -3015,9 +3023,11 @@
           "evidenceIds": []
         },
         "sso": {
-          "support": "unknown",
-          "answer": "The checked first-party sources do not establish sso for this scoped product.",
-          "evidenceIds": []
+          "support": "unsupported",
+          "answer": "No enterprise SSO or identity-provider integration in the scoped human access paths.",
+          "evidenceIds": [
+            "gap35-human-access"
+          ]
         },
         "provisioning": {
           "support": "unknown",
@@ -3040,13 +3050,17 @@
           "evidenceIds": []
         }
       },
-      "limitations": [],
-      "unknownReason": "First-party README, relevant documentation, license, release notes and public issue pass at d7f56e5fb1f4 did not establish roles and access boundaries beyond any facts stated here. No installed-product or multi-user test was run.",
-      "evidenceIds": [],
-      "checkedAt": "2026-11-08",
-      "nextReviewAt": "2026-12-08",
-      "researcher": "researcher-72",
-      "publication": "internal-only",
+      "limitations": [
+        "Source inspection covers the scoped release only. Unanswered atomic questions remain unknown; no live scenario was run."
+      ],
+      "unknownReason": "See unknown atomic answers for the source and test gaps.",
+      "evidenceIds": [
+        "gap35-human-access"
+      ],
+      "checkedAt": "2026-11-13",
+      "nextReviewAt": "2027-03-13",
+      "researcher": "researcher-ade35",
+      "publication": "public-candidate",
       "review": null,
       "contradictions": []
     },
@@ -3695,7 +3709,7 @@
     {
       "id": "agent-teams:SHIP-03",
       "criterionId": "SHIP-03",
-      "answer": "Selected teammates can work in separate Git worktrees; branch and merge rules are left to the provisioning prompt. No product-owned commit or pull request workflow was established.",
+      "answer": "Agent Teams provisions teammate Git worktrees and can initialize a repository with an initial local commit. Its scoped product services and HTTP/IPC/MCP surfaces do not implement pull-request creation or management; coding agents may use their own repository tools.",
       "support": "partial",
       "availability": "generally-available",
       "delivery": "native",
@@ -3730,14 +3744,18 @@
           ]
         },
         "commits": {
-          "support": "unknown",
-          "answer": "The checked first-party sources do not establish commits for this scoped product.",
-          "evidenceIds": []
+          "support": "partial",
+          "answer": "The product can create an initial local commit when preparing a repository; general commit management is not established by that setup path.",
+          "evidenceIds": [
+            "gap35-git-delivery"
+          ]
         },
         "pull_requests": {
-          "support": "unknown",
-          "answer": "The checked first-party sources do not establish pull requests for this scoped product.",
-          "evidenceIds": []
+          "support": "unsupported",
+          "answer": "The scoped Git services, routes and MCP operations have no product-owned pull-request creation or management path.",
+          "evidenceIds": [
+            "gap35-git-delivery"
+          ]
         },
         "comments": {
           "support": "unknown",
@@ -3766,21 +3784,18 @@
         }
       },
       "limitations": [
-        "Commits, pull requests, CI response and conflict handling were not established. No installed-product test was run."
+        "Pinned source inspection covers the product-owned Git services, HTTP/IPC and MCP tool surfaces. Agent-generated shell commands and externally configured tools are separate; no hands-on test ran."
       ],
       "unknownReason": "See unknown atomic answers for the source and test gaps.",
       "evidenceIds": [
-        "src1-readme-worktree"
+        "src1-readme-worktree",
+        "gap35-git-delivery"
       ],
       "checkedAt": "2026-11-10",
       "nextReviewAt": "2026-12-10",
-      "researcher": "researcher-09",
-      "publication": "public-reviewed",
-      "review": {
-        "reviewer": "reviewer-05",
-        "date": "2026-11-10",
-        "contentHash": "30240e620f007d82314eacd9b9d652cd40b5e7724233eb58113d4b78e5941aa6"
-      },
+      "researcher": "researcher-ade35",
+      "publication": "public-candidate",
+      "review": null,
       "contradictions": []
     },
     {
@@ -4985,6 +5000,84 @@
       "visibility": "public",
       "commit": "63166ea7c39df2b4b738a7a847a0eea0fa45700c",
       "path": "README.md"
+    },
+    {
+      "id": "gap35-clients",
+      "kind": "source-inspected",
+      "url": "https://github.com/777genius/agent-teams-ai/blob/d7f56e5fb1f4bc380052a41f6f782ef23b26c845/src/main/standalone.ts",
+      "title": "Agent Teams src/main/standalone.ts",
+      "locator": "Standalone entry and HttpServer static renderer; README limited standalone dashboard; electron-builder targets; mcp-server/package.json bin and src/index.ts",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-13",
+      "finding": "The shipped limited standalone mode serves the renderer and API without Electron; full web runtime parity remains in development. Release targets build desktop clients, with no native iOS/Android target. The product-owned agent-teams-mcp executable starts its MCP command-line server.",
+      "visibility": "public",
+      "commit": "d7f56e5fb1f4bc380052a41f6f782ef23b26c845",
+      "path": "src/main/standalone.ts"
+    },
+    {
+      "id": "gap35-agents",
+      "kind": "source-inspected",
+      "url": "https://github.com/777genius/agent-teams-ai/blob/d7f56e5fb1f4bc380052a41f6f782ef23b26c845/src/features/runtime-provider-management/main/infrastructure/cli-companion/definitions/CursorAgentCompanionDefinition.ts",
+      "title": "Agent Teams src/features/runtime-provider-management/main/infrastructure/cli-companion/definitions/CursorAgentCompanionDefinition.ts",
+      "locator": "CursorAgent companion definition; src/main/services/team/opencode/bridge/CursorAgentAttributionRecords.ts and CursorAgentProcessCleanup.ts; teamProvider.ts; native runtime launch implementations; bounded adapter search",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-13",
+      "finding": "Cursor companion installation/authentication and process-attribution paths invoke the cursor-agent coding CLI through the OpenCode bridge. The Gemini team provider is a model/auth backend of the Claude runtime, not a separate Gemini CLI executable. The scoped provider/runtime tables and launch adapters have no Pi, Grok CLI, Aider or Antigravity coding-harness adapter; SuperGrok is model/provider access.",
+      "visibility": "public",
+      "commit": "d7f56e5fb1f4bc380052a41f6f782ef23b26c845",
+      "path": "src/features/runtime-provider-management/main/infrastructure/cli-companion/definitions/CursorAgentCompanionDefinition.ts"
+    },
+    {
+      "id": "gap35-local-runtime",
+      "kind": "source-inspected",
+      "url": "https://github.com/777genius/agent-teams-ai/blob/d7f56e5fb1f4bc380052a41f6f782ef23b26c845/src/main/services/team/TeamProvisioningService.ts",
+      "title": "Agent Teams src/main/services/team/TeamProvisioningService.ts",
+      "locator": "spawnCli and provisioning delegate wiring; scoped launch configuration and worktree paths; README Roadmap remote execution and cloud teams",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-13",
+      "finding": "The desktop launches local agent processes through spawnCli and optional worktree provisioning. The complete provisioning/runtime option model has no container or VM isolation backend. Remote team execution over SSH and autonomous cloud teams are unchecked roadmap work.",
+      "visibility": "public",
+      "commit": "d7f56e5fb1f4bc380052a41f6f782ef23b26c845",
+      "path": "src/main/services/team/TeamProvisioningService.ts"
+    },
+    {
+      "id": "gap35-human-access",
+      "kind": "source-inspected",
+      "url": "https://github.com/777genius/agent-teams-ai/blob/d7f56e5fb1f4bc380052a41f6f782ef23b26c845/src/main/services/infrastructure/HttpServer.ts",
+      "title": "Agent Teams src/main/services/infrastructure/HttpServer.ts",
+      "locator": "HttpServer registration and auth/membership search; standalone.ts local context; src/features/organizations models; controller messages human user identity",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-13",
+      "finding": "The scoped application serves local OS-account data and a trusted-network HTTP dashboard. HTTP admission has CORS and path/context validation but no human membership, workspace-role or enterprise SSO system. Organization and teammate roles model AI-agent organization, not human user permissions.",
+      "visibility": "public",
+      "commit": "d7f56e5fb1f4bc380052a41f6f782ef23b26c845",
+      "path": "src/main/services/infrastructure/HttpServer.ts"
+    },
+    {
+      "id": "gap35-command-surface",
+      "kind": "source-inspected",
+      "url": "https://github.com/777genius/agent-teams-ai/blob/d7f56e5fb1f4bc380052a41f6f782ef23b26c845/mcp-server/src/index.ts",
+      "title": "Agent Teams mcp-server/src/index.ts",
+      "locator": "resolveStartOptions, main and isEntrypoint; mcp-server/package.json bin; agent-teams-controller/src/index.js exports; root package.json standalone launcher; bounded package-bin/process.argv/commander/yargs/parseArgs search across product entry points.",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-13",
+      "finding": "The only published command executable starts an MCP protocol server with transport/host/port options. The controller package exports a JavaScript library; the standalone command launches the browser renderer. No product-owned user/session CLI command parser or verbs are implemented in the scoped entry points. Underlying coding-agent CLIs are separate.",
+      "visibility": "public",
+      "commit": "d7f56e5fb1f4bc380052a41f6f782ef23b26c845",
+      "path": "mcp-server/src/index.ts"
+    },
+    {
+      "id": "gap35-git-delivery",
+      "kind": "source-inspected",
+      "url": "https://github.com/777genius/agent-teams-ai/blob/d7f56e5fb1f4bc380052a41f6f782ef23b26c845/src/main/services/team/TeamWorktreeGitService.ts",
+      "title": "Agent Teams src/main/services/team/TeamWorktreeGitService.ts",
+      "locator": "getStatus, initializeRepository and createInitialCommit; TeamMemberWorktreeManager ensureMemberWorktree/createWorktree; GitStatusService; main HTTP/IPC routes and MCP tools; bounded gh pr/pull_request/pull request/createPullRequest/create_pr/open_pr/merge_pull source search.",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-13",
+      "finding": "Product Git services inspect repositories, create an initial local commit and provision teammate worktrees. The scoped HTTP/IPC/MCP operations have no product-owned pull-request creation, review-comment management, PR status store or forge merge path. The inbox relay only tells agents to verify PR claims through an available repository/GitHub tool; that is an agent instruction rather than a product PR workflow.",
+      "visibility": "public",
+      "commit": "d7f56e5fb1f4bc380052a41f6f782ef23b26c845",
+      "path": "src/main/services/team/TeamWorktreeGitService.ts"
     }
   ],
   "changes": [
@@ -5185,12 +5278,281 @@
       "evidenceIds": [
         "src1-readme-worktree"
       ]
+    },
+    {
+      "date": "2026-11-13",
+      "author": "researcher-ade35",
+      "type": "research-correction",
+      "summary": "Fill evidenced directory gaps for Agent Teams.",
+      "claimIds": [
+        "agent-teams:ACC-01"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Shipped desktop app targets macOS, Windows and Linux. Full web version remains in development; a limited trusted-network dashboard is not desktop-equivalent.",
+        "subanswers": {
+          "browser": "unknown",
+          "mobile_apps": "unknown",
+          "cli": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Desktop supports macOS, Windows and Linux. A released limited standalone dashboard serves the renderer/API over HTTP; the full web runtime remains in development. Native phone apps are absent from the scoped build targets. The product owns an agent-teams-mcp executable.",
+        "subanswers": {
+          "browser": "partial",
+          "mobile_apps": "unsupported",
+          "cli": "unsupported"
+        }
+      },
+      "evidenceIds": [
+        "gap35-clients",
+        "gap35-command-surface"
+      ]
+    },
+    {
+      "date": "2026-11-13",
+      "author": "researcher-ade35",
+      "type": "research-correction",
+      "summary": "Fill evidenced directory gaps for Agent Teams.",
+      "claimIds": [
+        "agent-teams:ACC-02"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Installed Claude Code, Codex and OpenCode runtimes are detected. Other named provider connections do not alone establish those providers as separate coding CLI harnesses.",
+        "subanswers": {
+          "harnesses": "supported",
+          "custom_adapters": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Claude Code, Codex and OpenCode are managed runtimes. Source also establishes Cursor Agent through a CLI companion bridge. The Gemini team provider is model access through the Claude runtime, not Gemini CLI. Model-provider access such as SuperGrok does not establish Grok CLI.",
+        "subanswers": {
+          "harnesses": "supported",
+          "custom_adapters": "partial"
+        }
+      },
+      "evidenceIds": [
+        "gap35-agents"
+      ]
+    },
+    {
+      "date": "2026-11-13",
+      "author": "researcher-ade35",
+      "type": "research-correction",
+      "summary": "Fill evidenced directory gaps for Agent Teams.",
+      "claimIds": [
+        "agent-teams:RUN-01"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Desktop orchestration and runtime/session data are local. 24/7 cloud teams are explicitly roadmap work.",
+        "subanswers": {
+          "byo_remote": "unknown",
+          "client_disconnect": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Teams execute as local processes on the desktop host. Remote agent execution over SSH and 24/7 cloud teams remain roadmap work.",
+        "subanswers": {
+          "byo_remote": "unsupported",
+          "client_disconnect": "unsupported"
+        }
+      },
+      "evidenceIds": [
+        "gap35-local-runtime"
+      ]
+    },
+    {
+      "date": "2026-11-13",
+      "author": "researcher-ade35",
+      "type": "research-correction",
+      "summary": "Fill evidenced directory gaps for Agent Teams.",
+      "claimIds": [
+        "agent-teams:RUN-02"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Selected teammates can get separate Git worktrees at launch; shared main checkout is also possible.",
+        "subanswers": {
+          "container": "unknown",
+          "vm": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Selected teammates can get worktrees at launch. Scoped local provisioning options provide no container or VM isolation backend.",
+        "subanswers": {
+          "container": "unsupported",
+          "vm": "unsupported"
+        }
+      },
+      "evidenceIds": [
+        "gap35-local-runtime"
+      ]
+    },
+    {
+      "date": "2026-11-13",
+      "author": "researcher-ade35",
+      "type": "research-correction",
+      "summary": "Fill evidenced directory gaps for Agent Teams.",
+      "claimIds": [
+        "agent-teams:TEAM-02"
+      ],
+      "before": {
+        "support": "unknown",
+        "answer": "First-party README, relevant documentation, license, release notes and public issue pass at d7f56e5fb1f4 did not establish roles and access boundaries beyond any facts stated here. No installed-product or multi-user test was run.",
+        "subanswers": {
+          "organization_roles": "unknown",
+          "sso": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "The scoped desktop/trusted-network dashboard has no named human workspace roles or enterprise SSO. Agent organization roles do not grant human permissions.",
+        "subanswers": {
+          "organization_roles": "unsupported",
+          "sso": "unsupported"
+        }
+      },
+      "evidenceIds": [
+        "gap35-human-access"
+      ]
+    },
+    {
+      "date": "2026-11-13",
+      "author": "researcher-ade35",
+      "type": "research-correction",
+      "summary": "Fill evidenced directory gaps for Agent Teams.",
+      "claimIds": [
+        "agent-teams:TEAM-01"
+      ],
+      "before": {
+        "support": "unknown",
+        "answer": "First-party README, relevant documentation, license, release notes and public issue pass at d7f56e5fb1f4 did not establish live human collaboration beyond any facts stated here. No installed-product or multi-user test was run.",
+        "subanswers": {}
+      },
+      "after": {
+        "support": "unknown",
+        "answer": "Source pass on 2026-11-13: Inspected desktop/standalone HTTP routes and controller messages use one human user identity. Standalone runtime services are stubbed; no distinct-human session participant model was found.",
+        "subanswers": {}
+      },
+      "evidenceIds": []
+    },
+    {
+      "date": "2026-11-13",
+      "author": "researcher-ade35",
+      "type": "research-correction",
+      "summary": "Fill evidenced directory gaps for Agent Teams.",
+      "claimIds": [
+        "agent-teams:SHIP-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Selected teammates can work in separate Git worktrees; branch and merge rules are left to the provisioning prompt. No product-owned commit or pull request workflow was established.",
+        "subanswers": {
+          "commits": "unknown",
+          "pull_requests": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Agent Teams provisions teammate Git worktrees and can initialize a repository with an initial local commit. Its scoped product services and HTTP/IPC/MCP surfaces do not implement pull-request creation or management; coding agents may use their own repository tools.",
+        "subanswers": {
+          "commits": "partial",
+          "pull_requests": "unsupported"
+        }
+      },
+      "evidenceIds": [
+        "gap35-git-delivery"
+      ]
+    },
+    {
+      "date": "2026-11-13",
+      "author": "researcher-ade35",
+      "type": "research-correction",
+      "summary": "Author 23 typed facet receipts from first-party findings; preserve unresolved facts as unknown.",
+      "claimIds": [
+        "agent-teams:ACC-01",
+        "agent-teams:ACC-02",
+        "agent-teams:OWN-04",
+        "agent-teams:RUN-01",
+        "agent-teams:RUN-02",
+        "agent-teams:SHIP-03",
+        "agent-teams:TEAM-02"
+      ],
+      "before": {
+        "unmappedCells": [
+          "web-client",
+          "phone-client:ios",
+          "phone-client:android",
+          "agents:cursor",
+          "agents:gemini-cli",
+          "agents:pi",
+          "agents:grok",
+          "agents:aider",
+          "agents:antigravity",
+          "execution:own-server",
+          "laptop-independent",
+          "isolation:container",
+          "isolation:vm",
+          "roles",
+          "sso",
+          "pricing-model:free-plan",
+          "pricing-model:subscription",
+          "pricing-model:per-seat",
+          "pricing-model:usage-based",
+          "pricing-model:compute",
+          "pricing-model:one-time",
+          "cli",
+          "pr-workflow"
+        ]
+      },
+      "after": {
+        "mappedCells": [
+          "web-client=yes",
+          "phone-client:ios=no",
+          "phone-client:android=no",
+          "agents:cursor=yes",
+          "agents:gemini-cli=no",
+          "agents:pi=no",
+          "agents:grok=no",
+          "agents:aider=no",
+          "agents:antigravity=no",
+          "execution:own-server=no",
+          "laptop-independent=no",
+          "isolation:container=no",
+          "isolation:vm=no",
+          "roles=no",
+          "sso=no",
+          "pricing-model:free-plan=no",
+          "pricing-model:subscription=no",
+          "pricing-model:per-seat=no",
+          "pricing-model:usage-based=no",
+          "pricing-model:compute=no",
+          "pricing-model:one-time=no",
+          "cli=no",
+          "pr-workflow=no"
+        ]
+      },
+      "evidenceIds": [
+        "gap35-agents",
+        "gap35-clients",
+        "gap35-command-surface",
+        "gap35-git-delivery",
+        "gap35-human-access",
+        "gap35-local-runtime",
+        "readme"
+      ]
     }
   ],
   "context": {
     "researchScope": "First-party source pass of 777genius/agent-teams-ai at d7f56e5fb1f4bc380052a41f6f782ef23b26c845; claims describe documented behavior, not successful hands-on execution.",
     "roadmapReview": {
-      "checkedAt": "2026-11-08",
+      "checkedAt": "2026-11-13",
       "locations": [
         {
           "url": "https://github.com/777genius/agent-teams-ai/tree/d7f56e5fb1f4bc380052a41f6f782ef23b26c845",
@@ -5203,13 +5565,52 @@
         {
           "url": "https://github.com/777genius/agent-teams-ai/issues",
           "result": "Scanned 30 recent public issues/PRs. Examples: test(teams): verify native Electron 200% zoom on creation screen; feat(schedules): safe opt-in task-first dispatch and board linkage; docs(rfc): portable Appearance settings, UX and implementation estimates. These are leads, not proven restrictions or shipped capabilities."
+        },
+        {
+          "url": "https://github.com/777genius/agent-teams-ai/releases",
+          "result": "Read latest returned release entries: v2.18.7, v2.18.6, v2.18.4. Prerelease and future changes are not treated as shipped in the pinned-source scope."
+        },
+        {
+          "url": "https://github.com/777genius/agent-teams-ai/issues",
+          "result": "Read 10 recently updated public issues/PRs as leads; requests and unmerged proposals are not capability evidence."
+        },
+        {
+          "url": "https://github.com/777genius/agent-teams-ai/blob/d7f56e5fb1f4bc380052a41f6f782ef23b26c845/src/main/standalone.ts",
+          "result": "Targeted facet source pass read Standalone entry and HttpServer static renderer; README limited standalone dashboard; electron-builder targets; mcp-server/package.json bin and src/index.ts. Component, client and plan scope retained."
+        },
+        {
+          "url": "https://github.com/777genius/agent-teams-ai/blob/d7f56e5fb1f4bc380052a41f6f782ef23b26c845/src/features/runtime-provider-management/main/infrastructure/cli-companion/definitions/CursorAgentCompanionDefinition.ts",
+          "result": "Targeted facet source pass read CursorAgent companion definition; src/main/services/team/opencode/bridge/CursorAgentAttributionRecords.ts and CursorAgentProcessCleanup.ts; teamProvider.ts; native runtime launch implementations; bounded adapter search. Component, client and plan scope retained."
+        },
+        {
+          "url": "https://github.com/777genius/agent-teams-ai/blob/d7f56e5fb1f4bc380052a41f6f782ef23b26c845/src/main/services/team/TeamProvisioningService.ts",
+          "result": "Targeted facet source pass read spawnCli and provisioning delegate wiring; scoped launch configuration and worktree paths; README Roadmap remote execution and cloud teams. Component, client and plan scope retained."
+        },
+        {
+          "url": "https://github.com/777genius/agent-teams-ai/blob/d7f56e5fb1f4bc380052a41f6f782ef23b26c845/src/main/services/infrastructure/HttpServer.ts",
+          "result": "Targeted facet source pass read HttpServer registration and auth/membership search; standalone.ts local context; src/features/organizations models; controller messages human user identity. Component, client and plan scope retained."
+        },
+        {
+          "url": "https://github.com/777genius/agent-teams-ai/blob/d7f56e5fb1f4bc380052a41f6f782ef23b26c845/mcp-server/src/index.ts",
+          "result": "Targeted facet source pass read resolveStartOptions, main and isEntrypoint; mcp-server/package.json bin; agent-teams-controller/src/index.js exports; root package.json standalone launcher; bounded package-bin/process.argv/commander/yargs/parseArgs search across product entry points.. Component, client and plan scope retained."
+        },
+        {
+          "url": "https://github.com/777genius/agent-teams-ai/blob/d7f56e5fb1f4bc380052a41f6f782ef23b26c845/src/main/services/team/TeamWorktreeGitService.ts",
+          "result": "Targeted facet source pass read getStatus, initializeRepository and createInitialCommit; TeamMemberWorktreeManager ensureMemberWorktree/createWorktree; GitStatusService; main HTTP/IPC routes and MCP tools; bounded gh pr/pull_request/pull request/createPullRequest/create_pr/open_pr/merge_pull source search.. Component, client and plan scope retained."
+        },
+        {
+          "url": "https://github.com/777genius/agent-teams-ai/blob/d7f56e5fb1f4bc380052a41f6f782ef23b26c845/docs/CHANGELOG.md",
+          "result": "Read the scoped roadmap/changelog for release status and relevant client, runtime, agent, collaboration and price changes. Unscheduled and planned work does not establish current support."
         }
       ],
       "announced": [],
       "gaps": [
-        "Web version under development; trusted-network dashboard does not establish full browser work client.",
-        "Agent role labels are not human membership/access roles; no roles/SSO or multiplayer value authored.",
-        "No vendor shutdown notice or explicit telemetry disable control established."
+        "The limited standalone browser dashboard is implemented; full runtime parity with desktop remains under development.",
+        "Agent role labels are not human membership/access roles. The scoped local access model has no enterprise roles/SSO; distinct-human shared prompting remains unestablished.",
+        "No vendor shutdown notice or explicit telemetry disable control established.",
+        "phone-client:mobile-web: Limited standalone dashboard is browser-accessible, but phone-browser controls are not established.",
+        "multiplayer: Public standalone mode stubs desktop runtime services and exposes one reserved human user identity, without distinct people/invites able to prompt the same work.",
+        "paid-from: Free application has no paid ADE tier or monthly paid-plan bracket."
       ]
     },
     "facetAudit": {
