@@ -91,11 +91,10 @@
           ]
         },
         "mobile_browser": {
-          "support": "unknown",
-          "answer": "Remote Control's URL opens claude.ai/code 'in any browser', and phones connect through the Claude iOS/Android app; the docs do not explicitly name phone or tablet browsers, and the web overview lists desktop browsers plus the native apps. A phone-browser client is not established.",
+          "support": "supported",
+          "answer": "A phone browser can open the Remote Control session at claude.ai/code and send instructions. An eligible subscription and an awake local host are required.",
           "evidenceIds": [
-            "remote-control-nov07",
-            "overview-nov07"
+            "gap-mobile-web"
           ]
         },
         "cli": {
@@ -163,17 +162,14 @@
         "hooks-nov07",
         "commands-nov07",
         "feature-availability-nov07",
-        "platforms-nov07"
+        "platforms-nov07",
+        "gap-mobile-web"
       ],
       "checkedAt": "2026-11-07",
       "nextReviewAt": "2026-11-21",
-      "researcher": "researcher-69",
-      "publication": "public-reviewed",
-      "review": {
-        "reviewer": "reviewer-60",
-        "date": "2026-11-11",
-        "contentHash": "e71c124675a0ebdc946615a0d427d8e26c9e6ce18b871893b942ebf3cc08c5a3"
-      },
+      "researcher": "researcher-ade36",
+      "publication": "public-candidate",
+      "review": null,
       "contradictions": []
     },
     {
@@ -4868,7 +4864,7 @@
     {
       "id": "claude-code:OWN-02",
       "criterionId": "OWN-02",
-      "answer": "Exit options: local JSONL transcripts and plain-text /export, config import from Codex/Gemini/Cursor, and API-key or third-party-provider use independent of claude.ai. Anthropic inference remains a dependency.",
+      "answer": "The installed Claude Code CLI can run its full agent loop, tools and context management on user-controlled infrastructure, including scripts and CI/CD. Model inference/authentication still uses Anthropic or a supported provider. This does not self-host the Claude web/desktop cloud control plane; cloud self-hosted runners are a separate worker feature.",
       "support": "partial",
       "availability": "unknown",
       "delivery": "native",
@@ -4880,18 +4876,17 @@
         "plan": null,
         "os": [],
         "executionModes": [
-          "local"
+          "user-controlled CLI core"
         ],
         "region": null,
         "harness": null
       },
       "subanswers": {
         "self_hosting": {
-          "support": "partial",
-          "answer": "Self-hosted environments and a self-hosted Claude apps gateway exist, but inference and the control plane still use Anthropic or a cloud provider.",
+          "support": "supported",
+          "answer": "The CLI runs the full Claude Code agent loop and tools locally through claude -p, including user-managed scripts and CI/CD.",
           "evidenceIds": [
-            "selfhost",
-            "auth"
+            "gap-local-core"
           ]
         },
         "vendor_dependencies": {
@@ -4946,7 +4941,7 @@
         }
       },
       "limitations": [
-        "To avoid the next charge, cancellation must occur at least 24 hours before renewal; access continues to the end of the billing period (pricing FAQ)."
+        "The mapping covers the local CLI core only; hosted cloud/desktop service self-hosting is not established."
       ],
       "unknownReason": "History portability across accounts was not established. Cancellation timing, billing-channel procedures and access through the billing-period end are documented in the pricing FAQ.",
       "evidenceIds": [
@@ -4957,17 +4952,14 @@
         "commands",
         "sessions",
         "memory",
-        "pricing"
+        "pricing",
+        "gap-local-core"
       ],
       "checkedAt": "2026-10-09",
       "nextReviewAt": "2026-11-08",
-      "researcher": "researcher-22",
-      "publication": "public-reviewed",
-      "review": {
-        "reviewer": "reviewer-45",
-        "date": "2026-11-07",
-        "contentHash": "88d02850330d7e6dc6cbec5be773932b8ba6c7b9414e193eca67c5d069e303f5"
-      },
+      "researcher": "researcher-ade36",
+      "publication": "public-candidate",
+      "review": null,
       "contradictions": []
     },
     {
@@ -7521,6 +7513,32 @@
       "finding": "Channels are in research preview, need claude.ai or Console authentication, and are unavailable on Bedrock, Agent Platform and Foundry.",
       "sourceDate": null,
       "retrievedAt": "2026-11-07",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "gap-mobile-web",
+      "kind": "documented",
+      "url": "https://code.claude.com/docs/en/remote-control",
+      "title": "Continue local sessions from any device with Remote Control",
+      "locator": "Introduction; Connect from another device; Requirements",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-13",
+      "finding": "Remote Control connects claude.ai/code or the mobile apps to a local Claude session. Users can send messages from the terminal, browser and phone; the local host must remain running. Eligible Claude subscriptions are required.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "gap-local-core",
+      "kind": "documented",
+      "url": "https://code.claude.com/docs/en/headless",
+      "title": "Run Claude Code programmatically",
+      "locator": "Agent SDK introduction; CLI scripts and CI/CD; Basic usage",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-13",
+      "finding": "The CLI exposes the same agent loop, tools and context management as Claude Code through claude -p for scripts and CI/CD. The installed local core runs with model-provider credentials; this is more than a remote execution worker for the hosted web product.",
       "visibility": "public",
       "commit": null,
       "path": null
@@ -16556,6 +16574,58 @@
         "worktrees",
         "worktrees-chk3-nov07"
       ]
+    },
+    {
+      "date": "2026-11-13",
+      "author": "researcher-ade36",
+      "type": "research-correction",
+      "summary": "Map native persistent tasks, fixed Claude harness scope and the documented plan prices.",
+      "claimIds": [
+        "claude-code:ACC-01"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Claude Code has CLI, Desktop, IDE, browser and mobile clients. Execution is local or cloud by surface; mobile is a client only. Desktop Linux is beta; 3P Desktop has separately documented provider and Console-key routes.",
+        "subanswers": {
+          "mobile_browser": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Claude Code has CLI, Desktop, IDE, browser and mobile clients. Execution is local or cloud by surface; mobile is a client only. Desktop Linux is beta; 3P Desktop has separately documented provider and Console-key routes.",
+        "subanswers": {
+          "mobile_browser": "supported"
+        }
+      },
+      "evidenceIds": [
+        "gap-mobile-web"
+      ]
+    },
+    {
+      "date": "2026-11-13",
+      "author": "researcher-ade36",
+      "type": "research-correction",
+      "summary": "Map native persistent tasks, fixed Claude harness scope and the documented plan prices.",
+      "claimIds": [
+        "claude-code:OWN-02"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Exit options: local JSONL transcripts and plain-text /export, config import from Codex/Gemini/Cursor, and API-key or third-party-provider use independent of claude.ai. Anthropic inference remains a dependency.",
+        "subanswers": {
+          "self_hosting": "partial"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "The installed Claude Code CLI can run its full agent loop, tools and context management on user-controlled infrastructure, including scripts and CI/CD. Model inference/authentication still uses Anthropic or a supported provider. This does not self-host the Claude web/desktop cloud control plane; cloud self-hosted runners are a separate worker feature.",
+        "subanswers": {
+          "self_hosting": "supported"
+        }
+      },
+      "evidenceIds": [
+        "gap-local-core"
+      ]
     }
   ],
   "context": {
@@ -16587,42 +16657,24 @@
       "Resolve remaining unknown atomic questions with product access (tracker features, review queue, scenario costs, Trust Center documents)."
     ],
     "roadmapReview": {
-      "checkedAt": "2026-11-07",
+      "checkedAt": "2026-11-13",
       "locations": [
         {
-          "url": "https://code.claude.com/docs/en/changelog",
-          "result": "Read latest release notes through v2.1.319 and relevant source changes."
-        },
-        {
-          "url": "https://github.com/anthropics/claude-code",
-          "result": "Read public repository and issue navigation; requests are not commitments."
-        },
-        {
-          "url": "https://code.claude.com/docs/en/feature-availability",
-          "result": "Read provider/plan matrix, including expanded 3P Desktop auth."
-        },
-        {
-          "url": "https://code.claude.com/docs/en/routines",
-          "result": "Read scheduled-task rename and research-preview fire endpoint."
-        },
-        {
-          "url": "https://github.com/anthropics/claude-code/issues",
-          "result": "Second independent reviewer read newest public issues on November 7. Requests/bug reports do not establish vendor commitments."
+          "url": "https://code.claude.com/docs/en/remote-control",
+          "result": "Read current phone/browser access and subscription/host restrictions."
         },
         {
           "url": "https://code.claude.com/docs/en/changelog",
-          "result": "Searched changelog through v2.1.319 for task tracking, recovery, permissions, history, review and billing gaps."
+          "result": "Current changelog checked for Remote Control changes."
         },
         {
           "url": "https://github.com/anthropics/claude-code/issues",
-          "result": "Checked issue navigation and existing current reports as leads only."
+          "result": "Current public issue page checked for browser access reports; reports do not establish availability."
         }
       ],
       "announced": [],
       "gaps": [
-        "No dedicated dated public roadmap found in checked navigation.",
-        "Experimental teams, beta Projects and preview channels are separately scoped. No binaries or authenticated cloud tests.",
-        "No first-party statement establishes running the other listed coding harnesses, a self-hosted core control plane, human co-prompting, a separate recurring ADE-only price excluding model charges, or a complete issue tracker. Unobserved concurrency, recovery, review enforcement and benchmark behavior remain unknown."
+        "No public core application source; shared prompting by separate humans and self-hosted control-plane coverage remain unestablished."
       ]
     },
     "gapFillReview": {
