@@ -40,7 +40,8 @@ export const methodologyConstants = {
 }
 
 // Exact public IDs and labels. Descriptions stay subject to the private text scan.
-export const facetVocabulary = definitions => [...Object.keys(methodologyConstants.verification), ...definitions.facets.flatMap(facet =>
+export const facetVocabulary = definitions => [...definitions.booleanValues, definitions.unknownValue,
+  ...Object.keys(methodologyConstants.verification), ...definitions.facets.flatMap(facet =>
   [facet.id, facet.label, ...(facet.options ?? []).flatMap(option => [option.id, option.label])])]
 const safety = ({ privateRecords, ...options }) => ({ ...options, directory: true,
   privateRecords: privateRecords ?? Object.values(loadFacetMappings()),

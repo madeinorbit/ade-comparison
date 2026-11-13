@@ -839,7 +839,7 @@ test('returned launch interpretations retain their corrected scope and citations
   }
   assert.deepEqual(product('superset').facets.isolation.worktree.evidenceIds, ['superset:d-workspaces-nov07'])
   assert.equal(product('paseo').facets.execution.local.value, 'yes')
-  assert.deepEqual(product('paseo').facets.execution.local.evidenceIds, ['paseo:doc-why'])
+  assert.deepEqual(product('paseo').facets.execution.local.evidenceIds, ['paseo:gaps-host-architecture-current'])
   assert.equal(product('paseo').facets.license.value, 'apache-2-0')
   assert.equal(product('paseo').facets.license.verificationStatus, 'agent-cross-checked')
   assert.deepEqual(product('paseo').facets.license.evidenceIds,
