@@ -141,6 +141,18 @@ test('Compare renders two columns and serves every researched ADE as a fetchable
     }
   }
 })
+test('no paid plan renders as a known value with a receipt on product and comparison pages', () => {
+  for (const id of ['codex-action', 'dmux', 'fusion', 'gastown', 'gh-aw', 'ghostex']) {
+    const column = JSON.parse(text(`compare/columns/${id}.json`))
+    assert.deepEqual(column.cells['paid-from'], ['no-paid-plan', 'No paid plan', 'v', `/ade/${id}/#receipt-paid-from-no-paid-plan`])
+    const html = text(`ade/${id}/index.html`)
+    assert.match(html, /No paid plan/)
+    assert.match(html, /id="receipt-paid-from-no-paid-plan"/)
+  }
+  assert.match(text('matrix/index.html'), /No paid plan/)
+  assert.match(text('method/index.html'), /No paid plan.*does not match a paid-plan budget filter/)
+})
+
 test('every static pair page keeps its budget and links unbuilt pairs to Compare', () => {
   const slugs = readdirSync(new URL('compare/', dist)).filter(name => name.includes('-vs-'))
   const sizes = slugs.map(slug => [slug, gzipSync(text(`compare/${slug}/index.html`)).length] as const).sort((a, b) => b[1] - a[1])

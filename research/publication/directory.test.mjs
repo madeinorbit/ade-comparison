@@ -151,6 +151,63 @@ test('license definition changes invalidate existing values and their independen
   assert.equal(rebound.crossCheckedAt, null)
 })
 
+test('paid-price choices distinguish no paid plan from missing evidence and invalidate old receipts', () => {
+  const f = fixture()
+  const paid = definition('paid-from')
+  const old = { ...paid, options: paid.options.filter(option => option.id !== 'no-paid-plan') }
+  const entry = { ...f.mappings.tool.license, value: '11-to-20-usd-month' }
+  entry.contentHash = facetReviewHash(f.product, paid.id, null, entry, old)
+  entry.review = { state: 'accepted', reviewer: 'PRIVATE-FACET-REVIEWER', date, contentHash: entry.contentHash }
+  assert.equal(publicFacet(f.product, old, null, entry, date).verificationStatus, 'agent-cross-checked')
+  assert.equal(publicFacet(f.product, paid, null, entry, date).value, 'unknown')
+  entry.contentHash = facetReviewHash(f.product, paid.id, null, entry, paid)
+  assert.equal(publicFacet(f.product, paid, null, entry, date).value, entry.value)
+  assert.equal(publicFacet(f.product, paid, null, entry, date).verificationStatus, 'sourced')
+
+  entry.value = 'no-paid-plan'
+  entry.review = null
+  entry.contentHash = facetReviewHash(f.product, paid.id, null, entry, paid)
+  f.mappings.tool['paid-from'] = entry
+  const data = f.data()
+  assert.equal(data.products.find(p => p.id === 'tool').facets['paid-from'].value, 'no-paid-plan')
+  assertDirectoryShape(data)
+  assert.equal(validatePackage({ index: data.index, definitions: data.facets, products: data.products,
+    notices: data.lifecycleNotices, status: data.statusLog, methodology: data.methodology }, date), true)
+  const bit = (encoded, id) => {
+    const row = data.index.products.findIndex(p => p.id === id)
+    return Boolean(Buffer.from(encoded, 'base64')[row >> 3] & (1 << (row & 7)))
+  }
+  for (const option of paid.options) {
+    const column = data.index.bitsets.columns[`paid-from:${option.id}`]
+    assert.equal(bit(column.yes, 'tool'), option.id === 'no-paid-plan')
+    assert.equal(bit(column.no, 'tool'), option.id !== 'no-paid-plan')
+    assert.equal(bit(column.yes, 'listing'), false)
+    assert.equal(bit(column.no, 'listing'), false)
+  }
+})
+
+test('paid-price mappings remain bound after adding the absence option', () => {
+  const mappings = loadFacetMappings()
+  const publication = buildPublication({ date: packageDate, format: 'products', directory: true })
+  const data = buildDirectoryFromPublication(publication, { mappings })
+  for (const id of ['codex-action', 'dmux', 'fusion', 'gastown', 'gh-aw', 'ghostex']) {
+    assert.equal(mappings[id]['paid-from'].value, 'no-paid-plan', id)
+    assert.equal(mappings[id]['paid-from'].claimId, `${id}:OWN-04`, id)
+    assert.equal(data.products.find(p => p.id === id).facets['pricing-model']['no-paid-plan'].value, 'yes', id)
+  }
+  for (const product of data.products.filter(p => mappings[p.id]?.['paid-from'])) {
+    const entry = mappings[product.id]['paid-from']
+    if (entry.review?.state === 'changes-requested') continue
+    const source = publication.products.find(p => p.id === product.id)
+    assert.equal(entry.contentHash, facetReviewHash(source, 'paid-from', null, entry, definition('paid-from')), product.id)
+    assert.equal(product.facets['paid-from'].value, entry.value, product.id)
+    if (!entry.review) {
+      assert.equal(product.facets['paid-from'].verificationStatus, 'sourced', product.id)
+      assert.equal(product.facets['paid-from'].crossCheckedAt, null, product.id)
+    }
+  }
+})
+
 test('claim cross-checks alone never cross-check typed facet mappings', () => {
   const f = fixture()
   const cell = f.data().products.find(p => p.id === 'tool').facets.cli

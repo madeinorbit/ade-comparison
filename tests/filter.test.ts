@@ -71,6 +71,32 @@ test('the parallel local agents preset produces ranked fits with the shipped pub
   assert.match(prompt, /Must have: Parallel runs/); assert.match(prompt, /Check source age and lifecycle dates/)
   for (const p of presets) for (const k of [...p.must, ...p.nice]) assert.ok(requirements.some(r => r.key === k), k)
 })
+test('no paid plan is selectable but never satisfies a paid-plan budget', () => {
+  const index = JSON.parse(readFileSync(new URL('../data/index.json', import.meta.url), 'utf8'))
+  const facets = JSON.parse(readFileSync(new URL('../data/facets.json', import.meta.url), 'utf8')).facets
+  const requirements = requirementsFrom(facets)
+  const key = 'paid-from:no-paid-plan'
+  const state = { ...emptyState(), must: [key] }
+  assert.deepEqual(parseState('?' + serializeState(state), requirements), state)
+  const filter = createFilter(index, requirements)
+  const matches = new Set(filter.run(state).map(result => result.product.id))
+  for (const id of ['codex-action', 'dmux', 'fusion', 'gastown', 'gh-aw', 'ghostex']) {
+    const row = index.products.findIndex((p: { id: string }) => p.id === id)
+    assert.ok(matches.has(id), id)
+    assert.equal(filter.answer(row, key), 'yes', id)
+    for (const budget of ['paid-up-to-20', 'paid-up-to-40']) assert.equal(filter.answer(row, budget), 'no', id)
+    assert.equal(filter.answer(row, 'paid-from:contact'), 'no', id)
+  }
+  const row = (id: string) => index.products.findIndex((p: { id: string }) => p.id === id)
+  assert.equal(filter.answer(row('codex'), key), 'no')
+  assert.equal(filter.answer(row('codex'), 'paid-up-to-20'), 'yes')
+  assert.equal(filter.answer(row('cline'), key), 'no')
+  assert.equal(filter.answer(row('cline'), 'paid-from:contact'), 'yes')
+  const unknownRow = index.products.findIndex((p: { researchStatus: string }) => p.researchStatus === 'not-researched')
+  assert.ok(unknownRow >= 0)
+  for (const k of [key, 'paid-up-to-20', 'paid-up-to-40', 'paid-from:contact']) assert.equal(filter.answer(unknownRow, k), 'unknown')
+})
+
 test('packed bitsets stay below one frame for 300 products', () => {
   const index = structuredClone(fixture)
   index.products = Array.from({ length: 300 }, (_, i) => ({ ...rows[i % 3], id: `product-${i}`, name: `Product ${String(i).padStart(3, '0')}` }))
