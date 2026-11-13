@@ -741,8 +741,14 @@ test('returned launch interpretations retain their corrected scope and citations
     assert.equal(product('superset').facets[facet].value, 'yes', facet)
     assert.deepEqual(product('superset').facets[facet].evidenceIds, evidenceIds, facet)
   }
-  // A cross-check returned self-hosting: the MIT app is documented, its account and sync services are not.
-  assert.equal(product('superset').facets['self-hosting'].value, 'unknown')
+  // A later shipped-local-core source resolves the earlier MIT-only objection;
+  // hosted relay, Pages and Cloud service parity remain outside this claim.
+  const selfHosting = product('superset').facets['self-hosting']
+  assert.equal(selfHosting.value, 'yes')
+  assert.deepEqual(selfHosting.evidenceIds, ['superset:gaps41-local-core', 'superset:readme-chk2-nov07'])
+  const localCore = product('superset').sources.find(source => source.id === 'superset:gaps41-local-core')
+  assert.equal(localCore.url, 'https://paradev.com/roadmap')
+  assert.match(localCore.finding, /signed out and offline/)
   // The November open-source depth pass added Pi and Grok from the same agents page.
   for (const agent of ['claude-code', 'codex', 'cursor', 'opencode', 'gemini-cli', 'pi', 'grok']) {
     assert.equal(product('superset').facets.agents[agent].value, 'yes', agent)
