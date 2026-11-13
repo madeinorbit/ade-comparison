@@ -1655,7 +1655,7 @@
     {
       "id": "vibe-kanban:COORD-03",
       "criterionId": "COORD-03",
-      "answer": "Local MCP offers session creation, prompts and execution inspection. End-to-end inspectable parent/child teams were not demonstrated; the maintainer describes an earlier orchestrator as unreleased.",
+      "answer": "The pinned release ships an explicit orchestrator MCP mode. With --mcp --mode orchestrator configured inside a workspace, the first session is designated as orchestrator and can create or prompt other sessions, list them and inspect execution state/final results. The earlier unreleased orchestrator UI experiment is a separate scope.",
       "support": "partial",
       "availability": "generally-available",
       "delivery": "native",
@@ -1676,9 +1676,11 @@
       },
       "subanswers": {
         "roles": {
-          "support": "unknown",
-          "answer": "roles remains unverified. MCP session source and June community discussion; no live parent/two-child fixture or retained team communication test.",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "The first workspace session is the orchestrator; its scoped tools can create/prompt other sessions but refuse prompting the orchestrator itself.",
+          "evidenceIds": [
+            "nov13-orchestrator-mode"
+          ]
         },
         "model_harness_effort": {
           "support": "unknown",
@@ -1691,9 +1693,11 @@
           "evidenceIds": []
         },
         "results_return": {
-          "support": "unknown",
-          "answer": "results return remains unverified. MCP session source and June community discussion; no live parent/two-child fixture or retained team communication test.",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "get_execution exposes state and a final_message from the delegated execution.",
+          "evidenceIds": [
+            "nov13-orchestrator-mode"
+          ]
         },
         "cross_harness": {
           "support": "unknown",
@@ -1701,14 +1705,18 @@
           "evidenceIds": []
         },
         "orchestration_owner": {
-          "support": "unknown",
-          "answer": "orchestration owner remains unverified. MCP session source and June community discussion; no live parent/two-child fixture or retained team communication test.",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "The product ships a named MCP orchestrator mode and designates the first workspace session as orchestrator.",
+          "evidenceIds": [
+            "nov13-orchestrator-mode"
+          ]
         },
         "activation": {
-          "support": "unknown",
-          "answer": "activation remains unverified. MCP session source and June community discussion; no live parent/two-child fixture or retained team communication test.",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "Launch the released MCP server with --mcp --mode orchestrator in the workspace directory.",
+          "evidenceIds": [
+            "nov13-orchestrator-mode"
+          ]
         },
         "authentication": {
           "support": "unknown",
@@ -1735,69 +1743,77 @@
           ]
         },
         "invocation": {
-          "support": "partial",
-          "answer": "Local MCP can create sessions and run turns using workspace-scoped tools; this is an orchestration building block, not a tested team workflow.",
+          "support": "supported",
+          "answer": "create_session and run_session_prompt delegate work to other coding sessions.",
           "evidenceIds": [
-            "mcp-sessions"
+            "nov13-orchestrator-mode"
           ]
         }
       },
       "limitations": [
-        "MCP session source and June community discussion; no live parent/two-child fixture or retained team communication test.",
-        "Documentation/source inspection only. No product runtime scenario was executed."
+        "Requires configuring the shipped MCP orchestrator mode in an existing workspace; this is not an automatically started coordinator UI. Source inspection only, without an end-to-end team run."
       ],
       "unknownReason": null,
       "evidenceIds": [
         "mcp-sessions",
-        "community-discussion"
+        "community-discussion",
+        "nov13-orchestrator-mode"
       ],
       "checkedAt": "2026-11-07",
       "nextReviewAt": "2026-12-07",
-      "researcher": "reviewer-46",
-      "publication": "public-reviewed",
-      "review": {
-        "reviewer": "reviewer-51",
-        "date": "2026-11-07",
-        "contentHash": "bd2effff848f06d1602275fef151cf6c67dd6c384237bbbc70fdb5decf9c3732"
-      },
+      "researcher": "researcher-ade42",
+      "publication": "public-candidate",
+      "review": null,
       "contradictions": []
     },
     {
       "id": "vibe-kanban:COORD-04",
       "criterionId": "COORD-04",
-      "answer": "Product-owned schedules, recurring triggers and their reliability remain unknown. User scripts or external MCP callers are not proof of an internal scheduler.",
-      "support": "unknown",
-      "availability": "unknown",
-      "delivery": "unknown",
+      "answer": "In the pinned local continuation, work starts through explicit session/workspace requests. The local router, services and MCP expose no product-owned schedule or external-event task starter. Remote PR-review webhook code belongs to the retired hosted service.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
       "scope": {
         "surfaceIds": [
           "local-web",
-          "local-runtime"
+          "desktop",
+          "local-runtime",
+          "mcp",
+          "hosted-retired",
+          "self-host-source",
+          "editor-extension"
         ],
-        "version": "v0.1.44-20260424091429 source and first-party documentation rechecked 2026-11-07; local and retired hosted scopes remain separate.",
+        "version": "v0.1.44, 4deb7eca8f381f7cbc1f9d15515a9ab8f8009053",
         "plan": "Continuing local open-source project",
         "os": [],
         "executionModes": [
-          "user-owned local execution"
+          "local",
+          "self-hosted"
         ],
         "region": null,
         "harness": "Varies by adapter; no runtime test"
       },
       "subanswers": {
         "schedules": {
-          "support": "unknown",
-          "answer": "schedules remains unverified. Workspace, script and MCP docs; no product-owned scheduler or overlap/retry policy established.",
-          "evidenceIds": []
+          "support": "unsupported",
+          "answer": "No local product scheduler or external-event run starter in the pinned local router, services and MCP; hosted webhook code is outside the continuing service scope.",
+          "evidenceIds": [
+            "nov13-local-triggers"
+          ]
         },
         "events": {
-          "support": "unknown",
-          "answer": "events remains unverified. Workspace, script and MCP docs; no product-owned scheduler or overlap/retry policy established.",
-          "evidenceIds": []
+          "support": "unsupported",
+          "answer": "No local product scheduler or external-event run starter in the pinned local router, services and MCP; hosted webhook code is outside the continuing service scope.",
+          "evidenceIds": [
+            "nov13-local-triggers"
+          ]
         },
         "recurring_tasks": {
-          "support": "unknown",
-          "answer": "recurring tasks remains unverified. Workspace, script and MCP docs; no product-owned scheduler or overlap/retry policy established.",
-          "evidenceIds": []
+          "support": "unsupported",
+          "answer": "No local product scheduler or external-event run starter in the pinned local router, services and MCP; hosted webhook code is outside the continuing service scope.",
+          "evidenceIds": [
+            "nov13-local-triggers"
+          ]
         },
         "completion_conditions": {
           "support": "unknown",
@@ -1825,13 +1841,17 @@
           "evidenceIds": []
         }
       },
-      "limitations": [],
-      "unknownReason": "Workspace, script and MCP docs; no product-owned scheduler or overlap/retry policy established.",
-      "evidenceIds": [],
-      "checkedAt": "2026-11-07",
-      "nextReviewAt": "2026-12-07",
-      "researcher": "researcher-75",
-      "publication": "internal-only",
+      "limitations": [
+        "Bounded source inspection of local server routes, services and MCP; external scripts can call the API but are user integrations."
+      ],
+      "unknownReason": "Scheduler overlap, retry and recurring-task semantics do not apply to an absent local scheduler.",
+      "evidenceIds": [
+        "nov13-local-triggers"
+      ],
+      "checkedAt": "2026-11-13",
+      "nextReviewAt": "2027-03-13",
+      "researcher": "researcher-ade42",
+      "publication": "public-candidate",
       "review": null,
       "contradictions": []
     },
@@ -2208,9 +2228,11 @@
           "evidenceIds": []
         },
         "client_disconnect": {
-          "support": "unknown",
-          "answer": "client disconnect remains unverified. Local startup, remote SSH and Docker guide; no disconnect/other-device continuation experiment.",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "The persistent backend owns executor children and exit monitors independently of browser requests; on a separate user server, browser disconnection does not stop the work.",
+          "evidenceIds": [
+            "nov13-local-execution"
+          ]
         },
         "other_device_continuation": {
           "support": "unknown",
@@ -2228,17 +2250,14 @@
         "shutdown",
         "general",
         "selfhost",
-        "project-route"
+        "project-route",
+        "nov13-local-execution"
       ],
       "checkedAt": "2026-11-07",
       "nextReviewAt": "2026-12-07",
-      "researcher": "researcher-75",
-      "publication": "public-reviewed",
-      "review": {
-        "reviewer": "reviewer-46",
-        "date": "2026-11-07",
-        "contentHash": "35b3847076886e10d144ad73862693590d778021cb689382b6079cf94e4dbd61"
-      },
+      "researcher": "researcher-ade42",
+      "publication": "public-candidate",
+      "review": null,
       "contradictions": []
     },
     {
@@ -2285,14 +2304,18 @@
           ]
         },
         "container": {
-          "support": "unknown",
-          "answer": "container remains unverified. Workspace/session docs and harness sandbox settings; no code-isolation or hostile-code boundary test.",
-          "evidenceIds": []
+          "support": "unsupported",
+          "answer": "The pinned local continuation starts agent executors directly in workspace directories; no product container or VM execution backend exists. Provider sandbox flags are separate.",
+          "evidenceIds": [
+            "nov13-local-execution"
+          ]
         },
         "vm": {
-          "support": "unknown",
-          "answer": "vm remains unverified. Workspace/session docs and harness sandbox settings; no code-isolation or hostile-code boundary test.",
-          "evidenceIds": []
+          "support": "unsupported",
+          "answer": "The pinned local continuation starts agent executors directly in workspace directories; no product container or VM execution backend exists. Provider sandbox flags are separate.",
+          "evidenceIds": [
+            "nov13-local-execution"
+          ]
         },
         "os_sandbox": {
           "support": "partial",
@@ -2348,17 +2371,14 @@
         "sessions",
         "workspace",
         "profiles",
-        "gap-sessions"
+        "gap-sessions",
+        "nov13-local-execution"
       ],
       "checkedAt": "2026-11-07",
       "nextReviewAt": "2026-12-07",
-      "researcher": "researcher-65",
-      "publication": "public-reviewed",
-      "review": {
-        "reviewer": "reviewer-51",
-        "date": "2026-11-07",
-        "contentHash": "ab2c7a1025879d95a3704cc8357735a47e7e1a82ccd9545db18d86867f5082e6"
-      },
+      "researcher": "researcher-ade42",
+      "publication": "public-candidate",
+      "review": null,
       "contradictions": []
     },
     {
@@ -5813,6 +5833,45 @@
       "visibility": "public",
       "commit": "4deb7eca8f381f7cbc1f9d15515a9ab8f8009053",
       "path": "docs/settings/general.mdx"
+    },
+    {
+      "id": "nov13-local-triggers",
+      "kind": "source-inspected",
+      "url": "https://github.com/BloopAI/vibe-kanban/blob/4deb7eca8f381f7cbc1f9d15515a9ab8f8009053/crates/server/src/routes/mod.rs",
+      "title": "Vibe Kanban local API and trigger inspection",
+      "locator": "Local router and session routes; bounded search of crates/server, crates/services and crates/mcp for cron, schedule, webhook and trigger",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-13",
+      "finding": "The surviving local API starts workspace/session work from explicit requests. No local schedule or external-event work starter is registered. Webhook PR reviews exist in the separate retired remote service, not the local continuation.",
+      "visibility": "public",
+      "commit": "4deb7eca8f381f7cbc1f9d15515a9ab8f8009053",
+      "path": "crates/server/src/routes/mod.rs"
+    },
+    {
+      "id": "nov13-orchestrator-mode",
+      "kind": "source-inspected",
+      "url": "https://github.com/BloopAI/vibe-kanban/blob/4deb7eca8f381f7cbc1f9d15515a9ab8f8009053/crates/mcp/src/bin/vibe_kanban_mcp.rs",
+      "title": "Released Vibe Kanban orchestrator MCP mode",
+      "locator": "--mode orchestrator launch; task_server tools/handler; crates/db/src/models/workspace.rs load_context; npx-cli/src/cli.ts mcp forwarding",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-13",
+      "finding": "The released CLI accepts --mcp --mode orchestrator. That mode designates the first workspace session as orchestrator, scopes its tools to the workspace and offers create_session, run_session_prompt, list_sessions and get_execution with final results. It is an explicitly shipped coordinator role, separate from the earlier unreleased orchestrator UI experiment.",
+      "visibility": "public",
+      "commit": "4deb7eca8f381f7cbc1f9d15515a9ab8f8009053",
+      "path": "crates/mcp/src/bin/vibe_kanban_mcp.rs"
+    },
+    {
+      "id": "nov13-local-execution",
+      "kind": "source-inspected",
+      "url": "https://github.com/BloopAI/vibe-kanban/blob/4deb7eca8f381f7cbc1f9d15515a9ab8f8009053/crates/local-deployment/src/container.rs",
+      "title": "Vibe Kanban local execution ownership",
+      "locator": "LocalContainerService workspace_to_current_dir and start_execution lines 1197 and 1320-1399; crates/server/src/main.rs shutdown_signal",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-13",
+      "finding": "The local service starts coding-agent executors directly in workspace directories and retains their child processes and exit monitors in the backend. Despite its name, LocalContainerService provides no Docker/container or VM backend. Server shutdown follows process signals, not browser disconnection. With the documented user-server deployment, work continues independently of the controlling laptop.",
+      "visibility": "public",
+      "commit": "4deb7eca8f381f7cbc1f9d15515a9ab8f8009053",
+      "path": "crates/local-deployment/src/container.rs"
     }
   ],
   "changes": [
@@ -8334,6 +8393,162 @@
         "general",
         "src2-vk-telemetry-login"
       ]
+    },
+    {
+      "date": "2026-11-13",
+      "author": "researcher-ade42",
+      "type": "research-correction",
+      "summary": "Add typed facet interpretations: agents:pi, agents:grok, agents:aider, agents:antigravity, execution:vendor-cloud, unattended-triggers, coordinator, isolation:container, isolation:vm, laptop-independent.",
+      "claimIds": [
+        "vibe-kanban:ACC-02",
+        "vibe-kanban:RUN-01",
+        "vibe-kanban:COORD-04",
+        "vibe-kanban:COORD-03",
+        "vibe-kanban:RUN-02"
+      ],
+      "before": {
+        "mappedCells": []
+      },
+      "after": {
+        "mappedCells": [
+          "agents:pi=no",
+          "agents:grok=no",
+          "agents:aider=no",
+          "agents:antigravity=no",
+          "execution:vendor-cloud=no",
+          "unattended-triggers=no",
+          "coordinator=yes",
+          "isolation:container=no",
+          "isolation:vm=no",
+          "laptop-independent=yes"
+        ]
+      },
+      "evidenceIds": [
+        "executors",
+        "shutdown",
+        "nov13-local-triggers",
+        "nov13-orchestrator-mode",
+        "nov13-local-execution",
+        "general"
+      ]
+    },
+    {
+      "date": "2026-11-13",
+      "author": "researcher-ade42",
+      "type": "research-correction",
+      "summary": "Fill missing vibe-kanban facets from first-party evidence and record remaining source gaps.",
+      "claimIds": [
+        "vibe-kanban:COORD-04"
+      ],
+      "before": {
+        "support": "unknown",
+        "answer": "Product-owned schedules, recurring triggers and their reliability remain unknown. User scripts or external MCP callers are not proof of an internal scheduler.",
+        "subanswers": {
+          "schedules": "unknown",
+          "events": "unknown",
+          "recurring_tasks": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "In the pinned local continuation, work starts through explicit session/workspace requests. The local router, services and MCP expose no product-owned schedule or external-event task starter. Remote PR-review webhook code belongs to the retired hosted service.",
+        "subanswers": {
+          "schedules": "unsupported",
+          "events": "unsupported",
+          "recurring_tasks": "unsupported"
+        }
+      },
+      "evidenceIds": [
+        "nov13-local-triggers"
+      ]
+    },
+    {
+      "date": "2026-11-13",
+      "author": "researcher-ade42",
+      "type": "research-correction",
+      "summary": "Fill missing vibe-kanban facets from first-party evidence and record remaining source gaps.",
+      "claimIds": [
+        "vibe-kanban:COORD-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Local MCP offers session creation, prompts and execution inspection. End-to-end inspectable parent/child teams were not demonstrated; the maintainer describes an earlier orchestrator as unreleased.",
+        "subanswers": {
+          "orchestration_owner": "unknown",
+          "roles": "unknown",
+          "activation": "unknown",
+          "invocation": "partial",
+          "results_return": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "The pinned release ships an explicit orchestrator MCP mode. With --mcp --mode orchestrator configured inside a workspace, the first session is designated as orchestrator and can create or prompt other sessions, list them and inspect execution state/final results. The earlier unreleased orchestrator UI experiment is a separate scope.",
+        "subanswers": {
+          "orchestration_owner": "supported",
+          "roles": "supported",
+          "activation": "supported",
+          "invocation": "supported",
+          "results_return": "supported"
+        }
+      },
+      "evidenceIds": [
+        "nov13-orchestrator-mode"
+      ]
+    },
+    {
+      "date": "2026-11-13",
+      "author": "researcher-ade42",
+      "type": "research-correction",
+      "summary": "Fill missing vibe-kanban facets from first-party evidence and record remaining source gaps.",
+      "claimIds": [
+        "vibe-kanban:RUN-02"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Branches/worktrees separate workspace files; sessions within one workspace share files/Git. Security containment remains unestablished.",
+        "subanswers": {
+          "container": "unknown",
+          "vm": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Branches/worktrees separate workspace files; sessions within one workspace share files/Git. Security containment remains unestablished.",
+        "subanswers": {
+          "container": "unsupported",
+          "vm": "unsupported"
+        }
+      },
+      "evidenceIds": [
+        "nov13-local-execution"
+      ]
+    },
+    {
+      "date": "2026-11-13",
+      "author": "researcher-ade42",
+      "type": "research-correction",
+      "summary": "Fill missing vibe-kanban facets from first-party evidence and record remaining source gaps.",
+      "claimIds": [
+        "vibe-kanban:RUN-01"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Local agent execution continues. BYO hosting is documented, but laptop-independent operation and current vendor remote access were not tested.",
+        "subanswers": {
+          "client_disconnect": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Local agent execution continues. BYO hosting is documented, but laptop-independent operation and current vendor remote access were not tested.",
+        "subanswers": {
+          "client_disconnect": "supported"
+        }
+      },
+      "evidenceIds": [
+        "nov13-local-execution"
+      ]
     }
   ],
   "context": {
@@ -8368,57 +8583,31 @@
       }
     ],
     "roadmapReview": {
-      "checkedAt": "2026-11-07",
+      "checkedAt": "2026-11-13",
       "locations": [
         {
-          "url": "https://github.com/BloopAI/vibe-kanban/releases",
-          "result": "Read three sampled release entries. Latest is v0.1.44 with project routes export-only."
-        },
-        {
-          "url": "https://github.com/BloopAI/vibe-kanban/issues",
-          "result": "Bounded scan of ten latest open issue/PR entries: #3483 [Feature Request]: Add support for Muse CLI (Meta Muse Code) as coding agent; #3482 Logging in re-enables telemetry after the user disabled it, and identifies the user by email; #3481 Startup preload spawns a throwaway `opencode serve`, even when OpenCode is not the selected agent; #3477 Add optional external_url/external_id fields to Issues; #3476 Carry approved project decisions between Vibe Kanban workspaces; #3472 Fix security advisory link. Requests/reports are not availability proof."
-        },
-        {
-          "url": "https://github.com/BloopAI/vibe-kanban/milestones",
-          "result": "No open milestones in the retrieved API response."
-        },
-        {
-          "url": "https://github.com/BloopAI/vibe-kanban/blob/08064e043c2d78ad123b473257ed867e7ce74768/README.md",
-          "result": "Checked Vibe Kanban README, Overview, setup, features and component boundaries. README announces vendor sunset and continuing local open-source workspaces. Hosted board/project retirement must not be applied to surviving local agent sessions."
-        },
-        {
           "url": "https://vibekanban.com/blog/shutdown",
-          "result": "bloop announced its closure and an open-source, community-maintained continuation. Subscriptions were terminated and recent invoices refunded. Remote services had a 30-day transition window, covering kanban issues, comments, projects and organisations. Local workspaces would continue. No exact service-end date is stated."
+          "result": "Rechecked retired remote scope and surviving local workspaces."
         },
         {
-          "url": "https://github.com/BloopAI/vibe-kanban/discussions/3424",
-          "result": "Louis asks for community direction and maintainers. His June 7 reply calls the earlier orchestrator experiment unreleased. This is a discussion, not a committed feature delivery schedule."
-        },
-        {
-          "url": "https://github.com/BloopAI/vibe-kanban/releases/tag/v0.1.44-20260424091429",
-          "result": "Latest release listed at retrieval is v0.1.44, published April 24, 2026. It includes export-only project routes, Claude Code 2.1.119 and Codex 0.124.0 updates. Release assets include desktop packages; this is release evidence, not a successful installation."
-        },
-        {
-          "url": "https://www.vibekanban.com/docs/getting-started",
-          "result": "npx launches a browser UI; sign-in can be skipped for workspaces, while board/issues/team features require it. Workspaces can start without an issue and later merge locally or create a GitHub PR. Hosted-board steps are historical after the sunset."
-        },
-        {
-          "url": "https://github.com/BloopAI/vibe-kanban/issues",
-          "result": "Checked current public issue titles and relevant bodies for gaps and restrictions. Requests alone do not establish shipped support."
+          "url": "https://vibekanban.com/pricing",
+          "result": "Pricing still lists purchasable Pro/Enterprise despite subscription termination; contradiction retained."
         },
         {
           "url": "https://github.com/BloopAI/vibe-kanban/releases",
-          "result": "Checked current release notes for capability changes and fixes."
+          "result": "Latest listed release remains v0.1.44."
+        },
+        {
+          "url": "https://github.com/BloopAI/vibe-kanban/issues",
+          "result": "Checked latest issue list for changes; requests do not establish availability."
+        },
+        {
+          "url": "https://github.com/BloopAI/vibe-kanban/tree/4deb7eca8f381f7cbc1f9d15515a9ab8f8009053/crates",
+          "result": "Inspected local routes, execution service, agent enum and MCP tools; remote webhook implementation is a separate retired component."
         }
       ],
       "announced": [],
-      "gaps": [
-        "Latest listed release remains v0.1.44 from April. Announcement promises a community roadmap but supplies no exact hosted service-end date. User reports remain leads.",
-        "Shutdown announcement, latest releases, June community-direction discussion and open issues checked. Maintainer describes community roadmap discussion rather than a new shipped orchestrator; historical hosted kanban/role/SSO pages are not treated as current capability.",
-        "Issue 3482 reports telemetry opt-out reset on login, already preserved as unresolved contradiction. No telemetry filter added until that contradiction is resolved. Hosted remote-phone pairing docs rely on retired cloud and do not establish current phone access.",
-        "No sourced native mobile release, recurring scheduler, product-owned coordinator, current vendor-cloud execution, named security container/VM isolation or enterprise attestation established. Non-commercial local continuation is separate from terminated subscriptions.",
-        "Remaining unknown cost/specification/hierarchy/recovery/security/fleet questions require explicit current local documentation or installed-product fixtures. Workspaces/sessions are not a replacement native issue board."
-      ]
+      "gaps": []
     },
     "independentReview": {
       "date": "2026-10-13",
