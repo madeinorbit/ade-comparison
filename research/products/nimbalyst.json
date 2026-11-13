@@ -135,7 +135,7 @@
   {
    "id": "nimbalyst:ACC-02",
    "criterionId": "ACC-02",
-   "answer": "Multiple provider lanes include Claude Code SDK/CLI, Codex SDK/app-server/ACP, Cursor Agent, Grok Build and OpenCode; the README labels OpenCode and Copilot alpha. Models alone do not establish Gemini CLI. Nimbalyst v0.83.0 calls the Antigravity language server's stateless GetModelResponse RPC and implements its own conversation and tool-call loop. This is a model transport, not an Antigravity CLI or ACP agent session.",
+   "answer": "Multiple provider lanes include Claude Code SDK/CLI, Codex SDK/app-server/ACP, Cursor Agent, Grok Build and OpenCode; the README labels OpenCode and Copilot alpha. Models alone do not establish Gemini CLI. Nimbalyst v0.83.0 calls the Antigravity language server's stateless GetModelResponse RPC and implements its own conversation and tool-call loop. This is a model transport, not an Antigravity CLI or ACP agent session. Bounded inspection found no shipped Gemini CLI, Pi or Aider provider; custom extension implementations are a separate scope.",
    "support": "partial",
    "availability": "generally-available",
    "delivery": "native",
@@ -160,11 +160,12 @@
    "subanswers": {
     "harnesses": {
      "support": "supported",
-     "answer": "Claude Code, Codex, Cursor Agent, Grok Build and OpenCode; Copilot ACP. OpenCode and Copilot are labelled alpha in the README. Nimbalyst v0.83.0 calls the Antigravity language server's stateless GetModelResponse RPC and implements its own conversation and tool-call loop. This is a model transport, not an Antigravity CLI or ACP agent session.",
+     "answer": "The shipped harness providers include Claude Code, Codex, Cursor, Grok, OpenCode and Copilot. No shipped Gemini CLI, Pi or Aider implementation exists in the inspected provider directory; Antigravity is model RPC rather than its CLI.",
      "evidenceIds": [
       "inventory",
       "readme",
-      "agy-release-1"
+      "agy-release-1",
+      "gap39-provider-code"
      ]
     },
     "model_providers": {
@@ -193,24 +194,20 @@
     }
    },
    "limitations": [
-    "Only the named facts are documented. Unanswered atomic questions remain unknown; no execution test was performed.",
-    "Antigravity harness support remains unknown; the language-server model integration does not establish running its coding harness."
+    "Only the named atomic answers are established by this source pass. Remaining atomic answers retain their documented gaps."
    ],
    "unknownReason": "First-party README, relevant documentation, license, release notes and public issue pass at 826adb4f93db did not establish agent and model choice beyond any facts stated here. No installed-product or multi-user test was run. Antigravity harness support remains unknown; the language-server model integration does not establish running its coding harness.",
    "evidenceIds": [
     "inventory",
     "readme",
-    "agy-release-1"
+    "agy-release-1",
+    "gap39-provider-code"
    ],
    "checkedAt": "2026-11-08",
    "nextReviewAt": "2026-12-08",
-   "researcher": "researcher-02",
-   "publication": "public-reviewed",
-   "review": {
-    "reviewer": "reviewer-02",
-    "date": "2026-11-10",
-    "contentHash": "7c1f4deb4624b88b5f9057e15209b3f37a1140c6457e40cd48c74c5a405319f8"
-   },
+   "researcher": "facet-researcher-ade39",
+   "publication": "public-candidate",
+   "review": null,
    "contradictions": []
   },
   {
@@ -2199,7 +2196,7 @@
   {
    "id": "nimbalyst:RUN-01",
    "criterionId": "RUN-01",
-   "answer": "Local desktop execution plus user-controlled headless Node/Cloudflare sandbox execution are documented, with remote limitations.",
+   "answer": "Local desktop execution plus user-controlled headless Node/Cloudflare sandbox execution are documented, with remote limitations. Cloudflare execution is deployed into the user account; the headless node keeps its container alive independently of the desktop client.",
    "support": "partial",
    "availability": "generally-available",
    "delivery": "native",
@@ -2247,9 +2244,11 @@
      ]
     },
     "managed_cloud": {
-     "support": "unknown",
-     "answer": "The checked first-party sources do not establish managed cloud for this scoped product.",
-     "evidenceIds": []
+     "support": "unsupported",
+     "answer": "The scoped runtime options are local/headless user hosts or a Worker/container in the user-selected Cloudflare account, not vendor-provisioned Nimbalyst execution.",
+     "evidenceIds": [
+      "gap39-sandbox"
+     ]
     },
     "hybrid": {
      "support": "unknown",
@@ -2282,11 +2281,10 @@
      "evidenceIds": []
     },
     "client_disconnect": {
-     "support": "partial",
-     "answer": "Headless runner can operate as separate personal-sync execution device; host restart loses remote execution state.",
+     "support": "supported",
+     "answer": "The remote headless node keeps its sandbox container alive independently of the observing desktop; stopping or idle sleep loses ephemeral state.",
      "evidenceIds": [
-      "readme",
-      "inventory"
+      "gap39-sandbox"
      ]
     },
     "other_device_continuation": {
@@ -2296,28 +2294,25 @@
     }
    },
    "limitations": [
-    "Only the named facts are documented. Unanswered atomic questions remain unknown; no execution test was performed."
+    "Only the named atomic answers are established by this source pass. Remaining atomic answers retain their documented gaps."
    ],
    "unknownReason": "First-party README, relevant documentation, license, release notes and public issue pass at 826adb4f93db did not establish laptop-independent execution beyond any facts stated here. No installed-product or multi-user test was run.",
    "evidenceIds": [
     "readme",
-    "inventory"
+    "inventory",
+    "gap39-sandbox"
    ],
    "checkedAt": "2026-11-08",
    "nextReviewAt": "2026-12-08",
-   "researcher": "researcher-72",
-   "publication": "public-reviewed",
-   "review": {
-    "reviewer": "reviewer-58",
-    "date": "2026-11-08",
-    "contentHash": "dda853f63e13ad6eca240f0e243e0fd9c667e969cdbce4e62368f370135e4a59"
-   },
+   "researcher": "facet-researcher-ade39",
+   "publication": "public-candidate",
+   "review": null,
    "contradictions": []
   },
   {
    "id": "nimbalyst:RUN-02",
    "criterionId": "RUN-02",
-   "answer": "Parallel coding sessions and loops can use separate Git worktrees.",
+   "answer": "Parallel coding sessions and loops can use separate Git worktrees. The optional Cloudflare execution mode uses a sandbox container deployed into the user account, with ephemeral files/processes.",
    "support": "partial",
    "availability": "generally-available",
    "delivery": "native",
@@ -2359,9 +2354,11 @@
      ]
     },
     "container": {
-     "support": "unknown",
-     "answer": "The checked first-party sources do not establish container for this scoped product.",
-     "evidenceIds": []
+     "support": "supported",
+     "answer": "The supplied Worker manages a Cloudflare sandbox container and the headless runner inside it; its files/processes are ephemeral.",
+     "evidenceIds": [
+      "gap39-sandbox"
+     ]
     },
     "vm": {
      "support": "unknown",
@@ -2408,22 +2405,19 @@
     }
    },
    "limitations": [
-    "Only the named facts are documented. Unanswered atomic questions remain unknown; no execution test was performed."
+    "Only the named atomic answers are established by this source pass. Remaining atomic answers retain their documented gaps."
    ],
    "unknownReason": "First-party README, relevant documentation, license, release notes and public issue pass at 826adb4f93db did not establish workspace and process isolation beyond any facts stated here. No installed-product or multi-user test was run.",
    "evidenceIds": [
     "readme",
-    "inventory"
+    "inventory",
+    "gap39-sandbox"
    ],
    "checkedAt": "2026-11-08",
    "nextReviewAt": "2026-12-08",
-   "researcher": "researcher-72",
-   "publication": "public-reviewed",
-   "review": {
-    "reviewer": "reviewer-58",
-    "date": "2026-11-08",
-    "contentHash": "d8e01b2856233f9fa519711623e485c18e72e34153d3a0b0b26432b2230fb624"
-   },
+   "researcher": "facet-researcher-ade39",
+   "publication": "public-candidate",
+   "review": null,
    "contradictions": []
   },
   {
@@ -5270,6 +5264,32 @@
    "visibility": "public",
    "commit": null,
    "path": null
+  },
+  {
+   "id": "gap39-provider-code",
+   "kind": "source-inspected",
+   "url": "https://github.com/nimbalyst/nimbalyst/blob/980bb9d1c7641bfab5e9b1d44bab9c76da9b1a20/packages/runtime/src/ai/server/providers/ExtensionAgentProvider.ts",
+   "title": "Nimbalyst shipped provider implementations",
+   "locator": "Provider directory and extension contribution wrapper; GeminiAntigravityProvider and geminiAntigravity/AntigravityToolLoopProtocol",
+   "sourceDate": null,
+   "retrievedAt": "2026-11-13",
+   "finding": "The scoped shipped provider directory has Claude, Codex, Cursor, OpenCode, Copilot, Grok and model-endpoint providers, but no Gemini CLI, Pi or Aider provider. Antigravity is a model RPC transport with a product-owned tool loop, not the Antigravity coding-agent CLI. Extension providers require separately contributed implementations.",
+   "visibility": "public",
+   "commit": "980bb9d1c7641bfab5e9b1d44bab9c76da9b1a20",
+   "path": "packages/runtime/src/ai/server/providers/ExtensionAgentProvider.ts"
+  },
+  {
+   "id": "gap39-sandbox",
+   "kind": "documented",
+   "url": "https://github.com/nimbalyst/nimbalyst/blob/980bb9d1c7641bfab5e9b1d44bab9c76da9b1a20/packages/cloudflare-sandbox/README.md",
+   "title": "Nimbalyst Cloudflare sandbox management",
+   "locator": "Management Worker; Deployment artifacts; src/index.ts NimbalystSandbox extends Sandbox",
+   "sourceDate": null,
+   "retrievedAt": "2026-11-13",
+   "finding": "A private Worker deployed into the user-selected Cloudflare account manages a sandbox container and headless Nimbalyst runner. A running node keeps the container alive; desktop mirrors send prompts/stop requests to it. Files/processes are ephemeral on stop or idle sleep. This is user-account compute, not a Nimbalyst-managed runtime service.",
+   "visibility": "public",
+   "commit": null,
+   "path": null
   }
  ],
  "changes": [
@@ -5562,12 +5582,95 @@
    "evidenceIds": [
     "pricing-nov10"
    ]
+  },
+  {
+   "date": "2026-11-13",
+   "author": "facet-researcher-ade39",
+   "type": "research-correction",
+   "summary": "Fill shipped harness exclusions, own-account Cloudflare container execution and pricing facets while retaining closed collaboration-service gaps.",
+   "claimIds": [
+    "nimbalyst:ACC-02"
+   ],
+   "before": {
+    "support": "partial",
+    "answer": "Multiple provider lanes include Claude Code SDK/CLI, Codex SDK/app-server/ACP, Cursor Agent, Grok Build and OpenCode; the README labels OpenCode and Copilot alpha. Models alone do not establish Gemini CLI. Nimbalyst v0.83.0 calls the Antigravity language server's stateless GetModelResponse RPC and implements its own conversation and tool-call loop. This is a model transport, not an Antigravity CLI or ACP agent session.",
+    "subanswers": {
+     "harnesses": "supported"
+    }
+   },
+   "after": {
+    "support": "partial",
+    "answer": "Multiple provider lanes include Claude Code SDK/CLI, Codex SDK/app-server/ACP, Cursor Agent, Grok Build and OpenCode; the README labels OpenCode and Copilot alpha. Models alone do not establish Gemini CLI. Nimbalyst v0.83.0 calls the Antigravity language server's stateless GetModelResponse RPC and implements its own conversation and tool-call loop. This is a model transport, not an Antigravity CLI or ACP agent session. Bounded inspection found no shipped Gemini CLI, Pi or Aider provider; custom extension implementations are a separate scope.",
+    "subanswers": {
+     "harnesses": "supported"
+    }
+   },
+   "evidenceIds": [
+    "gap39-provider-code",
+    "inventory",
+    "readme",
+    "agy-release-1"
+   ]
+  },
+  {
+   "date": "2026-11-13",
+   "author": "facet-researcher-ade39",
+   "type": "research-correction",
+   "summary": "Fill shipped harness exclusions, own-account Cloudflare container execution and pricing facets while retaining closed collaboration-service gaps.",
+   "claimIds": [
+    "nimbalyst:RUN-02"
+   ],
+   "before": {
+    "support": "partial",
+    "answer": "Parallel coding sessions and loops can use separate Git worktrees.",
+    "subanswers": {
+     "container": "unknown"
+    }
+   },
+   "after": {
+    "support": "partial",
+    "answer": "Parallel coding sessions and loops can use separate Git worktrees. The optional Cloudflare execution mode uses a sandbox container deployed into the user account, with ephemeral files/processes.",
+    "subanswers": {
+     "container": "supported"
+    }
+   },
+   "evidenceIds": [
+    "gap39-sandbox"
+   ]
+  },
+  {
+   "date": "2026-11-13",
+   "author": "facet-researcher-ade39",
+   "type": "research-correction",
+   "summary": "Fill shipped harness exclusions, own-account Cloudflare container execution and pricing facets while retaining closed collaboration-service gaps.",
+   "claimIds": [
+    "nimbalyst:RUN-01"
+   ],
+   "before": {
+    "support": "partial",
+    "answer": "Local desktop execution plus user-controlled headless Node/Cloudflare sandbox execution are documented, with remote limitations.",
+    "subanswers": {
+     "managed_cloud": "unknown",
+     "client_disconnect": "partial"
+    }
+   },
+   "after": {
+    "support": "partial",
+    "answer": "Local desktop execution plus user-controlled headless Node/Cloudflare sandbox execution are documented, with remote limitations. Cloudflare execution is deployed into the user account; the headless node keeps its container alive independently of the desktop client.",
+    "subanswers": {
+     "managed_cloud": "unsupported",
+     "client_disconnect": "supported"
+    }
+   },
+   "evidenceIds": [
+    "gap39-sandbox"
+   ]
   }
  ],
  "context": {
   "researchScope": "First-party source pass of nimbalyst/nimbalyst at 826adb4f93dbe86db35b76ce2502a3a33abe0489; claims describe documented behavior, not successful hands-on execution.",
   "roadmapReview": {
-   "checkedAt": "2026-11-08",
+   "checkedAt": "2026-11-13",
    "locations": [
     {
      "url": "https://github.com/nimbalyst/nimbalyst/tree/826adb4f93dbe86db35b76ce2502a3a33abe0489",
@@ -5584,6 +5687,14 @@
     {
      "url": "https://github.com/orgs/Nimbalyst/projects/4/views/1",
      "result": "Direct retrieval of the README-linked public roadmap was attempted on 2026-11-08 but timed out without page bytes. Repository roadmap text, source inventory, releases and issue scan remain the accessible sources."
+    },
+    {
+     "url": "https://github.com/nimbalyst/nimbalyst/releases",
+     "result": "Retrieved 2 current release entries: v0.83.0; v0.82.8. The source pass remains limited to the pinned release and named capabilities; issue requests are not availability proof."
+    },
+    {
+     "url": "https://github.com/nimbalyst/nimbalyst/issues",
+     "result": "Retrieved 4 current issue entries: fix: label each queued message with its time and sender instead of an explanatory header; fix: keep the whole transcript when main rebuilds a session while others are busy; fix: keep the agent transcript on screen while main rebuilds an evicted session; After re-authenticating, every agent reply in the affected session is replaced by a sign-in alert. The source pass remains limited to the pinned release and named capabilities; issue requests are not availability proof."
     }
    ],
    "announced": [],
@@ -5693,6 +5804,24 @@
      "facetId": "laptop-independent",
      "result": "No sufficient typed value established; left unknown."
     }
+   ]
+  },
+  "facetGapReview": {
+   "checkedAt": "2026-11-13",
+   "researcher": "facet-researcher-ade39",
+   "locations": [
+    {
+     "url": "https://github.com/nimbalyst/nimbalyst/blob/980bb9d1c7641bfab5e9b1d44bab9c76da9b1a20/",
+     "result": "Inspected shipped provider implementations, Cloudflare sandbox package and licensing boundary; checked feature inventory and team/client sources."
+    },
+    {
+     "url": "https://nimbalyst.com/pricing/",
+     "result": "Retrieved complete free and Wiki Teams plan table and FAQ; monthly paid price is preserved alongside free-during-Beta scope."
+    }
+   ],
+   "gaps": [
+    "VM isolation remains unknown because the public runtime provisions a Cloudflare container but does not establish the underlying closed service VM boundary.",
+    "Shared prompting and SSO remain unknown for the separately operated collaboration sync server. Public docs establish shared documents/trackers and organization membership, not those agent/session or identity guarantees. LICENSING.md identifies the sync server as a separate project; its implementation is outside this public repository."
    ]
   }
  }
