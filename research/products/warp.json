@@ -1600,7 +1600,7 @@
     {
       "id": "warp:COORD-04",
       "criterionId": "COORD-04",
-      "answer": "Unattended triggers: first-party sources in this pass did not establish schedules, events, recurring_tasks, completion_conditions, scheduler_location, overlaps, retries, client_independence. No concurrent-worker, duplicate-claim, delegation-retention or twelve-state fleet fixture was run. UI labels alone do not establish enforcement.",
+      "answer": "Local Warp Terminal/Agent CLI scope. Inspected local-agent docs and 2026 changelog do not establish a local product-owned scheduler; the documented schedule/event engine belongs to the separately cataloged cloud platform. Main application implementation is unavailable.",
       "support": "unknown",
       "availability": "unknown",
       "delivery": "unknown",
@@ -1656,11 +1656,11 @@
         }
       },
       "limitations": [],
-      "unknownReason": "Unattended triggers: first-party sources in this pass did not establish schedules, events, recurring_tasks, completion_conditions, scheduler_location, overlaps, retries, client_independence. No concurrent-worker, duplicate-claim, delegation-retention or twelve-state fleet fixture was run. UI labels alone do not establish enforcement.",
+      "unknownReason": "Local Warp Terminal/Agent CLI scope. Inspected local-agent docs and 2026 changelog do not establish a local product-owned scheduler; the documented schedule/event engine belongs to the separately cataloged cloud platform. Main application implementation is unavailable.",
       "evidenceIds": [],
-      "checkedAt": "2026-11-07",
+      "checkedAt": "2026-11-13",
       "nextReviewAt": "2026-11-21",
-      "researcher": "researcher-58",
+      "researcher": "researcher-ade42",
       "publication": "internal-only",
       "review": null,
       "contradictions": []
@@ -1926,7 +1926,7 @@
     {
       "id": "warp:RUN-01",
       "criterionId": "RUN-01",
-      "answer": "Warp documents running multiple local agents on worktrees in user directories. The standalone Warp Agent CLI runs as a regular command-line program over SSH on a user-controlled remote host.",
+      "answer": "Warp runs agents on local worktrees and via SSH. The application also supports native local-to-cloud handoff, transferring a conversation and workspace snapshot so work continues without keeping the laptop awake.",
       "support": "partial",
       "availability": "unknown",
       "delivery": "native",
@@ -1965,9 +1965,11 @@
           "evidenceIds": []
         },
         "managed_cloud": {
-          "support": "unknown",
-          "answer": "Not established for managed cloud in the named first-party source pass. Product access and scenario tests were not run.",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "The Warp app can hand off a local conversation to its separately hosted cloud-agent service, after selecting a configured environment.",
+          "evidenceIds": [
+            "nov13-app-handoff"
+          ]
         },
         "hybrid": {
           "support": "unknown",
@@ -2000,9 +2002,11 @@
           "evidenceIds": []
         },
         "client_disconnect": {
-          "support": "unknown",
-          "answer": "Not established for client disconnect in the named first-party source pass. Product access and scenario tests were not run.",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "Documented cloud handoff allows a task to keep working without the controlling laptop awake; local-only execution still requires its host.",
+          "evidenceIds": [
+            "nov13-app-handoff"
+          ]
         },
         "other_device_continuation": {
           "support": "unknown",
@@ -2017,17 +2021,14 @@
       "evidenceIds": [
         "nov07-terminal-reference",
         "gap07-worktrees",
-        "gap07-cli"
+        "gap07-cli",
+        "nov13-app-handoff"
       ],
       "checkedAt": "2026-11-07",
       "nextReviewAt": "2026-11-21",
-      "researcher": "researcher-64",
-      "publication": "public-reviewed",
-      "review": {
-        "reviewer": "reviewer-50",
-        "date": "2026-11-07",
-        "contentHash": "d3a19b66e82e5b2e521a71464e80c37c81e3c8faeebceca8e5b76a1a1381b6a4"
-      },
+      "researcher": "researcher-ade42",
+      "publication": "public-candidate",
+      "review": null,
       "contradictions": []
     },
     {
@@ -3531,7 +3532,7 @@
     {
       "id": "warp:SHIP-03",
       "criterionId": "SHIP-03",
-      "answer": "Git status and review reflect the branch in the current worktree. Warp recognizes worktree checkouts with per-worktree review and indexing.",
+      "answer": "Warp detects worktrees for branch-aware review and indexing. Its code review panel supports commit, push and PR creation, including SSH repositories with the extension installed.",
       "support": "partial",
       "availability": "unknown",
       "delivery": "unknown",
@@ -3568,9 +3569,11 @@
           "evidenceIds": []
         },
         "pull_requests": {
-          "support": "unknown",
-          "answer": "Not established for pull requests in the named first-party source pass. Product access and scenario tests were not run.",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "The code review panel creates PRs, including remote repositories when the SSH extension is installed.",
+          "evidenceIds": [
+            "nov13-ssh-pr"
+          ]
         },
         "comments": {
           "support": "unknown",
@@ -3603,17 +3606,14 @@
       ],
       "unknownReason": "Unknown after the targeted first-party documentation, release and repository pass: commits, pull_requests, comments, ci_response, rebase, conflicts, product_state. No configured product fixture was run; documentation does not establish successful hands-on behavior.",
       "evidenceIds": [
-        "gap07-worktrees"
+        "gap07-worktrees",
+        "nov13-ssh-pr"
       ],
       "checkedAt": "2026-11-07",
       "nextReviewAt": "2026-11-21",
-      "researcher": "researcher-64",
-      "publication": "public-reviewed",
-      "review": {
-        "reviewer": "reviewer-50",
-        "date": "2026-11-07",
-        "contentHash": "b5c18b94b937a7ca429fdfe2e6c089854b0d2d56bb425aeda434fc3dd73a8877"
-      },
+      "researcher": "researcher-ade42",
+      "publication": "public-candidate",
+      "review": null,
       "contradictions": []
     },
     {
@@ -5078,6 +5078,32 @@
       "visibility": "public",
       "commit": "7d51225960f74854b3799a8eb0189bee13148ad4",
       "path": "src/content/docs/agents/cli-agents/overview.mdx"
+    },
+    {
+      "id": "nov13-ssh-pr",
+      "kind": "documented",
+      "url": "https://docs.warp.dev/code/ssh-feature-support/",
+      "title": "Warp feature support over SSH",
+      "locator": "Features that require the SSH extension: Code review and git operations",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-13",
+      "finding": "With the SSH extension installed, Warp code review can commit, push and create pull requests on remote repositories. Commit messages and PR descriptions are generated on the remote host.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "nov13-app-handoff",
+      "kind": "documented",
+      "url": "https://docs.warp.dev/platform/handoff/local-to-cloud/",
+      "title": "Warp app local-to-cloud handoff",
+      "locator": "Use cases; handoff prerequisites and app controls",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-13",
+      "finding": "The Warp app can hand off a local conversation and workspace snapshot through the ampersand or /handoff controls. The remote cloud agent can continue without keeping the laptop awake; cloud storage and an eligible usage balance are required.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
     }
   ],
   "changes": [
@@ -7450,6 +7476,108 @@
         "agy-release-2",
         "gap07-cli-agents"
       ]
+    },
+    {
+      "date": "2026-11-13",
+      "author": "researcher-ade42",
+      "type": "freshness-recheck",
+      "summary": "Recheck COORD-04 in first-party documentation, releases and source availability; retain the named research gap.",
+      "claimIds": [
+        "warp:COORD-04"
+      ],
+      "before": {
+        "answer": "Unattended triggers: first-party sources in this pass did not establish schedules, events, recurring_tasks, completion_conditions, scheduler_location, overlaps, retries, client_independence. No concurrent-worker, duplicate-claim, delegation-retention or twelve-state fleet fixture was run. UI labels alone do not establish enforcement.",
+        "unknownReason": "Unattended triggers: first-party sources in this pass did not establish schedules, events, recurring_tasks, completion_conditions, scheduler_location, overlaps, retries, client_independence. No concurrent-worker, duplicate-claim, delegation-retention or twelve-state fleet fixture was run. UI labels alone do not establish enforcement.",
+        "checkedAt": "2026-11-07"
+      },
+      "after": {
+        "answer": "Local Warp Terminal/Agent CLI scope. Inspected local-agent docs and 2026 changelog do not establish a local product-owned scheduler; the documented schedule/event engine belongs to the separately cataloged cloud platform. Main application implementation is unavailable.",
+        "unknownReason": "Local Warp Terminal/Agent CLI scope. Inspected local-agent docs and 2026 changelog do not establish a local product-owned scheduler; the documented schedule/event engine belongs to the separately cataloged cloud platform. Main application implementation is unavailable.",
+        "checkedAt": "2026-11-13"
+      },
+      "evidenceIds": []
+    },
+    {
+      "date": "2026-11-13",
+      "author": "researcher-ade42",
+      "type": "research-correction",
+      "summary": "Add typed facet interpretations: pricing-model:no-paid-plan, pricing-model:one-time, pr-workflow, execution:vendor-cloud, laptop-independent.",
+      "claimIds": [
+        "warp:OWN-04",
+        "warp:SHIP-03",
+        "warp:RUN-01"
+      ],
+      "before": {
+        "mappedCells": []
+      },
+      "after": {
+        "mappedCells": [
+          "pricing-model:no-paid-plan=no",
+          "pricing-model:one-time=no",
+          "pr-workflow=yes",
+          "execution:vendor-cloud=yes",
+          "laptop-independent=yes"
+        ]
+      },
+      "evidenceIds": [
+        "nov07-pricing",
+        "nov13-ssh-pr",
+        "nov13-app-handoff"
+      ]
+    },
+    {
+      "date": "2026-11-13",
+      "author": "researcher-ade42",
+      "type": "research-correction",
+      "summary": "Fill missing warp facets from first-party evidence and record remaining source gaps.",
+      "claimIds": [
+        "warp:SHIP-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Git status and review reflect the branch in the current worktree. Warp recognizes worktree checkouts with per-worktree review and indexing.",
+        "subanswers": {
+          "pull_requests": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Warp detects worktrees for branch-aware review and indexing. Its code review panel supports commit, push and PR creation, including SSH repositories with the extension installed.",
+        "subanswers": {
+          "pull_requests": "supported"
+        }
+      },
+      "evidenceIds": [
+        "nov13-ssh-pr"
+      ]
+    },
+    {
+      "date": "2026-11-13",
+      "author": "researcher-ade42",
+      "type": "research-correction",
+      "summary": "Fill missing warp facets from first-party evidence and record remaining source gaps.",
+      "claimIds": [
+        "warp:RUN-01"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Warp documents running multiple local agents on worktrees in user directories. The standalone Warp Agent CLI runs as a regular command-line program over SSH on a user-controlled remote host.",
+        "subanswers": {
+          "managed_cloud": "unknown",
+          "client_disconnect": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Warp runs agents on local worktrees and via SSH. The application also supports native local-to-cloud handoff, transferring a conversation and workspace snapshot so work continues without keeping the laptop awake.",
+        "subanswers": {
+          "managed_cloud": "supported",
+          "client_disconnect": "supported"
+        }
+      },
+      "evidenceIds": [
+        "nov13-app-handoff"
+      ]
     }
   ],
   "context": {
@@ -7477,123 +7605,36 @@
     ],
     "identityBoundary": "Warp Terminal only. Warp Agent CLI and cloud Oz/Automation Platform/Factories are distinct products; platform claims belong to warp-oz, not this profile.",
     "roadmapReview": {
-      "checkedAt": "2026-11-07",
+      "checkedAt": "2026-11-13",
       "locations": [
         {
-          "url": "https://www.warp.dev/terminal",
-          "result": "Read for the scoped findings in nov07-terminal."
-        },
-        {
-          "url": "https://docs.warp.dev/_llms-txt/terminal.txt",
-          "result": "Read for the scoped findings in nov07-terminal-reference."
-        },
-        {
-          "url": "https://www.warp.dev/pricing",
-          "result": "Read for the scoped findings in nov07-pricing."
-        },
-        {
-          "url": "https://docs.warp.dev/support-and-community/plans-and-billing/platform-credits/",
-          "result": "Read for the scoped findings in nov07-platform-billing."
-        },
-        {
-          "url": "https://docs.warp.dev/changelog",
-          "result": "Changelog access attempt encountered a browser-verification response in shell retrieval."
-        },
-        {
-          "url": "https://github.com/warpdotdev/warp/issues",
-          "result": "Public issue list and roadmap issue route sampled; no scheduled commitment inferred."
-        },
-        {
           "url": "https://docs.warp.dev/changelog/2026/",
-          "result": "Read current release notes through November; client/CLI/cloud features are kept scoped."
+          "result": "Checked current November release notes."
         },
         {
-          "url": "https://github.com/warpdotdev/Warp/issues",
-          "result": "Read official issue tracker as leads; requests do not establish shipped features."
-        },
-        {
-          "url": "https://docs.warp.dev/agents/cli/",
-          "result": "Gap-fill pass read Overview; Account; Persistent conversations."
-        },
-        {
-          "url": "https://docs.warp.dev/agents/cli/quickstart/",
-          "result": "Gap-fill pass read Prerequisites; Install; Log in."
+          "url": "https://docs.warp.dev/code/ssh-feature-support/",
+          "result": "Read explicit shipped PR operation and SSH restrictions."
         },
         {
           "url": "https://docs.warp.dev/agents/cli-agents/overview/",
-          "result": "Gap-fill pass read Supported agents; Feature matrix; Panels."
+          "result": "Read recognized CLI agents; the terminal can run arbitrary commands, so omission alone does not establish Aider unsupported."
         },
         {
-          "url": "https://docs.warp.dev/guides/external-tools/how-to-set-up-claude-code/",
-          "result": "Gap-fill pass read Prerequisites; Authenticate."
+          "url": "https://docs.warp.dev/platform/triggers/",
+          "result": "Product-owned schedules are documented for the separate cloud platform, not a local-terminal scheduler."
         },
         {
-          "url": "https://docs.warp.dev/agents/local-agents/session-sharing/",
-          "result": "Gap-fill pass read Cross-device; Retention; Collaboration."
+          "url": "https://github.com/warpdotdev/Warp/issues",
+          "result": "Public application issue tracker checked for leads; main application source was not available in this pass."
         },
         {
-          "url": "https://docs.warp.dev/agents/capabilities/planning/",
-          "result": "Gap-fill pass read Create; Version history; Execute; Save."
-        },
-        {
-          "url": "https://docs.warp.dev/agents/capabilities/task-lists/",
-          "result": "Gap-fill pass read Creation; Statuses; Access."
-        },
-        {
-          "url": "https://docs.warp.dev/agents/capabilities/rules/",
-          "result": "Gap-fill pass read Global; Project; Precedence; CRUD."
-        },
-        {
-          "url": "https://docs.warp.dev/agents/capabilities/mcp/",
-          "result": "Gap-fill pass read Server types; Configuration; Lifecycle."
-        },
-        {
-          "url": "https://docs.warp.dev/agents/capabilities/codebase-context/",
-          "result": "Gap-fill pass read Index; Sync; States; SSH."
-        },
-        {
-          "url": "https://docs.warp.dev/code/git-worktrees/",
-          "result": "Gap-fill pass read Native detection; Parallel agents."
-        },
-        {
-          "url": "https://docs.warp.dev/platform/orchestration/multi-agent-runs/",
-          "result": "Gap-fill pass read Local parent; Approval; Child progress."
-        },
-        {
-          "url": "https://docs.warp.dev/agents/capabilities/agent-profiles-permissions/",
-          "result": "Gap-fill pass read Autonomy; Commands; MCP."
-        },
-        {
-          "url": "https://docs.warp.dev/enterprise/team-management/roles-and-permissions/",
-          "result": "Gap-fill pass read User roles; Enforcement."
-        },
-        {
-          "url": "https://docs.warp.dev/support-and-community/privacy-and-security/privacy/",
-          "result": "Gap-fill pass read Telemetry; Opt out; Client source."
-        },
-        {
-          "url": "https://docs.warp.dev/enterprise/enterprise-features/architecture-and-deployment/",
-          "result": "Gap-fill pass read Split architecture; Data flow."
-        },
-        {
-          "url": "https://docs.warp.dev/enterprise/security-and-compliance/trust-center/",
-          "result": "Gap-fill pass read SOC2; Reports; Providers."
-        },
-        {
-          "url": "https://docs.warp.dev/agents/local-agents/interactive-code-review/",
-          "result": "Gap-fill pass read Comments; Batch; Supported agents."
-        },
-        {
-          "url": "https://docs.warp.dev/agents/cli/agent-conversations/",
-          "result": "Gap-fill pass read Persistence; Resume; Export."
+          "url": "https://www.warp.dev/pricing",
+          "result": "Read complete plans and preserved product scopes."
         }
       ],
       "announced": [],
       "gaps": [
-        "Separate roadmap dates were not inferred from crawl or retrieval dates. Public requests and release bug fixes are not hands-on proof.",
-        "Some direct HTML/Markdown requests hit browser verification; usable official pages were retrieved through the web reader or alternate documented path. Unavailable details remain unknown.",
-        "Changelog access attempt encountered a browser-verification response in shell retrieval.",
-        "Read the complete current documentation index and targeted client, planning, execution, ownership and enterprise pages against every unknown atom/filter. No explicit native iOS/Android client, Aider integration, local VM/container isolation, local scheduler, or independent native issue records was established. AGPLv3 client-license wording conflicts with inaccessible linked source; no typed license value was guessed. No hands-on fixture was run."
+        "Local Warp Terminal/Agent CLI scope. Inspected local-agent docs and 2026 changelog do not establish a local product-owned scheduler; the documented schedule/event engine belongs to the separately cataloged cloud platform. Main application implementation is unavailable."
       ]
     },
     "criterionSourcePass": {
