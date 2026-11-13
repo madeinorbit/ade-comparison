@@ -250,16 +250,16 @@
   {
    "id": "thinkrail:ACC-03",
    "criterionId": "ACC-03",
-   "answer": "No ThinkRail account or vendor credit system exists: the app is free and model access goes through the user’s own providers. API keys and OAuth flow through pi provider auth, JetBrains AI via central, custom servers and detected CLI configs; local models run over OpenAI-compatible endpoints. One pi config folder applies per host. Subscription reuse through pi auth depends on the separate pi component and is undescribed in ThinkRail sources.",
+   "answer": "ThinkRail uses provider API keys and Pi's native OAuth login, including Anthropic subscription credentials recognized by the embedded runtime. External CLI accounts are setup signals rather than borrowed credentials; there is no ThinkRail credit system.",
    "support": "partial",
-   "availability": "beta",
+   "availability": "generally-available",
    "delivery": "native",
    "scope": {
     "surfaceIds": [
      "desktop",
      "browser"
     ],
-    "version": "v0.3.2 stable (2026-11-06); default-branch commit e473363 (2026-11-12)",
+    "version": "Targeted first-party source check 2026-11-13. New implementation findings are pinned to 1bc1a9bc5b0bb9d2c029da32125fadf0bd29d544. Unchanged atomic answers retain the individual source dates and revisions in their cited evidence.",
     "plan": null,
     "os": [],
     "executionModes": [
@@ -270,9 +270,11 @@
    },
    "subanswers": {
     "agent_subscriptions": {
-     "support": "unknown",
-     "answer": "Subscriptions, API keys and vendor credits, agent_subscriptions: ThinkRail detects signed-in third-party CLIs as setup signals and signs in through pi’s own flow, but whether an existing coding-agent subscription is reusable depends on the pi engine’s provider auth, a separate upstream component not inspected as part of this product’s repositories.",
-     "evidenceIds": []
+     "support": "supported",
+     "answer": "The embedded Pi runtime uses its own OAuth sign-in and explicitly recognizes active Anthropic subscription authentication.",
+     "evidenceIds": [
+      "gaps41-subscription"
+     ]
     },
     "api_accounts": {
      "support": "supported",
@@ -328,7 +330,7 @@
     }
    },
    "limitations": [
-    "Reuse of third-party coding-agent subscriptions depends on the separate pi engine component and is undescribed in ThinkRail sources."
+    "This source pass establishes only the named atomic answers. Other parts retain their documented source gaps; no hands-on test was performed."
    ],
    "unknownReason": "Searched thinkrail.ai home, the ThinkRail blog (10 posts), README, goal/central specs, auth code and the v0.3.2 tree on 2026-11-12. No hands-on test applies; this is a docs-and-code pass. The remaining unknown names a separate upstream component.",
    "evidenceIds": [
@@ -339,17 +341,14 @@
     "code-detect",
     "goal",
     "picompat",
-    "readme"
+    "readme",
+    "gaps41-subscription"
    ],
    "checkedAt": "2026-11-12",
    "nextReviewAt": "2027-03-12",
-   "researcher": "researcher-thinkrail",
-   "publication": "public-reviewed",
-   "review": {
-    "reviewer": "reviewer-thinkrail",
-    "date": "2026-11-12",
-    "contentHash": "39c840f2c355e1fe2c2413c084ffb4bc1ef6fcb9b5b1c77432338c9d8a46cf6f"
-   },
+   "researcher": "researcher-ade41",
+   "publication": "public-candidate",
+   "review": null,
    "contradictions": []
   },
   {
@@ -6767,6 +6766,19 @@
    "visibility": "public",
    "commit": "1bc1a9bc5b0bb9d2c029da32125fadf0bd29d544",
    "path": "packages/server/src"
+  },
+  {
+   "id": "gaps41-subscription",
+   "kind": "source-inspected",
+   "url": "https://github.com/JetBrains/thinkrail/blob/1bc1a9bc5b0bb9d2c029da32125fadf0bd29d544/packages/server/src/agent/anthropicExtraUsage.ts#L1-L40",
+   "title": "ThinkRail native Pi subscription authentication",
+   "locator": "anthropicExtraUsage.ts anthropicSubscriptionAuthActive; auth/providerLogin.ts startLogin; auth/detectAccounts.ts known subscription plans",
+   "sourceDate": null,
+   "retrievedAt": "2026-11-13",
+   "finding": "ThinkRail starts Pi's own OAuth login flow, and its runtime explicitly recognizes active Anthropic subscription OAuth credentials for extra-usage warnings. Detected Claude/Codex CLI account plans are setup signals, not borrowed credentials. This establishes subscription use through the embedded Pi provider login rather than a separate CLI runtime.",
+   "visibility": "public",
+   "commit": "1bc1a9bc5b0bb9d2c029da32125fadf0bd29d544",
+   "path": "packages/server/src/agent/anthropicExtraUsage.ts"
   }
  ],
  "changes": [
@@ -6918,11 +6930,37 @@
     "code-viewport",
     "code-workspaces"
    ]
+  },
+  {
+   "date": "2026-11-13",
+   "author": "researcher-ade41",
+   "type": "research-correction",
+   "summary": "Fill subscription-auth, persistent TODO/workspace tasks and free-application pricing facets from the pinned code and existing first-party findings.",
+   "claimIds": [
+    "thinkrail:ACC-03"
+   ],
+   "before": {
+    "support": "partial",
+    "answer": "No ThinkRail account or vendor credit system exists: the app is free and model access goes through the user’s own providers. API keys and OAuth flow through pi provider auth, JetBrains AI via central, custom servers and detected CLI configs; local models run over OpenAI-compatible endpoints. One pi config folder applies per host. Subscription reuse through pi auth depends on the separate pi component and is undescribed in ThinkRail sources.",
+    "subanswers": {
+     "agent_subscriptions": "unknown"
+    }
+   },
+   "after": {
+    "support": "partial",
+    "answer": "ThinkRail uses provider API keys and Pi's native OAuth login, including Anthropic subscription credentials recognized by the embedded runtime. External CLI accounts are setup signals rather than borrowed credentials; there is no ThinkRail credit system.",
+    "subanswers": {
+     "agent_subscriptions": "supported"
+    }
+   },
+   "evidenceIds": [
+    "gaps41-subscription"
+   ]
   }
  ],
  "context": {
   "roadmapReview": {
-   "checkedAt": "2026-11-12",
+   "checkedAt": "2026-11-13",
    "locations": [
     {
      "url": "https://thinkrail.ai/blog/",
@@ -6939,6 +6977,18 @@
     {
      "url": "https://github.com/JetBrains/thinkrail/releases",
      "result": "v0.4.0 stable published 2026-11-12; no contradiction with v0.3.2-scoped findings (scope pins stay v0.3.2)."
+    },
+    {
+     "url": "https://github.com/JetBrains/thinkrail/releases",
+     "result": "Checked releases on 2026-11-13, including v0.5.0-nightly.1. Findings are bounded to the cited pinned implementation."
+    },
+    {
+     "url": "https://github.com/JetBrains/thinkrail/issues",
+     "result": "Checked recent issues, including listing paired servers in the IDE project tree. Open changes are not treated as released remote execution."
+    },
+    {
+     "url": "https://github.com/JetBrains/thinkrail/blob/1bc1a9bc5b0bb9d2c029da32125fadf0bd29d544/goal-and-requirements.md",
+     "result": "The product goal document explicitly describes the current product rather than a dated roadmap. Inspected auth, TODO and workspace code against it."
     }
    ],
    "announced": [
@@ -6955,7 +7005,8 @@
    "gaps": [
     "No dedicated roadmap or changelog page; release history is spread across the blog and releases.",
     "Docs navigation shows Coming soon.",
-    "X follower count needs login-walled access and stays unknown."
+    "X follower count needs login-walled access and stays unknown.",
+    "Networked client topology does not by itself settle the released laptop-independent execution path."
    ]
   },
   "sourcePass": {
@@ -7610,6 +7661,25 @@
    "financing": {
     "status": "unknown",
     "reason": "No funding round researched in this pass; the product is described as backed by JetBrains (InnovationHub incubator project)."
+   }
+  },
+  "gapFillPass": {
+   "checkedAt": "2026-11-13",
+   "researcher": "researcher-ade41",
+   "filled": [
+    "byo-subscription=yes",
+    "issue-tracking=yes",
+    "pricing-model:free-plan=no",
+    "pricing-model:subscription=no",
+    "pricing-model:per-seat=no",
+    "pricing-model:usage-based=no",
+    "pricing-model:compute=no",
+    "pricing-model:one-time=no",
+    "pricing-model:byok=yes"
+   ],
+   "unknown": {
+    "paid-from": "The ADE has no public paid monthly plan, and this enum has no no-paid-plan value.",
+    "laptop-independent": "The catalog scopes released desktop execution to a local in-process host, while architecture describes networked phone access and later shared-client work. A documented remote execution mode surviving the controlling laptop sleeping is not established."
    }
   }
  }
