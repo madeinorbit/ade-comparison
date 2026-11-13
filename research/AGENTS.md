@@ -2,6 +2,8 @@
 
 This catalog follows the approved 51-criterion framework in [comparison-framework.md](comparison-framework.md). Apply the same evidence requirements to every product, including Podium, whose makers publish this catalog. Product categories describe workflows, not quality.
 
+Committing and pushing research follows the root [AGENTS.md](../AGENTS.md): commit a product's inputs together with the rebuilt files, one product per commit, and run `npm run verify` before pushing.
+
 ## Read and update
 
 - Read `criteria.json` for IDs, full judgment text and frozen atomic questions. Each subquestion names one part of its criterion; the full judgment defines how to test and interpret it. Do not invent keys or change their meaning in a product profile. Rubric changes apply to every full profile.

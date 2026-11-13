@@ -34,7 +34,7 @@ Submitting an issue does not change the site automatically. There is no submissi
 
 The files in `data/` are generated from `research/`. Make data corrections in the catalog and regenerate the package. Direct edits to `data/` fail `npm run data:check`, and a later rebuild would overwrite them. A code pull request can link a sourced correction issue without changing the generated data.
 
-Code changes, documentation and tests can be proposed as pull requests. Run `npm run data:check`, `npm run research:validate`, `npm run test:research`, `npm run build`, `npm test` and `npm run check` before submitting one; CI runs the same checks plus the browser tests. See [docs/development.md](docs/development.md) for browser and portability checks.
+Code changes, documentation and tests can be proposed as pull requests. Before submitting one, commit your work and run `npm run verify`, which runs `data:check`, `research:validate`, `test:research`, `build` and `test` on a clean checkout of the commit, then `npm run check`. CI runs the same checks plus the browser tests. Agents, and anyone pushing to `main`, follow [AGENTS.md](AGENTS.md). See [docs/development.md](docs/development.md) for browser and portability checks.
 
 ## Public repository setup
 
