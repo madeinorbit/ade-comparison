@@ -2691,7 +2691,7 @@
     {
       "id": "lovable:TEAM-01",
       "criterionId": "TEAM-01",
-      "answer": "Invited project collaborators build in the same project using the owner workspace credits; each can work in a separate draft. This establishes shared editable projects, not simultaneous input ordering on one agent.",
+      "answer": "Distinct Lovable accounts invited as project Editors can build in the shared project and access its editor/chat. Each project contains the chat used to instruct Lovable; optional drafts make a separate copy with its own chat. Simultaneous input ordering remains unestablished.",
       "support": "partial",
       "availability": "generally-available",
       "delivery": "native",
@@ -2732,9 +2732,12 @@
           "evidenceIds": []
         },
         "coprompting": {
-          "support": "unknown",
-          "answer": "Coprompting remains unestablished in the recorded documentation, release and issue pass; no bounded hands-on test.",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "Account-based project Editors can build/edit the same project through the project editor/chat. An optional draft creates a separate chat; shared prompting does not assume simultaneous-input ordering.",
+          "evidenceIds": [
+            "gap39-collab-invites",
+            "gap39-project-chat"
+          ]
         },
         "ordering": {
           "support": "unknown",
@@ -2753,9 +2756,9 @@
         },
         "permissions": {
           "support": "supported",
-          "answer": "Invited project collaborators build in the same project using the owner workspace credits; each can work in a separate draft. This establishes shared editable projects, not simultaneous input ordering on one agent.",
+          "answer": "Can edit invitations and Editor roles grant project build/edit access; preview-only links grant no editor/chat rights.",
           "evidenceIds": [
-            "nov08-team-01-1"
+            "gap39-collab-invites"
           ]
         },
         "plan_restrictions": {
@@ -2772,21 +2775,19 @@
         }
       },
       "limitations": [
-        "Documentation evidence only. Remaining atomic questions and enforcement under failure have not been established by a bounded workflow test."
+        "Only the named atomic answers are established by this source pass. Remaining atomic answers retain their documented gaps."
       ],
       "unknownReason": "The checked first-party sources do not establish all parts of Live human collaboration. No authenticated scenario test was run.",
       "evidenceIds": [
-        "nov08-team-01-1"
+        "nov08-team-01-1",
+        "gap39-collab-invites",
+        "gap39-project-chat"
       ],
       "checkedAt": "2026-11-08",
       "nextReviewAt": "2026-12-08",
-      "researcher": "researcher-70",
-      "publication": "public-reviewed",
-      "review": {
-        "reviewer": "reviewer-57",
-        "date": "2026-11-08",
-        "contentHash": "277ccc09137b5c810d61cbbeab6c33f88fe6eb71e185f188284f9bf9fdb373fa"
-      },
+      "researcher": "facet-researcher-ade39",
+      "publication": "public-candidate",
+      "review": null,
       "contradictions": []
     },
     {
@@ -5242,6 +5243,32 @@
       "visibility": "public",
       "commit": null,
       "path": null
+    },
+    {
+      "id": "gap39-collab-invites",
+      "kind": "documented",
+      "url": "https://docs.lovable.dev/features/share-project",
+      "title": "Lovable project collaborator access",
+      "locator": "Add project collaborators; invite links; preview-link distinction",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-13",
+      "finding": "Account-based project collaborators can be invited with Can edit rights to build/edit the project. Invite links add each signed-in person as an Editor. Collaborators access the editor and project chat; anonymous preview links do not grant those rights.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "gap39-project-chat",
+      "kind": "documented",
+      "url": "https://docs.lovable.dev/features/projects/overview",
+      "title": "Lovable project structure and roles",
+      "locator": "Project contents; unpublished state; Project roles",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-13",
+      "finding": "A project contains the project chat where users instruct Lovable to build. Invited Editors can build/edit that project. Drafts are optional separate copies with their own project chat, used to avoid changing the version everyone else is working on.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
     }
   ],
   "changes": [
@@ -5514,6 +5541,35 @@
         "gap39-automations",
         "gap39-release"
       ]
+    },
+    {
+      "date": "2026-11-13",
+      "author": "facet-researcher-ade39",
+      "type": "research-correction",
+      "summary": "Establish shared prompting through account-based project editor invitations and the shared project chat. Preserve unknown simultaneous-input ordering and optional independent drafts.",
+      "claimIds": [
+        "lovable:TEAM-01"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Invited project collaborators build in the same project using the owner workspace credits; each can work in a separate draft. This establishes shared editable projects, not simultaneous input ordering on one agent.",
+        "subanswers": {
+          "coprompting": "unknown",
+          "permissions": "supported"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Distinct Lovable accounts invited as project Editors can build in the shared project and access its editor/chat. Each project contains the chat used to instruct Lovable; optional drafts make a separate copy with its own chat. Simultaneous input ordering remains unestablished.",
+        "subanswers": {
+          "coprompting": "supported",
+          "permissions": "supported"
+        }
+      },
+      "evidenceIds": [
+        "gap39-collab-invites",
+        "gap39-project-chat"
+      ]
     }
   ],
   "context": {
@@ -5655,14 +5711,18 @@
       "researcher": "facet-researcher-ade39",
       "locations": [
         {
-          "url": "https://docs.lovable.dev/llms.txt",
-          "result": "Checked full index, client docs, automations, collaboration, build mode and subscription plans."
+          "url": "https://docs.lovable.dev/features/share-project",
+          "result": "Checked signed-in collaborator invitations, Editor build rights and explicit access to the editor/chat; anonymous preview links are separate."
+        },
+        {
+          "url": "https://docs.lovable.dev/features/projects/overview",
+          "result": "Confirmed the shared project chat and optional independent draft boundary. No concurrent input-ordering claim was inferred."
         }
       ],
       "gaps": [
         "External coding-harness integration is unestablished. MCP lets external clients call Lovable but does not run those harnesses inside the ADE.",
         "Closed-service sources do not establish a product CLI, BYO agent subscription, local or own-server execution, worktree/container/VM boundaries, self-hosting, telemetry opt-out or continued build execution after client disconnect.",
-        "Collaboration establishes editable projects and separate drafts, but shared prompting on the same agent work is not explicit. Build-mode task progress is not a persistent issue backlog."
+        "Build-mode task progress and saved automation triggers do not establish a general native issue/backlog work-item interface."
       ]
     }
   }
