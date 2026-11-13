@@ -354,3 +354,23 @@ test('the compare picker filters by name and works by keyboard', async ({ page }
   await input.press('Enter')
   await expect(page.locator('thead [data-column-id]:visible')).toHaveCount(3)
 })
+
+test('the ADEMark badge carries the Benchmarked by ADEMark pick instead of the fit list', async ({ page }) => {
+  await page.goto('/?must=ademark')
+  const orca = page.locator('[data-group=fits] [data-product-id=orca]')
+  await expect(orca.locator('a.e-bench')).toHaveAttribute('data-pick', 'must')
+  await expect(orca.locator('[data-fit]')).toBeHidden()
+  // An unknown must-have keeps an ADE in Fits kind of only next to other must-haves it meets.
+  await page.goto('/?must=ademark,desktop-os:linux,execution:own-server')
+  const lody = page.locator('[data-group=kind-of] [data-product-id=lody]')
+  await expect(lody.locator('[data-bench-unknown]')).toHaveText('Not tested by ADEMark yet')
+  await expect(lody.locator('[data-fit] li.y')).toHaveCount(2)
+  await expect(lody.locator('[data-fit] li.u')).toHaveCount(0)
+  await expect(lody).not.toContainText(/lacks|no ademark/i)
+  await page.goto('/?nice=ademark')
+  await expect(page.locator('[data-product-id=orca] a.e-bench')).toHaveAttribute('data-pick', 'nice')
+  await expect(page.locator('[data-product-id=orca] [data-fit]')).toBeHidden()
+  await expect(page.locator('[data-product-id=lody] [data-bench-unknown]')).toHaveCount(0)
+  await page.goto('/')
+  await expect(page.locator('[data-product-id=orca] a.e-bench')).not.toHaveAttribute('data-pick', /.+/)
+})

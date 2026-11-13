@@ -6,6 +6,7 @@ import { track, debounced } from '../lib/track'
 
 type Group = keyof typeof groupLabels
 const MAX_COMPARE = 4
+const BENCH = 'ademark'
 const list = (a: string[]) => a.length < 2 ? a.join('') : `${a.slice(0, -1).join(', ')} and ${a.at(-1)}`
 
 function initializeFinder() {
@@ -70,9 +71,11 @@ function initializeFinder() {
     if (!ul) return
     const items: [string, string, boolean][] = []
     // In Fits every must-have is a yes, so they go in one tick; elsewhere each one is named.
+    // ADEMark is shown by the card's badge, not in this list, but it still counts toward "All N must-haves".
     if (group === 'fits' && state.must.length > 1) items.push([`All ${state.must.length} must-haves`, 'yes', false])
-    else for (const key of state.must) items.push([key, filter.answer(row, key), false])
-    for (const key of state.nice) { const a = filter.answer(row, key); if (a !== 'unknown') items.push([key, a, true]) }
+    else for (const key of state.must) if (key !== BENCH) items.push([key, filter.answer(row, key), false])
+    for (const key of state.nice) { const a = filter.answer(row, key); if (key !== BENCH && a !== 'unknown') items.push([key, a, true]) }
+    benchBadge(el, row)
     ul.replaceChildren(...items.map(([key, answer, nice]) => {
       const li = document.createElement('li')
       li.className = `${answer === 'yes' ? 'y' : answer === 'no' ? 'n' : 'u'}${nice ? ' nice' : ''}`
@@ -83,6 +86,32 @@ function initializeFinder() {
       return li
     }))
     ul.hidden = items.length === 0
+  }
+
+  // The ADEMark badge carries the pick: filled for a must-have, ticked for a nice-to-have. An ADE ADEMark has not
+  // tested gets a dashed "Not tested by ADEMark yet" only when ADEMark is a must-have: unknown, never a no.
+  function benchBadge(el: HTMLElement, row: number) {
+    const pick = state.must.includes(BENCH) ? 'must' : state.nice.includes(BENCH) ? 'nice' : ''
+    const badge = el.querySelector<HTMLAnchorElement>('a.e-bench')
+    if (badge) {
+      if (pick) badge.dataset.pick = pick; else delete badge.dataset.pick
+      badge.querySelector('.vh')?.remove()
+      if (pick) badge.append(Object.assign(document.createElement('span'), { className: 'vh', textContent: pick === 'must' ? ', one of your must-haves' : ', one of your nice-to-haves' }))
+      return
+    }
+    el.querySelector('[data-bench-unknown]')?.remove()
+    const line = el.querySelector<HTMLElement>('.e-stars[data-bench-line]')
+    if (line && !line.childElementCount) line.remove()
+    if (pick !== 'must' || filter.answer(row, BENCH) !== 'unknown') return
+    const unknown = Object.assign(document.createElement('span'), { className: 'e-bench', textContent: 'Not tested by ADEMark yet' })
+    unknown.dataset.benchUnknown = ''
+    let stars = el.querySelector<HTMLElement>('.e-stars')
+    if (!stars) {
+      stars = Object.assign(document.createElement('p'), { className: 'e-stars' })
+      stars.dataset.benchLine = ''
+      el.querySelector('[data-fit]')!.before(stars)
+    }
+    stars.append(unknown)
   }
 
   function updateCompare() {
