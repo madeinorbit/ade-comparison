@@ -176,10 +176,10 @@ test('sharing cards are PNG, sized, and show text at the card positions', async 
       assert.ok(channels[0].min < 128, `Card ${id} has no text near y=${top}`)
     }
   }
-  assert.match(home, /property="og:image" content="[^"]+\/og\/ade-comparison\.png"/)
+  assert.match(home, /property="og:image" content="[^"]+\/og\/ade-comparison\.png\?v=\d+"/)
   // Comparison pages get their own card with both ADEs highlighted.
   const pair = readdirSync(new URL('compare/', dist), { withFileTypes: true }).find(e => e.isDirectory() && e.name.includes('-vs-'))!.name
-  assert.match(readFileSync(new URL(`compare/${pair}/index.html`, dist), 'utf8'), new RegExp(`property="og:image" content="[^"]+/og/compare/${pair}\\.png"`))
+  assert.match(readFileSync(new URL(`compare/${pair}/index.html`, dist), 'utf8'), new RegExp(`property="og:image" content="[^"]+/og/compare/${pair}\\.png\\?v=\\d+"`))
   assert.equal((await sharp(new URL(`og/compare/${pair}.png`, dist).pathname).metadata()).width, 1200)
 })
 test('sourced values display normally and cross-checks are optional badges', () => {

@@ -23,6 +23,9 @@ export const siteConfig = {
   // Static pair pages grow with the square of the catalog. Build at most this many; every other
   // pair still opens in the Compare view from /compare/?products=a,b.
   maximumStaticPairs: 300,
+  // Social sites cache a card by its image URL for days. Bump this after changing the card design so
+  // new shares on X, LinkedIn or Slack fetch the new image instead of the cached one.
+  ogImageVersion: 2,
 }
 const base = new URL(siteConfig.baseUrl)
 if (!['http:', 'https:'].includes(base.protocol) || base.pathname !== '/') {
