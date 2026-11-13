@@ -33,7 +33,7 @@
     {
       "id": "ghostex:ACC-01",
       "criterionId": "ACC-01",
-      "answer": "Desktop supports macOS, Windows and Linux, with an Android app and an iOS TestFlight build. A browser web app exists but is built from a source checkout and is not part of the installed app.",
+      "answer": "The product ships desktop/native phone clients. Its documented browser work app is source-build-only and not part of the installed app; this does not establish a released browser or phone-browser client.",
       "support": "partial",
       "availability": "generally-available",
       "delivery": "native",
@@ -43,7 +43,7 @@
           "phone",
           "cli"
         ],
-        "version": "d26825da04e160f89b3923c740c313be3933ca64",
+        "version": "be391fdb92364f9358ea09a4f73658af364ff528",
         "plan": null,
         "os": [],
         "executionModes": [],
@@ -66,16 +66,18 @@
           ]
         },
         "browser": {
-          "support": "partial",
-          "answer": "The web app runs the desktop sidebar, chat and terminal in a browser against gxserver; it is built from a source checkout (cargo xtask start-web) and is not part of the installed app.",
+          "support": "unsupported",
+          "answer": "The documented web app requires cargo xtask start-web from a source checkout and is not distributed with the installed application.",
           "evidenceIds": [
             "features"
           ]
         },
         "mobile_browser": {
-          "support": "unknown",
-          "answer": "Mobile browser remains unknown after the first-party source pass; no direct statement or bounded test was found.",
-          "evidenceIds": []
+          "support": "unsupported",
+          "answer": "The same source-only web app does not establish a released phone-browser client.",
+          "evidenceIds": [
+            "features"
+          ]
         },
         "cli": {
           "support": "supported",
@@ -110,21 +112,17 @@
         }
       },
       "limitations": [
-        "Documentation establishes only the named facts. Unknown atomic questions and unrun scenarios remain open."
+        "Only the cited atomic facts are established. No configured product, account, billing or multi-user scenario was run; remaining atomic answers stay unknown."
       ],
-      "unknownReason": "Unanswered atomic questions remain open after the cited source pass. No live coding-agent, cross-device, collaboration or failure fixture was run unless explicitly recorded as observed.",
+      "unknownReason": "See the remaining unknown atomic answers for the unestablished capability and test details. This targeted pass does not establish untested parity across clients, plans or execution modes.",
       "evidenceIds": [
         "features"
       ],
       "checkedAt": "2026-11-08",
       "nextReviewAt": "2026-11-22",
-      "researcher": "reviewer-58",
-      "publication": "public-reviewed",
-      "review": {
-        "reviewer": "reviewer-03",
-        "date": "2026-11-10",
-        "contentHash": "08aae63cf62eb3f932379fcec4276d5eaf376abb3a57b6a0e5566ac2fc4e3ffa"
-      },
+      "researcher": "facet-gap-researcher-37",
+      "publication": "public-candidate",
+      "review": null,
       "contradictions": []
     },
     {
@@ -990,7 +988,7 @@
     {
       "id": "ghostex:PLAN-06",
       "criterionId": "PLAN-06",
-      "answer": "Kanban is an optional plugin backed by Beads, rather than established native issue ownership.",
+      "answer": "The optional integrated Beads board provides persistent issue cards with state and metadata separate from agent sessions. Ghostex supplies create/update/close/comment/dependency operations and dispatch; the separately installed bd CLI stores records in the project .beads database.",
       "support": "partial",
       "availability": "generally-available",
       "delivery": "native",
@@ -998,7 +996,7 @@
         "surfaceIds": [
           "desktop"
         ],
-        "version": "d26825da04e160f89b3923c740c313be3933ca64",
+        "version": "be391fdb92364f9358ea09a4f73658af364ff528",
         "plan": null,
         "os": [],
         "executionModes": [],
@@ -1007,19 +1005,25 @@
       },
       "subanswers": {
         "create": {
-          "support": "unknown",
-          "answer": "Create remains unknown after the first-party source pass; no direct statement or bounded test was found.",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "Board creates project-local persistent Beads cards through its typed create operation.",
+          "evidenceIds": [
+            "gap37-board-operations"
+          ]
         },
         "edit": {
-          "support": "unknown",
-          "answer": "Edit remains unknown after the first-party source pass; no direct statement or bounded test was found.",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "Typed operations edit issue data and board status.",
+          "evidenceIds": [
+            "gap37-board-operations"
+          ]
         },
         "discuss": {
-          "support": "unknown",
-          "answer": "Discuss remains unknown after the first-party source pass; no direct statement or bounded test was found.",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "Cards have persistent comments and the typed comment action.",
+          "evidenceIds": [
+            "gap37-board-operations"
+          ]
         },
         "prioritize": {
           "support": "unknown",
@@ -1027,9 +1031,11 @@
           "evidenceIds": []
         },
         "label": {
-          "support": "unknown",
-          "answer": "Label remains unknown after the first-party source pass; no direct statement or bounded test was found.",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "Typed operations add/remove labels.",
+          "evidenceIds": [
+            "gap37-board-operations"
+          ]
         },
         "assign": {
           "support": "unknown",
@@ -1074,9 +1080,11 @@
           "evidenceIds": []
         },
         "task_session_separation": {
-          "support": "unknown",
-          "answer": "Task session separation remains unknown after the first-party source pass; no direct statement or bounded test was found.",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "Cards exist independently; Start work dispatches sessions and separate sessions associate with a card.",
+          "evidenceIds": [
+            "gap37-board-operations"
+          ]
         },
         "metadata": {
           "support": "unknown",
@@ -1084,34 +1092,33 @@
           "evidenceIds": []
         },
         "durable_states": {
-          "support": "unknown",
-          "answer": "Durable states remains unknown after the first-party source pass; no direct statement or bounded test was found.",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "Board columns follow stored Beads statuses: backlog, open, in progress, test, review and done.",
+          "evidenceIds": [
+            "gap37-board-operations"
+          ]
         },
         "external_tracker_requirement": {
-          "support": "supported",
-          "answer": "README credits Beads and Beads Viewer for the Kanban board.",
+          "support": "partial",
+          "answer": "Local bd CLI must be installed; this is integrated CRUD over project-local data, not an external tracker link.",
           "evidenceIds": [
-            "readme"
+            "gap37-board-operations"
           ]
         }
       },
       "limitations": [
-        "Documentation establishes only the named facts. Unknown atomic questions and unrun scenarios remain open."
+        "Only the cited atomic facts are established. No configured product, account, billing or multi-user scenario was run; remaining atomic answers stay unknown."
       ],
-      "unknownReason": "Unanswered atomic questions remain open after the cited source pass. No live coding-agent, cross-device, collaboration or failure fixture was run unless explicitly recorded as observed.",
+      "unknownReason": "See the remaining unknown atomic answers for the unestablished capability and test details. This targeted pass does not establish untested parity across clients, plans or execution modes.",
       "evidenceIds": [
-        "readme"
+        "readme",
+        "gap37-board-operations"
       ],
       "checkedAt": "2026-11-08",
       "nextReviewAt": "2026-11-22",
-      "researcher": "researcher-73",
-      "publication": "public-reviewed",
-      "review": {
-        "reviewer": "reviewer-58",
-        "date": "2026-11-08",
-        "contentHash": "e6eff8e8bae20e87db46b3778e6d2e552d573fec2056da244a0654df123c837c"
-      },
+      "researcher": "facet-gap-researcher-37",
+      "publication": "public-candidate",
+      "review": null,
       "contradictions": []
     },
     {
@@ -1884,7 +1891,7 @@
     {
       "id": "ghostex:RUN-01",
       "criterionId": "RUN-01",
-      "answer": "Local desktop execution and remote-machine connections are documented.",
+      "answer": "Ghostex runs agents locally, on SSH machines or in boxes created in the user external cloud-provider account. With phone-start enabled, boxes can start while the desktop computer is off; this is not Ghostex-operated vendor compute.",
       "support": "partial",
       "availability": "generally-available",
       "delivery": "native",
@@ -1893,7 +1900,7 @@
           "desktop",
           "phone"
         ],
-        "version": "d26825da04e160f89b3923c740c313be3933ca64",
+        "version": "be391fdb92364f9358ea09a4f73658af364ff528",
         "plan": null,
         "os": [],
         "executionModes": [],
@@ -1921,9 +1928,11 @@
           "evidenceIds": []
         },
         "managed_cloud": {
-          "support": "unknown",
-          "answer": "Managed cloud remains unknown after the first-party source pass; no direct statement or bounded test was found.",
-          "evidenceIds": []
+          "support": "unsupported",
+          "answer": "Boxes are billed to the user own Instabox/Boat or other configured provider account; no Ghostex-operated runtime is documented.",
+          "evidenceIds": [
+            "gap37-cloud-and-collab"
+          ]
         },
         "hybrid": {
           "support": "unknown",
@@ -1956,9 +1965,11 @@
           "evidenceIds": []
         },
         "client_disconnect": {
-          "support": "unknown",
-          "answer": "Client disconnect remains unknown after the first-party source pass; no direct statement or bounded test was found.",
-          "evidenceIds": []
+          "support": "partial",
+          "answer": "Phone-start can launch external-account boxes with the desktop computer off; local work still requires its host to stay running.",
+          "evidenceIds": [
+            "gap37-cloud-and-collab"
+          ]
         },
         "other_device_continuation": {
           "support": "supported",
@@ -1969,21 +1980,18 @@
         }
       },
       "limitations": [
-        "Documentation establishes only the named facts. Unknown atomic questions and unrun scenarios remain open."
+        "Only the cited atomic facts are established. No configured product, account, billing or multi-user scenario was run; remaining atomic answers stay unknown."
       ],
-      "unknownReason": "Unanswered atomic questions remain open after the cited source pass. No live coding-agent, cross-device, collaboration or failure fixture was run unless explicitly recorded as observed.",
+      "unknownReason": "See the remaining unknown atomic answers for the unestablished capability and test details. This targeted pass does not establish untested parity across clients, plans or execution modes.",
       "evidenceIds": [
-        "readme"
+        "readme",
+        "gap37-cloud-and-collab"
       ],
       "checkedAt": "2026-11-08",
       "nextReviewAt": "2026-11-22",
-      "researcher": "researcher-73",
-      "publication": "public-reviewed",
-      "review": {
-        "reviewer": "reviewer-58",
-        "date": "2026-11-08",
-        "contentHash": "674eb08ce02a618f402b9940d1c4c444df3c6d97fc7966460a835a146ca93a4e"
-      },
+      "researcher": "facet-gap-researcher-37",
+      "publication": "public-candidate",
+      "review": null,
       "contradictions": []
     },
     {
@@ -2744,15 +2752,15 @@
     {
       "id": "ghostex:TEAM-02",
       "criterionId": "TEAM-02",
-      "answer": "The first-party pass did not establish roles and access boundaries to the criterion threshold.",
-      "support": "unknown",
+      "answer": "Collab documents owner/guest permissions per shared chat, including approval, direct Send and View only. Named organization/workspace roles and enterprise SSO remain unestablished; the optional Collab hosted implementation is outside this core-source pass.",
+      "support": "partial",
       "availability": "unknown",
       "delivery": "unknown",
       "scope": {
         "surfaceIds": [
           "desktop"
         ],
-        "version": "d26825da04e160f89b3923c740c313be3933ca64",
+        "version": "be391fdb92364f9358ea09a4f73658af364ff528",
         "plan": null,
         "os": [],
         "executionModes": [],
@@ -2771,9 +2779,11 @@
           "evidenceIds": []
         },
         "task_roles": {
-          "support": "unknown",
-          "answer": "Task roles remains unknown after the first-party source pass; no direct statement or bounded test was found.",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "Chat owner controls sharing; guests are gated by Ask me, Send or View only modes.",
+          "evidenceIds": [
+            "gap37-cloud-and-collab"
+          ]
         },
         "membership": {
           "support": "unknown",
@@ -2806,12 +2816,16 @@
           "evidenceIds": []
         }
       },
-      "limitations": [],
-      "unknownReason": "Checked README, relevant first-party docs, releases and public issue leads at d26825da04e160f89b3923c740c313be3933ca64; no sufficient statement or bounded test established this criterion.",
-      "evidenceIds": [],
-      "checkedAt": "2026-11-08",
-      "nextReviewAt": "2026-11-22",
-      "researcher": "researcher-73",
+      "limitations": [
+        "Source review and pinned implementation inspection only; no installed-product, account or multi-user scenario was executed. Unanswered atomic questions remain open."
+      ],
+      "unknownReason": "The documented permissions apply to shared chats, not named organization/workspace roles. No enterprise SSO statement was found; the separately installed/hosted Collab component is not covered by the inspected public core implementation.",
+      "evidenceIds": [
+        "gap37-cloud-and-collab"
+      ],
+      "checkedAt": "2026-11-13",
+      "nextReviewAt": "2027-03-13",
+      "researcher": "facet-gap-researcher-37",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -4643,6 +4657,32 @@
       "visibility": "public",
       "commit": "be391fdb92364f9358ea09a4f73658af364ff528",
       "path": "server/src/agents/launch_plan.rs"
+    },
+    {
+      "id": "gap37-board-operations",
+      "kind": "source-inspected",
+      "url": "https://github.com/maddada/Ghostex/blob/be391fdb92364f9358ea09a4f73658af364ff528/server/src/typed_operations/beads.rs",
+      "title": "Ghostex: server/src/typed_operations/beads.rs",
+      "locator": "Project Board command dispatch and create/update/close/comment operations; skills/ghostex-help/references/features.md Project board (Kanban)",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-13",
+      "finding": "The product board directly creates/edits/closes/comments on persistent project-local .beads records, not merely links to an external website. Cards have backlog/open/in-progress/test/review/done states, priority, labels, comments, dependencies and linked sessions. Start work dispatches an agent to a card; manually created sessions can associate with an existing card. The separately installed bd CLI is the storage dependency.",
+      "visibility": "public",
+      "commit": "be391fdb92364f9358ea09a4f73658af364ff528",
+      "path": "server/src/typed_operations/beads.rs"
+    },
+    {
+      "id": "gap37-cloud-and-collab",
+      "kind": "source-inspected",
+      "url": "https://github.com/maddada/Ghostex/blob/be391fdb92364f9358ea09a4f73658af364ff528/skills/ghostex-help/references/settings.md",
+      "title": "Ghostex: skills/ghostex-help/references/settings.md",
+      "locator": "Cloud Boxes at 427-448; Collab at 365-381; server/src/cloud_boxes and collab_shim",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-13",
+      "finding": "Cloud Boxes use the user Instabox or Boat account and bill that account; phone-start can launch a box while the desktop computer is off. These are user-controlled external cloud accounts, not a Ghostex-operated execution service. Collab owner/guest chat permissions include approve, direct Send and View only; owner controls each shared chat. No named organization/workspace human roles or enterprise SSO are documented. The optional Collab service is separately installed and its hosted implementation is outside the inspected core source.",
+      "visibility": "public",
+      "commit": "be391fdb92364f9358ea09a4f73658af364ff528",
+      "path": "skills/ghostex-help/references/settings.md"
     }
   ],
   "changes": [
@@ -4903,6 +4943,126 @@
         "agy-release-1",
         "readme"
       ]
+    },
+    {
+      "date": "2026-11-13",
+      "author": "facet-gap-researcher-37",
+      "type": "research-correction",
+      "summary": "Fill Ghostex source-only web exclusions, integrated persistent Beads board operations and user-account cloud boundaries; keep opaque collaboration-service and generic-agent gaps explicit.",
+      "claimIds": [
+        "ghostex:ACC-01"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Desktop supports macOS, Windows and Linux, with an Android app and an iOS TestFlight build. A browser web app exists but is built from a source checkout and is not part of the installed app.",
+        "subanswers": {
+          "browser": "partial",
+          "mobile_browser": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "The product ships desktop/native phone clients. Its documented browser work app is source-build-only and not part of the installed app; this does not establish a released browser or phone-browser client.",
+        "subanswers": {
+          "browser": "unsupported",
+          "mobile_browser": "unsupported"
+        }
+      },
+      "evidenceIds": [
+        "features"
+      ]
+    },
+    {
+      "date": "2026-11-13",
+      "author": "facet-gap-researcher-37",
+      "type": "research-correction",
+      "summary": "Fill Ghostex source-only web exclusions, integrated persistent Beads board operations and user-account cloud boundaries; keep opaque collaboration-service and generic-agent gaps explicit.",
+      "claimIds": [
+        "ghostex:PLAN-06"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Kanban is an optional plugin backed by Beads, rather than established native issue ownership.",
+        "subanswers": {
+          "create": "unknown",
+          "edit": "unknown",
+          "discuss": "unknown",
+          "label": "unknown",
+          "task_session_separation": "unknown",
+          "durable_states": "unknown",
+          "external_tracker_requirement": "supported"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "The optional integrated Beads board provides persistent issue cards with state and metadata separate from agent sessions. Ghostex supplies create/update/close/comment/dependency operations and dispatch; the separately installed bd CLI stores records in the project .beads database.",
+        "subanswers": {
+          "create": "supported",
+          "edit": "supported",
+          "discuss": "supported",
+          "label": "supported",
+          "task_session_separation": "supported",
+          "durable_states": "supported",
+          "external_tracker_requirement": "partial"
+        }
+      },
+      "evidenceIds": [
+        "gap37-board-operations"
+      ]
+    },
+    {
+      "date": "2026-11-13",
+      "author": "facet-gap-researcher-37",
+      "type": "research-correction",
+      "summary": "Fill Ghostex source-only web exclusions, integrated persistent Beads board operations and user-account cloud boundaries; keep opaque collaboration-service and generic-agent gaps explicit.",
+      "claimIds": [
+        "ghostex:RUN-01"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Local desktop execution and remote-machine connections are documented.",
+        "subanswers": {
+          "managed_cloud": "unknown",
+          "client_disconnect": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Ghostex runs agents locally, on SSH machines or in boxes created in the user external cloud-provider account. With phone-start enabled, boxes can start while the desktop computer is off; this is not Ghostex-operated vendor compute.",
+        "subanswers": {
+          "managed_cloud": "unsupported",
+          "client_disconnect": "partial"
+        }
+      },
+      "evidenceIds": [
+        "gap37-cloud-and-collab"
+      ]
+    },
+    {
+      "date": "2026-11-13",
+      "author": "facet-gap-researcher-37",
+      "type": "research-correction",
+      "summary": "Fill Ghostex source-only web exclusions, integrated persistent Beads board operations and user-account cloud boundaries; keep opaque collaboration-service and generic-agent gaps explicit.",
+      "claimIds": [
+        "ghostex:TEAM-02"
+      ],
+      "before": {
+        "support": "unknown",
+        "answer": "The first-party pass did not establish roles and access boundaries to the criterion threshold.",
+        "subanswers": {
+          "task_roles": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Collab documents owner/guest permissions per shared chat, including approval, direct Send and View only. Named organization/workspace roles and enterprise SSO remain unestablished; the optional Collab hosted implementation is outside this core-source pass.",
+        "subanswers": {
+          "task_roles": "supported"
+        }
+      },
+      "evidenceIds": [
+        "gap37-cloud-and-collab"
+      ]
     }
   ],
   "context": {
@@ -4965,24 +5125,28 @@
       ]
     },
     "roadmapReview": {
-      "checkedAt": "2026-11-08",
+      "checkedAt": "2026-11-13",
       "locations": [
         {
-          "url": "https://github.com/maddada/Ghostex/blob/d26825da04e160f89b3923c740c313be3933ca64/README.md",
-          "result": "Reviewed current product documentation and links; future work is not treated as shipped."
+          "url": "https://github.com/maddada/Ghostex/blob/be391fdb92364f9358ea09a4f73658af364ff528/server/src/typed_operations/beads.rs",
+          "result": "Read Project Board command dispatch and create/update/close/comment operations; skills/ghostex-help/references/features.md Project board (Kanban). The product board directly creates/edits/closes/comments on persistent project-local .beads records, not merely links to an external website. Cards have backlog/open/in-progress/test/review/done states, priority, labels, comments, dependencies and linked sessions. Start work dispatches an agent to a card; manually created sessions can associate with an existing card. The separately installed bd CLI is the storage dependency."
+        },
+        {
+          "url": "https://github.com/maddada/Ghostex/blob/be391fdb92364f9358ea09a4f73658af364ff528/skills/ghostex-help/references/settings.md",
+          "result": "Read Cloud Boxes at 427-448; Collab at 365-381; server/src/cloud_boxes and collab_shim. Cloud Boxes use the user Instabox or Boat account and bill that account; phone-start can launch a box while the desktop computer is off. These are user-controlled external cloud accounts, not a Ghostex-operated execution service. Collab owner/guest chat permissions include approve, direct Send and View only; owner controls each shared chat. No named organization/workspace human roles or enterprise SSO are documented. The optional Collab service is separately installed and its hosted implementation is outside the inspected core source."
         },
         {
           "url": "https://github.com/maddada/Ghostex/releases",
-          "result": "Read the latest returned releases and dated changes."
+          "result": "Reviewed latest returned release records: v11.6.0 (2026-11-13T03:30:33Z); v11.5.0 (2026-11-12T04:26:39Z); v11.4.0 (2026-11-11T06:02:52Z). Older pinned implementation findings retain their scope."
         },
         {
           "url": "https://github.com/maddada/Ghostex/issues",
-          "result": "Reviewed 30 most recently updated returned open/closed issues and pull requests as leads; user reports do not establish product capabilities."
+          "result": "Bounded review of ten most recently updated open/closed issues and PRs: fix(connection): phones name project icons by ref in the sessions list, and an iPhone keeps a busy computer's connection; ## Ghostex session report; fix(pairing): Easy Connect is strictly opt-in, and nothing joins its allow-list while it is off; feat(beads): the phone's Beads view (shared Tree rules in the phone core, SSH bridge, submodule bump); Phone: logs export as a file, with the details that explain a dropped connection; fix(hooks): Codex hook trust follows the hooks Ghostex moves; Easy Connect is added to SSH-paired phones without the user asking (11.6.0); Web: the Rename dialog's backdrop doesn't cover the whole page; Tooling: prettier isn't in package.json, so fresh installs format Markdown inconsistently; Coordinators: Codex's self-reviewed approvals reach the user as approval cards. Reports and proposals are leads, not capability proof."
         }
       ],
       "announced": [],
       "gaps": [
-        "No hands-on scenario or independent review in this source pass. Roadmap plans without a dated shipped announcement remain separate from current findings."
+        "Targeted documentation and pinned implementation pass for missing directory cells. No installed-product or multi-account scenario was run. Future plans, private previews and issue/PR proposals do not establish shipped support."
       ]
     },
     "typedFilterPass": {
@@ -5114,6 +5278,23 @@
     "lifecycleSearch": {
       "checkedAt": "2026-11-08",
       "result": "Checked first-party README, recent releases and public issue leads. No scoped product shutdown notice established; active status is not inferred."
+    },
+    "facetGapPass": {
+      "checkedAt": "2026-11-13",
+      "keys": [
+        "web-client",
+        "phone-client:mobile-web",
+        "issue-tracking",
+        "execution:vendor-cloud",
+        "laptop-independent",
+        "pricing-model:free-plan",
+        "pricing-model:subscription",
+        "pricing-model:per-seat",
+        "pricing-model:usage-based",
+        "pricing-model:compute",
+        "pricing-model:one-time"
+      ],
+      "method": "Read existing atomic findings and cited first-party sources, then inspect pinned public implementation for missing capability boundaries. Unestablished business facts and closed components remain unknown."
     }
   }
 }
