@@ -1145,10 +1145,10 @@
   {
    "id": "omnigent:PLAN-06",
    "criterionId": "PLAN-06",
-   "answer": "The 2026-11-07 first-party pass checked Omnigent Desktop app; Omnigent Mobile; Omnigent Web UI; Omnigent Harness support; Omnigent Pair programming; Omnigent Shared server; Omnigent Auth and SSO; Omnigent Usage telemetry; Omnigent Polly tutorial; Omnigent Omnigent README; Omnigent Scheduled tasks; Omnigent Policy reference; Omnigent Pull request workflow; Omnigent Application license; Omnigent v0.21.0 release. These sources did not establish native issue management and idea backlog beyond any cited atomic answers. No installed-product or shared-scenario test was run.",
-   "support": "unknown",
-   "availability": "unknown",
-   "delivery": "unknown",
+   "answer": "The scoped native UI and database have agent sessions, project grouping and scheduled automation definitions. Bounded inspection found no independent native issue/backlog/to-do work-item list; scheduled trigger definitions and run statuses are separate.",
+   "support": "partial",
+   "availability": "generally-available",
+   "delivery": "native",
    "scope": {
     "surfaceIds": [
      "desktop",
@@ -1164,9 +1164,11 @@
    },
    "subanswers": {
     "create": {
-     "support": "unknown",
-     "answer": "Create: no explicit product-scoped answer found in the checked first-party material.",
-     "evidenceIds": []
+     "support": "unsupported",
+     "answer": "Native stores/routes expose sessions, projects and schedules rather than issue/backlog work-item creation.",
+     "evidenceIds": [
+      "gap39-native-work"
+     ]
     },
     "edit": {
      "support": "unknown",
@@ -1229,9 +1231,11 @@
      "evidenceIds": []
     },
     "task_session_separation": {
-     "support": "unknown",
-     "answer": "Task session separation: no explicit product-scoped answer found in the checked first-party material.",
-     "evidenceIds": []
+     "support": "unsupported",
+     "answer": "The native work record is a session; the separate task store contains scheduled trigger definitions, not backlog work items.",
+     "evidenceIds": [
+      "gap39-native-work"
+     ]
     },
     "metadata": {
      "support": "unknown",
@@ -1249,13 +1253,17 @@
      "evidenceIds": []
     }
    },
-   "limitations": [],
-   "unknownReason": "The 2026-11-07 first-party pass checked Omnigent Desktop app; Omnigent Mobile; Omnigent Web UI; Omnigent Harness support; Omnigent Pair programming; Omnigent Shared server; Omnigent Auth and SSO; Omnigent Usage telemetry; Omnigent Polly tutorial; Omnigent Omnigent README; Omnigent Scheduled tasks; Omnigent Policy reference; Omnigent Pull request workflow; Omnigent Application license; Omnigent v0.21.0 release. These sources did not establish native issue management and idea backlog beyond any cited atomic answers. No installed-product or shared-scenario test was run.",
-   "evidenceIds": [],
-   "checkedAt": "2026-11-07",
-   "nextReviewAt": "2026-11-21",
-   "researcher": "researcher-66",
-   "publication": "internal-only",
+   "limitations": [
+    "Only the named atomic answers are established by this source pass. Remaining atomic answers retain their documented gaps."
+   ],
+   "unknownReason": "See unknown atomic answers for the source and test gaps.",
+   "evidenceIds": [
+    "gap39-native-work"
+   ],
+   "checkedAt": "2026-11-13",
+   "nextReviewAt": "2027-03-13",
+   "researcher": "facet-researcher-ade39",
+   "publication": "public-candidate",
    "review": null,
    "contradictions": []
   },
@@ -2118,7 +2126,7 @@
   {
    "id": "omnigent:RUN-01",
    "criterionId": "RUN-01",
-   "answer": "Separate server and hosts enable local or user-controlled remote execution.",
+   "answer": "Separate server and hosts enable local or user-controlled remote execution. Managed sandbox launchers are configured on the user-operated server using its own provider credentials; no product-vendor runtime service is provisioned by this release.",
    "support": "partial",
    "availability": "generally-available",
    "delivery": "native",
@@ -2161,9 +2169,11 @@
      ]
     },
     "managed_cloud": {
-     "support": "unknown",
-     "answer": "Managed cloud: no explicit product-scoped answer found in the checked first-party material.",
-     "evidenceIds": []
+     "support": "unsupported",
+     "answer": "The scoped managed-host provider factory runs under the user-operated server configuration and its own provider credentials, without an Omnigent-vendor runtime service.",
+     "evidenceIds": [
+      "gap39-microvm-code"
+     ]
     },
     "hybrid": {
      "support": "unknown",
@@ -2216,28 +2226,25 @@
     }
    },
    "limitations": [
-    "Not established by this source pass: managed_cloud, hybrid, payer, resources, region, expiry."
+    "Only the named atomic answers are established by this source pass. Remaining atomic answers retain their documented gaps."
    ],
    "unknownReason": "Remaining atomic questions lack an explicit first-party answer in the checked material: managed_cloud, hybrid, payer, resources, region, expiry.",
    "evidenceIds": [
     "nov07-deploy",
-    "nov07-desktop"
+    "nov07-desktop",
+    "gap39-microvm-code"
    ],
    "checkedAt": "2026-11-07",
    "nextReviewAt": "2026-12-07",
-   "researcher": "researcher-66",
-   "publication": "public-reviewed",
-   "review": {
-    "reviewer": "reviewer-01",
-    "date": "2026-11-10",
-    "contentHash": "c1a3bfdea3967f335116e823a8eb550e8c7312c9e8e2f162c410541389938261"
-   },
+   "researcher": "facet-researcher-ade39",
+   "publication": "public-candidate",
+   "review": null,
    "contradictions": []
   },
   {
    "id": "omnigent:RUN-02",
    "criterionId": "RUN-02",
-   "answer": "Git worktrees, remote sandbox containers and optional OS policies are separate isolation mechanisms.",
+   "answer": "Git worktrees, remote sandbox containers and optional OS policies are separate isolation mechanisms. The optional microsandbox provider additionally gives each host a hardware-isolated microVM on supported macOS/Linux hosts.",
    "support": "partial",
    "availability": "generally-available",
    "delivery": "native",
@@ -2284,9 +2291,12 @@
      ]
     },
     "vm": {
-     "support": "unknown",
-     "answer": "Vm: no explicit product-scoped answer found in the checked first-party material.",
-     "evidenceIds": []
+     "support": "supported",
+     "answer": "The optional microsandbox provider boots each host in a libkrun microVM, with server-managed and CLI bootstrap modes. Requires Apple Silicon macOS or Linux KVM; the runtime is beta.",
+     "evidenceIds": [
+      "gap39-microvm",
+      "gap39-microvm-code"
+     ]
     },
     "os_sandbox": {
      "support": "supported",
@@ -2341,23 +2351,21 @@
     }
    },
    "limitations": [
-    "Not established by this source pass: checkout, branch, vm, process, secrets, code_separation."
+    "Only the named atomic answers are established by this source pass. Remaining atomic answers retain their documented gaps."
    ],
    "unknownReason": "Remaining atomic questions lack an explicit first-party answer in the checked material: checkout, branch, vm, process, secrets, code_separation.",
    "evidenceIds": [
     "nov07-polly",
     "nov07-collab",
-    "nov07-policies"
+    "nov07-policies",
+    "gap39-microvm",
+    "gap39-microvm-code"
    ],
    "checkedAt": "2026-11-07",
    "nextReviewAt": "2026-12-07",
-   "researcher": "researcher-66",
-   "publication": "public-reviewed",
-   "review": {
-    "reviewer": "reviewer-60",
-    "date": "2026-11-11",
-    "contentHash": "b2c884ecb899275a7ce0c4488447afb2083cd55d8e1f18e2e4646d63b9c7d051"
-   },
+   "researcher": "facet-researcher-ade39",
+   "publication": "public-candidate",
+   "review": null,
    "contradictions": []
   },
   {
@@ -5440,6 +5448,45 @@
    "visibility": "public",
    "commit": "2f636330cc6e28bfe1d22f741eda6db34a192d39",
    "path": "feature-map/native-harnesses.md"
+  },
+  {
+   "id": "gap39-microvm",
+   "kind": "documented",
+   "url": "https://github.com/omnigent-ai/omnigent/blob/2f636330cc6e28bfe1d22f741eda6db34a192d39/deploy/microsandbox/README.md",
+   "title": "Omnigent microsandbox deployment",
+   "locator": "Provider overview; prerequisites; server-managed and CLI bootstrap",
+   "sourceDate": null,
+   "retrievedAt": "2026-11-13",
+   "finding": "The optional microsandbox provider boots each Omnigent host in its own hardware-isolated microVM using libkrun. It is fully local/self-hosted, supports Apple Silicon macOS and Linux with KVM, and uses a beta pinned runtime. Server-managed sessions and CLI sandbox create are documented.",
+   "visibility": "public",
+   "commit": null,
+   "path": null
+  },
+  {
+   "id": "gap39-microvm-code",
+   "kind": "source-inspected",
+   "url": "https://github.com/omnigent-ai/omnigent/blob/2f636330cc6e28bfe1d22f741eda6db34a192d39/omnigent/server/managed_hosts.py",
+   "title": "Omnigent managed host providers",
+   "locator": "microsandbox provider configuration and launcher factory, lines 1916-1925; onboarding/sandboxes/microsandbox.py",
+   "sourceDate": null,
+   "retrievedAt": "2026-11-13",
+   "finding": "The scoped server registers the microsandbox provider and constructs its launcher from the server configuration. Runtime providers and credentials belong to the user-operated server, rather than an Omnigent-hosted execution service.",
+   "visibility": "public",
+   "commit": "2f636330cc6e28bfe1d22f741eda6db34a192d39",
+   "path": "omnigent/server/managed_hosts.py"
+  },
+  {
+   "id": "gap39-native-work",
+   "kind": "source-inspected",
+   "url": "https://github.com/omnigent-ai/omnigent/blob/2f636330cc6e28bfe1d22f741eda6db34a192d39/omnigent/stores/scheduled_task_store/sqlalchemy_store.py",
+   "title": "Omnigent native work and schedule records",
+   "locator": "ScheduledTask/ScheduledTaskRun store; server/routes/scheduled_tasks.py; web/src/pages/TasksPage.tsx; session/project stores",
+   "sourceDate": null,
+   "retrievedAt": "2026-11-13",
+   "finding": "The scoped /tasks interface persists scheduled trigger definitions and run history; ordinary agent work is stored as sessions grouped into projects. Inspection of native stores, routes and Tasks UI found no independent backlog/to-do/issue work-item CRUD with open/in-progress/done states. Scheduled job state is not issue state.",
+   "visibility": "public",
+   "commit": "2f636330cc6e28bfe1d22f741eda6db34a192d39",
+   "path": "omnigent/stores/scheduled_task_store/sqlalchemy_store.py"
   }
  ],
  "changes": [
@@ -6711,13 +6758,94 @@
     "nov07-harness",
     "nov07-polly"
    ]
+  },
+  {
+   "date": "2026-11-13",
+   "author": "facet-researcher-ade39",
+   "type": "research-correction",
+   "summary": "Fill optional microVM isolation, user-operated execution and free-software pricing; inspect persistent native records separately from scheduled trigger definitions.",
+   "claimIds": [
+    "omnigent:RUN-02"
+   ],
+   "before": {
+    "support": "partial",
+    "answer": "Git worktrees, remote sandbox containers and optional OS policies are separate isolation mechanisms.",
+    "subanswers": {
+     "vm": "unknown"
+    }
+   },
+   "after": {
+    "support": "partial",
+    "answer": "Git worktrees, remote sandbox containers and optional OS policies are separate isolation mechanisms. The optional microsandbox provider additionally gives each host a hardware-isolated microVM on supported macOS/Linux hosts.",
+    "subanswers": {
+     "vm": "supported"
+    }
+   },
+   "evidenceIds": [
+    "gap39-microvm",
+    "gap39-microvm-code"
+   ]
+  },
+  {
+   "date": "2026-11-13",
+   "author": "facet-researcher-ade39",
+   "type": "research-correction",
+   "summary": "Fill optional microVM isolation, user-operated execution and free-software pricing; inspect persistent native records separately from scheduled trigger definitions.",
+   "claimIds": [
+    "omnigent:RUN-01"
+   ],
+   "before": {
+    "support": "partial",
+    "answer": "Separate server and hosts enable local or user-controlled remote execution.",
+    "subanswers": {
+     "managed_cloud": "unknown"
+    }
+   },
+   "after": {
+    "support": "partial",
+    "answer": "Separate server and hosts enable local or user-controlled remote execution. Managed sandbox launchers are configured on the user-operated server using its own provider credentials; no product-vendor runtime service is provisioned by this release.",
+    "subanswers": {
+     "managed_cloud": "unsupported"
+    }
+   },
+   "evidenceIds": [
+    "gap39-microvm-code"
+   ]
+  },
+  {
+   "date": "2026-11-13",
+   "author": "facet-researcher-ade39",
+   "type": "research-correction",
+   "summary": "Fill optional microVM isolation, user-operated execution and free-software pricing; inspect persistent native records separately from scheduled trigger definitions.",
+   "claimIds": [
+    "omnigent:PLAN-06"
+   ],
+   "before": {
+    "support": "unknown",
+    "answer": "The 2026-11-07 first-party pass checked Omnigent Desktop app; Omnigent Mobile; Omnigent Web UI; Omnigent Harness support; Omnigent Pair programming; Omnigent Shared server; Omnigent Auth and SSO; Omnigent Usage telemetry; Omnigent Polly tutorial; Omnigent Omnigent README; Omnigent Scheduled tasks; Omnigent Policy reference; Omnigent Pull request workflow; Omnigent Application license; Omnigent v0.21.0 release. These sources did not establish native issue management and idea backlog beyond any cited atomic answers. No installed-product or shared-scenario test was run.",
+    "subanswers": {
+     "create": "unknown",
+     "task_session_separation": "unknown"
+    }
+   },
+   "after": {
+    "support": "partial",
+    "answer": "The scoped native UI and database have agent sessions, project grouping and scheduled automation definitions. Bounded inspection found no independent native issue/backlog/to-do work-item list; scheduled trigger definitions and run statuses are separate.",
+    "subanswers": {
+     "create": "unsupported",
+     "task_session_separation": "unsupported"
+    }
+   },
+   "evidenceIds": [
+    "gap39-native-work"
+   ]
   }
  ],
  "context": {
   "scopeNote": "Identity is now resolvable; do not preserve the old ambiguous-name verdict as a fact.",
   "nextResearch": [],
   "roadmapReview": {
-   "checkedAt": "2026-11-07",
+   "checkedAt": "2026-11-13",
    "locations": [
     {
      "url": "https://omnigent.ai/releases",
@@ -6730,6 +6858,14 @@
     {
      "url": "https://github.com/omnigent-ai/omnigent/issues",
      "result": "Latest ten issues/PR entries sampled: clock-step host detection, Kubernetes secrets, Codex inactivity and auth cache reports. Requests are not treated as promised/shipped fixes."
+    },
+    {
+     "url": "https://github.com/omnigent-ai/omnigent/releases",
+     "result": "Retrieved 2 current release entries: v0.22.0; v0.21.0. The source pass remains limited to the pinned release and named capabilities; issue requests are not availability proof."
+    },
+    {
+     "url": "https://github.com/omnigent-ai/omnigent/issues",
+     "result": "Retrieved 4 current issue entries: Opening a chat scans idle descendants when another session has a pending approval; fix(web): grid view papercuts — header gap, title, composer height, session controls; feat: add native OMP TUI integration; Fix IPv6 server URLs and TCP runner endpoints. The source pass remains limited to the pinned release and named capabilities; issue requests are not availability proof."
     }
    ],
    "announced": [],
@@ -6780,6 +6916,24 @@
    "unresolvedFacets": [
     "issue-tracking",
     "lifecycle-status"
+   ]
+  },
+  "facetGapReview": {
+   "checkedAt": "2026-11-13",
+   "researcher": "facet-researcher-ade39",
+   "locations": [
+    {
+     "url": "https://github.com/omnigent-ai/omnigent/blob/2f636330cc6e28bfe1d22f741eda6db34a192d39/",
+     "result": "Inspected managed provider factory, microsandbox deployment, native work/schedule stores and routes; read released harness feature map and automation semantics."
+    },
+    {
+     "url": "https://omnigent.ai/docs/deploy/overview",
+     "result": "Checked first-party self-hosted server and provider deployment scope; generic ACP adapters were not treated as proof of named harness compatibility."
+    }
+   ],
+   "gaps": [
+    "Gemini CLI and Aider remain unknown because generic/community ACP harness adapters make the named provider list open-ended; no first-party integration configuration was established.",
+    "paid-from remains unknown because there is no paid ADE plan and no corresponding enum value."
    ]
   }
  }
