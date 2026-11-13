@@ -43,7 +43,7 @@
     {
       "id": "opencode:ACC-01",
       "criterionId": "ACC-01",
-      "answer": "OpenCode has desktop/terminal, password-protected browser UI and iPhone remote beta.",
+      "answer": "OpenCode has desktop/terminal, password-protected browser UI and iPhone remote beta. The web session client has a specific narrow-screen layout below 768px.",
       "support": "partial",
       "availability": "generally-available",
       "delivery": "native",
@@ -90,9 +90,11 @@
           ]
         },
         "mobile_browser": {
-          "support": "unknown",
-          "answer": "Mobile browser: The November first-party documentation and repository pass did not establish client access at the rubric's required scope. No installed-product fixture was run.",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "The actual browser session UI adapts to phone-width screens at a 768px breakpoint.",
+          "evidenceIds": [
+            "gap39-mobile-layout"
+          ]
         },
         "cli": {
           "support": "supported",
@@ -129,9 +131,7 @@
         }
       },
       "limitations": [
-        "The remaining atomic questions and the rubric scenario are unverified. Documentation is not a successful product test.",
-        "Only the named atomic facts are established by documentation. Remaining rubric scenarios and unknown answers were not demonstrated.",
-        "Desktop app is labelled BETA in the pinned README; the iPhone app is a TestFlight beta and Android is not released."
+        "Only the named atomic answers are established by this source pass. Remaining atomic answers retain their documented gaps."
       ],
       "unknownReason": "Remaining unknown atomic answers were checked against the first-party locations in context.gapFillReview. Sources did not establish those answers; no installed-product fixture was run.",
       "evidenceIds": [
@@ -139,23 +139,20 @@
         "nov07-mobile",
         "nov07-cli",
         "gap-web",
-        "nov07-readme"
+        "nov07-readme",
+        "gap39-mobile-layout"
       ],
       "checkedAt": "2026-11-07",
       "nextReviewAt": "2026-12-07",
-      "researcher": "reviewer-51",
-      "publication": "public-reviewed",
-      "review": {
-        "reviewer": "reviewer-60",
-        "date": "2026-11-11",
-        "contentHash": "f3e8779b55076b1fa45fc35f9b373f0942243ccbf00d4e4275f40b654ef5d207"
-      },
+      "researcher": "facet-researcher-ade39",
+      "publication": "public-candidate",
+      "review": null,
       "contradictions": []
     },
     {
       "id": "opencode:ACC-02",
       "criterionId": "ACC-02",
-      "answer": "OpenCode owns the agent tool/runtime loop. Its local Claude Agent route uses installed Claude Code for model calls and native login; OpenCode still owns tools, permissions, compaction and subagents.",
+      "answer": "OpenCode supplies its own harness and a native Claude Agent integration that launches the installed Claude Code through the official SDK, persists/resumes Claude sessions and manages their process. OpenCode supplies tools, permissions, compaction and subagents; Claude builtin tools/settings are disabled. Other shipped provider routes are model API access, not the other compared harness sessions.",
       "support": "partial",
       "availability": "generally-available",
       "delivery": "native",
@@ -176,12 +173,10 @@
       "subanswers": {
         "harnesses": {
           "support": "supported",
-          "answer": "OpenCode runtime. Optional local Claude Agent uses installed Claude Code for model calls; this does not establish Claude Code tool/hook/MCP/agent-team parity.",
+          "answer": "OpenCode runs its own runtime and the optional local Claude Agent bridge launches and resumes the installed Claude Code through the official SDK. OpenCode supplies tools/permissions, without Claude builtin tools/settings or remote-workspace availability.",
           "evidenceIds": [
-            "nov07-providers",
-            "nov07-agents",
-            "nov07-desktop",
-            "gap-claude"
+            "gap39-claude-sessions",
+            "gap39-own-runtime"
           ]
         },
         "model_providers": {
@@ -201,11 +196,11 @@
           ]
         },
         "session_integration": {
-          "support": "supported",
-          "answer": "Primary sessions and foreground/background child sessions.",
+          "support": "partial",
+          "answer": "The local Node runtime starts and resumes the installed Claude Code through the official SDK. The integration uses OpenCode tools and permissions rather than Claude builtin tools/settings, and is unavailable in remote workspaces.",
           "evidenceIds": [
-            "nov07-providers",
-            "nov07-agents"
+            "gap39-claude-sessions",
+            "gap39-own-runtime"
           ]
         },
         "mixed_harness_operation": {
@@ -215,26 +210,23 @@
         }
       },
       "limitations": [
-        "The remaining atomic questions and the rubric scenario are unverified. Documentation is not a successful product test.",
-        "Only the named atomic facts are established by documentation. Remaining rubric scenarios and unknown answers were not demonstrated.",
-        "Claude Agent needs Claude Code 2.1.248+ installed and signed in on the same machine as the OpenCode server and is not available in remote workspaces; the docs page is marked noindex."
+        "Only the named atomic answers are established by this source pass. Remaining atomic answers retain their documented gaps."
       ],
       "unknownReason": "Remaining unknown atomic answers were checked against the first-party locations in context.gapFillReview. Sources did not establish those answers; no installed-product fixture was run.",
       "evidenceIds": [
         "nov07-providers",
         "nov07-agents",
         "nov07-desktop",
-        "gap-claude"
+        "gap-claude",
+        "gap39-claude-sessions",
+        "gap39-own-runtime",
+        "gap39-provider-registry"
       ],
       "checkedAt": "2026-11-07",
       "nextReviewAt": "2026-12-07",
-      "researcher": "reviewer-51",
-      "publication": "public-reviewed",
-      "review": {
-        "reviewer": "reviewer-60",
-        "date": "2026-11-11",
-        "contentHash": "d974ac515e02d8ae81afb7e85e16d7373ef567816bb528f61890074e9842808d"
-      },
+      "researcher": "facet-researcher-ade39",
+      "publication": "public-candidate",
+      "review": null,
       "contradictions": []
     },
     {
@@ -1080,13 +1072,15 @@
     {
       "id": "opencode:PLAN-06",
       "criterionId": "PLAN-06",
-      "answer": "The November first-party documentation and repository pass did not establish native issue management and idea backlog at the rubric's required scope. No installed-product fixture was run.",
-      "support": "unknown",
-      "availability": "unknown",
-      "delivery": "unknown",
+      "answer": "The native core implements an experimental per-session todo tool with pending/in-progress/completed/cancelled states in tool/session metadata. Bounded inspection of the native core schema/routes found no separate product-owned issue/backlog work-item store across sessions.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
       "scope": {
-        "surfaceIds": [],
-        "version": null,
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "First-party source pass 2026-11-13; pinned code revisions are recorded in each cited source.",
         "plan": null,
         "os": [],
         "executionModes": [],
@@ -1095,9 +1089,11 @@
       },
       "subanswers": {
         "create": {
-          "support": "unknown",
-          "answer": "Create: The November first-party documentation and repository pass did not establish native issue management and idea backlog at the rubric's required scope. No installed-product fixture was run.",
-          "evidenceIds": []
+          "support": "unsupported",
+          "answer": "The inspected core does not provide independent issue/backlog CRUD; tool todo updates are in-session agent bookkeeping.",
+          "evidenceIds": [
+            "gap39-todo-code"
+          ]
         },
         "edit": {
           "support": "unknown",
@@ -1160,9 +1156,11 @@
           "evidenceIds": []
         },
         "task_session_separation": {
-          "support": "unknown",
-          "answer": "Task session separation: The November first-party documentation and repository pass did not establish native issue management and idea backlog at the rubric's required scope. No installed-product fixture was run.",
-          "evidenceIds": []
+          "support": "unsupported",
+          "answer": "Todo state belongs to the tool output/session metadata, not a separate issue/backlog record.",
+          "evidenceIds": [
+            "gap39-todo-code"
+          ]
         },
         "metadata": {
           "support": "unknown",
@@ -1180,13 +1178,17 @@
           "evidenceIds": []
         }
       },
-      "limitations": [],
-      "unknownReason": "The November first-party documentation and repository pass did not establish native issue management and idea backlog at the rubric's required scope. No installed-product fixture was run.",
-      "evidenceIds": [],
-      "checkedAt": "2026-11-07",
-      "nextReviewAt": "2026-11-21",
-      "researcher": "researcher-75",
-      "publication": "internal-only",
+      "limitations": [
+        "Only the named atomic answers are established by this source pass. Remaining atomic answers retain their documented gaps."
+      ],
+      "unknownReason": "See unknown atomic answers for the source and test gaps.",
+      "evidenceIds": [
+        "gap39-todo-code"
+      ],
+      "checkedAt": "2026-11-13",
+      "nextReviewAt": "2027-03-13",
+      "researcher": "facet-researcher-ade39",
+      "publication": "public-candidate",
       "review": null,
       "contradictions": []
     },
@@ -1495,7 +1497,7 @@
     {
       "id": "opencode:COORD-03",
       "criterionId": "COORD-03",
-      "answer": "OpenCode child agents can return foreground results or continue background sessions by ID.",
+      "answer": "OpenCode supplies a product-owned child-session subagent tool with agent/model selection and follow-ups by session ID. The pinned V2.2.6 source supports foreground/background calls; the public V2.3 release makes subagents always background and returns their session ID immediately, reporting back when idle.",
       "support": "partial",
       "availability": "generally-available",
       "delivery": "native",
@@ -1530,16 +1532,17 @@
         },
         "messages": {
           "support": "supported",
-          "answer": "Subagent tool can continue the same child conversation by session ID.",
+          "answer": "Calling subagent with sessionID sends follow-up instructions to that child.",
           "evidenceIds": [
-            "gap-tools"
+            "gap39-subagent-code"
           ]
         },
         "results_return": {
           "support": "supported",
-          "answer": "Foreground subagent waits for result; background returns child session ID immediately.",
+          "answer": "The pinned V2.2.6 tool returns foreground output or background completion. V2.3 always backgrounds child sessions and reports to the parent whenever idle.",
           "evidenceIds": [
-            "gap-tools"
+            "gap39-subagent-code",
+            "gap39-v23-subagents"
           ]
         },
         "cross_harness": {
@@ -1549,9 +1552,9 @@
         },
         "orchestration_owner": {
           "support": "supported",
-          "answer": "OpenCode subagent tool.",
+          "answer": "The OpenCode core supplies the child-session subagent tool and parent completion handling.",
           "evidenceIds": [
-            "nov07-agents"
+            "gap39-subagent-code"
           ]
         },
         "activation": {
@@ -1592,23 +1595,20 @@
         }
       },
       "limitations": [
-        "The remaining atomic questions and the rubric scenario are unverified. Documentation is not a successful product test.",
-        "Only the named atomic facts are established by documentation. Remaining rubric scenarios and unknown answers were not demonstrated."
+        "Only the named atomic answers are established by this source pass. Remaining atomic answers retain their documented gaps."
       ],
       "unknownReason": "Remaining unknown atomic answers were checked against the first-party locations in context.gapFillReview. Sources did not establish those answers; no installed-product fixture was run.",
       "evidenceIds": [
         "nov07-agents",
-        "gap-tools"
+        "gap-tools",
+        "gap39-subagent-code",
+        "gap39-v23-subagents"
       ],
       "checkedAt": "2026-11-07",
       "nextReviewAt": "2026-12-07",
-      "researcher": "researcher-65",
-      "publication": "public-reviewed",
-      "review": {
-        "reviewer": "reviewer-60",
-        "date": "2026-11-11",
-        "contentHash": "b4a134f08c34f558e004ffa5d323908581a448cefed967130885cb9de3d39e53"
-      },
+      "researcher": "facet-researcher-ade39",
+      "publication": "public-candidate",
+      "review": null,
       "contradictions": []
     },
     {
@@ -2774,13 +2774,15 @@
     {
       "id": "opencode:TEAM-01",
       "criterionId": "TEAM-01",
-      "answer": "The November first-party documentation and repository pass did not establish live human collaboration at the rubric's required scope. No installed-product fixture was run.",
-      "support": "unknown",
-      "availability": "unknown",
-      "delivery": "unknown",
+      "answer": "Native clients can access the same OpenCode server, but authentication uses one shared identity. Distinct-human shared prompting remains unestablished; Console workspace membership governs a different model/billing scope.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
       "scope": {
-        "surfaceIds": [],
-        "version": null,
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "First-party source pass 2026-11-13; pinned code revisions are recorded in each cited source.",
         "plan": null,
         "os": [],
         "executionModes": [],
@@ -2789,9 +2791,11 @@
       },
       "subanswers": {
         "visibility": {
-          "support": "unknown",
-          "answer": "Visibility: The November first-party documentation and repository pass did not establish live human collaboration at the rubric's required scope. No installed-product fixture was run.",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "Paired/password-authenticated clients can view the same server sessions.",
+          "evidenceIds": [
+            "gap39-single-identity"
+          ]
         },
         "discussion": {
           "support": "unknown",
@@ -2810,8 +2814,10 @@
         },
         "coprompting": {
           "support": "unknown",
-          "answer": "Coprompting: The November first-party documentation and repository pass did not establish live human collaboration at the rubric's required scope. No installed-product fixture was run.",
-          "evidenceIds": []
+          "answer": "A fixed shared username/password or pairing session is one identity, not distinct authenticated human collaborators.",
+          "evidenceIds": [
+            "gap39-single-identity"
+          ]
         },
         "ordering": {
           "support": "unknown",
@@ -2844,13 +2850,17 @@
           "evidenceIds": []
         }
       },
-      "limitations": [],
-      "unknownReason": "The November first-party documentation and repository pass did not establish live human collaboration at the rubric's required scope. No installed-product fixture was run.",
-      "evidenceIds": [],
-      "checkedAt": "2026-11-07",
-      "nextReviewAt": "2026-11-21",
-      "researcher": "researcher-75",
-      "publication": "internal-only",
+      "limitations": [
+        "Only the named atomic answers are established by this source pass. Remaining atomic answers retain their documented gaps."
+      ],
+      "unknownReason": "See unknown atomic answers for the source and test gaps.",
+      "evidenceIds": [
+        "gap39-single-identity"
+      ],
+      "checkedAt": "2026-11-13",
+      "nextReviewAt": "2027-03-13",
+      "researcher": "facet-researcher-ade39",
+      "publication": "public-candidate",
       "review": null,
       "contradictions": []
     },
@@ -3575,24 +3585,31 @@
     {
       "id": "opencode:SHIP-03",
       "criterionId": "SHIP-03",
-      "answer": "The November first-party documentation and repository pass did not establish git and pull request workflow at the rubric's required scope. No installed-product fixture was run.",
-      "support": "unknown",
-      "availability": "unknown",
-      "delivery": "unknown",
+      "answer": "The available stable V1 GitHub Action can handle issue/PR comments, implement work on a branch and submit a pull request. This is the documented V1 GitHub integration, not a claim that the V2 desktop client has the same native command.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
       "scope": {
-        "surfaceIds": [],
-        "version": null,
-        "plan": null,
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "Stable V1 GitHub Action at 77fc88c8ade8e5a620ebbe1197f3a572d29ae91a",
+        "plan": "Optional GitHub App/Actions integration; not the V2 native application.",
         "os": [],
-        "executionModes": [],
+        "executionModes": [
+          "github-actions"
+        ],
         "region": null,
         "harness": null
       },
       "subanswers": {
         "branches": {
-          "support": "unknown",
-          "answer": "Branches: The November first-party documentation and repository pass did not establish git and pull request workflow at the rubric's required scope. No installed-product fixture was run.",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "The V1 GitHub Action implements work on a branch.",
+          "evidenceIds": [
+            "gap39-v1-github-code",
+            "gap39-v1-github-doc"
+          ]
         },
         "worktrees": {
           "support": "unknown",
@@ -3605,14 +3622,19 @@
           "evidenceIds": []
         },
         "pull_requests": {
-          "support": "unknown",
-          "answer": "Pull requests: The November first-party documentation and repository pass did not establish git and pull request workflow at the rubric's required scope. No installed-product fixture was run.",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "The V1 GitHub Action uses GitHub pulls.create to submit the resulting PR.",
+          "evidenceIds": [
+            "gap39-v1-github-code"
+          ]
         },
         "comments": {
-          "support": "unknown",
-          "answer": "Comments: The November first-party documentation and repository pass did not establish git and pull request workflow at the rubric's required scope. No installed-product fixture was run.",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "Issue/PR comments trigger the Action and it updates comments through the GitHub API.",
+          "evidenceIds": [
+            "gap39-v1-github-code",
+            "gap39-v1-github-doc"
+          ]
         },
         "ci_response": {
           "support": "unknown",
@@ -3635,13 +3657,18 @@
           "evidenceIds": []
         }
       },
-      "limitations": [],
-      "unknownReason": "The November first-party documentation and repository pass did not establish git and pull request workflow at the rubric's required scope. No installed-product fixture was run.",
-      "evidenceIds": [],
-      "checkedAt": "2026-11-07",
-      "nextReviewAt": "2026-11-21",
-      "researcher": "researcher-75",
-      "publication": "internal-only",
+      "limitations": [
+        "Only the named atomic answers are established by this source pass. Remaining atomic answers retain their documented gaps."
+      ],
+      "unknownReason": "See unknown atomic answers for the source and test gaps.",
+      "evidenceIds": [
+        "gap39-v1-github-code",
+        "gap39-v1-github-doc"
+      ],
+      "checkedAt": "2026-11-13",
+      "nextReviewAt": "2027-03-13",
+      "researcher": "facet-researcher-ade39",
+      "publication": "public-candidate",
       "review": null,
       "contradictions": []
     },
@@ -4049,10 +4076,10 @@
     {
       "id": "opencode:OWN-03",
       "criterionId": "OWN-03",
-      "answer": "OpenCode stores best-effort local snapshots that can contain full file contents; undo does not securely erase them.",
+      "answer": "OpenCode stores best-effort local snapshots that can contain full file contents; undo does not securely erase them. Official desktop/web Sentry instrumentation is selected by a build-time DSN; a product-wide end-user telemetry opt-out remains unestablished.",
       "support": "partial",
-      "availability": "unknown",
-      "delivery": "unknown",
+      "availability": "generally-available",
+      "delivery": "native",
       "scope": {
         "surfaceIds": [
           "cli",
@@ -4126,14 +4153,18 @@
           "evidenceIds": []
         },
         "telemetry_defaults": {
-          "support": "unknown",
-          "answer": "Telemetry defaults: The November first-party documentation and repository pass did not establish data handling and telemetry at the rubric's required scope. No installed-product fixture was run.",
-          "evidenceIds": []
+          "support": "partial",
+          "answer": "Sentry is initialized only when the desktop/web build includes VITE_SENTRY_DSN. Official build values and hosted-service telemetry are not established by this source.",
+          "evidenceIds": [
+            "gap39-sentry-build"
+          ]
         },
         "telemetry_controls": {
           "support": "unknown",
-          "answer": "Telemetry controls: The November first-party documentation and repository pass did not establish data handling and telemetry at the rubric's required scope. No installed-product fixture was run.",
-          "evidenceIds": []
+          "answer": "A build-time DSN guard and the separate V1 AI-SDK span setting do not establish a documented end-user control covering official application telemetry.",
+          "evidenceIds": [
+            "gap39-sentry-build"
+          ]
         },
         "consent_prompt": {
           "support": "unknown",
@@ -4147,15 +4178,16 @@
         }
       },
       "limitations": [
-        "Only the named atomic facts are established by documentation. Remaining rubric scenarios and unknown answers were not demonstrated."
+        "Only the named atomic answers are established by this source pass. Remaining atomic answers retain their documented gaps."
       ],
       "unknownReason": "Remaining unknown atomic answers were checked against the first-party locations in context.gapFillReview. Sources did not establish those answers; no installed-product fixture was run.",
       "evidenceIds": [
-        "gap-snapshots"
+        "gap-snapshots",
+        "gap39-sentry-build"
       ],
       "checkedAt": "2026-11-07",
       "nextReviewAt": "2026-12-07",
-      "researcher": "reviewer-51",
+      "researcher": "facet-researcher-ade39",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -5046,6 +5078,149 @@
       "sourceDate": null,
       "retrievedAt": "2026-11-07",
       "finding": "Official V2 CLI reference supplies a GitHub Actions pull_request-triggered workflow that installs @opencode/cli and runs opencode run --standalone with a provider key secret. GitHub Actions supplies the event/runner; this is a user-configured external workflow, not a built-in OpenCode scheduler.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "gap39-mobile-layout",
+      "kind": "source-inspected",
+      "url": "https://github.com/anomalyco/opencode/blob/07f492b0480c750bdb11485f00db5425a4ac6065/packages/app/src/session/model.ts",
+      "title": "OpenCode browser session layout",
+      "locator": "createMediaQuery at 768px; session/screen-layout.ts",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-13",
+      "finding": "The browser session model explicitly switches between desktop and narrow-screen layouts at 768px. The same password-protected web server powers the chat/session UI; it is a product client, not the public website.",
+      "visibility": "public",
+      "commit": "07f492b0480c750bdb11485f00db5425a4ac6065",
+      "path": "packages/app/src/session/model.ts"
+    },
+    {
+      "id": "gap39-subagent-code",
+      "kind": "source-inspected",
+      "url": "https://github.com/anomalyco/opencode/blob/07f492b0480c750bdb11485f00db5425a4ac6065/packages/core/src/tool/plugin/subagent.ts",
+      "title": "OpenCode subagent tool",
+      "locator": "Input/output schemas; child-session start/resume; foreground/background results",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-13",
+      "finding": "The product-owned subagent tool starts a child session with a configured agent and optional model, returns its session ID/result, and accepts follow-ups by sessionID. Background children notify the parent when complete. The OpenCode runtime supplies this coordinator tool.",
+      "visibility": "public",
+      "commit": "07f492b0480c750bdb11485f00db5425a4ac6065",
+      "path": "packages/core/src/tool/plugin/subagent.ts"
+    },
+    {
+      "id": "gap39-own-runtime",
+      "kind": "documented",
+      "url": "https://github.com/anomalyco/opencode/blob/07f492b0480c750bdb11485f00db5425a4ac6065/services/site/src/docs/content/claude-agent.mdx",
+      "title": "OpenCode Claude Agent execution boundary",
+      "locator": "How it works; packages/core/src/plugin/provider and tool/plugin",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-13",
+      "finding": "Claude Code is used for model calls and native login while OpenCode owns tools, permissions, compaction and subagents. The shipped provider registry includes this native Claude Agent integration; the other compared external coding harnesses are not supplied as session integrations. ChatGPT/Copilot/provider API routes are model access, not those harnesses.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "gap39-provider-registry",
+      "kind": "source-inspected",
+      "url": "https://github.com/anomalyco/opencode/blob/07f492b0480c750bdb11485f00db5425a4ac6065/packages/core/src/plugin/provider.ts",
+      "title": "OpenCode supplied provider registry",
+      "locator": "ProviderPlugins; providers/claude-agent; provider.ts AI-SDK packages",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-13",
+      "finding": "The supplied plugins include the native Claude Agent plugin and model-provider API integrations. Bounded inspection found no supplied session adapter for Codex CLI, Cursor Agent, Gemini CLI, Pi, Grok, Aider or Antigravity; ChatGPT, Copilot, Google and xAI provider names refer to model API access.",
+      "visibility": "public",
+      "commit": "07f492b0480c750bdb11485f00db5425a4ac6065",
+      "path": "packages/core/src/plugin/provider.ts"
+    },
+    {
+      "id": "gap39-claude-sessions",
+      "kind": "source-inspected",
+      "url": "https://github.com/anomalyco/opencode/blob/07f492b0480c750bdb11485f00db5425a4ac6065/packages/core/src/plugin/provider/claude-agent/claude/query-options.ts",
+      "title": "OpenCode native Claude Code process and sessions",
+      "locator": "query-options.ts lines 59-104; claude/session.ts query; claude/sessions.ts resume",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-13",
+      "finding": "The shipped Claude Agent plugin passes the installed Claude executable and a spawner to the official Agent SDK, persists Claude sessions, resumes by saved Claude session ID and manages a long-running process per OpenCode session. It supplies OpenCode tools as MCP tools and disables Claude builtin tools/settings. This is native process/session management, beyond choosing an API model.",
+      "visibility": "public",
+      "commit": "07f492b0480c750bdb11485f00db5425a4ac6065",
+      "path": "packages/core/src/plugin/provider/claude-agent/claude/query-options.ts"
+    },
+    {
+      "id": "gap39-todo-code",
+      "kind": "source-inspected",
+      "url": "https://github.com/anomalyco/opencode/blob/07f492b0480c750bdb11485f00db5425a4ac6065/packages/core/src/tool/plugin/todo.ts",
+      "title": "OpenCode session todo implementation",
+      "locator": "Info/Input/Output schemas; tool execute metadata; core database/schema models",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-13",
+      "finding": "The experimental todowrite tool stores task content/status in a tool output and session metadata. The inspected native core schema/routes and tool implementation have no separate issue/backlog CRUD or cross-session work-item store; scheduled tasks are trigger configurations, not that backlog.",
+      "visibility": "public",
+      "commit": "07f492b0480c750bdb11485f00db5425a4ac6065",
+      "path": "packages/core/src/tool/plugin/todo.ts"
+    },
+    {
+      "id": "gap39-single-identity",
+      "kind": "source-inspected",
+      "url": "https://github.com/anomalyco/opencode/blob/07f492b0480c750bdb11485f00db5425a4ac6065/packages/server/src/auth.ts",
+      "title": "OpenCode server authentication",
+      "locator": "Auth.configLayer; authorized; session pairing signatures",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-13",
+      "finding": "The native server uses one fixed opencode username, a server password and password-derived pairing sessions. Multiple paired clients share that identity; this does not establish distinct human users jointly prompting an agent. Console billing/workspace membership is a separate scope.",
+      "visibility": "public",
+      "commit": "07f492b0480c750bdb11485f00db5425a4ac6065",
+      "path": "packages/server/src/auth.ts"
+    },
+    {
+      "id": "gap39-sentry-build",
+      "kind": "source-inspected",
+      "url": "https://github.com/anomalyco/opencode/blob/07f492b0480c750bdb11485f00db5425a4ac6065/packages/desktop/src/renderer/startup/sentry.ts",
+      "title": "OpenCode optional Sentry initialization",
+      "locator": "initializeSentry; packages/app/src/entry.tsx Sentry guard",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-13",
+      "finding": "Desktop/web Sentry initialization is gated by the build-time VITE_SENTRY_DSN. Inspection of the public native configuration did not establish an end-user control that disables telemetry in official desktop/web builds. V1 experimental.openTelemetry controls AI-SDK spans, a separate narrower instrument.",
+      "visibility": "public",
+      "commit": "07f492b0480c750bdb11485f00db5425a4ac6065",
+      "path": "packages/desktop/src/renderer/startup/sentry.ts"
+    },
+    {
+      "id": "gap39-v1-github-code",
+      "kind": "source-inspected",
+      "url": "https://github.com/anomalyco/opencode/blob/77fc88c8ade8e5a620ebbe1197f3a572d29ae91a/github/index.ts",
+      "title": "OpenCode stable V1 GitHub Action",
+      "locator": "createPR, lines 799-812; github/action.yml and README",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-13",
+      "finding": "The publicly available stable V1 GitHub Action handles issue/PR comments, works on a branch and creates a GitHub pull request through octokit pulls.create. It is invoked through anomalyco/opencode/github@latest and is separate from the V2 native application.",
+      "visibility": "public",
+      "commit": "77fc88c8ade8e5a620ebbe1197f3a572d29ae91a",
+      "path": "github/index.ts"
+    },
+    {
+      "id": "gap39-v1-github-doc",
+      "kind": "documented",
+      "url": "https://opencode.ai/v1/docs/github/",
+      "title": "OpenCode V1 GitHub integration",
+      "locator": "Features; Installation; Manual setup",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-13",
+      "finding": "The official maintained V1 documentation describes /opencode or /oc issue/PR comments launching GitHub Actions, implementing changes on a branch and submitting a PR. The page explicitly identifies itself as V1 documentation.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "gap39-v23-subagents",
+      "kind": "documented",
+      "url": "https://github.com/anomalyco/opencode/releases/tag/v2.3.0",
+      "title": "OpenCode v2.3.0 release",
+      "locator": "Background Subagents by Default",
+      "sourceDate": "2026-11-13",
+      "retrievedAt": "2026-11-13",
+      "finding": "The November 13 public V2.3 release changes subagents to always run in the background, return a session ID immediately and report to the parent whenever idle. This supersedes the optional foreground behavior in the separately pinned V2.2.6 tool source.",
       "visibility": "public",
       "commit": null,
       "path": null
@@ -6990,6 +7165,208 @@
         "nov07-permissions",
         "nov07-providers"
       ]
+    },
+    {
+      "date": "2026-11-13",
+      "author": "facet-researcher-ade39",
+      "type": "research-correction",
+      "summary": "Fill mobile-browser access, native Claude Code sessions, other harness exclusions, product-owned coordination, stable V1 GitHub PR integration and free application pricing. Preserve model-plan, shared-identity and telemetry scope distinctions.",
+      "claimIds": [
+        "opencode:ACC-01"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "OpenCode has desktop/terminal, password-protected browser UI and iPhone remote beta.",
+        "subanswers": {
+          "mobile_browser": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "OpenCode has desktop/terminal, password-protected browser UI and iPhone remote beta. The web session client has a specific narrow-screen layout below 768px.",
+        "subanswers": {
+          "mobile_browser": "supported"
+        }
+      },
+      "evidenceIds": [
+        "gap39-mobile-layout"
+      ]
+    },
+    {
+      "date": "2026-11-13",
+      "author": "facet-researcher-ade39",
+      "type": "research-correction",
+      "summary": "Fill mobile-browser access, native Claude Code sessions, other harness exclusions, product-owned coordination, stable V1 GitHub PR integration and free application pricing. Preserve model-plan, shared-identity and telemetry scope distinctions.",
+      "claimIds": [
+        "opencode:ACC-02"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "OpenCode owns the agent tool/runtime loop. Its local Claude Agent route uses installed Claude Code for model calls and native login; OpenCode still owns tools, permissions, compaction and subagents.",
+        "subanswers": {
+          "harnesses": "supported",
+          "session_integration": "supported"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "OpenCode supplies its own harness and a native Claude Agent integration that launches the installed Claude Code through the official SDK, persists/resumes Claude sessions and manages their process. OpenCode supplies tools, permissions, compaction and subagents; Claude builtin tools/settings are disabled. Other shipped provider routes are model API access, not the other compared harness sessions.",
+        "subanswers": {
+          "harnesses": "supported",
+          "session_integration": "partial"
+        }
+      },
+      "evidenceIds": [
+        "gap39-claude-sessions",
+        "gap39-own-runtime",
+        "gap39-provider-registry"
+      ]
+    },
+    {
+      "date": "2026-11-13",
+      "author": "facet-researcher-ade39",
+      "type": "research-correction",
+      "summary": "Fill mobile-browser access, native Claude Code sessions, other harness exclusions, product-owned coordination, stable V1 GitHub PR integration and free application pricing. Preserve model-plan, shared-identity and telemetry scope distinctions.",
+      "claimIds": [
+        "opencode:COORD-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "OpenCode child agents can return foreground results or continue background sessions by ID.",
+        "subanswers": {
+          "messages": "supported",
+          "orchestration_owner": "supported",
+          "results_return": "supported"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "OpenCode supplies a product-owned child-session subagent tool with agent/model selection and follow-ups by session ID. The pinned V2.2.6 source supports foreground/background calls; the public V2.3 release makes subagents always background and returns their session ID immediately, reporting back when idle.",
+        "subanswers": {
+          "messages": "supported",
+          "orchestration_owner": "supported",
+          "results_return": "supported"
+        }
+      },
+      "evidenceIds": [
+        "gap39-subagent-code",
+        "gap39-v23-subagents"
+      ]
+    },
+    {
+      "date": "2026-11-13",
+      "author": "facet-researcher-ade39",
+      "type": "research-correction",
+      "summary": "Fill mobile-browser access, native Claude Code sessions, other harness exclusions, product-owned coordination, stable V1 GitHub PR integration and free application pricing. Preserve model-plan, shared-identity and telemetry scope distinctions.",
+      "claimIds": [
+        "opencode:PLAN-06"
+      ],
+      "before": {
+        "support": "unknown",
+        "answer": "The November first-party documentation and repository pass did not establish native issue management and idea backlog at the rubric's required scope. No installed-product fixture was run.",
+        "subanswers": {
+          "task_session_separation": "unknown",
+          "create": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "The native core implements an experimental per-session todo tool with pending/in-progress/completed/cancelled states in tool/session metadata. Bounded inspection of the native core schema/routes found no separate product-owned issue/backlog work-item store across sessions.",
+        "subanswers": {
+          "task_session_separation": "unsupported",
+          "create": "unsupported"
+        }
+      },
+      "evidenceIds": [
+        "gap39-todo-code"
+      ]
+    },
+    {
+      "date": "2026-11-13",
+      "author": "facet-researcher-ade39",
+      "type": "research-correction",
+      "summary": "Fill mobile-browser access, native Claude Code sessions, other harness exclusions, product-owned coordination, stable V1 GitHub PR integration and free application pricing. Preserve model-plan, shared-identity and telemetry scope distinctions.",
+      "claimIds": [
+        "opencode:TEAM-01"
+      ],
+      "before": {
+        "support": "unknown",
+        "answer": "The November first-party documentation and repository pass did not establish live human collaboration at the rubric's required scope. No installed-product fixture was run.",
+        "subanswers": {
+          "visibility": "unknown",
+          "coprompting": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Native clients can access the same OpenCode server, but authentication uses one shared identity. Distinct-human shared prompting remains unestablished; Console workspace membership governs a different model/billing scope.",
+        "subanswers": {
+          "visibility": "supported",
+          "coprompting": "unknown"
+        }
+      },
+      "evidenceIds": [
+        "gap39-single-identity"
+      ]
+    },
+    {
+      "date": "2026-11-13",
+      "author": "facet-researcher-ade39",
+      "type": "research-correction",
+      "summary": "Fill mobile-browser access, native Claude Code sessions, other harness exclusions, product-owned coordination, stable V1 GitHub PR integration and free application pricing. Preserve model-plan, shared-identity and telemetry scope distinctions.",
+      "claimIds": [
+        "opencode:SHIP-03"
+      ],
+      "before": {
+        "support": "unknown",
+        "answer": "The November first-party documentation and repository pass did not establish git and pull request workflow at the rubric's required scope. No installed-product fixture was run.",
+        "subanswers": {
+          "branches": "unknown",
+          "pull_requests": "unknown",
+          "comments": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "The available stable V1 GitHub Action can handle issue/PR comments, implement work on a branch and submit a pull request. This is the documented V1 GitHub integration, not a claim that the V2 desktop client has the same native command.",
+        "subanswers": {
+          "branches": "supported",
+          "pull_requests": "supported",
+          "comments": "supported"
+        }
+      },
+      "evidenceIds": [
+        "gap39-v1-github-code",
+        "gap39-v1-github-doc"
+      ]
+    },
+    {
+      "date": "2026-11-13",
+      "author": "facet-researcher-ade39",
+      "type": "research-correction",
+      "summary": "Fill mobile-browser access, native Claude Code sessions, other harness exclusions, product-owned coordination, stable V1 GitHub PR integration and free application pricing. Preserve model-plan, shared-identity and telemetry scope distinctions.",
+      "claimIds": [
+        "opencode:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "OpenCode stores best-effort local snapshots that can contain full file contents; undo does not securely erase them.",
+        "subanswers": {
+          "telemetry_defaults": "unknown",
+          "telemetry_controls": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "OpenCode stores best-effort local snapshots that can contain full file contents; undo does not securely erase them. Official desktop/web Sentry instrumentation is selected by a build-time DSN; a product-wide end-user telemetry opt-out remains unestablished.",
+        "subanswers": {
+          "telemetry_defaults": "partial",
+          "telemetry_controls": "unknown"
+        }
+      },
+      "evidenceIds": [
+        "gap39-sentry-build"
+      ]
     }
   ],
   "context": {
@@ -7024,7 +7401,7 @@
     ],
     "sourceRevision": "1364769e516289bcd805dd813c36e68391858ab9",
     "roadmapReview": {
-      "checkedAt": "2026-11-07",
+      "checkedAt": "2026-11-13",
       "locations": [
         {
           "url": "https://github.com/anomalyco/opencode/releases",
@@ -7089,6 +7466,14 @@
         {
           "url": "https://github.com/anomalyco/opencode/releases",
           "result": "Checked current release notes for capability changes and fixes."
+        },
+        {
+          "url": "https://github.com/anomalyco/opencode/releases",
+          "result": "Retrieved 2 current release entries: v2.3.0; process-daemon-v0.5.2. The source pass remains limited to the pinned release and named capabilities; issue requests are not availability proof."
+        },
+        {
+          "url": "https://github.com/anomalyco/opencode/issues",
+          "result": "Retrieved 4 current issue entries: tui: config plugin options not passed to setup() for git-package TUI plugins; test: isolate submenu timing, server config and terminal colors; Upgrade to 2.3.0 re-ran old session!; [FEATURE]: Optional ca in provider settings.tls for self-signed or private CA endpoints. The source pass remains limited to the pinned release and named capabilities; issue requests are not availability proof."
         }
       ],
       "announced": [
@@ -8102,6 +8487,30 @@
         "Remote standalone server operation is documented, but no explicit laptop-off process guarantee or disconnect fixture established, so laptop-independent filter remains unknown. Remaining cost/scheduling/specification/security/usability questions lack scoped statements or require fixtures."
       ],
       "method": "First-party documentation, release notes, roadmap and public issue search. Documentation is not an installed-product test. Every remaining unknown criterion, atomic question and typed option was considered; silence remains unknown."
+    },
+    "facetGapReview": {
+      "checkedAt": "2026-11-13",
+      "researcher": "facet-researcher-ade39",
+      "locations": [
+        {
+          "url": "https://github.com/anomalyco/opencode/blob/07f492b0480c750bdb11485f00db5425a4ac6065/",
+          "result": "Inspected native todo/auth/subagent/provider code, browser layout, Sentry initialization and workspace driver boundaries; read current release/issue feeds."
+        },
+        {
+          "url": "https://opencode.ai/v1/docs/github/",
+          "result": "Confirmed maintained V1 scope, resolved the Action latest ref to a pinned commit and inspected its actual PR creation call."
+        },
+        {
+          "url": "https://opencode.ai/product",
+          "result": "Retrieved complete current product/price FAQ. Kept model subscription charges separate from the free ADE."
+        }
+      ],
+      "gaps": [
+        "Shared prompting remains unknown because native pairing/password clients share one identity; Console membership alone does not establish distinct-human access to the same agent work.",
+        "Container/VM isolation and vendor-cloud execution remain unestablished for the scoped current product. Generic workspace drivers and whole-application Docker deployment are not proof of a supplied isolated agent workspace; hosted Services wording in the privacy policy does not establish a shipped vendor-cloud execution option.",
+        "Telemetry opt-out remains unknown. Code exposes build-time Sentry selection and narrow V1 AI-SDK span configuration, but no documented end-user control covering official app telemetry.",
+        "paid-from remains unknown because paid Go/Console offerings are model access rather than paid ADE application plans."
+      ]
     }
   }
 }
