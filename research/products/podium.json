@@ -40,7 +40,7 @@
     {
       "id": "podium:ACC-01",
       "criterionId": "ACC-01",
-      "answer": "macOS desktop (Apple silicon and Intel) is the stable packaged client, and the CLI and browser client, including a phone browser, are documented clients. v0.3.0 also ships Linux x86_64 AppImage and Windows x64 installer builds, both labelled Experimental. A native iPhone app is described as private beta and is not publicly distributed.",
+      "answer": "Podium ships desktop, CLI and browser clients, including phone-browser control. The native iPhone app is private beta; the complete download offering contains no native Android app.",
       "support": "partial",
       "availability": "generally-available",
       "delivery": "native",
@@ -82,12 +82,9 @@
         },
         "mobile_apps": {
           "support": "partial",
-          "answer": "Website says a native iPhone app is in private beta (iOS 16.4 or later); docs say native iPhone distribution is not confirmed; no public iPhone or Android app listing was found. Mobile client source is in the repository.",
+          "answer": "The native iPhone client is in private beta and is not public; the complete phone-client list contains no native Android app.",
           "evidenceIds": [
-            "site-home",
-            "site-download",
-            "doc-availability",
-            "mobile-tech"
+            "gaps-host-offering"
           ]
         },
         "browser": {
@@ -151,10 +148,10 @@
         }
       },
       "limitations": [
-        "Release assets, the download page and source were read; no client was installed or run. Windows and Linux desktop are Experimental, not stable, and the native iPhone app is private beta. Editor extensions were not found.",
-        "The v0.3.0 README still says Windows is coming soon; the v0.3.0 release assets and download page are newer, so the answer follows them. Docs revised on 2026-11-06 call Windows experimental, say a release can publish without it, and still call native iPhone distribution unconfirmed."
+        "Documentation and pinned source inspection only; no hands-on scenario was run.",
+        "Other atomic questions remain unestablished: editor_extensions."
       ],
-      "unknownReason": "Editor extensions: searched podium.do docs and home, README, release notes and repository package layout (apps: cli, daemon, desktop, mobile, server, web); no VS Code, JetBrains or other editor extension found, which is not negative evidence. Rechecked 2026-11-06 against public tag v0.3.0, the live docs and a repository-wide term search; unresolved questions remain gaps, not negative findings.",
+      "unknownReason": "Other atomic questions remain unestablished: editor_extensions.",
       "evidenceIds": [
         "site-home",
         "site-download",
@@ -176,17 +173,14 @@
         "v4-flags",
         "src-notify",
         "nov06b-doc-availability",
-        "nov06b-doc-install"
+        "nov06b-doc-install",
+        "gaps-host-offering"
       ],
       "checkedAt": "2026-11-06",
       "nextReviewAt": "2026-11-20",
-      "researcher": "reviewer-39",
-      "publication": "public-reviewed",
-      "review": {
-        "reviewer": "reviewer-40",
-        "date": "2026-11-06",
-        "contentHash": "da16125acd09b688ab8f3091efbfccfda76f0211191ba101ecea1b5146ae4536"
-      },
+      "researcher": "researcher-facet-gaps-batch6",
+      "publication": "public-candidate",
+      "review": null,
       "contradictions": []
     },
     {
@@ -2652,7 +2646,7 @@
     {
       "id": "podium:RUN-01",
       "criterionId": "RUN-01",
-      "answer": "Local desktop execution, a user-owned Linux VPS running the headless server, additional paired machines, and browser or phone reconnection are documented. The desktop app also runs locally on Linux and Windows in experimental builds. Managed Podium cloud availability is not confirmed.",
+      "answer": "The published Podium execution choices are local user machines and a user-owned VPS or paired machine. No vendor-operated agent host is in the complete download offering.",
       "support": "partial",
       "availability": "generally-available",
       "delivery": "native",
@@ -2702,9 +2696,11 @@
           ]
         },
         "managed_cloud": {
-          "support": "unknown",
-          "answer": "Managed cloud: not established at v0.3.0; searched on 2026-11-06, see the claim unknown reason. Missing results are not negative evidence.",
-          "evidenceIds": []
+          "support": "unsupported",
+          "answer": "The complete published host choices are the user computer and user VPS, both operated by the user.",
+          "evidenceIds": [
+            "gaps-host-offering"
+          ]
         },
         "hybrid": {
           "support": "supported",
@@ -2759,9 +2755,10 @@
         }
       },
       "limitations": [
-        "Documentation read; client disconnect and overnight runtime not tested. A closed laptop only keeps agents running if they run on the VPS."
+        "Documentation and pinned source inspection only; no hands-on scenario was run.",
+        "Other atomic questions remain unestablished: payer, resources, region, expiry."
       ],
-      "unknownReason": "Managed cloud: docs say hosted Podium production availability is unconfirmed and cloud runtimes are experimental default-off. Payer, resources, region and expiry for any hosted option were not found; searched podium.do home, download and docs. Rechecked 2026-11-06 against public tag v0.3.0, the live docs and a repository-wide term search; unresolved questions remain gaps, not negative findings.",
+      "unknownReason": "Other atomic questions remain unestablished: payer, resources, region, expiry.",
       "evidenceIds": [
         "readme",
         "doc-install",
@@ -2771,23 +2768,20 @@
         "rel-v030",
         "site-home",
         "site-download",
-        "doc-workspaces"
+        "doc-workspaces",
+        "gaps-host-offering"
       ],
       "checkedAt": "2026-11-06",
       "nextReviewAt": "2026-12-06",
-      "researcher": "researcher-35",
-      "publication": "public-reviewed",
-      "review": {
-        "reviewer": "reviewer-39",
-        "date": "2026-11-06",
-        "contentHash": "05277f63d1847487ad3079fd59b4ee1aca9af315415817e0d725a354f1c2fc37"
-      },
+      "researcher": "researcher-facet-gaps-batch6",
+      "publication": "public-candidate",
+      "review": null,
       "contradictions": []
     },
     {
       "id": "podium:RUN-02",
       "criterionId": "RUN-02",
-      "answer": "Issue-backed work gets its own Git branch and linked worktree on the selected machine; a direct session can use the current checkout. Docs state harnesses run with the permissions of their host account and that Podium does not make generated commands safe. Container, VM and network isolation were not established.",
+      "answer": "Podium separates issue files with Git branches and worktrees, but its released daemon launches native host processes without product-managed container or VM provisioning.",
       "support": "partial",
       "availability": "generally-available",
       "delivery": "native",
@@ -2831,14 +2825,18 @@
           ]
         },
         "container": {
-          "support": "unknown",
-          "answer": "Container: not established at v0.3.0; searched on 2026-11-06, see the claim unknown reason. Missing results are not negative evidence.",
-          "evidenceIds": []
+          "support": "unsupported",
+          "answer": "The daemon and PTY backends provision no containers.",
+          "evidenceIds": [
+            "gaps-host-isolation"
+          ]
         },
         "vm": {
-          "support": "unknown",
-          "answer": "Vm: not established at v0.3.0; searched on 2026-11-06, see the claim unknown reason. Missing results are not negative evidence.",
-          "evidenceIds": []
+          "support": "unsupported",
+          "answer": "The daemon and PTY backends provision no virtual machines.",
+          "evidenceIds": [
+            "gaps-host-isolation"
+          ]
         },
         "os_sandbox": {
           "support": "unsupported",
@@ -2891,9 +2889,10 @@
         }
       },
       "limitations": [
-        "Documentation read; isolation not tested. Cloud runtimes are experimental and were not evaluated for containers or VMs."
+        "Documentation and pinned source inspection only; no hands-on scenario was run.",
+        "Other atomic questions remain unestablished: network."
       ],
-      "unknownReason": "Container, VM and network boundaries: searched docs, SECURITY.md and configuration reference; no container, VM or network-isolation feature is described for the supported path. Rechecked 2026-11-06 against public tag v0.3.0, the live docs and a repository-wide term search; unresolved questions remain gaps, not negative findings.",
+      "unknownReason": "Other atomic questions remain unestablished: network.",
       "evidenceIds": [
         "doc-workspaces",
         "doc-privacy",
@@ -2901,17 +2900,14 @@
         "doc-delegate",
         "doc-config",
         "doc-agents",
-        "doc-how"
+        "doc-how",
+        "gaps-host-isolation"
       ],
       "checkedAt": "2026-11-06",
       "nextReviewAt": "2026-12-06",
-      "researcher": "researcher-35",
-      "publication": "public-reviewed",
-      "review": {
-        "reviewer": "reviewer-39",
-        "date": "2026-11-06",
-        "contentHash": "a1c8c82618c8d09216261b4980a322064e58f8e8f2279eada1b32cd23130534a"
-      },
+      "researcher": "researcher-facet-gaps-batch6",
+      "publication": "public-candidate",
+      "review": null,
       "contradictions": []
     },
     {
@@ -3773,7 +3769,7 @@
     {
       "id": "podium:TEAM-02",
       "criterionId": "TEAM-02",
-      "answer": "Source defines viewer, worker and admin roles for issue capabilities, and instance members are member or admin with invite and removal routes. Project roles, SSO and provisioning were not found, and hosted organizations are not confirmed in production.",
+      "answer": "Podium defines member/admin instance roles and admin-only membership management. The released client authentication uses password-backed sessions and paired-device tokens without enterprise SSO.",
       "support": "partial",
       "availability": "generally-available",
       "delivery": "native",
@@ -3822,9 +3818,11 @@
           ]
         },
         "sso": {
-          "support": "unknown",
-          "answer": "Sso: not established at v0.3.0; searched on 2026-11-06, see the claim unknown reason. Missing results are not negative evidence.",
-          "evidenceIds": []
+          "support": "unsupported",
+          "answer": "Bounded inspection of the released server authentication and member routes found no SAML/OIDC enterprise SSO path.",
+          "evidenceIds": [
+            "gaps-client-auth"
+          ]
         },
         "provisioning": {
           "support": "unknown",
@@ -3852,26 +3850,24 @@
         }
       },
       "limitations": [
-        "Policy source read only; unauthorized access and revocation were not tested."
+        "Documentation and pinned source inspection only; no hands-on scenario was run.",
+        "Other atomic questions remain unestablished: project_roles, provisioning, plan_scope."
       ],
-      "unknownReason": "Project roles, SSO, provisioning and plan scope: searched docs, authorization source and repository terms; hosted organizations are not confirmed in production. Rechecked 2026-11-06 against public tag v0.3.0, the live docs and a repository-wide term search; unresolved questions remain gaps, not negative findings.",
+      "unknownReason": "Other atomic questions remain unestablished: project_roles, provisioning, plan_scope.",
       "evidenceIds": [
         "src-authz",
         "doc-availability",
         "doc-home",
         "oct9-authz",
         "v030-members",
-        "v030-members-ui"
+        "v030-members-ui",
+        "gaps-client-auth"
       ],
       "checkedAt": "2026-11-06",
       "nextReviewAt": "2026-12-06",
-      "researcher": "researcher-35",
-      "publication": "public-reviewed",
-      "review": {
-        "reviewer": "reviewer-39",
-        "date": "2026-11-06",
-        "contentHash": "10cc27a357a1cfb6cd6079412f5ef71f60c3d4e3b52318ead15c733db39b8402"
-      },
+      "researcher": "researcher-facet-gaps-batch6",
+      "publication": "public-candidate",
+      "review": null,
       "contradictions": []
     },
     {
@@ -4202,7 +4198,7 @@
         },
         "keyboard": {
           "support": "partial",
-          "answer": "Board keys cover movement, selection, open, create and property menus with a ? help sheet; ⌘B toggles the deck. Keyboard-only review was not tested.",
+          "answer": "Board keys cover movement, selection, open, create and property menus with a ? help sheet; \u2318B toggles the deck. Keyboard-only review was not tested.",
           "evidenceIds": [
             "v030-board-keys",
             "rel-v030"
@@ -6219,7 +6215,7 @@
       "locator": "specsInputs 53; service methods and repo-root validation; no feature-flag gate",
       "sourceDate": "2026-11-05",
       "retrievedAt": "2026-11-06",
-      "finding": "Inspected v0.3.0 implementation: 53–62 inputs; service methods and repo-root validation; no feature flag gate. Availability is scoped in the linked criterion record.",
+      "finding": "Inspected v0.3.0 implementation: 53\u201362 inputs; service methods and repo-root validation; no feature flag gate. Availability is scoped in the linked criterion record.",
       "visibility": "public",
       "commit": "ec6ff505f69aeb358eb744596e70e984996c2e42",
       "path": "apps/server/src/modules/specs/service.ts"
@@ -6323,7 +6319,7 @@
       "locator": "HibernationSection: idle sessions hibernate under resource pressure or per-machine idle target; worktree GC",
       "sourceDate": "2026-11-05",
       "retrievedAt": "2026-11-06",
-      "finding": "Inspected v0.3.0 implementation: 15–30 and 81–170: idle pressure, configurable idle-session target. Availability is scoped in the linked criterion record.",
+      "finding": "Inspected v0.3.0 implementation: 15\u201330 and 81\u2013170: idle pressure, configurable idle-session target. Availability is scoped in the linked criterion record.",
       "visibility": "public",
       "commit": "ec6ff505f69aeb358eb744596e70e984996c2e42",
       "path": "apps/web/src/features/settings/sections/hibernation.tsx"
@@ -7917,6 +7913,45 @@
       "visibility": "public",
       "commit": "ec6ff505f69aeb358eb744596e70e984996c2e42",
       "path": "packages/protocol/src/maintenance.ts"
+    },
+    {
+      "id": "gaps-host-offering",
+      "kind": "documented",
+      "url": "https://podium.do/download/",
+      "title": "Podium: Three ways to use Podium; Every app connects to every Podium",
+      "locator": "Three ways to use Podium; Every app connects to every Podium",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-13",
+      "finding": "The complete published execution choices are the user computer and the user VPS. Phone and browser clients connect to either one; the download page offers no Podium-operated execution host. Its phone choices are a phone browser and a native iPhone private beta, with no native Android client.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "gaps-host-isolation",
+      "kind": "source-inspected",
+      "url": "https://github.com/madeinorbit/podium/blob/ec6ff505f69aeb358eb744596e70e984996c2e42/packages/pty/src/backends/index.ts",
+      "title": "Podium: packages/pty/src/backends/index.ts",
+      "locator": "defaultPtyBackend; bun-terminal-backend.ts; apps/daemon/src session launch paths",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-13",
+      "finding": "The released terminal backend launches native harness processes through the host PTY. Inspection of the daemon launch paths and packages/pty for Docker, Podman, container, microVM, QEMU and Firecracker provisioning found no product-managed container or VM isolation. Git worktree separation and provider/host permissions are separate.",
+      "visibility": "public",
+      "commit": "ec6ff505f69aeb358eb744596e70e984996c2e42",
+      "path": "packages/pty/src/backends/index.ts"
+    },
+    {
+      "id": "gaps-client-auth",
+      "kind": "source-inspected",
+      "url": "https://github.com/madeinorbit/podium/blob/ec6ff505f69aeb358eb744596e70e984996c2e42/apps/server/src/auth-route.ts",
+      "title": "Podium: apps/server/src/auth-route.ts",
+      "locator": "ClientSessionStore, password verification, native-client and cookie/bearer session routes; member-routes.ts",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-13",
+      "finding": "The released client authentication routes use password-backed member sessions, cookies and paired mobile bearer tokens. Bounded inspection of the server authentication and membership code for SAML/OIDC/SSO found no enterprise single sign-on path. Coding-agent provider OAuth logins are separate.",
+      "visibility": "public",
+      "commit": "ec6ff505f69aeb358eb744596e70e984996c2e42",
+      "path": "apps/server/src/auth-route.ts"
     }
   ],
   "changes": [
@@ -10689,8 +10724,8 @@
           "v4-readme": "2026-09-22"
         },
         "v4CliRoutingLocator": {
-          "locator": "1017–1018 gated help; 2121–2125 unconditional spec dispatch",
-          "finding": "Inspected pinned public implementation: 1017–1018 gated help; 2121–2125 unconditional spec dispatch. Availability is scoped in the linked criterion record."
+          "locator": "1017\u20131018 gated help; 2121\u20132125 unconditional spec dispatch",
+          "finding": "Inspected pinned public implementation: 1017\u20131018 gated help; 2121\u20132125 unconditional spec dispatch. Availability is scoped in the linked criterion record."
         }
       },
       "after": {
@@ -10919,8 +10954,8 @@
           "v4-readme": "2026-09-23"
         },
         "v4CliRoutingLocator": {
-          "locator": "1024–1026 gated help; 2120–2125 unconditional spec dispatch",
-          "finding": "Inspected pinned public implementation: help lists spec only when Specs is enabled at 1024–1026; command dispatch handles spec unconditionally at 2120–2125. Availability is scoped in the linked criterion record."
+          "locator": "1024\u20131026 gated help; 2120\u20132125 unconditional spec dispatch",
+          "finding": "Inspected pinned public implementation: help lists spec only when Specs is enabled at 1024\u20131026; command dispatch handles spec unconditionally at 2120\u20132125. Availability is scoped in the linked criterion record."
         }
       },
       "evidenceIds": [
@@ -15517,7 +15552,7 @@
             "locator": "comment around line 22: per-feature sharing UX deliberately deferred; owner and visibility fields read-only",
             "sourceDate": "2026-10-06",
             "retrievedAt": "2026-10-08",
-            "finding": "Inspected pinned public implementation: 19–32: sharing UX deliberately deferred; fields read-only. Availability is scoped in the linked criterion record.",
+            "finding": "Inspected pinned public implementation: 19\u201332: sharing UX deliberately deferred; fields read-only. Availability is scoped in the linked criterion record.",
             "visibility": "public",
             "commit": "d3d67cf8e1c03782782f052c1a3249a3f3ab510b",
             "path": "apps/web/src/features/issues/issue-page/IssueAbout.tsx"
@@ -15530,7 +15565,7 @@
             "locator": "line 201: offers NO sharing control, per-feature sharing UX is deferred",
             "sourceDate": "2026-10-06",
             "retrievedAt": "2026-10-08",
-            "finding": "Inspected pinned public implementation: 179–184: no sharing controls expected. Availability is scoped in the linked criterion record.",
+            "finding": "Inspected pinned public implementation: 179\u2013184: no sharing controls expected. Availability is scoped in the linked criterion record.",
             "visibility": "public",
             "commit": "d3d67cf8e1c03782782f052c1a3249a3f3ab510b",
             "path": "apps/web/src/features/issues/IssuePage.attribution.test.tsx"
@@ -15543,7 +15578,7 @@
             "locator": "create 548; share 913; reparent 1103; ship handler",
             "sourceDate": "2026-10-06",
             "retrievedAt": "2026-10-08",
-            "finding": "Inspected pinned public implementation: 495–587 create, 835–847 sharing backend, ship handler, reparent. Availability is scoped in the linked criterion record.",
+            "finding": "Inspected pinned public implementation: 495\u2013587 create, 835\u2013847 sharing backend, ship handler, reparent. Availability is scoped in the linked criterion record.",
             "visibility": "public",
             "commit": "d3d67cf8e1c03782782f052c1a3249a3f3ab510b",
             "path": "apps/server/src/modules/issues/registry.ts"
@@ -15569,7 +15604,7 @@
             "locator": "agent brief 124; Design/Acceptance/Notes long-form fields 216-218 with inline editing",
             "sourceDate": "2026-10-06",
             "retrievedAt": "2026-10-08",
-            "finding": "Inspected pinned public implementation: 123–141 brief; 214 onward design/acceptance/notes and inline editing. Availability is scoped in the linked criterion record.",
+            "finding": "Inspected pinned public implementation: 123\u2013141 brief; 214 onward design/acceptance/notes and inline editing. Availability is scoped in the linked criterion record.",
             "visibility": "public",
             "commit": "d3d67cf8e1c03782782f052c1a3249a3f3ab510b",
             "path": "apps/web/src/features/issues/issue-page/IssueBody.tsx"
@@ -15582,7 +15617,7 @@
             "locator": "MANAGED_CODING_ACCOUNTS 189-208 (Claude subscription, Anthropic key, OpenAI key; OpenRouter excluded); billing/execution notes 363-385",
             "sourceDate": "2026-10-06",
             "retrievedAt": "2026-10-08",
-            "finding": "Inspected pinned public implementation: 175–203 managed accounts; 327–354 native subscription and API billing explanations. Availability is scoped in the linked criterion record.",
+            "finding": "Inspected pinned public implementation: 175\u2013203 managed accounts; 327\u2013354 native subscription and API billing explanations. Availability is scoped in the linked criterion record.",
             "visibility": "public",
             "commit": "d3d67cf8e1c03782782f052c1a3249a3f3ab510b",
             "path": "apps/web/src/features/settings/sections/shared.tsx"
@@ -15595,7 +15630,7 @@
             "locator": "AccountsSection 365-406: native logins and managed accounts; line 406 rotating several subscription logins is Coming soon",
             "sourceDate": "2026-10-06",
             "retrievedAt": "2026-10-08",
-            "finding": "Inspected pinned public implementation: 362–406 native and managed accounts; rotating several subscriptions Coming soon. Availability is scoped in the linked criterion record.",
+            "finding": "Inspected pinned public implementation: 362\u2013406 native and managed accounts; rotating several subscriptions Coming soon. Availability is scoped in the linked criterion record.",
             "visibility": "public",
             "commit": "d3d67cf8e1c03782782f052c1a3249a3f3ab510b",
             "path": "apps/web/src/features/settings/sections/accounts.tsx"
@@ -15621,7 +15656,7 @@
             "locator": "specsInputs 53; service methods and repo-root validation; no feature-flag gate",
             "sourceDate": "2026-10-06",
             "retrievedAt": "2026-10-08",
-            "finding": "Inspected pinned public implementation: 53–62 inputs; service methods and repo-root validation; no feature flag gate. Availability is scoped in the linked criterion record.",
+            "finding": "Inspected pinned public implementation: 53\u201362 inputs; service methods and repo-root validation; no feature flag gate. Availability is scoped in the linked criterion record.",
             "visibility": "public",
             "commit": "d3d67cf8e1c03782782f052c1a3249a3f3ab510b",
             "path": "apps/server/src/modules/specs/service.ts"
@@ -15634,7 +15669,7 @@
             "locator": "help text gated by specs flag 1033-1034; unconditional dispatch 837 and 2158-2160",
             "sourceDate": "2026-10-06",
             "retrievedAt": "2026-10-08",
-            "finding": "Inspected pinned public implementation: help lists spec only when Specs is enabled at 1024–1026; command dispatch handles spec unconditionally at 2120–2125. Availability is scoped in the linked criterion record.",
+            "finding": "Inspected pinned public implementation: help lists spec only when Specs is enabled at 1024\u20131026; command dispatch handles spec unconditionally at 2120\u20132125. Availability is scoped in the linked criterion record.",
             "visibility": "public",
             "commit": "d3d67cf8e1c03782782f052c1a3249a3f3ab510b",
             "path": "apps/cli/src/cli.ts"
@@ -15699,7 +15734,7 @@
             "locator": "44-53: merge-queue and shipping panes gated by useFeature",
             "sourceDate": "2026-10-06",
             "retrievedAt": "2026-10-08",
-            "finding": "Inspected pinned public implementation: 50–53: merge-queue/shipping pane gates. Availability is scoped in the linked criterion record.",
+            "finding": "Inspected pinned public implementation: 50\u201353: merge-queue/shipping pane gates. Availability is scoped in the linked criterion record.",
             "visibility": "public",
             "commit": "d3d67cf8e1c03782782f052c1a3249a3f3ab510b",
             "path": "apps/web/src/app/RightRail.tsx"
@@ -15725,7 +15760,7 @@
             "locator": "HibernationSection 14-30: idle sessions hibernate under resource pressure or per-machine idle target; worktree GC",
             "sourceDate": "2026-10-06",
             "retrievedAt": "2026-10-08",
-            "finding": "Inspected pinned public implementation: 15–30 and 81–170: idle pressure, configurable idle-session target. Availability is scoped in the linked criterion record.",
+            "finding": "Inspected pinned public implementation: 15\u201330 and 81\u2013170: idle pressure, configurable idle-session target. Availability is scoped in the linked criterion record.",
             "visibility": "public",
             "commit": "d3d67cf8e1c03782782f052c1a3249a3f3ab510b",
             "path": "apps/web/src/features/settings/sections/hibernation.tsx"
@@ -15751,7 +15786,7 @@
             "locator": "Chat/CLI buttons 1051; same-session warm switch 1292-1314; draft-sync engine flag 542",
             "sourceDate": "2026-10-06",
             "retrievedAt": "2026-10-08",
-            "finding": "Inspected pinned public implementation: 1046–1070 Chat/CLI buttons; 1306–1340 same-session warm switch. Availability is scoped in the linked criterion record.",
+            "finding": "Inspected pinned public implementation: 1046\u20131070 Chat/CLI buttons; 1306\u20131340 same-session warm switch. Availability is scoped in the linked criterion record.",
             "visibility": "public",
             "commit": "d3d67cf8e1c03782782f052c1a3249a3f3ab510b",
             "path": "apps/web/src/features/terminal/AgentPanel.tsx"
@@ -18000,7 +18035,7 @@
             "locator": "Header comment and ABOUT_ROWS; IssueAbout and AboutRow observers; no sharing controls",
             "sourceDate": "2026-10-08",
             "retrievedAt": "2026-10-09",
-            "finding": "Inspected pinned public implementation: 19–32: sharing UX deliberately deferred; fields read-only. Availability is scoped in the linked criterion record.",
+            "finding": "Inspected pinned public implementation: 19\u201332: sharing UX deliberately deferred; fields read-only. Availability is scoped in the linked criterion record.",
             "visibility": "public",
             "commit": "652072f70f9decf1fe161b04cefee218cca5aed0",
             "path": "apps/web/src/features/issues/issue-page/IssueAbout.tsx"
@@ -18013,7 +18048,7 @@
             "locator": "Test: offers NO sharing control; fixture import relocated into tests/worklist",
             "sourceDate": "2026-10-08",
             "retrievedAt": "2026-10-09",
-            "finding": "Inspected pinned public implementation: 179–184: no sharing controls expected. Availability is scoped in the linked criterion record.",
+            "finding": "Inspected pinned public implementation: 179\u2013184: no sharing controls expected. Availability is scoped in the linked criterion record.",
             "visibility": "public",
             "commit": "652072f70f9decf1fe161b04cefee218cca5aed0",
             "path": "apps/web/src/features/issues/IssuePage.attribution.test.tsx"
@@ -18052,7 +18087,7 @@
             "locator": "IssueTitle, IssueDescription, IssueBrief, LONG_FORM_FIELDS and LongFormFields; current observers retain editable long-form fields",
             "sourceDate": "2026-10-08",
             "retrievedAt": "2026-10-09",
-            "finding": "Inspected pinned public implementation: 123–141 brief; 214 onward design/acceptance/notes and inline editing. Availability is scoped in the linked criterion record.",
+            "finding": "Inspected pinned public implementation: 123\u2013141 brief; 214 onward design/acceptance/notes and inline editing. Availability is scoped in the linked criterion record.",
             "visibility": "public",
             "commit": "652072f70f9decf1fe161b04cefee218cca5aed0",
             "path": "apps/web/src/features/issues/issue-page/IssueBody.tsx"
@@ -18065,7 +18100,7 @@
             "locator": "MANAGED_CODING_ACCOUNTS 189-208 (Claude subscription, Anthropic key, OpenAI key; OpenRouter excluded); billing/execution notes 363-385",
             "sourceDate": "2026-10-08",
             "retrievedAt": "2026-10-09",
-            "finding": "Inspected pinned public implementation: 175–203 managed accounts; 327–354 native subscription and API billing explanations. Availability is scoped in the linked criterion record.",
+            "finding": "Inspected pinned public implementation: 175\u2013203 managed accounts; 327\u2013354 native subscription and API billing explanations. Availability is scoped in the linked criterion record.",
             "visibility": "public",
             "commit": "652072f70f9decf1fe161b04cefee218cca5aed0",
             "path": "apps/web/src/features/settings/sections/shared.tsx"
@@ -18078,7 +18113,7 @@
             "locator": "AccountsSection 365-406: native logins and managed accounts; line 406 rotating several subscription logins is Coming soon",
             "sourceDate": "2026-10-08",
             "retrievedAt": "2026-10-09",
-            "finding": "Inspected pinned public implementation: 362–406 native and managed accounts; rotating several subscriptions Coming soon. Availability is scoped in the linked criterion record.",
+            "finding": "Inspected pinned public implementation: 362\u2013406 native and managed accounts; rotating several subscriptions Coming soon. Availability is scoped in the linked criterion record.",
             "visibility": "public",
             "commit": "652072f70f9decf1fe161b04cefee218cca5aed0",
             "path": "apps/web/src/features/settings/sections/accounts.tsx"
@@ -18104,7 +18139,7 @@
             "locator": "specsInputs 53; service methods and repo-root validation; no feature-flag gate",
             "sourceDate": "2026-10-08",
             "retrievedAt": "2026-10-09",
-            "finding": "Inspected pinned public implementation: 53–62 inputs; service methods and repo-root validation; no feature flag gate. Availability is scoped in the linked criterion record.",
+            "finding": "Inspected pinned public implementation: 53\u201362 inputs; service methods and repo-root validation; no feature flag gate. Availability is scoped in the linked criterion record.",
             "visibility": "public",
             "commit": "652072f70f9decf1fe161b04cefee218cca5aed0",
             "path": "apps/server/src/modules/specs/service.ts"
@@ -18117,7 +18152,7 @@
             "locator": "resolvePlan spec routing; specs-gated help; spec command dispatch in main",
             "sourceDate": "2026-10-08",
             "retrievedAt": "2026-10-09",
-            "finding": "Inspected pinned public implementation: help lists spec only when Specs is enabled at 1024–1026; command dispatch handles spec unconditionally at 2120–2125. Availability is scoped in the linked criterion record.",
+            "finding": "Inspected pinned public implementation: help lists spec only when Specs is enabled at 1024\u20131026; command dispatch handles spec unconditionally at 2120\u20132125. Availability is scoped in the linked criterion record.",
             "visibility": "public",
             "commit": "652072f70f9decf1fe161b04cefee218cca5aed0",
             "path": "apps/cli/src/cli.ts"
@@ -18182,7 +18217,7 @@
             "locator": "44-53: merge-queue and shipping panes gated by useFeature",
             "sourceDate": "2026-10-08",
             "retrievedAt": "2026-10-09",
-            "finding": "Inspected pinned public implementation: 50–53: merge-queue/shipping pane gates. Availability is scoped in the linked criterion record.",
+            "finding": "Inspected pinned public implementation: 50\u201353: merge-queue/shipping pane gates. Availability is scoped in the linked criterion record.",
             "visibility": "public",
             "commit": "652072f70f9decf1fe161b04cefee218cca5aed0",
             "path": "apps/web/src/app/RightRail.tsx"
@@ -18208,7 +18243,7 @@
             "locator": "HibernationSection 14-30: idle sessions hibernate under resource pressure or per-machine idle target; worktree GC",
             "sourceDate": "2026-10-08",
             "retrievedAt": "2026-10-09",
-            "finding": "Inspected pinned public implementation: 15–30 and 81–170: idle pressure, configurable idle-session target. Availability is scoped in the linked criterion record.",
+            "finding": "Inspected pinned public implementation: 15\u201330 and 81\u2013170: idle pressure, configurable idle-session target. Availability is scoped in the linked criterion record.",
             "visibility": "public",
             "commit": "652072f70f9decf1fe161b04cefee218cca5aed0",
             "path": "apps/web/src/features/settings/sections/hibernation.tsx"
@@ -18234,7 +18269,7 @@
             "locator": "Chat/CLI buttons 1051; same-session warm switch 1292-1314; draft-sync engine flag 542",
             "sourceDate": "2026-10-08",
             "retrievedAt": "2026-10-09",
-            "finding": "Inspected pinned public implementation: 1046–1070 Chat/CLI buttons; 1306–1340 same-session warm switch. Availability is scoped in the linked criterion record.",
+            "finding": "Inspected pinned public implementation: 1046\u20131070 Chat/CLI buttons; 1306\u20131340 same-session warm switch. Availability is scoped in the linked criterion record.",
             "visibility": "public",
             "commit": "652072f70f9decf1fe161b04cefee218cca5aed0",
             "path": "apps/web/src/features/terminal/AgentPanel.tsx"
@@ -23868,7 +23903,7 @@
             },
             "keyboard": {
               "support": "partial",
-              "answer": "Board keys cover movement, selection, open, create and property menus with a ? help sheet; ⌘B toggles the deck. Keyboard-only review was not tested.",
+              "answer": "Board keys cover movement, selection, open, create and property menus with a ? help sheet; \u2318B toggles the deck. Keyboard-only review was not tested.",
               "evidenceIds": [
                 "v030-board-keys",
                 "rel-v030"
@@ -25333,79 +25368,206 @@
         "doc-availability",
         "v030-bench"
       ]
+    },
+    {
+      "date": "2026-11-13",
+      "author": "researcher-facet-gaps-batch6",
+      "type": "research-correction",
+      "summary": "Fill sourced client, agent, runtime and pricing facet gaps.",
+      "claimIds": [
+        "podium:ACC-01"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "macOS desktop (Apple silicon and Intel) is the stable packaged client, and the CLI and browser client, including a phone browser, are documented clients. v0.3.0 also ships Linux x86_64 AppImage and Windows x64 installer builds, both labelled Experimental. A native iPhone app is described as private beta and is not publicly distributed.",
+        "subanswers": {
+          "mobile_apps": "partial"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Podium ships desktop, CLI and browser clients, including phone-browser control. The native iPhone app is private beta; the complete download offering contains no native Android app.",
+        "subanswers": {
+          "mobile_apps": "partial"
+        }
+      },
+      "evidenceIds": [
+        "gaps-host-offering"
+      ]
+    },
+    {
+      "date": "2026-11-13",
+      "author": "researcher-facet-gaps-batch6",
+      "type": "research-correction",
+      "summary": "Fill sourced client, agent, runtime and pricing facet gaps.",
+      "claimIds": [
+        "podium:RUN-01"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Local desktop execution, a user-owned Linux VPS running the headless server, additional paired machines, and browser or phone reconnection are documented. The desktop app also runs locally on Linux and Windows in experimental builds. Managed Podium cloud availability is not confirmed.",
+        "subanswers": {
+          "managed_cloud": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "The published Podium execution choices are local user machines and a user-owned VPS or paired machine. No vendor-operated agent host is in the complete download offering.",
+        "subanswers": {
+          "managed_cloud": "unsupported"
+        }
+      },
+      "evidenceIds": [
+        "gaps-host-offering"
+      ]
+    },
+    {
+      "date": "2026-11-13",
+      "author": "researcher-facet-gaps-batch6",
+      "type": "research-correction",
+      "summary": "Fill sourced client, agent, runtime and pricing facet gaps.",
+      "claimIds": [
+        "podium:RUN-02"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Issue-backed work gets its own Git branch and linked worktree on the selected machine; a direct session can use the current checkout. Docs state harnesses run with the permissions of their host account and that Podium does not make generated commands safe. Container, VM and network isolation were not established.",
+        "subanswers": {
+          "container": "unknown",
+          "vm": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Podium separates issue files with Git branches and worktrees, but its released daemon launches native host processes without product-managed container or VM provisioning.",
+        "subanswers": {
+          "container": "unsupported",
+          "vm": "unsupported"
+        }
+      },
+      "evidenceIds": [
+        "gaps-host-isolation"
+      ]
+    },
+    {
+      "date": "2026-11-13",
+      "author": "researcher-facet-gaps-batch6",
+      "type": "research-correction",
+      "summary": "Fill sourced client, agent, runtime and pricing facet gaps.",
+      "claimIds": [
+        "podium:TEAM-02"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Source defines viewer, worker and admin roles for issue capabilities, and instance members are member or admin with invite and removal routes. Project roles, SSO and provisioning were not found, and hosted organizations are not confirmed in production.",
+        "subanswers": {
+          "sso": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Podium defines member/admin instance roles and admin-only membership management. The released client authentication uses password-backed sessions and paired-device tokens without enterprise SSO.",
+        "subanswers": {
+          "sso": "unsupported"
+        }
+      },
+      "evidenceIds": [
+        "gaps-client-auth"
+      ]
+    },
+    {
+      "date": "2026-11-13",
+      "author": "researcher-facet-gaps-batch6",
+      "type": "research-correction",
+      "summary": "Fill typed facet mappings from checked first-party findings; retain unestablished options as unknown.",
+      "claimIds": [
+        "podium:ACC-01",
+        "podium:ACC-02",
+        "podium:RUN-01",
+        "podium:RUN-02",
+        "podium:TEAM-02",
+        "podium:TEAM-05",
+        "podium:OWN-04",
+        "podium:COORD-04"
+      ],
+      "evidenceIds": [
+        "gaps-host-offering",
+        "src-harness-enum",
+        "gaps-host-isolation",
+        "gaps-client-auth",
+        "doc-review",
+        "v4-flags",
+        "doc-availability",
+        "license",
+        "site-home",
+        "site-download",
+        "janitor-host-chk1",
+        "janitor-tick-chk1",
+        "automation-apply-chk1",
+        "v030-members",
+        "v030-members-ui"
+      ],
+      "before": {
+        "unmappedFacets": [
+          "phone-client:android",
+          "agents:gemini-cli",
+          "agents:aider",
+          "agents:antigravity",
+          "execution:vendor-cloud",
+          "isolation:container",
+          "isolation:vm",
+          "sso",
+          "review-ui",
+          "pricing-model:free-plan",
+          "pricing-model:subscription",
+          "pricing-model:per-seat",
+          "pricing-model:usage-based",
+          "pricing-model:compute",
+          "pricing-model:one-time",
+          "phone-client:mobile-web",
+          "unattended-triggers",
+          "roles"
+        ]
+      },
+      "after": {
+        "facetValues": {
+          "phone-client:android": "phone-client:android=no",
+          "agents:gemini-cli": "agents:gemini-cli=no",
+          "agents:aider": "agents:aider=no",
+          "agents:antigravity": "agents:antigravity=no",
+          "execution:vendor-cloud": "execution:vendor-cloud=no",
+          "isolation:container": "isolation:container=no",
+          "isolation:vm": "isolation:vm=no",
+          "sso": "sso=no",
+          "review-ui": "review-ui=yes",
+          "pricing-model:free-plan": "pricing-model:free-plan=no",
+          "pricing-model:subscription": "pricing-model:subscription=no",
+          "pricing-model:per-seat": "pricing-model:per-seat=no",
+          "pricing-model:usage-based": "pricing-model:usage-based=no",
+          "pricing-model:compute": "pricing-model:compute=no",
+          "pricing-model:one-time": "pricing-model:one-time=no",
+          "phone-client:mobile-web": "phone-client:mobile-web=yes",
+          "unattended-triggers": "unattended-triggers=yes",
+          "roles": "roles=yes"
+        }
+      }
     }
   ],
   "context": {
     "roadmapReview": {
-      "checkedAt": "2026-11-07",
+      "checkedAt": "2026-11-13",
       "locations": [
         {
-          "url": "https://github.com/madeinorbit/podium/releases",
-          "result": "Releases API lists stable v0.3.0 (2026-11-05), v0.2.0 (2026-10-11), v0.1.0 (2026-08-21) and rolling edge and dev prereleases."
+          "url": "https://podium.do/releases/",
+          "result": "Stable 0.3.1 is an update fix; the 0.3.0 feature source scope remains explicit."
         },
         {
-          "url": "https://github.com/madeinorbit/podium/releases/tag/v0.3.0",
-          "result": "Release notes and 25 assets read, including Windows x64-setup.exe and Linux AppImage."
-        },
-        {
-          "url": "https://github.com/madeinorbit/podium/releases/tag/v0.2.0",
-          "result": "Release notes read: cost per task, Pi, experimental Windows and Linux desktop, safer updates."
-        },
-        {
-          "url": "https://github.com/madeinorbit/podium/blob/ec6ff505f69aeb358eb744596e70e984996c2e42/CHANGELOG.md",
-          "result": "0.2.0, 0.3.0-edge and 0.3.0 entries read. Unreleased is empty. No roadmap items."
-        },
-        {
-          "url": "https://github.com/madeinorbit/podium/blob/ec6ff505f69aeb358eb744596e70e984996c2e42/README.md",
-          "result": "Unchanged since 652072f; still says Windows is coming soon, superseded by release assets."
-        },
-        {
-          "url": "https://podium.do/",
-          "result": "Home page: Windows and Linux desktop Experimental, native iPhone app in private beta. No dated plans."
+          "url": "https://github.com/madeinorbit/podium/issues",
+          "result": "Public issue page checked; no dated roadmap commitment was established."
         },
         {
           "url": "https://podium.do/download/",
-          "result": "Shows v0.3.0, 5 Nov 2026; platform status table read."
-        },
-        {
-          "url": "https://podium.do/releases/",
-          "result": "Public release notes index; 0.3.0 page matches the changelog. No forward-looking items."
-        },
-        {
-          "url": "https://podium.do/docs/reference/feature-availability",
-          "result": "Lists experimental and unconfirmed hosted features; no dates. Windows wording predates 0.2.0."
-        },
-        {
-          "url": "https://github.com/madeinorbit/podium/issues",
-          "result": "Seven open entries, all pull requests: six dependency bumps and one Windows file-durability fix. No feature roadmap."
-        },
-        {
-          "url": "https://podium.do/roadmap",
-          "result": "HTTP 404. /changelog, /pricing and /docs/roadmap also returned 404; the site changelog link goes to /releases/."
-        },
-        {
-          "url": "https://podium.do/docs/llms.txt",
-          "result": "20 linked pages; 18 product pages read; no dated roadmap."
-        },
-        {
-          "url": "https://api.github.com/repos/madeinorbit/podium/git/tags/ca1c848f97be633466d0abf161db46e9dd5659c5",
-          "result": "Annotated tag peels to ec6ff505f69aeb358eb744596e70e984996c2e42."
-        },
-        {
-          "url": "https://github.com/madeinorbit/podium/releases/tag/v0.3.1",
-          "result": "Cross-check on 2026-11-06: stable v0.3.1 published that day with an update fix. No feature, flag or telemetry change, so v0.3.0-scoped claims stand. Docs pages were also revised on 2026-11-06, so earlier notes that they predate 0.2.0 no longer apply to telemetry, Windows or dependency types."
-        },
-        {
-          "url": "https://github.com/madeinorbit/podium/releases",
-          "result": "Release page/web cache lagged current v0.3.x; prior verified v0.3.1 update-only scope retained, v0.3.0 archive used for code facts."
-        },
-        {
-          "url": "https://github.com/madeinorbit/podium/blob/ec6ff505f69aeb358eb744596e70e984996c2e42/CHANGELOG.md",
-          "result": "Read current pinned release changelog; empty Unreleased section adds no dated forward commitments."
-        },
-        {
-          "url": "https://github.com/madeinorbit/podium/issues",
-          "result": "Checked public issue/PR list for gap-related roadmap; API unauthenticated rate limit403 recorded."
+          "result": "Current download offering checked, including experimental desktop clients, phone browser and private-beta iPhone app."
         }
       ],
       "announced": [
@@ -25430,11 +25592,7 @@
         }
       ],
       "gaps": [
-        "No dedicated public roadmap found at the checked paths. Undated website and UI future labels remain labels, not dated commitments.",
-        "Public docs lag v0.3.0 on telemetry, Windows packaging, dependency types and artifact sources.",
-        "No release binaries were executed.",
-        "Hosted production availability, prices, legal terms and certification evidence remain unestablished.",
-        "Web fetches for the docs were unavailable through the web tool; direct first-party HTTP200 pages were read. GitHub API was rate-limited403 and the web release index lagged; pinned publicly downloadable source remains available. No installed, authenticated, multi-user, benchmark or cross-device scenario was run. No stable public cloud runtime/prices/certifications, external MCP client/plugin registry, custom adapter contract or native Gemini/Aider integration was established. No trust boundary inferred from a worktree or dormant code."
+        "No separate dated official roadmap commitment was established in the checked locations."
       ]
     },
     "gapFillReview": {
@@ -25760,6 +25918,35 @@
     "companyFunding": {
       "status": "unknown",
       "reason": "Not researched in this pass; no funding statement on podium.do home, download or docs."
+    },
+    "facetGapPass20261113": {
+      "researcher": "researcher-facet-gaps-batch6",
+      "checkedAt": "2026-11-13",
+      "filled": {
+        "phone-client:android": "no",
+        "agents:gemini-cli": "no",
+        "agents:aider": "no",
+        "agents:antigravity": "no",
+        "execution:vendor-cloud": "no",
+        "isolation:container": "no",
+        "isolation:vm": "no",
+        "sso": "no",
+        "review-ui": "yes",
+        "pricing-model:free-plan": "no",
+        "pricing-model:subscription": "no",
+        "pricing-model:per-seat": "no",
+        "pricing-model:usage-based": "no",
+        "pricing-model:compute": "no",
+        "pricing-model:one-time": "no",
+        "phone-client:mobile-web": "yes",
+        "unattended-triggers": "yes",
+        "roles": "yes"
+      },
+      "remainingUnknown": {
+        "multiplayer": "The released issue UI deliberately omits sharing controls, while membership and grant code alone do not establish an accessible multi-human co-prompting workflow. Hosted production collaboration remains unconfirmed.",
+        "paid-from": "No paid ADE plan is published; the facet cannot represent no paid plan."
+      },
+      "sourceInspection": "Pinned repository source and first-party documentation checked where cited. Agent/provider behavior is scoped separately from the ADE."
     }
   }
 }
