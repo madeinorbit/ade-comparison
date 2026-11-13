@@ -878,6 +878,39 @@ test('directory opt-in retains overdue sourced and reviewed findings, typed valu
   assert.throws(() => buildPublicationFromProfiles(f.profiles, { date, directory: true }), /requires products/)
 })
 
+test('fresh facet interpretations preserve an overdue finding deadline', () => {
+  const f = fixture()
+  const buildDate = '2026-12-01'
+  const publication = buildPublicationFromProfiles(f.profiles, { date: buildDate, format: 'products', registry: f.registry, directory: true })
+  const entry = f.mappings.tool.cli
+  entry.checkedAt = buildDate
+  entry.review = null
+  entry.contentHash = facetReviewHash(publication.products.find(product => product.id === 'tool'), 'cli', null, entry, definition('cli'))
+  const data = buildDirectoryFromPublication(publication, { mappings: f.mappings })
+  const product = data.products.find(product => product.id === 'tool')
+  const cell = product.facets.cli
+  assert.equal(cell.checkedAt, buildDate)
+  assert.equal(cell.nextCheckAt, due)
+  assert.equal(product.claims.find(claim => claim.claimId === cell.claimId).checkedAt, checkedAt)
+  const sitePackage = { index: data.index, definitions: data.facets, products: data.products,
+    notices: data.lifecycleNotices, status: data.statusLog, methodology: data.methodology }
+  assert.equal(validatePackage(sitePackage, buildDate), true)
+
+  for (const [value, error] of [['2026-12-02', /Invalid or future check date/], ['2026-10-31', /Invalid receipt/]]) {
+    const invalid = structuredClone(sitePackage)
+    invalid.products.find(product => product.id === 'tool').facets.cli.checkedAt = value
+    assert.throws(() => validatePackage(invalid, buildDate), error)
+  }
+  const mismatchedDeadline = structuredClone(sitePackage)
+  mismatchedDeadline.products.find(product => product.id === 'tool').facets.cli.nextCheckAt = '2026-11-22'
+  assert.throws(() => validatePackage(mismatchedDeadline, buildDate), /Invalid receipt/)
+  const invalidFinding = structuredClone(sitePackage)
+  const invalidProduct = invalidFinding.products.find(product => product.id === 'tool')
+  invalidProduct.claims.find(claim => claim.claimId === cell.claimId).nextCheckAt = '2026-10-31'
+  invalidProduct.facets.cli.nextCheckAt = '2026-10-31'
+  assert.throws(() => validatePackage(invalidFinding, buildDate), /Invalid or future check date/)
+})
+
 test('directory lifecycle candidates need first-party public sources and keep optional cross-checks', () => {
   const f = fixture()
   const profile = f.profiles[1]

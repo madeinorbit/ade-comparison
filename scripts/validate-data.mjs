@@ -41,8 +41,8 @@ function assertVerification(record, label) {
 }
 const calendarDate = value => text(value) && /^\d{4}-\d{2}-\d{2}$/.test(value) &&
   Number.isFinite(Date.parse(value)) && new Date(value).toISOString().slice(0, 10) === value
-function assertDates(record, label, asOf) {
-  if (!calendarDate(record.checkedAt) || !calendarDate(record.nextCheckAt) || record.nextCheckAt < record.checkedAt ||
+function assertDates(record, label, asOf, findingCheckedAt = record.checkedAt) {
+  if (!calendarDate(record.checkedAt) || !calendarDate(record.nextCheckAt) || record.nextCheckAt < findingCheckedAt ||
     record.checkedAt > asOf || record.crossCheckedAt && (!calendarDate(record.crossCheckedAt) || record.crossCheckedAt < record.checkedAt || record.crossCheckedAt > asOf)) {
     throw new Error(`Invalid or future check date on ${label}`)
   }
@@ -100,7 +100,8 @@ export function validatePackage(data, asOf = new Date().toISOString().slice(0, 1
         const owner = f.id === 'lifecycle-status' ? notice : claims.get(cell.claimId)
         if (!owner || !cell.evidenceIds.length || cell.evidenceIds.some(id => !pool.has(id) || ![...owner.evidenceIds, ...(owner.questions || []).flatMap(q => q.evidenceIds)].includes(id)) || cell.nextCheckAt !== owner.nextCheckAt || cell.checkedAt < owner.checkedAt) throw new Error(`Invalid receipt ${p.id}:${key}`)
         assertVerification(cell, `filter value ${p.id}:${key}`)
-        assertDates(cell, `filter value ${p.id}:${key}`, asOf)
+        // A later interpretation keeps its finding's original, possibly overdue review deadline.
+        assertDates(cell, `filter value ${p.id}:${key}`, asOf, owner.checkedAt)
         if (cell.verificationStatus === 'agent-cross-checked' && f.id !== 'lifecycle-status' && owner.verificationStatus !== 'agent-cross-checked') throw new Error(`Cross-checked filter on an unchecked finding ${p.id}:${key}`)
       }
     }
