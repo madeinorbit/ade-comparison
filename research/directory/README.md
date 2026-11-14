@@ -55,6 +55,28 @@ Mapping checks cannot predate their finding's check or follow the build date. Pa
 
 A digest-valid capability mapping starts as `sourced`, even when its catalog finding was cross-checked. A different agent must separately check the typed interpretation, scope, citations and dates at the source, then record an accepted review with the same digest. A mapping counts as `agent-cross-checked` only when both its public finding and its own review pass. A missing, self-authored, future-dated or outdated review cannot add that label. A `changes-requested` review with the current digest makes the value unknown until a revision changes the digest. Put the reason in its private `note`. A review of a mapping whose own `contentHash` is stale records the current digest, so the rejection binds to the finding the reviewer read. Reviewer and researcher identities, rationale, notes, review workflow and hashes never enter the public package.
 
+### Source rechecks through the authoring helper
+
+Run `node research/directory/author.mjs apply <spec.json>` to apply a source pass. When rechecking an existing finding, put explicit dates in its claim patch, alongside the evidence IDs and atomic answers established by that pass:
+
+```json
+{
+  "claims": {
+    "OWN-02": {
+      "checkedAt": "2026-11-13",
+      "nextReviewAt": "2026-12-13",
+      "evidenceIds": ["hosting-recheck"]
+    }
+  }
+}
+```
+
+`checkedAt` must be a real calendar date on or before the pass date. An answered finding needs a cited, resolved public source retrieved on or after that check date. New evidence accepts `retrievedAt`, defaulting to the pass date; it cannot follow the pass date, and `sourceDate` cannot follow retrieval. Record a new evidence entry for a source recheck and keep older entries' dates and atomic citation scope.
+
+`nextReviewAt` must be a real calendar date on or after `checkedAt`. If omitted on a recheck, it defaults to the helper's criterion review interval from `checkedAt`. An existing answered finding requires explicit `checkedAt` to change its deadline. Without either date, an existing finding keeps both dates, even when the pass adds an atomic answer or a mapping. Previously unknown findings still default to the pass date and criterion interval.
+
+The helper clears the changed claim's independent review and leaves untouched atomic answers and citations intact. A mapping must cite a source retrieved on or after the finding's check date; a new date on another atomic answer cannot refresh an older citation. Rebind only mappings checked against the revised finding. Validation finishes before either product file is written. Building the package never advances these dates.
+
 Public scalar cells have this shape; an enum set maps each option ID to one such cell:
 
 ```ts

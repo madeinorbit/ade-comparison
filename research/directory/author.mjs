@@ -17,7 +17,7 @@ import { readFileSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { buildPublicationFromProfiles, publicationDate } from '../publication/build.mjs'
-import { loadProducts, claimReviewHash, catalogDir } from '../lib.mjs'
+import { loadProducts, claimReviewHash, catalogDir, afterDays } from '../lib.mjs'
 import { facetReviewHash, publicFacet } from './facets.mjs'
 
 const here = fileURLToPath(new URL('.', import.meta.url))
@@ -29,11 +29,19 @@ const indentOf = path => { try { return /^\{\n( +)/.exec(readFileSync(path, 'utf
 const write = (path, value) => writeFileSync(path, `${JSON.stringify(value, null, indentOf(path))}\n`)
 
 const date = publicationDate()
-const publicProduct = id => {
-  const publication = buildPublicationFromProfiles(loadProducts(), { date, format: 'products', directory: true })
+const publicProduct = (id, profiles = loadProducts()) => {
+  const publication = buildPublicationFromProfiles(profiles, { date, format: 'products', directory: true })
   const product = publication.products.find(row => row.id === id)
   if (!product) throw new Error(`No public record for ${id}`)
   return product
+}
+
+const isDate = value => typeof value === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(value) &&
+  Number.isFinite(Date.parse(value)) && new Date(value).toISOString().slice(0, 10) === value
+const checkEvidenceDates = item => {
+  if (!isDate(item.retrievedAt) || item.retrievedAt > date) throw new Error(`${item.id}: retrievedAt must be a calendar date on or before the pass date`)
+  if (item.sourceDate !== null && (!isDate(item.sourceDate) || item.sourceDate > item.retrievedAt))
+    throw new Error(`${item.id}: sourceDate must be a calendar date on or before retrievedAt`)
 }
 
 const entries = mappings => Object.entries(mappings).flatMap(([facetId, value]) => {
@@ -122,11 +130,13 @@ if (command === 'status') {
 //   mappings: { "<facet>" | "<facet>:<option>": { value, claim, evidenceIds, rationale } },
 //   rebind: ["<facet>[:<option>]", ...] }
 // A claim patch may set answer, support, availability, delivery, scope, limitations,
-// unknownReason, contradictions, and per-question subanswers. `evidenceIds` is merged.
-// A claim that was unknown takes the pass date as its check date. A claim that already
-// had findings keeps its check date, because only the patched atomic answers were
-// rechecked; its review is cleared. `rebind` names existing mappings on patched claims
-// that the researcher rechecked against the revised finding.
+// unknownReason, contradictions, checkedAt, nextReviewAt, and per-question subanswers.
+// `evidenceIds` is merged. An explicit checkedAt records a cited source recheck;
+// nextReviewAt defaults to the criterion's review interval from that date. Without
+// checkedAt, existing findings keep both dates; unknown findings use the pass date.
+// Rechecks leave untouched atomic answers and older evidence dates alone and clear
+// the claim review. Evidence retrievedAt defaults to the pass date. `rebind` names
+// existing mappings rechecked against the revised finding.
 function applyPass(spec) {
   const { product: productId, researcher, summary } = spec
   if (!productId || !researcher || !summary) throw new Error('Spec needs product, researcher and summary')
@@ -135,19 +145,28 @@ function applyPass(spec) {
   for (const item of spec.evidence ?? []) {
     if (known.has(item.id)) throw new Error(`Evidence ${item.id} already exists`)
     if (item.kind === 'source-inspected' && (!item.commit || !item.path)) throw new Error(`${item.id} needs commit and path`)
-    profile.evidence.push({ id: item.id, kind: item.kind, url: item.url, title: item.title, locator: item.locator,
-      sourceDate: item.sourceDate ?? null, retrievedAt: date, finding: item.finding, visibility: 'public',
-      commit: item.commit ?? null, path: item.path ?? null })
+    const evidence = { id: item.id, kind: item.kind, url: item.url, title: item.title, locator: item.locator,
+      sourceDate: item.sourceDate ?? null, retrievedAt: Object.hasOwn(item, 'retrievedAt') ? item.retrievedAt : date, finding: item.finding, visibility: 'public',
+      commit: item.commit ?? null, path: item.path ?? null }
+    checkEvidenceDates(evidence)
+    profile.evidence.push(evidence)
     known.add(item.id)
   }
   const days = { 'OWN-04': 60, 'OWN-08': 60, 'OWN-01': 180, 'OWN-02': 180, 'ACC-07': 180 }
   for (const [criterionId, patch] of Object.entries(spec.claims ?? {})) {
     const claim = profile.claims.find(row => row.criterionId === criterionId)
     if (!claim) throw new Error(`Missing claim ${criterionId}`)
-    const before = { support: claim.support, answer: claim.answer,
+    const before = { support: claim.support, answer: claim.answer, checkedAt: claim.checkedAt, nextReviewAt: claim.nextReviewAt,
       subanswers: Object.fromEntries(Object.keys(patch.subanswers ?? {}).map(k => [k, claim.subanswers[k]?.support])) }
     const wasUnknown = claim.support === 'unknown'
-    const { subanswers = {}, scope, evidenceIds = [], ...fields } = patch
+    const rechecked = wasUnknown || Object.hasOwn(patch, 'checkedAt')
+    if (Object.hasOwn(patch, 'nextReviewAt') && !rechecked) throw new Error(`${criterionId}: nextReviewAt needs an explicit checkedAt source recheck`)
+    const { subanswers = {}, scope, evidenceIds = [], checkedAt = wasUnknown ? date : claim.checkedAt,
+      nextReviewAt: deadline, ...fields } = patch
+    if (rechecked && (!isDate(checkedAt) || checkedAt > date)) throw new Error(`${criterionId}: checkedAt must be a calendar date on or before the pass date`)
+    const nextReviewAt = Object.hasOwn(patch, 'nextReviewAt') ? deadline
+      : rechecked ? afterDays(checkedAt, days[criterionId] ?? 120) : claim.nextReviewAt
+    if (rechecked && (!isDate(nextReviewAt) || nextReviewAt < checkedAt)) throw new Error(`${criterionId}: nextReviewAt must be a calendar date on or after checkedAt`)
     for (const key of Object.keys(fields)) if (!['answer', 'support', 'availability', 'delivery', 'limitations', 'unknownReason', 'contradictions'].includes(key)) throw new Error(`${criterionId}: field ${key} is not patchable`)
     Object.assign(claim, fields)
     if (scope) Object.assign(claim.scope, scope)
@@ -158,24 +177,29 @@ function applyPass(spec) {
     const cited = [...evidenceIds, ...Object.values(subanswers).flatMap(a => a.evidenceIds ?? [])]
     for (const ev of cited) if (!known.has(ev)) throw new Error(`${criterionId}: unknown evidence ${ev}`)
     claim.evidenceIds = [...new Set([...claim.evidenceIds, ...cited])]
+    if (rechecked) {
+      const ids = new Set([...claim.evidenceIds, ...Object.values(claim.subanswers).flatMap(a => a.evidenceIds)])
+      const evidence = profile.evidence.filter(item => ids.has(item.id))
+      evidence.forEach(checkEvidenceDates)
+      if (claim.support !== 'unknown' && !evidence.some(item => item.visibility === 'public' && item.kind !== 'unresolved' && item.retrievedAt >= checkedAt))
+        throw new Error(`${criterionId}: checkedAt needs a cited source recheck on or after ${checkedAt}`)
+      claim.checkedAt = checkedAt
+      claim.nextReviewAt = nextReviewAt
+    }
     if (wasUnknown) {
-      claim.checkedAt = date
-      claim.nextReviewAt = new Date(Date.parse(`${date}T00:00:00Z`) + (days[criterionId] ?? 120) * 86400000).toISOString().slice(0, 10)
       if (claim.support !== 'unknown') claim.unknownReason = patch.unknownReason ?? (Object.values(claim.subanswers).some(a => a.support === 'unknown') ? 'See unknown atomic answers for the source and test gaps.' : null)
     }
     claim.researcher = researcher
     claim.review = null
     if (claim.support !== 'unknown' && claim.publication !== 'public-candidate') claim.publication = 'public-candidate'
     profile.changes.push({ date, author: researcher, type: 'research-correction', summary,
-      claimIds: [claim.id], before, after: { support: claim.support, answer: claim.answer,
+      claimIds: [claim.id], before, after: { support: claim.support, answer: claim.answer, checkedAt: claim.checkedAt, nextReviewAt: claim.nextReviewAt,
         subanswers: Object.fromEntries(Object.keys(subanswers).map(k => [k, claim.subanswers[k].support])) },
       evidenceIds: [...new Set(cited)] })
   }
-  write(profilePath(productId), profile)
-
   const path = mappingPath(productId)
   const mappings = JSON.parse(readFileSync(path, 'utf8'))
-  const product = publicProduct(productId)
+  const product = publicProduct(productId, [profile])
   const keys = []
   for (const [key, m] of Object.entries(spec.mappings ?? {})) {
     const [facetId, option = null] = key.split(':')
@@ -206,6 +230,7 @@ function applyPass(spec) {
   // Warn about mappings left stale by the claim edits.
   for (const { key, facetId, option, entry, definition } of entries(mappings))
     if (entry.contentHash !== facetReviewHash(product, facetId, option, entry, definition)) console.warn(`STALE after pass: ${productId} ${key} (recheck, then add to rebind)`)
+  write(profilePath(productId), profile)
   write(path, mappings)
   console.log(`apply: ${productId}: ${Object.keys(spec.claims ?? {}).length} claim(s), ${Object.keys(spec.mappings ?? {}).length} new mapping(s), ${(spec.rebind ?? []).length} rebound`)
 }
