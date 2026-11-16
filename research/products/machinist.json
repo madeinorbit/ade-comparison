@@ -1,0 +1,5962 @@
+{
+  "schemaVersion": 1,
+  "rubricVersion": "0.3",
+  "id": "machinist",
+  "name": "Machinist",
+  "category": "A",
+  "researchTier": "full-profile",
+  "researchState": "documented",
+  "identity": {
+    "website": "https://github.com/owainlewis/machinist",
+    "repository": "https://github.com/owainlewis/machinist",
+    "aliases": [
+      "machinist.sh",
+      "Factory control plane"
+    ],
+    "company": null
+  },
+  "surfaces": [
+    {
+      "id": "server",
+      "name": "Machinist control plane (Go server, embedded React web app, MCP, GitHub intake)",
+      "type": "web"
+    },
+    {
+      "id": "cli",
+      "name": "machinist CLI (init, start, runner, token, kubernetes)",
+      "type": "cli"
+    },
+    {
+      "id": "runner",
+      "name": "Machinist runners (local daemon and Kubernetes gVisor runner)",
+      "type": "worker"
+    }
+  ],
+  "claims": [
+    {
+      "id": "machinist:ACC-01",
+      "criterionId": "ACC-01",
+      "answer": "Embedded React web app served by the control plane (Home, Work, Automations, Runners, job chat page), the machinist CLI, MCP from Claude Code or Codex, and GitHub mentions; binaries for Linux and macOS only; no desktop or phone app and no editor extension.",
+      "support": "partial",
+      "availability": "source-only",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "server",
+          "cli"
+        ],
+        "version": "default-branch commit 942d0c8 (2026-11-15), 203 commits after latest release v0.4.0 (2026-08-31); early-access, features here are source-only",
+        "plan": "Open source (MIT), self-hosted on machines you control",
+        "os": [
+          "macOS",
+          "Linux"
+        ],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "desktop_os": {
+          "support": "unsupported",
+          "answer": "install.sh handles Linux and Darwin only and Machinist is a server plus browser app; no desktop client is shipped (searched README, docs, internal for desktop app/Electron/Tauri).",
+          "evidenceIds": [
+            "installsh",
+            "readme"
+          ]
+        },
+        "mobile_apps": {
+          "support": "unsupported",
+          "answer": "No native phone app found.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "browser": {
+          "support": "supported",
+          "answer": "Web app at http://127.0.0.1:7331 with token sign-in (README).",
+          "evidenceIds": [
+            "readme",
+            "web"
+          ]
+        },
+        "mobile_browser": {
+          "support": "unknown",
+          "answer": "No documented phone layout; narrow screenshots existed for the earlier UI only.",
+          "evidenceIds": []
+        },
+        "cli": {
+          "support": "supported",
+          "answer": "machinist init, start, runner check/start, token, kubernetes install.",
+          "evidenceIds": [
+            "readme",
+            "runners",
+            "config"
+          ]
+        },
+        "editor_extensions": {
+          "support": "unsupported",
+          "answer": "Searched repo for IDE extensions: none.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "task_actions": {
+          "support": "supported",
+          "answer": "Assign work, answer questions, cancel and open PRs from web, MCP or GitHub.",
+          "evidenceIds": [
+            "readme",
+            "mcpdoc"
+          ]
+        },
+        "notifications": {
+          "support": "unsupported",
+          "answer": "Direction doc: nothing notifies you when a job needs an answer.",
+          "evidenceIds": [
+            "direction"
+          ]
+        },
+        "cross_device_continuity": {
+          "support": "supported",
+          "answer": "Control plane holds all tickets; any signed-in browser sees them.",
+          "evidenceIds": [
+            "arch"
+          ]
+        }
+      },
+      "limitations": [
+        "Default-branch redesign is unreleased; Windows is not handled by install.sh; no notification push."
+      ],
+      "unknownReason": "Phone-browser layout is not documented.",
+      "evidenceIds": [
+        "installsh",
+        "readme",
+        "web",
+        "runners",
+        "config",
+        "mcpdoc",
+        "direction",
+        "arch"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch09",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "machinist:ACC-02",
+      "criterionId": "ACC-02",
+      "answer": "Claude Code and Codex only, as fixed harness commands; agents are folders (playbook, model, subagents, skills) per harness; a job may chain agent and script stages but all agent stages use one harness; no custom harness yet.",
+      "support": "partial",
+      "availability": "source-only",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "server",
+          "runner"
+        ],
+        "version": "default-branch commit 942d0c8 (2026-11-15), 203 commits after latest release v0.4.0 (2026-08-31); early-access, features here are source-only",
+        "plan": "Open source (MIT), self-hosted on machines you control",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": "Claude Code, Codex"
+      },
+      "subanswers": {
+        "harnesses": {
+          "support": "supported",
+          "answer": "Harness is a fixed choice of claude or codex (internal/runner/harness.go; docs/direction.md).",
+          "evidenceIds": [
+            "harness",
+            "direction"
+          ]
+        },
+        "model_providers": {
+          "support": "supported",
+          "answer": "Anthropic API, Bedrock, Vertex, Foundry and OpenAI via the two harnesses (docs/credentials.md).",
+          "evidenceIds": [
+            "creds"
+          ]
+        },
+        "custom_adapters": {
+          "support": "unsupported",
+          "answer": "Direction: any harness is missing; a plain command harness is future work.",
+          "evidenceIds": [
+            "direction"
+          ]
+        },
+        "session_integration": {
+          "support": "supported",
+          "answer": "Launches fixed CLI commands (claude --print stream-json; codex app-server).",
+          "evidenceIds": [
+            "native"
+          ]
+        },
+        "mixed_harness_operation": {
+          "support": "unsupported",
+          "answer": "All agent stages of a job must use the same harness (docs/factory.md); tickets can use different agents but not mixed in one job.",
+          "evidenceIds": [
+            "factory"
+          ]
+        }
+      },
+      "limitations": [
+        "Bring your own harness is planned (docs/direction.md item 3), not shipped; the earlier release README claimed any stdin executable."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "harness",
+        "direction",
+        "creds",
+        "native",
+        "factory"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch09",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "machinist:ACC-03",
+      "criterionId": "ACC-03",
+      "answer": "Credentials live on runners: Anthropic/Bedrock/Vertex/Foundry env, OPENAI_API_KEY, Claude setup-token or login and ChatGPT login (local runners only); no vendor credits; local models not documented.",
+      "support": "partial",
+      "availability": "source-only",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "runner"
+        ],
+        "version": "default-branch commit 942d0c8 (2026-11-15), 203 commits after latest release v0.4.0 (2026-08-31); early-access, features here are source-only",
+        "plan": "Open source (MIT), self-hosted on machines you control",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "agent_subscriptions": {
+          "support": "supported",
+          "answer": "Claude login and ChatGPT login on local runners; setup-token for Claude (docs/credentials.md).",
+          "evidenceIds": [
+            "creds"
+          ]
+        },
+        "api_accounts": {
+          "support": "supported",
+          "answer": "ANTHROPIC_API_KEY, OPENAI_API_KEY, cloud provider variables.",
+          "evidenceIds": [
+            "creds"
+          ]
+        },
+        "vendor_credits": {
+          "support": "unsupported",
+          "answer": "No vendor credits; Machinist is MIT software with no billing.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "local_models": {
+          "support": "unsupported",
+          "answer": "No local-model path documented; harness fixed to claude or codex.",
+          "evidenceIds": [
+            "harness"
+          ]
+        },
+        "account_switching": {
+          "support": "partial",
+          "answer": "One credential list per harness per runner; several runners can differ.",
+          "evidenceIds": [
+            "runners"
+          ]
+        },
+        "vendor_account_requirement": {
+          "support": "supported",
+          "answer": "No Machinist account; needs a GitHub bot account and a harness credential.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "provider_restrictions": {
+          "support": "supported",
+          "answer": "Docs summarize Anthropic and OpenAI statements about subscription use in automation and team runners.",
+          "evidenceIds": [
+            "creds"
+          ]
+        }
+      },
+      "limitations": [
+        "Subscription logins are limited to local runners and one slot; docs cite provider terms against shared use."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "creds",
+        "license",
+        "harness",
+        "runners",
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch09",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "machinist:ACC-04",
+      "criterionId": "ACC-04",
+      "answer": "Build with Go or install a release, machinist init, set github.handle and repositories, set runner credentials and GH_TOKEN, start control plane and runner, create a token and sign in; every job ends in a branch and PR on a GitHub repository; no directory-only or managed-cloud path.",
+      "support": "partial",
+      "availability": "source-only",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "server",
+          "cli",
+          "runner"
+        ],
+        "version": "default-branch commit 942d0c8 (2026-11-15), 203 commits after latest release v0.4.0 (2026-08-31); early-access, features here are source-only",
+        "plan": "Open source (MIT), self-hosted on machines you control",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "first_task_setup": {
+          "support": "supported",
+          "answer": "README Quick start steps 1-5.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "no_git": {
+          "support": "unsupported",
+          "answer": "Direction: jobs that do not belong to a repository are not planned.",
+          "evidenceIds": [
+            "direction"
+          ]
+        },
+        "local_git_without_remote": {
+          "support": "unsupported",
+          "answer": "Every job ends in a branch and pull request on GitHub; repositories are listed as owner/name.",
+          "evidenceIds": [
+            "direction",
+            "config"
+          ]
+        },
+        "hosted_git": {
+          "support": "supported",
+          "answer": "GitHub repositories via the bot account.",
+          "evidenceIds": [
+            "config"
+          ]
+        },
+        "prerequisite_guidance": {
+          "support": "supported",
+          "answer": "README lists Go 1.26.6, Git, GitHub CLI and a harness; credentials doc.",
+          "evidenceIds": [
+            "readme",
+            "creds"
+          ]
+        },
+        "managed_cloud_setup": {
+          "support": "unsupported",
+          "answer": "No managed cloud; control plane runs on machines you control.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "byo_vps_onboarding": {
+          "support": "partial",
+          "answer": "docs/vm-deployment.md and systemd units describe VM deployment; no provisioning installer.",
+          "evidenceIds": [
+            "vmdeploy"
+          ]
+        }
+      },
+      "limitations": [
+        "Needs a GitHub bot account with write access; jobs without a repository are not planned."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "direction",
+        "config",
+        "creds",
+        "vmdeploy"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch09",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "machinist:ACC-05",
+      "criterionId": "ACC-05",
+      "answer": "CLI, an authenticated HTTP API, and five MCP tools (assign, get, list, answer, cancel tickets) served at /mcp; GitHub mentions for intake; bearer tokens; no SDK or outbound webhooks; API stability is early-access.",
+      "support": "partial",
+      "availability": "source-only",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "server",
+          "cli"
+        ],
+        "version": "default-branch commit 942d0c8 (2026-11-15), 203 commits after latest release v0.4.0 (2026-08-31); early-access, features here are source-only",
+        "plan": "Open source (MIT), self-hosted on machines you control",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "cli": {
+          "support": "supported",
+          "answer": "machinist CLI.",
+          "evidenceIds": [
+            "config"
+          ]
+        },
+        "api": {
+          "support": "supported",
+          "answer": "HTTP API with bearer token or sign-in cookie; routes in the redesign design doc.",
+          "evidenceIds": [
+            "config",
+            "designdoc"
+          ]
+        },
+        "sdk": {
+          "support": "unsupported",
+          "answer": "No SDK packages found.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "mcp_server": {
+          "support": "supported",
+          "answer": "Five tools at /mcp (docs/mcp.md; internal/mcpserver/server.go).",
+          "evidenceIds": [
+            "mcpdoc",
+            "mcpserver"
+          ]
+        },
+        "webhooks": {
+          "support": "unsupported",
+          "answer": "Polling is used because webhooks cannot reach the private control plane (ARCHITECTURE.md).",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "operations": {
+          "support": "partial",
+          "answer": "Create, inspect, answer and cancel tickets; no review or steer operation beyond answers.",
+          "evidenceIds": [
+            "mcpdoc"
+          ]
+        },
+        "authentication": {
+          "support": "supported",
+          "answer": "One bearer token kind per person or runner, stored hashed.",
+          "evidenceIds": [
+            "config",
+            "security"
+          ]
+        },
+        "stability": {
+          "support": "partial",
+          "answer": "README states early-access and subject to change.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Early-access software with changing routes."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "config",
+        "designdoc",
+        "readme",
+        "mcpdoc",
+        "mcpserver",
+        "arch",
+        "security"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch09",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "machinist:ACC-06",
+      "criterionId": "ACC-06",
+      "answer": "The agent runs with the repository’s own project settings; MCP servers are strict-config disabled for Claude runs; subagents and skills come from factory agent folders; Machinist itself is an MCP server rather than an MCP client.",
+      "support": "partial",
+      "availability": "source-only",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "server",
+          "runner"
+        ],
+        "version": "default-branch commit 942d0c8 (2026-11-15), 203 commits after latest release v0.4.0 (2026-08-31); early-access, features here are source-only",
+        "plan": "Open source (MIT), self-hosted on machines you control",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "mcp_client": {
+          "support": "unsupported",
+          "answer": "Claude is launched with --strict-mcp-config and no MCP servers (docs/native-agents.md).",
+          "evidenceIds": [
+            "native"
+          ]
+        },
+        "plugins": {
+          "support": "unsupported",
+          "answer": "No plugin system found.",
+          "evidenceIds": [
+            "factory"
+          ]
+        },
+        "custom_tools": {
+          "support": "partial",
+          "answer": "Script stages and shell in jobs; agents use gh.",
+          "evidenceIds": [
+            "factory"
+          ]
+        },
+        "instructions_import": {
+          "support": "supported",
+          "answer": "Playbooks and subagent files from factory agent folders and repository settings.",
+          "evidenceIds": [
+            "factory",
+            "native"
+          ]
+        },
+        "authentication": {
+          "support": "partial",
+          "answer": "GitHub login and harness credentials on runners.",
+          "evidenceIds": [
+            "creds"
+          ]
+        },
+        "permission_scope": {
+          "support": "partial",
+          "answer": "Scope is the GitHub login’s permissions and branch protection.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "integration_owner": {
+          "support": "supported",
+          "answer": "Factory files are Machinist-owned; harness loads subagents the normal way.",
+          "evidenceIds": [
+            "factory"
+          ]
+        }
+      },
+      "limitations": [
+        "No integration catalog; Claude runs use --strict-mcp-config with no MCP servers."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "native",
+        "factory",
+        "creds",
+        "security"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch09",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "machinist:ACC-07",
+      "criterionId": "ACC-07",
+      "answer": "Go control plane with an embedded React and Vite web app (committed production build); no desktop or mobile app.",
+      "support": "supported",
+      "availability": "source-only",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "server"
+        ],
+        "version": "default-branch commit 942d0c8 (2026-11-15), 203 commits after latest release v0.4.0 (2026-08-31); early-access, features here are source-only",
+        "plan": "Open source (MIT), self-hosted on machines you control",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "desktop_implementation": {
+          "support": "supported",
+          "answer": "Web app only; no desktop shell (searched for Electron, Tauri, native UI).",
+          "evidenceIds": [
+            "web",
+            "arch"
+          ]
+        },
+        "mobile_implementation": {
+          "support": "supported",
+          "answer": "No mobile client; web app only.",
+          "evidenceIds": [
+            "web"
+          ]
+        },
+        "hybrids": {
+          "support": "supported",
+          "answer": "None found.",
+          "evidenceIds": [
+            "web"
+          ]
+        },
+        "implementation_evidence": {
+          "support": "supported",
+          "answer": "internal/controlplane/web with React sources and committed dist; ARCHITECTURE.md says embedded React UI.",
+          "evidenceIds": [
+            "web",
+            "arch"
+          ]
+        }
+      },
+      "limitations": [
+        "Web only."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "web",
+        "arch"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-05-15",
+      "researcher": "researcher-batch09",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "machinist:PLAN-01",
+      "criterionId": "PLAN-01",
+      "answer": "Work enters from the web app box (text, issue number or link), a GitHub mention by someone with write access, MCP assign_ticket, or a cron automation; tickets are native, the control plane polls GitHub each minute for comments, PR state, reviews and checks; no Linear or Jira.",
+      "support": "partial",
+      "availability": "source-only",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "server"
+        ],
+        "version": "default-branch commit 942d0c8 (2026-11-15), 203 commits after latest release v0.4.0 (2026-08-31); early-access, features here are source-only",
+        "plan": "Open source (MIT), self-hosted on machines you control",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "local_creation": {
+          "support": "supported",
+          "answer": "Home page assign box creates a ticket (internal/controlplane/web/src/assign.jsx).",
+          "evidenceIds": [
+            "readme",
+            "web"
+          ]
+        },
+        "prompt_intake": {
+          "support": "supported",
+          "answer": "Free-text assignment through web or MCP assign_ticket(title, body).",
+          "evidenceIds": [
+            "mcpdoc"
+          ]
+        },
+        "external_import": {
+          "support": "partial",
+          "answer": "assign_ticket and the box accept a GitHub issue number or link; no Linear or Jira.",
+          "evidenceIds": [
+            "mcpdoc",
+            "readme"
+          ]
+        },
+        "chat_git_triggers": {
+          "support": "supported",
+          "answer": "GitHub bot mentions on issues; PR comments and failing checks start follow-up runs (internal/sources/followups.go).",
+          "evidenceIds": [
+            "followups",
+            "arch"
+          ]
+        },
+        "authoritative_tracker": {
+          "support": "supported",
+          "answer": "The control plane’s SQLite ticket store is authoritative for work; GitHub holds branch and PR.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "stable_ids": {
+          "support": "supported",
+          "answer": "Ticket IDs and fixed branch machinist/<ticket id>; request_id idempotency.",
+          "evidenceIds": [
+            "arch",
+            "mcpdoc"
+          ]
+        },
+        "sync": {
+          "support": "partial",
+          "answer": "One-way polling of GitHub comments, reviews and checks into the ticket log.",
+          "evidenceIds": [
+            "arch",
+            "followups"
+          ]
+        },
+        "supported_edits": {
+          "support": "partial",
+          "answer": "Answer questions and cancel; no editing ticket fields.",
+          "evidenceIds": [
+            "mcpdoc"
+          ]
+        },
+        "external_roundtrips": {
+          "support": "partial",
+          "answer": "Merging and requesting changes happen in GitHub.",
+          "evidenceIds": [
+            "arch"
+          ]
+        }
+      },
+      "limitations": [
+        "Intake is polling, not webhooks; an issue number creates a ticket, it does not sync issue edits."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "web",
+        "mcpdoc",
+        "followups",
+        "arch"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch09",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "machinist:PLAN-02",
+      "criterionId": "PLAN-02",
+      "answer": "The ticket log holds the request, agent reports, human comments and CI pointers across runs; agents are told to push often; jobs list stages; no editable plan, acceptance criteria or revision history.",
+      "support": "partial",
+      "availability": "source-only",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "server"
+        ],
+        "version": "default-branch commit 942d0c8 (2026-11-15), 203 commits after latest release v0.4.0 (2026-08-31); early-access, features here are source-only",
+        "plan": "Open source (MIT), self-hosted on machines you control",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "plans": {
+          "support": "partial",
+          "answer": "Job stage lists and the ticket log; no per-ticket plan object.",
+          "evidenceIds": [
+            "factory",
+            "arch"
+          ]
+        },
+        "acceptance_criteria": {
+          "support": "unsupported",
+          "answer": "Searched docs and internal for acceptance criteria: none.",
+          "evidenceIds": [
+            "factory"
+          ]
+        },
+        "editors": {
+          "support": "unsupported",
+          "answer": "No plan editor; factory files are edited on disk.",
+          "evidenceIds": [
+            "factory"
+          ]
+        },
+        "revisions": {
+          "support": "partial",
+          "answer": "Ticket log appends entries; no versions.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "implementation_links": {
+          "support": "supported",
+          "answer": "Fixed branch and PR per ticket looked up by the control plane.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "amendment": {
+          "support": "supported",
+          "answer": "A person’s comment or answer continues the same ticket and PR.",
+          "evidenceIds": [
+            "readme",
+            "arch"
+          ]
+        },
+        "restart_persistence": {
+          "support": "supported",
+          "answer": "Runs outlive a control plane restart; state in SQLite.",
+          "evidenceIds": [
+            "arch"
+          ]
+        }
+      },
+      "limitations": [
+        "The earlier release’s spec/approval stage is not in the pinned code."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "factory",
+        "arch",
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch09",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "machinist:PLAN-03",
+      "criterionId": "PLAN-03",
+      "answer": "Tickets are flat with six states; a job is a linear stage list (no branching, loops or parallel stages); no epics, parent/child tickets or dependencies.",
+      "support": "partial",
+      "availability": "source-only",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "server"
+        ],
+        "version": "default-branch commit 942d0c8 (2026-11-15), 203 commits after latest release v0.4.0 (2026-08-31); early-access, features here are source-only",
+        "plan": "Open source (MIT), self-hosted on machines you control",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "epics": {
+          "support": "unsupported",
+          "answer": "Searched internal for epic/parent fields: none.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "hierarchy": {
+          "support": "unsupported",
+          "answer": "No ticket hierarchy.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "blockers": {
+          "support": "unsupported",
+          "answer": "No blockers.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "readiness": {
+          "support": "partial",
+          "answer": "States working, needs_you, pr_ready, done, failed, cancelled.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "enforcement": {
+          "support": "unsupported",
+          "answer": "No dependency enforcement; script stages are gates inside a job.",
+          "evidenceIds": [
+            "factory"
+          ]
+        },
+        "state_propagation": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "task_to_epic": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "identity_retention": {
+          "support": "supported",
+          "answer": "Ticket keeps one branch, log and PR across runs.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "workflow_constraints": {
+          "support": "partial",
+          "answer": "Jobs are fixed stage lists; a job cannot be picked at assignment time yet.",
+          "evidenceIds": [
+            "direction"
+          ]
+        }
+      },
+      "limitations": [
+        "Direction doc says Machinist is not a workflow engine."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "arch",
+        "factory",
+        "direction"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch09",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "machinist:PLAN-04",
+      "criterionId": "PLAN-04",
+      "answer": "Playbooks and subagent/skill files in factory agent folders, repository settings loaded by Claude (project settings only), per-ticket log; no cross-session memory manager.",
+      "support": "partial",
+      "availability": "source-only",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "server"
+        ],
+        "version": "default-branch commit 942d0c8 (2026-11-15), 203 commits after latest release v0.4.0 (2026-08-31); early-access, features here are source-only",
+        "plan": "Open source (MIT), self-hosted on machines you control",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "instructions": {
+          "support": "supported",
+          "answer": "Playbook per agent and repository CLAUDE.md as harness reads.",
+          "evidenceIds": [
+            "factory",
+            "native"
+          ]
+        },
+        "skills": {
+          "support": "partial",
+          "answer": "Skills and subagents live in agent folders in each harness’s format.",
+          "evidenceIds": [
+            "factory"
+          ]
+        },
+        "project_docs": {
+          "support": "partial",
+          "answer": "Agents read the cloned repository.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "memory": {
+          "support": "unsupported",
+          "answer": "No memory store; only the ticket log carries over.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "scope": {
+          "support": "partial",
+          "answer": "Per agent folder.",
+          "evidenceIds": [
+            "factory"
+          ]
+        },
+        "provenance": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "factory"
+          ]
+        },
+        "correction": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "factory"
+          ]
+        },
+        "deletion": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "factory"
+          ]
+        },
+        "freshness": {
+          "support": "unsupported",
+          "answer": "Factory read at startup; changes need restart.",
+          "evidenceIds": [
+            "factory"
+          ]
+        },
+        "takeover_continuity": {
+          "support": "supported",
+          "answer": "Ticket log, branch and PR survive; any runner can continue.",
+          "evidenceIds": [
+            "arch",
+            "runners"
+          ]
+        }
+      },
+      "limitations": [
+        "Each run starts from a fresh clone and fresh context."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "factory",
+        "native",
+        "arch",
+        "runners"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch09",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "machinist:PLAN-05",
+      "criterionId": "PLAN-05",
+      "answer": "No code search, indexing or knowledge features in Machinist; agents use their own tools and gh against a fresh clone.",
+      "support": "partial",
+      "availability": "source-only",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "server"
+        ],
+        "version": "default-branch commit 942d0c8 (2026-11-15), 203 commits after latest release v0.4.0 (2026-08-31); early-access, features here are source-only",
+        "plan": "Open source (MIT), self-hosted on machines you control",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "code_search": {
+          "support": "unsupported",
+          "answer": "Searched internal/ and web/ for search/index: none.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "indexing": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "external_knowledge": {
+          "support": "unsupported",
+          "answer": "None; Claude runs with no MCP servers.",
+          "evidenceIds": [
+            "native"
+          ]
+        },
+        "multimodal_inputs": {
+          "support": "unsupported",
+          "answer": "No attachments in the assign box found.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "freshness": {
+          "support": "unsupported",
+          "answer": "Not applicable.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "access_scope": {
+          "support": "partial",
+          "answer": "Repository list and GitHub token scope.",
+          "evidenceIds": [
+            "config"
+          ]
+        },
+        "api_retrieval": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "mcpdoc"
+          ]
+        },
+        "citations": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "conflict_detection": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "review_enforcement": {
+          "support": "unsupported",
+          "answer": "Reviewer comments are advice only.",
+          "evidenceIds": [
+            "arch"
+          ]
+        }
+      },
+      "limitations": [
+        "No architecture awareness beyond the harness."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "arch",
+        "native",
+        "readme",
+        "config",
+        "mcpdoc"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch09",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "machinist:PLAN-06",
+      "criterionId": "PLAN-06",
+      "answer": "Work page lists tickets with status tabs and a chat-style job page for replies; assign by box, GitHub, MCP or schedule; cancel; no labels, priorities, assignment to people, search, archive or idea backlog.",
+      "support": "partial",
+      "availability": "source-only",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "server"
+        ],
+        "version": "default-branch commit 942d0c8 (2026-11-15), 203 commits after latest release v0.4.0 (2026-08-31); early-access, features here are source-only",
+        "plan": "Open source (MIT), self-hosted on machines you control",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "create": {
+          "support": "supported",
+          "answer": "Assign box, GitHub mention, MCP, automation.",
+          "evidenceIds": [
+            "readme",
+            "mcpdoc"
+          ]
+        },
+        "edit": {
+          "support": "unsupported",
+          "answer": "No ticket edit.",
+          "evidenceIds": [
+            "mcpdoc"
+          ]
+        },
+        "discuss": {
+          "support": "supported",
+          "answer": "Reply in the job chat page and answer waiting questions.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "prioritize": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "direction"
+          ]
+        },
+        "label": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "direction"
+          ]
+        },
+        "assign": {
+          "support": "partial",
+          "answer": "A ticket records who assigned it; no assignment to people.",
+          "evidenceIds": [
+            "direction"
+          ]
+        },
+        "search": {
+          "support": "unsupported",
+          "answer": "No search found in web app routes.",
+          "evidenceIds": [
+            "web"
+          ]
+        },
+        "filter": {
+          "support": "supported",
+          "answer": "Work table with tabs to filter by status.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "archive": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "reopen": {
+          "support": "unsupported",
+          "answer": "No retry button for a failed job (direction item 9).",
+          "evidenceIds": [
+            "direction"
+          ]
+        },
+        "project_epic_views": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "idea_parking": {
+          "support": "unsupported",
+          "answer": "No idea backlog.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "explicit_dispatch": {
+          "support": "partial",
+          "answer": "Assigning starts work; no ready state.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "task_session_separation": {
+          "support": "supported",
+          "answer": "A ticket has many runs.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "metadata": {
+          "support": "partial",
+          "answer": "Ticket records branch, state, cost, tokens, questions and feedback rounds.",
+          "evidenceIds": [
+            "ledger"
+          ]
+        },
+        "durable_states": {
+          "support": "supported",
+          "answer": "Six states with every row tested (ARCHITECTURE.md).",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "external_tracker_requirement": {
+          "support": "supported",
+          "answer": "None required; GitHub holds PRs.",
+          "evidenceIds": [
+            "arch"
+          ]
+        }
+      },
+      "limitations": [
+        "No accounts: a ticket records only the token name that assigned it."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "mcpdoc",
+        "direction",
+        "web",
+        "arch",
+        "ledger"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch09",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "machinist:PLAN-07",
+      "criterionId": "PLAN-07",
+      "answer": "Agents in Claude Code or Codex can assign, read, list, answer and cancel tickets over MCP using stable ticket IDs shared with the web app; the runner agent itself reads the ticket log; no claims, dependencies or children.",
+      "support": "partial",
+      "availability": "source-only",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "server"
+        ],
+        "version": "default-branch commit 942d0c8 (2026-11-15), 203 commits after latest release v0.4.0 (2026-08-31); early-access, features here are source-only",
+        "plan": "Open source (MIT), self-hosted on machines you control",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "shared_ids": {
+          "support": "supported",
+          "answer": "Same ticket IDs in web, MCP and branches.",
+          "evidenceIds": [
+            "mcpdoc",
+            "arch"
+          ]
+        },
+        "read": {
+          "support": "supported",
+          "answer": "get_ticket and list_tickets (newest 200).",
+          "evidenceIds": [
+            "mcpdoc"
+          ]
+        },
+        "create": {
+          "support": "supported",
+          "answer": "assign_ticket.",
+          "evidenceIds": [
+            "mcpdoc"
+          ]
+        },
+        "update": {
+          "support": "partial",
+          "answer": "answer_ticket only.",
+          "evidenceIds": [
+            "mcpdoc"
+          ]
+        },
+        "claim": {
+          "support": "unsupported",
+          "answer": "No claim tool.",
+          "evidenceIds": [
+            "mcpdoc"
+          ]
+        },
+        "assign": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "mcpdoc"
+          ]
+        },
+        "state_changes": {
+          "support": "partial",
+          "answer": "cancel_ticket and answer move state.",
+          "evidenceIds": [
+            "mcpdoc"
+          ]
+        },
+        "dependencies": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "mcpdoc"
+          ]
+        },
+        "children": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "mcpdoc"
+          ]
+        },
+        "results": {
+          "support": "supported",
+          "answer": "Each run ends with one report: pr_ready, needs_input, no_change or failed.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "human_visibility": {
+          "support": "supported",
+          "answer": "Web app shows MCP-created tickets.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "attribution": {
+          "support": "partial",
+          "answer": "Token name recorded for who assigned.",
+          "evidenceIds": [
+            "direction"
+          ]
+        },
+        "permissions": {
+          "support": "unsupported",
+          "answer": "No roles; any signed-in token holder can cancel anything.",
+          "evidenceIds": [
+            "direction"
+          ]
+        },
+        "conflicts": {
+          "support": "supported",
+          "answer": "request_id makes retries safe; one active ticket per issue.",
+          "evidenceIds": [
+            "mcpdoc"
+          ]
+        }
+      },
+      "limitations": [
+        "Anyone with a token can cancel anything."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "mcpdoc",
+        "arch",
+        "readme",
+        "direction"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch09",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "machinist:PLAN-08",
+      "criterionId": "PLAN-08",
+      "answer": "No living product specification features; factory files and the ticket log are the only persistent artefacts.",
+      "support": "unsupported",
+      "availability": "source-only",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "server"
+        ],
+        "version": "default-branch commit 942d0c8 (2026-11-15), 203 commits after latest release v0.4.0 (2026-08-31); early-access, features here are source-only",
+        "plan": "Open source (MIT), self-hosted on machines you control",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "persistent_requirements": {
+          "support": "unsupported",
+          "answer": "Searched docs/ and internal/ for spec/requirements entities: none.",
+          "evidenceIds": [
+            "factory"
+          ]
+        },
+        "human_edits": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "factory"
+          ]
+        },
+        "agent_edits": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "factory"
+          ]
+        },
+        "revisions": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "factory"
+          ]
+        },
+        "approvals": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "factory"
+          ]
+        },
+        "implementation_links": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "factory"
+          ]
+        },
+        "later_retrieval": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "factory"
+          ]
+        },
+        "drift_detection": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "factory"
+          ]
+        },
+        "review_integration": {
+          "support": "unsupported",
+          "answer": "Reviewer prompts are advice only.",
+          "evidenceIds": [
+            "arch"
+          ]
+        }
+      },
+      "limitations": [
+        "Bounded search found no requirement entity."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "factory",
+        "arch"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch09",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "machinist:COORD-01",
+      "criterionId": "COORD-01",
+      "answer": "Runners hold slots and run many tickets concurrently across local and Kubernetes runners; the Runners page shows busy slots, waiting runs and wait time; Home and Work show running, needs-you and done states.",
+      "support": "partial",
+      "availability": "source-only",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "server",
+          "runner"
+        ],
+        "version": "default-branch commit 942d0c8 (2026-11-15), 203 commits after latest release v0.4.0 (2026-08-31); early-access, features here are source-only",
+        "plan": "Open source (MIT), self-hosted on machines you control",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "concurrent_sessions": {
+          "support": "supported",
+          "answer": "Each runner runs up to `slots` runs at once (docs/runners.md).",
+          "evidenceIds": [
+            "runners"
+          ]
+        },
+        "concurrent_tasks": {
+          "support": "supported",
+          "answer": "Many tickets across any number of runners.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "quotas": {
+          "support": "partial",
+          "answer": "Slots per runner; no per-user quota; max_turns_without_human per ticket.",
+          "evidenceIds": [
+            "config",
+            "runners"
+          ]
+        },
+        "observed_concurrency": {
+          "support": "unknown",
+          "answer": "No catalog measurement; direction says multi-stage live runs unproven.",
+          "evidenceIds": []
+        },
+        "status_visibility": {
+          "support": "supported",
+          "answer": "Runners page lists slots busy, runs held and queue wait; 90 seconds without contact shows not responding.",
+          "evidenceIds": [
+            "runners"
+          ]
+        }
+      },
+      "limitations": [
+        "Concurrency is per-runner slots; no global quota."
+      ],
+      "unknownReason": "Live concurrency at scale is unproven by the maintainer.",
+      "evidenceIds": [
+        "runners",
+        "arch",
+        "config"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch09",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "machinist:COORD-02",
+      "criterionId": "COORD-02",
+      "answer": "Runners claim runs by polling when they have a free slot and leases (10 minutes) prevent duplicates; a request_id and one active ticket per issue prevent duplicate tickets; no human or agent assignment.",
+      "support": "partial",
+      "availability": "source-only",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "server",
+          "runner"
+        ],
+        "version": "default-branch commit 942d0c8 (2026-11-15), 203 commits after latest release v0.4.0 (2026-08-31); early-access, features here are source-only",
+        "plan": "Open source (MIT), self-hosted on machines you control",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "human_assignment": {
+          "support": "unsupported",
+          "answer": "No accounts or assignment.",
+          "evidenceIds": [
+            "direction"
+          ]
+        },
+        "agent_assignment": {
+          "support": "partial",
+          "answer": "default_agent or an automation names the agent; no per-ticket picker yet.",
+          "evidenceIds": [
+            "direction",
+            "factory"
+          ]
+        },
+        "claims": {
+          "support": "supported",
+          "answer": "Run lease stored in the database and renewed by heartbeat (internal/engine/leases.go).",
+          "evidenceIds": [
+            "runners",
+            "engine"
+          ]
+        },
+        "queues": {
+          "support": "supported",
+          "answer": "Run queue consumed by polling runners.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "routing": {
+          "support": "unsupported",
+          "answer": "Control plane makes no decision based on where a run happens.",
+          "evidenceIds": [
+            "runners"
+          ]
+        },
+        "duplicate_prevention": {
+          "support": "supported",
+          "answer": "Unique intake source keys, request_id, one active ticket per issue.",
+          "evidenceIds": [
+            "arch",
+            "mcpdoc"
+          ]
+        },
+        "ownership_enforcement": {
+          "support": "partial",
+          "answer": "Lease enforcement per run; lost-runner overlap possible.",
+          "evidenceIds": [
+            "runners"
+          ]
+        }
+      },
+      "limitations": [
+        "Lost-runner overlap can briefly run two agents; git rejects the later push."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "direction",
+        "factory",
+        "runners",
+        "engine",
+        "arch",
+        "mcpdoc"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch09",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "machinist:COORD-03",
+      "criterionId": "COORD-03",
+      "answer": "A job chains agent and script stages in one clone; a fresh reviewer agent comments on the first PR; subagents are provided to the harness through agent folders; the control plane never starts agents and exposes no cross-agent messaging.",
+      "support": "partial",
+      "availability": "source-only",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "server",
+          "runner"
+        ],
+        "version": "default-branch commit 942d0c8 (2026-11-15), 203 commits after latest release v0.4.0 (2026-08-31); early-access, features here are source-only",
+        "plan": "Open source (MIT), self-hosted on machines you control",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "roles": {
+          "support": "supported",
+          "answer": "Agent, reviewer and script-stage roles defined in factory files.",
+          "evidenceIds": [
+            "factory"
+          ]
+        },
+        "model_harness_effort": {
+          "support": "partial",
+          "answer": "Model per agent; harness claude or codex; no effort setting.",
+          "evidenceIds": [
+            "factory"
+          ]
+        },
+        "messages": {
+          "support": "unsupported",
+          "answer": "No agent messaging.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "results_return": {
+          "support": "supported",
+          "answer": "Each run ends with a structured report to the control plane.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "cross_harness": {
+          "support": "unsupported",
+          "answer": "All agent stages of a job use one harness.",
+          "evidenceIds": [
+            "factory"
+          ]
+        },
+        "orchestration_owner": {
+          "support": "supported",
+          "answer": "Machinist owns jobs and reviewers; subagents belong to the harness.",
+          "evidenceIds": [
+            "factory",
+            "native"
+          ]
+        },
+        "activation": {
+          "support": "supported",
+          "answer": "Configured in factory files and restarted.",
+          "evidenceIds": [
+            "factory"
+          ]
+        },
+        "authentication": {
+          "support": "supported",
+          "answer": "Run token and GitHub login.",
+          "evidenceIds": [
+            "config"
+          ]
+        },
+        "live_progress": {
+          "support": "partial",
+          "answer": "Streamed events and activity; Kubernetes activity appears when the run ends.",
+          "evidenceIds": [
+            "runners",
+            "web"
+          ]
+        },
+        "retained_results": {
+          "support": "supported",
+          "answer": "Every run keeps its report, stages, tokens and cost.",
+          "evidenceIds": [
+            "direction"
+          ]
+        },
+        "followup": {
+          "support": "supported",
+          "answer": "Comments or CI failures continue the same ticket and PR.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "invocation": {
+          "support": "supported",
+          "answer": "Name the job where an agent name goes.",
+          "evidenceIds": [
+            "factory"
+          ]
+        }
+      },
+      "limitations": [
+        "Stages are sequential; no child tickets or peer messaging."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "factory",
+        "arch",
+        "native",
+        "config",
+        "runners",
+        "web",
+        "direction"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch09",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "machinist:COORD-04",
+      "criterionId": "COORD-04",
+      "answer": "Cron automations in factory files (5-field schedule with timezone), polling for GitHub comments, reviews and checks each minute; missed runs collapse and an automation never waits for a person; runs on the control plane regardless of client.",
+      "support": "partial",
+      "availability": "source-only",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "server"
+        ],
+        "version": "default-branch commit 942d0c8 (2026-11-15), 203 commits after latest release v0.4.0 (2026-08-31); early-access, features here are source-only",
+        "plan": "Open source (MIT), self-hosted on machines you control",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "schedules": {
+          "support": "supported",
+          "answer": "automations/<name>.md with schedule front matter (docs/factory.md).",
+          "evidenceIds": [
+            "factory",
+            "schedule"
+          ]
+        },
+        "events": {
+          "support": "partial",
+          "answer": "GitHub mentions, reviews and CI checks via polling.",
+          "evidenceIds": [
+            "followups"
+          ]
+        },
+        "recurring_tasks": {
+          "support": "supported",
+          "answer": "Cron schedule; Run now button.",
+          "evidenceIds": [
+            "factory"
+          ]
+        },
+        "completion_conditions": {
+          "support": "partial",
+          "answer": "A ticket stops after max_turns_without_human runs; run deadline.",
+          "evidenceIds": [
+            "config"
+          ]
+        },
+        "scheduler_location": {
+          "support": "supported",
+          "answer": "Control plane.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "overlaps": {
+          "support": "supported",
+          "answer": "No ticket starts while the automation’s last one is active.",
+          "evidenceIds": [
+            "factory"
+          ]
+        },
+        "retries": {
+          "support": "unsupported",
+          "answer": "No retry button or automatic retry for failed jobs.",
+          "evidenceIds": [
+            "direction"
+          ]
+        },
+        "client_independence": {
+          "support": "supported",
+          "answer": "Server-side.",
+          "evidenceIds": [
+            "arch"
+          ]
+        }
+      },
+      "limitations": [
+        "Factory changes need a restart."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "factory",
+        "schedule",
+        "followups",
+        "config",
+        "arch",
+        "direction"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch09",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "machinist:COORD-05",
+      "criterionId": "COORD-05",
+      "answer": "Cancel stops a ticket and leaves its PR open; agents ask questions and wait (needs_you); people answer in web, MCP or on GitHub; max turns without human and run timeouts stop runaway work; no pause, no notifications.",
+      "support": "partial",
+      "availability": "source-only",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "server"
+        ],
+        "version": "default-branch commit 942d0c8 (2026-11-15), 203 commits after latest release v0.4.0 (2026-08-31); early-access, features here are source-only",
+        "plan": "Open source (MIT), self-hosted on machines you control",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "pause": {
+          "support": "unsupported",
+          "answer": "No pause found.",
+          "evidenceIds": [
+            "direction"
+          ]
+        },
+        "stop": {
+          "support": "supported",
+          "answer": "cancel_ticket and Cancel in web.",
+          "evidenceIds": [
+            "mcpdoc"
+          ]
+        },
+        "resume": {
+          "support": "partial",
+          "answer": "Replying continues the ticket; no retry button.",
+          "evidenceIds": [
+            "direction"
+          ]
+        },
+        "steer": {
+          "support": "supported",
+          "answer": "Comments and answers feed the next run.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "notifications": {
+          "support": "unsupported",
+          "answer": "Nothing notifies you when a job needs an answer.",
+          "evidenceIds": [
+            "direction"
+          ]
+        },
+        "pending_decisions": {
+          "support": "supported",
+          "answer": "needs_you state and question shown on Home.",
+          "evidenceIds": [
+            "readme",
+            "arch"
+          ]
+        },
+        "escalation": {
+          "support": "partial",
+          "answer": "Ticket stops and asks after max_turns_without_human.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "visible_errors": {
+          "support": "supported",
+          "answer": "Failed script stage shows exit status; output on the run.",
+          "evidenceIds": [
+            "factory"
+          ]
+        },
+        "chat_terminal_parity": {
+          "support": "partial",
+          "answer": "Chat-like job page; no terminal.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "retained_history": {
+          "support": "supported",
+          "answer": "Ledger and ticket log persist.",
+          "evidenceIds": [
+            "arch"
+          ]
+        }
+      },
+      "limitations": [
+        "No notification, pause or retry."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "direction",
+        "mcpdoc",
+        "arch",
+        "readme",
+        "factory"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch09",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "machinist:COORD-06",
+      "criterionId": "COORD-06",
+      "answer": "Home shows what is running, what needs you, pass rate and tokens for 14 days; Work lists jobs with status tabs; Runners shows capacity; no parent/child or dependency views.",
+      "support": "partial",
+      "availability": "source-only",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "server"
+        ],
+        "version": "default-branch commit 942d0c8 (2026-11-15), 203 commits after latest release v0.4.0 (2026-08-31); early-access, features here are source-only",
+        "plan": "Open source (MIT), self-hosted on machines you control",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "fleet_fixture": {
+          "support": "unknown",
+          "answer": "Rendered fixture not examined; catalog does not run products.",
+          "evidenceIds": []
+        },
+        "parent_child": {
+          "support": "unsupported",
+          "answer": "No hierarchy.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "dependencies": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "attention": {
+          "support": "supported",
+          "answer": "Needs-you tab and Home list answer-in-place.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "history": {
+          "support": "supported",
+          "answer": "Recent work and per-job history.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "workload": {
+          "support": "supported",
+          "answer": "Runners page and usage tiles.",
+          "evidenceIds": [
+            "readme",
+            "runners"
+          ]
+        },
+        "navigation_errors": {
+          "support": "partial",
+          "answer": "Failed status on rows.",
+          "evidenceIds": [
+            "web"
+          ]
+        },
+        "fixture_mode": {
+          "support": "unknown",
+          "answer": "No demo fixture mode found.",
+          "evidenceIds": []
+        }
+      },
+      "limitations": [
+        "Flat ticket list only."
+      ],
+      "unknownReason": "Rendered layout was not exercised.",
+      "evidenceIds": [
+        "arch",
+        "readme",
+        "runners",
+        "web"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch09",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "machinist:COORD-07",
+      "criterionId": "COORD-07",
+      "answer": "Jobs and agents are plain files; new work uses default_agent and a job picker is a documented gap; reviewers per file; natural language only in the ticket text; changes need a restart and live relationships are limited to ticket runs and stages.",
+      "support": "partial",
+      "availability": "source-only",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "server"
+        ],
+        "version": "default-branch commit 942d0c8 (2026-11-15), 203 commits after latest release v0.4.0 (2026-08-31); early-access, features here are source-only",
+        "plan": "Open source (MIT), self-hosted on machines you control",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "quick_task": {
+          "support": "supported",
+          "answer": "Type work in the Home box.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "growing_epic": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "presets": {
+          "support": "partial",
+          "answer": "init installs a starter factory; one default agent.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "natural_language": {
+          "support": "partial",
+          "answer": "Tickets are natural language; factory is files.",
+          "evidenceIds": [
+            "factory"
+          ]
+        },
+        "agent_configuration": {
+          "support": "partial",
+          "answer": "agent.toml harness and model.",
+          "evidenceIds": [
+            "factory"
+          ]
+        },
+        "in_run_changes": {
+          "support": "unsupported",
+          "answer": "Factory read at startup.",
+          "evidenceIds": [
+            "factory"
+          ]
+        },
+        "live_roles": {
+          "support": "partial",
+          "answer": "Stage and reviewer runs shown per job.",
+          "evidenceIds": [
+            "web"
+          ]
+        },
+        "retained_relationships": {
+          "support": "partial",
+          "answer": "Stages and reviewer runs retained.",
+          "evidenceIds": [
+            "direction"
+          ]
+        },
+        "discoverability": {
+          "support": "supported",
+          "answer": "Docs and web pages.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "auth_friction": {
+          "support": "partial",
+          "answer": "Token needed for every route.",
+          "evidenceIds": [
+            "config"
+          ]
+        }
+      },
+      "limitations": [
+        "No in-run configuration changes."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "arch",
+        "factory",
+        "web",
+        "direction",
+        "config"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch09",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "machinist:RUN-01",
+      "criterionId": "RUN-01",
+      "answer": "Agents run on runners you control: a local daemon on a Mac or VM, or one gVisor Job per run on Kubernetes; the control plane holds state and runners dial out, so work continues without the client; no vendor cloud.",
+      "support": "partial",
+      "availability": "source-only",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "server",
+          "runner"
+        ],
+        "version": "default-branch commit 942d0c8 (2026-11-15), 203 commits after latest release v0.4.0 (2026-08-31); early-access, features here are source-only",
+        "plan": "Open source (MIT), self-hosted on machines you control",
+        "os": [],
+        "executionModes": [
+          "local",
+          "own-server"
+        ],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "local": {
+          "support": "supported",
+          "answer": "Local runner process with private home and allowlisted environment.",
+          "evidenceIds": [
+            "runners"
+          ]
+        },
+        "byo_remote": {
+          "support": "supported",
+          "answer": "Runner on any VM or Kubernetes cluster polling the control plane (docs/runners.md, docs/vm-deployment.md).",
+          "evidenceIds": [
+            "runners",
+            "vmdeploy"
+          ]
+        },
+        "self_hosted": {
+          "support": "supported",
+          "answer": "Control plane is self-hosted Go server with SQLite.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "managed_cloud": {
+          "support": "unsupported",
+          "answer": "No vendor cloud offered; README: agents run on machines you control.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "hybrid": {
+          "support": "supported",
+          "answer": "Local and Kubernetes runners are treated the same by one control plane.",
+          "evidenceIds": [
+            "runners"
+          ]
+        },
+        "provisioning": {
+          "support": "partial",
+          "answer": "machinist kubernetes install sets namespace, policies and proxy; secrets by hand.",
+          "evidenceIds": [
+            "runners"
+          ]
+        },
+        "payer": {
+          "support": "supported",
+          "answer": "Operator pays hardware and model credentials.",
+          "evidenceIds": [
+            "creds"
+          ]
+        },
+        "resources": {
+          "support": "partial",
+          "answer": "slots per runner; Job resources set by the operator.",
+          "evidenceIds": [
+            "runners"
+          ]
+        },
+        "region": {
+          "support": "supported",
+          "answer": "Wherever the operator runs it.",
+          "evidenceIds": [
+            "runners"
+          ]
+        },
+        "expiry": {
+          "support": "supported",
+          "answer": "No expiry; run deadline run_timeout default 60m.",
+          "evidenceIds": [
+            "config"
+          ]
+        },
+        "client_disconnect": {
+          "support": "supported",
+          "answer": "Runs continue; closing the browser has no effect.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "other_device_continuation": {
+          "support": "supported",
+          "answer": "Any signed-in browser sees and answers tickets.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Local runners hold the runner user’s credentials; Kubernetes runner and GitHub intake had not been run live from this code (docs/direction.md)."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "runners",
+        "vmdeploy",
+        "arch",
+        "readme",
+        "creds",
+        "config"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch09",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "machinist:RUN-02",
+      "criterionId": "RUN-02",
+      "answer": "Each run starts from a fresh clone on a fixed branch machinist/<ticket id>; local runs are an OS process with a private home and allowlisted env (concurrent runs under one user can read each other); Kubernetes runs are gVisor Jobs with an egress proxy and no service-account token.",
+      "support": "partial",
+      "availability": "source-only",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "runner"
+        ],
+        "version": "default-branch commit 942d0c8 (2026-11-15), 203 commits after latest release v0.4.0 (2026-08-31); early-access, features here are source-only",
+        "plan": "Open source (MIT), self-hosted on machines you control",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "checkout": {
+          "support": "supported",
+          "answer": "Fresh clone per run.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "branch": {
+          "support": "supported",
+          "answer": "Fixed branch per ticket.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "worktree": {
+          "support": "unsupported",
+          "answer": "Fresh clones, not git worktrees (searched internal/runner/workspace.go).",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "container": {
+          "support": "supported",
+          "answer": "Kubernetes Job per run.",
+          "evidenceIds": [
+            "arch",
+            "kube"
+          ]
+        },
+        "vm": {
+          "support": "unsupported",
+          "answer": "No VM isolation; gVisor sandbox is kernel-level.",
+          "evidenceIds": [
+            "kube"
+          ]
+        },
+        "os_sandbox": {
+          "support": "supported",
+          "answer": "gVisor RuntimeClass on Kubernetes runners; none on local.",
+          "evidenceIds": [
+            "kube",
+            "security"
+          ]
+        },
+        "filesystem": {
+          "support": "partial",
+          "answer": "Private home per local run; shared OS user.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "process": {
+          "support": "partial",
+          "answer": "Per-run process; systemd unit stops agents with the runner.",
+          "evidenceIds": [
+            "runners"
+          ]
+        },
+        "network": {
+          "support": "partial",
+          "answer": "Egress proxy host allowlist on Kubernetes; open network on local.",
+          "evidenceIds": [
+            "security",
+            "kube"
+          ]
+        },
+        "secrets": {
+          "support": "partial",
+          "answer": "Agents can read their credentials; model credentials live on runners only.",
+          "evidenceIds": [
+            "security",
+            "creds"
+          ]
+        },
+        "code_separation": {
+          "support": "supported",
+          "answer": "Fresh clone per run.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "security_boundary": {
+          "support": "partial",
+          "answer": "SECURITY.md states limits: local runner shares OS user; allowed services can still exfiltrate.",
+          "evidenceIds": [
+            "security"
+          ]
+        }
+      },
+      "limitations": [
+        "Local runner is not a sandbox; permission checks of both harnesses are disabled."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "arch",
+        "kube",
+        "security",
+        "runners",
+        "creds"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch09",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "machinist:RUN-03",
+      "criterionId": "RUN-03",
+      "answer": "Runs outlive control-plane restarts via stored 10-minute leases renewed every 30 seconds; a lost runner’s ticket continues on any runner after the lease expires and unpushed work is lost; reports and branch are the durable state.",
+      "support": "partial",
+      "availability": "source-only",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "server",
+          "runner"
+        ],
+        "version": "default-branch commit 942d0c8 (2026-11-15), 203 commits after latest release v0.4.0 (2026-08-31); early-access, features here are source-only",
+        "plan": "Open source (MIT), self-hosted on machines you control",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "client_disconnect": {
+          "support": "supported",
+          "answer": "No effect on runs.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "worker_crash": {
+          "support": "supported",
+          "answer": "Lease expires, run marked interrupted, ticket continues on any runner.",
+          "evidenceIds": [
+            "runners"
+          ]
+        },
+        "service_restart": {
+          "support": "supported",
+          "answer": "Runs outlive a control plane restart; internal/e2e/restart_test.go.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "expiry": {
+          "support": "supported",
+          "answer": "Run deadline; lease semantics.",
+          "evidenceIds": [
+            "config",
+            "runners"
+          ]
+        },
+        "transcript_reload": {
+          "support": "supported",
+          "answer": "Run activity retained.",
+          "evidenceIds": [
+            "direction"
+          ]
+        },
+        "process_reconnect": {
+          "support": "unsupported",
+          "answer": "A killed script restarts from the beginning; no process reattach.",
+          "evidenceIds": [
+            "factory"
+          ]
+        },
+        "task_resume": {
+          "support": "supported",
+          "answer": "Next run resumes from the pushed branch and ticket log.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "state_reconstruction": {
+          "support": "supported",
+          "answer": "Ticket state in SQLite; PR looked up after each run.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "context_loss": {
+          "support": "partial",
+          "answer": "Each run starts with fresh context and only the ticket log.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "duplicate_actions": {
+          "support": "partial",
+          "answer": "A crash between posting and recording can post a message twice.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "manual_repair": {
+          "support": "partial",
+          "answer": "No retry button for failed jobs.",
+          "evidenceIds": [
+            "direction"
+          ]
+        },
+        "multi_day_continuity": {
+          "support": "supported",
+          "answer": "Continues on same branch and PR across runs.",
+          "evidenceIds": [
+            "arch"
+          ]
+        }
+      },
+      "limitations": [
+        "Overlap of an old and new agent is possible until the lease expires; stages restart from the beginning."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "arch",
+        "runners",
+        "config",
+        "direction",
+        "factory"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch09",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "machinist:RUN-04",
+      "criterionId": "RUN-04",
+      "answer": "Environment comes from runner config allowlists and a Secret on Kubernetes; each run starts clean from a fresh clone; no caches, snapshots, service or port management.",
+      "support": "partial",
+      "availability": "source-only",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "runner"
+        ],
+        "version": "default-branch commit 942d0c8 (2026-11-15), 203 commits after latest release v0.4.0 (2026-08-31); early-access, features here are source-only",
+        "plan": "Open source (MIT), self-hosted on machines you control",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "dependencies": {
+          "support": "unsupported",
+          "answer": "No dependency handling found in internal/runner.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "caches": {
+          "support": "unsupported",
+          "answer": "Clones are removed after each run.",
+          "evidenceIds": [
+            "config"
+          ]
+        },
+        "snapshots": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "services": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "ports": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "secrets": {
+          "support": "supported",
+          "answer": "Env allowlist per harness; Kubernetes Secret not read by the runner process.",
+          "evidenceIds": [
+            "creds",
+            "runners"
+          ]
+        },
+        "duplicate_installs": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "collisions": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "remote_setup": {
+          "support": "partial",
+          "answer": "systemd units and Kubernetes overlay.",
+          "evidenceIds": [
+            "vmdeploy",
+            "runners"
+          ]
+        },
+        "automatic_repair": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "direction"
+          ]
+        }
+      },
+      "limitations": [
+        "Dependency installs are the agent’s job each run."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "arch",
+        "config",
+        "creds",
+        "runners",
+        "vmdeploy",
+        "direction"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch09",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "machinist:RUN-05",
+      "criterionId": "RUN-05",
+      "answer": "Run timeout (default 60m) and max turns without human (default 5) are enforced; provider spend limits are external; no Machinist token or spend caps.",
+      "support": "partial",
+      "availability": "source-only",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "server"
+        ],
+        "version": "default-branch commit 942d0c8 (2026-11-15), 203 commits after latest release v0.4.0 (2026-08-31); early-access, features here are source-only",
+        "plan": "Open source (MIT), self-hosted on machines you control",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "time_limits": {
+          "support": "supported",
+          "answer": "run_timeout deadline covers all stages.",
+          "evidenceIds": [
+            "config"
+          ]
+        },
+        "turn_limits": {
+          "support": "supported",
+          "answer": "max_turns_without_human then stop and ask.",
+          "evidenceIds": [
+            "config",
+            "arch"
+          ]
+        },
+        "token_limits": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "direction"
+          ]
+        },
+        "spend_limits": {
+          "support": "unsupported",
+          "answer": "Provider spend limits cap total cost; none in Machinist.",
+          "evidenceIds": [
+            "arch",
+            "direction"
+          ]
+        },
+        "timeouts": {
+          "support": "supported",
+          "answer": "One overall timeout and cancellation.",
+          "evidenceIds": [
+            "readme",
+            "config"
+          ]
+        },
+        "retries": {
+          "support": "unsupported",
+          "answer": "No retry button; failed automation runs do not retry.",
+          "evidenceIds": [
+            "direction"
+          ]
+        },
+        "provider_failures": {
+          "support": "partial",
+          "answer": "Failed run reports failed; no provider-specific handling.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "enforcement": {
+          "support": "partial",
+          "answer": "Timeouts and turns enforced; spend external.",
+          "evidenceIds": [
+            "arch"
+          ]
+        }
+      },
+      "limitations": [
+        "No spending limits (direction item 5)."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "config",
+        "arch",
+        "direction",
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch09",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "machinist:RUN-06",
+      "criterionId": "RUN-06",
+      "answer": "Each run keeps its report, stages, tokens and cost; Home shows pass rate and tokens for 14 days; ledger gives cost, questions and feedback rounds per ticket; usage is daily totals not split by person, job or agent.",
+      "support": "partial",
+      "availability": "source-only",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "server"
+        ],
+        "version": "default-branch commit 942d0c8 (2026-11-15), 203 commits after latest release v0.4.0 (2026-08-31); early-access, features here are source-only",
+        "plan": "Open source (MIT), self-hosted on machines you control",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "logs": {
+          "support": "supported",
+          "answer": "Streamed stdout/stderr events and activity per run.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "traces": {
+          "support": "partial",
+          "answer": "Run events retained.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "failure_reasons": {
+          "support": "partial",
+          "answer": "Failed script stage gives exit status; output on run.",
+          "evidenceIds": [
+            "factory"
+          ]
+        },
+        "usage_export": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "direction"
+          ]
+        },
+        "task_stats": {
+          "support": "supported",
+          "answer": "Per-ticket figures (internal/tickets/ledger.go).",
+          "evidenceIds": [
+            "ledger"
+          ]
+        },
+        "agent_stats": {
+          "support": "unsupported",
+          "answer": "Usage not split by agent (direction item 5).",
+          "evidenceIds": [
+            "direction"
+          ]
+        },
+        "project_stats": {
+          "support": "unsupported",
+          "answer": "Not split by repository.",
+          "evidenceIds": [
+            "direction"
+          ]
+        },
+        "time_stats": {
+          "support": "supported",
+          "answer": "Last 14 days totals and charts.",
+          "evidenceIds": [
+            "readme",
+            "web"
+          ]
+        },
+        "failure_status": {
+          "support": "supported",
+          "answer": "failed and cancelled distinguished from needs_you and pr_ready.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "approval_status": {
+          "support": "supported",
+          "answer": "needs_you state.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "reconnect_consistency": {
+          "support": "supported",
+          "answer": "Runners page is the same after a control plane restart.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "performance_method": {
+          "support": "unknown",
+          "answer": "No catalog measurement; ADEMark does not list Machinist.",
+          "evidenceIds": []
+        },
+        "responsiveness": {
+          "support": "unknown",
+          "answer": "Not measured by this catalog.",
+          "evidenceIds": []
+        }
+      },
+      "limitations": [
+        "No usage export."
+      ],
+      "unknownReason": "This catalog measures no speed or responsiveness.",
+      "evidenceIds": [
+        "readme",
+        "arch",
+        "factory",
+        "direction",
+        "ledger",
+        "web"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch09",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "machinist:RUN-07",
+      "criterionId": "RUN-07",
+      "answer": "Cost and tokens recorded per run and summed per ticket in the ledger and shown on Home; harness-reported where available; no per-person, per-agent split, alerts or export.",
+      "support": "partial",
+      "availability": "source-only",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "server"
+        ],
+        "version": "default-branch commit 942d0c8 (2026-11-15), 203 commits after latest release v0.4.0 (2026-08-31); early-access, features here are source-only",
+        "plan": "Open source (MIT), self-hosted on machines you control",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "task_cost": {
+          "support": "supported",
+          "answer": "SUM(runs.cost) per ticket in the ledger.",
+          "evidenceIds": [
+            "ledger"
+          ]
+        },
+        "session_cost": {
+          "support": "supported",
+          "answer": "Per-run cost and tokens.",
+          "evidenceIds": [
+            "ledger",
+            "direction"
+          ]
+        },
+        "child_cost": {
+          "support": "unsupported",
+          "answer": "No children.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "epic_cost": {
+          "support": "unsupported",
+          "answer": "No epics.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "harness_aggregation": {
+          "support": "partial",
+          "answer": "Runs of both harnesses are summed in daily totals.",
+          "evidenceIds": [
+            "direction"
+          ]
+        },
+        "billed_vs_estimated": {
+          "support": "unknown",
+          "answer": "Whether cost is billed or estimated is not stated.",
+          "evidenceIds": []
+        },
+        "tokens": {
+          "support": "supported",
+          "answer": "Tokens per run and day.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "subscription_allowance": {
+          "support": "unsupported",
+          "answer": "No subscription allowance display; codex_usage.go reads usage.",
+          "evidenceIds": [
+            "direction"
+          ]
+        },
+        "provider_reconciliation": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "direction"
+          ]
+        },
+        "compute_cost": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "direction"
+          ]
+        },
+        "refresh_delay": {
+          "support": "unknown",
+          "answer": "Not documented.",
+          "evidenceIds": []
+        },
+        "alerts": {
+          "support": "unsupported",
+          "answer": "No budgets or alerts.",
+          "evidenceIds": [
+            "direction"
+          ]
+        },
+        "export": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "direction"
+          ]
+        },
+        "drilldown": {
+          "support": "partial",
+          "answer": "Home figures to job page.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Cost source is the harness report; no reconciliation."
+      ],
+      "unknownReason": "Cost provenance and refresh delay are not documented.",
+      "evidenceIds": [
+        "ledger",
+        "direction",
+        "arch",
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch09",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "machinist:RUN-08",
+      "criterionId": "RUN-08",
+      "answer": "Runner slots limit concurrent runs and the Runners page shows queue wait; no CPU/RAM awareness, deduplicated checks or fairness policy.",
+      "support": "partial",
+      "availability": "source-only",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "runner"
+        ],
+        "version": "default-branch commit 942d0c8 (2026-11-15), 203 commits after latest release v0.4.0 (2026-08-31); early-access, features here are source-only",
+        "plan": "Open source (MIT), self-hosted on machines you control",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "concurrency": {
+          "support": "supported",
+          "answer": "slots per runner.",
+          "evidenceIds": [
+            "runners"
+          ]
+        },
+        "queues": {
+          "support": "supported",
+          "answer": "Run queue; runners poll only with a free slot.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "cpu_ram": {
+          "support": "unsupported",
+          "answer": "None found.",
+          "evidenceIds": [
+            "runners"
+          ]
+        },
+        "backpressure": {
+          "support": "partial",
+          "answer": "Queue waits when slots are busy.",
+          "evidenceIds": [
+            "runners"
+          ]
+        },
+        "host_awareness": {
+          "support": "partial",
+          "answer": "Runner reports local or Kubernetes, harnesses and slots.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "check_reuse": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "check_deduplication": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "bounded_tests": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "cancellation": {
+          "support": "supported",
+          "answer": "Cancel ticket.",
+          "evidenceIds": [
+            "mcpdoc"
+          ]
+        },
+        "fairness": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "recovery": {
+          "support": "supported",
+          "answer": "Lease expiry reassigns runs.",
+          "evidenceIds": [
+            "runners"
+          ]
+        },
+        "shared_limits": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "arch"
+          ]
+        }
+      },
+      "limitations": [
+        "Slot-based only."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "runners",
+        "arch",
+        "mcpdoc"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch09",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "machinist:TEAM-01",
+      "criterionId": "TEAM-01",
+      "answer": "One control plane lets anyone with a token see every job, answer questions and open PRs; replies in the job chat page and GitHub comments are the discussion; no presence, co-prompting controls or permissions.",
+      "support": "partial",
+      "availability": "source-only",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "server"
+        ],
+        "version": "default-branch commit 942d0c8 (2026-11-15), 203 commits after latest release v0.4.0 (2026-08-31); early-access, features here are source-only",
+        "plan": "Open source (MIT), self-hosted on machines you control",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "visibility": {
+          "support": "supported",
+          "answer": "Anyone signed in sees what each agent is doing (README).",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "discussion": {
+          "support": "supported",
+          "answer": "Job page chat and GitHub comments.",
+          "evidenceIds": [
+            "readme",
+            "followups"
+          ]
+        },
+        "comments": {
+          "support": "partial",
+          "answer": "Replies and PR comments; no per-line comments in Machinist.",
+          "evidenceIds": [
+            "followups"
+          ]
+        },
+        "presence": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "direction"
+          ]
+        },
+        "coprompting": {
+          "support": "partial",
+          "answer": "Multiple people can reply to the same ticket; no live co-steering.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "ordering": {
+          "support": "unknown",
+          "answer": "Not documented.",
+          "evidenceIds": []
+        },
+        "conflicts": {
+          "support": "unknown",
+          "answer": "Not documented.",
+          "evidenceIds": []
+        },
+        "attribution": {
+          "support": "partial",
+          "answer": "Tokens carry names and a job records who assigned it.",
+          "evidenceIds": [
+            "direction"
+          ]
+        },
+        "permissions": {
+          "support": "unsupported",
+          "answer": "No accounts or roles; GitHub mentions need write access.",
+          "evidenceIds": [
+            "direction",
+            "readme"
+          ]
+        },
+        "plan_restrictions": {
+          "support": "supported",
+          "answer": "Open source, no plans.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "owner_online": {
+          "support": "supported",
+          "answer": "Control plane host must run; no individual owner needed.",
+          "evidenceIds": [
+            "arch"
+          ]
+        }
+      },
+      "limitations": [
+        "No accounts; anyone signed in can cancel anything."
+      ],
+      "unknownReason": "Concurrent reply ordering is not documented.",
+      "evidenceIds": [
+        "readme",
+        "followups",
+        "direction",
+        "license",
+        "arch"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch09",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "machinist:TEAM-02",
+      "criterionId": "TEAM-02",
+      "answer": "No accounts, roles or SSO: one kind of token for people and runners, revocable by name; mentions require GitHub write access.",
+      "support": "partial",
+      "availability": "source-only",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "server"
+        ],
+        "version": "default-branch commit 942d0c8 (2026-11-15), 203 commits after latest release v0.4.0 (2026-08-31); early-access, features here are source-only",
+        "plan": "Open source (MIT), self-hosted on machines you control",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "organization_roles": {
+          "support": "unsupported",
+          "answer": "Direction: no accounts or roles.",
+          "evidenceIds": [
+            "direction"
+          ]
+        },
+        "project_roles": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "direction"
+          ]
+        },
+        "task_roles": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "direction"
+          ]
+        },
+        "membership": {
+          "support": "partial",
+          "answer": "Create, list and revoke named tokens.",
+          "evidenceIds": [
+            "config"
+          ]
+        },
+        "sso": {
+          "support": "unsupported",
+          "answer": "Searched internal/controlplane for sso/oidc/saml: none.",
+          "evidenceIds": [
+            "config"
+          ]
+        },
+        "provisioning": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "config"
+          ]
+        },
+        "unauthorized_access": {
+          "support": "supported",
+          "answer": "Every route needs a token except healthz, sign-in and assets.",
+          "evidenceIds": [
+            "config"
+          ]
+        },
+        "revocation": {
+          "support": "supported",
+          "answer": "machinist token revoke ends sign-ins.",
+          "evidenceIds": [
+            "config"
+          ]
+        },
+        "plan_scope": {
+          "support": "supported",
+          "answer": "No plans.",
+          "evidenceIds": [
+            "license"
+          ]
+        }
+      },
+      "limitations": [
+        "Explicit gap in docs/direction.md item 4."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "direction",
+        "config",
+        "license"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch09",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "machinist:TEAM-03",
+      "criterionId": "TEAM-03",
+      "answer": "Agents run with harness permission checks disabled; the boundary is the OS user or gVisor Job and the GitHub login with branch protection; agents ask humans questions; merges happen only if an automation uses an agent allowed to merge.",
+      "support": "partial",
+      "availability": "source-only",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "runner",
+          "server"
+        ],
+        "version": "default-branch commit 942d0c8 (2026-11-15), 203 commits after latest release v0.4.0 (2026-08-31); early-access, features here are source-only",
+        "plan": "Open source (MIT), self-hosted on machines you control",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "command": {
+          "support": "unsupported",
+          "answer": "Claude --dangerously-skip-permissions and Codex danger-full-access (docs/native-agents.md).",
+          "evidenceIds": [
+            "native"
+          ]
+        },
+        "tool": {
+          "support": "unsupported",
+          "answer": "Same.",
+          "evidenceIds": [
+            "native"
+          ]
+        },
+        "network": {
+          "support": "partial",
+          "answer": "Egress proxy host list on Kubernetes only.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "secret": {
+          "support": "unsupported",
+          "answer": "Agents can read their credentials (SECURITY.md).",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "delivery": {
+          "support": "partial",
+          "answer": "Human merges the PR; merge-only automations are off by default.",
+          "evidenceIds": [
+            "factory",
+            "readme"
+          ]
+        },
+        "approver_identity": {
+          "support": "partial",
+          "answer": "GitHub login for merges.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "lifetime": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "allow": {
+          "support": "partial",
+          "answer": "Answering a waiting question.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "deny": {
+          "support": "partial",
+          "answer": "Cancel ticket.",
+          "evidenceIds": [
+            "mcpdoc"
+          ]
+        },
+        "revoke": {
+          "support": "partial",
+          "answer": "Revoke token.",
+          "evidenceIds": [
+            "config"
+          ]
+        },
+        "tunnels": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "defaults": {
+          "support": "supported",
+          "answer": "Permissions off by default; trust model documented.",
+          "evidenceIds": [
+            "security",
+            "native"
+          ]
+        },
+        "safer_modes": {
+          "support": "partial",
+          "answer": "Kubernetes gVisor runner.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "enforcement": {
+          "support": "partial",
+          "answer": "gVisor, proxy and branch protection are enforced; agent behaviour is not.",
+          "evidenceIds": [
+            "security"
+          ]
+        }
+      },
+      "limitations": [
+        "No per-command approval."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "native",
+        "security",
+        "factory",
+        "readme",
+        "mcpdoc",
+        "config",
+        "arch"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch09",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "machinist:TEAM-04",
+      "criterionId": "TEAM-04",
+      "answer": "Ticket log and ledger retain requests, reports, comments, cost and feedback rounds with the assigning token name; SQLite state is operator-owned and mutable; no export or integrity model.",
+      "support": "partial",
+      "availability": "source-only",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "server"
+        ],
+        "version": "default-branch commit 942d0c8 (2026-11-15), 203 commits after latest release v0.4.0 (2026-08-31); early-access, features here are source-only",
+        "plan": "Open source (MIT), self-hosted on machines you control",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "actions": {
+          "support": "supported",
+          "answer": "Run reports and activity.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "approvals": {
+          "support": "partial",
+          "answer": "Human answers recorded in the ticket log.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "edits": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "discussion": {
+          "support": "supported",
+          "answer": "Ticket log keeps comments.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "decisions": {
+          "support": "partial",
+          "answer": "Questions and answers in the log.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "cross_user_persistence": {
+          "support": "supported",
+          "answer": "Server-side.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "cross_session_persistence": {
+          "support": "supported",
+          "answer": "SQLite tickets.db.",
+          "evidenceIds": [
+            "config"
+          ]
+        },
+        "export": {
+          "support": "unsupported",
+          "answer": "None; back up the SQLite file.",
+          "evidenceIds": [
+            "config"
+          ]
+        },
+        "mutability": {
+          "support": "partial",
+          "answer": "Operator can edit the database.",
+          "evidenceIds": [
+            "config"
+          ]
+        },
+        "retention": {
+          "support": "unknown",
+          "answer": "No retention policy documented.",
+          "evidenceIds": []
+        },
+        "integrity": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "arch"
+          ]
+        }
+      },
+      "limitations": [
+        "No audit semantics claimed."
+      ],
+      "unknownReason": "Retention policy is not documented.",
+      "evidenceIds": [
+        "arch",
+        "config"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch09",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "machinist:TEAM-05",
+      "criterionId": "TEAM-05",
+      "answer": "Review happens on the GitHub PR; a fresh reviewer agent posts one advisory comment; the web app shows pr_ready and links to the PR; no diff or review UI in Machinist.",
+      "support": "partial",
+      "availability": "source-only",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "server"
+        ],
+        "version": "default-branch commit 942d0c8 (2026-11-15), 203 commits after latest release v0.4.0 (2026-08-31); early-access, features here are source-only",
+        "plan": "Open source (MIT), self-hosted on machines you control",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "pending_reviews": {
+          "support": "supported",
+          "answer": "pr_ready tab in Work.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "change_understanding": {
+          "support": "unsupported",
+          "answer": "No diff in Machinist.",
+          "evidenceIds": [
+            "direction"
+          ]
+        },
+        "evidence_navigation": {
+          "support": "partial",
+          "answer": "Run activity and PR link.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "comments": {
+          "support": "partial",
+          "answer": "Reviewer comments posted on the PR with gh.",
+          "evidenceIds": [
+            "factory"
+          ]
+        },
+        "request_changes": {
+          "support": "partial",
+          "answer": "A person’s GitHub review continues the ticket.",
+          "evidenceIds": [
+            "arch",
+            "followups"
+          ]
+        },
+        "shipping_guidance": {
+          "support": "partial",
+          "answer": "pr_ready state.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "effort": {
+          "support": "unknown",
+          "answer": "Not assessed.",
+          "evidenceIds": []
+        },
+        "missed_evidence": {
+          "support": "unknown",
+          "answer": "Not assessed.",
+          "evidenceIds": []
+        },
+        "keyboard": {
+          "support": "unknown",
+          "answer": "Not documented.",
+          "evidenceIds": []
+        },
+        "narrow_screen": {
+          "support": "unknown",
+          "answer": "Not documented.",
+          "evidenceIds": []
+        },
+        "context_switching": {
+          "support": "partial",
+          "answer": "Review in GitHub.",
+          "evidenceIds": [
+            "direction"
+          ]
+        },
+        "roles": {
+          "support": "supported",
+          "answer": "Reviewer is a separate fresh agent with no subagents.",
+          "evidenceIds": [
+            "factory"
+          ]
+        },
+        "retained_context": {
+          "support": "supported",
+          "answer": "Reviewer failures show on the ticket; comments stay on PR.",
+          "evidenceIds": [
+            "factory"
+          ]
+        }
+      },
+      "limitations": [
+        "Direction doc: not a code review tool."
+      ],
+      "unknownReason": "Review keyboard, narrow-screen and effort aspects are not documented.",
+      "evidenceIds": [
+        "arch",
+        "direction",
+        "readme",
+        "factory",
+        "followups"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch09",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "machinist:TEAM-06",
+      "criterionId": "TEAM-06",
+      "answer": "Anyone signed in can answer or cancel the same ticket, and the ticket continues from the pushed branch and ticket log on any runner; no ownership transfer or attribution beyond token names.",
+      "support": "partial",
+      "availability": "source-only",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "server"
+        ],
+        "version": "default-branch commit 942d0c8 (2026-11-15), 203 commits after latest release v0.4.0 (2026-08-31); early-access, features here are source-only",
+        "plan": "Open source (MIT), self-hosted on machines you control",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "ongoing_takeover": {
+          "support": "partial",
+          "answer": "Any person can reply to continue.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "same_task": {
+          "support": "supported",
+          "answer": "Same ticket, branch and PR.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "session_history": {
+          "support": "supported",
+          "answer": "Ticket log.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "decisions": {
+          "support": "partial",
+          "answer": "In the log.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "artifacts": {
+          "support": "partial",
+          "answer": "Branch and PR only.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "permissions": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "direction"
+          ]
+        },
+        "runtime_context": {
+          "support": "unsupported",
+          "answer": "Fresh clone each run.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "owner_disconnect": {
+          "support": "supported",
+          "answer": "Work continues.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "ownership": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "direction"
+          ]
+        },
+        "attribution": {
+          "support": "partial",
+          "answer": "Token names.",
+          "evidenceIds": [
+            "direction"
+          ]
+        },
+        "context_loss": {
+          "support": "partial",
+          "answer": "Fresh context per run.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "harness_transfer": {
+          "support": "partial",
+          "answer": "default_agent can change per automation; not mid-ticket.",
+          "evidenceIds": [
+            "direction"
+          ]
+        }
+      },
+      "limitations": [
+        "No ownership model."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "arch",
+        "direction"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch09",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "machinist:SHIP-01",
+      "criterionId": "SHIP-01",
+      "answer": "Each run keeps its report, stages, stdout/stderr events, tokens and cost; the branch and PR carry code; reviewer comments are posted on the PR; no artifacts, screenshots, recordings or gallery.",
+      "support": "partial",
+      "availability": "source-only",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "server"
+        ],
+        "version": "default-branch commit 942d0c8 (2026-11-15), 203 commits after latest release v0.4.0 (2026-08-31); early-access, features here are source-only",
+        "plan": "Open source (MIT), self-hosted on machines you control",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "diffs": {
+          "support": "partial",
+          "answer": "Diffs live in the GitHub PR.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "documents": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "screenshots": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "recordings": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "previews": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "test_outputs": {
+          "support": "partial",
+          "answer": "Script stage output on the run.",
+          "evidenceIds": [
+            "factory"
+          ]
+        },
+        "reviewer_outputs": {
+          "support": "supported",
+          "answer": "Reviewer comment on the PR.",
+          "evidenceIds": [
+            "factory"
+          ]
+        },
+        "gallery": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "task_links": {
+          "support": "supported",
+          "answer": "Runs and PR linked to the ticket.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "revision_links": {
+          "support": "partial",
+          "answer": "Fixed branch; PR looked up.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "persistence": {
+          "support": "supported",
+          "answer": "SQLite.",
+          "evidenceIds": [
+            "config"
+          ]
+        },
+        "child_findings": {
+          "support": "unsupported",
+          "answer": "No children.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "prompt_leakage": {
+          "support": "unknown",
+          "answer": "Not documented.",
+          "evidenceIds": []
+        }
+      },
+      "limitations": [
+        "Kubernetes activity appears only when the run ends."
+      ],
+      "unknownReason": "Reviewer prompt leakage is not documented.",
+      "evidenceIds": [
+        "arch",
+        "factory",
+        "config"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch09",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "machinist:SHIP-02",
+      "criterionId": "SHIP-02",
+      "answer": "Script stages are gates an agent cannot skip (failure ends the run), a fresh reviewer comments on the PR as advice, CI failures start follow-up runs; verification is whatever the job’s scripts run.",
+      "support": "partial",
+      "availability": "source-only",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "server"
+        ],
+        "version": "default-branch commit 942d0c8 (2026-11-15), 203 commits after latest release v0.4.0 (2026-08-31); early-access, features here are source-only",
+        "plan": "Open source (MIT), self-hosted on machines you control",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "tests": {
+          "support": "supported",
+          "answer": "Script stage runs e.g. go test and fails the run on non-zero exit.",
+          "evidenceIds": [
+            "factory"
+          ]
+        },
+        "lint": {
+          "support": "partial",
+          "answer": "Via script stages.",
+          "evidenceIds": [
+            "factory"
+          ]
+        },
+        "types": {
+          "support": "partial",
+          "answer": "Via script stages.",
+          "evidenceIds": [
+            "factory"
+          ]
+        },
+        "ci": {
+          "support": "supported",
+          "answer": "Polls PR checks and starts follow-up runs on failure.",
+          "evidenceIds": [
+            "followups"
+          ]
+        },
+        "independent_review": {
+          "support": "supported",
+          "answer": "Reviewer files run once on first PR.",
+          "evidenceIds": [
+            "factory"
+          ]
+        },
+        "spec_checks": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "factory"
+          ]
+        },
+        "required_checks": {
+          "support": "partial",
+          "answer": "Script stages in a job are required for that job.",
+          "evidenceIds": [
+            "factory"
+          ]
+        },
+        "failure_blocking": {
+          "support": "partial",
+          "answer": "Failed stage ends run and skips later stages; merging is not blocked by Machinist.",
+          "evidenceIds": [
+            "factory"
+          ]
+        },
+        "requirement_conflicts": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "factory"
+          ]
+        },
+        "configured_policy": {
+          "support": "supported",
+          "answer": "Jobs configured in files.",
+          "evidenceIds": [
+            "factory"
+          ]
+        },
+        "enforced_policy": {
+          "support": "partial",
+          "answer": "Stage failure enforced; merge governed by branch protection.",
+          "evidenceIds": [
+            "factory",
+            "security"
+          ]
+        }
+      },
+      "limitations": [
+        "No built-in lint/type gates or persistent spec checks; reviewer is advisory."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "factory",
+        "followups",
+        "security"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch09",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "machinist:SHIP-03",
+      "criterionId": "SHIP-03",
+      "answer": "Fixed branch per ticket from a fresh clone; the agent pushes and opens one PR with gh; the control plane finds the PR, follows reviews and checks, and continues on the same PR after feedback or CI failure; rebase and conflicts are the agent’s.",
+      "support": "partial",
+      "availability": "source-only",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "server",
+          "runner"
+        ],
+        "version": "default-branch commit 942d0c8 (2026-11-15), 203 commits after latest release v0.4.0 (2026-08-31); early-access, features here are source-only",
+        "plan": "Open source (MIT), self-hosted on machines you control",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "branches": {
+          "support": "supported",
+          "answer": "machinist/<ticket id>.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "worktrees": {
+          "support": "unsupported",
+          "answer": "Fresh clones.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "commits": {
+          "support": "partial",
+          "answer": "Agent commits; ledger counts commits.",
+          "evidenceIds": [
+            "ledger"
+          ]
+        },
+        "pull_requests": {
+          "support": "supported",
+          "answer": "Agent opens one PR; control plane looks it up.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "comments": {
+          "support": "supported",
+          "answer": "Review comments trigger follow-up runs.",
+          "evidenceIds": [
+            "followups"
+          ]
+        },
+        "ci_response": {
+          "support": "supported",
+          "answer": "Failing checks trigger follow-ups.",
+          "evidenceIds": [
+            "followups"
+          ]
+        },
+        "rebase": {
+          "support": "unsupported",
+          "answer": "No product rebase handling.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "conflicts": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "product_state": {
+          "support": "supported",
+          "answer": "pr_ready, done on merge tracked in ticket states.",
+          "evidenceIds": [
+            "arch",
+            "followups"
+          ]
+        }
+      },
+      "limitations": [
+        "Agents use gh directly with the bot token."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "arch",
+        "ledger",
+        "followups"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch09",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "machinist:SHIP-04",
+      "criterionId": "SHIP-04",
+      "answer": "Machinist never merges a PR unless an automation uses an agent allowed to; humans approve and merge on GitHub; branch protection and the login’s permissions are the authority controls.",
+      "support": "partial",
+      "availability": "source-only",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "server"
+        ],
+        "version": "default-branch commit 942d0c8 (2026-11-15), 203 commits after latest release v0.4.0 (2026-08-31); early-access, features here are source-only",
+        "plan": "Open source (MIT), self-hosted on machines you control",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "approve": {
+          "support": "partial",
+          "answer": "Humans approve on GitHub.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "merge": {
+          "support": "partial",
+          "answer": "Optional review-open-prs automation with maintainer agent merges ready PRs.",
+          "evidenceIds": [
+            "factory"
+          ]
+        },
+        "release": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "deploy": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "exact_revision": {
+          "support": "unsupported",
+          "answer": "None checked by Machinist.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "authority_enforcement": {
+          "support": "partial",
+          "answer": "GitHub refuses merges branch protection forbids.",
+          "evidenceIds": [
+            "factory",
+            "security"
+          ]
+        }
+      },
+      "limitations": [
+        "Authority is external to Machinist."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "factory",
+        "arch",
+        "security"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch09",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "machinist:SHIP-05",
+      "criterionId": "SHIP-05",
+      "answer": "Ticket links to branch and PR, states pr_ready and done on merge, ledger counts commits and merges; no build, deployment, rollback or stale-approval handling.",
+      "support": "partial",
+      "availability": "source-only",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "server"
+        ],
+        "version": "default-branch commit 942d0c8 (2026-11-15), 203 commits after latest release v0.4.0 (2026-08-31); early-access, features here are source-only",
+        "plan": "Open source (MIT), self-hosted on machines you control",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "commit_links": {
+          "support": "partial",
+          "answer": "Commit counts in ledger.",
+          "evidenceIds": [
+            "ledger"
+          ]
+        },
+        "pr_links": {
+          "support": "supported",
+          "answer": "Ticket records its PR.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "build_links": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "deployment_links": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "delivery_status": {
+          "support": "supported",
+          "answer": "pr_ready and done.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "retained_evidence": {
+          "support": "supported",
+          "answer": "Reports and logs.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "rollback": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "revert": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "stale_approval_invalidation": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "arch"
+          ]
+        }
+      },
+      "limitations": [
+        "Delivery ends at the PR."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "ledger",
+        "arch"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch09",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "machinist:SHIP-06",
+      "criterionId": "SHIP-06",
+      "answer": "Work table with a pr_ready tab and a Home list; each PR is reviewed on GitHub; no batch review tooling.",
+      "support": "partial",
+      "availability": "source-only",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "server"
+        ],
+        "version": "default-branch commit 942d0c8 (2026-11-15), 203 commits after latest release v0.4.0 (2026-08-31); early-access, features here are source-only",
+        "plan": "Open source (MIT), self-hosted on machines you control",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "review_queue": {
+          "support": "supported",
+          "answer": "Work table tabs.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "summaries": {
+          "support": "partial",
+          "answer": "Each run’s report summarizes.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "grouping": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "risk_size_filters": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "findings": {
+          "support": "partial",
+          "answer": "Reviewer comment per PR.",
+          "evidenceIds": [
+            "factory"
+          ]
+        },
+        "artifacts": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "request_changes": {
+          "support": "partial",
+          "answer": "On GitHub.",
+          "evidenceIds": [
+            "followups"
+          ]
+        },
+        "exact_revision_approval": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "dependency_queues": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "next_actions": {
+          "support": "partial",
+          "answer": "State labels.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "stale_approval_invalidation": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "check_deduplication": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "arch"
+          ]
+        }
+      },
+      "limitations": [
+        "Not a review tool."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "arch",
+        "factory",
+        "followups"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch09",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "machinist:OWN-01",
+      "criterionId": "OWN-01",
+      "answer": "MIT license on the whole repository (control plane, runners, CLI, web app); the repository is the only component; the default branch is a redesign unreleased since v0.4.0.",
+      "support": "partial",
+      "availability": "source-only",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "server",
+          "runner"
+        ],
+        "version": "default-branch commit 942d0c8 (2026-11-15), 203 commits after latest release v0.4.0 (2026-08-31); early-access, features here are source-only",
+        "plan": "Open source (MIT), self-hosted on machines you control",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "client_license": {
+          "support": "supported",
+          "answer": "MIT (LICENSE).",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "server_license": {
+          "support": "supported",
+          "answer": "MIT.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "hosted_extensions": {
+          "support": "unsupported",
+          "answer": "No hosted service; README: runs on machines you control.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "source_visibility": {
+          "support": "supported",
+          "answer": "Public GitHub repo.",
+          "evidenceIds": [
+            "repoapi"
+          ]
+        },
+        "source_revision": {
+          "support": "supported",
+          "answer": "Pinned default-branch commit 942d0c8; latest release v0.4.0.",
+          "evidenceIds": [
+            "releases"
+          ]
+        },
+        "hosted_parity": {
+          "support": "unsupported",
+          "answer": "No hosted version exists.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Hosted service and release parity are not applicable."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "license",
+        "readme",
+        "repoapi",
+        "releases"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-05-15",
+      "researcher": "researcher-batch09",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "machinist:OWN-02",
+      "criterionId": "OWN-02",
+      "answer": "Whole product self-hosts with SQLite and plain factory files; no vendor account or service; back up tickets.db; no export or import tooling.",
+      "support": "partial",
+      "availability": "source-only",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "server"
+        ],
+        "version": "default-branch commit 942d0c8 (2026-11-15), 203 commits after latest release v0.4.0 (2026-08-31); early-access, features here are source-only",
+        "plan": "Open source (MIT), self-hosted on machines you control",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "self_hosting": {
+          "support": "supported",
+          "answer": "Control plane and runners on your machines.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "vendor_dependencies": {
+          "support": "supported",
+          "answer": "Needs GitHub and a model provider credential only.",
+          "evidenceIds": [
+            "readme",
+            "creds"
+          ]
+        },
+        "export": {
+          "support": "unsupported",
+          "answer": "No export command; SQLite file backup.",
+          "evidenceIds": [
+            "config"
+          ]
+        },
+        "import": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "config"
+          ]
+        },
+        "formats": {
+          "support": "partial",
+          "answer": "SQLite database and plain-file factory.",
+          "evidenceIds": [
+            "config",
+            "factory"
+          ]
+        },
+        "cancellation": {
+          "support": "unsupported",
+          "answer": "No account to cancel.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "account_independence": {
+          "support": "supported",
+          "answer": "No Machinist account.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "history_portability": {
+          "support": "partial",
+          "answer": "Branches and PRs live on GitHub; ticket history in SQLite.",
+          "evidenceIds": [
+            "arch"
+          ]
+        }
+      },
+      "limitations": [
+        "No portable export format."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "creds",
+        "config",
+        "factory",
+        "arch"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-05-15",
+      "researcher": "researcher-batch09",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "machinist:OWN-03",
+      "criterionId": "OWN-03",
+      "answer": "Code, prompts and credentials stay on your control plane and runners; model credentials live on runners; prompts go to the harness provider; no telemetry found in the code; agents can read credentials.",
+      "support": "partial",
+      "availability": "source-only",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "server",
+          "runner"
+        ],
+        "version": "default-branch commit 942d0c8 (2026-11-15), 203 commits after latest release v0.4.0 (2026-08-31); early-access, features here are source-only",
+        "plan": "Open source (MIT), self-hosted on machines you control",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "code_data": {
+          "support": "supported",
+          "answer": "Fresh clones on runners; repository access stays local.",
+          "evidenceIds": [
+            "readme",
+            "arch"
+          ]
+        },
+        "prompts": {
+          "support": "partial",
+          "answer": "Sent to the harness provider by the agent.",
+          "evidenceIds": [
+            "native"
+          ]
+        },
+        "credentials": {
+          "support": "supported",
+          "answer": "Credentials live on runners; control plane never holds agent credentials.",
+          "evidenceIds": [
+            "creds"
+          ]
+        },
+        "logs": {
+          "support": "supported",
+          "answer": "SQLite on your host.",
+          "evidenceIds": [
+            "config"
+          ]
+        },
+        "artifacts": {
+          "support": "supported",
+          "answer": "Local.",
+          "evidenceIds": [
+            "config"
+          ]
+        },
+        "retention": {
+          "support": "supported",
+          "answer": "You control the database; clones removed after each run.",
+          "evidenceIds": [
+            "config"
+          ]
+        },
+        "deletion": {
+          "support": "supported",
+          "answer": "Delete database files.",
+          "evidenceIds": [
+            "config"
+          ]
+        },
+        "training": {
+          "support": "unknown",
+          "answer": "Provider policy.",
+          "evidenceIds": []
+        },
+        "residency": {
+          "support": "supported",
+          "answer": "Wherever you deploy.",
+          "evidenceIds": [
+            "runners"
+          ]
+        },
+        "subprocessors": {
+          "support": "supported",
+          "answer": "None for Machinist; GitHub and your model provider.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "telemetry_disclosure": {
+          "support": "supported",
+          "answer": "Searched Go and web sources for telemetry/analytics: none; Claude telemetry is blocked in the Kubernetes proxy comment.",
+          "evidenceIds": [
+            "kube"
+          ]
+        },
+        "telemetry_defaults": {
+          "support": "supported",
+          "answer": "No telemetry found.",
+          "evidenceIds": [
+            "kube"
+          ]
+        },
+        "telemetry_controls": {
+          "support": "unsupported",
+          "answer": "Nothing to disable.",
+          "evidenceIds": [
+            "kube"
+          ]
+        },
+        "consent_prompt": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "kube"
+          ]
+        },
+        "provider_separation": {
+          "support": "supported",
+          "answer": "Model credentials and policy are the provider’s.",
+          "evidenceIds": [
+            "creds"
+          ]
+        }
+      },
+      "limitations": [
+        "Provider data policies are separate."
+      ],
+      "unknownReason": "Provider-side training and retention are provider policy facts.",
+      "evidenceIds": [
+        "readme",
+        "arch",
+        "native",
+        "creds",
+        "config",
+        "runners",
+        "kube"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch09",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "machinist:OWN-04",
+      "criterionId": "OWN-04",
+      "answer": "Free MIT software with no paid plan; model and compute costs are the operator’s.",
+      "support": "partial",
+      "availability": "source-only",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "server"
+        ],
+        "version": "default-branch commit 942d0c8 (2026-11-15), 203 commits after latest release v0.4.0 (2026-08-31); early-access, features here are source-only",
+        "plan": "Open source (MIT), self-hosted on machines you control",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "currency": {
+          "support": "unsupported",
+          "answer": "No price; free.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "interval": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "seats": {
+          "support": "unsupported",
+          "answer": "No seat pricing.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "seat_minimum": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "workspace_fees": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "included_usage": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "credits": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "trial": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "overages": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "taxes": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "model_cost": {
+          "support": "supported",
+          "answer": "Billed to your credential owner by the provider.",
+          "evidenceIds": [
+            "creds"
+          ]
+        },
+        "compute_cost": {
+          "support": "supported",
+          "answer": "Your own machines or cluster.",
+          "evidenceIds": [
+            "runners"
+          ]
+        }
+      },
+      "limitations": [
+        "No priced offer exists; N answers mean no such price item."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "license",
+        "creds",
+        "runners"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-01-15",
+      "researcher": "researcher-batch09",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "machinist:OWN-05",
+      "criterionId": "OWN-05",
+      "answer": "Software cost is $0 for any team size; costs are model credentials and your own compute; no workload pricing from Machinist.",
+      "support": "partial",
+      "availability": "source-only",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "server"
+        ],
+        "version": "default-branch commit 942d0c8 (2026-11-15), 203 commits after latest release v0.4.0 (2026-08-31); early-access, features here are source-only",
+        "plan": "Open source (MIT), self-hosted on machines you control",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "one_person": {
+          "support": "supported",
+          "answer": "$0 software.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "two_people": {
+          "support": "supported",
+          "answer": "$0 software.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "five_people": {
+          "support": "supported",
+          "answer": "$0 software.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "task_assumptions": {
+          "support": "unknown",
+          "answer": "None published.",
+          "evidenceIds": []
+        },
+        "concurrency": {
+          "support": "partial",
+          "answer": "Runner slots.",
+          "evidenceIds": [
+            "runners"
+          ]
+        },
+        "tokens": {
+          "support": "unknown",
+          "answer": "Operator-dependent.",
+          "evidenceIds": []
+        },
+        "compute_hours": {
+          "support": "unknown",
+          "answer": "Operator-dependent.",
+          "evidenceIds": []
+        },
+        "fixed_cost": {
+          "support": "supported",
+          "answer": "$0.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "variable_cost": {
+          "support": "supported",
+          "answer": "Model credentials and compute.",
+          "evidenceIds": [
+            "creds"
+          ]
+        },
+        "included_cost": {
+          "support": "unsupported",
+          "answer": "Nothing included.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "unknown_cost": {
+          "support": "partial",
+          "answer": "Workload costs depend on provider.",
+          "evidenceIds": [
+            "creds"
+          ]
+        }
+      },
+      "limitations": [
+        "No invented task costs."
+      ],
+      "unknownReason": "Model and compute spend for a workload are provider and operator facts.",
+      "evidenceIds": [
+        "license",
+        "runners",
+        "creds"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch09",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "machinist:OWN-06",
+      "criterionId": "OWN-06",
+      "answer": "Early-access software with fast change: latest release v0.4.0 (2026-08-31) while main has 203 later commits; support by GitHub issues and email with a seven-day acknowledgement for security reports; only the latest release and main receive security fixes.",
+      "support": "partial",
+      "availability": "source-only",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "server"
+        ],
+        "version": "default-branch commit 942d0c8 (2026-11-15), 203 commits after latest release v0.4.0 (2026-08-31); early-access, features here are source-only",
+        "plan": "Open source (MIT), self-hosted on machines you control",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "release_stage": {
+          "support": "supported",
+          "answer": "README: early-access, subject to change.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "access_restrictions": {
+          "support": "supported",
+          "answer": "None.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "support": {
+          "support": "partial",
+          "answer": "GitHub issues; security by email.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "response_commitments": {
+          "support": "partial",
+          "answer": "Security reports acknowledged within seven days.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "release_activity": {
+          "support": "supported",
+          "answer": "Many commits in November 2026; releases only in August.",
+          "evidenceIds": [
+            "releases"
+          ]
+        },
+        "status_history": {
+          "support": "unsupported",
+          "answer": "No hosted service.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "deprecation": {
+          "support": "partial",
+          "answer": "Only latest release and main supported.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "export_options": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "config"
+          ]
+        }
+      },
+      "limitations": [
+        "Direction doc states real-work proof is missing."
+      ],
+      "unknownReason": "No public status page applies.",
+      "evidenceIds": [
+        "readme",
+        "license",
+        "security",
+        "releases",
+        "config"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch09",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "machinist:OWN-07",
+      "criterionId": "OWN-07",
+      "answer": "No certifications are claimed in the repository; certification is a business fact outside the code.",
+      "support": "unknown",
+      "availability": "source-only",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "server"
+        ],
+        "version": "default-branch commit 942d0c8 (2026-11-15), 203 commits after latest release v0.4.0 (2026-08-31); early-access, features here are source-only",
+        "plan": "Open source (MIT), self-hosted on machines you control",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "iso_scope": {
+          "support": "unknown",
+          "answer": "Not claimed in README or SECURITY.md.",
+          "evidenceIds": []
+        },
+        "iso_issuer": {
+          "support": "unknown",
+          "answer": "Not claimed.",
+          "evidenceIds": []
+        },
+        "iso_validity": {
+          "support": "unknown",
+          "answer": "Not claimed.",
+          "evidenceIds": []
+        },
+        "soc2_type": {
+          "support": "unknown",
+          "answer": "Not claimed.",
+          "evidenceIds": []
+        },
+        "soc2_scope": {
+          "support": "unknown",
+          "answer": "Not claimed.",
+          "evidenceIds": []
+        },
+        "soc2_period": {
+          "support": "unknown",
+          "answer": "Not claimed.",
+          "evidenceIds": []
+        },
+        "report_access": {
+          "support": "unknown",
+          "answer": "Not claimed.",
+          "evidenceIds": []
+        },
+        "verification_date": {
+          "support": "unknown",
+          "answer": "Not applicable.",
+          "evidenceIds": []
+        },
+        "evidence_status": {
+          "support": "unknown",
+          "answer": "No claim exists in the sources checked.",
+          "evidenceIds": []
+        }
+      },
+      "limitations": [],
+      "unknownReason": "Certification and audit status is a business fact that the checked sources do not state.",
+      "evidenceIds": [],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch09",
+      "publication": "internal-only",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "machinist:OWN-08",
+      "criterionId": "OWN-08",
+      "answer": "Free open-source software; self-hosting costs hardware and model credentials; no trial or paid tier.",
+      "support": "partial",
+      "availability": "source-only",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "server"
+        ],
+        "version": "default-branch commit 942d0c8 (2026-11-15), 203 commits after latest release v0.4.0 (2026-08-31); early-access, features here are source-only",
+        "plan": "Open source (MIT), self-hosted on machines you control",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "ongoing_free": {
+          "support": "supported",
+          "answer": "MIT software.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "trial": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "credits_trial": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "self_host_cost": {
+          "support": "supported",
+          "answer": "Hardware and credentials.",
+          "evidenceIds": [
+            "creds"
+          ]
+        },
+        "paid_only": {
+          "support": "unsupported",
+          "answer": "Not paid.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "early_access": {
+          "support": "partial",
+          "answer": "Early-access software but publicly available.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "free_scenarios": {
+          "support": "partial",
+          "answer": "Runs tickets, MCP and schedules; subscription logins work on local runners only.",
+          "evidenceIds": [
+            "creds"
+          ]
+        },
+        "card_required": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "usage_caps": {
+          "support": "unsupported",
+          "answer": "None from Machinist.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "paid_evaluation": {
+          "support": "unsupported",
+          "answer": "No payment required.",
+          "evidenceIds": [
+            "license"
+          ]
+        }
+      },
+      "limitations": [
+        "Requires a GitHub bot account."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "license",
+        "creds",
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-01-15",
+      "researcher": "researcher-batch09",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "machinist:OWN-09",
+      "criterionId": "OWN-09",
+      "answer": "Not applicable beyond free: no price, plan or commitment; model and compute costs are external.",
+      "support": "partial",
+      "availability": "source-only",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "server"
+        ],
+        "version": "default-branch commit 942d0c8 (2026-11-15), 203 commits after latest release v0.4.0 (2026-08-31); early-access, features here are source-only",
+        "plan": "Open source (MIT), self-hosted on machines you control",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "units": {
+          "support": "unsupported",
+          "answer": "No priced units.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "included_limits": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "overages": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "compute_markup": {
+          "support": "unsupported",
+          "answer": "None; you pay your own compute.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "model_markup": {
+          "support": "unsupported",
+          "answer": "None; you pay the provider.",
+          "evidenceIds": [
+            "creds"
+          ]
+        },
+        "minimum_commitment": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "cancellation": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "sales_only_unknowns": {
+          "support": "unsupported",
+          "answer": "No sales tier.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "transparency_classification": {
+          "support": "supported",
+          "answer": "Transparent: free MIT software.",
+          "evidenceIds": [
+            "license"
+          ]
+        }
+      },
+      "limitations": [
+        "No priced offer exists; N answers mean no such price item."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "license",
+        "creds"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-01-15",
+      "researcher": "researcher-batch09",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    }
+  ],
+  "evidence": [
+    {
+      "id": "repoapi",
+      "kind": "documented",
+      "url": "https://api.github.com/repos/owainlewis/machinist",
+      "title": "GitHub repository metadata",
+      "locator": "stargazers_count, license, description, homepage",
+      "sourceDate": "2026-11-16",
+      "retrievedAt": "2026-11-16",
+      "finding": "owainlewis/machinist had 536 stars on 2026-11-16, MIT license, description: Open source software factory infrastructure for advanced AI coding workflows; homepage machinist.sh.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "releases",
+      "kind": "documented",
+      "url": "https://github.com/owainlewis/machinist/releases/tag/v0.4.0",
+      "title": "Machinist release v0.4.0",
+      "locator": "v0.4.0 (2026-08-31), six assets; earlier v0.1.0-v0.3.0 in August",
+      "sourceDate": "2026-08-31",
+      "retrievedAt": "2026-11-16",
+      "finding": "Latest release predates the default-branch redesign by 203 commits.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "readme",
+      "kind": "source-inspected",
+      "url": "https://github.com/owainlewis/machinist/blob/942d0c87055ad0ec6bf39d4ce7aa3f5ae7779d95/README.md",
+      "title": "Team control plane with runners on laptop, VM or Kubernetes; Claude Code or Codex; web app, GitHub mention, MCP or schedule intake; early-access MIT software.",
+      "locator": "Machinist README",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "job runner for coding agents; Quick start; Using it (Home, Work, Automations, Runners)",
+      "visibility": "public",
+      "commit": "942d0c87055ad0ec6bf39d4ce7aa3f5ae7779d95",
+      "path": "README.md"
+    },
+    {
+      "id": "direction",
+      "kind": "source-inspected",
+      "url": "https://github.com/owainlewis/machinist/blob/942d0c87055ad0ec6bf39d4ce7aa3f5ae7779d95/docs/direction.md",
+      "title": "Maintainer-written current capabilities and gaps at the pinned commit.",
+      "locator": "Direction",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "What is built; What is missing (10 items: no accounts or roles, harness fixed to claude or codex, no notifications, no retry, usage not split)",
+      "visibility": "public",
+      "commit": "942d0c87055ad0ec6bf39d4ce7aa3f5ae7779d95",
+      "path": "docs/direction.md"
+    },
+    {
+      "id": "arch",
+      "kind": "source-inspected",
+      "url": "https://github.com/owainlewis/machinist/blob/942d0c87055ad0ec6bf39d4ce7aa3f5ae7779d95/ARCHITECTURE.md",
+      "title": "Control plane owns tickets in SQLite and never starts an agent; runners poll; gVisor Job per Kubernetes run; PR looked up after each run.",
+      "locator": "Architecture",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "tickets and states, reviewers, intake polling, runners with 10-minute lease, credentials, packages",
+      "visibility": "public",
+      "commit": "942d0c87055ad0ec6bf39d4ce7aa3f5ae7779d95",
+      "path": "ARCHITECTURE.md"
+    },
+    {
+      "id": "factory",
+      "kind": "source-inspected",
+      "url": "https://github.com/owainlewis/machinist/blob/942d0c87055ad0ec6bf39d4ce7aa3f5ae7779d95/docs/factory.md",
+      "title": "Agents, jobs and automations are plain files read at startup; a change needs a restart.",
+      "locator": "Factory files",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "agents (agent.toml harness and model, playbook), jobs as stage lists, reviewers, automations with cron front matter",
+      "visibility": "public",
+      "commit": "942d0c87055ad0ec6bf39d4ce7aa3f5ae7779d95",
+      "path": "docs/factory.md"
+    },
+    {
+      "id": "runners",
+      "kind": "source-inspected",
+      "url": "https://github.com/owainlewis/machinist/blob/942d0c87055ad0ec6bf39d4ce7aa3f5ae7779d95/docs/runners.md",
+      "title": "Runner slots, 90-second contact status, 10-minute lease renewed every 30 seconds.",
+      "locator": "Runners",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Local runner; Kubernetes runner with gVisor, NetworkPolicy and egress proxy; Watching the fleet; When a runner is lost",
+      "visibility": "public",
+      "commit": "942d0c87055ad0ec6bf39d4ce7aa3f5ae7779d95",
+      "path": "docs/runners.md"
+    },
+    {
+      "id": "creds",
+      "kind": "source-inspected",
+      "url": "https://github.com/owainlewis/machinist/blob/942d0c87055ad0ec6bf39d4ce7aa3f5ae7779d95/docs/credentials.md",
+      "title": "Subscription logins work only on local runners; API keys work on any runner.",
+      "locator": "Credentials",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "credentials live on runners; table of API key, Bedrock/Vertex/Foundry, OPENAI_API_KEY, Codex access token, Claude login, setup-token, ChatGPT login",
+      "visibility": "public",
+      "commit": "942d0c87055ad0ec6bf39d4ce7aa3f5ae7779d95",
+      "path": "docs/credentials.md"
+    },
+    {
+      "id": "mcpdoc",
+      "kind": "source-inspected",
+      "url": "https://github.com/owainlewis/machinist/blob/942d0c87055ad0ec6bf39d4ce7aa3f5ae7779d95/docs/mcp.md",
+      "title": "Control plane exposes five MCP tools to Claude Code or Codex.",
+      "locator": "MCP",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "/mcp with bearer token; tools assign_ticket, get_ticket, list_tickets, answer_ticket, cancel_ticket; request_id idempotency",
+      "visibility": "public",
+      "commit": "942d0c87055ad0ec6bf39d4ce7aa3f5ae7779d95",
+      "path": "docs/mcp.md"
+    },
+    {
+      "id": "config",
+      "kind": "source-inspected",
+      "url": "https://github.com/owainlewis/machinist/blob/942d0c87055ad0ec6bf39d4ce7aa3f5ae7779d95/docs/configuration.md",
+      "title": "All settings and one kind of token for people and runners.",
+      "locator": "Configuration",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "config.toml keys listen, database, default_agent, max_turns_without_human, run_timeout, tls_cert; token create/list/revoke; API requires bearer or cookie",
+      "visibility": "public",
+      "commit": "942d0c87055ad0ec6bf39d4ce7aa3f5ae7779d95",
+      "path": "docs/configuration.md"
+    },
+    {
+      "id": "security",
+      "kind": "source-inspected",
+      "url": "https://github.com/owainlewis/machinist/blob/942d0c87055ad0ec6bf39d4ce7aa3f5ae7779d95/SECURITY.md",
+      "title": "Explicit trust model and limits of local and Kubernetes runners.",
+      "locator": "Security and trust model",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "agent can do whatever the GitHub login allows; agents can read credentials; local runners share OS user; Kubernetes gVisor Job with egress proxy; seven-day acknowledgement",
+      "visibility": "public",
+      "commit": "942d0c87055ad0ec6bf39d4ce7aa3f5ae7779d95",
+      "path": "SECURITY.md"
+    },
+    {
+      "id": "native",
+      "kind": "source-inspected",
+      "url": "https://github.com/owainlewis/machinist/blob/942d0c87055ad0ec6bf39d4ce7aa3f5ae7779d95/docs/native-agents.md",
+      "title": "Fixed harness commands with permission checks off; OS user or gVisor Job is the boundary.",
+      "locator": "Agents and subagents",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "claude --print ... --dangerously-skip-permissions --setting-sources project --strict-mcp-config; codex app-server sandbox_mode danger-full-access; subagents from .claude/agents and .codex/agents",
+      "visibility": "public",
+      "commit": "942d0c87055ad0ec6bf39d4ce7aa3f5ae7779d95",
+      "path": "docs/native-agents.md"
+    },
+    {
+      "id": "license",
+      "kind": "source-inspected",
+      "url": "https://github.com/owainlewis/machinist/blob/942d0c87055ad0ec6bf39d4ce7aa3f5ae7779d95/LICENSE",
+      "title": "Plain MIT.",
+      "locator": "MIT License",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "MIT License",
+      "visibility": "public",
+      "commit": "942d0c87055ad0ec6bf39d4ce7aa3f5ae7779d95",
+      "path": "LICENSE"
+    },
+    {
+      "id": "engine",
+      "kind": "source-inspected",
+      "url": "https://github.com/owainlewis/machinist/blob/942d0c87055ad0ec6bf39d4ce7aa3f5ae7779d95/internal/engine/engine.go",
+      "title": "Durable ticket state machine with leases and idempotent outbound messages.",
+      "locator": "Ticket engine",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "state table, run queue, leases (leases.go), posted messages outbox (outbox.go)",
+      "visibility": "public",
+      "commit": "942d0c87055ad0ec6bf39d4ce7aa3f5ae7779d95",
+      "path": "internal/engine/engine.go"
+    },
+    {
+      "id": "followups",
+      "kind": "source-inspected",
+      "url": "https://github.com/owainlewis/machinist/blob/942d0c87055ad0ec6bf39d4ce7aa3f5ae7779d95/internal/sources/followups.go",
+      "title": "Poll-based follow-up runs on the same PR for human feedback or CI failures.",
+      "locator": "GitHub follow-ups",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "followUps, merged, reviews, checks: reads PR state, review comments and CI checks for open tickets",
+      "visibility": "public",
+      "commit": "942d0c87055ad0ec6bf39d4ce7aa3f5ae7779d95",
+      "path": "internal/sources/followups.go"
+    },
+    {
+      "id": "schedule",
+      "kind": "source-inspected",
+      "url": "https://github.com/owainlewis/machinist/blob/942d0c87055ad0ec6bf39d4ce7aa3f5ae7779d95/internal/sources/schedule.go",
+      "title": "Automation intake.",
+      "locator": "Schedules",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "cron automations; missed runs collapse; no ticket while the last is active",
+      "visibility": "public",
+      "commit": "942d0c87055ad0ec6bf39d4ce7aa3f5ae7779d95",
+      "path": "internal/sources/schedule.go"
+    },
+    {
+      "id": "mcpserver",
+      "kind": "source-inspected",
+      "url": "https://github.com/owainlewis/machinist/blob/942d0c87055ad0ec6bf39d4ce7aa3f5ae7779d95/internal/mcpserver/server.go",
+      "title": "Implements assign/get/list/answer/cancel tools.",
+      "locator": "MCP server",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "five tools registered",
+      "visibility": "public",
+      "commit": "942d0c87055ad0ec6bf39d4ce7aa3f5ae7779d95",
+      "path": "internal/mcpserver/server.go"
+    },
+    {
+      "id": "harness",
+      "kind": "source-inspected",
+      "url": "https://github.com/owainlewis/machinist/blob/942d0c87055ad0ec6bf39d4ce7aa3f5ae7779d95/internal/runner/harness.go",
+      "title": "Harness is a fixed choice of claude or codex.",
+      "locator": "Harness definitions",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "fixed claude and codex harness commands",
+      "visibility": "public",
+      "commit": "942d0c87055ad0ec6bf39d4ce7aa3f5ae7779d95",
+      "path": "internal/runner/harness.go"
+    },
+    {
+      "id": "kube",
+      "kind": "source-inspected",
+      "url": "https://github.com/owainlewis/machinist/blob/942d0c87055ad0ec6bf39d4ce7aa3f5ae7779d95/internal/kuberunner/connector.go",
+      "title": "gVisor Job per run behind an allowlisted egress proxy.",
+      "locator": "Kubernetes runner connector",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "checks gvisor RuntimeClass, agent-isolation NetworkPolicy and egress proxy; blocks all but allowed hosts",
+      "visibility": "public",
+      "commit": "942d0c87055ad0ec6bf39d4ce7aa3f5ae7779d95",
+      "path": "internal/kuberunner/connector.go"
+    },
+    {
+      "id": "ledger",
+      "kind": "source-inspected",
+      "url": "https://github.com/owainlewis/machinist/blob/942d0c87055ad0ec6bf39d4ce7aa3f5ae7779d95/internal/tickets/ledger.go",
+      "title": "Per-ticket cost, questions and feedback rounds from the run ledger.",
+      "locator": "Ticket ledger",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Figures: commits, merged, questions, feedback rounds, SUM(runs.cost)",
+      "visibility": "public",
+      "commit": "942d0c87055ad0ec6bf39d4ce7aa3f5ae7779d95",
+      "path": "internal/tickets/ledger.go"
+    },
+    {
+      "id": "web",
+      "kind": "source-inspected",
+      "url": "https://github.com/owainlewis/machinist/blob/942d0c87055ad0ec6bf39d4ce7aa3f5ae7779d95/internal/controlplane/web/src/home.jsx",
+      "title": "Embedded React app: Home with usage, Work, Automations, Runners and a chat page per job.",
+      "locator": "Web app",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "home.jsx, task-detail.jsx, runners.jsx, automations.jsx, charts.jsx, assign.jsx; production UI committed under internal/controlplane/web/dist",
+      "visibility": "public",
+      "commit": "942d0c87055ad0ec6bf39d4ce7aa3f5ae7779d95",
+      "path": "internal/controlplane/web/src/home.jsx"
+    },
+    {
+      "id": "updater",
+      "kind": "source-inspected",
+      "url": "https://github.com/owainlewis/machinist/blob/942d0c87055ad0ec6bf39d4ce7aa3f5ae7779d95/internal/updater/updater.go",
+      "title": "Release installer and updater for Linux and macOS binaries.",
+      "locator": "Self-updater",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "installs latest verified release; install.sh for Linux and macOS",
+      "visibility": "public",
+      "commit": "942d0c87055ad0ec6bf39d4ce7aa3f5ae7779d95",
+      "path": "internal/updater/updater.go"
+    },
+    {
+      "id": "installsh",
+      "kind": "source-inspected",
+      "url": "https://github.com/owainlewis/machinist/blob/942d0c87055ad0ec6bf39d4ce7aa3f5ae7779d95/install.sh",
+      "title": "Installs Linux and macOS builds only; Windows is not handled.",
+      "locator": "Installer",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "case uname: Linux, Darwin; amd64, arm64; MACHINIST_VERSION",
+      "visibility": "public",
+      "commit": "942d0c87055ad0ec6bf39d4ce7aa3f5ae7779d95",
+      "path": "install.sh"
+    },
+    {
+      "id": "designdoc",
+      "kind": "source-inspected",
+      "url": "https://github.com/owainlewis/machinist/blob/942d0c87055ad0ec6bf39d4ce7aa3f5ae7779d95/docs/designs/machinist-redesign.md",
+      "title": "Design for tickets, runs, access and states.",
+      "locator": "Machinist redesign design",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "ticket states table, access, routes",
+      "visibility": "public",
+      "commit": "942d0c87055ad0ec6bf39d4ce7aa3f5ae7779d95",
+      "path": "docs/designs/machinist-redesign.md"
+    },
+    {
+      "id": "vmdeploy",
+      "kind": "source-inspected",
+      "url": "https://github.com/owainlewis/machinist/blob/942d0c87055ad0ec6bf39d4ce7aa3f5ae7779d95/docs/vm-deployment.md",
+      "title": "Run the control plane and worker on a VM.",
+      "locator": "VM deployment",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "control plane and runner as systemd services",
+      "visibility": "public",
+      "commit": "942d0c87055ad0ec6bf39d4ce7aa3f5ae7779d95",
+      "path": "docs/vm-deployment.md"
+    },
+    {
+      "id": "site",
+      "kind": "documented",
+      "url": "https://machinist.sh/",
+      "title": "machinist.sh",
+      "locator": "Standard pipeline Triage, Spec, Build, Review; Agents page; GitHub follow-ups repair CI failures and review feedback",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Site describes an older workflow design than the default-branch code.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "history",
+      "kind": "documented",
+      "url": "https://github.com/owainlewis/machinist/commit/bb38ecf0b0a77cc4ef3897fec917bdc43f98de24",
+      "title": "Commit adding docs/assets/v2 screenshots (2026-07-30)",
+      "locator": "work-desktop.png, task-detail-desktop.png, workers-desktop.png",
+      "sourceDate": "2026-07-30",
+      "retrievedAt": "2026-11-16",
+      "finding": "Earlier Factory-branded control plane UI screenshots later removed from the repository.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    }
+  ],
+  "changes": [
+    {
+      "date": "2026-11-16",
+      "author": "researcher-batch09",
+      "type": "initial-research",
+      "summary": "Initial full-profile source pass over default-branch commit 942d0c8 of owainlewis/machinist (the redesigned job-runner control plane; latest release v0.4.0 of 2026-08-31 and machinist.sh describe the older Standard-pipeline design): README, ARCHITECTURE, docs/ (direction, factory, runners, credentials, MCP, configuration, security, native agents), Go packages and the embedded web app, with bounded code searches covering all 51 criteria. Screenshot is a fallback from repository history.",
+      "claimIds": [
+        "machinist:ACC-01",
+        "machinist:ACC-02",
+        "machinist:ACC-03",
+        "machinist:ACC-04",
+        "machinist:ACC-05",
+        "machinist:ACC-06",
+        "machinist:ACC-07",
+        "machinist:PLAN-01",
+        "machinist:PLAN-02",
+        "machinist:PLAN-03",
+        "machinist:PLAN-04",
+        "machinist:PLAN-05",
+        "machinist:PLAN-06",
+        "machinist:PLAN-07",
+        "machinist:PLAN-08",
+        "machinist:COORD-01",
+        "machinist:COORD-02",
+        "machinist:COORD-03",
+        "machinist:COORD-04",
+        "machinist:COORD-05",
+        "machinist:COORD-06",
+        "machinist:COORD-07",
+        "machinist:RUN-01",
+        "machinist:RUN-02",
+        "machinist:RUN-03",
+        "machinist:RUN-04",
+        "machinist:RUN-05",
+        "machinist:RUN-06",
+        "machinist:RUN-07",
+        "machinist:RUN-08",
+        "machinist:TEAM-01",
+        "machinist:TEAM-02",
+        "machinist:TEAM-03",
+        "machinist:TEAM-04",
+        "machinist:TEAM-05",
+        "machinist:TEAM-06",
+        "machinist:SHIP-01",
+        "machinist:SHIP-02",
+        "machinist:SHIP-03",
+        "machinist:SHIP-04",
+        "machinist:SHIP-05",
+        "machinist:SHIP-06",
+        "machinist:OWN-01",
+        "machinist:OWN-02",
+        "machinist:OWN-03",
+        "machinist:OWN-04",
+        "machinist:OWN-05",
+        "machinist:OWN-06",
+        "machinist:OWN-07",
+        "machinist:OWN-08",
+        "machinist:OWN-09"
+      ],
+      "evidenceIds": [
+        "repoapi",
+        "releases",
+        "readme",
+        "direction",
+        "arch",
+        "factory",
+        "runners",
+        "creds",
+        "mcpdoc",
+        "config",
+        "security",
+        "native",
+        "license",
+        "engine",
+        "followups",
+        "schedule",
+        "mcpserver",
+        "harness",
+        "kube",
+        "ledger",
+        "web",
+        "updater",
+        "installsh",
+        "designdoc",
+        "vmdeploy",
+        "site",
+        "history"
+      ]
+    }
+  ],
+  "context": {
+    "roadmapReview": {
+      "checkedAt": "2026-11-16",
+      "locations": [
+        {
+          "url": "https://github.com/owainlewis/machinist/releases",
+          "result": "Latest release v0.4.0 (2026-08-31); no release covers the 2026-11 redesign on the default branch."
+        },
+        {
+          "url": "https://github.com/owainlewis/machinist/blob/942d0c87055ad0ec6bf39d4ce7aa3f5ae7779d95/docs/direction.md",
+          "result": "Lists what is built and ten undated missing items (job picker, any harness, accounts and roles, usage by person, notifications, retry) in priority order; none is a dated commitment."
+        },
+        {
+          "url": "https://github.com/owainlewis/machinist/blob/942d0c87055ad0ec6bf39d4ce7aa3f5ae7779d95/docs/workflow-roadmap.md",
+          "result": "Marked a historical roadmap of September 2026; not current."
+        },
+        {
+          "url": "https://machinist.sh/",
+          "result": "Site describes a Standard pipeline (Triage, Spec, Build, Review) and an Agents page that do not match the default-branch code (conflict recorded in gaps)."
+        },
+        {
+          "url": "https://github.com/owainlewis/machinist/issues",
+          "result": "Work is tracked in Linear per AGENTS.md; no dated public announcements found."
+        }
+      ],
+      "announced": [],
+      "gaps": [
+        "machinist.sh and release v0.4.0 describe an older workflow design; the redesign on main is unreleased and docs/direction.md says live runs on real Claude/Codex, the Kubernetes runner and GitHub intake had not been proven end to end."
+      ]
+    },
+    "marketContext": {
+      "githubStars": {
+        "value": 536,
+        "observedAt": "2026-11-16",
+        "evidenceIds": [
+          "repoapi"
+        ]
+      }
+    }
+  }
+}
