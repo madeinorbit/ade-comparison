@@ -1,0 +1,6153 @@
+{
+  "schemaVersion": 1,
+  "rubricVersion": "0.3",
+  "id": "coder-agents",
+  "name": "Coder Agents",
+  "category": "A",
+  "researchTier": "full-profile",
+  "researchState": "documented",
+  "identity": {
+    "website": "https://coder.com/docs/ai-coder/agents",
+    "repository": "https://github.com/coder/coder",
+    "aliases": [],
+    "company": "Coder Technologies, Inc."
+  },
+  "surfaces": [
+    {
+      "id": "web",
+      "name": "Coder dashboard Agents page (browser chat interface)",
+      "type": "web"
+    },
+    {
+      "id": "api",
+      "name": "Coder Agents HTTP API (/api/v2/chats) and coder CLI",
+      "type": "api"
+    },
+    {
+      "id": "control-plane",
+      "name": "Self-hosted Coder control plane (agent loop, chatd)",
+      "type": "server"
+    }
+  ],
+  "claims": [
+    {
+      "id": "coder-agents:ACC-01",
+      "criterionId": "ACC-01",
+      "answer": "Browser chat interface on the Coder dashboard Agents page plus an HTTP API and an experimental coder exp chat CLI; the coder CLI installs on Linux, macOS and Windows. There is no native desktop or mobile app for Agents and no Agents-specific editor extension; developers use their usual editor against the workspaces the agent produces.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "web",
+          "api"
+        ],
+        "version": "coder v2.39.4 (commit abe6ed41c7513a74347162adb4043f1ec6038d45, 2026-11-16); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "desktop_os": {
+          "support": "unsupported",
+          "answer": "Agents has no desktop client; the control plane is self-hosted server software and the coder CLI runs on Linux, macOS and Windows.",
+          "evidenceIds": [
+            "idx",
+            "desktop"
+          ]
+        },
+        "mobile_apps": {
+          "support": "unsupported",
+          "answer": "No iOS or Android Agents app in the docs agents section or repo apps.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "browser": {
+          "support": "supported",
+          "answer": "Agents page in the Coder dashboard.",
+          "evidenceIds": [
+            "idx",
+            "start"
+          ]
+        },
+        "mobile_browser": {
+          "support": "partial",
+          "answer": "Agents page code has mobile viewport handling and responsive classes; docs do not state supported phone browsers.",
+          "evidenceIds": [
+            "mobilecode"
+          ]
+        },
+        "cli": {
+          "support": "partial",
+          "answer": "coder exp chat and context subcommands exist but are experimental.",
+          "evidenceIds": [
+            "cli",
+            "desktop"
+          ]
+        },
+        "editor_extensions": {
+          "support": "partial",
+          "answer": "Developers connect VS Code, JetBrains or Cursor to workspaces; no Agents chat extension found.",
+          "evidenceIds": [
+            "ides",
+            "idx"
+          ]
+        },
+        "task_actions": {
+          "support": "supported",
+          "answer": "Start, steer (queued messages), approve plans, review diffs and resume chats in the dashboard.",
+          "evidenceIds": [
+            "idx",
+            "gitprov"
+          ]
+        },
+        "notifications": {
+          "support": "partial",
+          "answer": "Chat Shared notifications; completion notifications not described.",
+          "evidenceIds": [
+            "share"
+          ]
+        },
+        "cross_device_continuity": {
+          "support": "supported",
+          "answer": "All state is in the Coder database; any device with dashboard access continues the chat.",
+          "evidenceIds": [
+            "idx",
+            "arch"
+          ]
+        }
+      },
+      "limitations": [
+        "No native mobile or desktop Agents client; phone-browser support is not stated.",
+        "Chat CLI is experimental."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "idx",
+        "desktop",
+        "start",
+        "mobilecode",
+        "cli",
+        "ides",
+        "gitprov",
+        "share",
+        "arch"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-coder-agents",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "coder-agents:ACC-02",
+      "criterionId": "ACC-02",
+      "answer": "Coder Agents embeds its own Go agent loop in the control plane and is not a wrapper for Claude Code or Codex; it can also delegate to external harnesses (Claude Code, Codex) as experimental ACP subagents running in the workspace. Model providers: Anthropic, OpenAI, Google, Azure OpenAI, Bedrock, OpenAI-compatible, OpenRouter, Vercel AI Gateway with custom base URLs.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "web",
+          "control-plane"
+        ],
+        "version": "coder v2.39.4 (commit abe6ed41c7513a74347162adb4043f1ec6038d45, 2026-11-16); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "harnesses": {
+          "support": "partial",
+          "answer": "Own harness plus experimental ACP harnesses such as Claude Code and Codex.",
+          "evidenceIds": [
+            "idx",
+            "acp"
+          ]
+        },
+        "model_providers": {
+          "support": "supported",
+          "answer": "Eight provider types listed.",
+          "evidenceIds": [
+            "idx",
+            "models"
+          ]
+        },
+        "custom_adapters": {
+          "support": "supported",
+          "answer": "OpenAI-compatible endpoints and ACP adapters configured as JSON in ~/.coder/acp.",
+          "evidenceIds": [
+            "idx",
+            "acp"
+          ]
+        },
+        "session_integration": {
+          "support": "supported",
+          "answer": "Embedded loop in the control plane; ACP harnesses controlled over the Agent Client Protocol.",
+          "evidenceIds": [
+            "idx",
+            "acp"
+          ]
+        },
+        "mixed_harness_operation": {
+          "support": "partial",
+          "answer": "Coder Agents sub-agents plus ACP harness subagents in one chat (experimental).",
+          "evidenceIds": [
+            "acp"
+          ]
+        }
+      },
+      "limitations": [
+        "ACP external harnesses are experimental and gated by an administrator flag."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "idx",
+        "acp",
+        "models"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-coder-agents",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "coder-agents:ACC-03",
+      "criterionId": "ACC-03",
+      "answer": "Admin-configured provider API keys (deployment-wide), optional per-provider user API keys (BYOK), model access through AI Gateway budgets, and local or self-hosted models through OpenAI-compatible endpoints. ACP harnesses use their own credentials, including whatever subscription login the harness supports. Vendor credits do not exist for the model itself; Agent Hours are purchased from Coder for AI Premium.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "web",
+          "control-plane"
+        ],
+        "version": "coder v2.39.4 (commit abe6ed41c7513a74347162adb4043f1ec6038d45, 2026-11-16); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "agent_subscriptions": {
+          "support": "partial",
+          "answer": "ACP harnesses authenticate on their own inside the workspace; not documented as subscription reuse.",
+          "evidenceIds": [
+            "acp"
+          ]
+        },
+        "api_accounts": {
+          "support": "supported",
+          "answer": "Admin provider keys and optional user keys.",
+          "evidenceIds": [
+            "models",
+            "platform"
+          ]
+        },
+        "vendor_credits": {
+          "support": "not-applicable",
+          "answer": "Coder does not resell model credits; AI Premium sells Agent Hours for agent runtime.",
+          "evidenceIds": [
+            "lic"
+          ]
+        },
+        "local_models": {
+          "support": "supported",
+          "answer": "OpenAI-compatible self-hosted endpoints and custom base URLs.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "account_switching": {
+          "support": "partial",
+          "answer": "Personal model overrides when enabled; no multi-account manager.",
+          "evidenceIds": [
+            "platform"
+          ]
+        },
+        "vendor_account_requirement": {
+          "support": "supported",
+          "answer": "No vendor account for Community self-hosting; a license applies for Premium features.",
+          "evidenceIds": [
+            "lic",
+            "pricing"
+          ]
+        },
+        "provider_restrictions": {
+          "support": "unknown",
+          "answer": "Third-party provider terms are not captured.",
+          "evidenceIds": []
+        }
+      },
+      "limitations": [
+        "No documented reuse of consumer agent subscriptions by the built-in agent."
+      ],
+      "unknownReason": "Provider terms are third-party facts.",
+      "evidenceIds": [
+        "acp",
+        "models",
+        "platform",
+        "lic",
+        "idx",
+        "pricing"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-coder-agents",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "coder-agents:ACC-04",
+      "criterionId": "ACC-04",
+      "answer": "Requires a running Coder deployment, at least one template and an LLM provider key; admin configures providers and models in Admin settings > AI; users then open the Agents page and prompt; the agent selects a template and provisions a workspace automatically. Git and GitHub/GitLab external auth drive repo access; no local-directory mode.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "web",
+          "control-plane"
+        ],
+        "version": "coder v2.39.4 (commit abe6ed41c7513a74347162adb4043f1ec6038d45, 2026-11-16); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "first_task_setup": {
+          "support": "supported",
+          "answer": "Admin configures provider and model, then users chat.",
+          "evidenceIds": [
+            "start"
+          ]
+        },
+        "no_git": {
+          "support": "partial",
+          "answer": "Chats work without a workspace for Q&A; code tasks use workspaces whose repos come from templates.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "local_git_without_remote": {
+          "support": "partial",
+          "answer": "Workspaces can hold repos without remotes, but diff viewer and PR features need external auth.",
+          "evidenceIds": [
+            "gitprov"
+          ]
+        },
+        "hosted_git": {
+          "support": "supported",
+          "answer": "GitHub and GitLab external auth for diffs and merge request status.",
+          "evidenceIds": [
+            "gitprov"
+          ]
+        },
+        "prerequisite_guidance": {
+          "support": "supported",
+          "answer": "Prerequisites enumerated.",
+          "evidenceIds": [
+            "start"
+          ]
+        },
+        "managed_cloud_setup": {
+          "support": "unsupported",
+          "answer": "There is no SaaS or managed Coder Agents component.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "byo_vps_onboarding": {
+          "support": "partial",
+          "answer": "Coder installs on user infrastructure with documented install paths; no VPS-specific installer for Agents.",
+          "evidenceIds": [
+            "desktop",
+            "start"
+          ]
+        }
+      },
+      "limitations": [
+        "no_git: Chats work without a workspace for Q&A; code tasks use workspaces whose repos come from templates.",
+        "local_git_without_remote: Workspaces can hold repos without remotes, but diff viewer and PR features need external auth.",
+        "managed_cloud_setup: There is no SaaS or managed Coder Agents component.",
+        "byo_vps_onboarding: Coder installs on user infrastructure with documented install paths; no VPS-specific installer for Agents."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "start",
+        "idx",
+        "gitprov",
+        "desktop"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-coder-agents",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "coder-agents:ACC-05",
+      "criterionId": "ACC-05",
+      "answer": "REST API under /api/v2/chats (list, create, watch, files, projects, model configs) with API keys; experimental coder exp chat CLI; Go SDK (codersdk); built-in MCP server (local stdio and remote HTTP with OAuth2) exposes Coder workspace tools to other assistants; CI and webhook triggering is expected through the API. The headless-agents API is listed under the AI Premium plan on the pricing page.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "api",
+          "web"
+        ],
+        "version": "coder v2.39.4 (commit abe6ed41c7513a74347162adb4043f1ec6038d45, 2026-11-16); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "cli": {
+          "support": "partial",
+          "answer": "coder exp chat is experimental.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "api": {
+          "support": "supported",
+          "answer": "chat_routes defines authenticated REST endpoints.",
+          "evidenceIds": [
+            "routes"
+          ]
+        },
+        "sdk": {
+          "support": "supported",
+          "answer": "codersdk Go SDK includes chat types and feature flags.",
+          "evidenceIds": [
+            "sdk"
+          ]
+        },
+        "mcp_server": {
+          "support": "supported",
+          "answer": "Built-in MCP server for Coder workspaces and templates.",
+          "evidenceIds": [
+            "mcp"
+          ]
+        },
+        "webhooks": {
+          "support": "partial",
+          "answer": "Docs suggest creating chats from GitHub webhooks via the API; no inbound webhook endpoint of its own.",
+          "evidenceIds": [
+            "start"
+          ]
+        },
+        "operations": {
+          "support": "supported",
+          "answer": "Create, watch, send, queue, archive, share via API.",
+          "evidenceIds": [
+            "routes",
+            "share"
+          ]
+        },
+        "authentication": {
+          "support": "supported",
+          "answer": "API key middleware on chat routes.",
+          "evidenceIds": [
+            "routes"
+          ]
+        },
+        "stability": {
+          "support": "partial",
+          "answer": "Experimental markers on several features; no stability policy for chat API stated.",
+          "evidenceIds": [
+            "acp",
+            "advisor"
+          ]
+        }
+      },
+      "limitations": [
+        "No documented stability guarantee for chat endpoints; chat CLI is experimental; API plan gating unclear."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "cli",
+        "routes",
+        "sdk",
+        "mcp",
+        "start",
+        "share",
+        "acp",
+        "advisor"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-coder-agents",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "coder-agents:ACC-06",
+      "criterionId": "ACC-06",
+      "answer": "MCP client through admin-approved external MCP servers and workspace .mcp.json, skills from workspace .agents/skills and ~/.coder/skills, instruction files (AGENTS.md, CLAUDE.md, .cursorrules), project instructions and memory, ACP harnesses and templates as extension points. Authentication for MCP servers and per-plan MCP access are controlled by admins.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "web",
+          "control-plane"
+        ],
+        "version": "coder v2.39.4 (commit abe6ed41c7513a74347162adb4043f1ec6038d45, 2026-11-16); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "mcp_client": {
+          "support": "supported",
+          "answer": "Bring-your-own MCP servers and workspace MCP.",
+          "evidenceIds": [
+            "mcpbyo",
+            "extend"
+          ]
+        },
+        "plugins": {
+          "support": "partial",
+          "answer": "Skills, MCP and ACP adapters; no plugin marketplace.",
+          "evidenceIds": [
+            "extend",
+            "acp"
+          ]
+        },
+        "custom_tools": {
+          "support": "partial",
+          "answer": "MCP and dynamic tools; no custom tool SDK documented.",
+          "evidenceIds": [
+            "mcpbyo"
+          ]
+        },
+        "instructions_import": {
+          "support": "supported",
+          "answer": "AGENTS.md, CLAUDE.md, .cursorrules, skills, claude plugins cache scanned.",
+          "evidenceIds": [
+            "extend"
+          ]
+        },
+        "authentication": {
+          "support": "supported",
+          "answer": "External auth and MCP server credentials configured by admins.",
+          "evidenceIds": [
+            "mcpbyo",
+            "platform"
+          ]
+        },
+        "permission_scope": {
+          "support": "supported",
+          "answer": "MCP servers approved per organization and for plan mode.",
+          "evidenceIds": [
+            "idx",
+            "platform"
+          ]
+        },
+        "integration_owner": {
+          "support": "supported",
+          "answer": "Coder control plane provides MCP client; workspace agent provides discovery.",
+          "evidenceIds": [
+            "extend"
+          ]
+        }
+      },
+      "limitations": [
+        "plugins: Skills, MCP and ACP adapters; no plugin marketplace.",
+        "custom_tools: MCP and dynamic tools; no custom tool SDK documented."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "mcpbyo",
+        "extend",
+        "acp",
+        "platform",
+        "idx"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-coder-agents",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "coder-agents:ACC-07",
+      "criterionId": "ACC-07",
+      "answer": "Web UI inside the Coder dashboard (React/TypeScript site) and a Go control plane; no desktop or mobile Agents clients.",
+      "support": "supported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "web",
+          "control-plane"
+        ],
+        "version": "coder v2.39.4 (commit abe6ed41c7513a74347162adb4043f1ec6038d45, 2026-11-16); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "desktop_implementation": {
+          "support": "not-applicable",
+          "answer": "No desktop Agents client.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "mobile_implementation": {
+          "support": "not-applicable",
+          "answer": "No mobile Agents client.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "hybrids": {
+          "support": "not-applicable",
+          "answer": "None.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "implementation_evidence": {
+          "support": "supported",
+          "answer": "Repository contains site/ (web) and Go control plane; chat routes in coderd.",
+          "evidenceIds": [
+            "routes",
+            "chatd"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "idx",
+        "routes",
+        "chatd"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-05-15",
+      "researcher": "researcher-coder-agents",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "coder-agents:PLAN-01",
+      "criterionId": "PLAN-01",
+      "answer": "Intake via prompts and attachments, API calls from CI and GitHub webhooks, and chat creation from other tools; no native issue import or two-way sync with external trackers.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "web",
+          "api"
+        ],
+        "version": "coder v2.39.4 (commit abe6ed41c7513a74347162adb4043f1ec6038d45, 2026-11-16); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "local_creation": {
+          "support": "supported",
+          "answer": "Chats start from prompts in the UI.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "prompt_intake": {
+          "support": "supported",
+          "answer": "Prompts, attachments and API.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "external_import": {
+          "support": "unsupported",
+          "answer": "No tracker import found in agents docs (searched issue, Linear, Jira).",
+          "evidenceIds": [
+            "idx",
+            "start"
+          ]
+        },
+        "chat_git_triggers": {
+          "support": "partial",
+          "answer": "Docs suggest GitHub webhook creation via the API as user-built integration.",
+          "evidenceIds": [
+            "start"
+          ]
+        },
+        "authoritative_tracker": {
+          "support": "unsupported",
+          "answer": "No tracker concept; chats are the objects.",
+          "evidenceIds": [
+            "tasks"
+          ]
+        },
+        "stable_ids": {
+          "support": "partial",
+          "answer": "Chat UUIDs; no issue IDs.",
+          "evidenceIds": [
+            "routes"
+          ]
+        },
+        "sync": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "start"
+          ]
+        },
+        "supported_edits": {
+          "support": "not-applicable",
+          "answer": "No tracker.",
+          "evidenceIds": [
+            "start"
+          ]
+        },
+        "external_roundtrips": {
+          "support": "not-applicable",
+          "answer": "No tracker.",
+          "evidenceIds": [
+            "start"
+          ]
+        }
+      },
+      "limitations": [
+        "No tracker integration documented."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "idx",
+        "start",
+        "tasks",
+        "routes"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-coder-agents",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "coder-agents:PLAN-02",
+      "criterionId": "PLAN-02",
+      "answer": "Plan mode (\"Plan first\") lets the agent investigate and write a chat-specific plan file under .coder/plans, propose it for review with propose_plan and ask structured questions; plans persist in the chat and an Implement plan action resumes in normal mode. No acceptance-criteria field or revision history beyond the file.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "web"
+        ],
+        "version": "coder v2.39.4 (commit abe6ed41c7513a74347162adb4043f1ec6038d45, 2026-11-16); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "plans": {
+          "support": "supported",
+          "answer": "Plan mode with plan file.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "acceptance_criteria": {
+          "support": "unsupported",
+          "answer": "No acceptance-criteria feature found.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "editors": {
+          "support": "partial",
+          "answer": "Agent edits the plan file; user reviews proposed plan.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "revisions": {
+          "support": "partial",
+          "answer": "propose_plan snapshots the plan into the transcript.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "implementation_links": {
+          "support": "partial",
+          "answer": "Plan file lives in the workspace repo path.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "amendment": {
+          "support": "supported",
+          "answer": "Queued messages can change direction during work.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "restart_persistence": {
+          "support": "supported",
+          "answer": "Chat state in the database; mode stored on the chat.",
+          "evidenceIds": [
+            "idx",
+            "arch"
+          ]
+        }
+      },
+      "limitations": [
+        "acceptance_criteria: No acceptance-criteria feature found.",
+        "editors: Agent edits the plan file; user reviews proposed plan.",
+        "revisions: propose_plan snapshots the plan into the transcript.",
+        "implementation_links: Plan file lives in the workspace repo path."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "idx",
+        "arch"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-coder-agents",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "coder-agents:PLAN-03",
+      "criterionId": "PLAN-03",
+      "answer": "Sub-agents form a one-level hierarchy under a root chat (sub-agents cannot spawn more); no epics, blockers or readiness model.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "web"
+        ],
+        "version": "coder v2.39.4 (commit abe6ed41c7513a74347162adb4043f1ec6038d45, 2026-11-16); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "epics": {
+          "support": "unsupported",
+          "answer": "No epics; projects group chats only.",
+          "evidenceIds": [
+            "projects"
+          ]
+        },
+        "hierarchy": {
+          "support": "partial",
+          "answer": "Root chat with sub-agent children, one level.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "blockers": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "readiness": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "enforcement": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "state_propagation": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "task_to_epic": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "projects"
+          ]
+        },
+        "identity_retention": {
+          "support": "not-applicable",
+          "answer": "No epic conversion.",
+          "evidenceIds": [
+            "projects"
+          ]
+        },
+        "workflow_constraints": {
+          "support": "supported",
+          "answer": "No mandatory workflow.",
+          "evidenceIds": [
+            "idx"
+          ]
+        }
+      },
+      "limitations": [
+        "epics: No epics; projects group chats only.",
+        "hierarchy: Root chat with sub-agent children, one level.",
+        "blockers: None.",
+        "readiness: None."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "projects",
+        "idx"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-coder-agents",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "coder-agents:PLAN-04",
+      "criterionId": "PLAN-04",
+      "answer": "Admin system prompt, project instructions, skills and durable project memory (early access), workspace instruction files and skills snapshots pinned per chat with refresh, chat history in the database; per-user and per-org scopes; retention and auto-archive controls.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "web",
+          "control-plane"
+        ],
+        "version": "coder v2.39.4 (commit abe6ed41c7513a74347162adb4043f1ec6038d45, 2026-11-16); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "instructions": {
+          "support": "supported",
+          "answer": "System prompt, project instructions, AGENTS.md.",
+          "evidenceIds": [
+            "platform",
+            "projects",
+            "extend"
+          ]
+        },
+        "skills": {
+          "support": "supported",
+          "answer": "Workspace and project skills.",
+          "evidenceIds": [
+            "extend",
+            "projects"
+          ]
+        },
+        "project_docs": {
+          "support": "supported",
+          "answer": "Instruction files scanned from workspace.",
+          "evidenceIds": [
+            "extend"
+          ]
+        },
+        "memory": {
+          "support": "supported",
+          "answer": "Project memory notes saved and read across chats (early access).",
+          "evidenceIds": [
+            "projects"
+          ]
+        },
+        "scope": {
+          "support": "supported",
+          "answer": "Org, project, user and workspace scopes documented.",
+          "evidenceIds": [
+            "projects",
+            "platform"
+          ]
+        },
+        "provenance": {
+          "support": "partial",
+          "answer": "Changes recorded in audit log; no per-note citation.",
+          "evidenceIds": [
+            "projects"
+          ]
+        },
+        "correction": {
+          "support": "partial",
+          "answer": "Memory editable in project page.",
+          "evidenceIds": [
+            "projects"
+          ]
+        },
+        "deletion": {
+          "support": "supported",
+          "answer": "Deleting a project deletes memories; chat retention.",
+          "evidenceIds": [
+            "projects",
+            "retention"
+          ]
+        },
+        "freshness": {
+          "support": "supported",
+          "answer": "Pinned snapshots marked out of date; Refresh context.",
+          "evidenceIds": [
+            "extend"
+          ]
+        },
+        "takeover_continuity": {
+          "support": "partial",
+          "answer": "Chat sharing is read-only; project private to owner.",
+          "evidenceIds": [
+            "share",
+            "projects"
+          ]
+        }
+      },
+      "limitations": [
+        "provenance: Changes recorded in audit log; no per-note citation.",
+        "correction: Memory editable in project page.",
+        "takeover_continuity: Chat sharing is read-only; project private to owner."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "platform",
+        "projects",
+        "extend",
+        "retention",
+        "share"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-coder-agents",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "coder-agents:PLAN-05",
+      "criterionId": "PLAN-05",
+      "answer": "Code search and edits through workspace tools (read_file, execute, edit_files), web_search when enabled, MCP tools, image and PDF attachments, computer-use sub-agent with virtual desktop; no repository index, citations or architecture checks.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "web",
+          "control-plane"
+        ],
+        "version": "coder v2.39.4 (commit abe6ed41c7513a74347162adb4043f1ec6038d45, 2026-11-16); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "code_search": {
+          "support": "supported",
+          "answer": "read_file and shell tools in the workspace.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "indexing": {
+          "support": "unsupported",
+          "answer": "No index found in agents docs.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "external_knowledge": {
+          "support": "supported",
+          "answer": "web_search and MCP tools.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "multimodal_inputs": {
+          "support": "supported",
+          "answer": "Image, PDF and text attachments and computer-use agent.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "freshness": {
+          "support": "partial",
+          "answer": "Live workspace reads; context snapshots refreshed on demand.",
+          "evidenceIds": [
+            "extend"
+          ]
+        },
+        "access_scope": {
+          "support": "supported",
+          "answer": "Tools run with the chat owner RBAC identity.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "api_retrieval": {
+          "support": "partial",
+          "answer": "API exposes chats and files.",
+          "evidenceIds": [
+            "routes"
+          ]
+        },
+        "citations": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "conflict_detection": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "review_enforcement": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "idx"
+          ]
+        }
+      },
+      "limitations": [
+        "indexing: No index found in agents docs.",
+        "freshness: Live workspace reads; context snapshots refreshed on demand.",
+        "api_retrieval: API exposes chats and files.",
+        "citations: None."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "idx",
+        "extend",
+        "routes"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-coder-agents",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "coder-agents:PLAN-06",
+      "criterionId": "PLAN-06",
+      "answer": "Chats, projects, search with filters (including pr_status), pinning, archive, auto-archive, sharing; there is no issue tracker: tasks were migrated to chats.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "web"
+        ],
+        "version": "coder v2.39.4 (commit abe6ed41c7513a74347162adb4043f1ec6038d45, 2026-11-16); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "create": {
+          "support": "supported",
+          "answer": "Create chats and projects.",
+          "evidenceIds": [
+            "idx",
+            "projects"
+          ]
+        },
+        "edit": {
+          "support": "partial",
+          "answer": "Rename chats and projects.",
+          "evidenceIds": [
+            "projects"
+          ]
+        },
+        "discuss": {
+          "support": "partial",
+          "answer": "Conversation with the agent; shared read-only views.",
+          "evidenceIds": [
+            "share"
+          ]
+        },
+        "prioritize": {
+          "support": "unsupported",
+          "answer": "No priority field.",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "label": {
+          "support": "unsupported",
+          "answer": "No labels in search syntax filters read.",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "assign": {
+          "support": "unsupported",
+          "answer": "No assignment.",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "search": {
+          "support": "supported",
+          "answer": "Chat search syntax.",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "filter": {
+          "support": "supported",
+          "answer": "Filters including pr_status.",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "archive": {
+          "support": "supported",
+          "answer": "Archive and auto-archive.",
+          "evidenceIds": [
+            "retention"
+          ]
+        },
+        "reopen": {
+          "support": "supported",
+          "answer": "Archived chats can continue.",
+          "evidenceIds": [
+            "retention"
+          ]
+        },
+        "project_epic_views": {
+          "support": "partial",
+          "answer": "Projects group chats.",
+          "evidenceIds": [
+            "projects"
+          ]
+        },
+        "idea_parking": {
+          "support": "partial",
+          "answer": "A chat can exist without workspace or dispatch.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "explicit_dispatch": {
+          "support": "unsupported",
+          "answer": "No ready/dispatch state.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "task_session_separation": {
+          "support": "unsupported",
+          "answer": "Chat is the only entity.",
+          "evidenceIds": [
+            "tasks"
+          ]
+        },
+        "metadata": {
+          "support": "partial",
+          "answer": "Title, PR link, project, model.",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "durable_states": {
+          "support": "partial",
+          "answer": "Chat run states and archive; no task workflow states.",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "external_tracker_requirement": {
+          "support": "supported",
+          "answer": "An external tracker is needed for issue management.",
+          "evidenceIds": [
+            "tasks"
+          ]
+        }
+      },
+      "limitations": [
+        "Chat list is not an issue tracker."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "idx",
+        "projects",
+        "share",
+        "search",
+        "retention",
+        "tasks"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-coder-agents",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "coder-agents:PLAN-07",
+      "criterionId": "PLAN-07",
+      "answer": "No shared issue records; agents operate on chats, workspaces and sub-agents.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "web",
+          "api"
+        ],
+        "version": "coder v2.39.4 (commit abe6ed41c7513a74347162adb4043f1ec6038d45, 2026-11-16); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "shared_ids": {
+          "support": "unsupported",
+          "answer": "No issue IDs.",
+          "evidenceIds": [
+            "tasks"
+          ]
+        },
+        "read": {
+          "support": "unsupported",
+          "answer": "No tracker tool.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "create": {
+          "support": "unsupported",
+          "answer": "No tracker tool.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "update": {
+          "support": "unsupported",
+          "answer": "No tracker tool.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "claim": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "assign": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "state_changes": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "dependencies": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "children": {
+          "support": "partial",
+          "answer": "spawn_agent creates sub-agent chats.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "results": {
+          "support": "partial",
+          "answer": "wait_agent returns sub-agent results.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "human_visibility": {
+          "support": "supported",
+          "answer": "Sub-agent chats visible by link in the parent.",
+          "evidenceIds": [
+            "share"
+          ]
+        },
+        "attribution": {
+          "support": "supported",
+          "answer": "Actions attributed to the submitting user.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "permissions": {
+          "support": "supported",
+          "answer": "Agent has the user permissions only.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "conflicts": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "idx"
+          ]
+        }
+      },
+      "limitations": [
+        "shared_ids: No issue IDs.",
+        "read: No tracker tool.",
+        "create: No tracker tool.",
+        "update: No tracker tool."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "tasks",
+        "idx",
+        "share",
+        "arch"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-coder-agents",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "coder-agents:PLAN-08",
+      "criterionId": "PLAN-08",
+      "answer": "No living product specification; project instructions and memory are context, not maintained specs.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "web"
+        ],
+        "version": "coder v2.39.4 (commit abe6ed41c7513a74347162adb4043f1ec6038d45, 2026-11-16); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "persistent_requirements": {
+          "support": "partial",
+          "answer": "Project instructions persist.",
+          "evidenceIds": [
+            "projects"
+          ]
+        },
+        "human_edits": {
+          "support": "partial",
+          "answer": "Users edit project instructions.",
+          "evidenceIds": [
+            "projects"
+          ]
+        },
+        "agent_edits": {
+          "support": "partial",
+          "answer": "Agent saves memory notes.",
+          "evidenceIds": [
+            "projects"
+          ]
+        },
+        "revisions": {
+          "support": "partial",
+          "answer": "Audit log records changes.",
+          "evidenceIds": [
+            "projects"
+          ]
+        },
+        "approvals": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "projects"
+          ]
+        },
+        "implementation_links": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "projects"
+          ]
+        },
+        "later_retrieval": {
+          "support": "supported",
+          "answer": "Instructions and memory loaded in later chats.",
+          "evidenceIds": [
+            "projects"
+          ]
+        },
+        "drift_detection": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "projects"
+          ]
+        },
+        "review_integration": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "projects"
+          ]
+        }
+      },
+      "limitations": [
+        "persistent_requirements: Project instructions persist.",
+        "human_edits: Users edit project instructions.",
+        "agent_edits: Agent saves memory notes.",
+        "revisions: Audit log records changes."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "projects"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-coder-agents",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "coder-agents:COORD-01",
+      "criterionId": "COORD-01",
+      "answer": "Many chats run in parallel; Community and Premium licenses allow five concurrently active agents deployment-wide (queued beyond that); chatd defaults to 5 concurrent root agents and 10 concurrent subagents; AI Premium removes the cap against purchased Agent Hours. Sidebar lists chats with states.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "web",
+          "control-plane"
+        ],
+        "version": "coder v2.39.4 (commit abe6ed41c7513a74347162adb4043f1ec6038d45, 2026-11-16); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "concurrent_sessions": {
+          "support": "supported",
+          "answer": "Multiple chats and workspaces per user.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "concurrent_tasks": {
+          "support": "supported",
+          "answer": "Sub-agents run in parallel.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "quotas": {
+          "support": "supported",
+          "answer": "Five concurrent agents on Community and Premium; defaults 5 root and 10 sub-agents in code.",
+          "evidenceIds": [
+            "lic",
+            "chatd"
+          ]
+        },
+        "observed_concurrency": {
+          "support": "unknown",
+          "answer": "Not measured here.",
+          "evidenceIds": []
+        },
+        "status_visibility": {
+          "support": "partial",
+          "answer": "Chat list and watch stream; fleet board not described.",
+          "evidenceIds": [
+            "routes"
+          ]
+        }
+      },
+      "limitations": [
+        "observed_concurrency: Not measured here.",
+        "status_visibility: Chat list and watch stream; fleet board not described."
+      ],
+      "unknownReason": "Runtime concurrency is not measured here.",
+      "evidenceIds": [
+        "idx",
+        "lic",
+        "chatd",
+        "routes"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-coder-agents",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "coder-agents:COORD-02",
+      "criterionId": "COORD-02",
+      "answer": "Work is queued when the concurrency pool is full; the root agent assigns work to sub-agents; no human assignment or claims.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "control-plane"
+        ],
+        "version": "coder v2.39.4 (commit abe6ed41c7513a74347162adb4043f1ec6038d45, 2026-11-16); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "human_assignment": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "agent_assignment": {
+          "support": "supported",
+          "answer": "Root agent spawns sub-agents with optional model.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "claims": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "queues": {
+          "support": "supported",
+          "answer": "Agents queue beyond the limit; messages queue during runs.",
+          "evidenceIds": [
+            "lic",
+            "idx"
+          ]
+        },
+        "routing": {
+          "support": "partial",
+          "answer": "Template selection by the agent from descriptions.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "duplicate_prevention": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "ownership_enforcement": {
+          "support": "supported",
+          "answer": "Chats and workspaces owned by one user; RBAC enforced.",
+          "evidenceIds": [
+            "idx"
+          ]
+        }
+      },
+      "limitations": [
+        "human_assignment: None.",
+        "claims: None.",
+        "routing: Template selection by the agent from descriptions.",
+        "duplicate_prevention: None."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "idx",
+        "lic"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-coder-agents",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "coder-agents:COORD-03",
+      "criterionId": "COORD-03",
+      "answer": "Product-owned delegation: root agents spawn general, explore and computer-use sub-agents in parallel, optionally on a chosen model, with list_agents, wait_agent, message_agent and interrupt_agent; sub-agents cannot create workspaces or spawn more. Experimental ACP subagents add external harnesses. Results return via wait_agent; sub-agent chats are viewable by link.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "web",
+          "control-plane"
+        ],
+        "version": "coder v2.39.4 (commit abe6ed41c7513a74347162adb4043f1ec6038d45, 2026-11-16); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "roles": {
+          "support": "supported",
+          "answer": "General, explore, computer_use sub-agent types.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "model_harness_effort": {
+          "support": "supported",
+          "answer": "Optional model_config_id per spawn; ACP harnesses.",
+          "evidenceIds": [
+            "idx",
+            "acp"
+          ]
+        },
+        "messages": {
+          "support": "supported",
+          "answer": "message_agent and interrupt_agent.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "results_return": {
+          "support": "supported",
+          "answer": "wait_agent collects results.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "cross_harness": {
+          "support": "partial",
+          "answer": "ACP harnesses experimental.",
+          "evidenceIds": [
+            "acp"
+          ]
+        },
+        "orchestration_owner": {
+          "support": "supported",
+          "answer": "Product-owned.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "activation": {
+          "support": "supported",
+          "answer": "On by default; ACP and advisor need experiments; computer-use needs admin virtual desktop.",
+          "evidenceIds": [
+            "idx",
+            "acp"
+          ]
+        },
+        "authentication": {
+          "support": "supported",
+          "answer": "Sub-agents inherit the user identity; ACP uses harness credentials.",
+          "evidenceIds": [
+            "arch",
+            "acp"
+          ]
+        },
+        "live_progress": {
+          "support": "supported",
+          "answer": "Sub-agent chats stream live.",
+          "evidenceIds": [
+            "share"
+          ]
+        },
+        "retained_results": {
+          "support": "supported",
+          "answer": "Persisted in the database.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "followup": {
+          "support": "supported",
+          "answer": "message_agent follow-ups; interrupt and resume.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "invocation": {
+          "support": "supported",
+          "answer": "Model-invoked tools.",
+          "evidenceIds": [
+            "idx"
+          ]
+        }
+      },
+      "limitations": [
+        "cross_harness: ACP harnesses experimental."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "idx",
+        "acp",
+        "arch",
+        "share"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-coder-agents",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "coder-agents:COORD-04",
+      "criterionId": "COORD-04",
+      "answer": "No scheduler in Coder Agents; API calls from CI or webhooks can start chats as user-built automation; auto-archive and retention jobs are maintenance only.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "api",
+          "control-plane"
+        ],
+        "version": "coder v2.39.4 (commit abe6ed41c7513a74347162adb4043f1ec6038d45, 2026-11-16); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "schedules": {
+          "support": "unsupported",
+          "answer": "Bounded search of docs/ai-coder/agents found no schedule feature (hits only compaction and scheduling of pods).",
+          "evidenceIds": [
+            "idx",
+            "start"
+          ]
+        },
+        "events": {
+          "support": "partial",
+          "answer": "Docs list CI and GitHub-webhook triggering through the API as a use case.",
+          "evidenceIds": [
+            "start"
+          ]
+        },
+        "recurring_tasks": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "completion_conditions": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "scheduler_location": {
+          "support": "not-applicable",
+          "answer": "No scheduler.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "overlaps": {
+          "support": "not-applicable",
+          "answer": "No scheduler.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "retries": {
+          "support": "not-applicable",
+          "answer": "No scheduler.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "client_independence": {
+          "support": "supported",
+          "answer": "Agents run in the control plane regardless of the browser.",
+          "evidenceIds": [
+            "idx"
+          ]
+        }
+      },
+      "limitations": [
+        "schedules: Bounded search of docs/ai-coder/agents found no schedule feature (hits only compaction and scheduling of pods).",
+        "events: Docs list CI and GitHub-webhook triggering through the API as a use case.",
+        "recurring_tasks: None.",
+        "completion_conditions: None."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "idx",
+        "start"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-coder-agents",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "coder-agents:COORD-05",
+      "criterionId": "COORD-05",
+      "answer": "Queued follow-up messages, interrupt, stop sub-agents, plan approval, structured questions, chat archive, resume; notifications for shared chats; compaction on demand.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "web"
+        ],
+        "version": "coder v2.39.4 (commit abe6ed41c7513a74347162adb4043f1ec6038d45, 2026-11-16); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "pause": {
+          "support": "partial",
+          "answer": "Interrupt a turn; no pause state.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "stop": {
+          "support": "supported",
+          "answer": "Interrupt and archive; chat history persists.",
+          "evidenceIds": [
+            "idx",
+            "retention"
+          ]
+        },
+        "resume": {
+          "support": "supported",
+          "answer": "Continue a chat; new workspace from last branch.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "steer": {
+          "support": "supported",
+          "answer": "Message queuing.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "notifications": {
+          "support": "partial",
+          "answer": "Chat Shared notifications.",
+          "evidenceIds": [
+            "share"
+          ]
+        },
+        "pending_decisions": {
+          "support": "supported",
+          "answer": "ask_user_question and plan proposals.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "escalation": {
+          "support": "partial",
+          "answer": "Questions surface to the user.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "visible_errors": {
+          "support": "supported",
+          "answer": "Error state shown and cleared by /compact.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "chat_terminal_parity": {
+          "support": "partial",
+          "answer": "Web chat is the primary surface; CLI experimental.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "retained_history": {
+          "support": "supported",
+          "answer": "Database persisted.",
+          "evidenceIds": [
+            "arch"
+          ]
+        }
+      },
+      "limitations": [
+        "pause: Interrupt a turn; no pause state.",
+        "notifications: Chat Shared notifications.",
+        "escalation: Questions surface to the user.",
+        "chat_terminal_parity: Web chat is the primary surface; CLI experimental."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "idx",
+        "retention",
+        "share",
+        "arch",
+        "cli"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-coder-agents",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "coder-agents:COORD-06",
+      "criterionId": "COORD-06",
+      "answer": "Chat sidebar with projects, pinned and shared sections and search; no fleet board with blocked, awaiting or dependency views.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "web"
+        ],
+        "version": "coder v2.39.4 (commit abe6ed41c7513a74347162adb4043f1ec6038d45, 2026-11-16); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "fleet_fixture": {
+          "support": "unsupported",
+          "answer": "No fleet board.",
+          "evidenceIds": [
+            "projects"
+          ]
+        },
+        "parent_child": {
+          "support": "partial",
+          "answer": "Sub-agent chats under a parent.",
+          "evidenceIds": [
+            "share"
+          ]
+        },
+        "dependencies": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "attention": {
+          "support": "partial",
+          "answer": "Shared notifications only.",
+          "evidenceIds": [
+            "share"
+          ]
+        },
+        "history": {
+          "support": "supported",
+          "answer": "Chat history and search.",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "workload": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "navigation_errors": {
+          "support": "partial",
+          "answer": "Per chat.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "fixture_mode": {
+          "support": "not-applicable",
+          "answer": "None.",
+          "evidenceIds": [
+            "idx"
+          ]
+        }
+      },
+      "limitations": [
+        "fleet_fixture: No fleet board.",
+        "parent_child: Sub-agent chats under a parent.",
+        "dependencies: None.",
+        "attention: Shared notifications only."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "projects",
+        "share",
+        "idx",
+        "search",
+        "arch"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-coder-agents",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "coder-agents:COORD-07",
+      "criterionId": "COORD-07",
+      "answer": "No mandatory workflow: describe the work, the agent chooses template and creates a workspace; Plan first mode, per-spawn model choice, admin-set system prompt, live sub-agent chats and retained transcripts.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "web"
+        ],
+        "version": "coder v2.39.4 (commit abe6ed41c7513a74347162adb4043f1ec6038d45, 2026-11-16); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "quick_task": {
+          "support": "supported",
+          "answer": "Describe work and run.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "growing_epic": {
+          "support": "unsupported",
+          "answer": "No epic.",
+          "evidenceIds": [
+            "projects"
+          ]
+        },
+        "presets": {
+          "support": "partial",
+          "answer": "Plan first mode; templates act as environment presets.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "natural_language": {
+          "support": "supported",
+          "answer": "Chat-driven.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "agent_configuration": {
+          "support": "supported",
+          "answer": "Model per spawn; admin settings.",
+          "evidenceIds": [
+            "idx",
+            "platform"
+          ]
+        },
+        "in_run_changes": {
+          "support": "supported",
+          "answer": "Queued messages and model overrides.",
+          "evidenceIds": [
+            "idx",
+            "models"
+          ]
+        },
+        "live_roles": {
+          "support": "supported",
+          "answer": "Sub-agent chats.",
+          "evidenceIds": [
+            "share"
+          ]
+        },
+        "retained_relationships": {
+          "support": "supported",
+          "answer": "Parent-child retained.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "discoverability": {
+          "support": "supported",
+          "answer": "Docs and tool list.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "auth_friction": {
+          "support": "supported",
+          "answer": "Uses existing Coder identity.",
+          "evidenceIds": [
+            "arch"
+          ]
+        }
+      },
+      "limitations": [
+        "growing_epic: No epic.",
+        "presets: Plan first mode; templates act as environment presets."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "idx",
+        "projects",
+        "platform",
+        "models",
+        "share",
+        "arch"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-coder-agents",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "coder-agents:RUN-01",
+      "criterionId": "RUN-01",
+      "answer": "The agent loop runs in the self-hosted control plane and tools run in Coder workspaces on infrastructure you operate (Kubernetes, VMs, cloud); chats and workspaces continue when the browser disconnects and can be continued from any device. There is no vendor cloud.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "control-plane",
+          "web"
+        ],
+        "version": "coder v2.39.4 (commit abe6ed41c7513a74347162adb4043f1ec6038d45, 2026-11-16); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "local": {
+          "support": "partial",
+          "answer": "Workspaces can be local to the control-plane host depending on templates; not documented as a mode.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "byo_remote": {
+          "support": "supported",
+          "answer": "Workspaces on your cloud or cluster.",
+          "evidenceIds": [
+            "idx",
+            "ides"
+          ]
+        },
+        "self_hosted": {
+          "support": "supported",
+          "answer": "Self-hosted control plane.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "managed_cloud": {
+          "support": "unsupported",
+          "answer": "No SaaS or managed component.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "hybrid": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "provisioning": {
+          "support": "supported",
+          "answer": "Agent provisions workspaces from templates.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "payer": {
+          "support": "supported",
+          "answer": "Customer pays infrastructure and model providers; Agent Hours from Coder for AI Premium.",
+          "evidenceIds": [
+            "lic"
+          ]
+        },
+        "resources": {
+          "support": "supported",
+          "answer": "Defined by templates.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "region": {
+          "support": "supported",
+          "answer": "Wherever you deploy.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "expiry": {
+          "support": "partial",
+          "answer": "Workspace lifetime follows template and Coder autostop policies; chat survives rebuilds.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "client_disconnect": {
+          "support": "supported",
+          "answer": "Agent loop runs in the control plane.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "other_device_continuation": {
+          "support": "supported",
+          "answer": "State in the database.",
+          "evidenceIds": [
+            "arch"
+          ]
+        }
+      },
+      "limitations": [
+        "No vendor-managed compute; you supply the Coder deployment and workspaces."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "idx",
+        "ides",
+        "lic",
+        "arch"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-coder-agents",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "coder-agents:RUN-02",
+      "criterionId": "RUN-02",
+      "answer": "Each agent works in a Coder workspace provisioned from an admin template (container, pod or VM depending on template); workspace isolation per user; optional template pattern puts the agent in a separate pod with network policy (early stage); no git worktree isolation described.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "control-plane"
+        ],
+        "version": "coder v2.39.4 (commit abe6ed41c7513a74347162adb4043f1ec6038d45, 2026-11-16); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "checkout": {
+          "support": "supported",
+          "answer": "Repo in the workspace.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "branch": {
+          "support": "partial",
+          "answer": "Branches via git in workspace.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "worktree": {
+          "support": "unsupported",
+          "answer": "No worktree feature in agents docs.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "container": {
+          "support": "supported",
+          "answer": "Kubernetes pod templates documented.",
+          "evidenceIds": [
+            "isol"
+          ]
+        },
+        "vm": {
+          "support": "partial",
+          "answer": "Templates may use VMs such as EC2; not agent-specific.",
+          "evidenceIds": [
+            "ides"
+          ]
+        },
+        "os_sandbox": {
+          "support": "partial",
+          "answer": "Bubblewrap with firewall suggested; agent firewall docs exist.",
+          "evidenceIds": [
+            "isol"
+          ]
+        },
+        "filesystem": {
+          "support": "partial",
+          "answer": "Separate home directories in the two-pod pattern.",
+          "evidenceIds": [
+            "isol"
+          ]
+        },
+        "process": {
+          "support": "partial",
+          "answer": "Separate pod.",
+          "evidenceIds": [
+            "isol"
+          ]
+        },
+        "network": {
+          "support": "supported",
+          "answer": "Network policy example and egress controls.",
+          "evidenceIds": [
+            "isol"
+          ]
+        },
+        "secrets": {
+          "support": "supported",
+          "answer": "LLM credentials never enter workspaces.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "code_separation": {
+          "support": "supported",
+          "answer": "Per-user workspace isolation.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "security_boundary": {
+          "support": "partial",
+          "answer": "Documented as early stage; user must verify enforcement.",
+          "evidenceIds": [
+            "isol"
+          ]
+        }
+      },
+      "limitations": [
+        "Default agent workspace has the same network access as a user workspace."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "idx",
+        "arch",
+        "isol",
+        "ides"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-coder-agents",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "coder-agents:RUN-03",
+      "criterionId": "RUN-03",
+      "answer": "Chat state persists in the Coder database so conversations survive workspace stop, delete or rebuild; the agent can resume in a new workspace from the last git branch; context compaction; queued messages; no automatic process re-attachment.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "control-plane"
+        ],
+        "version": "coder v2.39.4 (commit abe6ed41c7513a74347162adb4043f1ec6038d45, 2026-11-16); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "client_disconnect": {
+          "support": "supported",
+          "answer": "Loop runs in control plane.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "worker_crash": {
+          "support": "partial",
+          "answer": "DB state persists; in-flight step lost.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "service_restart": {
+          "support": "partial",
+          "answer": "Persisted chats resume; details not enumerated.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "expiry": {
+          "support": "partial",
+          "answer": "Workspace expiry per template; chat survives.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "transcript_reload": {
+          "support": "supported",
+          "answer": "Database.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "process_reconnect": {
+          "support": "partial",
+          "answer": "process_list tracks processes in a live workspace.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "task_resume": {
+          "support": "supported",
+          "answer": "New workspace from last known state.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "state_reconstruction": {
+          "support": "partial",
+          "answer": "Git branch plus chat history.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "context_loss": {
+          "support": "partial",
+          "answer": "Compaction summarizes older context.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "duplicate_actions": {
+          "support": "partial",
+          "answer": "Receivers tolerate duplicate deliveries and state updates are deduplicated, but re-execution of interrupted tool calls is not addressed.",
+          "evidenceIds": [
+            "archmd"
+          ]
+        },
+        "manual_repair": {
+          "support": "partial",
+          "answer": "/compact clears error states.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "multi_day_continuity": {
+          "support": "supported",
+          "answer": "Persistent chats with 30-day archive retention.",
+          "evidenceIds": [
+            "retention"
+          ]
+        }
+      },
+      "limitations": [
+        "worker_crash: DB state persists; in-flight step lost.",
+        "service_restart: Persisted chats resume; details not enumerated.",
+        "expiry: Workspace expiry per template; chat survives.",
+        "process_reconnect: process_list tracks processes in a live workspace."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "idx",
+        "arch",
+        "archmd",
+        "retention"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-coder-agents",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "coder-agents:RUN-04",
+      "criterionId": "RUN-04",
+      "answer": "Environment setup is owned by Coder templates (Terraform), including dependencies, services and secrets; the agent only chooses a template and parameters; no agent-specific cache or port handling.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "control-plane"
+        ],
+        "version": "coder v2.39.4 (commit abe6ed41c7513a74347162adb4043f1ec6038d45, 2026-11-16); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "dependencies": {
+          "support": "supported",
+          "answer": "Template-defined provisioning.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "caches": {
+          "support": "partial",
+          "answer": "Template concern.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "snapshots": {
+          "support": "partial",
+          "answer": "Template concern.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "services": {
+          "support": "supported",
+          "answer": "Template-defined.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "ports": {
+          "support": "partial",
+          "answer": "Coder workspace apps and port forwarding.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "secrets": {
+          "support": "supported",
+          "answer": "External auth and template parameters; keys stay in control plane.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "duplicate_installs": {
+          "support": "unsupported",
+          "answer": "Not described.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "collisions": {
+          "support": "unsupported",
+          "answer": "Not described.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "remote_setup": {
+          "support": "supported",
+          "answer": "Templates provision remote workspaces.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "automatic_repair": {
+          "support": "partial",
+          "answer": "Agent can start stopped workspaces.",
+          "evidenceIds": [
+            "idx"
+          ]
+        }
+      },
+      "limitations": [
+        "caches: Template concern.",
+        "snapshots: Template concern.",
+        "ports: Coder workspace apps and port forwarding.",
+        "duplicate_installs: Not described."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "idx",
+        "arch"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-coder-agents",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "coder-agents:RUN-05",
+      "criterionId": "RUN-05",
+      "answer": "Deployment limits for steps per turn, generation retries, queued messages and attachments; exponential-backoff retry of classified transient provider errors; execute tool waits 10s by default; Agent Hours and concurrent-agent caps (5 on Community/Premium); AI Gateway per-user monthly budgets; context compaction thresholds and advisor limits.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "control-plane"
+        ],
+        "version": "coder v2.39.4 (commit abe6ed41c7513a74347162adb4043f1ec6038d45, 2026-11-16); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "time_limits": {
+          "support": "partial",
+          "answer": "execute waits 10s by default with a caller timeout; Agent Time pool; no whole-run time limit found.",
+          "evidenceIds": [
+            "execcode",
+            "lic"
+          ]
+        },
+        "turn_limits": {
+          "support": "supported",
+          "answer": "MaxStepsPerTurn deployment limit (plus advisor per-turn uses).",
+          "evidenceIds": [
+            "limits",
+            "advisor"
+          ]
+        },
+        "token_limits": {
+          "support": "partial",
+          "answer": "Advisor max output tokens; gateway budgets.",
+          "evidenceIds": [
+            "advisor",
+            "spend"
+          ]
+        },
+        "spend_limits": {
+          "support": "supported",
+          "answer": "AI Gateway group and user budgets.",
+          "evidenceIds": [
+            "spend"
+          ]
+        },
+        "timeouts": {
+          "support": "supported",
+          "answer": "execute 10s default wait and wait_timeout; classified provider timeout and stream-silence errors.",
+          "evidenceIds": [
+            "execcode",
+            "retrycode"
+          ]
+        },
+        "retries": {
+          "support": "supported",
+          "answer": "MaxGenerationRetries with exponential backoff 1s to 60s and retry classification.",
+          "evidenceIds": [
+            "limits",
+            "retrycode"
+          ]
+        },
+        "provider_failures": {
+          "support": "supported",
+          "answer": "Errors classified (overloaded, rate limit, timeout, usage limit, auth, config) with user-facing messages and retry for transient ones.",
+          "evidenceIds": [
+            "retrycode"
+          ]
+        },
+        "enforcement": {
+          "support": "supported",
+          "answer": "Budgets are enforced by AI Gateway.",
+          "evidenceIds": [
+            "spend"
+          ]
+        }
+      },
+      "limitations": [
+        "time_limits: execute waits 10s by default with a caller timeout; Agent Time pool; no whole-run time limit found.",
+        "token_limits: Advisor max output tokens; gateway budgets."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "execcode",
+        "lic",
+        "limits",
+        "advisor",
+        "spend",
+        "retrycode"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-coder-agents",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "coder-agents:RUN-06",
+      "criterionId": "RUN-06",
+      "answer": "Audit logs, chat debug logging and retention, AI Gateway monitoring and audit, Agent Time reporting to admins, in-app usage warnings, GitHub and PR status in chats; native per-chat cost pages were removed in favor of AI Gateway reports.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "control-plane",
+          "web"
+        ],
+        "version": "coder v2.39.4 (commit abe6ed41c7513a74347162adb4043f1ec6038d45, 2026-11-16); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "logs": {
+          "support": "supported",
+          "answer": "Chat debug logging.",
+          "evidenceIds": [
+            "retention"
+          ]
+        },
+        "traces": {
+          "support": "partial",
+          "answer": "AI Gateway monitoring and audit.",
+          "evidenceIds": [
+            "gateway"
+          ]
+        },
+        "failure_reasons": {
+          "support": "partial",
+          "answer": "Error states in chat.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "usage_export": {
+          "support": "supported",
+          "answer": "AI Gateway reports.",
+          "evidenceIds": [
+            "spend"
+          ]
+        },
+        "task_stats": {
+          "support": "partial",
+          "answer": "Gateway spend by user.",
+          "evidenceIds": [
+            "spend"
+          ]
+        },
+        "agent_stats": {
+          "support": "partial",
+          "answer": "Agent Time totals only.",
+          "evidenceIds": [
+            "lic"
+          ]
+        },
+        "project_stats": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "projects"
+          ]
+        },
+        "time_stats": {
+          "support": "supported",
+          "answer": "Spend resets monthly; Agent Time per UTC hour.",
+          "evidenceIds": [
+            "spend",
+            "lic"
+          ]
+        },
+        "failure_status": {
+          "support": "partial",
+          "answer": "Error state.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "approval_status": {
+          "support": "partial",
+          "answer": "Plan proposals.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "reconnect_consistency": {
+          "support": "supported",
+          "answer": "State in the database.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "performance_method": {
+          "support": "not-applicable",
+          "answer": "This catalog measures no speed.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "responsiveness": {
+          "support": "not-applicable",
+          "answer": "None measured.",
+          "evidenceIds": [
+            "idx"
+          ]
+        }
+      },
+      "limitations": [
+        "traces: AI Gateway monitoring and audit.",
+        "failure_reasons: Error states in chat.",
+        "task_stats: Gateway spend by user.",
+        "agent_stats: Agent Time totals only."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "retention",
+        "gateway",
+        "arch",
+        "spend",
+        "lic",
+        "projects",
+        "idx"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-coder-agents",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "coder-agents:RUN-07",
+      "criterionId": "RUN-07",
+      "answer": "Spend per user and group through AI Gateway budgets and reports (entitlement required); native cost tracking removed; Agent Time (hours of model invocation) is measured separately for licensing; no per-chat or per-sub-agent cost display documented now.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "control-plane"
+        ],
+        "version": "coder v2.39.4 (commit abe6ed41c7513a74347162adb4043f1ec6038d45, 2026-11-16); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "task_cost": {
+          "support": "unsupported",
+          "answer": "Native per-chat cost removed.",
+          "evidenceIds": [
+            "spend"
+          ]
+        },
+        "session_cost": {
+          "support": "unsupported",
+          "answer": "Native per-chat cost removed.",
+          "evidenceIds": [
+            "spend"
+          ]
+        },
+        "child_cost": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spend"
+          ]
+        },
+        "epic_cost": {
+          "support": "not-applicable",
+          "answer": "No epics.",
+          "evidenceIds": [
+            "spend"
+          ]
+        },
+        "harness_aggregation": {
+          "support": "not-applicable",
+          "answer": "Single control-plane loop.",
+          "evidenceIds": [
+            "spend"
+          ]
+        },
+        "billed_vs_estimated": {
+          "support": "partial",
+          "answer": "Gateway reports cost; Agent Time is runtime not money.",
+          "evidenceIds": [
+            "spend",
+            "lic"
+          ]
+        },
+        "tokens": {
+          "support": "partial",
+          "answer": "Gateway usage reporting.",
+          "evidenceIds": [
+            "spend"
+          ]
+        },
+        "subscription_allowance": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spend"
+          ]
+        },
+        "provider_reconciliation": {
+          "support": "partial",
+          "answer": "Gateway sits in the path.",
+          "evidenceIds": [
+            "gateway"
+          ]
+        },
+        "compute_cost": {
+          "support": "unsupported",
+          "answer": "Customer infrastructure; not shown.",
+          "evidenceIds": [
+            "lic"
+          ]
+        },
+        "refresh_delay": {
+          "support": "unknown",
+          "answer": "Refresh timing of AI Gateway spend reports lives in enterprise-licensed code under enterprise/ that was not inspected in this pass.",
+          "evidenceIds": []
+        },
+        "alerts": {
+          "support": "partial",
+          "answer": "In-app soft warning near Agent Time exhaustion.",
+          "evidenceIds": [
+            "lic"
+          ]
+        },
+        "export": {
+          "support": "supported",
+          "answer": "Gateway reports and API.",
+          "evidenceIds": [
+            "spend"
+          ]
+        },
+        "drilldown": {
+          "support": "partial",
+          "answer": "By user and group.",
+          "evidenceIds": [
+            "spend"
+          ]
+        }
+      },
+      "limitations": [
+        "Native per-chat cost pages were removed."
+      ],
+      "unknownReason": "Refresh delay is not stated.",
+      "evidenceIds": [
+        "spend",
+        "lic",
+        "gateway"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-coder-agents",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "coder-agents:RUN-08",
+      "criterionId": "RUN-08",
+      "answer": "Admission control queues agents beyond the concurrency limit (5 root, 10 sub-agent defaults); no CPU or RAM awareness or check deduplication.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "control-plane"
+        ],
+        "version": "coder v2.39.4 (commit abe6ed41c7513a74347162adb4043f1ec6038d45, 2026-11-16); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "concurrency": {
+          "support": "supported",
+          "answer": "Admission caps.",
+          "evidenceIds": [
+            "chatd",
+            "lic"
+          ]
+        },
+        "queues": {
+          "support": "supported",
+          "answer": "Beyond-limit agents queue.",
+          "evidenceIds": [
+            "lic"
+          ]
+        },
+        "cpu_ram": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "chatd"
+          ]
+        },
+        "backpressure": {
+          "support": "supported",
+          "answer": "Queueing as backpressure.",
+          "evidenceIds": [
+            "lic"
+          ]
+        },
+        "host_awareness": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "chatd"
+          ]
+        },
+        "check_reuse": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "chatd"
+          ]
+        },
+        "check_deduplication": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "chatd"
+          ]
+        },
+        "bounded_tests": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "chatd"
+          ]
+        },
+        "cancellation": {
+          "support": "supported",
+          "answer": "Interrupt agents.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "fairness": {
+          "support": "partial",
+          "answer": "Queue order not specified.",
+          "evidenceIds": [
+            "lic"
+          ]
+        },
+        "recovery": {
+          "support": "partial",
+          "answer": "Chat persists.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "shared_limits": {
+          "support": "supported",
+          "answer": "Deployment-wide pool.",
+          "evidenceIds": [
+            "lic"
+          ]
+        }
+      },
+      "limitations": [
+        "cpu_ram: None.",
+        "host_awareness: None.",
+        "check_reuse: None.",
+        "check_deduplication: None."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "chatd",
+        "lic",
+        "idx",
+        "arch"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-coder-agents",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "coder-agents:TEAM-01",
+      "criterionId": "TEAM-01",
+      "answer": "Chats can be shared read-only with users or groups, with live streaming of updates and notifications; viewers cannot send messages, so no co-prompting. Projects are private to their owner.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "web"
+        ],
+        "version": "coder v2.39.4 (commit abe6ed41c7513a74347162adb4043f1ec6038d45, 2026-11-16); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "visibility": {
+          "support": "supported",
+          "answer": "Shared chats stream live.",
+          "evidenceIds": [
+            "share"
+          ]
+        },
+        "discussion": {
+          "support": "unsupported",
+          "answer": "No discussion thread.",
+          "evidenceIds": [
+            "share"
+          ]
+        },
+        "comments": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "share"
+          ]
+        },
+        "presence": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "share"
+          ]
+        },
+        "coprompting": {
+          "support": "unsupported",
+          "answer": "Viewers cannot send or edit messages.",
+          "evidenceIds": [
+            "share"
+          ]
+        },
+        "ordering": {
+          "support": "not-applicable",
+          "answer": "No co-prompting.",
+          "evidenceIds": [
+            "share"
+          ]
+        },
+        "conflicts": {
+          "support": "not-applicable",
+          "answer": "No co-prompting.",
+          "evidenceIds": [
+            "share"
+          ]
+        },
+        "attribution": {
+          "support": "supported",
+          "answer": "User identity attached to actions.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "permissions": {
+          "support": "supported",
+          "answer": "Read access by user or group; admin can disable.",
+          "evidenceIds": [
+            "share"
+          ]
+        },
+        "plan_restrictions": {
+          "support": "partial",
+          "answer": "Sharing is a deployment setting.",
+          "evidenceIds": [
+            "share"
+          ]
+        },
+        "owner_online": {
+          "support": "supported",
+          "answer": "Control plane keeps running without owner online.",
+          "evidenceIds": [
+            "idx"
+          ]
+        }
+      },
+      "limitations": [
+        "Share is read-only."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "share",
+        "arch",
+        "idx"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-coder-agents",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "coder-agents:TEAM-02",
+      "criterionId": "TEAM-02",
+      "answer": "Coder organizations and roles (Organization Admin, Owner, custom roles with model configuration access), multi-organization RBAC and OIDC group sync (Premium), OIDC login, SCIM not stated; agent permissions equal the submitting user; per-organization models and MCP servers.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "web",
+          "control-plane"
+        ],
+        "version": "coder v2.39.4 (commit abe6ed41c7513a74347162adb4043f1ec6038d45, 2026-11-16); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "organization_roles": {
+          "support": "supported",
+          "answer": "Owner, Organization Admin and custom roles.",
+          "evidenceIds": [
+            "start"
+          ]
+        },
+        "project_roles": {
+          "support": "partial",
+          "answer": "Projects are private to the owner and org-bound.",
+          "evidenceIds": [
+            "projects"
+          ]
+        },
+        "task_roles": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "projects"
+          ]
+        },
+        "membership": {
+          "support": "supported",
+          "answer": "Organization membership gates Agents access.",
+          "evidenceIds": [
+            "start"
+          ]
+        },
+        "sso": {
+          "support": "supported",
+          "answer": "OIDC authentication documented; group sync Premium.",
+          "evidenceIds": [
+            "oidc"
+          ]
+        },
+        "provisioning": {
+          "support": "partial",
+          "answer": "IdP sync is Premium; SCIM not read.",
+          "evidenceIds": [
+            "oidc"
+          ]
+        },
+        "unauthorized_access": {
+          "support": "supported",
+          "answer": "RBAC applies to tools and templates.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "revocation": {
+          "support": "partial",
+          "answer": "Remove membership; chat sharing can be disabled.",
+          "evidenceIds": [
+            "share"
+          ]
+        },
+        "plan_scope": {
+          "support": "supported",
+          "answer": "Premium and AI Premium split in pricing.",
+          "evidenceIds": [
+            "pricing"
+          ]
+        }
+      },
+      "limitations": [
+        "project_roles: Projects are private to the owner and org-bound.",
+        "task_roles: None.",
+        "provisioning: IdP sync is Premium; SCIM not read.",
+        "revocation: Remove membership; chat sharing can be disabled."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "start",
+        "projects",
+        "oidc",
+        "idx",
+        "share",
+        "pricing"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-coder-agents",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "coder-agents:TEAM-03",
+      "criterionId": "TEAM-03",
+      "answer": "Control-plane enforced model and tool configuration, plan mode, admin-approved MCP servers, template blocking for agents, per-user RBAC, network isolation templates; ACP subagent permission requests are auto-approved. The built-in agent does not prompt per command by default; control is by template, network and RBAC rather than per-call approval.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "control-plane",
+          "web"
+        ],
+        "version": "coder v2.39.4 (commit abe6ed41c7513a74347162adb4043f1ec6038d45, 2026-11-16); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "command": {
+          "support": "unsupported",
+          "answer": "No per-command approval prompt documented for execute.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "tool": {
+          "support": "partial",
+          "answer": "Admin can configure tools and MCP servers; plan mode restricts tools.",
+          "evidenceIds": [
+            "platform",
+            "idx"
+          ]
+        },
+        "network": {
+          "support": "supported",
+          "answer": "Template network policy and egress control.",
+          "evidenceIds": [
+            "isol"
+          ]
+        },
+        "secret": {
+          "support": "supported",
+          "answer": "Secrets stay in control plane.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "delivery": {
+          "support": "partial",
+          "answer": "Git operations attributed to the user.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "approver_identity": {
+          "support": "supported",
+          "answer": "User identity on actions.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "lifetime": {
+          "support": "not-applicable",
+          "answer": "No temporary grants.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "allow": {
+          "support": "partial",
+          "answer": "Admin approves MCP servers.",
+          "evidenceIds": [
+            "platform"
+          ]
+        },
+        "deny": {
+          "support": "supported",
+          "answer": "Block agents on a template.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "revoke": {
+          "support": "partial",
+          "answer": "Admin config.",
+          "evidenceIds": [
+            "platform"
+          ]
+        },
+        "tunnels": {
+          "support": "not-applicable",
+          "answer": "No agent tunnels.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "defaults": {
+          "support": "supported",
+          "answer": "Same permissions as the user; default workspace network open unless restricted.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "safer_modes": {
+          "support": "supported",
+          "answer": "Plan mode, isolation template.",
+          "evidenceIds": [
+            "idx",
+            "isol"
+          ]
+        },
+        "enforcement": {
+          "support": "supported",
+          "answer": "Server-side enforcement.",
+          "evidenceIds": [
+            "platform"
+          ]
+        }
+      },
+      "limitations": [
+        "command: No per-command approval prompt documented for execute.",
+        "tool: Admin can configure tools and MCP servers; plan mode restricts tools.",
+        "delivery: Git operations attributed to the user.",
+        "allow: Admin approves MCP servers."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "idx",
+        "platform",
+        "isol",
+        "arch"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-coder-agents",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "coder-agents:TEAM-04",
+      "criterionId": "TEAM-04",
+      "answer": "Premium audit logging records project, instruction, skill and memory changes and user actions; chat history persisted with retention (default 30 days archived) and debug logs; export through API; chats attributed to users.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "control-plane"
+        ],
+        "version": "coder v2.39.4 (commit abe6ed41c7513a74347162adb4043f1ec6038d45, 2026-11-16); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "actions": {
+          "support": "supported",
+          "answer": "Tool calls in chat timeline.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "approvals": {
+          "support": "partial",
+          "answer": "Plan proposals in transcript.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "edits": {
+          "support": "partial",
+          "answer": "Diff viewer.",
+          "evidenceIds": [
+            "gitprov"
+          ]
+        },
+        "discussion": {
+          "support": "supported",
+          "answer": "Chat transcript.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "decisions": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "cross_user_persistence": {
+          "support": "supported",
+          "answer": "Database.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "cross_session_persistence": {
+          "support": "supported",
+          "answer": "Database.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "export": {
+          "support": "partial",
+          "answer": "API endpoints.",
+          "evidenceIds": [
+            "routes"
+          ]
+        },
+        "mutability": {
+          "support": "partial",
+          "answer": "Owner can archive and delete; retention purges.",
+          "evidenceIds": [
+            "retention"
+          ]
+        },
+        "retention": {
+          "support": "supported",
+          "answer": "Configurable retention.",
+          "evidenceIds": [
+            "retention"
+          ]
+        },
+        "integrity": {
+          "support": "unsupported",
+          "answer": "No integrity model stated.",
+          "evidenceIds": [
+            "audit"
+          ]
+        }
+      },
+      "limitations": [
+        "approvals: Plan proposals in transcript.",
+        "edits: Diff viewer.",
+        "decisions: None.",
+        "export: API endpoints."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "idx",
+        "gitprov",
+        "arch",
+        "routes",
+        "retention",
+        "audit"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-coder-agents",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "coder-agents:TEAM-05",
+      "criterionId": "TEAM-05",
+      "answer": "In-chat diff viewer for GitHub and GitLab with PR/MR status, plan proposals for review, attachments, search by PR status; no review queue or request-changes workflow.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "web"
+        ],
+        "version": "coder v2.39.4 (commit abe6ed41c7513a74347162adb4043f1ec6038d45, 2026-11-16); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "pending_reviews": {
+          "support": "partial",
+          "answer": "Search pr_status filter.",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "change_understanding": {
+          "support": "supported",
+          "answer": "In-chat diff viewer.",
+          "evidenceIds": [
+            "gitprov"
+          ]
+        },
+        "evidence_navigation": {
+          "support": "partial",
+          "answer": "Chat timeline.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "comments": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "gitprov"
+          ]
+        },
+        "request_changes": {
+          "support": "partial",
+          "answer": "Reply in chat.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "shipping_guidance": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "effort": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "missed_evidence": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "keyboard": {
+          "support": "partial",
+          "answer": "Keyboard handling found only for the remote desktop (useDesktopConnection.ts remaps Cmd shortcuts); no documented review-specific shortcuts.",
+          "evidenceIds": [
+            "mobilecode"
+          ]
+        },
+        "narrow_screen": {
+          "support": "partial",
+          "answer": "Responsive layout code for narrow viewports in AgentsPage (mobilecode); no documented narrow-screen review flow.",
+          "evidenceIds": [
+            "mobilecode"
+          ]
+        },
+        "context_switching": {
+          "support": "partial",
+          "answer": "Sidebar.",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "roles": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "retained_context": {
+          "support": "supported",
+          "answer": "Chat persisted.",
+          "evidenceIds": [
+            "arch"
+          ]
+        }
+      },
+      "limitations": [
+        "pending_reviews: Search pr_status filter.",
+        "evidence_navigation: Chat timeline.",
+        "comments: None.",
+        "request_changes: Reply in chat."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "search",
+        "gitprov",
+        "idx",
+        "mobilecode",
+        "arch"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-coder-agents",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "coder-agents:TEAM-06",
+      "criterionId": "TEAM-06",
+      "answer": "Sharing is read-only; there is no takeover by another user; chats are owned by one user and agent actions stay attributed to them.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "web"
+        ],
+        "version": "coder v2.39.4 (commit abe6ed41c7513a74347162adb4043f1ec6038d45, 2026-11-16); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "ongoing_takeover": {
+          "support": "unsupported",
+          "answer": "Viewers cannot send messages.",
+          "evidenceIds": [
+            "share"
+          ]
+        },
+        "same_task": {
+          "support": "partial",
+          "answer": "Viewers see the same chat read-only.",
+          "evidenceIds": [
+            "share"
+          ]
+        },
+        "session_history": {
+          "support": "supported",
+          "answer": "Shared history.",
+          "evidenceIds": [
+            "share"
+          ]
+        },
+        "decisions": {
+          "support": "partial",
+          "answer": "In transcript.",
+          "evidenceIds": [
+            "share"
+          ]
+        },
+        "artifacts": {
+          "support": "supported",
+          "answer": "Attachments downloadable by viewers.",
+          "evidenceIds": [
+            "share"
+          ]
+        },
+        "permissions": {
+          "support": "supported",
+          "answer": "Read access only.",
+          "evidenceIds": [
+            "share"
+          ]
+        },
+        "runtime_context": {
+          "support": "unsupported",
+          "answer": "Workspaces owned by the submitting user only.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "owner_disconnect": {
+          "support": "supported",
+          "answer": "Chat continues in control plane.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "ownership": {
+          "support": "unsupported",
+          "answer": "No transfer.",
+          "evidenceIds": [
+            "share"
+          ]
+        },
+        "attribution": {
+          "support": "supported",
+          "answer": "User identity attached.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "context_loss": {
+          "support": "not-applicable",
+          "answer": "No takeover.",
+          "evidenceIds": [
+            "share"
+          ]
+        },
+        "harness_transfer": {
+          "support": "partial",
+          "answer": "Per-spawn model choice.",
+          "evidenceIds": [
+            "idx"
+          ]
+        }
+      },
+      "limitations": [
+        "ongoing_takeover: Viewers cannot send messages.",
+        "same_task: Viewers see the same chat read-only.",
+        "decisions: In transcript.",
+        "runtime_context: Workspaces owned by the submitting user only."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "share",
+        "idx",
+        "arch"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-coder-agents",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "coder-agents:SHIP-01",
+      "criterionId": "SHIP-01",
+      "answer": "Retained: chat transcripts, diffs in-chat, attach_file durable attachments, file attachments with expiry, plan files, PR status; no gallery of recordings or screenshots beyond computer-use sub-agent and attachments.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "web"
+        ],
+        "version": "coder v2.39.4 (commit abe6ed41c7513a74347162adb4043f1ec6038d45, 2026-11-16); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "diffs": {
+          "support": "supported",
+          "answer": "In-chat diff viewer.",
+          "evidenceIds": [
+            "gitprov"
+          ]
+        },
+        "documents": {
+          "support": "supported",
+          "answer": "Plan files and attached files.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "screenshots": {
+          "support": "partial",
+          "answer": "Computer-use sub-agent screenshots and attachments.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "recordings": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "previews": {
+          "support": "partial",
+          "answer": "Workspace apps; virtual desktop.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "test_outputs": {
+          "support": "supported",
+          "answer": "Tool outputs in chat.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "reviewer_outputs": {
+          "support": "partial",
+          "answer": "Sub-agent chats.",
+          "evidenceIds": [
+            "share"
+          ]
+        },
+        "gallery": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "task_links": {
+          "support": "supported",
+          "answer": "Linked PR per chat.",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "revision_links": {
+          "support": "partial",
+          "answer": "PR link.",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "persistence": {
+          "support": "supported",
+          "answer": "Database; 50 attachments per chat default.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "child_findings": {
+          "support": "supported",
+          "answer": "Sub-agent chats retained.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "prompt_leakage": {
+          "support": "not-applicable",
+          "answer": "No gallery.",
+          "evidenceIds": [
+            "idx"
+          ]
+        }
+      },
+      "limitations": [
+        "screenshots: Computer-use sub-agent screenshots and attachments.",
+        "recordings: None.",
+        "previews: Workspace apps; virtual desktop.",
+        "reviewer_outputs: Sub-agent chats."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "gitprov",
+        "idx",
+        "share",
+        "search",
+        "arch"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-coder-agents",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "coder-agents:SHIP-02",
+      "criterionId": "SHIP-02",
+      "answer": "No built-in gate: tests and linters run through the execute tool when asked, with no required-check policy in Coder Agents; template and CI policies live outside the product.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "web"
+        ],
+        "version": "coder v2.39.4 (commit abe6ed41c7513a74347162adb4043f1ec6038d45, 2026-11-16); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "tests": {
+          "support": "partial",
+          "answer": "Agent runs tests via execute.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "lint": {
+          "support": "partial",
+          "answer": "Same.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "types": {
+          "support": "partial",
+          "answer": "Same.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "ci": {
+          "support": "partial",
+          "answer": "PR status in chat.",
+          "evidenceIds": [
+            "gitprov"
+          ]
+        },
+        "independent_review": {
+          "support": "partial",
+          "answer": "Sub-agents can review; not enforced.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "spec_checks": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "required_checks": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "failure_blocking": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "requirement_conflicts": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "configured_policy": {
+          "support": "partial",
+          "answer": "Admin system prompt.",
+          "evidenceIds": [
+            "platform"
+          ]
+        },
+        "enforced_policy": {
+          "support": "partial",
+          "answer": "Server-side tool config.",
+          "evidenceIds": [
+            "platform"
+          ]
+        }
+      },
+      "limitations": [
+        "tests: Agent runs tests via execute.",
+        "lint: Same.",
+        "types: Same.",
+        "ci: PR status in chat."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "idx",
+        "gitprov",
+        "platform"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-coder-agents",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "coder-agents:SHIP-03",
+      "criterionId": "SHIP-03",
+      "answer": "Git work happens in workspaces under the user identity with external auth; PRs opened by the agent are attributed to the user; chats link to a PR whose state (draft, open, merged, closed) is searchable; in-chat diff viewer; GitHub and GitLab supported.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "web",
+          "control-plane"
+        ],
+        "version": "coder v2.39.4 (commit abe6ed41c7513a74347162adb4043f1ec6038d45, 2026-11-16); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "branches": {
+          "support": "partial",
+          "answer": "Agent uses git in workspace.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "worktrees": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "commits": {
+          "support": "supported",
+          "answer": "Commits attributed to the user.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "pull_requests": {
+          "support": "supported",
+          "answer": "Agent PRs attributed; PR linked to chat with status.",
+          "evidenceIds": [
+            "arch",
+            "search"
+          ]
+        },
+        "comments": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "gitprov"
+          ]
+        },
+        "ci_response": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "gitprov"
+          ]
+        },
+        "rebase": {
+          "support": "partial",
+          "answer": "Via git commands.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "conflicts": {
+          "support": "partial",
+          "answer": "Via git commands.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "product_state": {
+          "support": "supported",
+          "answer": "PR link and status stored on the chat.",
+          "evidenceIds": [
+            "search"
+          ]
+        }
+      },
+      "limitations": [
+        "branches: Agent uses git in workspace.",
+        "worktrees: None.",
+        "comments: None.",
+        "ci_response: None."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "arch",
+        "idx",
+        "search",
+        "gitprov"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-coder-agents",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "coder-agents:SHIP-04",
+      "criterionId": "SHIP-04",
+      "answer": "Merging and deployment are performed through the git provider and CI under the user permissions; Coder Agents does not provide merge or deploy controls.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "web"
+        ],
+        "version": "coder v2.39.4 (commit abe6ed41c7513a74347162adb4043f1ec6038d45, 2026-11-16); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "approve": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "gitprov"
+          ]
+        },
+        "merge": {
+          "support": "unsupported",
+          "answer": "None; PR state is displayed.",
+          "evidenceIds": [
+            "gitprov"
+          ]
+        },
+        "release": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "gitprov"
+          ]
+        },
+        "deploy": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "gitprov"
+          ]
+        },
+        "exact_revision": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "gitprov"
+          ]
+        },
+        "authority_enforcement": {
+          "support": "supported",
+          "answer": "Agent has only user permissions.",
+          "evidenceIds": [
+            "idx"
+          ]
+        }
+      },
+      "limitations": [
+        "approve: None.",
+        "merge: None; PR state is displayed.",
+        "release: None.",
+        "deploy: None."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "gitprov",
+        "idx"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-coder-agents",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "coder-agents:SHIP-05",
+      "criterionId": "SHIP-05",
+      "answer": "Chats link to PRs with status; no build, deployment or rollback tracking.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "web"
+        ],
+        "version": "coder v2.39.4 (commit abe6ed41c7513a74347162adb4043f1ec6038d45, 2026-11-16); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "commit_links": {
+          "support": "partial",
+          "answer": "Diff viewer shows commits via provider.",
+          "evidenceIds": [
+            "gitprov"
+          ]
+        },
+        "pr_links": {
+          "support": "supported",
+          "answer": "PR linked to chat.",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "build_links": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "gitprov"
+          ]
+        },
+        "deployment_links": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "gitprov"
+          ]
+        },
+        "delivery_status": {
+          "support": "partial",
+          "answer": "pr_status.",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "retained_evidence": {
+          "support": "supported",
+          "answer": "Transcript.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "rollback": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "revert": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "stale_approval_invalidation": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "idx"
+          ]
+        }
+      },
+      "limitations": [
+        "commit_links: Diff viewer shows commits via provider.",
+        "build_links: None.",
+        "deployment_links: None.",
+        "delivery_status: pr_status."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "gitprov",
+        "search",
+        "arch",
+        "idx"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-coder-agents",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "coder-agents:SHIP-06",
+      "criterionId": "SHIP-06",
+      "answer": "No batch review queue; chat list with PR-status search is the closest filter.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "web"
+        ],
+        "version": "coder v2.39.4 (commit abe6ed41c7513a74347162adb4043f1ec6038d45, 2026-11-16); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "review_queue": {
+          "support": "partial",
+          "answer": "Search by pr_status.",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "summaries": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "grouping": {
+          "support": "partial",
+          "answer": "Projects.",
+          "evidenceIds": [
+            "projects"
+          ]
+        },
+        "risk_size_filters": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "findings": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "artifacts": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "request_changes": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "exact_revision_approval": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "dependency_queues": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "next_actions": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "stale_approval_invalidation": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "check_deduplication": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "search"
+          ]
+        }
+      },
+      "limitations": [
+        "review_queue: Search by pr_status.",
+        "summaries: None.",
+        "grouping: Projects.",
+        "risk_size_filters: None."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "search",
+        "projects"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-coder-agents",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "coder-agents:OWN-01",
+      "criterionId": "OWN-01",
+      "answer": "Coder core (control plane, dashboard, chatd, CLI) is AGPL-3.0 at v2.39.4; enterprise-licensed code under enterprise/ (audit, AI Gateway, aiseats) is source-available under LICENSE.enterprise. Coder Agents code lives in the AGPL tree (coderd/x/chatd); some governance features are entitlement-gated.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "control-plane",
+          "web",
+          "api"
+        ],
+        "version": "coder v2.39.4 (commit abe6ed41c7513a74347162adb4043f1ec6038d45, 2026-11-16); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "client_license": {
+          "support": "supported",
+          "answer": "AGPL-3.0 core.",
+          "evidenceIds": [
+            "license",
+            "repo"
+          ]
+        },
+        "server_license": {
+          "support": "supported",
+          "answer": "AGPL-3.0 core; enterprise directory separately licensed.",
+          "evidenceIds": [
+            "license",
+            "licent"
+          ]
+        },
+        "hosted_extensions": {
+          "support": "unsupported",
+          "answer": "No hosted Coder Agents service exists.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "source_visibility": {
+          "support": "supported",
+          "answer": "Public repository.",
+          "evidenceIds": [
+            "repo"
+          ]
+        },
+        "source_revision": {
+          "support": "supported",
+          "answer": "Tag v2.39.4.",
+          "evidenceIds": [
+            "rel"
+          ]
+        },
+        "hosted_parity": {
+          "support": "not-applicable",
+          "answer": "No hosted service.",
+          "evidenceIds": [
+            "idx"
+          ]
+        }
+      },
+      "limitations": [
+        "Premium and AI Premium features sit under the enterprise license."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "license",
+        "repo",
+        "licent",
+        "idx",
+        "rel"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-05-15",
+      "researcher": "researcher-coder-agents",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "coder-agents:OWN-02",
+      "criterionId": "OWN-02",
+      "answer": "Fully self-hosted: control plane, database and agent loop run on your infrastructure with no vendor service except Agent Time usage reporting (hours only) for licensed deployments; chats and data stay in your database; export through the API; standard formats not described.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "control-plane"
+        ],
+        "version": "coder v2.39.4 (commit abe6ed41c7513a74347162adb4043f1ec6038d45, 2026-11-16); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "self_hosting": {
+          "support": "supported",
+          "answer": "Entire product self-hosted; no SaaS.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "vendor_dependencies": {
+          "support": "partial",
+          "answer": "Agent Time hours reported to Coder for AI Premium; LLM providers.",
+          "evidenceIds": [
+            "lic"
+          ]
+        },
+        "export": {
+          "support": "partial",
+          "answer": "API access to chats.",
+          "evidenceIds": [
+            "routes"
+          ]
+        },
+        "import": {
+          "support": "unsupported",
+          "answer": "None found.",
+          "evidenceIds": [
+            "routes"
+          ]
+        },
+        "formats": {
+          "support": "partial",
+          "answer": "Database and REST JSON.",
+          "evidenceIds": [
+            "routes"
+          ]
+        },
+        "cancellation": {
+          "support": "supported",
+          "answer": "Self-hosted; Community remains free.",
+          "evidenceIds": [
+            "pricing"
+          ]
+        },
+        "account_independence": {
+          "support": "supported",
+          "answer": "No Coder account needed for Community.",
+          "evidenceIds": [
+            "pricing"
+          ]
+        },
+        "history_portability": {
+          "support": "partial",
+          "answer": "Database owned by the customer.",
+          "evidenceIds": [
+            "arch"
+          ]
+        }
+      },
+      "limitations": [
+        "vendor_dependencies: Agent Time hours reported to Coder for AI Premium; LLM providers.",
+        "export: API access to chats.",
+        "import: None found.",
+        "formats: Database and REST JSON."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "idx",
+        "lic",
+        "routes",
+        "pricing",
+        "arch"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-05-15",
+      "researcher": "researcher-coder-agents",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "coder-agents:OWN-03",
+      "criterionId": "OWN-03",
+      "answer": "Prompts and code go from your control plane to the LLM providers you configure; chat history stays in your database; LLM keys never enter workspaces; Coder collects installation telemetry by default (opt-out with CODER_TELEMETRY_ENABLE=false) and, for licensed deployments, hourly Agent Time totals (no user data) go to Coder; retention defaults to 30 days for archived chats.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "control-plane"
+        ],
+        "version": "coder v2.39.4 (commit abe6ed41c7513a74347162adb4043f1ec6038d45, 2026-11-16); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "code_data": {
+          "support": "supported",
+          "answer": "Control plane to configured provider.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "prompts": {
+          "support": "supported",
+          "answer": "Same; stored in your DB.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "credentials": {
+          "support": "supported",
+          "answer": "Provider keys in control plane only.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "logs": {
+          "support": "supported",
+          "answer": "Self-hosted logs and chat debug logs.",
+          "evidenceIds": [
+            "retention"
+          ]
+        },
+        "artifacts": {
+          "support": "supported",
+          "answer": "Stored in your database.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "retention": {
+          "support": "supported",
+          "answer": "Configurable.",
+          "evidenceIds": [
+            "retention"
+          ]
+        },
+        "deletion": {
+          "support": "supported",
+          "answer": "Purge archived chats.",
+          "evidenceIds": [
+            "retention"
+          ]
+        },
+        "training": {
+          "support": "unknown",
+          "answer": "Provider policies not captured.",
+          "evidenceIds": []
+        },
+        "residency": {
+          "support": "supported",
+          "answer": "Where you deploy.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "subprocessors": {
+          "support": "partial",
+          "answer": "Usage hours reach Coder and Metronome; providers chosen by you.",
+          "evidenceIds": [
+            "lic"
+          ]
+        },
+        "telemetry_disclosure": {
+          "support": "supported",
+          "answer": "Telemetry page.",
+          "evidenceIds": [
+            "telemetry"
+          ]
+        },
+        "telemetry_defaults": {
+          "support": "supported",
+          "answer": "On by default.",
+          "evidenceIds": [
+            "telemetry"
+          ]
+        },
+        "telemetry_controls": {
+          "support": "supported",
+          "answer": "CODER_TELEMETRY_ENABLE=false.",
+          "evidenceIds": [
+            "telemetry"
+          ]
+        },
+        "consent_prompt": {
+          "support": "unsupported",
+          "answer": "docs/admin/setup/telemetry.md states telemetry is collected by default with no consent or opt-in step; opt-out only through CODER_TELEMETRY_ENABLE=false.",
+          "evidenceIds": [
+            "telemetry"
+          ]
+        },
+        "provider_separation": {
+          "support": "supported",
+          "answer": "Provider chosen by admin.",
+          "evidenceIds": [
+            "platform"
+          ]
+        }
+      },
+      "limitations": [
+        "training: Provider policies not captured.",
+        "subprocessors: Usage hours reach Coder and Metronome; providers chosen by you.",
+        "consent_prompt: docs/admin/setup/telemetry.md states telemetry is collected by default with no consent or opt-in step; opt-out only through CODER_TELEMETRY_ENABLE=false."
+      ],
+      "unknownReason": "Provider training terms are third-party policies.",
+      "evidenceIds": [
+        "idx",
+        "arch",
+        "retention",
+        "lic",
+        "telemetry",
+        "platform"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-coder-agents",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "coder-agents:OWN-04",
+      "criterionId": "OWN-04",
+      "answer": "Community is free for self-hosting with up to five concurrently active agents; Premium is priced per user per year (amount not shown) and includes Coder Agents with the same five-agent pool; AI Premium is custom priced with unlimited agents against purchased Agent Hours. Model and infrastructure costs are separate.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "control-plane"
+        ],
+        "version": "coder v2.39.4 (commit abe6ed41c7513a74347162adb4043f1ec6038d45, 2026-11-16); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "currency": {
+          "support": "unknown",
+          "answer": "Prices not shown.",
+          "evidenceIds": []
+        },
+        "interval": {
+          "support": "partial",
+          "answer": "Premium annually per user.",
+          "evidenceIds": [
+            "pricing"
+          ]
+        },
+        "seats": {
+          "support": "supported",
+          "answer": "Premium per user.",
+          "evidenceIds": [
+            "pricing"
+          ]
+        },
+        "seat_minimum": {
+          "support": "unknown",
+          "answer": "Not stated.",
+          "evidenceIds": []
+        },
+        "workspace_fees": {
+          "support": "not-applicable",
+          "answer": "No workspace fee from Coder; infrastructure is yours.",
+          "evidenceIds": [
+            "pricing"
+          ]
+        },
+        "included_usage": {
+          "support": "supported",
+          "answer": "Community and Premium: five concurrent agents unlimited duration; AI Premium preset Agent Hours.",
+          "evidenceIds": [
+            "lic"
+          ]
+        },
+        "credits": {
+          "support": "partial",
+          "answer": "Agent Hours are the unit.",
+          "evidenceIds": [
+            "lic"
+          ]
+        },
+        "trial": {
+          "support": "partial",
+          "answer": "Start a trial button for AI Premium; terms unstated.",
+          "evidenceIds": [
+            "pricing"
+          ]
+        },
+        "overages": {
+          "support": "partial",
+          "answer": "Agent Hours exhaustion triggers a concurrency fallback; purchase more hours.",
+          "evidenceIds": [
+            "lic"
+          ]
+        },
+        "taxes": {
+          "support": "unknown",
+          "answer": "Not stated.",
+          "evidenceIds": []
+        },
+        "model_cost": {
+          "support": "supported",
+          "answer": "Provider costs separate.",
+          "evidenceIds": [
+            "start"
+          ]
+        },
+        "compute_cost": {
+          "support": "supported",
+          "answer": "Customer infrastructure.",
+          "evidenceIds": [
+            "idx"
+          ]
+        }
+      },
+      "limitations": [
+        "currency: Prices not shown.",
+        "interval: Premium annually per user.",
+        "seat_minimum: Not stated.",
+        "credits: Agent Hours are the unit."
+      ],
+      "unknownReason": "Prices and tax treatment are sales-gated.",
+      "evidenceIds": [
+        "pricing",
+        "lic",
+        "start",
+        "idx"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-01-15",
+      "researcher": "researcher-coder-agents",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "coder-agents:OWN-05",
+      "criterionId": "OWN-05",
+      "answer": "Scenario costs cannot be priced publicly: Community software is free, while Premium and AI Premium prices are not published.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "control-plane"
+        ],
+        "version": "coder v2.39.4 (commit abe6ed41c7513a74347162adb4043f1ec6038d45, 2026-11-16); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "one_person": {
+          "support": "partial",
+          "answer": "Community is free.",
+          "evidenceIds": [
+            "pricing"
+          ]
+        },
+        "two_people": {
+          "support": "partial",
+          "answer": "Community is free; Premium unpriced.",
+          "evidenceIds": [
+            "pricing"
+          ]
+        },
+        "five_people": {
+          "support": "partial",
+          "answer": "Same.",
+          "evidenceIds": [
+            "pricing"
+          ]
+        },
+        "task_assumptions": {
+          "support": "unknown",
+          "answer": "None.",
+          "evidenceIds": []
+        },
+        "concurrency": {
+          "support": "partial",
+          "answer": "Five concurrent agents included.",
+          "evidenceIds": [
+            "lic"
+          ]
+        },
+        "tokens": {
+          "support": "unknown",
+          "answer": "None.",
+          "evidenceIds": []
+        },
+        "compute_hours": {
+          "support": "unknown",
+          "answer": "Customer infrastructure.",
+          "evidenceIds": []
+        },
+        "fixed_cost": {
+          "support": "partial",
+          "answer": "Community zero.",
+          "evidenceIds": [
+            "pricing"
+          ]
+        },
+        "variable_cost": {
+          "support": "supported",
+          "answer": "Model and infrastructure costs.",
+          "evidenceIds": [
+            "start"
+          ]
+        },
+        "included_cost": {
+          "support": "supported",
+          "answer": "Five concurrent agents.",
+          "evidenceIds": [
+            "lic"
+          ]
+        },
+        "unknown_cost": {
+          "support": "supported",
+          "answer": "Premium and AI Premium prices.",
+          "evidenceIds": [
+            "pricing"
+          ]
+        }
+      },
+      "limitations": [
+        "one_person: Community is free.",
+        "two_people: Community is free; Premium unpriced.",
+        "five_people: Same.",
+        "task_assumptions: None."
+      ],
+      "unknownReason": "Prices are sales-gated.",
+      "evidenceIds": [
+        "pricing",
+        "lic",
+        "start"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-coder-agents",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "coder-agents:OWN-06",
+      "criterionId": "OWN-06",
+      "answer": "Maintained commercial open-source product with patch releases on 2026-11-16 across v2.39 and v2.38 lines, GitHub and Discord community support, SLA-backed support on Premium; several agents features are experimental or early access.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "control-plane"
+        ],
+        "version": "coder v2.39.4 (commit abe6ed41c7513a74347162adb4043f1ec6038d45, 2026-11-16); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "release_stage": {
+          "support": "partial",
+          "answer": "Agents core documented as available; ACP, advisor experimental; projects early access.",
+          "evidenceIds": [
+            "acp",
+            "advisor",
+            "projects"
+          ]
+        },
+        "access_restrictions": {
+          "support": "partial",
+          "answer": "Premium and AI Premium gate some features.",
+          "evidenceIds": [
+            "pricing"
+          ]
+        },
+        "support": {
+          "support": "supported",
+          "answer": "Community support and SLA on Premium.",
+          "evidenceIds": [
+            "pricing"
+          ]
+        },
+        "response_commitments": {
+          "support": "partial",
+          "answer": "SLA-backed support mentioned without numbers.",
+          "evidenceIds": [
+            "pricing"
+          ]
+        },
+        "release_activity": {
+          "support": "supported",
+          "answer": "Frequent releases.",
+          "evidenceIds": [
+            "rel",
+            "repo"
+          ]
+        },
+        "status_history": {
+          "support": "not-applicable",
+          "answer": "Self-hosted software; no hosted service status page applies.",
+          "evidenceIds": [
+            "rel"
+          ]
+        },
+        "deprecation": {
+          "support": "supported",
+          "answer": "Tasks migrated to chats; native cost tracking removed.",
+          "evidenceIds": [
+            "tasks",
+            "spend"
+          ]
+        },
+        "export_options": {
+          "support": "partial",
+          "answer": "API.",
+          "evidenceIds": [
+            "routes"
+          ]
+        }
+      },
+      "limitations": [
+        "release_stage: Agents core documented as available; ACP, advisor experimental; projects early access.",
+        "access_restrictions: Premium and AI Premium gate some features.",
+        "response_commitments: SLA-backed support mentioned without numbers.",
+        "export_options: API."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "acp",
+        "advisor",
+        "projects",
+        "pricing",
+        "rel",
+        "repo",
+        "tasks",
+        "spend",
+        "routes"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-coder-agents",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "coder-agents:OWN-07",
+      "criterionId": "OWN-07",
+      "answer": "No public ISO certificate, SOC 2 report page, scope, period or access path was found in the sources read; a documentation style guide mentions a SOC 2 Type II report but is not a public assurance source.",
+      "support": "unknown",
+      "availability": "unknown",
+      "delivery": "unknown",
+      "scope": {
+        "surfaceIds": [
+          "control-plane"
+        ],
+        "version": "coder v2.39.4 (commit abe6ed41c7513a74347162adb4043f1ec6038d45, 2026-11-16); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "iso_scope": {
+          "support": "unknown",
+          "answer": "No ISO certificate found.",
+          "evidenceIds": []
+        },
+        "iso_issuer": {
+          "support": "unknown",
+          "answer": "None.",
+          "evidenceIds": []
+        },
+        "iso_validity": {
+          "support": "unknown",
+          "answer": "None.",
+          "evidenceIds": []
+        },
+        "soc2_type": {
+          "support": "unknown",
+          "answer": "An internal docs style guide mentions a SOC 2 Type II report, but no public report page, scope or period was found.",
+          "evidenceIds": []
+        },
+        "soc2_scope": {
+          "support": "unknown",
+          "answer": "Not stated.",
+          "evidenceIds": []
+        },
+        "soc2_period": {
+          "support": "unknown",
+          "answer": "Not stated.",
+          "evidenceIds": []
+        },
+        "report_access": {
+          "support": "unknown",
+          "answer": "Not stated.",
+          "evidenceIds": []
+        },
+        "verification_date": {
+          "support": "unknown",
+          "answer": "Not stated.",
+          "evidenceIds": []
+        },
+        "evidence_status": {
+          "support": "unknown",
+          "answer": "No public assurance page found in sources read.",
+          "evidenceIds": []
+        }
+      },
+      "limitations": [],
+      "unknownReason": "Certification scope, period and access are business facts outside the public code.",
+      "evidenceIds": [],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-coder-agents",
+      "publication": "internal-only",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "coder-agents:OWN-08",
+      "criterionId": "OWN-08",
+      "answer": "Ongoing free tier: Community is free and self-hosted with up to five active Coder Agents; Premium and AI Premium paid; AI Premium trial button without stated terms.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "control-plane"
+        ],
+        "version": "coder v2.39.4 (commit abe6ed41c7513a74347162adb4043f1ec6038d45, 2026-11-16); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "ongoing_free": {
+          "support": "supported",
+          "answer": "Community plan free.",
+          "evidenceIds": [
+            "pricing"
+          ]
+        },
+        "trial": {
+          "support": "partial",
+          "answer": "Trial for AI Premium, terms unstated.",
+          "evidenceIds": [
+            "pricing"
+          ]
+        },
+        "credits_trial": {
+          "support": "unsupported",
+          "answer": "None stated.",
+          "evidenceIds": [
+            "pricing"
+          ]
+        },
+        "self_host_cost": {
+          "support": "supported",
+          "answer": "Customer pays infrastructure and models.",
+          "evidenceIds": [
+            "start"
+          ]
+        },
+        "paid_only": {
+          "support": "unsupported",
+          "answer": "Not paid-only.",
+          "evidenceIds": [
+            "pricing"
+          ]
+        },
+        "early_access": {
+          "support": "partial",
+          "answer": "Projects early access; ACP experimental.",
+          "evidenceIds": [
+            "projects",
+            "acp"
+          ]
+        },
+        "free_scenarios": {
+          "support": "partial",
+          "answer": "Self-hosted Agents free to five agents; collaboration read-only.",
+          "evidenceIds": [
+            "lic",
+            "share"
+          ]
+        },
+        "card_required": {
+          "support": "unknown",
+          "answer": "Not stated.",
+          "evidenceIds": []
+        },
+        "usage_caps": {
+          "support": "supported",
+          "answer": "Five concurrent agents.",
+          "evidenceIds": [
+            "lic"
+          ]
+        },
+        "paid_evaluation": {
+          "support": "supported",
+          "answer": "Evaluation needs only your infrastructure.",
+          "evidenceIds": [
+            "lic"
+          ]
+        }
+      },
+      "limitations": [
+        "trial: Trial for AI Premium, terms unstated.",
+        "credits_trial: None stated.",
+        "paid_only: Not paid-only.",
+        "early_access: Projects early access; ACP experimental."
+      ],
+      "unknownReason": "Trial terms are sales facts.",
+      "evidenceIds": [
+        "pricing",
+        "start",
+        "projects",
+        "acp",
+        "lic",
+        "share"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-01-15",
+      "researcher": "researcher-coder-agents",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "coder-agents:OWN-09",
+      "criterionId": "OWN-09",
+      "answer": "Units are stated (per user per year for Premium, Agent Hours for AI Premium) but amounts are not published; AI Premium is custom.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "control-plane"
+        ],
+        "version": "coder v2.39.4 (commit abe6ed41c7513a74347162adb4043f1ec6038d45, 2026-11-16); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "units": {
+          "support": "supported",
+          "answer": "Per user per year; Agent Hours.",
+          "evidenceIds": [
+            "pricing",
+            "lic"
+          ]
+        },
+        "included_limits": {
+          "support": "supported",
+          "answer": "Five concurrent agents.",
+          "evidenceIds": [
+            "lic"
+          ]
+        },
+        "overages": {
+          "support": "partial",
+          "answer": "Purchase more Agent Time.",
+          "evidenceIds": [
+            "lic"
+          ]
+        },
+        "compute_markup": {
+          "support": "not-applicable",
+          "answer": "No compute service.",
+          "evidenceIds": [
+            "idx"
+          ]
+        },
+        "model_markup": {
+          "support": "not-applicable",
+          "answer": "Providers billed directly.",
+          "evidenceIds": [
+            "start"
+          ]
+        },
+        "minimum_commitment": {
+          "support": "unknown",
+          "answer": "Not stated.",
+          "evidenceIds": []
+        },
+        "cancellation": {
+          "support": "unknown",
+          "answer": "Not stated.",
+          "evidenceIds": []
+        },
+        "sales_only_unknowns": {
+          "support": "supported",
+          "answer": "Prices contact sales.",
+          "evidenceIds": [
+            "pricing"
+          ]
+        },
+        "transparency_classification": {
+          "support": "supported",
+          "answer": "Partially specified: units stated, amounts not published.",
+          "evidenceIds": [
+            "pricing"
+          ]
+        }
+      },
+      "limitations": [
+        "overages: Purchase more Agent Time.",
+        "minimum_commitment: Not stated.",
+        "cancellation: Not stated."
+      ],
+      "unknownReason": "Amounts and commitments are sales-only.",
+      "evidenceIds": [
+        "pricing",
+        "lic",
+        "idx",
+        "start"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-01-15",
+      "researcher": "researcher-coder-agents",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    }
+  ],
+  "evidence": [
+    {
+      "id": "idx",
+      "kind": "documented",
+      "url": "https://github.com/coder/coder/blob/v2.39.4/docs/ai-coder/agents/index.md",
+      "title": "Coder Agents overview",
+      "locator": "index.md How it works; Built-in tools; Plan mode; LLM providers; Security benefits",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Chat interface and API for delegating work to a self-hosted Go agent that runs inside the Coder control plane; workspaces provisioned automatically from templates; sub-agents; queueing; attachments; providers Anthropic, OpenAI, Google, Azure, Bedrock, OpenAI-compatible, OpenRouter, Vercel; no SaaS component.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "arch",
+      "kind": "documented",
+      "url": "https://github.com/coder/coder/blob/v2.39.4/docs/ai-coder/agents/architecture.md",
+      "title": "Coder Agents architecture",
+      "locator": "architecture.md compaction, workspace connection, attribution",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Agent loop in control plane; chat state in the database; context compaction (/compact); actions attributed to the submitting user.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "lic",
+      "kind": "documented",
+      "url": "https://github.com/coder/coder/blob/v2.39.4/docs/ai-coder/agents/licensing-usage.md",
+      "title": "Coder Agents licensing and usage",
+      "locator": "Community and Premium licenses; AI Premium; Agent Time; usage reporting",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Community and Premium: up to five concurrently active agents deployment-wide, queued beyond; AI Premium: unlimited concurrent agents against purchased Agent Hours; usage hours reported to Coder Tallyman/Metronome without chat data.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "start",
+      "kind": "documented",
+      "url": "https://github.com/coder/coder/blob/v2.39.4/docs/ai-coder/agents/getting-started.md",
+      "title": "Getting started",
+      "locator": "Prerequisites; Step 1 providers and models",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Admin configures an LLM provider and model per organization; needs a template; every org member can use Agents by default; CI/webhook triggering listed as API use.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "models",
+      "kind": "documented",
+      "url": "https://github.com/coder/coder/blob/v2.39.4/docs/ai-coder/agents/models.md",
+      "title": "Models",
+      "locator": "Model configuration; user API keys (BYOK); personal model overrides",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Admin-managed providers and per-organization models; optional user API keys per provider; model identifiers such as claude-opus-4-6 and gpt-5.3-codex.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "platform",
+      "kind": "documented",
+      "url": "https://github.com/coder/coder/blob/v2.39.4/docs/ai-coder/agents/platform-controls/index.md",
+      "title": "Platform controls",
+      "locator": "Design philosophy; Providers and models; System prompt",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "All agent configuration is admin-level and enforced server-side; templates, MCP servers, retention and budgets controlled centrally.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "spend",
+      "kind": "documented",
+      "url": "https://github.com/coder/coder/blob/v2.39.4/docs/ai-coder/agents/platform-controls/spend-management.md",
+      "title": "Spend management",
+      "locator": "Budgets; AI Gateway entitlement",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Per-user and group monthly budgets enforced through AI Gateway (requires entitlement); native cost tracking removed; limit cap $1,000,000 per member per period.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "isol",
+      "kind": "documented",
+      "url": "https://github.com/coder/coder/blob/v2.39.4/docs/ai-coder/agents/platform-controls/agent-isolation.md",
+      "title": "Network isolation",
+      "locator": "How it works; Configure the template",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Template-defined separate pod for the agent with network policy; early stage; user pod unrestricted; bubblewrap suggested as alternative.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "acp",
+      "kind": "documented",
+      "url": "https://github.com/coder/coder/blob/v2.39.4/docs/ai-coder/agents/acp-subagents.md",
+      "title": "ACP subagents",
+      "locator": "Prerequisites; Configure a harness",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Experimental: with chat-acp-subagents experiment, external harnesses such as Claude Code or Codex run as ACP subagents in the workspace, using the harness own credentials; tool permission requests auto-approved; not in plan mode.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "share",
+      "kind": "documented",
+      "url": "https://github.com/coder/coder/blob/v2.39.4/docs/ai-coder/agents/chat-sharing.md",
+      "title": "Chat sharing",
+      "locator": "Share a chat; Shared chat access",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Share read-only with users or groups; viewers cannot send messages; admins can disable sharing.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "projects",
+      "kind": "documented",
+      "url": "https://github.com/coder/coder/blob/v2.39.4/docs/ai-coder/agents/projects.md",
+      "title": "Projects",
+      "locator": "What a project provides; Ownership",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Early access: project instructions, skills and memory shared across chats; private to owner; changes in audit log.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "extend",
+      "kind": "documented",
+      "url": "https://github.com/coder/coder/blob/v2.39.4/docs/ai-coder/agents/extending-agents.md",
+      "title": "Extending agents",
+      "locator": "Workspace shares context; Where the agent looks",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Workspace agent scans for AGENTS.md, CLAUDE.md, .cursorrules, skills and .mcp.json and pushes a snapshot that chats pin; refresh context control.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "retention",
+      "kind": "documented",
+      "url": "https://github.com/coder/coder/blob/v2.39.4/docs/ai-coder/agents/platform-controls/chat-retention.md",
+      "title": "Conversation data retention",
+      "locator": "How it works; Configuration",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Archived chats purged after a configurable retention period (default 30 days, can be disabled); auto-archive separate.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "advisor",
+      "kind": "documented",
+      "url": "https://github.com/coder/coder/blob/v2.39.4/docs/ai-coder/agents/platform-controls/advisor.md",
+      "title": "Advisor",
+      "locator": "Enable the experiment",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Experimental chat-advisor lets a root agent request a single-step model call for strategic guidance.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "gitprov",
+      "kind": "documented",
+      "url": "https://github.com/coder/coder/blob/v2.39.4/docs/ai-coder/agents/platform-controls/git-providers.md",
+      "title": "Git providers",
+      "locator": "GitHub Enterprise; GitLab configuration",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "In-chat diff viewer and merge request status use configured external auth for GitHub and GitLab; write_repository scope allows pushing commits and creating merge requests.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "search",
+      "kind": "documented",
+      "url": "https://github.com/coder/coder/blob/v2.39.4/docs/ai-coder/agents/chat-search-syntax.md",
+      "title": "Chat search syntax",
+      "locator": "Filters table",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Chat search filters include pr_status (draft/open/merged/closed/none) for linked pull requests.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "limits",
+      "kind": "source-inspected",
+      "url": "https://github.com/coder/coder/blob/v2.39.4/coderd/x/chatd/limits.go#L10-L25",
+      "title": "Chat limits",
+      "locator": "coderd/x/chatd/limits.go lines 10-25; codersdk/deployment.go lines 4490-4501 defaults",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Deployment chat limits: MaxStepsPerTurn, MaxGenerationRetries, MaxQueuedMessagesPerChat, MaxAttachmentsPerChat, MaxPromptBytes, MaxConcurrentRecordingUploads, configurable through deployment options.",
+      "visibility": "public",
+      "commit": "abe6ed41c7513a74347162adb4043f1ec6038d45",
+      "path": "coderd/x/chatd/limits.go"
+    },
+    {
+      "id": "retrycode",
+      "kind": "source-inspected",
+      "url": "https://github.com/coder/coder/blob/v2.39.4/coderd/x/chatd/chatretry/chatretry.go#L1-L30",
+      "title": "LLM retry logic",
+      "locator": "coderd/x/chatd/chatretry/chatretry.go lines 1-30; chaterror/message.go lines 18-47",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Transient provider errors are classified (overloaded, rate limit, timeout, stream silence timeout, usage limit, auth, config) and retried with exponential backoff from 1s capped at 60s, honoring provider retry hints.",
+      "visibility": "public",
+      "commit": "abe6ed41c7513a74347162adb4043f1ec6038d45",
+      "path": "coderd/x/chatd/chatretry/chatretry.go"
+    },
+    {
+      "id": "execcode",
+      "kind": "source-inspected",
+      "url": "https://github.com/coder/coder/blob/v2.39.4/coderd/x/chatd/chattool/execute.go#L53-L55",
+      "title": "execute tool",
+      "locator": "coderd/x/chatd/chattool/execute.go lines 34-55 and 131",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "The execute tool waits 10s by default (timeout argument up to the caller), supports run_in_background and a wait_timeout override; no approval prompt appears in the tool.",
+      "visibility": "public",
+      "commit": "abe6ed41c7513a74347162adb4043f1ec6038d45",
+      "path": "coderd/x/chatd/chattool/execute.go"
+    },
+    {
+      "id": "mobilecode",
+      "kind": "source-inspected",
+      "url": "https://github.com/coder/coder/blob/v2.39.4/site/src/pages/AgentsPage/hooks/useConversationEditingState.ts#L3",
+      "title": "Agents page mobile handling",
+      "locator": "site/src/pages/AgentsPage/hooks/useConversationEditingState.ts lines 3 and 137; useAgentChatPanelPreference.ts line 2; 91 sm:/md:/lg: Tailwind class uses across AgentsPage (rg -c)",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "The Agents page imports isMobileViewport and useMediaQuery and applies responsive classes, so the web UI adapts to narrow viewports in code; no documentation states supported phone browsers.",
+      "visibility": "public",
+      "commit": "abe6ed41c7513a74347162adb4043f1ec6038d45",
+      "path": "site/src/pages/AgentsPage/hooks/useConversationEditingState.ts"
+    },
+    {
+      "id": "archmd",
+      "kind": "source-inspected",
+      "url": "https://github.com/coder/coder/blob/v2.39.4/coderd/x/chatd/ARCHITECTURE.md#L671",
+      "title": "chatd architecture notes",
+      "locator": "coderd/x/chatd/ARCHITECTURE.md line 671 and runner.go line 120",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Receivers must tolerate duplicate pubsub deliveries and the run loop deduplicates state updates; duplicate execution of tool calls after an interruption is not addressed.",
+      "visibility": "public",
+      "commit": "abe6ed41c7513a74347162adb4043f1ec6038d45",
+      "path": "coderd/x/chatd/ARCHITECTURE.md"
+    },
+    {
+      "id": "chatd",
+      "kind": "source-inspected",
+      "url": "https://github.com/coder/coder/blob/v2.39.4/coderd/x/chatd/agentadmission.go",
+      "title": "Agent loop and sub-agents in chatd",
+      "locator": "coderd/x/chatd/subagent.go, acp.go, agentadmission.go",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "chatd implements spawn_agent sub-agents, ACP integration and admission control with default 5 concurrent root agents and 10 concurrent subagents.",
+      "visibility": "public",
+      "commit": "abe6ed41c7513a74347162adb4043f1ec6038d45",
+      "path": "coderd/x/chatd/agentadmission.go"
+    },
+    {
+      "id": "routes",
+      "kind": "source-inspected",
+      "url": "https://github.com/coder/coder/blob/v2.39.4/coderd/chat_routes.go",
+      "title": "Chat HTTP routes",
+      "locator": "coderd/chat_routes.go r.Route(\"/chats\")",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Authenticated REST endpoints under /api/v2/chats for list, create, watch, files, projects and model configs.",
+      "visibility": "public",
+      "commit": "abe6ed41c7513a74347162adb4043f1ec6038d45",
+      "path": "coderd/chat_routes.go"
+    },
+    {
+      "id": "cli",
+      "kind": "source-inspected",
+      "url": "https://github.com/coder/coder/blob/v2.39.4/cli/exp_chat.go",
+      "title": "coder exp chat CLI",
+      "locator": "cli/exp_chat.go Use \"chat\", \"context\"",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "coder CLI exposes experimental chat and workspace-context subcommands.",
+      "visibility": "public",
+      "commit": "abe6ed41c7513a74347162adb4043f1ec6038d45",
+      "path": "cli/exp_chat.go"
+    },
+    {
+      "id": "sdk",
+      "kind": "source-inspected",
+      "url": "https://github.com/coder/coder/blob/v2.39.4/codersdk/deployment.go",
+      "title": "Deployment feature flags",
+      "locator": "codersdk/deployment.go FeatureAgentRuntimeHours, FeatureAIGovernanceUserLimit",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "License features include agent_runtime_hours and ai_governance_user_limit for Agent Time and AI governance.",
+      "visibility": "public",
+      "commit": "abe6ed41c7513a74347162adb4043f1ec6038d45",
+      "path": "codersdk/deployment.go"
+    },
+    {
+      "id": "license",
+      "kind": "source-inspected",
+      "url": "https://github.com/coder/coder/blob/v2.39.4/LICENSE",
+      "title": "AGPL-3.0 license",
+      "locator": "LICENSE",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "GNU Affero General Public License v3.0 at the repository root.",
+      "visibility": "public",
+      "commit": "abe6ed41c7513a74347162adb4043f1ec6038d45",
+      "path": "LICENSE"
+    },
+    {
+      "id": "licent",
+      "kind": "source-inspected",
+      "url": "https://github.com/coder/coder/blob/v2.39.4/LICENSE.enterprise",
+      "title": "Enterprise license",
+      "locator": "LICENSE.enterprise and enterprise/ directory",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Enterprise-licensed code lives under enterprise/ (aiseats, audit, ai-gateway); core under AGPL-3.0.",
+      "visibility": "public",
+      "commit": "abe6ed41c7513a74347162adb4043f1ec6038d45",
+      "path": "LICENSE.enterprise"
+    },
+    {
+      "id": "telemetry",
+      "kind": "documented",
+      "url": "https://github.com/coder/coder/blob/v2.39.4/docs/admin/setup/telemetry.md",
+      "title": "Telemetry",
+      "locator": "TL;DR and Linux/macOS sections",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Coder collects telemetry from installations by default; CODER_TELEMETRY_ENABLE=false disables it.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "mcp",
+      "kind": "documented",
+      "url": "https://github.com/coder/coder/blob/v2.39.4/docs/ai-coder/mcp-server.md",
+      "title": "Coder MCP server",
+      "locator": "Local and Remote MCP server",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Built-in MCP server (stdio via CLI and remote HTTP with OAuth2) exposing workspace and template tools to other AI assistants.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "mcpbyo",
+      "kind": "documented",
+      "url": "https://github.com/coder/coder/blob/v2.39.4/docs/ai-coder/agents/bring-your-own-mcp-servers.md",
+      "title": "Bring your own MCP servers",
+      "locator": "Configuration",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Agents can use admin-approved external MCP servers and workspace .mcp.json servers.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "relay",
+      "kind": "documented",
+      "url": "https://github.com/coder/coder/blob/v2.39.4/docs/ai-coder/agent-relay/index.md",
+      "title": "Agent Relay",
+      "locator": "Intro note",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Beta Premium feature connecting a cloud-hosted coding agent session to self-hosted Coder workspaces.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "gateway",
+      "kind": "documented",
+      "url": "https://github.com/coder/coder/blob/v2.39.4/docs/ai-coder/ai-gateway/index.md",
+      "title": "AI Gateway",
+      "locator": "Overview",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Gateway for governing and metering model traffic with budgets and audit; entitlement-gated.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "pricing",
+      "kind": "vendor-claimed",
+      "url": "https://coder.com/pricing",
+      "title": "Coder pricing",
+      "locator": "Plans table",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Community free (up to 5 active Coder Agents, AI Governance); Premium priced annually per user with no amount shown (adds Coder Agents, HA, audit logging, multi-org RBAC, OIDC sync, SLA); AI Premium custom (unlimited active agents, Coder Agents API for headless agents, network-isolated agent workspaces).",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "desktop",
+      "kind": "documented",
+      "url": "https://github.com/coder/coder/blob/v2.39.4/docs/install/cli.md",
+      "title": "Install the Coder CLI",
+      "locator": "Linux/macOS and Windows sections",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Coder CLI installs on Linux, macOS and Windows; the control plane installs on Linux, Kubernetes and other hosts.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "ides",
+      "kind": "documented",
+      "url": "https://github.com/coder/coder/blob/v2.39.4/docs/ai-coder/ide-agents.md",
+      "title": "In the IDE",
+      "locator": "How it works",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Workspaces support IDE agents (Cursor, Copilot, Roo and others); developers connect via VS Code, JetBrains and other editors to review agent output.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "oidc",
+      "kind": "documented",
+      "url": "https://coder.com/docs/admin/users/oidc-auth",
+      "title": "OIDC authentication",
+      "locator": "Setup",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "OIDC login documented for the Coder dashboard; group/role sync is a Premium feature (idp-sync).",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "repo",
+      "kind": "documented",
+      "url": "https://api.github.com/repos/coder/coder",
+      "title": "GitHub repository metadata",
+      "locator": "stargazers_count, license, pushed_at",
+      "sourceDate": "2026-11-16",
+      "retrievedAt": "2026-11-16",
+      "finding": "17,395 stars on 2026-11-16; AGPL-3.0; not archived; pushed 2026-11-16.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "rel",
+      "kind": "documented",
+      "url": "https://github.com/coder/coder/releases/tag/v2.39.4",
+      "title": "Coder v2.39.4 release",
+      "locator": "Release notes 2026-11-16",
+      "sourceDate": "2026-11-16",
+      "retrievedAt": "2026-11-16",
+      "finding": "Latest stable patch release at pass time; v2.39.x line current.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "tasks",
+      "kind": "documented",
+      "url": "https://github.com/coder/coder/blob/v2.39.4/docs/ai-coder/agents/tasks-to-chats-migration.md",
+      "title": "Tasks to chats migration",
+      "locator": "Migration steps",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Coder Tasks (earlier agent task feature) are migrated to Coder Agents chats; tasks are not a separate issue tracker.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "audit",
+      "kind": "documented",
+      "url": "https://github.com/coder/coder/blob/v2.39.4/docs/admin/security/audit-logs.md",
+      "title": "Audit logs",
+      "locator": "Overview",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Premium audit log records user actions in the deployment, including project and chat configuration changes.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    }
+  ],
+  "changes": [
+    {
+      "date": "2026-11-16",
+      "author": "researcher-coder-agents",
+      "type": "initial-research",
+      "summary": "Initial full-profile pass over coder/coder tag v2.39.4: docs/ai-coder/agents, chatd, chat routes, license and CLI; licensing tiers from the pricing page; business facts (exact prices, certifications beyond a style-guide note) kept unknown.",
+      "claimIds": []
+    }
+  ],
+  "context": {
+    "roadmapReview": {
+      "checkedAt": "2026-11-16",
+      "locations": [
+        {
+          "url": "https://github.com/coder/coder/releases",
+          "result": "v2.39.x patch releases on 2026-11-16 and v2.38.x backports; release notes list shipped changes; no future-dated commitments found."
+        },
+        {
+          "url": "https://github.com/coder/coder/blob/v2.39.4/docs/reference/feature-stages.md",
+          "result": "Defines early access, beta and experimental stages; Coder Agents features carry their own stage notes (ACP subagents, advisor experimental; projects early access)."
+        },
+        {
+          "url": "https://github.com/coder/coder/blob/v2.39.4/docs/ai-coder/agents/tasks-to-chats-migration.md",
+          "result": "Documents migration from Coder Tasks to chats; no dates for removal beyond current-release behavior."
+        },
+        {
+          "url": "https://coder.com/pricing",
+          "result": "Pricing page read 2026-11-16; plan features listed; prices not shown for Premium or AI Premium."
+        }
+      ],
+      "announced": [],
+      "gaps": [
+        "No public roadmap page found; Premium/AI Premium prices and trial terms are sales-gated."
+      ]
+    },
+    "marketContext": {
+      "githubStars": {
+        "value": 17395,
+        "observedAt": "2026-11-16",
+        "evidenceIds": [
+          "repo"
+        ]
+      }
+    }
+  }
+}
