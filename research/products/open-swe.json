@@ -1121,10 +1121,12 @@
           "evidenceIds": []
         },
         "durable_states": {
-          "support": "unknown",
-          "answer": "The suggestion model has no work-state field, while Task worker status is derived from member threads; a separate issue/backlog work-state interface remains unestablished.",
+          "support": "unsupported",
+          "answer": "SuggestedTask has no state field and Task records only group coordinator and worker threads with a delegated flag, so no product-owned task carries open, in-progress or done state.",
           "evidenceIds": [
-            "gap39-future-work"
+            "d80-suggest",
+            "d80-task",
+            "d80-taskmig"
           ]
         },
         "external_tracker_requirement": {
@@ -1136,13 +1138,16 @@
       "limitations": [
         "Only the named atomic answers are established by this source pass. Remaining atomic answers retain their documented gaps."
       ],
-      "unknownReason": "See unknown atomic answers for the source and test gaps.",
+      "unknownReason": "Checked default-branch HEAD 64dd120 and docs; the remaining atoms depend on LangSmith and Managed Deep Agents, which run the agent loop, sandboxes and sign-in and are hosted closed services, or on business terms.",
       "evidenceIds": [
-        "gap39-future-work"
+        "gap39-future-work",
+        "d80-suggest",
+        "d80-task",
+        "d80-taskmig"
       ],
       "checkedAt": "2026-11-13",
       "nextReviewAt": "2027-03-13",
-      "researcher": "facet-researcher-ade39",
+      "researcher": "researcher-ade80",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -2848,8 +2853,11 @@
         },
         "sso": {
           "support": "unknown",
-          "answer": "Roles and access boundaries, sso: Robin's checked sources did not establish this requirement or its rubric scenario. No installed-product fixture was run.",
-          "evidenceIds": []
+          "answer": "Dashboard sign-in is delegated to LangSmith OAuth (a hosted service), so any SSO is LangSmith configuration; Robin source documents and implements no identity-provider integration of its own.",
+          "evidenceIds": [
+            "d80-login",
+            "d80-agents"
+          ]
         },
         "provisioning": {
           "support": "unknown",
@@ -2875,19 +2883,17 @@
       "limitations": [
         "Only the cited atomic findings are established. Remaining atomic requirements and the full rubric scenario remain unverified."
       ],
-      "unknownReason": "Checked Robin's pinned README, README.md, desktop/README.md, docs/INSTALLATION.md, docs/CUSTOMIZATION.md, docs/reference/workspaces.md, docs/reference/human-review.md, docs/AUDIT_LOGS.md, docs/MERGE_QUEUE.md, docs/reference/claude-code-sync.md, LICENSE, releases and recent public issues. This pass did not establish the remaining named requirement. No installed-product scenario or authenticated team fixture was run.",
+      "unknownReason": "Checked default-branch HEAD 64dd120 and docs; the remaining atoms depend on LangSmith and Managed Deep Agents, which run the agent loop, sandboxes and sign-in and are hosted closed services, or on business terms.",
       "evidenceIds": [
-        "workspace"
+        "workspace",
+        "d80-login",
+        "d80-agents"
       ],
       "checkedAt": "2026-11-08",
       "nextReviewAt": "2026-12-08",
-      "researcher": "researcher-71",
-      "publication": "public-reviewed",
-      "review": {
-        "reviewer": "reviewer-57",
-        "date": "2026-11-08",
-        "contentHash": "bcf0e241859e4919cd851fdf44b36121b6206f38979cb6d87e912cd3eb279ded"
-      },
+      "researcher": "researcher-ade80",
+      "publication": "public-candidate",
+      "review": null,
       "contradictions": []
     },
     {
@@ -5001,6 +5007,71 @@
       "visibility": "public",
       "commit": "ae120fc74d21a7b3aaaaa34a1774718408fad021",
       "path": "openswe/tasks/suggestions.py"
+    },
+    {
+      "id": "d80-suggest",
+      "kind": "source-inspected",
+      "url": "https://github.com/langchain-ai/open-swe/blob/64dd120b6a2aa7b5f13fef30f97a0e987523c2c6/openswe/tasks/suggestions.py#L18-L38",
+      "title": "open-swe openswe/tasks/suggestions.py",
+      "locator": "openswe/tasks/suggestions.py l18-l38; SuggestedTask model; main HEAD (no stable release; only desktop nightlies) (64dd120)",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "A SuggestedTask has summary, details, workspace, repository, thread, task and PR links, context links and audit fields; it has no status or state field.",
+      "visibility": "public",
+      "commit": "64dd120b6a2aa7b5f13fef30f97a0e987523c2c6",
+      "path": "openswe/tasks/suggestions.py"
+    },
+    {
+      "id": "d80-task",
+      "kind": "source-inspected",
+      "url": "https://github.com/langchain-ai/open-swe/blob/64dd120b6a2aa7b5f13fef30f97a0e987523c2c6/openswe/tasks/store.py#L27-L41",
+      "title": "open-swe openswe/tasks/store.py",
+      "locator": "openswe/tasks/store.py l27-l41; Task model; main HEAD (no stable release; only desktop nightlies) (64dd120)",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "A Task row holds a title, workspace, coordinator thread id and a delegated flag; it groups coordinator and worker threads and has no open/in-progress/done state.",
+      "visibility": "public",
+      "commit": "64dd120b6a2aa7b5f13fef30f97a0e987523c2c6",
+      "path": "openswe/tasks/store.py"
+    },
+    {
+      "id": "d80-taskmig",
+      "kind": "source-inspected",
+      "url": "https://github.com/langchain-ai/open-swe/blob/64dd120b6a2aa7b5f13fef30f97a0e987523c2c6/openswe/database/migrations/versions/0051_179eb756b3cf_task_coordination.py#L13-L21",
+      "title": "open-swe openswe/database/migrations/versions/0051_179eb756b3cf_task_coordination.py",
+      "locator": "openswe/database/migrations/versions/0051_179eb756b3cf_task_coordination.py l13-l21; task table migration; main HEAD (no stable release; only desktop nightlies) (64dd120)",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "The task table columns are id, coordinator_thread_id, title, workspace_id and delegated; a later migration adds goal_check text.",
+      "visibility": "public",
+      "commit": "64dd120b6a2aa7b5f13fef30f97a0e987523c2c6",
+      "path": "openswe/database/migrations/versions/0051_179eb756b3cf_task_coordination.py"
+    },
+    {
+      "id": "d80-login",
+      "kind": "source-inspected",
+      "url": "https://github.com/langchain-ai/open-swe/blob/64dd120b6a2aa7b5f13fef30f97a0e987523c2c6/openswe/dashboard/auth_routes.py#L77-L91",
+      "title": "open-swe openswe/dashboard/auth_routes.py",
+      "locator": "openswe/dashboard/auth_routes.py l77-l91; auth_login; main HEAD (no stable release; only desktop nightlies) (64dd120)",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Dashboard sign-in redirects to LangSmith OAuth, or to a local dev login that acts as the gh CLI user; Robin implements no identity-provider integration of its own.",
+      "visibility": "public",
+      "commit": "64dd120b6a2aa7b5f13fef30f97a0e987523c2c6",
+      "path": "openswe/dashboard/auth_routes.py"
+    },
+    {
+      "id": "d80-agents",
+      "kind": "documented",
+      "url": "https://github.com/langchain-ai/open-swe/blob/64dd120b6a2aa7b5f13fef30f97a0e987523c2c6/AGENTS.md#L14-L18",
+      "title": "open-swe AGENTS.md",
+      "locator": "AGENTS.md l14-l18; Architecture; main HEAD (no stable release; only desktop nightlies) (64dd120)",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Every agent, reviewer and review-scout thread runs on Managed Deep Agents, which owns the model loop, sandbox and tools; the backend refuses to start without MDA_RUNTIME_URL.",
+      "visibility": "public",
+      "commit": "64dd120b6a2aa7b5f13fef30f97a0e987523c2c6",
+      "path": "AGENTS.md"
     }
   ],
   "changes": [
@@ -5421,6 +5492,69 @@
         "install",
         "custom",
         "gap39-agent-models"
+      ]
+    },
+    {
+      "date": "2026-11-16",
+      "author": "researcher-ade80",
+      "type": "research-correction",
+      "summary": "Partial open-source depth pass on open-swe (Robin) at default-branch HEAD 64dd120: resolve issue-tracking from the task and suggested-task schemas and record why sandbox, own-server, SSO and price cells stay unknown (hosted LangSmith and Managed Deep Agents).",
+      "claimIds": [
+        "open-swe:PLAN-06"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Robin has durable native future-work suggestions with summary/details, repository/workspace and context links, independent of the originating thread. Their schema has no work-state field; Task records group coordinator/worker sessions rather than provide a general issue/backlog workflow.",
+        "checkedAt": "2026-11-13",
+        "nextReviewAt": "2027-03-13",
+        "subanswers": {
+          "durable_states": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Robin has durable native future-work suggestions with summary/details, repository/workspace and context links, independent of the originating thread. Their schema has no work-state field; Task records group coordinator/worker sessions rather than provide a general issue/backlog workflow.",
+        "checkedAt": "2026-11-13",
+        "nextReviewAt": "2027-03-13",
+        "subanswers": {
+          "durable_states": "unsupported"
+        }
+      },
+      "evidenceIds": [
+        "d80-suggest",
+        "d80-task",
+        "d80-taskmig"
+      ]
+    },
+    {
+      "date": "2026-11-16",
+      "author": "researcher-ade80",
+      "type": "research-correction",
+      "summary": "Partial open-source depth pass on open-swe (Robin) at default-branch HEAD 64dd120: resolve issue-tracking from the task and suggested-task schemas and record why sandbox, own-server, SSO and price cells stay unknown (hosted LangSmith and Managed Deep Agents).",
+      "claimIds": [
+        "open-swe:TEAM-02"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Configured admins administer all workspaces; signed-in users can use every workspace. Per-workspace role-based membership and access are explicitly deferred.",
+        "checkedAt": "2026-11-08",
+        "nextReviewAt": "2026-12-08",
+        "subanswers": {
+          "sso": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Configured admins administer all workspaces; signed-in users can use every workspace. Per-workspace role-based membership and access are explicitly deferred.",
+        "checkedAt": "2026-11-08",
+        "nextReviewAt": "2026-12-08",
+        "subanswers": {
+          "sso": "unknown"
+        }
+      },
+      "evidenceIds": [
+        "d80-login",
+        "d80-agents"
       ]
     }
   ],
