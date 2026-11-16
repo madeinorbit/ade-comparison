@@ -1972,9 +1972,11 @@
           ]
         },
         "completion_conditions": {
-          "support": "unknown",
-          "answer": "Not established in the checked docs; automation architecture states execution lifecycle belongs to the provider.",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "A run ends when its linked session completes, fails or is cancelled, when that session is deleted or when restart recovery interrupts it; the host imposes no run duration limit.",
+          "evidenceIds": [
+            "autosrc"
+          ]
         },
         "scheduler_location": {
           "support": "supported",
@@ -1985,14 +1987,18 @@
           ]
         },
         "overlaps": {
-          "support": "unknown",
-          "answer": "Overlap handling is not stated in the checked docs; inspected spec points to provider authority.",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "Every due schedule occurrence creates its own run even while earlier runs are non-terminal; Run Now reuses an active run instead of creating another session.",
+          "evidenceIds": [
+            "autosrc"
+          ]
         },
         "retries": {
-          "support": "unknown",
-          "answer": "Retry behavior is not stated in the checked sources.",
-          "evidenceIds": []
+          "support": "partial",
+          "answer": "Missed occurrences follow the trigger misfire policy after a full wake and resumable turn errors can continue; failed runs are not automatically retried beyond that.",
+          "evidenceIds": [
+            "autosrc"
+          ]
         },
         "client_independence": {
           "support": "supported",
@@ -2006,7 +2012,7 @@
         "Cloud automations need a private GitHub.com repository, eligible plan and GitHub service access.",
         "Overlap, retry and completion-condition behavior are not documented in the pages checked."
       ],
-      "unknownReason": "See unknown atomic answers for the closed-component, hosted-service or business-fact gaps.",
+      "unknownReason": null,
       "evidenceIds": [
         "automations",
         "autosrc"
@@ -2633,9 +2639,11 @@
           ]
         },
         "worker_crash": {
-          "support": "unknown",
-          "answer": "Not stated in checked docs; inspected code covers reconnect replay, not crash semantics.",
-          "evidenceIds": []
+          "support": "partial",
+          "answer": "Automation restart recovery interrupts non-terminal runs and cleans up interrupted session creation using a journaled identity; general agent-process crash semantics were not found.",
+          "evidenceIds": [
+            "autosrc"
+          ]
         },
         "service_restart": {
           "support": "partial",
@@ -2689,9 +2697,11 @@
           ]
         },
         "duplicate_actions": {
-          "support": "unknown",
-          "answer": "Not documented.",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "For automations, recovery never resends the initial prompt and manual request IDs are durable, preventing duplicate runs.",
+          "evidenceIds": [
+            "autosrc"
+          ]
         },
         "manual_repair": {
           "support": "partial",
@@ -2714,9 +2724,10 @@
         "Reconnecting does not mean work continued while a host was stopped.",
         "Worker crash and duplicated-action behavior are not documented beyond protocol replay."
       ],
-      "unknownReason": "See unknown atomic answers for the closed-component, hosted-service or business-fact gaps.",
+      "unknownReason": null,
       "evidenceIds": [
         "agenthost",
+        "autosrc",
         "cloud",
         "history",
         "sessions"
@@ -2863,9 +2874,11 @@
           ]
         },
         "turn_limits": {
-          "support": "unknown",
-          "answer": "No turn limit setting identified in checked docs.",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "chat.agent.maxRequests caps agent requests, default 25.",
+          "evidenceIds": [
+            "aisettings"
+          ]
         },
         "token_limits": {
           "support": "partial",
@@ -2889,14 +2902,18 @@
           ]
         },
         "retries": {
-          "support": "unknown",
-          "answer": "Provider failure retry behavior is not specified in checked docs.",
-          "evidenceIds": []
+          "support": "partial",
+          "answer": "Docs tell the user to wait and retry after a temporary rate limit; automatic provider retry was not documented.",
+          "evidenceIds": [
+            "faq"
+          ]
         },
         "provider_failures": {
-          "support": "unknown",
-          "answer": "Not specified.",
-          "evidenceIds": []
+          "support": "partial",
+          "answer": "Rate-limit and credit-exhaustion errors are surfaced with guidance.",
+          "evidenceIds": [
+            "faq"
+          ]
         },
         "enforcement": {
           "support": "partial",
@@ -2909,12 +2926,14 @@
       "limitations": [
         "Enforcement of spend limits is external (GitHub/provider billing)."
       ],
-      "unknownReason": "See unknown atomic answers for the closed-component, hosted-service or business-fact gaps.",
+      "unknownReason": null,
       "evidenceIds": [
         "agentswin",
+        "aisettings",
         "sessions",
         "setupcopilot",
-        "tools"
+        "tools",
+        "faq"
       ],
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
@@ -6239,6 +6258,32 @@
       "path": "extensions/copilot/src/extension"
     },
     {
+      "id": "aisettings",
+      "kind": "documented",
+      "url": "https://code.visualstudio.com/docs/agents/reference/ai-settings",
+      "title": "AI settings reference",
+      "locator": "chat.agent.maxRequests",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "chat.agent.maxRequests limits the number of requests the agent can make, default 25.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "faq",
+      "kind": "documented",
+      "url": "https://code.visualstudio.com/docs/agents/agent-troubleshooting/faq",
+      "title": "Agents FAQ and troubleshooting",
+      "locator": "Rate-limit error entries",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Temporary service rate limits surface as errors even when the credits allowance is not exhausted; guidance is to wait and retry.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
       "id": "githubsrc",
       "kind": "source-inspected",
       "url": "https://github.com/microsoft/vscode/blob/c4453f8ea430795f941c1b2ff6c9321135a74a02/src/vs/sessions/contrib/github/browser/fetchers/githubRecentUserWorkFetcher.ts",
@@ -6272,6 +6317,20 @@
       "type": "initial-research",
       "summary": "Initial full-profile source pass over VS Code 1.145.2 (first-party docs, release notes, pinned microsoft/vscode source including extensions/copilot) covering all 51 criteria; Cloud sessions, GitHub environments, automations-in-cloud, mixed-harness chats, Codex/Claude Agent Host harnesses and BYOK for the Copilot harness recorded with their feature-flag or experimental status.",
       "claimIds": []
+    },
+    {
+      "date": "2026-11-16",
+      "author": "researcher-vs-code",
+      "type": "research-correction",
+      "summary": "Second source pass over the pinned release after coordinator guidance: searched code, in-repo docs and sibling repositories for the remaining unknown atomic answers and added evidence for those the code or docs answer.",
+      "claimIds": [],
+      "evidenceIds": [],
+      "before": {
+        "note": "Several atomic answers on this open-source product were unknown after the first pass."
+      },
+      "after": {
+        "note": "Second source pass answered code- and docs-answerable atoms from pinned code with added evidence; remaining unknowns name closed, hosted or business-fact reasons."
+      }
     }
   ],
   "context": {
