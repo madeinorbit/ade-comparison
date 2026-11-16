@@ -1,0 +1,5821 @@
+{
+  "schemaVersion": 1,
+  "rubricVersion": "0.3",
+  "id": "calyx",
+  "name": "Calyx",
+  "category": "A",
+  "researchTier": "full-profile",
+  "researchState": "documented",
+  "identity": {
+    "website": "https://getcalyx.app/",
+    "repository": "https://github.com/yuuichieguchi/Calyx",
+    "aliases": [],
+    "company": null
+  },
+  "surfaces": [
+    {
+      "id": "app",
+      "name": "Calyx macOS app (Swift, AppKit/SwiftUI, libghostty; macOS 26, Apple Silicon)",
+      "type": "desktop"
+    },
+    {
+      "id": "cli",
+      "name": "calyx CLI and calyx-session daemon CLI bundled in the app",
+      "type": "cli"
+    }
+  ],
+  "claims": [
+    {
+      "id": "calyx:ACC-01",
+      "criterionId": "ACC-01",
+      "answer": "macOS 26 Tahoe or later on Apple Silicon only (direct zip with Sparkle updates, or Homebrew cask); bundled calyx and calyx-session CLIs; no mobile, browser or editor clients; remote persistent sessions over SSH.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app",
+          "cli"
+        ],
+        "version": "release v0.50.1 (2026-10-23, commit 2dfb7a4); help docs commit 4e50d02; site commit 673e684",
+        "plan": "Open source (MIT) macOS app, free download; no paid plan",
+        "os": [
+          "macOS 26 (arm64)"
+        ],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "desktop_os": {
+          "support": "supported",
+          "answer": "README: requires macOS 26 Tahoe or later on Apple Silicon (arm64 only); release v0.50.1 ships one Calyx.zip; the Homebrew cask installs the same zip.",
+          "evidenceIds": [
+            "readme",
+            "release",
+            "cask"
+          ]
+        },
+        "mobile_apps": {
+          "support": "unsupported",
+          "answer": "README, site and help center list only a macOS app; bounded search found no iOS or Android project (project.yml has a macOS target only).",
+          "evidenceIds": [
+            "readme",
+            "project"
+          ]
+        },
+        "browser": {
+          "support": "unsupported",
+          "answer": "No web client; the app embeds WKWebView browser tabs for browsing, not for controlling Calyx.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "mobile_browser": {
+          "support": "unsupported",
+          "answer": "No web or mobile client exists.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "cli": {
+          "support": "supported",
+          "answer": "`calyx` CLI (browser scripting, open tabs, install to PATH) and `calyx-session` daemon CLI.",
+          "evidenceIds": [
+            "cliup"
+          ]
+        },
+        "editor_extensions": {
+          "support": "unsupported",
+          "answer": "No IDE extension; Calyx writes a pi extension into pi's own directory for integration.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "task_actions": {
+          "support": "supported",
+          "answer": "Start agents in panes or worktree tasks, steer through terminal and compose overlay, approve from the approval panel, review diffs with line comments and resume agent conversations.",
+          "evidenceIds": [
+            "readme",
+            "worktree",
+            "aiagents",
+            "sessions"
+          ]
+        },
+        "notifications": {
+          "support": "supported",
+          "answer": "macOS notifications for approvals and OSC 9/99/777 terminal notifications with unread badges.",
+          "evidenceIds": [
+            "readme",
+            "security"
+          ]
+        },
+        "cross_device_continuity": {
+          "support": "partial",
+          "answer": "Persistent and remote sessions let shells outlive the app and live on an SSH host, but the GUI is a single-Mac client.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: mobile_apps, browser, mobile_browser, editor_extensions, cross_device_continuity; see each atomic answer for the limitation."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "site",
+        "release",
+        "cask",
+        "project",
+        "cliup",
+        "worktree",
+        "aiagents",
+        "sessions",
+        "security"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "calyx:ACC-02",
+      "criterionId": "ACC-02",
+      "answer": "Launches terminal agent CLIs in panes: Claude Code, Codex, OpenCode, Hermes, Grok and pi, with hooks and an MCP server for integration; no embedded harness; any other CLI runs as a plain terminal program.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release v0.50.1 (2026-10-23, commit 2dfb7a4); help docs commit 4e50d02; site commit 673e684",
+        "plan": "Open source (MIT) macOS app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": "Claude Code, Codex, OpenCode, Hermes, Grok, pi (terminal CLIs in panes)"
+      },
+      "subanswers": {
+        "harnesses": {
+          "support": "supported",
+          "answer": "Six named agent CLIs with sidebar rows, IPC configs and worktree-task launchers.",
+          "evidenceIds": [
+            "readme",
+            "aiagents",
+            "worktree"
+          ]
+        },
+        "model_providers": {
+          "support": "unsupported",
+          "answer": "Calyx has no model layer; providers are whatever each agent CLI uses (bounded search of Calyx sources found no provider or API key handling).",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "custom_adapters": {
+          "support": "partial",
+          "answer": "Any CLI runs in a terminal pane but only the six named agents get status, approval hooks and IPC configuration; no adapter API.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "session_integration": {
+          "support": "supported",
+          "answer": "Calyx launches the agent CLI as the pane's process and integrates through hooks, config files, an MCP server and a pi extension rather than an API session.",
+          "evidenceIds": [
+            "aiagents",
+            "worktree"
+          ]
+        },
+        "mixed_harness_operation": {
+          "support": "supported",
+          "answer": "Peers across different agents exchange messages through calyx-ipc and one approval inbox handles several agents.",
+          "evidenceIds": [
+            "readme",
+            "aiagents"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: model_providers, custom_adapters; see each atomic answer for the limitation."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "aiagents",
+        "worktree"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "calyx:ACC-03",
+      "criterionId": "ACC-03",
+      "answer": "Calyx handles no model access; each agent CLI uses its own subscription or API login, so existing subscriptions work as the CLI supports them; no vendor credits and no account.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release v0.50.1 (2026-10-23, commit 2dfb7a4); help docs commit 4e50d02; site commit 673e684",
+        "plan": "Open source (MIT) macOS app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "agent_subscriptions": {
+          "support": "partial",
+          "answer": "Agent CLIs run with their own sign-ins; the sidebar screenshot shows Claude Code on a Claude Max plan.",
+          "evidenceIds": [
+            "readme",
+            "screenshot"
+          ]
+        },
+        "api_accounts": {
+          "support": "partial",
+          "answer": "Whatever the CLI supports; Calyx stores no API keys.",
+          "evidenceIds": [
+            "privacy"
+          ]
+        },
+        "vendor_credits": {
+          "support": "unsupported",
+          "answer": "Calyx has no vendor service or credits.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "local_models": {
+          "support": "partial",
+          "answer": "Depends on the agent CLI; Calyx does not mediate model endpoints.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "account_switching": {
+          "support": "unsupported",
+          "answer": "No account switching in Calyx; agent CLIs own their accounts.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "vendor_account_requirement": {
+          "support": "supported",
+          "answer": "No Calyx account is needed.",
+          "evidenceIds": [
+            "privacy"
+          ]
+        },
+        "provider_restrictions": {
+          "support": "partial",
+          "answer": "Terms say users must follow the terms of third-party agents; no provider restrictions are documented.",
+          "evidenceIds": [
+            "terms"
+          ]
+        }
+      },
+      "limitations": [
+        "Model access, accounts and local models are entirely the agent CLI's concern; Calyx adds no switching or provider terms."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "privacy",
+        "screenshot",
+        "site",
+        "terms"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "calyx:ACC-04",
+      "criterionId": "ACC-04",
+      "answer": "Install with brew or the zip, open Calyx and start an agent in a pane; works in any directory; worktree tasks need a Git repository but no remote; no hosted-Git integration; remote persistent sessions need an SSH host.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release v0.50.1 (2026-10-23, commit 2dfb7a4); help docs commit 4e50d02; site commit 673e684",
+        "plan": "Open source (MIT) macOS app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "first_task_setup": {
+          "support": "supported",
+          "answer": "brew install --cask calyx or unzip Calyx.zip, open the app and run an agent CLI; optionally turn on Enable AI Agent IPC in Settings.",
+          "evidenceIds": [
+            "readme",
+            "aiagents"
+          ]
+        },
+        "no_git": {
+          "support": "supported",
+          "answer": "A terminal pane works in any directory; the New Worktree Task sheet is disabled outside Git repositories.",
+          "evidenceIds": [
+            "worktree"
+          ]
+        },
+        "local_git_without_remote": {
+          "support": "supported",
+          "answer": "Worktree tasks and merges are local git operations on the repository; no remote is required.",
+          "evidenceIds": [
+            "worktree"
+          ]
+        },
+        "hosted_git": {
+          "support": "unsupported",
+          "answer": "Bounded search for GitHub, GitLab, issue and pull request integration found none; Git features are local.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "prerequisite_guidance": {
+          "support": "supported",
+          "answer": "README lists macOS 26 on Apple Silicon and, for building, Xcode, Zig and XcodeGen.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "managed_cloud_setup": {
+          "support": "unsupported",
+          "answer": "No managed cloud; Calyx is a local app.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "byo_vps_onboarding": {
+          "support": "partial",
+          "answer": "`calyx-session remote-install <host>` deploys the daemon to an SSH host from ~/.ssh/config for remote persistent sessions; agents there must be installed by the user.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: hosted_git, managed_cloud_setup, byo_vps_onboarding; see each atomic answer for the limitation."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "worktree",
+        "sessions",
+        "aiagents",
+        "site"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "calyx:ACC-05",
+      "criterionId": "ACC-05",
+      "answer": "Bundled calyx CLI (25 browser commands, open tabs), calyx-session CLI and a loopback MCP server with bearer token exposing panes, commands, output and peers to agents; no REST API, SDK or webhooks.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release v0.50.1 (2026-10-23, commit 2dfb7a4); help docs commit 4e50d02; site commit 673e684",
+        "plan": "Open source (MIT) macOS app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "cli": {
+          "support": "supported",
+          "answer": "`calyx browser ...` (25 commands), `calyx-session ls/attach/new/kill/history/remote-install`.",
+          "evidenceIds": [
+            "readme",
+            "cliup"
+          ]
+        },
+        "api": {
+          "support": "partial",
+          "answer": "Loopback HTTP MCP server and a localhost browser server on port 41840; no documented REST API.",
+          "evidenceIds": [
+            "mcpserver",
+            "readme"
+          ]
+        },
+        "sdk": {
+          "support": "unsupported",
+          "answer": "No SDK found.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "mcp_server": {
+          "support": "supported",
+          "answer": "calyx-ipc MCP server with peer messaging, cockpit tools (pane_list, pane_split, tab_create, agent_status, approval-gated pane_run, pane_send_keys, palette_execute), command log tools, LSP tools and usage_report.",
+          "evidenceIds": [
+            "mcpserver",
+            "aiagents"
+          ]
+        },
+        "webhooks": {
+          "support": "unsupported",
+          "answer": "No webhooks (bounded search found none).",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "operations": {
+          "support": "partial",
+          "answer": "Create/split panes, run commands, send keys, inspect status and output and wait for commands are available; review actions and stopping an agent are UI-only.",
+          "evidenceIds": [
+            "aiagents",
+            "cmdlog"
+          ]
+        },
+        "authentication": {
+          "support": "supported",
+          "answer": "Bearer token with loopback Origin check; approval answers are signed with a per-start key.",
+          "evidenceIds": [
+            "mcpserver",
+            "aiagents"
+          ]
+        },
+        "stability": {
+          "support": "partial",
+          "answer": "Version 0.50.x with no stability promise found.",
+          "evidenceIds": [
+            "release"
+          ]
+        }
+      },
+      "limitations": [
+        "Programmable surface is local-only and the stability of tool names is not promised (0.x)."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "mcpserver",
+        "cliup",
+        "aiagents",
+        "cmdlog",
+        "release"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "calyx:ACC-06",
+      "criterionId": "ACC-06",
+      "answer": "MCP Apps pane adds stdio or HTTP MCP servers with OAuth sign-in, republished to every agent as calyx-mcp and rendered as docked views; LSP proxy; skills and plugins are the agents' own.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release v0.50.1 (2026-10-23, commit 2dfb7a4); help docs commit 4e50d02; site commit 673e684",
+        "plan": "Open source (MIT) macOS app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "mcp_client": {
+          "support": "supported",
+          "answer": "MCP Apps host adds MCP servers and republishes their tools to agent CLIs as calyx-mcp.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "plugins": {
+          "support": "unsupported",
+          "answer": "No plugin system for Calyx itself found.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "custom_tools": {
+          "support": "partial",
+          "answer": "Tools arrive through MCP servers; no custom tool API.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "instructions_import": {
+          "support": "unsupported",
+          "answer": "Calyx does not import instructions or skills; agents read their own.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "authentication": {
+          "support": "supported",
+          "answer": "MCP server OAuth tokens, secrets and headers are kept in the login Keychain.",
+          "evidenceIds": [
+            "privacy"
+          ]
+        },
+        "permission_scope": {
+          "support": "supported",
+          "answer": "MCP App consent prompts for opening links or sending messages to the agent go through the approval panel.",
+          "evidenceIds": [
+            "aiagents"
+          ]
+        },
+        "integration_owner": {
+          "support": "supported",
+          "answer": "Calyx owns the MCP host and credential storage; agent CLIs own their native tools.",
+          "evidenceIds": [
+            "readme",
+            "privacy"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: plugins, custom_tools, instructions_import; see each atomic answer for the limitation."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "aiagents",
+        "privacy"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "calyx:ACC-07",
+      "criterionId": "ACC-07",
+      "answer": "Native macOS app in Swift 6.4 with AppKit windows and SwiftUI views over libghostty (Metal); embedded WKWebView for browser tabs and MCP App views.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release v0.50.1 (2026-10-23, commit 2dfb7a4); help docs commit 4e50d02; site commit 673e684",
+        "plan": "Open source (MIT) macOS app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "desktop_implementation": {
+          "support": "supported",
+          "answer": "AppKit for window/tab/focus management with SwiftUI via NSHostingView; libghostty Metal rendering.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "mobile_implementation": {
+          "support": "unsupported",
+          "answer": "No mobile client.",
+          "evidenceIds": [
+            "project"
+          ]
+        },
+        "hybrids": {
+          "support": "supported",
+          "answer": "WKWebView browser tabs and docked MCP App views inside the native shell.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "implementation_evidence": {
+          "support": "supported",
+          "answer": "README architecture section plus project.yml at the pinned commit.",
+          "evidenceIds": [
+            "readme",
+            "project"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: mobile_implementation; see each atomic answer for the limitation."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "project"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-05-15",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "calyx:PLAN-01",
+      "criterionId": "PLAN-01",
+      "answer": "Work starts from typing in a terminal pane or the compose overlay, or a worktree task sheet with an initial prompt; no issue import, chat triggers or tracker relationship.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release v0.50.1 (2026-10-23, commit 2dfb7a4); help docs commit 4e50d02; site commit 673e684",
+        "plan": "Open source (MIT) macOS app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "local_creation": {
+          "support": "partial",
+          "answer": "A worktree task creates a branch and worktree with an agent; no task record is kept.",
+          "evidenceIds": [
+            "worktree"
+          ]
+        },
+        "prompt_intake": {
+          "support": "supported",
+          "answer": "Terminal input, Compose Overlay and the worktree task initial prompt.",
+          "evidenceIds": [
+            "readme",
+            "worktree"
+          ]
+        },
+        "external_import": {
+          "support": "unsupported",
+          "answer": "Bounded search for issue-tracker integration found none.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "chat_git_triggers": {
+          "support": "unsupported",
+          "answer": "No chat or Git event triggers.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "authoritative_tracker": {
+          "support": "unsupported",
+          "answer": "No tracker relationship.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "stable_ids": {
+          "support": "unsupported",
+          "answer": "No work item IDs.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "sync": {
+          "support": "unsupported",
+          "answer": "No sync.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "supported_edits": {
+          "support": "unsupported",
+          "answer": "No tracker edits.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "external_roundtrips": {
+          "support": "unsupported",
+          "answer": "Any tracker is used outside Calyx.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "No external tracker or intake channel exists."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "worktree",
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "calyx:PLAN-02",
+      "criterionId": "PLAN-02",
+      "answer": "No durable plans; the agent CLI owns planning and Calyx only passes an initial prompt.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release v0.50.1 (2026-10-23, commit 2dfb7a4); help docs commit 4e50d02; site commit 673e684",
+        "plan": "Open source (MIT) macOS app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "plans": {
+          "support": "unsupported",
+          "answer": "No plan objects in Calyx.",
+          "evidenceIds": [
+            "worktree"
+          ]
+        },
+        "acceptance_criteria": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "worktree"
+          ]
+        },
+        "editors": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "worktree"
+          ]
+        },
+        "revisions": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "worktree"
+          ]
+        },
+        "implementation_links": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "worktree"
+          ]
+        },
+        "amendment": {
+          "support": "partial",
+          "answer": "A running agent can be messaged in its pane.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "restart_persistence": {
+          "support": "partial",
+          "answer": "Persistent sessions keep the running agent alive across restarts when enabled.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: plans, acceptance_criteria, editors, revisions, implementation_links, amendment, restart_persistence; see each atomic answer for the limitation."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "worktree",
+        "readme",
+        "sessions"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "calyx:PLAN-03",
+      "criterionId": "PLAN-03",
+      "answer": "Tab groups and Mission Map group panes visually; subagent rows nest under agent rows; no epics, blockers or dependencies.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release v0.50.1 (2026-10-23, commit 2dfb7a4); help docs commit 4e50d02; site commit 673e684",
+        "plan": "Open source (MIT) macOS app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "epics": {
+          "support": "unsupported",
+          "answer": "No epic concept.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "hierarchy": {
+          "support": "partial",
+          "answer": "Tab groups, panes and subagent child rows.",
+          "evidenceIds": [
+            "readme",
+            "mission"
+          ]
+        },
+        "blockers": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "readiness": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "enforcement": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "state_propagation": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "task_to_epic": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "identity_retention": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "workflow_constraints": {
+          "support": "supported",
+          "answer": "No workflow is required.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: epics, hierarchy, blockers, readiness, enforcement, state_propagation, task_to_epic, identity_retention; see each atomic answer for the limitation."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "mission"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "calyx:PLAN-04",
+      "criterionId": "PLAN-04",
+      "answer": "Agent CLIs read their own instruction files; Calyx adds no memory, skills or docs layer beyond the IPC and MCP tools it injects into agent configs.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release v0.50.1 (2026-10-23, commit 2dfb7a4); help docs commit 4e50d02; site commit 673e684",
+        "plan": "Open source (MIT) macOS app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "instructions": {
+          "support": "unsupported",
+          "answer": "Calyx does not manage instruction files (it writes calyx-ipc entries and an OpenCode AGENTS.md block).",
+          "evidenceIds": [
+            "aiagents"
+          ]
+        },
+        "skills": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "project_docs": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "memory": {
+          "support": "unsupported",
+          "answer": "No memory store; IPC messages are kept in memory for Mission Map only.",
+          "evidenceIds": [
+            "privacy"
+          ]
+        },
+        "scope": {
+          "support": "unsupported",
+          "answer": "Not applicable.",
+          "evidenceIds": [
+            "privacy"
+          ]
+        },
+        "provenance": {
+          "support": "unsupported",
+          "answer": "Not applicable.",
+          "evidenceIds": [
+            "privacy"
+          ]
+        },
+        "correction": {
+          "support": "unsupported",
+          "answer": "Not applicable.",
+          "evidenceIds": [
+            "privacy"
+          ]
+        },
+        "deletion": {
+          "support": "unsupported",
+          "answer": "Session history and logs are deleted when Calyx quits unless opt-in persistence is on.",
+          "evidenceIds": [
+            "privacy"
+          ]
+        },
+        "freshness": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "privacy"
+          ]
+        },
+        "takeover_continuity": {
+          "support": "partial",
+          "answer": "Persistent sessions keep agent processes and optional on-disk history.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: instructions, skills, project_docs, memory, scope, provenance, correction, deletion, freshness, takeover_continuity; see each atomic answer for the limitation."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "aiagents",
+        "privacy",
+        "sessions"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "calyx:PLAN-05",
+      "criterionId": "PLAN-05",
+      "answer": "LSP Proxy MCP gives agents hover, definition, references, rename and diagnostics; command log gives captured output; no code index or external knowledge layer.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release v0.50.1 (2026-10-23, commit 2dfb7a4); help docs commit 4e50d02; site commit 673e684",
+        "plan": "Open source (MIT) macOS app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "code_search": {
+          "support": "partial",
+          "answer": "LSP-backed symbol tools for agents.",
+          "evidenceIds": [
+            "aiagents"
+          ]
+        },
+        "indexing": {
+          "support": "unsupported",
+          "answer": "No repository index.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "external_knowledge": {
+          "support": "partial",
+          "answer": "Scriptable browser tabs and MCP servers.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "multimodal_inputs": {
+          "support": "partial",
+          "answer": "Browser screenshots via calyx browser; MCP App images sent to agents.",
+          "evidenceIds": [
+            "readme",
+            "privacy"
+          ]
+        },
+        "freshness": {
+          "support": "partial",
+          "answer": "Language servers sync file changes from disk.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "access_scope": {
+          "support": "supported",
+          "answer": "Local machine only.",
+          "evidenceIds": [
+            "privacy"
+          ]
+        },
+        "api_retrieval": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "citations": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "conflict_detection": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "review_enforcement": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: code_search, indexing, external_knowledge, multimodal_inputs, freshness, api_retrieval, citations, conflict_detection, review_enforcement; see each atomic answer for the limitation."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "aiagents",
+        "privacy"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "calyx:PLAN-06",
+      "criterionId": "PLAN-06",
+      "answer": "No issue or idea backlog; tabs, groups and worktree tasks are the only work containers.",
+      "support": "unsupported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release v0.50.1 (2026-10-23, commit 2dfb7a4); help docs commit 4e50d02; site commit 673e684",
+        "plan": "Open source (MIT) macOS app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "create": {
+          "support": "unsupported",
+          "answer": "No issue management exists in Calyx (bounded search of Features/ and docs found none).",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "edit": {
+          "support": "unsupported",
+          "answer": "No issue management exists in Calyx (bounded search of Features/ and docs found none).",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "discuss": {
+          "support": "unsupported",
+          "answer": "No issue management exists in Calyx (bounded search of Features/ and docs found none).",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "prioritize": {
+          "support": "unsupported",
+          "answer": "No issue management exists in Calyx (bounded search of Features/ and docs found none).",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "label": {
+          "support": "unsupported",
+          "answer": "No issue management exists in Calyx (bounded search of Features/ and docs found none).",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "assign": {
+          "support": "unsupported",
+          "answer": "No issue management exists in Calyx (bounded search of Features/ and docs found none).",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "search": {
+          "support": "unsupported",
+          "answer": "No issue management exists in Calyx (bounded search of Features/ and docs found none).",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "filter": {
+          "support": "unsupported",
+          "answer": "No issue management exists in Calyx (bounded search of Features/ and docs found none).",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "archive": {
+          "support": "unsupported",
+          "answer": "No issue management exists in Calyx (bounded search of Features/ and docs found none).",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "reopen": {
+          "support": "unsupported",
+          "answer": "No issue management exists in Calyx (bounded search of Features/ and docs found none).",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "project_epic_views": {
+          "support": "unsupported",
+          "answer": "No issue management exists in Calyx (bounded search of Features/ and docs found none).",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "idea_parking": {
+          "support": "unsupported",
+          "answer": "No issue management exists in Calyx (bounded search of Features/ and docs found none).",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "explicit_dispatch": {
+          "support": "unsupported",
+          "answer": "No issue management exists in Calyx (bounded search of Features/ and docs found none).",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "task_session_separation": {
+          "support": "unsupported",
+          "answer": "No issue management exists in Calyx (bounded search of Features/ and docs found none).",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "metadata": {
+          "support": "unsupported",
+          "answer": "No issue management exists in Calyx (bounded search of Features/ and docs found none).",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "durable_states": {
+          "support": "unsupported",
+          "answer": "No issue management exists in Calyx (bounded search of Features/ and docs found none).",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "external_tracker_requirement": {
+          "support": "unsupported",
+          "answer": "No issue management exists in Calyx (bounded search of Features/ and docs found none).",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "worktree"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "calyx:PLAN-07",
+      "criterionId": "PLAN-07",
+      "answer": "Agents can list panes, create and split tabs and read agent status through the cockpit tools, but there are no issue records, claims or dependencies.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release v0.50.1 (2026-10-23, commit 2dfb7a4); help docs commit 4e50d02; site commit 673e684",
+        "plan": "Open source (MIT) macOS app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "shared_ids": {
+          "support": "partial",
+          "answer": "Pane surface IDs are shared between tools and UI.",
+          "evidenceIds": [
+            "aiagents"
+          ]
+        },
+        "read": {
+          "support": "supported",
+          "answer": "pane_list and agent_status read every pane's agent state, approvals, git branch and usage.",
+          "evidenceIds": [
+            "aiagents"
+          ]
+        },
+        "create": {
+          "support": "partial",
+          "answer": "tab_create and pane_split create terminal panes, not work items.",
+          "evidenceIds": [
+            "aiagents"
+          ]
+        },
+        "update": {
+          "support": "unsupported",
+          "answer": "No work-item fields to update.",
+          "evidenceIds": [
+            "aiagents"
+          ]
+        },
+        "claim": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "aiagents"
+          ]
+        },
+        "assign": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "aiagents"
+          ]
+        },
+        "state_changes": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "aiagents"
+          ]
+        },
+        "dependencies": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "aiagents"
+          ]
+        },
+        "children": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "aiagents"
+          ]
+        },
+        "results": {
+          "support": "partial",
+          "answer": "Peers send each other messages; no result record.",
+          "evidenceIds": [
+            "aiagents"
+          ]
+        },
+        "human_visibility": {
+          "support": "supported",
+          "answer": "Mission Map shows IPC messages and agent state.",
+          "evidenceIds": [
+            "mission"
+          ]
+        },
+        "attribution": {
+          "support": "partial",
+          "answer": "Peers register with identifiers; messages carry sender IDs.",
+          "evidenceIds": [
+            "aiagents"
+          ]
+        },
+        "permissions": {
+          "support": "supported",
+          "answer": "Gated cockpit tools need approval unless auto-approve is on.",
+          "evidenceIds": [
+            "aiagents"
+          ]
+        },
+        "conflicts": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "aiagents"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: shared_ids, create, update, claim, assign, state_changes, dependencies, children, results, attribution, conflicts; see each atomic answer for the limitation."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "aiagents",
+        "mcpserver",
+        "mission"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "calyx:PLAN-08",
+      "criterionId": "PLAN-08",
+      "answer": "No living product specification support.",
+      "support": "unsupported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release v0.50.1 (2026-10-23, commit 2dfb7a4); help docs commit 4e50d02; site commit 673e684",
+        "plan": "Open source (MIT) macOS app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "persistent_requirements": {
+          "support": "unsupported",
+          "answer": "Not implemented in Calyx.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "human_edits": {
+          "support": "unsupported",
+          "answer": "Not implemented in Calyx.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "agent_edits": {
+          "support": "unsupported",
+          "answer": "Not implemented in Calyx.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "revisions": {
+          "support": "unsupported",
+          "answer": "Not implemented in Calyx.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "approvals": {
+          "support": "unsupported",
+          "answer": "Not implemented in Calyx.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "implementation_links": {
+          "support": "unsupported",
+          "answer": "Not implemented in Calyx.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "later_retrieval": {
+          "support": "unsupported",
+          "answer": "Not implemented in Calyx.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "drift_detection": {
+          "support": "unsupported",
+          "answer": "Not implemented in Calyx.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "review_integration": {
+          "support": "unsupported",
+          "answer": "Not implemented in Calyx.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "calyx:COORD-01",
+      "criterionId": "COORD-01",
+      "answer": "Any number of panes run agents in parallel on one Mac; Agents Sidebar and Mission Map show working, waiting, idle and done states; no quotas.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release v0.50.1 (2026-10-23, commit 2dfb7a4); help docs commit 4e50d02; site commit 673e684",
+        "plan": "Open source (MIT) macOS app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "concurrent_sessions": {
+          "support": "supported",
+          "answer": "Panes and tabs run independent agent processes.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "concurrent_tasks": {
+          "support": "supported",
+          "answer": "Worktree tasks start agents on separate branches concurrently.",
+          "evidenceIds": [
+            "worktree"
+          ]
+        },
+        "quotas": {
+          "support": "unsupported",
+          "answer": "No limits documented or found.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "observed_concurrency": {
+          "support": "unknown",
+          "answer": "Concurrency achieved is a hardware- and workload-dependent measurement outside source inspection and ADEMark has no entry.",
+          "evidenceIds": []
+        },
+        "status_visibility": {
+          "support": "supported",
+          "answer": "Agents Sidebar: working, blocked, idle or done with unread badges; Mission Map cards with red/yellow/green/blue dots.",
+          "evidenceIds": [
+            "readme",
+            "mission"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: quotas; see each atomic answer for the limitation."
+      ],
+      "unknownReason": "Measured concurrency is a runtime fact.",
+      "evidenceIds": [
+        "readme",
+        "mission",
+        "worktree"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "calyx:COORD-02",
+      "criterionId": "COORD-02",
+      "answer": "The user assigns work by opening panes or worktree tasks; no queues, claims or routing; each worktree task gets its own branch.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release v0.50.1 (2026-10-23, commit 2dfb7a4); help docs commit 4e50d02; site commit 673e684",
+        "plan": "Open source (MIT) macOS app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "human_assignment": {
+          "support": "partial",
+          "answer": "The user chooses which agent and branch a worktree task uses.",
+          "evidenceIds": [
+            "worktree"
+          ]
+        },
+        "agent_assignment": {
+          "support": "partial",
+          "answer": "Agents can message peers and tab_create; no assignment feature.",
+          "evidenceIds": [
+            "aiagents"
+          ]
+        },
+        "claims": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "aiagents"
+          ]
+        },
+        "queues": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "routing": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "duplicate_prevention": {
+          "support": "partial",
+          "answer": "A branch name must not already exist for a worktree task.",
+          "evidenceIds": [
+            "worktree"
+          ]
+        },
+        "ownership_enforcement": {
+          "support": "partial",
+          "answer": "Cockpit tool calls are approval-gated per target pane.",
+          "evidenceIds": [
+            "aiagents"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: human_assignment, agent_assignment, claims, queues, routing, duplicate_prevention, ownership_enforcement; see each atomic answer for the limitation."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "worktree",
+        "readme",
+        "aiagents"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "calyx:COORD-03",
+      "criterionId": "COORD-03",
+      "answer": "Agents discover peers and exchange messages through calyx-ipc across different agent CLIs; Agents Sidebar and Mission Map show subagent rows; there is no product-owned coordinator that spawns agents, but cockpit tools let an agent create panes.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release v0.50.1 (2026-10-23, commit 2dfb7a4); help docs commit 4e50d02; site commit 673e684",
+        "plan": "Open source (MIT) macOS app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "roles": {
+          "support": "partial",
+          "answer": "Peers register themselves; subagent rows follow each CLI's reporting.",
+          "evidenceIds": [
+            "aiagents"
+          ]
+        },
+        "model_harness_effort": {
+          "support": "partial",
+          "answer": "Worktree task arguments choose the agent and model flags; cockpit tab_create does not choose a model.",
+          "evidenceIds": [
+            "worktree"
+          ]
+        },
+        "messages": {
+          "support": "supported",
+          "answer": "send_message, broadcast, receive_messages and get_peer_status with exactly-once delivery.",
+          "evidenceIds": [
+            "aiagents"
+          ]
+        },
+        "results_return": {
+          "support": "partial",
+          "answer": "Results travel as peer messages.",
+          "evidenceIds": [
+            "aiagents"
+          ]
+        },
+        "cross_harness": {
+          "support": "supported",
+          "answer": "Claude Code, Codex, OpenCode, Hermes, Grok and pi can message each other.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "orchestration_owner": {
+          "support": "partial",
+          "answer": "Calyx ships the messaging and cockpit tools; the agent decides how to use them.",
+          "evidenceIds": [
+            "aiagents"
+          ]
+        },
+        "activation": {
+          "support": "partial",
+          "answer": "Enable AI Agent IPC in Settings (off until turned on); optional wake setting for Claude Code is off by default.",
+          "evidenceIds": [
+            "aiagents"
+          ]
+        },
+        "authentication": {
+          "support": "supported",
+          "answer": "Bearer token with signed approvals.",
+          "evidenceIds": [
+            "mcpserver"
+          ]
+        },
+        "live_progress": {
+          "support": "supported",
+          "answer": "Mission Map shows state, current tool and IPC lines live.",
+          "evidenceIds": [
+            "mission"
+          ]
+        },
+        "retained_results": {
+          "support": "partial",
+          "answer": "IPC messages are kept in memory (512) until Calyx quits.",
+          "evidenceIds": [
+            "privacy"
+          ]
+        },
+        "followup": {
+          "support": "partial",
+          "answer": "Peers can be messaged again while registered; they expire after 10 minutes without IPC calls.",
+          "evidenceIds": [
+            "aiagents"
+          ]
+        },
+        "invocation": {
+          "support": "supported",
+          "answer": "Agents call the MCP tools from natural-language instructions.",
+          "evidenceIds": [
+            "aiagents"
+          ]
+        }
+      },
+      "limitations": [
+        "Calyx supplies messaging and cockpit tools but not a designated coordinator role or its own delegation workflow."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "aiagents",
+        "mission",
+        "readme",
+        "worktree",
+        "mcpserver",
+        "privacy"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "calyx:COORD-04",
+      "criterionId": "COORD-04",
+      "answer": "No schedules, event triggers or recurring tasks; the Claude Code wake hook only reacts to IPC messages.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release v0.50.1 (2026-10-23, commit 2dfb7a4); help docs commit 4e50d02; site commit 673e684",
+        "plan": "Open source (MIT) macOS app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "schedules": {
+          "support": "unsupported",
+          "answer": "Bounded search for cron, schedule and launchd found only terminal and update behaviors, no agent scheduler.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "events": {
+          "support": "partial",
+          "answer": "An IPC message can wake an idle Claude Code pane when the wake option is on.",
+          "evidenceIds": [
+            "aiagents"
+          ]
+        },
+        "recurring_tasks": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "completion_conditions": {
+          "support": "partial",
+          "answer": "terminal_await_command waits for a command to finish.",
+          "evidenceIds": [
+            "cmdlog"
+          ]
+        },
+        "scheduler_location": {
+          "support": "unsupported",
+          "answer": "Not applicable.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "overlaps": {
+          "support": "unsupported",
+          "answer": "Not applicable.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "retries": {
+          "support": "unsupported",
+          "answer": "Not applicable.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "client_independence": {
+          "support": "partial",
+          "answer": "Persistent sessions keep agents running if Calyx quits.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: schedules, events, recurring_tasks, completion_conditions, scheduler_location, overlaps, retries, client_independence; see each atomic answer for the limitation."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "aiagents",
+        "readme",
+        "cmdlog",
+        "sessions"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "calyx:COORD-05",
+      "criterionId": "COORD-05",
+      "answer": "Approval panel, notifications, Mission Map card approvals, compose overlay, split focus and stop via terminal; agent questions appear in the panel; no pause control.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release v0.50.1 (2026-10-23, commit 2dfb7a4); help docs commit 4e50d02; site commit 673e684",
+        "plan": "Open source (MIT) macOS app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "pause": {
+          "support": "unsupported",
+          "answer": "No pause feature; Ctrl-Z and agent controls belong to the terminal.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "stop": {
+          "support": "partial",
+          "answer": "Close pane or kill session; Esc in the agent.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "resume": {
+          "support": "supported",
+          "answer": "Agent resume offer on reattach and persistent sessions.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "steer": {
+          "support": "supported",
+          "answer": "Type into the pane or use the Compose Overlay; Grok/pi approvals decided in the panel.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "notifications": {
+          "support": "supported",
+          "answer": "macOS notification for each new approval request and OSC desktop notifications.",
+          "evidenceIds": [
+            "aiagents",
+            "security"
+          ]
+        },
+        "pending_decisions": {
+          "support": "supported",
+          "answer": "Approval panel shows tool calls and AskUserQuestion questions with queue navigation.",
+          "evidenceIds": [
+            "aiagents"
+          ]
+        },
+        "escalation": {
+          "support": "unsupported",
+          "answer": "No escalation policy.",
+          "evidenceIds": [
+            "aiagents"
+          ]
+        },
+        "visible_errors": {
+          "support": "supported",
+          "answer": "Server start failures show in Settings and the Agents Sidebar.",
+          "evidenceIds": [
+            "aiagents"
+          ]
+        },
+        "chat_terminal_parity": {
+          "support": "supported",
+          "answer": "Claude Code and Codex prompts can be answered in the panel or the pane; dismiss hands back to the CLI prompt.",
+          "evidenceIds": [
+            "aiagents"
+          ]
+        },
+        "retained_history": {
+          "support": "partial",
+          "answer": "Terminal scrollback and optional on-disk history.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: pause, stop, escalation, retained_history; see each atomic answer for the limitation."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "aiagents",
+        "mission",
+        "security",
+        "readme",
+        "sessions"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "calyx:COORD-06",
+      "criterionId": "COORD-06",
+      "answer": "Mission Map shows every pane in a window as a card with state, branch, changed files, current tool, subagents, usage and pending approvals; Agents Sidebar lists them; scope is one window and one machine.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release v0.50.1 (2026-10-23, commit 2dfb7a4); help docs commit 4e50d02; site commit 673e684",
+        "plan": "Open source (MIT) macOS app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "fleet_fixture": {
+          "support": "supported",
+          "answer": "First-party site screenshots show Mission Map cards and the Agents Sidebar.",
+          "evidenceIds": [
+            "screenshot"
+          ]
+        },
+        "parent_child": {
+          "support": "supported",
+          "answer": "Subagent rows nest under agent rows.",
+          "evidenceIds": [
+            "mission"
+          ]
+        },
+        "dependencies": {
+          "support": "unsupported",
+          "answer": "No dependencies.",
+          "evidenceIds": [
+            "mission"
+          ]
+        },
+        "attention": {
+          "support": "supported",
+          "answer": "Waiting-for-approval row with pulsing border and unread badges.",
+          "evidenceIds": [
+            "mission"
+          ]
+        },
+        "history": {
+          "support": "partial",
+          "answer": "Command log and IPC messages in memory only.",
+          "evidenceIds": [
+            "privacy"
+          ]
+        },
+        "workload": {
+          "support": "partial",
+          "answer": "Usage tracking line per card for Claude Code.",
+          "evidenceIds": [
+            "usagetrack"
+          ]
+        },
+        "navigation_errors": {
+          "support": "partial",
+          "answer": "Failed IPC server start is shown; no failure board.",
+          "evidenceIds": [
+            "aiagents"
+          ]
+        },
+        "fixture_mode": {
+          "support": "unknown",
+          "answer": "The Mission Map screenshot on the site is a first-party capture whose live fixture setup is not documented.",
+          "evidenceIds": []
+        }
+      },
+      "limitations": [
+        "One map per window; herdr agents appear as dimmed Terminal cards; no dependencies or epics."
+      ],
+      "unknownReason": "How site screenshots were produced is not documented.",
+      "evidenceIds": [
+        "mission",
+        "readme",
+        "screenshot",
+        "privacy",
+        "usagetrack",
+        "aiagents"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "calyx:COORD-07",
+      "criterionId": "COORD-07",
+      "answer": "No preset is required; agent, arguments and initial prompt are chosen per worktree task or by launching the CLI; Mission Map shows live agent state and messages.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release v0.50.1 (2026-10-23, commit 2dfb7a4); help docs commit 4e50d02; site commit 673e684",
+        "plan": "Open source (MIT) macOS app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "quick_task": {
+          "support": "supported",
+          "answer": "Open a pane and run the CLI.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "growing_epic": {
+          "support": "unsupported",
+          "answer": "No epic concept.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "presets": {
+          "support": "unsupported",
+          "answer": "No presets or workflows.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "natural_language": {
+          "support": "partial",
+          "answer": "Agents are configured by their own CLIs; Calyx writes their MCP entries.",
+          "evidenceIds": [
+            "aiagents"
+          ]
+        },
+        "agent_configuration": {
+          "support": "supported",
+          "answer": "Worktree task takes agent, base branch, arguments such as --model and --effort, and a prompt.",
+          "evidenceIds": [
+            "worktree"
+          ]
+        },
+        "in_run_changes": {
+          "support": "partial",
+          "answer": "Agent CLIs change their own settings; Calyx does not.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "live_roles": {
+          "support": "supported",
+          "answer": "Mission Map and Agents Sidebar show agents, subagents and IPC lines.",
+          "evidenceIds": [
+            "mission"
+          ]
+        },
+        "retained_relationships": {
+          "support": "partial",
+          "answer": "IPC lines are in memory only.",
+          "evidenceIds": [
+            "privacy"
+          ]
+        },
+        "discoverability": {
+          "support": "partial",
+          "answer": "Enable AI Agent IPC is a Settings switch documented in the help center.",
+          "evidenceIds": [
+            "aiagents"
+          ]
+        },
+        "auth_friction": {
+          "support": "supported",
+          "answer": "No accounts or tokens to manage by hand.",
+          "evidenceIds": [
+            "aiagents"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: growing_epic, presets, natural_language, in_run_changes, retained_relationships, discoverability; see each atomic answer for the limitation."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "worktree",
+        "mission",
+        "readme",
+        "aiagents",
+        "privacy"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "calyx:RUN-01",
+      "criterionId": "RUN-01",
+      "answer": "Everything runs locally on your Mac; remote persistent sessions can run on an SSH host after calyx-session remote-install; no hosted or vendor cloud.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release v0.50.1 (2026-10-23, commit 2dfb7a4); help docs commit 4e50d02; site commit 673e684",
+        "plan": "Open source (MIT) macOS app, free download; no paid plan",
+        "os": [],
+        "executionModes": [
+          "local",
+          "own-server"
+        ],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "local": {
+          "support": "supported",
+          "answer": "Panes run shells and agents on the Mac.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "byo_remote": {
+          "support": "supported",
+          "answer": "Remote persistent sessions on any SSH host in ~/.ssh/config.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "self_hosted": {
+          "support": "unsupported",
+          "answer": "There is no server component other than the optional daemon.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "managed_cloud": {
+          "support": "unsupported",
+          "answer": "No vendor cloud (privacy page: only update traffic leaves the machine).",
+          "evidenceIds": [
+            "privacy"
+          ]
+        },
+        "hybrid": {
+          "support": "partial",
+          "answer": "Local app attached to remote sessions.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "provisioning": {
+          "support": "partial",
+          "answer": "One command deploys the daemon to ~/.calyx/bin on the host; the user installs agents.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "payer": {
+          "support": "supported",
+          "answer": "The user owns the Mac or host.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "resources": {
+          "support": "unsupported",
+          "answer": "Resources are the host's; none documented.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "region": {
+          "support": "unsupported",
+          "answer": "Not applicable.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "expiry": {
+          "support": "partial",
+          "answer": "Persistent daemon sessions live until killed; history optional, rotated at 10 MB.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "client_disconnect": {
+          "support": "supported",
+          "answer": "Quitting or crashing Calyx leaves persistent sessions running; remote sessions keep running on the host.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "other_device_continuation": {
+          "support": "partial",
+          "answer": "Remote sessions can be reattached from another Mac running Calyx; no other client types.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        }
+      },
+      "limitations": [
+        "The GUI and agents installation live on the local Mac; a remote host only holds terminal sessions the user reattaches from Calyx."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "sessions",
+        "readme",
+        "privacy"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "calyx:RUN-02",
+      "criterionId": "RUN-02",
+      "answer": "Worktree tasks isolate an agent in a linked git worktree and branch; no container, VM or OS sandbox; the app sandbox is disabled and agents run as the user.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release v0.50.1 (2026-10-23, commit 2dfb7a4); help docs commit 4e50d02; site commit 673e684",
+        "plan": "Open source (MIT) macOS app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "checkout": {
+          "support": "supported",
+          "answer": "Panes work in any checkout.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "branch": {
+          "support": "supported",
+          "answer": "Worktree tasks create a new branch with a recorded base.",
+          "evidenceIds": [
+            "worktree"
+          ]
+        },
+        "worktree": {
+          "support": "supported",
+          "answer": "Linked worktree under ~/.calyx/worktrees/<repo>/<branch>.",
+          "evidenceIds": [
+            "worktree"
+          ]
+        },
+        "container": {
+          "support": "unsupported",
+          "answer": "No container isolation found.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "vm": {
+          "support": "unsupported",
+          "answer": "No VM isolation found.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "os_sandbox": {
+          "support": "unsupported",
+          "answer": "com.apple.security.app-sandbox is false in Calyx.entitlements.",
+          "evidenceIds": [
+            "entitle"
+          ]
+        },
+        "filesystem": {
+          "support": "partial",
+          "answer": "Worktree separation only.",
+          "evidenceIds": [
+            "worktree"
+          ]
+        },
+        "process": {
+          "support": "unsupported",
+          "answer": "Agents run as ordinary child processes of the user.",
+          "evidenceIds": [
+            "entitle"
+          ]
+        },
+        "network": {
+          "support": "unsupported",
+          "answer": "No network policy.",
+          "evidenceIds": [
+            "entitle"
+          ]
+        },
+        "secrets": {
+          "support": "partial",
+          "answer": "Known secret patterns are redacted in the command log exposed to agents.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "code_separation": {
+          "support": "supported",
+          "answer": "Each task has its own worktree.",
+          "evidenceIds": [
+            "worktree"
+          ]
+        },
+        "security_boundary": {
+          "support": "unsupported",
+          "answer": "No hostile-code containment claim; clipboard paste confirmation and Secure Keyboard Entry only.",
+          "evidenceIds": [
+            "security"
+          ]
+        }
+      },
+      "limitations": [
+        "A worktree separates files only; processes, network and secrets are the user account's."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "worktree",
+        "entitle",
+        "sessions",
+        "readme",
+        "security"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "calyx:RUN-03",
+      "criterionId": "RUN-03",
+      "answer": "Persistent sessions survive app quit and crash; a recovery bar restores previous sessions; layout restore reopens tabs and splits with fresh shells; agent resume is offered.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release v0.50.1 (2026-10-23, commit 2dfb7a4); help docs commit 4e50d02; site commit 673e684",
+        "plan": "Open source (MIT) macOS app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "client_disconnect": {
+          "support": "supported",
+          "answer": "Daemon-owned shells keep running.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "worker_crash": {
+          "support": "partial",
+          "answer": "The daemon marks sessions it does not own as exited at start.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "service_restart": {
+          "support": "partial",
+          "answer": "IPC server reuses its previous port and token across a Calyx restart when possible.",
+          "evidenceIds": [
+            "aiagents"
+          ]
+        },
+        "expiry": {
+          "support": "supported",
+          "answer": "No expiry beyond kill; remote hosts apply their own policies.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "transcript_reload": {
+          "support": "partial",
+          "answer": "Optional on-disk session history; scrollback otherwise in memory.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "process_reconnect": {
+          "support": "supported",
+          "answer": "Reattach through the Session Browser or automatic restore.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "task_resume": {
+          "support": "supported",
+          "answer": "Offer to resume agent CLI conversations with optional auto-execute.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "state_reconstruction": {
+          "support": "partial",
+          "answer": "Layout restore recreates tabs, splits and directories.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "context_loss": {
+          "support": "partial",
+          "answer": "Non-persistent panes start fresh shells after relaunch.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "duplicate_actions": {
+          "support": "unsupported",
+          "answer": "Not documented.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "manual_repair": {
+          "support": "supported",
+          "answer": "Session Browser shows why a Kill failed.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "multi_day_continuity": {
+          "support": "partial",
+          "answer": "Persistent sessions can outlive many Calyx launches while the Mac stays on.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: worker_crash, service_restart, transcript_reload, state_reconstruction, context_loss, duplicate_actions, multi_day_continuity; see each atomic answer for the limitation."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "sessions",
+        "readme",
+        "aiagents"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "calyx:RUN-04",
+      "criterionId": "RUN-04",
+      "answer": "Dependency setup, caches, ports and services are left to the user and agent; worktrees are plain git worktrees without install hooks.",
+      "support": "unsupported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release v0.50.1 (2026-10-23, commit 2dfb7a4); help docs commit 4e50d02; site commit 673e684",
+        "plan": "Open source (MIT) macOS app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "dependencies": {
+          "support": "unsupported",
+          "answer": "Calyx performs no environment setup for worktrees (bounded search of WorktreeTask sources and docs found none).",
+          "evidenceIds": [
+            "worktree"
+          ]
+        },
+        "caches": {
+          "support": "unsupported",
+          "answer": "Calyx performs no environment setup for worktrees (bounded search of WorktreeTask sources and docs found none).",
+          "evidenceIds": [
+            "worktree"
+          ]
+        },
+        "snapshots": {
+          "support": "unsupported",
+          "answer": "Calyx performs no environment setup for worktrees (bounded search of WorktreeTask sources and docs found none).",
+          "evidenceIds": [
+            "worktree"
+          ]
+        },
+        "services": {
+          "support": "unsupported",
+          "answer": "Calyx performs no environment setup for worktrees (bounded search of WorktreeTask sources and docs found none).",
+          "evidenceIds": [
+            "worktree"
+          ]
+        },
+        "ports": {
+          "support": "unsupported",
+          "answer": "Calyx performs no environment setup for worktrees (bounded search of WorktreeTask sources and docs found none).",
+          "evidenceIds": [
+            "worktree"
+          ]
+        },
+        "secrets": {
+          "support": "unsupported",
+          "answer": "Calyx performs no environment setup for worktrees (bounded search of WorktreeTask sources and docs found none).",
+          "evidenceIds": [
+            "worktree"
+          ]
+        },
+        "duplicate_installs": {
+          "support": "unsupported",
+          "answer": "Calyx performs no environment setup for worktrees (bounded search of WorktreeTask sources and docs found none).",
+          "evidenceIds": [
+            "worktree"
+          ]
+        },
+        "collisions": {
+          "support": "unsupported",
+          "answer": "Calyx performs no environment setup for worktrees (bounded search of WorktreeTask sources and docs found none).",
+          "evidenceIds": [
+            "worktree"
+          ]
+        },
+        "remote_setup": {
+          "support": "unsupported",
+          "answer": "Calyx performs no environment setup for worktrees (bounded search of WorktreeTask sources and docs found none).",
+          "evidenceIds": [
+            "worktree"
+          ]
+        },
+        "automatic_repair": {
+          "support": "unsupported",
+          "answer": "Calyx performs no environment setup for worktrees (bounded search of WorktreeTask sources and docs found none).",
+          "evidenceIds": [
+            "worktree"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "worktree"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "calyx:RUN-05",
+      "criterionId": "RUN-05",
+      "answer": "No time, turn, token or spend limits; usage tracking only reports tokens; approvals expire after about 10 minutes and cockpit requests after 55 seconds.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release v0.50.1 (2026-10-23, commit 2dfb7a4); help docs commit 4e50d02; site commit 673e684",
+        "plan": "Open source (MIT) macOS app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "time_limits": {
+          "support": "partial",
+          "answer": "Approval requests expire (about 10 minutes; cockpit 55 seconds).",
+          "evidenceIds": [
+            "aiagents"
+          ]
+        },
+        "turn_limits": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "aiagents"
+          ]
+        },
+        "token_limits": {
+          "support": "unsupported",
+          "answer": "None; tracking is read-only.",
+          "evidenceIds": [
+            "usagetrack"
+          ]
+        },
+        "spend_limits": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "usagetrack"
+          ]
+        },
+        "timeouts": {
+          "support": "partial",
+          "answer": "terminal_await_command defaults to 30 seconds, max 55.",
+          "evidenceIds": [
+            "aiagents"
+          ]
+        },
+        "retries": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "aiagents"
+          ]
+        },
+        "provider_failures": {
+          "support": "unsupported",
+          "answer": "Handled by agent CLIs.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "enforcement": {
+          "support": "partial",
+          "answer": "Approval expiry denies or hands back; nothing is auto-approved on failure.",
+          "evidenceIds": [
+            "aiagents"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: time_limits, turn_limits, token_limits, spend_limits, timeouts, retries, provider_failures, enforcement; see each atomic answer for the limitation."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "aiagents",
+        "usagetrack",
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "calyx:RUN-06",
+      "criterionId": "RUN-06",
+      "answer": "In-memory command log with exit status and redacted output, agent state, Claude Code token usage by model, effort, thread and project in a Usage window; no traces or exports.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release v0.50.1 (2026-10-23, commit 2dfb7a4); help docs commit 4e50d02; site commit 673e684",
+        "plan": "Open source (MIT) macOS app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "logs": {
+          "support": "supported",
+          "answer": "Command log (in memory, capped, secrets redacted) and optional session history files.",
+          "evidenceIds": [
+            "privacy",
+            "sessions"
+          ]
+        },
+        "traces": {
+          "support": "unsupported",
+          "answer": "No traces.",
+          "evidenceIds": [
+            "privacy"
+          ]
+        },
+        "failure_reasons": {
+          "support": "partial",
+          "answer": "Exit status per command; agent failures read from the CLI.",
+          "evidenceIds": [
+            "cmdlog"
+          ]
+        },
+        "usage_export": {
+          "support": "partial",
+          "answer": "usage_report tool for agents; SQLite database on disk; no export UI documented.",
+          "evidenceIds": [
+            "usagetrack"
+          ]
+        },
+        "task_stats": {
+          "support": "partial",
+          "answer": "Per thread token counts.",
+          "evidenceIds": [
+            "usagetrack"
+          ]
+        },
+        "agent_stats": {
+          "support": "supported",
+          "answer": "By agent type, model and effort for Claude Code.",
+          "evidenceIds": [
+            "usagetrack"
+          ]
+        },
+        "project_stats": {
+          "support": "supported",
+          "answer": "Project path grouping.",
+          "evidenceIds": [
+            "usagetrack"
+          ]
+        },
+        "time_stats": {
+          "support": "supported",
+          "answer": "Day and month views in the Usage window.",
+          "evidenceIds": [
+            "usagetrack"
+          ]
+        },
+        "failure_status": {
+          "support": "partial",
+          "answer": "Agent states working, blocked, idle, done.",
+          "evidenceIds": [
+            "mission"
+          ]
+        },
+        "approval_status": {
+          "support": "supported",
+          "answer": "Pending approvals per pane.",
+          "evidenceIds": [
+            "mission"
+          ]
+        },
+        "reconnect_consistency": {
+          "support": "partial",
+          "answer": "Rows settle when the shell returns to its prompt; fish suspended-job limitation documented.",
+          "evidenceIds": [
+            "limits"
+          ]
+        },
+        "performance_method": {
+          "support": "unsupported",
+          "answer": "No benchmark published and no ADEMark entry.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "responsiveness": {
+          "support": "unsupported",
+          "answer": "No responsiveness measurements published.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: traces, failure_reasons, usage_export, task_stats, failure_status, reconnect_consistency, performance_method, responsiveness; see each atomic answer for the limitation."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "aiagents",
+        "usagetrack",
+        "privacy",
+        "sessions",
+        "cmdlog",
+        "mission",
+        "limits",
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "calyx:RUN-07",
+      "criterionId": "RUN-07",
+      "answer": "Opt-in usage tracking counts Claude Code tokens only, as Claude Code reports them, per model, effort, thread and project; no dollar cost, no other agents, no budget alerts.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release v0.50.1 (2026-10-23, commit 2dfb7a4); help docs commit 4e50d02; site commit 673e684",
+        "plan": "Open source (MIT) macOS app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "task_cost": {
+          "support": "unsupported",
+          "answer": "No cost figures.",
+          "evidenceIds": [
+            "usagetrack"
+          ]
+        },
+        "session_cost": {
+          "support": "partial",
+          "answer": "Token counts per session ID, not cost.",
+          "evidenceIds": [
+            "usagetrack"
+          ]
+        },
+        "child_cost": {
+          "support": "partial",
+          "answer": "Subagent tokens are counted in Claude Code's totals.",
+          "evidenceIds": [
+            "usagetrack"
+          ]
+        },
+        "epic_cost": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "usagetrack"
+          ]
+        },
+        "harness_aggregation": {
+          "support": "unsupported",
+          "answer": "Only Claude Code is tracked.",
+          "evidenceIds": [
+            "usagetrack"
+          ]
+        },
+        "billed_vs_estimated": {
+          "support": "unsupported",
+          "answer": "Counts are tokens as reported by Claude Code; no prices.",
+          "evidenceIds": [
+            "usagetrack"
+          ]
+        },
+        "tokens": {
+          "support": "supported",
+          "answer": "Input, cache read, cache write and output tokens.",
+          "evidenceIds": [
+            "usagetrack"
+          ]
+        },
+        "subscription_allowance": {
+          "support": "unsupported",
+          "answer": "Not shown.",
+          "evidenceIds": [
+            "usagetrack"
+          ]
+        },
+        "provider_reconciliation": {
+          "support": "partial",
+          "answer": "Missing counts are filled from Claude Code transcript files and shown as unreported rows.",
+          "evidenceIds": [
+            "usagetrack"
+          ]
+        },
+        "compute_cost": {
+          "support": "unsupported",
+          "answer": "Not applicable.",
+          "evidenceIds": [
+            "usagetrack"
+          ]
+        },
+        "refresh_delay": {
+          "support": "supported",
+          "answer": "Claude Code exports metrics every 5 seconds.",
+          "evidenceIds": [
+            "usagetrack"
+          ]
+        },
+        "alerts": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "usagetrack"
+          ]
+        },
+        "export": {
+          "support": "partial",
+          "answer": "SQLite file readable by the user; usage_report tool.",
+          "evidenceIds": [
+            "usagetrack",
+            "usagebridge"
+          ]
+        },
+        "drilldown": {
+          "support": "supported",
+          "answer": "Usage window, Mission Map card line and usage_report.",
+          "evidenceIds": [
+            "usagetrack"
+          ]
+        }
+      },
+      "limitations": [
+        "Claude Code only, tokens not dollars; sessions started before tracking was on are not counted."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "usagetrack",
+        "limits",
+        "usagebridge"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "calyx:RUN-08",
+      "criterionId": "RUN-08",
+      "answer": "No compute-aware scheduling; agent processes run unconstrained on the Mac.",
+      "support": "unsupported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release v0.50.1 (2026-10-23, commit 2dfb7a4); help docs commit 4e50d02; site commit 673e684",
+        "plan": "Open source (MIT) macOS app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "concurrency": {
+          "support": "unsupported",
+          "answer": "Bounded search of Calyx sources and docs found no scheduler, limits or resource accounting.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "queues": {
+          "support": "unsupported",
+          "answer": "Bounded search of Calyx sources and docs found no scheduler, limits or resource accounting.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "cpu_ram": {
+          "support": "unsupported",
+          "answer": "Bounded search of Calyx sources and docs found no scheduler, limits or resource accounting.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "backpressure": {
+          "support": "unsupported",
+          "answer": "Bounded search of Calyx sources and docs found no scheduler, limits or resource accounting.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "host_awareness": {
+          "support": "unsupported",
+          "answer": "Bounded search of Calyx sources and docs found no scheduler, limits or resource accounting.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "check_reuse": {
+          "support": "unsupported",
+          "answer": "Bounded search of Calyx sources and docs found no scheduler, limits or resource accounting.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "check_deduplication": {
+          "support": "unsupported",
+          "answer": "Bounded search of Calyx sources and docs found no scheduler, limits or resource accounting.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "bounded_tests": {
+          "support": "unsupported",
+          "answer": "Bounded search of Calyx sources and docs found no scheduler, limits or resource accounting.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "cancellation": {
+          "support": "unsupported",
+          "answer": "Bounded search of Calyx sources and docs found no scheduler, limits or resource accounting.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "fairness": {
+          "support": "unsupported",
+          "answer": "Bounded search of Calyx sources and docs found no scheduler, limits or resource accounting.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "recovery": {
+          "support": "unsupported",
+          "answer": "Bounded search of Calyx sources and docs found no scheduler, limits or resource accounting.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "shared_limits": {
+          "support": "unsupported",
+          "answer": "Bounded search of Calyx sources and docs found no scheduler, limits or resource accounting.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "calyx:TEAM-01",
+      "criterionId": "TEAM-01",
+      "answer": "Single-user local app; no sharing, presence or co-prompting. Remote sessions can be reattached by the same user only.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release v0.50.1 (2026-10-23, commit 2dfb7a4); help docs commit 4e50d02; site commit 673e684",
+        "plan": "Open source (MIT) macOS app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "visibility": {
+          "support": "unsupported",
+          "answer": "No sharing feature.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "discussion": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "comments": {
+          "support": "partial",
+          "answer": "Diff review comments go to an agent pane, not people.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "presence": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "coprompting": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "ordering": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "conflicts": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "attribution": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "permissions": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "plan_restrictions": {
+          "support": "supported",
+          "answer": "No plans; free MIT software.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "owner_online": {
+          "support": "unsupported",
+          "answer": "Not applicable.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: visibility, discussion, comments, presence, coprompting, ordering, conflicts, attribution, permissions, owner_online; see each atomic answer for the limitation."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "privacy",
+        "site"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "calyx:TEAM-02",
+      "criterionId": "TEAM-02",
+      "answer": "No users, roles or SSO; Calyx has no accounts.",
+      "support": "unsupported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release v0.50.1 (2026-10-23, commit 2dfb7a4); help docs commit 4e50d02; site commit 673e684",
+        "plan": "Open source (MIT) macOS app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "organization_roles": {
+          "support": "unsupported",
+          "answer": "Calyx has no accounts or team features (privacy policy collects no identifiers; bounded search found no roles or SSO).",
+          "evidenceIds": [
+            "privacy"
+          ]
+        },
+        "project_roles": {
+          "support": "unsupported",
+          "answer": "Calyx has no accounts or team features (privacy policy collects no identifiers; bounded search found no roles or SSO).",
+          "evidenceIds": [
+            "privacy"
+          ]
+        },
+        "task_roles": {
+          "support": "unsupported",
+          "answer": "Calyx has no accounts or team features (privacy policy collects no identifiers; bounded search found no roles or SSO).",
+          "evidenceIds": [
+            "privacy"
+          ]
+        },
+        "membership": {
+          "support": "unsupported",
+          "answer": "Calyx has no accounts or team features (privacy policy collects no identifiers; bounded search found no roles or SSO).",
+          "evidenceIds": [
+            "privacy"
+          ]
+        },
+        "sso": {
+          "support": "unsupported",
+          "answer": "Calyx has no accounts or team features (privacy policy collects no identifiers; bounded search found no roles or SSO).",
+          "evidenceIds": [
+            "privacy"
+          ]
+        },
+        "provisioning": {
+          "support": "unsupported",
+          "answer": "Calyx has no accounts or team features (privacy policy collects no identifiers; bounded search found no roles or SSO).",
+          "evidenceIds": [
+            "privacy"
+          ]
+        },
+        "unauthorized_access": {
+          "support": "unsupported",
+          "answer": "Calyx has no accounts or team features (privacy policy collects no identifiers; bounded search found no roles or SSO).",
+          "evidenceIds": [
+            "privacy"
+          ]
+        },
+        "revocation": {
+          "support": "unsupported",
+          "answer": "Calyx has no accounts or team features (privacy policy collects no identifiers; bounded search found no roles or SSO).",
+          "evidenceIds": [
+            "privacy"
+          ]
+        },
+        "plan_scope": {
+          "support": "unsupported",
+          "answer": "Calyx has no accounts or team features (privacy policy collects no identifiers; bounded search found no roles or SSO).",
+          "evidenceIds": [
+            "privacy"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "privacy",
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "calyx:TEAM-03",
+      "criterionId": "TEAM-03",
+      "answer": "Approval panel for agent tool calls (Claude Code and Codex prompts, Grok always-approve calls, every pi call) and gated cockpit tools; Allow, Deny and Always Allow with per-pane or CLI-defined scopes; nothing auto-approved on failure; signed answers.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release v0.50.1 (2026-10-23, commit 2dfb7a4); help docs commit 4e50d02; site commit 673e684",
+        "plan": "Open source (MIT) macOS app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "command": {
+          "support": "supported",
+          "answer": "Claude Code and Codex permission prompts, Grok always-approve calls, pi tool calls and pane_run commands appear in the panel.",
+          "evidenceIds": [
+            "aiagents",
+            "approval"
+          ]
+        },
+        "tool": {
+          "support": "supported",
+          "answer": "Per tool approvals with the CLI's own always-allow suggestions.",
+          "evidenceIds": [
+            "aiagents"
+          ]
+        },
+        "network": {
+          "support": "unsupported",
+          "answer": "No network approvals.",
+          "evidenceIds": [
+            "aiagents"
+          ]
+        },
+        "secret": {
+          "support": "unsupported",
+          "answer": "No secret approvals.",
+          "evidenceIds": [
+            "aiagents"
+          ]
+        },
+        "delivery": {
+          "support": "unsupported",
+          "answer": "No delivery approvals.",
+          "evidenceIds": [
+            "aiagents"
+          ]
+        },
+        "approver_identity": {
+          "support": "unsupported",
+          "answer": "Single local user; no identities.",
+          "evidenceIds": [
+            "privacy"
+          ]
+        },
+        "lifetime": {
+          "support": "supported",
+          "answer": "Allow is single-call; Always Allow lasts per pane until closed or the server stops, or for the scope the CLI names.",
+          "evidenceIds": [
+            "aiagents"
+          ]
+        },
+        "allow": {
+          "support": "supported",
+          "answer": "Yes/Allow.",
+          "evidenceIds": [
+            "aiagents"
+          ]
+        },
+        "deny": {
+          "support": "supported",
+          "answer": "No/Deny returns {\"status\":\"denied\"}.",
+          "evidenceIds": [
+            "aiagents"
+          ]
+        },
+        "revoke": {
+          "support": "partial",
+          "answer": "Auto-approval can be switched off in Settings; per-pane always-allow ends when the pane closes.",
+          "evidenceIds": [
+            "aiagents"
+          ]
+        },
+        "tunnels": {
+          "support": "unsupported",
+          "answer": "No tunnels.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "defaults": {
+          "support": "supported",
+          "answer": "Approval routing and auto-approve are off by default; agent CLIs keep their own prompts.",
+          "evidenceIds": [
+            "aiagents"
+          ]
+        },
+        "safer_modes": {
+          "support": "partial",
+          "answer": "Routing agent prompts to one panel and cockpit gating; agent modes belong to the CLIs.",
+          "evidenceIds": [
+            "aiagents"
+          ]
+        },
+        "enforcement": {
+          "support": "supported",
+          "answer": "Approval answers are signed by the running Calyx; the hook accepts only verified answers; the IPC server checks loopback Origin and bearer token.",
+          "evidenceIds": [
+            "aiagents",
+            "mcpserver"
+          ]
+        }
+      },
+      "limitations": [
+        "OpenCode and Hermes keep prompting in their own pane; secrets and network access have no separate approval flow."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "aiagents",
+        "mission",
+        "mcpserver",
+        "approval",
+        "privacy",
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "calyx:TEAM-04",
+      "criterionId": "TEAM-04",
+      "answer": "No persistent activity history: command logs and IPC messages are in memory only and discarded on quit; optional session history files.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release v0.50.1 (2026-10-23, commit 2dfb7a4); help docs commit 4e50d02; site commit 673e684",
+        "plan": "Open source (MIT) macOS app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "actions": {
+          "support": "partial",
+          "answer": "Command log of shell commands in memory.",
+          "evidenceIds": [
+            "privacy"
+          ]
+        },
+        "approvals": {
+          "support": "unsupported",
+          "answer": "Approval decisions are not recorded.",
+          "evidenceIds": [
+            "privacy"
+          ]
+        },
+        "edits": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "privacy"
+          ]
+        },
+        "discussion": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "privacy"
+          ]
+        },
+        "decisions": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "privacy"
+          ]
+        },
+        "cross_user_persistence": {
+          "support": "unsupported",
+          "answer": "Single user.",
+          "evidenceIds": [
+            "privacy"
+          ]
+        },
+        "cross_session_persistence": {
+          "support": "partial",
+          "answer": "Only optional on-disk session history and usage database persist.",
+          "evidenceIds": [
+            "sessions",
+            "usagetrack"
+          ]
+        },
+        "export": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "privacy"
+          ]
+        },
+        "mutability": {
+          "support": "partial",
+          "answer": "Local files the user can edit.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "retention": {
+          "support": "partial",
+          "answer": "History files rotate at 10 MB; command log discarded at quit.",
+          "evidenceIds": [
+            "sessions",
+            "privacy"
+          ]
+        },
+        "integrity": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "privacy"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: actions, approvals, edits, discussion, decisions, cross_user_persistence, cross_session_persistence, export, mutability, retention, integrity; see each atomic answer for the limitation."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "privacy",
+        "sessions",
+        "usagetrack"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "calyx:TEAM-05",
+      "criterionId": "TEAM-05",
+      "answer": "Git sidebar with working changes, staging, commit graph, diff tabs (inline or side by side, word wrap, change navigation), per-line review comments submitted to an agent pane; no PR or multi-reviewer workflow.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release v0.50.1 (2026-10-23, commit 2dfb7a4); help docs commit 4e50d02; site commit 673e684",
+        "plan": "Open source (MIT) macOS app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "pending_reviews": {
+          "support": "partial",
+          "answer": "Changes sidebar lists working changes per repository.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "change_understanding": {
+          "support": "partial",
+          "answer": "Inline or side-by-side diffs with intra-line highlights and an overview ruler.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "evidence_navigation": {
+          "support": "supported",
+          "answer": "Go to Next/Previous Change, reusable preview tab and commit log ref picker.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "comments": {
+          "support": "supported",
+          "answer": "Comment on individual diff lines.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "request_changes": {
+          "support": "supported",
+          "answer": "Submit the complete review directly to a Claude Code, Codex, OpenCode, Hermes or Grok pane.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "shipping_guidance": {
+          "support": "unsupported",
+          "answer": "No shipping guidance.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "effort": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "missed_evidence": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "keyboard": {
+          "support": "supported",
+          "answer": "Documented shortcuts including Option+F5 for diff navigation.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "narrow_screen": {
+          "support": "unsupported",
+          "answer": "Desktop only.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "context_switching": {
+          "support": "supported",
+          "answer": "Review sends feedback back to the pane that wrote the code.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "roles": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "retained_context": {
+          "support": "partial",
+          "answer": "Comments are submitted to the pane; no stored review record documented.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: pending_reviews, change_understanding, shipping_guidance, effort, missed_evidence, narrow_screen, roles, retained_context; see each atomic answer for the limitation."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "site"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "calyx:TEAM-06",
+      "criterionId": "TEAM-06",
+      "answer": "No colleague takeover; single-user app.",
+      "support": "unsupported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release v0.50.1 (2026-10-23, commit 2dfb7a4); help docs commit 4e50d02; site commit 673e684",
+        "plan": "Open source (MIT) macOS app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "ongoing_takeover": {
+          "support": "unsupported",
+          "answer": "Calyx has no multi-user features.",
+          "evidenceIds": [
+            "privacy"
+          ]
+        },
+        "same_task": {
+          "support": "unsupported",
+          "answer": "Calyx has no multi-user features.",
+          "evidenceIds": [
+            "privacy"
+          ]
+        },
+        "session_history": {
+          "support": "unsupported",
+          "answer": "Calyx has no multi-user features.",
+          "evidenceIds": [
+            "privacy"
+          ]
+        },
+        "decisions": {
+          "support": "unsupported",
+          "answer": "Calyx has no multi-user features.",
+          "evidenceIds": [
+            "privacy"
+          ]
+        },
+        "artifacts": {
+          "support": "unsupported",
+          "answer": "Calyx has no multi-user features.",
+          "evidenceIds": [
+            "privacy"
+          ]
+        },
+        "permissions": {
+          "support": "unsupported",
+          "answer": "Calyx has no multi-user features.",
+          "evidenceIds": [
+            "privacy"
+          ]
+        },
+        "runtime_context": {
+          "support": "unsupported",
+          "answer": "Calyx has no multi-user features.",
+          "evidenceIds": [
+            "privacy"
+          ]
+        },
+        "owner_disconnect": {
+          "support": "unsupported",
+          "answer": "Calyx has no multi-user features.",
+          "evidenceIds": [
+            "privacy"
+          ]
+        },
+        "ownership": {
+          "support": "unsupported",
+          "answer": "Calyx has no multi-user features.",
+          "evidenceIds": [
+            "privacy"
+          ]
+        },
+        "attribution": {
+          "support": "unsupported",
+          "answer": "Calyx has no multi-user features.",
+          "evidenceIds": [
+            "privacy"
+          ]
+        },
+        "context_loss": {
+          "support": "unsupported",
+          "answer": "Calyx has no multi-user features.",
+          "evidenceIds": [
+            "privacy"
+          ]
+        },
+        "harness_transfer": {
+          "support": "unsupported",
+          "answer": "Calyx has no multi-user features.",
+          "evidenceIds": [
+            "privacy"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "privacy"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "calyx:SHIP-01",
+      "criterionId": "SHIP-01",
+      "answer": "Diff views, command output through MCP, browser screenshots to a temp file; no gallery or retained task artifacts.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release v0.50.1 (2026-10-23, commit 2dfb7a4); help docs commit 4e50d02; site commit 673e684",
+        "plan": "Open source (MIT) macOS app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "diffs": {
+          "support": "supported",
+          "answer": "Git sidebar and diff tabs.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "documents": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "screenshots": {
+          "support": "partial",
+          "answer": "`calyx browser screenshot` writes a temp file.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "recordings": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "previews": {
+          "support": "partial",
+          "answer": "Browser tabs can show local pages.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "test_outputs": {
+          "support": "partial",
+          "answer": "Command log captures output while Calyx runs.",
+          "evidenceIds": [
+            "cmdlog"
+          ]
+        },
+        "reviewer_outputs": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "gallery": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "task_links": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "revision_links": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "persistence": {
+          "support": "unsupported",
+          "answer": "Command log is discarded on quit.",
+          "evidenceIds": [
+            "privacy"
+          ]
+        },
+        "child_findings": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "prompt_leakage": {
+          "support": "unsupported",
+          "answer": "Not applicable: nothing is delivered.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: documents, screenshots, recordings, previews, test_outputs, reviewer_outputs, gallery, task_links, revision_links, persistence, child_findings, prompt_leakage; see each atomic answer for the limitation."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "cmdlog",
+        "privacy"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "calyx:SHIP-02",
+      "criterionId": "SHIP-02",
+      "answer": "No verification gates; agents or the user run tests and CI.",
+      "support": "unsupported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release v0.50.1 (2026-10-23, commit 2dfb7a4); help docs commit 4e50d02; site commit 673e684",
+        "plan": "Open source (MIT) macOS app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "tests": {
+          "support": "unsupported",
+          "answer": "Calyx has no checks or gates (bounded search found none).",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "lint": {
+          "support": "unsupported",
+          "answer": "Calyx has no checks or gates (bounded search found none).",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "types": {
+          "support": "unsupported",
+          "answer": "Calyx has no checks or gates (bounded search found none).",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "ci": {
+          "support": "unsupported",
+          "answer": "Calyx has no checks or gates (bounded search found none).",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "independent_review": {
+          "support": "unsupported",
+          "answer": "Calyx has no checks or gates (bounded search found none).",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "spec_checks": {
+          "support": "unsupported",
+          "answer": "Calyx has no checks or gates (bounded search found none).",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "required_checks": {
+          "support": "unsupported",
+          "answer": "Calyx has no checks or gates (bounded search found none).",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "failure_blocking": {
+          "support": "unsupported",
+          "answer": "Calyx has no checks or gates (bounded search found none).",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "requirement_conflicts": {
+          "support": "unsupported",
+          "answer": "Calyx has no checks or gates (bounded search found none).",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "configured_policy": {
+          "support": "unsupported",
+          "answer": "Calyx has no checks or gates (bounded search found none).",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "enforced_policy": {
+          "support": "unsupported",
+          "answer": "Calyx has no checks or gates (bounded search found none).",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "calyx:SHIP-03",
+      "criterionId": "SHIP-03",
+      "answer": "Local Git: worktree tasks create branches and linked worktrees and merge with git merge --no-ff or discard; Git sidebar shows commit graph and branches; no pull request or remote workflow.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release v0.50.1 (2026-10-23, commit 2dfb7a4); help docs commit 4e50d02; site commit 673e684",
+        "plan": "Open source (MIT) macOS app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "branches": {
+          "support": "supported",
+          "answer": "New branch with recorded base; branch graph.",
+          "evidenceIds": [
+            "worktree",
+            "readme"
+          ]
+        },
+        "worktrees": {
+          "support": "supported",
+          "answer": "Linked worktrees created, listed and removed.",
+          "evidenceIds": [
+            "worktree",
+            "wtsrc"
+          ]
+        },
+        "commits": {
+          "support": "partial",
+          "answer": "Commit history and graph are shown; commits are made by agents or the user.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "pull_requests": {
+          "support": "unsupported",
+          "answer": "No pull request features (bounded search).",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "comments": {
+          "support": "partial",
+          "answer": "Diff comments go to an agent pane.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "ci_response": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "rebase": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "conflicts": {
+          "support": "partial",
+          "answer": "A conflicting merge is aborted and Git's message shown.",
+          "evidenceIds": [
+            "worktree"
+          ]
+        },
+        "product_state": {
+          "support": "supported",
+          "answer": "Merge or discard updates sidebar and closes panes.",
+          "evidenceIds": [
+            "worktree"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: commits, pull_requests, comments, ci_response, rebase, conflicts; see each atomic answer for the limitation."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "worktree",
+        "readme",
+        "wtsrc"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "calyx:SHIP-04",
+      "criterionId": "SHIP-04",
+      "answer": "The user merges a task branch locally; merge refuses uncommitted changes; no release, deploy or remote authority.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release v0.50.1 (2026-10-23, commit 2dfb7a4); help docs commit 4e50d02; site commit 673e684",
+        "plan": "Open source (MIT) macOS app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "approve": {
+          "support": "partial",
+          "answer": "The user presses Merge.",
+          "evidenceIds": [
+            "worktree"
+          ]
+        },
+        "merge": {
+          "support": "supported",
+          "answer": "Merge into base with --no-ff from the sidebar or Mission Map.",
+          "evidenceIds": [
+            "worktree"
+          ]
+        },
+        "release": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "deploy": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "exact_revision": {
+          "support": "partial",
+          "answer": "Merge refused when the task worktree has uncommitted changes.",
+          "evidenceIds": [
+            "worktree"
+          ]
+        },
+        "authority_enforcement": {
+          "support": "partial",
+          "answer": "Local git permissions.",
+          "evidenceIds": [
+            "worktree"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: approve, release, deploy, exact_revision, authority_enforcement; see each atomic answer for the limitation."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "worktree",
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "calyx:SHIP-05",
+      "criterionId": "SHIP-05",
+      "answer": "Task-to-branch and base are recorded in git config; no build, PR or deployment links or rollback.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release v0.50.1 (2026-10-23, commit 2dfb7a4); help docs commit 4e50d02; site commit 673e684",
+        "plan": "Open source (MIT) macOS app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "commit_links": {
+          "support": "partial",
+          "answer": "Branch recorded with branch.<name>.calyxbase.",
+          "evidenceIds": [
+            "worktree"
+          ]
+        },
+        "pr_links": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "worktree"
+          ]
+        },
+        "build_links": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "worktree"
+          ]
+        },
+        "deployment_links": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "worktree"
+          ]
+        },
+        "delivery_status": {
+          "support": "partial",
+          "answer": "Task row shows base; merged tasks are removed.",
+          "evidenceIds": [
+            "worktree"
+          ]
+        },
+        "retained_evidence": {
+          "support": "unsupported",
+          "answer": "Worktree and branch are deleted after merge.",
+          "evidenceIds": [
+            "worktree"
+          ]
+        },
+        "rollback": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "worktree"
+          ]
+        },
+        "revert": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "worktree"
+          ]
+        },
+        "stale_approval_invalidation": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "worktree"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: commit_links, pr_links, build_links, deployment_links, delivery_status, retained_evidence, rollback, revert, stale_approval_invalidation; see each atomic answer for the limitation."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "worktree"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "calyx:SHIP-06",
+      "criterionId": "SHIP-06",
+      "answer": "No batch review or delivery queue.",
+      "support": "unsupported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release v0.50.1 (2026-10-23, commit 2dfb7a4); help docs commit 4e50d02; site commit 673e684",
+        "plan": "Open source (MIT) macOS app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "review_queue": {
+          "support": "unsupported",
+          "answer": "Calyx has no queue-level review or delivery features.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "summaries": {
+          "support": "unsupported",
+          "answer": "Calyx has no queue-level review or delivery features.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "grouping": {
+          "support": "unsupported",
+          "answer": "Calyx has no queue-level review or delivery features.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "risk_size_filters": {
+          "support": "unsupported",
+          "answer": "Calyx has no queue-level review or delivery features.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "findings": {
+          "support": "unsupported",
+          "answer": "Calyx has no queue-level review or delivery features.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "artifacts": {
+          "support": "unsupported",
+          "answer": "Calyx has no queue-level review or delivery features.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "request_changes": {
+          "support": "unsupported",
+          "answer": "Calyx has no queue-level review or delivery features.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "exact_revision_approval": {
+          "support": "unsupported",
+          "answer": "Calyx has no queue-level review or delivery features.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "dependency_queues": {
+          "support": "unsupported",
+          "answer": "Calyx has no queue-level review or delivery features.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "next_actions": {
+          "support": "unsupported",
+          "answer": "Calyx has no queue-level review or delivery features.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "stale_approval_invalidation": {
+          "support": "unsupported",
+          "answer": "Calyx has no queue-level review or delivery features.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "check_deduplication": {
+          "support": "unsupported",
+          "answer": "Calyx has no queue-level review or delivery features.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "calyx:OWN-01",
+      "criterionId": "OWN-01",
+      "answer": "MIT licensed application, bundled CLIs and docs; libghostty is MIT; sibling repositories calyx-help, calyx-site and homebrew-calyx are public; no closed or hosted components.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release v0.50.1 (2026-10-23, commit 2dfb7a4); help docs commit 4e50d02; site commit 673e684",
+        "plan": "Open source (MIT) macOS app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "client_license": {
+          "support": "supported",
+          "answer": "MIT (LICENSE and README).",
+          "evidenceIds": [
+            "readme",
+            "repoapi"
+          ]
+        },
+        "server_license": {
+          "support": "supported",
+          "answer": "The calyx-session daemon is part of the MIT repository; there is no server.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "hosted_extensions": {
+          "support": "unsupported",
+          "answer": "No hosted extensions.",
+          "evidenceIds": [
+            "privacy"
+          ]
+        },
+        "source_visibility": {
+          "support": "supported",
+          "answer": "Public repository; external pull requests are not accepted.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "source_revision": {
+          "support": "supported",
+          "answer": "Release v0.50.1 at commit 2dfb7a4.",
+          "evidenceIds": [
+            "release"
+          ]
+        },
+        "hosted_parity": {
+          "support": "unsupported",
+          "answer": "No hosted service.",
+          "evidenceIds": [
+            "privacy"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: hosted_extensions, hosted_parity; see each atomic answer for the limitation."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "repoapi",
+        "readme",
+        "release",
+        "terms",
+        "privacy"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-05-15",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "calyx:OWN-02",
+      "criterionId": "OWN-02",
+      "answer": "Runs entirely on the user's Mac with no vendor account or service; state is local files; the only outbound traffic is update checks.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release v0.50.1 (2026-10-23, commit 2dfb7a4); help docs commit 4e50d02; site commit 673e684",
+        "plan": "Open source (MIT) macOS app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "self_hosting": {
+          "support": "supported",
+          "answer": "The app is local; nothing is hosted.",
+          "evidenceIds": [
+            "privacy"
+          ]
+        },
+        "vendor_dependencies": {
+          "support": "supported",
+          "answer": "None required; Sparkle appcast on GitHub Pages for updates.",
+          "evidenceIds": [
+            "privacy"
+          ]
+        },
+        "export": {
+          "support": "partial",
+          "answer": "Session history and the usage SQLite database are local files; no export tool.",
+          "evidenceIds": [
+            "sessions",
+            "usagetrack"
+          ]
+        },
+        "import": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "formats": {
+          "support": "partial",
+          "answer": "Raw history files and SQLite.",
+          "evidenceIds": [
+            "sessions",
+            "usagetrack"
+          ]
+        },
+        "cancellation": {
+          "support": "supported",
+          "answer": "No account exists.",
+          "evidenceIds": [
+            "privacy"
+          ]
+        },
+        "account_independence": {
+          "support": "supported",
+          "answer": "Everything works without any account.",
+          "evidenceIds": [
+            "privacy"
+          ]
+        },
+        "history_portability": {
+          "support": "partial",
+          "answer": "Files under ~/.calyx and Application Support are copyable.",
+          "evidenceIds": [
+            "privacy"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: export, import, formats, history_portability; see each atomic answer for the limitation."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "privacy",
+        "sessions",
+        "readme",
+        "usagetrack"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-05-15",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "calyx:OWN-03",
+      "criterionId": "OWN-03",
+      "answer": "Local only: no analytics, telemetry, identifiers or crash reports; code and prompts stay on the Mac and go only where the agent CLIs send them; only Sparkle update checks and confirmed downloads leave the machine; optional LSP auto-install.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release v0.50.1 (2026-10-23, commit 2dfb7a4); help docs commit 4e50d02; site commit 673e684",
+        "plan": "Open source (MIT) macOS app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "code_data": {
+          "support": "supported",
+          "answer": "Stays local.",
+          "evidenceIds": [
+            "privacy"
+          ]
+        },
+        "prompts": {
+          "support": "supported",
+          "answer": "Calyx does not see prompts beyond passing them to terminal processes; usage database never holds prompts or responses.",
+          "evidenceIds": [
+            "usagetrack",
+            "privacy"
+          ]
+        },
+        "credentials": {
+          "support": "supported",
+          "answer": "MCP server secrets and OAuth tokens are stored in the login Keychain; endpoint tokens in user-only files.",
+          "evidenceIds": [
+            "privacy"
+          ]
+        },
+        "logs": {
+          "support": "supported",
+          "answer": "Command log in memory with known secrets redacted; optional history files off by default.",
+          "evidenceIds": [
+            "privacy"
+          ]
+        },
+        "artifacts": {
+          "support": "supported",
+          "answer": "Local temp files.",
+          "evidenceIds": [
+            "privacy"
+          ]
+        },
+        "retention": {
+          "support": "supported",
+          "answer": "Discarded at quit except opt-in history and usage databases.",
+          "evidenceIds": [
+            "privacy"
+          ]
+        },
+        "deletion": {
+          "support": "supported",
+          "answer": "Disabling features removes written config entries; databases stay and can be deleted by the user.",
+          "evidenceIds": [
+            "usagetrack",
+            "aiagents"
+          ]
+        },
+        "training": {
+          "support": "unsupported",
+          "answer": "Calyx has no model processing.",
+          "evidenceIds": [
+            "privacy"
+          ]
+        },
+        "residency": {
+          "support": "supported",
+          "answer": "Everything is on the local Mac.",
+          "evidenceIds": [
+            "privacy"
+          ]
+        },
+        "subprocessors": {
+          "support": "supported",
+          "answer": "None; update traffic goes to GitHub Pages and GitHub Releases.",
+          "evidenceIds": [
+            "privacy"
+          ]
+        },
+        "telemetry_disclosure": {
+          "support": "supported",
+          "answer": "Privacy policy states it sends no analytics or telemetry and lists all outbound traffic.",
+          "evidenceIds": [
+            "privacy"
+          ]
+        },
+        "telemetry_defaults": {
+          "support": "supported",
+          "answer": "No telemetry exists; Usage Tracking is off by default and local-only.",
+          "evidenceIds": [
+            "privacy",
+            "usagetrack"
+          ]
+        },
+        "telemetry_controls": {
+          "support": "unsupported",
+          "answer": "No control is needed because no telemetry is sent; the update check is Sparkle's.",
+          "evidenceIds": [
+            "privacy"
+          ]
+        },
+        "consent_prompt": {
+          "support": "unsupported",
+          "answer": "No first-run consent prompt documented.",
+          "evidenceIds": [
+            "privacy"
+          ]
+        },
+        "provider_separation": {
+          "support": "partial",
+          "answer": "Terms tell users to follow third-party agent terms; no separate model-provider policy.",
+          "evidenceIds": [
+            "terms"
+          ]
+        }
+      },
+      "limitations": [
+        "Agent CLIs have their own data policies; Calyx writes telemetry settings into Claude Code only when Usage Tracking is on and points them at 127.0.0.1."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "privacy",
+        "usagetrack",
+        "aiagents",
+        "terms"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "calyx:OWN-04",
+      "criterionId": "OWN-04",
+      "answer": "Free: MIT open-source download with no plans, seats, credits or trial; model costs belong to the agent CLIs.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release v0.50.1 (2026-10-23, commit 2dfb7a4); help docs commit 4e50d02; site commit 673e684",
+        "plan": "Open source (MIT) macOS app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "currency": {
+          "support": "supported",
+          "answer": "No price.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "interval": {
+          "support": "supported",
+          "answer": "No billing.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "seats": {
+          "support": "supported",
+          "answer": "No seats.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "seat_minimum": {
+          "support": "supported",
+          "answer": "None.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "workspace_fees": {
+          "support": "supported",
+          "answer": "None.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "included_usage": {
+          "support": "supported",
+          "answer": "Not applicable.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "credits": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "trial": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "overages": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "taxes": {
+          "support": "unknown",
+          "answer": "No sale; tax treatment is not applicable to a free download.",
+          "evidenceIds": []
+        },
+        "model_cost": {
+          "support": "supported",
+          "answer": "Paid to model vendors through the agent CLIs.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "compute_cost": {
+          "support": "supported",
+          "answer": "The user's own hardware.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: credits, trial, overages; see each atomic answer for the limitation."
+      ],
+      "unknownReason": "Tax treatment is not applicable to a free download.",
+      "evidenceIds": [
+        "site",
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-01-15",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "calyx:OWN-05",
+      "criterionId": "OWN-05",
+      "answer": "Software cost is zero for one, two or five developers; agent subscriptions and hardware are separate.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release v0.50.1 (2026-10-23, commit 2dfb7a4); help docs commit 4e50d02; site commit 673e684",
+        "plan": "Open source (MIT) macOS app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "one_person": {
+          "support": "supported",
+          "answer": "Zero.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "two_people": {
+          "support": "supported",
+          "answer": "Zero; no collaboration features.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "five_people": {
+          "support": "supported",
+          "answer": "Zero.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "task_assumptions": {
+          "support": "unknown",
+          "answer": "None published.",
+          "evidenceIds": []
+        },
+        "concurrency": {
+          "support": "unknown",
+          "answer": "None published.",
+          "evidenceIds": []
+        },
+        "tokens": {
+          "support": "unknown",
+          "answer": "None published.",
+          "evidenceIds": []
+        },
+        "compute_hours": {
+          "support": "unknown",
+          "answer": "None published.",
+          "evidenceIds": []
+        },
+        "fixed_cost": {
+          "support": "supported",
+          "answer": "Zero software cost.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "variable_cost": {
+          "support": "supported",
+          "answer": "Agent subscriptions or API usage.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "included_cost": {
+          "support": "supported",
+          "answer": "Nothing included in a price.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "unknown_cost": {
+          "support": "supported",
+          "answer": "Agent usage depends on the user.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: ; see each atomic answer for the limitation."
+      ],
+      "unknownReason": "No workload assumptions are published and the catalog invents none.",
+      "evidenceIds": [
+        "site",
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "calyx:OWN-06",
+      "criterionId": "OWN-06",
+      "answer": "Active releases (v0.49.1 to v0.50.1 within three days in October 2026); issues for support; no commitments; repository last pushed 2026-10-23.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release v0.50.1 (2026-10-23, commit 2dfb7a4); help docs commit 4e50d02; site commit 673e684",
+        "plan": "Open source (MIT) macOS app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "release_stage": {
+          "support": "partial",
+          "answer": "Version 0.50.x, installable by brew or zip.",
+          "evidenceIds": [
+            "release"
+          ]
+        },
+        "access_restrictions": {
+          "support": "supported",
+          "answer": "Public, no gating; requires macOS 26 on Apple Silicon.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "support": {
+          "support": "partial",
+          "answer": "GitHub issues for bugs and ideas; external PRs not accepted.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "response_commitments": {
+          "support": "unsupported",
+          "answer": "None stated.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "release_activity": {
+          "support": "supported",
+          "answer": "Releases on 2026-10-20 and 2026-10-23.",
+          "evidenceIds": [
+            "release"
+          ]
+        },
+        "status_history": {
+          "support": "unsupported",
+          "answer": "No hosted service, so no status page.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "deprecation": {
+          "support": "unsupported",
+          "answer": "None found.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "export_options": {
+          "support": "partial",
+          "answer": "Local files only.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: release_stage, support, response_commitments, status_history, deprecation, export_options; see each atomic answer for the limitation."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "repoapi",
+        "release",
+        "readme",
+        "site",
+        "sessions"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-01-15",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "calyx:OWN-07",
+      "criterionId": "OWN-07",
+      "answer": "No ISO or SOC 2 claim; local app with no hosted service.",
+      "support": "unknown",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release v0.50.1 (2026-10-23, commit 2dfb7a4); help docs commit 4e50d02; site commit 673e684",
+        "plan": "Open source (MIT) macOS app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "iso_scope": {
+          "support": "unknown",
+          "answer": "No certification is claimed; maintainer certification is a business fact outside the repository.",
+          "evidenceIds": []
+        },
+        "iso_issuer": {
+          "support": "unknown",
+          "answer": "No certification is claimed; maintainer certification is a business fact outside the repository.",
+          "evidenceIds": []
+        },
+        "iso_validity": {
+          "support": "unknown",
+          "answer": "No certification is claimed; maintainer certification is a business fact outside the repository.",
+          "evidenceIds": []
+        },
+        "soc2_type": {
+          "support": "unknown",
+          "answer": "No certification is claimed; maintainer certification is a business fact outside the repository.",
+          "evidenceIds": []
+        },
+        "soc2_scope": {
+          "support": "unknown",
+          "answer": "No certification is claimed; maintainer certification is a business fact outside the repository.",
+          "evidenceIds": []
+        },
+        "soc2_period": {
+          "support": "unknown",
+          "answer": "No certification is claimed; maintainer certification is a business fact outside the repository.",
+          "evidenceIds": []
+        },
+        "report_access": {
+          "support": "unknown",
+          "answer": "No certification is claimed; maintainer certification is a business fact outside the repository.",
+          "evidenceIds": []
+        },
+        "verification_date": {
+          "support": "unknown",
+          "answer": "No certification is claimed; maintainer certification is a business fact outside the repository.",
+          "evidenceIds": []
+        },
+        "evidence_status": {
+          "support": "unknown",
+          "answer": "No certification is claimed; maintainer certification is a business fact outside the repository.",
+          "evidenceIds": []
+        }
+      },
+      "limitations": [],
+      "unknownReason": "Certification is a business fact; none is claimed by the repository, site or privacy page.",
+      "evidenceIds": [
+        "privacy"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "internal-only",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "calyx:OWN-08",
+      "criterionId": "OWN-08",
+      "answer": "Free MIT download is the whole product; every shared scenario that Calyx supports works without payment; collaboration, remote compute and mobile are not offered.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release v0.50.1 (2026-10-23, commit 2dfb7a4); help docs commit 4e50d02; site commit 673e684",
+        "plan": "Open source (MIT) macOS app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "ongoing_free": {
+          "support": "supported",
+          "answer": "Free download.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "trial": {
+          "support": "unsupported",
+          "answer": "No trial needed.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "credits_trial": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "self_host_cost": {
+          "support": "supported",
+          "answer": "Local hardware.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "paid_only": {
+          "support": "unsupported",
+          "answer": "Not paid-only.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "early_access": {
+          "support": "unsupported",
+          "answer": "Public releases.",
+          "evidenceIds": [
+            "release"
+          ]
+        },
+        "free_scenarios": {
+          "support": "partial",
+          "answer": "BYO subscriptions and local review work free; two-person collaboration, mobile and managed remote compute are not offered.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "card_required": {
+          "support": "unsupported",
+          "answer": "No card.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "usage_caps": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "paid_evaluation": {
+          "support": "unsupported",
+          "answer": "No payment needed.",
+          "evidenceIds": [
+            "site"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: trial, credits_trial, paid_only, early_access, free_scenarios, card_required, usage_caps, paid_evaluation; see each atomic answer for the limitation."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "site",
+        "readme",
+        "release"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-01-15",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "calyx:OWN-09",
+      "criterionId": "OWN-09",
+      "answer": "Transparent: free MIT software with no pricing.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release v0.50.1 (2026-10-23, commit 2dfb7a4); help docs commit 4e50d02; site commit 673e684",
+        "plan": "Open source (MIT) macOS app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "units": {
+          "support": "supported",
+          "answer": "None.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "included_limits": {
+          "support": "supported",
+          "answer": "None.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "overages": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "compute_markup": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "model_markup": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "minimum_commitment": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "cancellation": {
+          "support": "supported",
+          "answer": "No subscription.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "sales_only_unknowns": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "transparency_classification": {
+          "support": "supported",
+          "answer": "Transparent (free).",
+          "evidenceIds": [
+            "site",
+            "terms"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: overages, compute_markup, model_markup, minimum_commitment, sales_only_unknowns; see each atomic answer for the limitation."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "site",
+        "terms"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-01-15",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    }
+  ],
+  "evidence": [
+    {
+      "id": "repoapi",
+      "kind": "documented",
+      "url": "https://api.github.com/repos/yuuichieguchi/Calyx",
+      "title": "GitHub repository metadata",
+      "locator": "stargazers_count, license",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Repository yuuichieguchi/Calyx: 366 stars, MIT, homepage getcalyx.app, default branch main, not archived.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "readme",
+      "kind": "documented",
+      "url": "https://github.com/yuuichieguchi/Calyx/blob/2dfb7a400d450f1554ae6277452ae4772fdd0dae/README.md",
+      "title": "Calyx README",
+      "locator": "Why Calyx; Features; IPC; Browser Scripting; Architecture; Known Limitations",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Native macOS terminal built on Ghostty for supervising Claude Code, Codex, OpenCode, Hermes, Grok and pi with Agents Sidebar, Approval Inbox, Mission Map, git review with diff comments, worktree tasks, persistent and remote sessions, MCP server, LSP proxy and browser scripting; macOS 26 on Apple Silicon only; MIT.",
+      "visibility": "public",
+      "commit": "2dfb7a400d450f1554ae6277452ae4772fdd0dae",
+      "path": "README.md"
+    },
+    {
+      "id": "aiagents",
+      "kind": "documented",
+      "url": "https://github.com/yuuichieguchi/calyx-help/blob/4e50d025af41544fa8005a32197d33ac8d3fc71e/src/content/docs/usage/ai-agents.md",
+      "title": "AI agent integration (help center)",
+      "locator": "AI Agent IPC; Approving agent tool calls; cockpit tools",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Built-in MCP server on 127.0.0.1 with peer messaging, cockpit tools (approval-gated pane_run, pane_send_keys), command log and LSP tools; approval panel per agent behavior; nothing auto-approved on failure.",
+      "visibility": "public",
+      "commit": "4e50d025af41544fa8005a32197d33ac8d3fc71e",
+      "path": "src/content/docs/usage/ai-agents.md"
+    },
+    {
+      "id": "worktree",
+      "kind": "documented",
+      "url": "https://github.com/yuuichieguchi/calyx-help/blob/4e50d025af41544fa8005a32197d33ac8d3fc71e/src/content/docs/usage/worktree-tasks.md",
+      "title": "Worktree tasks",
+      "locator": "Creating a task; Merging or discarding",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Branch and linked worktree under ~/.calyx/worktrees with Claude Code, Codex, OpenCode, Hermes, Grok or pi launched and an initial prompt; git merge --no-ff or discard from sidebar or Mission Map.",
+      "visibility": "public",
+      "commit": "4e50d025af41544fa8005a32197d33ac8d3fc71e",
+      "path": "src/content/docs/usage/worktree-tasks.md"
+    },
+    {
+      "id": "sessions",
+      "kind": "documented",
+      "url": "https://github.com/yuuichieguchi/calyx-help/blob/4e50d025af41544fa8005a32197d33ac8d3fc71e/src/content/docs/usage/sessions.md",
+      "title": "Persistent sessions",
+      "locator": "Enabling; Remote sessions; Session history",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Opt-in calyx-session daemon keeps shells alive across quit and crash; remote sessions over SSH after calyx-session remote-install; agent resume offer.",
+      "visibility": "public",
+      "commit": "4e50d025af41544fa8005a32197d33ac8d3fc71e",
+      "path": "src/content/docs/usage/sessions.md"
+    },
+    {
+      "id": "privacy",
+      "kind": "documented",
+      "url": "https://github.com/yuuichieguchi/calyx-help/blob/4e50d025af41544fa8005a32197d33ac8d3fc71e/src/content/docs/legal/privacy.md",
+      "title": "Privacy Policy",
+      "locator": "User information collected; Outbound network traffic",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "No analytics, telemetry, identifiers or crash reports; outbound traffic is only Sparkle appcast, release downloads on confirmation and optional LSP auto-install.",
+      "visibility": "public",
+      "commit": "4e50d025af41544fa8005a32197d33ac8d3fc71e",
+      "path": "src/content/docs/legal/privacy.md"
+    },
+    {
+      "id": "security",
+      "kind": "documented",
+      "url": "https://github.com/yuuichieguchi/calyx-help/blob/4e50d025af41544fa8005a32197d33ac8d3fc71e/src/content/docs/usage/security.md",
+      "title": "Security and notifications",
+      "locator": "Clipboard paste confirmation; Secure Keyboard Entry",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Paste confirmation, Secure Keyboard Entry and OSC notifications.",
+      "visibility": "public",
+      "commit": "4e50d025af41544fa8005a32197d33ac8d3fc71e",
+      "path": "src/content/docs/usage/security.md"
+    },
+    {
+      "id": "cliup",
+      "kind": "documented",
+      "url": "https://github.com/yuuichieguchi/calyx-help/blob/4e50d025af41544fa8005a32197d33ac8d3fc71e/src/content/docs/usage/cli-and-updates.md",
+      "title": "CLI and auto-updates",
+      "locator": "The calyx CLI; Auto-update",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "calyx CLI for browser scripting and opening tabs; calyx-session CLI; Sparkle updates from the appcast; Homebrew installs update with brew.",
+      "visibility": "public",
+      "commit": "4e50d025af41544fa8005a32197d33ac8d3fc71e",
+      "path": "src/content/docs/usage/cli-and-updates.md"
+    },
+    {
+      "id": "usagetrack",
+      "kind": "documented",
+      "url": "https://github.com/yuuichieguchi/calyx-help/blob/4e50d025af41544fa8005a32197d33ac8d3fc71e/src/content/docs/usage/usage-tracking.md",
+      "title": "Usage tracking",
+      "locator": "Turning it on; What is recorded",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Opt-in Claude Code token usage tracked locally through OTLP metrics to 127.0.0.1 and stored in a local SQLite database; shown in a Usage window, Mission Map cards and a usage_report tool.",
+      "visibility": "public",
+      "commit": "4e50d025af41544fa8005a32197d33ac8d3fc71e",
+      "path": "src/content/docs/usage/usage-tracking.md"
+    },
+    {
+      "id": "mission",
+      "kind": "documented",
+      "url": "https://github.com/yuuichieguchi/calyx-help/blob/4e50d025af41544fa8005a32197d33ac8d3fc71e/src/content/docs/usage/mission-map.md",
+      "title": "Mission Map",
+      "locator": "Cards; Approvals on cards",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Full-window cards for every pane with agent state (waiting, working, idle, done), branch, changed files, current tool, subagents, usage and pending approvals.",
+      "visibility": "public",
+      "commit": "4e50d025af41544fa8005a32197d33ac8d3fc71e",
+      "path": "src/content/docs/usage/mission-map.md"
+    },
+    {
+      "id": "limits",
+      "kind": "documented",
+      "url": "https://github.com/yuuichieguchi/calyx-help/blob/4e50d025af41544fa8005a32197d33ac8d3fc71e/src/content/docs/reference/known-limitations.md",
+      "title": "Known limitations",
+      "locator": "Whole page",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Lists Codex subagent rows may not appear, herdr agents not in Mission Map, usage totals caveats, secure input not in remote sessions.",
+      "visibility": "public",
+      "commit": "4e50d025af41544fa8005a32197d33ac8d3fc71e",
+      "path": "src/content/docs/reference/known-limitations.md"
+    },
+    {
+      "id": "terms",
+      "kind": "documented",
+      "url": "https://github.com/yuuichieguchi/calyx-help/blob/4e50d025af41544fa8005a32197d33ac8d3fc71e/src/content/docs/legal/terms.md",
+      "title": "Terms of Use",
+      "locator": "License; Provision; User responsibility",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "MIT licensed open-source software provided as is; user complies with third-party agent terms.",
+      "visibility": "public",
+      "commit": "4e50d025af41544fa8005a32197d33ac8d3fc71e",
+      "path": "src/content/docs/legal/terms.md"
+    },
+    {
+      "id": "site",
+      "kind": "documented",
+      "url": "https://getcalyx.app/",
+      "title": "Calyx website",
+      "locator": "Home page",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Download for Mac, brew install --cask calyx, macOS 26 Tahoe or later, Apple Silicon, MIT licensed; no pricing page.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "release",
+      "kind": "documented",
+      "url": "https://github.com/yuuichieguchi/Calyx/releases/tag/v0.50.1",
+      "title": "Release v0.50.1",
+      "locator": "Assets",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Release v0.50.1 published 2026-10-23 with Calyx.zip.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "project",
+      "kind": "source-inspected",
+      "url": "https://github.com/yuuichieguchi/Calyx/blob/2dfb7a400d450f1554ae6277452ae4772fdd0dae/project.yml",
+      "title": "XcodeGen project",
+      "locator": "deploymentTarget macOS 26.0; Sparkle; SUFeedURL",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Deployment target macOS 26.0, Sparkle dependency with SUFeedURL https://yuuichieguchi.github.io/Calyx/appcast.xml and SUPublicEDKey.",
+      "visibility": "public",
+      "commit": "2dfb7a400d450f1554ae6277452ae4772fdd0dae",
+      "path": "project.yml"
+    },
+    {
+      "id": "entitle",
+      "kind": "source-inspected",
+      "url": "https://github.com/yuuichieguchi/Calyx/blob/2dfb7a400d450f1554ae6277452ae4772fdd0dae/Calyx/Calyx.entitlements",
+      "title": "Entitlements",
+      "locator": "com.apple.security.app-sandbox",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "App sandbox is disabled.",
+      "visibility": "public",
+      "commit": "2dfb7a400d450f1554ae6277452ae4772fdd0dae",
+      "path": "Calyx/Calyx.entitlements"
+    },
+    {
+      "id": "mcpserver",
+      "kind": "source-inspected",
+      "url": "https://github.com/yuuichieguchi/Calyx/blob/2dfb7a400d450f1554ae6277452ae4772fdd0dae/Calyx/Features/IPC/CalyxMCPServer.swift",
+      "title": "Calyx MCP server",
+      "locator": "tool list near line 2327; loopback and Origin checks near line 1048; bind to 127.0.0.1 near line 1357",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Local MCP server binds to 127.0.0.1, requires loopback Origin and a bearer token, and serves register_peer, list_peers, send_message, broadcast, receive_messages and get_peer_status plus cockpit tools.",
+      "visibility": "public",
+      "commit": "2dfb7a400d450f1554ae6277452ae4772fdd0dae",
+      "path": "Calyx/Features/IPC/CalyxMCPServer.swift"
+    },
+    {
+      "id": "usagebridge",
+      "kind": "source-inspected",
+      "url": "https://github.com/yuuichieguchi/Calyx/blob/2dfb7a400d450f1554ae6277452ae4772fdd0dae/Calyx/Features/IPC/MCPUsageBridge.swift",
+      "title": "Usage MCP bridge",
+      "locator": "usage_report (line 113)",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "usage_report tool returns recorded Claude Code token usage to agents.",
+      "visibility": "public",
+      "commit": "2dfb7a400d450f1554ae6277452ae4772fdd0dae",
+      "path": "Calyx/Features/IPC/MCPUsageBridge.swift"
+    },
+    {
+      "id": "cmdlog",
+      "kind": "source-inspected",
+      "url": "https://github.com/yuuichieguchi/Calyx/blob/2dfb7a400d450f1554ae6277452ae4772fdd0dae/Calyx/Features/IPC/MCPCommandLogBridge.swift",
+      "title": "Command log MCP bridge",
+      "locator": "terminal_await_command (line 106)",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "terminal_list_commands, terminal_read_output and terminal_await_command expose captured command output with secrets redacted.",
+      "visibility": "public",
+      "commit": "2dfb7a400d450f1554ae6277452ae4772fdd0dae",
+      "path": "Calyx/Features/IPC/MCPCommandLogBridge.swift"
+    },
+    {
+      "id": "approval",
+      "kind": "source-inspected",
+      "url": "https://github.com/yuuichieguchi/Calyx/blob/2dfb7a400d450f1554ae6277452ae4772fdd0dae/Calyx/Features/ApprovalInbox/ApprovalRequest.swift",
+      "title": "Approval inbox",
+      "locator": "ApprovalRequest model",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Approval requests for agent tool calls and cockpit tools with a queued panel.",
+      "visibility": "public",
+      "commit": "2dfb7a400d450f1554ae6277452ae4772fdd0dae",
+      "path": "Calyx/Features/ApprovalInbox/ApprovalRequest.swift"
+    },
+    {
+      "id": "wtsrc",
+      "kind": "source-inspected",
+      "url": "https://github.com/yuuichieguchi/Calyx/blob/2dfb7a400d450f1554ae6277452ae4772fdd0dae/Calyx/Features/WorktreeTask",
+      "title": "Worktree task feature",
+      "locator": "directory listing",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Source for creating, merging and discarding worktree tasks.",
+      "visibility": "public",
+      "commit": "2dfb7a400d450f1554ae6277452ae4772fdd0dae",
+      "path": "Calyx/Features/WorktreeTask"
+    },
+    {
+      "id": "cask",
+      "kind": "documented",
+      "url": "https://github.com/yuuichieguchi/homebrew-calyx/blob/fb3518013a36e9bfcfede668a05c37e565b5288c/Casks/calyx.rb",
+      "title": "Homebrew cask",
+      "locator": "cask \"calyx\"",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Cask installs Calyx.app from the GitHub release zip and depends_on macOS sequoia (README requires macOS 26).",
+      "visibility": "public",
+      "commit": "fb3518013a36e9bfcfede668a05c37e565b5288c",
+      "path": "Casks/calyx.rb"
+    },
+    {
+      "id": "screenshot",
+      "kind": "documented",
+      "url": "https://github.com/yuuichieguchi/calyx-site/blob/673e684e48ec022fca3e81c3abf3e0dcdd57cd99/src/assets/agent-sidebar.png",
+      "title": "Agents Sidebar screenshot",
+      "locator": "Image file",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Real Calyx window with the Agents tab listing Codex, Claude Code and Grok sessions with last-seen times and a Claude Code pane.",
+      "visibility": "public",
+      "commit": "673e684e48ec022fca3e81c3abf3e0dcdd57cd99",
+      "path": "src/assets/agent-sidebar.png"
+    }
+  ],
+  "changes": [
+    {
+      "date": "2026-11-16",
+      "author": "researcher-batch11",
+      "type": "initial-research",
+      "summary": "Initial full-profile source pass over release v0.50.1 (commit 2dfb7a4) of yuuichieguchi/Calyx plus its public sibling repositories calyx-help (docs), calyx-site (website) and homebrew-calyx (cask): README, help-center pages, project.yml, entitlements, IPC/MCP server sources and bounded code searches covering all 51 criteria. No ADEMark entry. Screenshot: first-party calyx-site agent-sidebar.png.",
+      "claimIds": [
+        "calyx:ACC-01",
+        "calyx:ACC-02",
+        "calyx:ACC-03",
+        "calyx:ACC-04",
+        "calyx:ACC-05",
+        "calyx:ACC-06",
+        "calyx:ACC-07",
+        "calyx:PLAN-01",
+        "calyx:PLAN-02",
+        "calyx:PLAN-03",
+        "calyx:PLAN-04",
+        "calyx:PLAN-05",
+        "calyx:PLAN-06",
+        "calyx:PLAN-07",
+        "calyx:PLAN-08",
+        "calyx:COORD-01",
+        "calyx:COORD-02",
+        "calyx:COORD-03",
+        "calyx:COORD-04",
+        "calyx:COORD-05",
+        "calyx:COORD-06",
+        "calyx:COORD-07",
+        "calyx:RUN-01",
+        "calyx:RUN-02",
+        "calyx:RUN-03",
+        "calyx:RUN-04",
+        "calyx:RUN-05",
+        "calyx:RUN-06",
+        "calyx:RUN-07",
+        "calyx:RUN-08",
+        "calyx:TEAM-01",
+        "calyx:TEAM-02",
+        "calyx:TEAM-03",
+        "calyx:TEAM-04",
+        "calyx:TEAM-05",
+        "calyx:TEAM-06",
+        "calyx:SHIP-01",
+        "calyx:SHIP-02",
+        "calyx:SHIP-03",
+        "calyx:SHIP-04",
+        "calyx:SHIP-05",
+        "calyx:SHIP-06",
+        "calyx:OWN-01",
+        "calyx:OWN-02",
+        "calyx:OWN-03",
+        "calyx:OWN-04",
+        "calyx:OWN-05",
+        "calyx:OWN-06",
+        "calyx:OWN-07",
+        "calyx:OWN-08",
+        "calyx:OWN-09"
+      ],
+      "evidenceIds": [
+        "repoapi",
+        "readme",
+        "aiagents",
+        "worktree",
+        "sessions",
+        "privacy",
+        "security",
+        "cliup",
+        "usagetrack",
+        "mission",
+        "limits",
+        "terms",
+        "site",
+        "release",
+        "project",
+        "entitle",
+        "mcpserver",
+        "usagebridge",
+        "cmdlog",
+        "approval",
+        "wtsrc",
+        "cask",
+        "screenshot"
+      ]
+    }
+  ],
+  "context": {
+    "roadmapReview": {
+      "checkedAt": "2026-11-16",
+      "locations": [
+        {
+          "url": "https://github.com/yuuichieguchi/Calyx/releases",
+          "result": "Releases v0.49.1 to v0.50.1 published 2026-10-20 to 2026-10-23 with Calyx.zip; no roadmap section."
+        },
+        {
+          "url": "https://help.getcalyx.app/reference/known-limitations/",
+          "result": "Known limitations page lists current bugs (full-width cursor, fish suspended jobs, Codex subagent rows, herdr in Mission Map); no dated commitments."
+        },
+        {
+          "url": "https://getcalyx.app/",
+          "result": "Home page shows v0.49.1 and install options; no roadmap or pricing page."
+        },
+        {
+          "url": "https://github.com/yuuichieguchi/Calyx/issues",
+          "result": "Issues accepted for bug reports and ideas; external pull requests are not accepted; no dated announcements found."
+        }
+      ],
+      "announced": [],
+      "gaps": [
+        "No published roadmap or changelog page beyond GitHub releases."
+      ]
+    },
+    "marketContext": {
+      "githubStars": {
+        "value": 366,
+        "observedAt": "2026-11-16",
+        "evidenceIds": [
+          "repoapi"
+        ]
+      }
+    }
+  }
+}
