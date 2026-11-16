@@ -1,0 +1,6165 @@
+{
+  "schemaVersion": 1,
+  "rubricVersion": "0.3",
+  "id": "agentbox",
+  "name": "agentbox",
+  "category": "A",
+  "researchTier": "full-profile",
+  "researchState": "documented",
+  "identity": {
+    "website": "https://agent-box.sh/",
+    "repository": "https://github.com/madarco/agentbox",
+    "aliases": [
+      "AgentBox"
+    ],
+    "company": null
+  },
+  "surfaces": [
+    {
+      "id": "cli",
+      "name": "agentbox CLI (npm @madarco/agentbox) with dashboard TUI and host relay",
+      "type": "cli"
+    },
+    {
+      "id": "hub",
+      "name": "agentbox hub web UI and /api/v1 REST API (local or deployed)",
+      "type": "web"
+    },
+    {
+      "id": "tray",
+      "name": "AgentBox macOS menu-bar tray app (source repository not public)",
+      "type": "desktop"
+    }
+  ],
+  "claims": [
+    {
+      "id": "agentbox:ACC-01",
+      "criterionId": "ACC-01",
+      "answer": "agentbox CLI and dashboard TUI on macOS and Linux (Docker required), a hub web UI and REST API, and a macOS menu-bar tray app; no Windows, mobile or editor-extension client.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli",
+          "hub",
+          "tray"
+        ],
+        "version": "v0.33.0 (commit 71ed053, npm 0.33.0, 2026-09-21)",
+        "plan": "Open source (MIT), free; cloud provider and agent costs are separate",
+        "os": [
+          "macOS",
+          "Linux"
+        ],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "desktop_os": {
+          "support": "supported",
+          "answer": "README requirements: macOS (arm64 or Intel) or Linux with Docker; the tray ships only as a macOS DMG; Windows is not listed.",
+          "evidenceIds": [
+            "readme",
+            "release"
+          ]
+        },
+        "mobile_apps": {
+          "support": "unsupported",
+          "answer": "No iOS or Android app in the release assets or source.",
+          "evidenceIds": [
+            "release",
+            "srch-clients"
+          ]
+        },
+        "browser": {
+          "support": "supported",
+          "answer": "The hub is a web UI served by the relay on localhost or deployed to Vercel or a VPS.",
+          "evidenceIds": [
+            "hub",
+            "hubreadme"
+          ]
+        },
+        "mobile_browser": {
+          "support": "partial",
+          "answer": "A deployed hub is reachable by URL from any browser; no mobile-specific layout or client is documented.",
+          "evidenceIds": [
+            "deployed",
+            "hub"
+          ]
+        },
+        "cli": {
+          "support": "supported",
+          "answer": "agentbox with create, claude, codex, opencode, pi, attach, dashboard, drive, queue, tasks and more.",
+          "evidenceIds": [
+            "readme",
+            "cli"
+          ]
+        },
+        "editor_extensions": {
+          "support": "partial",
+          "answer": "agentbox code opens a box in VS Code or Cursor through the third-party Dev Containers extension; AgentBox ships no editor extension.",
+          "evidenceIds": [
+            "readme",
+            "srch-clients"
+          ]
+        },
+        "task_actions": {
+          "support": "supported",
+          "answer": "Start agents, attach and steer in tmux, approve pushes and plans, send prompts and keystrokes with drive, and review through the editor or download.",
+          "evidenceIds": [
+            "readme",
+            "parallel",
+            "sync"
+          ]
+        },
+        "notifications": {
+          "support": "partial",
+          "answer": "The hub and tray show approvals and agent state; cmux and Herdr integrations surface agent state; no push notifications are documented.",
+          "evidenceIds": [
+            "hub",
+            "readme"
+          ]
+        },
+        "cross_device_continuity": {
+          "support": "partial",
+          "answer": "A deployed hub gives a cross-machine registry and approvals; the local hub and tray are per machine.",
+          "evidenceIds": [
+            "deployed",
+            "hubreadme"
+          ]
+        }
+      },
+      "limitations": [
+        "macOS and Linux only; tray app is macOS only and its repository is not public; the web UI has no mobile client."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "hub",
+        "release",
+        "srch-clients",
+        "hubreadme",
+        "deployed",
+        "cli",
+        "parallel",
+        "sync"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentbox:ACC-02",
+      "criterionId": "ACC-02",
+      "answer": "Claude Code, Codex, OpenCode and Pi are built in, OpenClaw runs as a service agent, and custom agents arrive as npm packages; each runs as the real CLI in a box tmux session.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v0.33.0 (commit 71ed053, npm 0.33.0, 2026-09-21)",
+        "plan": "Open source (MIT), free; cloud provider and agent costs are separate",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "harnesses": {
+          "support": "supported",
+          "answer": "Four built-in agents plus OpenClaw, listed by agentbox agent list.",
+          "evidenceIds": [
+            "runagent",
+            "agents"
+          ]
+        },
+        "model_providers": {
+          "support": "partial",
+          "answer": "Pi and OpenCode are multi-provider and can borrow a Codex login; model choice otherwise passes through to each CLI.",
+          "evidenceIds": [
+            "runagent"
+          ]
+        },
+        "custom_adapters": {
+          "support": "supported",
+          "answer": "agentbox agent add registers an npm package built on the agent API.",
+          "evidenceIds": [
+            "runagent",
+            "agents"
+          ]
+        },
+        "session_integration": {
+          "support": "supported",
+          "answer": "Launches each CLI in a detachable tmux session inside the box and reads agent state from its screen; it does not embed a harness.",
+          "evidenceIds": [
+            "runagent",
+            "parallel"
+          ]
+        },
+        "mixed_harness_operation": {
+          "support": "supported",
+          "answer": "Claude, Codex and OpenCode run at the same time in separate boxes and one dashboard.",
+          "evidenceIds": [
+            "concepts",
+            "parallel"
+          ]
+        }
+      },
+      "limitations": [
+        "One agent per box; custom agents need a plugin package."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "runagent",
+        "agents",
+        "claudemd",
+        "parallel",
+        "concepts"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentbox:ACC-03",
+      "criterionId": "ACC-03",
+      "answer": "Subscription logins and API keys are captured on the host once and seeded into every box; Codex logins can be shared with Pi and OpenCode; no vendor credits.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v0.33.0 (commit 71ed053, npm 0.33.0, 2026-09-21)",
+        "plan": "Open source (MIT), free; cloud provider and agent costs are separate",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "agent_subscriptions": {
+          "support": "supported",
+          "answer": "agentbox claude login signs in with a Claude subscription and Codex uses device auth; both are reused by every box.",
+          "evidenceIds": [
+            "runagent"
+          ]
+        },
+        "api_accounts": {
+          "support": "supported",
+          "answer": "ANTHROPIC_API_KEY, CLAUDE_CODE_OAUTH_TOKEN and OPENAI_API_KEY on the host are forwarded into boxes.",
+          "evidenceIds": [
+            "runagent"
+          ]
+        },
+        "vendor_credits": {
+          "support": "unsupported",
+          "answer": "AgentBox has no credits; cloud providers bill their own accounts.",
+          "evidenceIds": [
+            "readme",
+            "srch-cost"
+          ]
+        },
+        "local_models": {
+          "support": "unsupported",
+          "answer": "No local-model routing in AgentBox.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "account_switching": {
+          "support": "partial",
+          "answer": "Credentials are per agent and shared across boxes; per-box account switching is not documented beyond custom config volumes.",
+          "evidenceIds": [
+            "runagent"
+          ]
+        },
+        "vendor_account_requirement": {
+          "support": "supported",
+          "answer": "No AgentBox account is required; the hub login is local or self-deployed.",
+          "evidenceIds": [
+            "hub",
+            "readme"
+          ]
+        },
+        "provider_restrictions": {
+          "support": "unknown",
+          "answer": "Provider restrictions are in each provider's terms.",
+          "evidenceIds": [
+            "runagent"
+          ]
+        }
+      },
+      "limitations": [
+        "A box cannot refresh a borrowed login; credentials must exist on the host before background runs."
+      ],
+      "unknownReason": "Provider terms on using subscriptions through a sandbox launcher are outside the repository.",
+      "evidenceIds": [
+        "runagent",
+        "readme",
+        "srch-cost",
+        "agents",
+        "hub"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentbox:ACC-04",
+      "criterionId": "ACC-04",
+      "answer": "npm install, agentbox install wizard, then agentbox claude snapshots the current directory into a box and offers a setup wizard; works for git repos and plain folders; cloud providers need a login and agentbox prepare.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v0.33.0 (commit 71ed053, npm 0.33.0, 2026-09-21)",
+        "plan": "Open source (MIT), free; cloud provider and agent costs are separate",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "first_task_setup": {
+          "support": "supported",
+          "answer": "README complete setup: npm install, agentbox install, agentbox claude, run the setup wizard.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "no_git": {
+          "support": "supported",
+          "answer": "A directory without git is copied into the box by a tar pipe.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "local_git_without_remote": {
+          "support": "supported",
+          "answer": "The box creates a worktree on branch agentbox/<name> against the local repository; pushes are optional and local landing is supported.",
+          "evidenceIds": [
+            "arch",
+            "sync"
+          ]
+        },
+        "hosted_git": {
+          "support": "supported",
+          "answer": "Push and gh pr go through the host relay; a GitHub App can lease repo tokens in the hub; GitHub Enterprise is handled.",
+          "evidenceIds": [
+            "sync",
+            "hubreadme"
+          ]
+        },
+        "prerequisite_guidance": {
+          "support": "supported",
+          "answer": "README lists macOS or Linux, Docker, Node and the image build.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "managed_cloud_setup": {
+          "support": "partial",
+          "answer": "Providers need agentbox <provider> login and prepare; vendor-managed sandboxes are the user's own cloud accounts.",
+          "evidenceIds": [
+            "readme",
+            "concepts"
+          ]
+        },
+        "byo_vps_onboarding": {
+          "support": "supported",
+          "answer": "agentbox remote-docker doctor and the Hetzner, DigitalOcean and deployed-hub flows set up a VPS from the CLI.",
+          "evidenceIds": [
+            "readme",
+            "remote",
+            "deployed"
+          ]
+        }
+      },
+      "limitations": [
+        "Needs Docker and Node 20.10+; first run builds a roughly 1 GB image; cloud setup per provider."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "concepts",
+        "sync",
+        "arch",
+        "hubreadme",
+        "remote",
+        "deployed"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentbox:ACC-05",
+      "criterionId": "ACC-05",
+      "answer": "A full CLI with --json, a versioned documented REST API with OpenAPI and bearer auth, a host skill so agents can drive the CLI, and a provider and agent plugin SDK; no webhooks or MCP server.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli",
+          "hub"
+        ],
+        "version": "v0.33.0 (commit 71ed053, npm 0.33.0, 2026-09-21)",
+        "plan": "Open source (MIT), free; cloud provider and agent costs are separate",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "cli": {
+          "support": "supported",
+          "answer": "Documented commands with --json for scripting and agents.",
+          "evidenceIds": [
+            "cli",
+            "parallel"
+          ]
+        },
+        "api": {
+          "support": "supported",
+          "answer": "/api/v1 REST: boxes, projects, approvals, jobs with SSE logs, workspaces and tasks, OpenAPI 3.1 and docs.",
+          "evidenceIds": [
+            "hubreadme",
+            "api"
+          ]
+        },
+        "sdk": {
+          "support": "supported",
+          "answer": "@madarco/agentbox-provider-sdk and an agent plugin API ship as npm packages.",
+          "evidenceIds": [
+            "readme",
+            "runagent"
+          ]
+        },
+        "mcp_server": {
+          "support": "unsupported",
+          "answer": "No MCP server; agents use the CLI and a skill.",
+          "evidenceIds": [
+            "srch-clients"
+          ]
+        },
+        "webhooks": {
+          "support": "unsupported",
+          "answer": "No webhooks.",
+          "evidenceIds": [
+            "srch-sched"
+          ]
+        },
+        "operations": {
+          "support": "supported",
+          "answer": "Create, inspect, drive (snapshot, keypress, prompt, wait), stop, destroy and answer approvals.",
+          "evidenceIds": [
+            "parallel",
+            "api"
+          ]
+        },
+        "authentication": {
+          "support": "supported",
+          "answer": "Bearer AGENTBOX_HUB_TOKEN or password session; per-box bearer tokens for the relay.",
+          "evidenceIds": [
+            "hubreadme"
+          ]
+        },
+        "stability": {
+          "support": "supported",
+          "answer": "The public API is a separate versioned, documented surface from the internal relay wire.",
+          "evidenceIds": [
+            "hubreadme"
+          ]
+        }
+      },
+      "limitations": [
+        "Hosted-plane writes are a follow-up; no webhooks."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "cli",
+        "api",
+        "hubreadme",
+        "parallel",
+        "readme",
+        "runagent",
+        "srch-clients",
+        "srch-sched"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentbox:ACC-06",
+      "criterionId": "ACC-06",
+      "answer": "Agents bring their own MCP servers, skills and plugins, which AgentBox syncs from the host into boxes; AgentBox installs its own skills; providers and agents extend through npm plugins.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v0.33.0 (commit 71ed053, npm 0.33.0, 2026-09-21)",
+        "plan": "Open source (MIT), free; cloud provider and agent costs are separate",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "mcp_client": {
+          "support": "partial",
+          "answer": "Host MCP configuration and skills sync into boxes with the agent config; the launched agent is the MCP client.",
+          "evidenceIds": [
+            "runagent"
+          ]
+        },
+        "plugins": {
+          "support": "supported",
+          "answer": "Provider and agent plugins as npm packages and a Claude plugin with skills.",
+          "evidenceIds": [
+            "readme",
+            "runagent"
+          ]
+        },
+        "custom_tools": {
+          "support": "partial",
+          "answer": "agentbox.yaml services and tasks define in-box processes; host tools run through the relay.",
+          "evidenceIds": [
+            "config"
+          ]
+        },
+        "instructions_import": {
+          "support": "supported",
+          "answer": "Host ~/.claude, skills and plugins flow into the next box.",
+          "evidenceIds": [
+            "runagent"
+          ]
+        },
+        "authentication": {
+          "support": "partial",
+          "answer": "Agent credentials are seeded; MCP credentials follow the agent config.",
+          "evidenceIds": [
+            "runagent"
+          ]
+        },
+        "permission_scope": {
+          "support": "unsupported",
+          "answer": "No product-level integration permission scoping beyond the box boundary.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "integration_owner": {
+          "support": "supported",
+          "answer": "Each agent CLI owns its integrations; AgentBox syncs its config.",
+          "evidenceIds": [
+            "runagent"
+          ]
+        }
+      },
+      "limitations": [
+        "No AgentBox-managed MCP client."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "runagent",
+        "skills",
+        "readme",
+        "config",
+        "srch-team"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentbox:ACC-07",
+      "criterionId": "ACC-07",
+      "answer": "The CLI is Node and TypeScript, the hub is a Next.js web app, and the tray app is a macOS app whose repository is not public.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v0.33.0 (commit 71ed053, npm 0.33.0, 2026-09-21)",
+        "plan": "Open source (MIT), free; cloud provider and agent costs are separate",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "desktop_implementation": {
+          "support": "unknown",
+          "answer": "The macOS tray app builds as AgentBox.app (DMG) from a separate non-public repository; its UI framework is not stated.",
+          "evidenceIds": [
+            "release"
+          ]
+        },
+        "mobile_implementation": {
+          "support": "unsupported",
+          "answer": "No mobile client.",
+          "evidenceIds": [
+            "srch-clients"
+          ]
+        },
+        "hybrids": {
+          "support": "partial",
+          "answer": "The hub is a Next.js web app; the dashboard is a terminal TUI.",
+          "evidenceIds": [
+            "hubreadme",
+            "readme"
+          ]
+        },
+        "implementation_evidence": {
+          "support": "supported",
+          "answer": "Hub README and package layout at the pinned commit.",
+          "evidenceIds": [
+            "hubreadme"
+          ]
+        }
+      },
+      "limitations": [
+        "Tray implementation cannot be inspected."
+      ],
+      "unknownReason": "The macOS tray app source is in a separate repository that is not public, so its behavior beyond the release asset and docs cannot be inspected.",
+      "evidenceIds": [
+        "hubreadme",
+        "release",
+        "srch-clients",
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-05-15",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentbox:PLAN-01",
+      "criterionId": "PLAN-01",
+      "answer": "Boxes start from a typed prompt (-i or attach) or from workspace tasks a manager assigns to boxes; there is no tracker import yet (Linear import is planned).",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v0.33.0 (commit 71ed053, npm 0.33.0, 2026-09-21)",
+        "plan": "Open source (MIT), free; cloud provider and agent costs are separate",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "local_creation": {
+          "support": "supported",
+          "answer": "agentbox tasks add creates workspace tasks.",
+          "evidenceIds": [
+            "tasks"
+          ]
+        },
+        "prompt_intake": {
+          "support": "supported",
+          "answer": "-i seeds a first prompt and drive prompt sends one later.",
+          "evidenceIds": [
+            "parallel"
+          ]
+        },
+        "external_import": {
+          "support": "unsupported",
+          "answer": "No external tracker integration.",
+          "evidenceIds": [
+            "plan"
+          ]
+        },
+        "chat_git_triggers": {
+          "support": "unsupported",
+          "answer": "No chat or git triggers.",
+          "evidenceIds": [
+            "srch-sched"
+          ]
+        },
+        "authoritative_tracker": {
+          "support": "supported",
+          "answer": "The local workspace task list is authoritative; no external tracker is involved.",
+          "evidenceIds": [
+            "tasks",
+            "workspace"
+          ]
+        },
+        "stable_ids": {
+          "support": "supported",
+          "answer": "Tasks have ids used by assign, finish and delete.",
+          "evidenceIds": [
+            "tasks"
+          ]
+        },
+        "sync": {
+          "support": "unsupported",
+          "answer": "No external tracker integration.",
+          "evidenceIds": [
+            "plan"
+          ]
+        },
+        "supported_edits": {
+          "support": "supported",
+          "answer": "Add, update, finish, assign, reprioritize and delete.",
+          "evidenceIds": [
+            "tasks"
+          ]
+        },
+        "external_roundtrips": {
+          "support": "unsupported",
+          "answer": "No external tracker integration.",
+          "evidenceIds": [
+            "plan"
+          ]
+        }
+      },
+      "limitations": [
+        "No GitHub, Linear or Jira import; PR operations go through gh."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "tasks",
+        "plan",
+        "parallel",
+        "srch-sched",
+        "workspace"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentbox:PLAN-02",
+      "criterionId": "PLAN-02",
+      "answer": "Tasks carry a description and priority and a manager can write notes; plans surface as agent plan approval prompts; no acceptance-criteria model or revisions.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v0.33.0 (commit 71ed053, npm 0.33.0, 2026-09-21)",
+        "plan": "Open source (MIT), free; cloud provider and agent costs are separate",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "plans": {
+          "support": "partial",
+          "answer": "Agent plan mode prompts can be read and approved through drive and the approvals API.",
+          "evidenceIds": [
+            "parallel"
+          ]
+        },
+        "acceptance_criteria": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "tasks"
+          ]
+        },
+        "editors": {
+          "support": "partial",
+          "answer": "Tasks update through the CLI.",
+          "evidenceIds": [
+            "tasks"
+          ]
+        },
+        "revisions": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "tasks"
+          ]
+        },
+        "implementation_links": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "tasks"
+          ]
+        },
+        "amendment": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "tasks"
+          ]
+        },
+        "restart_persistence": {
+          "support": "supported",
+          "answer": "Task lists persist in ~/.agentbox/workspaces.",
+          "evidenceIds": [
+            "plan"
+          ]
+        }
+      },
+      "limitations": [
+        "No structured plan or revision store."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "tasks",
+        "parallel",
+        "plan"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentbox:PLAN-03",
+      "criterionId": "PLAN-03",
+      "answer": "Tasks have a priority order and a blocked status and are grouped into boxes by a manager; there are no epics, dependency links or enforcement.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v0.33.0 (commit 71ed053, npm 0.33.0, 2026-09-21)",
+        "plan": "Open source (MIT), free; cloud provider and agent costs are separate",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "epics": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "tasks"
+          ]
+        },
+        "hierarchy": {
+          "support": "partial",
+          "answer": "A workspace groups projects and a task list; boxes are assigned tasks.",
+          "evidenceIds": [
+            "workspace",
+            "tasks"
+          ]
+        },
+        "blockers": {
+          "support": "partial",
+          "answer": "A task can be marked blocked; there are no dependency links.",
+          "evidenceIds": [
+            "tasks"
+          ]
+        },
+        "readiness": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "tasks"
+          ]
+        },
+        "enforcement": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "tasks"
+          ]
+        },
+        "state_propagation": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "tasks"
+          ]
+        },
+        "task_to_epic": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "tasks"
+          ]
+        },
+        "identity_retention": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "tasks"
+          ]
+        },
+        "workflow_constraints": {
+          "support": "supported",
+          "answer": "No rigid workflow is required.",
+          "evidenceIds": [
+            "tasks"
+          ]
+        }
+      },
+      "limitations": [
+        "No dependency graph."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "tasks",
+        "workspace"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentbox:PLAN-04",
+      "criterionId": "PLAN-04",
+      "answer": "Host agent config, skills, plugins and MCP sync into every box; agent settings can be pulled back and propagated; bots can be backed up and restored with state; no product memory layer.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v0.33.0 (commit 71ed053, npm 0.33.0, 2026-09-21)",
+        "plan": "Open source (MIT), free; cloud provider and agent costs are separate",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "instructions": {
+          "support": "supported",
+          "answer": "Host ~/.claude is synced into boxes.",
+          "evidenceIds": [
+            "runagent"
+          ]
+        },
+        "skills": {
+          "support": "supported",
+          "answer": "Host skills sync and AgentBox installs agentbox and agentbox-info skills.",
+          "evidenceIds": [
+            "runagent",
+            "skills"
+          ]
+        },
+        "project_docs": {
+          "support": "unsupported",
+          "answer": "Not managed by AgentBox.",
+          "evidenceIds": [
+            "runagent"
+          ]
+        },
+        "memory": {
+          "support": "unsupported",
+          "answer": "Not managed by AgentBox.",
+          "evidenceIds": [
+            "runagent"
+          ]
+        },
+        "scope": {
+          "support": "partial",
+          "answer": "Settings sync can propagate to the same project or all boxes.",
+          "evidenceIds": [
+            "sync"
+          ]
+        },
+        "provenance": {
+          "support": "unsupported",
+          "answer": "Not managed by AgentBox.",
+          "evidenceIds": [
+            "runagent"
+          ]
+        },
+        "correction": {
+          "support": "partial",
+          "answer": "Pulling settings back lets the user choose what to propagate.",
+          "evidenceIds": [
+            "sync"
+          ]
+        },
+        "deletion": {
+          "support": "unsupported",
+          "answer": "Not managed by AgentBox.",
+          "evidenceIds": [
+            "runagent"
+          ]
+        },
+        "freshness": {
+          "support": "unsupported",
+          "answer": "Not managed by AgentBox.",
+          "evidenceIds": [
+            "runagent"
+          ]
+        },
+        "takeover_continuity": {
+          "support": "supported",
+          "answer": "Boxes keep workspace and agent state across stop, pause, backup and clone.",
+          "evidenceIds": [
+            "sync",
+            "arch"
+          ]
+        }
+      },
+      "limitations": [
+        "Memory is each agent's own."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "runagent",
+        "sync",
+        "skills",
+        "arch"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentbox:PLAN-05",
+      "criterionId": "PLAN-05",
+      "answer": "No code index or retrieval; files move between host and box with cp, download and upload, and the box has a browser and screen for agents to see apps.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v0.33.0 (commit 71ed053, npm 0.33.0, 2026-09-21)",
+        "plan": "Open source (MIT), free; cloud provider and agent costs are separate",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "code_search": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "indexing": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "external_knowledge": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "multimodal_inputs": {
+          "support": "partial",
+          "answer": "Files and images copy in with cp and upload; the in-box browser and noVNC screen show apps.",
+          "evidenceIds": [
+            "sync",
+            "readme"
+          ]
+        },
+        "freshness": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "access_scope": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "api_retrieval": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "citations": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "conflict_detection": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "review_enforcement": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        }
+      },
+      "limitations": [
+        "No retrieval layer."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "sync",
+        "readme",
+        "srch-review"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentbox:PLAN-06",
+      "criterionId": "PLAN-06",
+      "answer": "A workspace task list with title and status (todo, in_progress, blocked, done), priority order and box assignment, driven from the CLI by humans and the manager agent; no comments, labels or web board yet.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v0.33.0 (commit 71ed053, npm 0.33.0, 2026-09-21)",
+        "plan": "Open source (MIT), free; cloud provider and agent costs are separate",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "create": {
+          "support": "supported",
+          "answer": "tasks add.",
+          "evidenceIds": [
+            "tasks"
+          ]
+        },
+        "edit": {
+          "support": "supported",
+          "answer": "tasks update.",
+          "evidenceIds": [
+            "tasks"
+          ]
+        },
+        "discuss": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "tasks"
+          ]
+        },
+        "prioritize": {
+          "support": "supported",
+          "answer": "tasks order sets the whole priority order.",
+          "evidenceIds": [
+            "tasks"
+          ]
+        },
+        "label": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "tasks"
+          ]
+        },
+        "assign": {
+          "support": "supported",
+          "answer": "tasks assign gives tasks to a box.",
+          "evidenceIds": [
+            "tasks"
+          ]
+        },
+        "search": {
+          "support": "partial",
+          "answer": "tasks list shows the workspace in priority order.",
+          "evidenceIds": [
+            "tasks"
+          ]
+        },
+        "filter": {
+          "support": "partial",
+          "answer": "tasks list takes a status filter.",
+          "evidenceIds": [
+            "tasks"
+          ]
+        },
+        "archive": {
+          "support": "partial",
+          "answer": "tasks delete and finish.",
+          "evidenceIds": [
+            "tasks"
+          ]
+        },
+        "reopen": {
+          "support": "partial",
+          "answer": "tasks update can reset status.",
+          "evidenceIds": [
+            "tasks"
+          ]
+        },
+        "project_epic_views": {
+          "support": "partial",
+          "answer": "Workspaces group several projects.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "idea_parking": {
+          "support": "supported",
+          "answer": "Tasks sit in the backlog until assigned.",
+          "evidenceIds": [
+            "tasks"
+          ]
+        },
+        "explicit_dispatch": {
+          "support": "supported",
+          "answer": "Assignment to a box is an explicit action.",
+          "evidenceIds": [
+            "tasks"
+          ]
+        },
+        "task_session_separation": {
+          "support": "supported",
+          "answer": "Tasks, boxes and manager sessions are separate entities.",
+          "evidenceIds": [
+            "tasks",
+            "manager"
+          ]
+        },
+        "metadata": {
+          "support": "partial",
+          "answer": "Status, priority, box assignment and notes.",
+          "evidenceIds": [
+            "tasks"
+          ]
+        },
+        "durable_states": {
+          "support": "supported",
+          "answer": "Stored on the hub per workspace.",
+          "evidenceIds": [
+            "plan"
+          ]
+        },
+        "external_tracker_requirement": {
+          "support": "supported",
+          "answer": "No external tracker is required.",
+          "evidenceIds": [
+            "tasks"
+          ]
+        }
+      },
+      "limitations": [
+        "CLI and API only; hub task views and Linear import are planned."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "tasks",
+        "plan",
+        "workspace",
+        "manager"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentbox:PLAN-07",
+      "criterionId": "PLAN-07",
+      "answer": "The manager agent uses the same agentbox tasks and workspace commands as the human, with $AGENTBOX_WORKSPACE preset, and the hub timeline records manager notes and messages; the hub UI for tasks is planned.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v0.33.0 (commit 71ed053, npm 0.33.0, 2026-09-21)",
+        "plan": "Open source (MIT), free; cloud provider and agent costs are separate",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "shared_ids": {
+          "support": "supported",
+          "answer": "Task ids are shared across human and manager.",
+          "evidenceIds": [
+            "tasks"
+          ]
+        },
+        "read": {
+          "support": "supported",
+          "answer": "tasks list and show.",
+          "evidenceIds": [
+            "tasks"
+          ]
+        },
+        "create": {
+          "support": "supported",
+          "answer": "tasks add.",
+          "evidenceIds": [
+            "tasks"
+          ]
+        },
+        "update": {
+          "support": "supported",
+          "answer": "tasks update and finish.",
+          "evidenceIds": [
+            "tasks"
+          ]
+        },
+        "claim": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "tasks"
+          ]
+        },
+        "assign": {
+          "support": "supported",
+          "answer": "tasks assign to a box.",
+          "evidenceIds": [
+            "tasks"
+          ]
+        },
+        "state_changes": {
+          "support": "supported",
+          "answer": "tasks update status.",
+          "evidenceIds": [
+            "tasks"
+          ]
+        },
+        "dependencies": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "tasks"
+          ]
+        },
+        "children": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "tasks"
+          ]
+        },
+        "results": {
+          "support": "partial",
+          "answer": "Manager notes and a timeline are recorded.",
+          "evidenceIds": [
+            "plan"
+          ]
+        },
+        "human_visibility": {
+          "support": "partial",
+          "answer": "CLI and tray visibility; hub web task views are planned.",
+          "evidenceIds": [
+            "plan"
+          ]
+        },
+        "attribution": {
+          "support": "partial",
+          "answer": "Manager notes and timeline events name the manager session.",
+          "evidenceIds": [
+            "plan",
+            "manager"
+          ]
+        },
+        "permissions": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "tasks"
+          ]
+        },
+        "conflicts": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "tasks"
+          ]
+        }
+      },
+      "limitations": [
+        "Attribution is by manager session; no task permissions model."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "tasks",
+        "workspace",
+        "manager",
+        "plan"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentbox:PLAN-08",
+      "criterionId": "PLAN-08",
+      "answer": "No persistent product specification feature.",
+      "support": "unsupported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v0.33.0 (commit 71ed053, npm 0.33.0, 2026-09-21)",
+        "plan": "Open source (MIT), free; cloud provider and agent costs are separate",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "persistent_requirements": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "tasks"
+          ]
+        },
+        "human_edits": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "tasks"
+          ]
+        },
+        "agent_edits": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "tasks"
+          ]
+        },
+        "revisions": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "tasks"
+          ]
+        },
+        "approvals": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "tasks"
+          ]
+        },
+        "implementation_links": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "tasks"
+          ]
+        },
+        "later_retrieval": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "tasks"
+          ]
+        },
+        "drift_detection": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "tasks"
+          ]
+        },
+        "review_integration": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "tasks"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "tasks"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentbox:COORD-01",
+      "criterionId": "COORD-01",
+      "answer": "Many boxes run in parallel across Docker and cloud providers with tmux sessions, a dashboard listing status, a host-wide queue for background runs and optional working-agent caps.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v0.33.0 (commit 71ed053, npm 0.33.0, 2026-09-21)",
+        "plan": "Open source (MIT), free; cloud provider and agent costs are separate",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "concurrent_sessions": {
+          "support": "supported",
+          "answer": "Each box runs its own agent session concurrently.",
+          "evidenceIds": [
+            "concepts",
+            "parallel"
+          ]
+        },
+        "concurrent_tasks": {
+          "support": "supported",
+          "answer": "Several tasks can be assigned to different boxes.",
+          "evidenceIds": [
+            "tasks"
+          ]
+        },
+        "quotas": {
+          "support": "supported",
+          "answer": "queue.maxConcurrent defaults to 5 running boxes and queue.maxWorking caps active agents.",
+          "evidenceIds": [
+            "parallel"
+          ]
+        },
+        "observed_concurrency": {
+          "support": "unknown",
+          "answer": "No published concurrency measurements; not listed on ADEMark.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "status_visibility": {
+          "support": "supported",
+          "answer": "Dashboard and hub list running, paused, stopped, error and agent working, idle and waiting states.",
+          "evidenceIds": [
+            "hub",
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Measured concurrency is not published."
+      ],
+      "unknownReason": "Measured concurrency is a benchmark fact not in the repository; this catalog does not run products.",
+      "evidenceIds": [
+        "concepts",
+        "parallel",
+        "tasks",
+        "readme",
+        "hub"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentbox:COORD-02",
+      "criterionId": "COORD-02",
+      "answer": "Boxes get tasks assigned by a manager or human; the FIFO queue starts background runs; the relay serializes prompts; no claims or duplicate prevention.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v0.33.0 (commit 71ed053, npm 0.33.0, 2026-09-21)",
+        "plan": "Open source (MIT), free; cloud provider and agent costs are separate",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "human_assignment": {
+          "support": "partial",
+          "answer": "Humans assign tasks to boxes.",
+          "evidenceIds": [
+            "tasks"
+          ]
+        },
+        "agent_assignment": {
+          "support": "supported",
+          "answer": "The manager assigns tasks to boxes.",
+          "evidenceIds": [
+            "tasks",
+            "manager"
+          ]
+        },
+        "claims": {
+          "support": "unsupported",
+          "answer": "No claims.",
+          "evidenceIds": [
+            "tasks"
+          ]
+        },
+        "queues": {
+          "support": "supported",
+          "answer": "Host-wide FIFO queue for -i jobs.",
+          "evidenceIds": [
+            "parallel",
+            "queuecfg"
+          ]
+        },
+        "routing": {
+          "support": "partial",
+          "answer": "Provider and agent are chosen per box.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "duplicate_prevention": {
+          "support": "unsupported",
+          "answer": "No duplicate-work prevention found.",
+          "evidenceIds": [
+            "tasks"
+          ]
+        },
+        "ownership_enforcement": {
+          "support": "partial",
+          "answer": "A task assigned to a box is recorded; enforcement is advisory.",
+          "evidenceIds": [
+            "tasks"
+          ]
+        }
+      },
+      "limitations": [
+        "No claim or lock mechanism."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "tasks",
+        "parallel",
+        "manager",
+        "queuecfg",
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentbox:COORD-03",
+      "criterionId": "COORD-03",
+      "answer": "A host skill and drive, agent, queue, tasks and manager commands let an agent create boxes, read their screens, send prompts and keystrokes, wait for states and answer blocking prompts; the hub can run a manager session.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli",
+          "hub"
+        ],
+        "version": "v0.33.0 (commit 71ed053, npm 0.33.0, 2026-09-21)",
+        "plan": "Open source (MIT), free; cloud provider and agent costs are separate",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "roles": {
+          "support": "supported",
+          "answer": "Manager sessions and box agents.",
+          "evidenceIds": [
+            "manager"
+          ]
+        },
+        "model_harness_effort": {
+          "support": "supported",
+          "answer": "Agent and provider are chosen per box with pass-through args.",
+          "evidenceIds": [
+            "runagent"
+          ]
+        },
+        "messages": {
+          "support": "supported",
+          "answer": "drive prompt and manager message send text; approvals answer blocked prompts.",
+          "evidenceIds": [
+            "parallel",
+            "hubreadme"
+          ]
+        },
+        "results_return": {
+          "support": "partial",
+          "answer": "Screens are read with drive snapshot and agent state with agent wait-for; no structured result.",
+          "evidenceIds": [
+            "parallel"
+          ]
+        },
+        "cross_harness": {
+          "support": "supported",
+          "answer": "Any built-in agent can be driven by any host agent.",
+          "evidenceIds": [
+            "parallel"
+          ]
+        },
+        "orchestration_owner": {
+          "support": "supported",
+          "answer": "AgentBox ships the skill, commands and manager sessions.",
+          "evidenceIds": [
+            "parallel",
+            "manager"
+          ]
+        },
+        "activation": {
+          "support": "supported",
+          "answer": "agentbox install drops the skill; no flag is needed.",
+          "evidenceIds": [
+            "parallel"
+          ]
+        },
+        "authentication": {
+          "support": "supported",
+          "answer": "Local relay and hub token.",
+          "evidenceIds": [
+            "hubreadme"
+          ]
+        },
+        "live_progress": {
+          "support": "supported",
+          "answer": "agent state, drive snapshot and queue events.",
+          "evidenceIds": [
+            "parallel"
+          ]
+        },
+        "retained_results": {
+          "support": "partial",
+          "answer": "Box workspaces and queue logs persist.",
+          "evidenceIds": [
+            "parallel"
+          ]
+        },
+        "followup": {
+          "support": "supported",
+          "answer": "drive prompt to an existing box.",
+          "evidenceIds": [
+            "parallel"
+          ]
+        },
+        "invocation": {
+          "support": "supported",
+          "answer": "CLI with --json and the installed skill.",
+          "evidenceIds": [
+            "parallel",
+            "skills"
+          ]
+        }
+      },
+      "limitations": [
+        "Delegation is through CLI commands and a skill, not a built-in role UI."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "parallel",
+        "manager",
+        "skills",
+        "runagent",
+        "hubreadme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentbox:COORD-04",
+      "criterionId": "COORD-04",
+      "answer": "No scheduler or triggers; queued -i runs start when capacity frees; a hub-deployed control box keeps running with the laptop off.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v0.33.0 (commit 71ed053, npm 0.33.0, 2026-09-21)",
+        "plan": "Open source (MIT), free; cloud provider and agent costs are separate",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "schedules": {
+          "support": "unsupported",
+          "answer": "No scheduler or trigger.",
+          "evidenceIds": [
+            "srch-sched"
+          ]
+        },
+        "events": {
+          "support": "unsupported",
+          "answer": "No scheduler or trigger.",
+          "evidenceIds": [
+            "srch-sched"
+          ]
+        },
+        "recurring_tasks": {
+          "support": "unsupported",
+          "answer": "No scheduler or trigger.",
+          "evidenceIds": [
+            "srch-sched"
+          ]
+        },
+        "completion_conditions": {
+          "support": "partial",
+          "answer": "queue wait-for and agent wait-for block until events.",
+          "evidenceIds": [
+            "parallel"
+          ]
+        },
+        "scheduler_location": {
+          "support": "unsupported",
+          "answer": "No scheduler or trigger.",
+          "evidenceIds": [
+            "srch-sched"
+          ]
+        },
+        "overlaps": {
+          "support": "unsupported",
+          "answer": "No scheduler or trigger.",
+          "evidenceIds": [
+            "srch-sched"
+          ]
+        },
+        "retries": {
+          "support": "unsupported",
+          "answer": "No scheduler or trigger.",
+          "evidenceIds": [
+            "srch-sched"
+          ]
+        },
+        "client_independence": {
+          "support": "partial",
+          "answer": "Cloud boxes and a deployed hub continue without the laptop.",
+          "evidenceIds": [
+            "deployed"
+          ]
+        }
+      },
+      "limitations": [
+        "Runs are started on demand."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "parallel",
+        "srch-sched",
+        "deployed"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentbox:COORD-05",
+      "criterionId": "COORD-05",
+      "answer": "Pause, unpause, stop, destroy, attach and steer boxes; approval prompts for push, PRs and plans; hub, tray and cmux or Herdr show state; no escalation routing.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v0.33.0 (commit 71ed053, npm 0.33.0, 2026-09-21)",
+        "plan": "Open source (MIT), free; cloud provider and agent costs are separate",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "pause": {
+          "support": "supported",
+          "answer": "agentbox pause freezes a box in under a second.",
+          "evidenceIds": [
+            "concepts",
+            "readme"
+          ]
+        },
+        "stop": {
+          "support": "supported",
+          "answer": "stop preserves the box; destroy discards it.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "resume": {
+          "support": "supported",
+          "answer": "unpause and start resume boxes; claude start resumes a session.",
+          "evidenceIds": [
+            "readme",
+            "runagent"
+          ]
+        },
+        "steer": {
+          "support": "supported",
+          "answer": "Attach to tmux or drive prompt.",
+          "evidenceIds": [
+            "runagent",
+            "parallel"
+          ]
+        },
+        "notifications": {
+          "support": "partial",
+          "answer": "Hub approvals inbox, tray and cmux or Herdr status.",
+          "evidenceIds": [
+            "hub"
+          ]
+        },
+        "pending_decisions": {
+          "support": "supported",
+          "answer": "Approvals list push, PR and plan prompts blocking a box.",
+          "evidenceIds": [
+            "hub",
+            "parallel"
+          ]
+        },
+        "escalation": {
+          "support": "unsupported",
+          "answer": "No escalation routing.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "visible_errors": {
+          "support": "supported",
+          "answer": "Error state per box in the dashboard and hub.",
+          "evidenceIds": [
+            "hub"
+          ]
+        },
+        "chat_terminal_parity": {
+          "support": "supported",
+          "answer": "The agent TUI is the surface; prompts surface through approvals.",
+          "evidenceIds": [
+            "parallel"
+          ]
+        },
+        "retained_history": {
+          "support": "supported",
+          "answer": "Logs per command and queue job.",
+          "evidenceIds": [
+            "parallel"
+          ]
+        }
+      },
+      "limitations": [
+        "Pausing freezes the whole box; no escalation."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "concepts",
+        "parallel",
+        "hub",
+        "readme",
+        "runagent",
+        "srch-team"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentbox:COORD-06",
+      "criterionId": "COORD-06",
+      "answer": "The dashboard TUI and hub list boxes by project with status and lifecycle controls; the tray shows workspaces, managers and a timeline; no dependency graph.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v0.33.0 (commit 71ed053, npm 0.33.0, 2026-09-21)",
+        "plan": "Open source (MIT), free; cloud provider and agent costs are separate",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "fleet_fixture": {
+          "support": "supported",
+          "answer": "Hub dashboard groups boxes by project with state.",
+          "evidenceIds": [
+            "hub"
+          ]
+        },
+        "parent_child": {
+          "support": "partial",
+          "answer": "Boxes group under managers and workspaces.",
+          "evidenceIds": [
+            "plan"
+          ]
+        },
+        "dependencies": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "hub"
+          ]
+        },
+        "attention": {
+          "support": "supported",
+          "answer": "Approvals badge and waiting state.",
+          "evidenceIds": [
+            "hub"
+          ]
+        },
+        "history": {
+          "support": "partial",
+          "answer": "A per-workspace timeline records events.",
+          "evidenceIds": [
+            "plan"
+          ]
+        },
+        "workload": {
+          "support": "partial",
+          "answer": "agentbox top shows cpu, memory, pids and disk per box.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "navigation_errors": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "hub"
+          ]
+        },
+        "fixture_mode": {
+          "support": "unsupported",
+          "answer": "Not applicable.",
+          "evidenceIds": [
+            "hub"
+          ]
+        }
+      },
+      "limitations": [
+        "Tray timeline views are in progress."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "hub",
+        "plan",
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentbox:COORD-07",
+      "criterionId": "COORD-07",
+      "answer": "agentbox claude starts an agent in one command; the setup wizard and agentbox.yaml configure services; agent, provider and sizes are chosen per box; a manager agent can plan in natural language.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v0.33.0 (commit 71ed053, npm 0.33.0, 2026-09-21)",
+        "plan": "Open source (MIT), free; cloud provider and agent costs are separate",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "quick_task": {
+          "support": "supported",
+          "answer": "agentbox claude.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "growing_epic": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "presets": {
+          "support": "partial",
+          "answer": "agentbox.yaml and config layers.",
+          "evidenceIds": [
+            "config"
+          ]
+        },
+        "natural_language": {
+          "support": "partial",
+          "answer": "A host agent given the skill can orchestrate in natural language.",
+          "evidenceIds": [
+            "parallel"
+          ]
+        },
+        "agent_configuration": {
+          "support": "supported",
+          "answer": "Provider, agent and pass-through model args per box.",
+          "evidenceIds": [
+            "runagent"
+          ]
+        },
+        "in_run_changes": {
+          "support": "supported",
+          "answer": "Drive and attach change a running box.",
+          "evidenceIds": [
+            "parallel"
+          ]
+        },
+        "live_roles": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "retained_relationships": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "discoverability": {
+          "support": "supported",
+          "answer": "Docs, help and the wizard.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "auth_friction": {
+          "support": "partial",
+          "answer": "Login once per agent on the host.",
+          "evidenceIds": [
+            "runagent"
+          ]
+        }
+      },
+      "limitations": [
+        "No role UI."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "parallel",
+        "config",
+        "runagent"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentbox:RUN-01",
+      "criterionId": "RUN-01",
+      "answer": "Boxes run in local Docker, on remote Docker over SSH, or on Hetzner, DigitalOcean, Daytona, Vercel and E2B (and others); a deployed hub keeps cloud boxes reachable with the laptop off.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v0.33.0 (commit 71ed053, npm 0.33.0, 2026-09-21)",
+        "plan": "Open source (MIT), free; cloud provider and agent costs are separate",
+        "os": [],
+        "executionModes": [
+          "local",
+          "own-server",
+          "vendor-cloud"
+        ],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "local": {
+          "support": "supported",
+          "answer": "Default local Docker.",
+          "evidenceIds": [
+            "readme",
+            "providers"
+          ]
+        },
+        "byo_remote": {
+          "support": "supported",
+          "answer": "remote-docker over your ssh config and Hetzner VPS boxes with per-box ssh keys.",
+          "evidenceIds": [
+            "remote",
+            "claudemd"
+          ]
+        },
+        "self_hosted": {
+          "support": "supported",
+          "answer": "The hub deploys to a VPS as a control plane.",
+          "evidenceIds": [
+            "deployed",
+            "hubreadme"
+          ]
+        },
+        "managed_cloud": {
+          "support": "partial",
+          "answer": "Third-party sandboxes (Daytona, Vercel, E2B) run boxes on the user's own provider account; AgentBox itself operates no cloud.",
+          "evidenceIds": [
+            "readme",
+            "claudemd"
+          ]
+        },
+        "hybrid": {
+          "support": "supported",
+          "answer": "Local and cloud boxes sit in one dashboard.",
+          "evidenceIds": [
+            "concepts",
+            "hub"
+          ]
+        },
+        "provisioning": {
+          "support": "supported",
+          "answer": "agentbox <provider> login and prepare, then create.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "payer": {
+          "support": "supported",
+          "answer": "The user pays the cloud provider; local costs nothing.",
+          "evidenceIds": [
+            "concepts"
+          ]
+        },
+        "resources": {
+          "support": "supported",
+          "answer": "Provider size options per box, such as cx23 on Hetzner.",
+          "evidenceIds": [
+            "claudemd"
+          ]
+        },
+        "region": {
+          "support": "supported",
+          "answer": "Hetzner region defaults to nbg1 and is configurable.",
+          "evidenceIds": [
+            "claudemd"
+          ]
+        },
+        "expiry": {
+          "support": "supported",
+          "answer": "Idle timeouts (25 min Daytona, 45 min E2B) pause boxes; persistent boxes never lapse.",
+          "evidenceIds": [
+            "config"
+          ]
+        },
+        "client_disconnect": {
+          "support": "supported",
+          "answer": "Cloud boxes and queued runs continue when the client detaches; local boxes continue while the host runs.",
+          "evidenceIds": [
+            "concepts",
+            "deployed"
+          ]
+        },
+        "other_device_continuation": {
+          "support": "supported",
+          "answer": "With a deployed hub another machine can see and manage cloud boxes.",
+          "evidenceIds": [
+            "deployed"
+          ]
+        }
+      },
+      "limitations": [
+        "Cloud costs are the user's provider bill; local boxes need the laptop on."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "concepts",
+        "deployed",
+        "providers",
+        "remote",
+        "claudemd",
+        "hubreadme",
+        "hub",
+        "config"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentbox:RUN-02",
+      "criterionId": "RUN-02",
+      "answer": "A box is an isolated Linux machine with passwordless sudo: a Docker container with its own git worktree, or a cloud VM or microVM; host credentials and remotes stay outside and pushes go through approvals.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v0.33.0 (commit 71ed053, npm 0.33.0, 2026-09-21)",
+        "plan": "Open source (MIT), free; cloud provider and agent costs are separate",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "checkout": {
+          "support": "supported",
+          "answer": "Non-git folders are copied in.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "branch": {
+          "support": "supported",
+          "answer": "Per-box branch agentbox/<name>.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "worktree": {
+          "support": "supported",
+          "answer": "git worktree add inside the container.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "container": {
+          "support": "supported",
+          "answer": "Docker container per box locally and remotely.",
+          "evidenceIds": [
+            "arch",
+            "providers"
+          ]
+        },
+        "vm": {
+          "support": "supported",
+          "answer": "Hetzner, DigitalOcean VPS and Firecracker microVMs on Vercel and E2B.",
+          "evidenceIds": [
+            "claudemd"
+          ]
+        },
+        "os_sandbox": {
+          "support": "partial",
+          "answer": "Container isolation with apparmor and seccomp unconfined for inner dockerd.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "filesystem": {
+          "support": "supported",
+          "answer": "The box cannot see host files except the bind-mounted .git.",
+          "evidenceIds": [
+            "concepts",
+            "arch"
+          ]
+        },
+        "process": {
+          "support": "supported",
+          "answer": "Separate container or VM.",
+          "evidenceIds": [
+            "concepts"
+          ]
+        },
+        "network": {
+          "support": "partial",
+          "answer": "Cloud firewalls are applied per Hetzner box; Docker boxes use container networking.",
+          "evidenceIds": [
+            "claudemd"
+          ]
+        },
+        "secrets": {
+          "support": "supported",
+          "answer": "Git credentials stay on the host; agent credentials are seeded per agent.",
+          "evidenceIds": [
+            "concepts",
+            "sync"
+          ]
+        },
+        "code_separation": {
+          "support": "supported",
+          "answer": "Per-box worktree and branch.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "security_boundary": {
+          "support": "partial",
+          "answer": "Docker is isolation, not hostile-code containment; the docs call the worst case breaking its own box.",
+          "evidenceIds": [
+            "concepts"
+          ]
+        }
+      },
+      "limitations": [
+        "Docker boxes share the host kernel; the box has network access."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "concepts",
+        "arch",
+        "claudemd",
+        "providers",
+        "sync"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentbox:RUN-03",
+      "criterionId": "RUN-03",
+      "answer": "Boxes survive stop, pause and attach; checkpoints restore warm state; tmux keeps the agent running through detach; cloud providers may expire idle boxes and resume them.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v0.33.0 (commit 71ed053, npm 0.33.0, 2026-09-21)",
+        "plan": "Open source (MIT), free; cloud provider and agent costs are separate",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "client_disconnect": {
+          "support": "supported",
+          "answer": "Ctrl+a d detaches and the agent keeps running.",
+          "evidenceIds": [
+            "runagent"
+          ]
+        },
+        "worker_crash": {
+          "support": "partial",
+          "answer": "boxes can be started again with start; docker state persists in the container layer.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "service_restart": {
+          "support": "supported",
+          "answer": "agentbox start relaunches ctl, dockerd and display.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "expiry": {
+          "support": "supported",
+          "answer": "Idle timeouts pause cloud boxes and persistent boxes avoid them.",
+          "evidenceIds": [
+            "config"
+          ]
+        },
+        "transcript_reload": {
+          "support": "supported",
+          "answer": "Agent sessions resume with claude start and history is host-synced.",
+          "evidenceIds": [
+            "runagent"
+          ]
+        },
+        "process_reconnect": {
+          "support": "supported",
+          "answer": "attach reconnects to the tmux session.",
+          "evidenceIds": [
+            "runagent"
+          ]
+        },
+        "task_resume": {
+          "support": "supported",
+          "answer": "start resumes a session.",
+          "evidenceIds": [
+            "runagent"
+          ]
+        },
+        "state_reconstruction": {
+          "support": "supported",
+          "answer": "Checkpoints rebuild warm state and the relay re-registers boxes.",
+          "evidenceIds": [
+            "checkpoints"
+          ]
+        },
+        "context_loss": {
+          "support": "partial",
+          "answer": "Borrowed logins expire and processes die on stop.",
+          "evidenceIds": [
+            "runagent"
+          ]
+        },
+        "duplicate_actions": {
+          "support": "unsupported",
+          "answer": "No guard documented.",
+          "evidenceIds": [
+            "sync"
+          ]
+        },
+        "manual_repair": {
+          "support": "partial",
+          "answer": "doctor, prune and recover commands.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "multi_day_continuity": {
+          "support": "supported",
+          "answer": "Persistent boxes and checkpoints continue multi-day work.",
+          "evidenceIds": [
+            "config",
+            "checkpoints"
+          ]
+        }
+      },
+      "limitations": [
+        "Local boxes stop with the host; provider idle expiry pauses boxes."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "arch",
+        "checkpoints",
+        "concepts",
+        "runagent",
+        "config",
+        "sync",
+        "cli"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentbox:RUN-04",
+      "criterionId": "RUN-04",
+      "answer": "The setup wizard writes agentbox.yaml with install tasks and services that the in-box supervisor runs in a DAG; checkpoints keep node_modules and caches; web apps get portless or tunnel URLs; Docker-in-Docker is available.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v0.33.0 (commit 71ed053, npm 0.33.0, 2026-09-21)",
+        "plan": "Open source (MIT), free; cloud provider and agent costs are separate",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "dependencies": {
+          "support": "supported",
+          "answer": "Install tasks and services in agentbox.yaml.",
+          "evidenceIds": [
+            "claudemd"
+          ]
+        },
+        "caches": {
+          "support": "supported",
+          "answer": "Checkpoints keep node_modules and build caches; optional shared docker cache.",
+          "evidenceIds": [
+            "checkpoints"
+          ]
+        },
+        "snapshots": {
+          "support": "supported",
+          "answer": "Checkpoints on every provider.",
+          "evidenceIds": [
+            "claudemd",
+            "checkpoints"
+          ]
+        },
+        "services": {
+          "support": "supported",
+          "answer": "agentbox-ctl runs declared services.",
+          "evidenceIds": [
+            "claudemd"
+          ]
+        },
+        "ports": {
+          "support": "supported",
+          "answer": "Random ephemeral host ports and portless URLs avoid collisions.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "secrets": {
+          "support": "supported",
+          "answer": "Host secrets.env and in-box .env files.",
+          "evidenceIds": [
+            "sync"
+          ]
+        },
+        "duplicate_installs": {
+          "support": "partial",
+          "answer": "Checkpoints avoid reinstalling for new boxes.",
+          "evidenceIds": [
+            "checkpoints"
+          ]
+        },
+        "collisions": {
+          "support": "supported",
+          "answer": "Per-box ports and URLs.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "remote_setup": {
+          "support": "supported",
+          "answer": "prepare builds images or snapshots per provider.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "automatic_repair": {
+          "support": "partial",
+          "answer": "doctor and the setup wizard.",
+          "evidenceIds": [
+            "cli"
+          ]
+        }
+      },
+      "limitations": [
+        "Ports use random ephemeral host ports and .localhost URLs; no shared dependency cache across boxes except Docker layers and checkpoints."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "claudemd",
+        "arch",
+        "checkpoints",
+        "sync",
+        "readme",
+        "cli"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentbox:RUN-05",
+      "criterionId": "RUN-05",
+      "answer": "Queue concurrency caps and idle timeouts are enforced; no agent turn, token or spend limits.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v0.33.0 (commit 71ed053, npm 0.33.0, 2026-09-21)",
+        "plan": "Open source (MIT), free; cloud provider and agent costs are separate",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "time_limits": {
+          "support": "partial",
+          "answer": "Provider idle timeouts pause boxes.",
+          "evidenceIds": [
+            "config"
+          ]
+        },
+        "turn_limits": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "token_limits": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "spend_limits": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "timeouts": {
+          "support": "partial",
+          "answer": "Provider timeouts and host keepalive.",
+          "evidenceIds": [
+            "config"
+          ]
+        },
+        "retries": {
+          "support": "partial",
+          "answer": "Queue worker retries are not documented.",
+          "evidenceIds": [
+            "parallel"
+          ]
+        },
+        "provider_failures": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "enforcement": {
+          "support": "partial",
+          "answer": "Queue caps and timeouts are enforced.",
+          "evidenceIds": [
+            "parallel",
+            "config"
+          ]
+        }
+      },
+      "limitations": [
+        "Provider spend is controlled in the provider."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "parallel",
+        "config",
+        "srch-cost"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentbox:RUN-06",
+      "criterionId": "RUN-06",
+      "answer": "agentbox status, top, logs, agent state, queue and hub dashboards show state and resource use; per-command logs under ~/.agentbox/logs; no usage export or statistics.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v0.33.0 (commit 71ed053, npm 0.33.0, 2026-09-21)",
+        "plan": "Open source (MIT), free; cloud provider and agent costs are separate",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "logs": {
+          "support": "supported",
+          "answer": "agentbox logs, per-command log files and queue logs.",
+          "evidenceIds": [
+            "readme",
+            "parallel"
+          ]
+        },
+        "traces": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "failure_reasons": {
+          "support": "partial",
+          "answer": "Command logs and error state.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "usage_export": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "task_stats": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "agent_stats": {
+          "support": "partial",
+          "answer": "agentbox agent shows live agent state.",
+          "evidenceIds": [
+            "parallel"
+          ]
+        },
+        "project_stats": {
+          "support": "partial",
+          "answer": "agentbox top monitors per project.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "time_stats": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "failure_status": {
+          "support": "supported",
+          "answer": "Error state per box.",
+          "evidenceIds": [
+            "hub"
+          ]
+        },
+        "approval_status": {
+          "support": "supported",
+          "answer": "Approvals list.",
+          "evidenceIds": [
+            "hub"
+          ]
+        },
+        "reconnect_consistency": {
+          "support": "supported",
+          "answer": "The relay reconciles registry and status events.",
+          "evidenceIds": [
+            "hubreadme"
+          ]
+        },
+        "performance_method": {
+          "support": "unknown",
+          "answer": "No benchmark method; not listed on ADEMark.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "responsiveness": {
+          "support": "unknown",
+          "answer": "No published responsiveness measurements; docs claim sub-second pause and resume.",
+          "evidenceIds": [
+            "concepts"
+          ]
+        }
+      },
+      "limitations": [
+        "No historical statistics or exports."
+      ],
+      "unknownReason": "Performance and responsiveness are benchmark facts the catalog does not measure.",
+      "evidenceIds": [
+        "readme",
+        "hub",
+        "parallel",
+        "srch-cost",
+        "hubreadme",
+        "concepts"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentbox:RUN-07",
+      "criterionId": "RUN-07",
+      "answer": "No cost or token tracking.",
+      "support": "unsupported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v0.33.0 (commit 71ed053, npm 0.33.0, 2026-09-21)",
+        "plan": "Open source (MIT), free; cloud provider and agent costs are separate",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "task_cost": {
+          "support": "unsupported",
+          "answer": "No cost tracking found in the CLI, hub or packages.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "session_cost": {
+          "support": "unsupported",
+          "answer": "No cost tracking found in the CLI, hub or packages.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "child_cost": {
+          "support": "unsupported",
+          "answer": "No cost tracking found in the CLI, hub or packages.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "epic_cost": {
+          "support": "unsupported",
+          "answer": "No cost tracking found in the CLI, hub or packages.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "harness_aggregation": {
+          "support": "unsupported",
+          "answer": "No cost tracking found in the CLI, hub or packages.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "billed_vs_estimated": {
+          "support": "unsupported",
+          "answer": "No cost tracking found in the CLI, hub or packages.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "tokens": {
+          "support": "unsupported",
+          "answer": "No cost tracking found in the CLI, hub or packages.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "subscription_allowance": {
+          "support": "unsupported",
+          "answer": "No cost tracking found in the CLI, hub or packages.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "provider_reconciliation": {
+          "support": "unsupported",
+          "answer": "No cost tracking found in the CLI, hub or packages.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "compute_cost": {
+          "support": "unsupported",
+          "answer": "No cost tracking found in the CLI, hub or packages.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "refresh_delay": {
+          "support": "unsupported",
+          "answer": "No cost tracking found in the CLI, hub or packages.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "alerts": {
+          "support": "unsupported",
+          "answer": "No cost tracking found in the CLI, hub or packages.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "export": {
+          "support": "unsupported",
+          "answer": "No cost tracking found in the CLI, hub or packages.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "drilldown": {
+          "support": "unsupported",
+          "answer": "No cost tracking found in the CLI, hub or packages.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "srch-cost"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentbox:RUN-08",
+      "criterionId": "RUN-08",
+      "answer": "The queue caps running boxes and working agents, with idle-grace slot release, pause for idle boxes and per-box top monitoring; no check reuse.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v0.33.0 (commit 71ed053, npm 0.33.0, 2026-09-21)",
+        "plan": "Open source (MIT), free; cloud provider and agent costs are separate",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "concurrency": {
+          "support": "supported",
+          "answer": "queue.maxConcurrent and queue.maxWorking.",
+          "evidenceIds": [
+            "parallel"
+          ]
+        },
+        "queues": {
+          "support": "supported",
+          "answer": "FIFO queue with show, cancel and wait-for.",
+          "evidenceIds": [
+            "parallel"
+          ]
+        },
+        "cpu_ram": {
+          "support": "partial",
+          "answer": "agentbox top and box size options.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "backpressure": {
+          "support": "supported",
+          "answer": "Jobs wait for slots.",
+          "evidenceIds": [
+            "parallel"
+          ]
+        },
+        "host_awareness": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "check_reuse": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "check_deduplication": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "bounded_tests": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "cancellation": {
+          "support": "partial",
+          "answer": "Queued jobs cancel; running boxes are destroyed.",
+          "evidenceIds": [
+            "parallel"
+          ]
+        },
+        "fairness": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "recovery": {
+          "support": "partial",
+          "answer": "The relay scheduler restarts jobs as slots free.",
+          "evidenceIds": [
+            "parallel"
+          ]
+        },
+        "shared_limits": {
+          "support": "supported",
+          "answer": "The queue is host-wide across providers.",
+          "evidenceIds": [
+            "parallel"
+          ]
+        }
+      },
+      "limitations": [
+        "No test deduplication."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "parallel",
+        "config",
+        "readme",
+        "srch-cost"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentbox:TEAM-01",
+      "criterionId": "TEAM-01",
+      "answer": "The local hub is single-user; a deployed hub offers shared password login and a shared registry and approvals, but no co-prompting or comments.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v0.33.0 (commit 71ed053, npm 0.33.0, 2026-09-21)",
+        "plan": "Open source (MIT), free; cloud provider and agent costs are separate",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "visibility": {
+          "support": "partial",
+          "answer": "A deployed hub shows the cross-machine box registry to logged-in users.",
+          "evidenceIds": [
+            "hub",
+            "deployed"
+          ]
+        },
+        "discussion": {
+          "support": "unsupported",
+          "answer": "No multi-user prompting or comments.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "comments": {
+          "support": "unsupported",
+          "answer": "No multi-user prompting or comments.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "presence": {
+          "support": "unsupported",
+          "answer": "No multi-user prompting or comments.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "coprompting": {
+          "support": "unsupported",
+          "answer": "No multi-user prompting or comments.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "ordering": {
+          "support": "unsupported",
+          "answer": "No multi-user prompting or comments.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "conflicts": {
+          "support": "unsupported",
+          "answer": "No multi-user prompting or comments.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "attribution": {
+          "support": "unsupported",
+          "answer": "No multi-user prompting or comments.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "permissions": {
+          "support": "unsupported",
+          "answer": "No multi-user prompting or comments.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "plan_restrictions": {
+          "support": "unsupported",
+          "answer": "No multi-user prompting or comments.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "owner_online": {
+          "support": "partial",
+          "answer": "Cloud boxes keep running without the owner's laptop.",
+          "evidenceIds": [
+            "deployed"
+          ]
+        }
+      },
+      "limitations": [
+        "No co-steering."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "hub",
+        "hubreadme",
+        "deployed",
+        "srch-team"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentbox:TEAM-02",
+      "criterionId": "TEAM-02",
+      "answer": "The deployed hub has password login with an admin account; there are no roles, SSO or provisioning.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v0.33.0 (commit 71ed053, npm 0.33.0, 2026-09-21)",
+        "plan": "Open source (MIT), free; cloud provider and agent costs are separate",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "organization_roles": {
+          "support": "unsupported",
+          "answer": "No roles, SSO or provisioning.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "project_roles": {
+          "support": "unsupported",
+          "answer": "No roles, SSO or provisioning.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "task_roles": {
+          "support": "unsupported",
+          "answer": "No roles, SSO or provisioning.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "membership": {
+          "support": "partial",
+          "answer": "Password accounts on a deployed hub.",
+          "evidenceIds": [
+            "hubreadme"
+          ]
+        },
+        "sso": {
+          "support": "unsupported",
+          "answer": "No roles, SSO or provisioning.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "provisioning": {
+          "support": "unsupported",
+          "answer": "No roles, SSO or provisioning.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "unauthorized_access": {
+          "support": "supported",
+          "answer": "Token mode and password mode protect the hub, and the localhost hub answers 401 without the token.",
+          "evidenceIds": [
+            "hub",
+            "hubreadme"
+          ]
+        },
+        "revocation": {
+          "support": "unsupported",
+          "answer": "No roles, SSO or provisioning.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "plan_scope": {
+          "support": "unsupported",
+          "answer": "No roles, SSO or provisioning.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully supported: organization_roles (unsupported), project_roles (unsupported), task_roles (unsupported), membership (partial), sso (unsupported), provisioning (unsupported), revocation (unsupported), plan_scope (unsupported)."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "hubreadme",
+        "srch-team",
+        "hub"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentbox:TEAM-03",
+      "criterionId": "TEAM-03",
+      "answer": "Because the box is isolated, agents run with permission checks off; host-touching actions (git push, gh pr, file transfers escaping the project, secrets) raise approval prompts that the user answers on the host, hub or CLI.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v0.33.0 (commit 71ed053, npm 0.33.0, 2026-09-21)",
+        "plan": "Open source (MIT), free; cloud provider and agent costs are separate",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "command": {
+          "support": "partial",
+          "answer": "Commands inside the box run without prompts by design.",
+          "evidenceIds": [
+            "concepts"
+          ]
+        },
+        "tool": {
+          "support": "partial",
+          "answer": "Plan approvals can be read and answered through drive and approvals.",
+          "evidenceIds": [
+            "parallel"
+          ]
+        },
+        "network": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "secret": {
+          "support": "supported",
+          "answer": "Transfers touching .env, keys or credentials raise a host prompt.",
+          "evidenceIds": [
+            "sync"
+          ]
+        },
+        "delivery": {
+          "support": "supported",
+          "answer": "git push and pull-request operations need explicit approval on the host.",
+          "evidenceIds": [
+            "concepts",
+            "sync"
+          ]
+        },
+        "approver_identity": {
+          "support": "partial",
+          "answer": "The local user or hub admin.",
+          "evidenceIds": [
+            "hubreadme"
+          ]
+        },
+        "lifetime": {
+          "support": "partial",
+          "answer": "Prompts are answered once per request.",
+          "evidenceIds": [
+            "sync"
+          ]
+        },
+        "allow": {
+          "support": "supported",
+          "answer": "y on the prompt or approvals answer.",
+          "evidenceIds": [
+            "sync",
+            "hubreadme"
+          ]
+        },
+        "deny": {
+          "support": "supported",
+          "answer": "n on the prompt.",
+          "evidenceIds": [
+            "sync"
+          ]
+        },
+        "revoke": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "tunnels": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "defaults": {
+          "support": "supported",
+          "answer": "Isolation replaces per-command approval by default.",
+          "evidenceIds": [
+            "concepts"
+          ]
+        },
+        "safer_modes": {
+          "support": "partial",
+          "answer": "git.pushMode controls how the push reaches GitHub.",
+          "evidenceIds": [
+            "sync"
+          ]
+        },
+        "enforcement": {
+          "support": "supported",
+          "answer": "The relay enforces approvals for host actions.",
+          "evidenceIds": [
+            "sync",
+            "relay"
+          ]
+        }
+      },
+      "limitations": [
+        "Approvals cover host actions only; there is no network policy."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "concepts",
+        "sync",
+        "hub",
+        "parallel",
+        "srch-team",
+        "hubreadme",
+        "relay"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentbox:TEAM-04",
+      "criterionId": "TEAM-04",
+      "answer": "The hub keeps an events registry and approvals and a per-workspace timeline records PR sync and manager notes; no export or integrity model.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v0.33.0 (commit 71ed053, npm 0.33.0, 2026-09-21)",
+        "plan": "Open source (MIT), free; cloud provider and agent costs are separate",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "actions": {
+          "support": "partial",
+          "answer": "Events and timeline rows record box and PR events.",
+          "evidenceIds": [
+            "hubreadme",
+            "plan"
+          ]
+        },
+        "approvals": {
+          "support": "partial",
+          "answer": "Approvals are stored in Postgres or local state.",
+          "evidenceIds": [
+            "hubreadme"
+          ]
+        },
+        "edits": {
+          "support": "unsupported",
+          "answer": "No audit feature.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "discussion": {
+          "support": "unsupported",
+          "answer": "No audit feature.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "decisions": {
+          "support": "unsupported",
+          "answer": "No audit feature.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "cross_user_persistence": {
+          "support": "unsupported",
+          "answer": "No audit feature.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "cross_session_persistence": {
+          "support": "supported",
+          "answer": "Registry and events persist.",
+          "evidenceIds": [
+            "hubreadme"
+          ]
+        },
+        "export": {
+          "support": "unsupported",
+          "answer": "No audit feature.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "mutability": {
+          "support": "unsupported",
+          "answer": "No audit feature.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "retention": {
+          "support": "unsupported",
+          "answer": "No audit feature.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "integrity": {
+          "support": "unsupported",
+          "answer": "No audit feature.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        }
+      },
+      "limitations": [
+        "No audit retention or export."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "hubreadme",
+        "plan",
+        "srch-team"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentbox:TEAM-05",
+      "criterionId": "TEAM-05",
+      "answer": "There is no diff or review UI; changes are inspected in the box through VS Code or Cursor, downloaded to the host, or reviewed in GitHub after an approved push.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v0.33.0 (commit 71ed053, npm 0.33.0, 2026-09-21)",
+        "plan": "Open source (MIT), free; cloud provider and agent costs are separate",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "pending_reviews": {
+          "support": "unsupported",
+          "answer": "No review UI.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "change_understanding": {
+          "support": "unsupported",
+          "answer": "No review UI.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "evidence_navigation": {
+          "support": "partial",
+          "answer": "agentbox code, open and download move the workspace into familiar tools.",
+          "evidenceIds": [
+            "readme",
+            "sync"
+          ]
+        },
+        "comments": {
+          "support": "unsupported",
+          "answer": "No review UI.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "request_changes": {
+          "support": "unsupported",
+          "answer": "No review UI.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "shipping_guidance": {
+          "support": "partial",
+          "answer": "Push and PR requests surface as approvals.",
+          "evidenceIds": [
+            "sync"
+          ]
+        },
+        "effort": {
+          "support": "unsupported",
+          "answer": "No review UI.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "missed_evidence": {
+          "support": "unsupported",
+          "answer": "No review UI.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "keyboard": {
+          "support": "unsupported",
+          "answer": "No review UI.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "narrow_screen": {
+          "support": "unsupported",
+          "answer": "No review UI.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "context_switching": {
+          "support": "unsupported",
+          "answer": "No review UI.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "roles": {
+          "support": "unsupported",
+          "answer": "No review UI.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "retained_context": {
+          "support": "unsupported",
+          "answer": "No review UI.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        }
+      },
+      "limitations": [
+        "No built-in review experience."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "sync",
+        "srch-review"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentbox:TEAM-06",
+      "criterionId": "TEAM-06",
+      "answer": "No colleague takeover; a deployed hub lets another logged-in user see and reach boxes, and a box can be cloned or backed up and restored.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v0.33.0 (commit 71ed053, npm 0.33.0, 2026-09-21)",
+        "plan": "Open source (MIT), free; cloud provider and agent costs are separate",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "ongoing_takeover": {
+          "support": "partial",
+          "answer": "A teammate can attach to a cloud box the hub registers.",
+          "evidenceIds": [
+            "concepts",
+            "deployed"
+          ]
+        },
+        "same_task": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "session_history": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "decisions": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "artifacts": {
+          "support": "supported",
+          "answer": "Boxes can be cloned, downloaded or backed up.",
+          "evidenceIds": [
+            "sync"
+          ]
+        },
+        "permissions": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "runtime_context": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "owner_disconnect": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "ownership": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "attribution": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "context_loss": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "harness_transfer": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        }
+      },
+      "limitations": [
+        "Same-user continuity."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "deployed",
+        "sync",
+        "concepts",
+        "srch-team"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentbox:SHIP-01",
+      "criterionId": "SHIP-01",
+      "answer": "Box workspaces, logs and checkpoints persist; files download to the host; the box browser and screen show running apps; no gallery or reviewer outputs.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v0.33.0 (commit 71ed053, npm 0.33.0, 2026-09-21)",
+        "plan": "Open source (MIT), free; cloud provider and agent costs are separate",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "diffs": {
+          "support": "partial",
+          "answer": "Changes are in the box worktree and can be downloaded; no diff view.",
+          "evidenceIds": [
+            "sync"
+          ]
+        },
+        "documents": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "screenshots": {
+          "support": "partial",
+          "answer": "noVNC screen and in-box browser.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "recordings": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "previews": {
+          "support": "supported",
+          "answer": "Web apps expose URLs through portless or tunnels.",
+          "evidenceIds": [
+            "readme",
+            "concepts"
+          ]
+        },
+        "test_outputs": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "reviewer_outputs": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "gallery": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "task_links": {
+          "support": "partial",
+          "answer": "Boxes record their task and branch.",
+          "evidenceIds": [
+            "tasks"
+          ]
+        },
+        "revision_links": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "persistence": {
+          "support": "supported",
+          "answer": "Workspaces and checkpoints persist.",
+          "evidenceIds": [
+            "checkpoints"
+          ]
+        },
+        "child_findings": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "prompt_leakage": {
+          "support": "unknown",
+          "answer": "Not documented.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "No artifact gallery."
+      ],
+      "unknownReason": "Prompt leakage into artifacts is not addressed in the inspected sources.",
+      "evidenceIds": [
+        "sync",
+        "checkpoints",
+        "readme",
+        "srch-review",
+        "concepts",
+        "tasks"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentbox:SHIP-02",
+      "criterionId": "SHIP-02",
+      "answer": "No product gates; agents run checks inside the box and the relay gates pushes only by approval.",
+      "support": "unsupported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v0.33.0 (commit 71ed053, npm 0.33.0, 2026-09-21)",
+        "plan": "Open source (MIT), free; cloud provider and agent costs are separate",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "tests": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "lint": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "types": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "ci": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "independent_review": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "spec_checks": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "required_checks": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "failure_blocking": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "requirement_conflicts": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "configured_policy": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "enforced_policy": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "sync",
+        "srch-review"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentbox:SHIP-03",
+      "criterionId": "SHIP-03",
+      "answer": "Per-box branch and worktree, push, fetch, pull, local-only landing, and gh pr create or other gh operations through the relay, all gated by host approval; GitHub Enterprise is supported.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v0.33.0 (commit 71ed053, npm 0.33.0, 2026-09-21)",
+        "plan": "Open source (MIT), free; cloud provider and agent costs are separate",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "branches": {
+          "support": "supported",
+          "answer": "agentbox/<name> branches.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "worktrees": {
+          "support": "supported",
+          "answer": "Per-box worktrees.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "commits": {
+          "support": "partial",
+          "answer": "Agents commit in the box; commits land on the host immediately for docker.",
+          "evidenceIds": [
+            "claudemd"
+          ]
+        },
+        "pull_requests": {
+          "support": "supported",
+          "answer": "agentbox git pr create and in-box gh pr route through the relay.",
+          "evidenceIds": [
+            "sync"
+          ]
+        },
+        "comments": {
+          "support": "partial",
+          "answer": "gh pr operations are proxied.",
+          "evidenceIds": [
+            "sync"
+          ]
+        },
+        "ci_response": {
+          "support": "partial",
+          "answer": "gh run is proxied; no automatic CI response.",
+          "evidenceIds": [
+            "sync"
+          ]
+        },
+        "rebase": {
+          "support": "unsupported",
+          "answer": "No rebase helper beyond git.",
+          "evidenceIds": [
+            "sync"
+          ]
+        },
+        "conflicts": {
+          "support": "unsupported",
+          "answer": "No conflict handling beyond git.",
+          "evidenceIds": [
+            "sync"
+          ]
+        },
+        "product_state": {
+          "support": "supported",
+          "answer": "Box registry holds branch and task.",
+          "evidenceIds": [
+            "hubreadme"
+          ]
+        }
+      },
+      "limitations": [
+        "PR operations need the host machine on; no rebase or conflict helpers."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "sync",
+        "arch",
+        "claudemd",
+        "hubreadme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentbox:SHIP-04",
+      "criterionId": "SHIP-04",
+      "answer": "The user approves each push and PR on the host; no merge, release or deploy features.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v0.33.0 (commit 71ed053, npm 0.33.0, 2026-09-21)",
+        "plan": "Open source (MIT), free; cloud provider and agent costs are separate",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "approve": {
+          "support": "supported",
+          "answer": "Host approval of pushes and PRs.",
+          "evidenceIds": [
+            "sync",
+            "concepts"
+          ]
+        },
+        "merge": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "sync"
+          ]
+        },
+        "release": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "sync"
+          ]
+        },
+        "deploy": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "sync"
+          ]
+        },
+        "exact_revision": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "sync"
+          ]
+        },
+        "authority_enforcement": {
+          "support": "supported",
+          "answer": "The relay holds the credentials and enforces approval.",
+          "evidenceIds": [
+            "sync",
+            "relay"
+          ]
+        }
+      },
+      "limitations": [
+        "Approval is per action."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "sync",
+        "concepts",
+        "relay"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentbox:SHIP-05",
+      "criterionId": "SHIP-05",
+      "answer": "Box branch and task links exist; no delivery tracking or rollback.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v0.33.0 (commit 71ed053, npm 0.33.0, 2026-09-21)",
+        "plan": "Open source (MIT), free; cloud provider and agent costs are separate",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "commit_links": {
+          "support": "partial",
+          "answer": "Box branch ties work to commits.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "pr_links": {
+          "support": "partial",
+          "answer": "PR sync populates the timeline.",
+          "evidenceIds": [
+            "plan"
+          ]
+        },
+        "build_links": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "sync"
+          ]
+        },
+        "deployment_links": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "sync"
+          ]
+        },
+        "delivery_status": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "sync"
+          ]
+        },
+        "retained_evidence": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "sync"
+          ]
+        },
+        "rollback": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "sync"
+          ]
+        },
+        "revert": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "sync"
+          ]
+        },
+        "stale_approval_invalidation": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "sync"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully supported: commit_links (partial), pr_links (partial), build_links (unsupported), deployment_links (unsupported), delivery_status (unsupported), retained_evidence (unsupported), rollback (unsupported), revert (unsupported), stale_approval_invalidation (unsupported)."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "sync",
+        "tasks",
+        "arch",
+        "plan"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentbox:SHIP-06",
+      "criterionId": "SHIP-06",
+      "answer": "No batch review or delivery queue.",
+      "support": "unsupported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v0.33.0 (commit 71ed053, npm 0.33.0, 2026-09-21)",
+        "plan": "Open source (MIT), free; cloud provider and agent costs are separate",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "review_queue": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "summaries": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "grouping": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "risk_size_filters": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "findings": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "artifacts": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "request_changes": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "exact_revision_approval": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "dependency_queues": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "next_actions": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "stale_approval_invalidation": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "check_deduplication": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "sync",
+        "srch-review"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentbox:OWN-01",
+      "criterionId": "OWN-01",
+      "answer": "CLI, hub, relay, providers and packages are MIT in one public monorepo; the macOS tray app lives in a separate non-public repository.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v0.33.0 (commit 71ed053, npm 0.33.0, 2026-09-21)",
+        "plan": "Open source (MIT), free; cloud provider and agent costs are separate",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "client_license": {
+          "support": "supported",
+          "answer": "MIT for the CLI and hub.",
+          "evidenceIds": [
+            "license",
+            "readme"
+          ]
+        },
+        "server_license": {
+          "support": "supported",
+          "answer": "The hub and relay are in the same MIT repository.",
+          "evidenceIds": [
+            "license",
+            "hubreadme"
+          ]
+        },
+        "hosted_extensions": {
+          "support": "unsupported",
+          "answer": "AgentBox operates no hosted service.",
+          "evidenceIds": [
+            "srch-tele"
+          ]
+        },
+        "source_visibility": {
+          "support": "partial",
+          "answer": "Public monorepo; tray app repository not public.",
+          "evidenceIds": [
+            "readme",
+            "release"
+          ]
+        },
+        "source_revision": {
+          "support": "supported",
+          "answer": "Pinned to v0.33.0, commit 71ed053.",
+          "evidenceIds": [
+            "npm",
+            "repoapi"
+          ]
+        },
+        "hosted_parity": {
+          "support": "unsupported",
+          "answer": "No hosted product exists.",
+          "evidenceIds": [
+            "srch-tele"
+          ]
+        }
+      },
+      "limitations": [
+        "Tray source is not public."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "license",
+        "readme",
+        "npm",
+        "hubreadme",
+        "srch-tele",
+        "release",
+        "repoapi"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-05-15",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentbox:OWN-02",
+      "criterionId": "OWN-02",
+      "answer": "Everything runs on the user's machine or provider accounts; the hub self-deploys; boxes can be downloaded, cloned, backed up and restored; there is no AgentBox account.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v0.33.0 (commit 71ed053, npm 0.33.0, 2026-09-21)",
+        "plan": "Open source (MIT), free; cloud provider and agent costs are separate",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "self_hosting": {
+          "support": "supported",
+          "answer": "CLI, relay and hub run locally or on a VPS.",
+          "evidenceIds": [
+            "deployed",
+            "hubreadme"
+          ]
+        },
+        "vendor_dependencies": {
+          "support": "partial",
+          "answer": "Cloud providers and Docker; no AgentBox vendor service.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "export": {
+          "support": "supported",
+          "answer": "download, cp and backup commands.",
+          "evidenceIds": [
+            "sync"
+          ]
+        },
+        "import": {
+          "support": "supported",
+          "answer": "Restore, upload and clone commands.",
+          "evidenceIds": [
+            "sync"
+          ]
+        },
+        "formats": {
+          "support": "partial",
+          "answer": "Plain files and docker images.",
+          "evidenceIds": [
+            "sync"
+          ]
+        },
+        "cancellation": {
+          "support": "unsupported",
+          "answer": "No account exists.",
+          "evidenceIds": [
+            "srch-tele"
+          ]
+        },
+        "account_independence": {
+          "support": "supported",
+          "answer": "No account is needed.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "history_portability": {
+          "support": "partial",
+          "answer": "Agent state travels with backups.",
+          "evidenceIds": [
+            "sync"
+          ]
+        }
+      },
+      "limitations": [
+        "Cloud provider accounts are required for cloud boxes."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "sync",
+        "deployed",
+        "readme",
+        "hubreadme",
+        "srch-tele"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-05-15",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentbox:OWN-03",
+      "criterionId": "OWN-03",
+      "answer": "No analytics or crash reporting is present; the hub and relay run on the user's infrastructure; code and prompts go to the agents' providers and to the user's cloud sandbox provider; credentials are held on the host and leased as short-lived tokens.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v0.33.0 (commit 71ed053, npm 0.33.0, 2026-09-21)",
+        "plan": "Open source (MIT), free; cloud provider and agent costs are separate",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "code_data": {
+          "support": "partial",
+          "answer": "Code stays local for Docker and goes to the chosen cloud provider for cloud boxes.",
+          "evidenceIds": [
+            "concepts",
+            "readme"
+          ]
+        },
+        "prompts": {
+          "support": "partial",
+          "answer": "Prompts go from the agent to its provider.",
+          "evidenceIds": [
+            "concepts"
+          ]
+        },
+        "credentials": {
+          "support": "supported",
+          "answer": "Git credentials stay on the host or hub; GitHub App tokens are leased for one hour and one repo.",
+          "evidenceIds": [
+            "hubreadme",
+            "concepts"
+          ]
+        },
+        "logs": {
+          "support": "supported",
+          "answer": "Logs under ~/.agentbox/logs.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "artifacts": {
+          "support": "supported",
+          "answer": "Local state and checkpoints.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "retention": {
+          "support": "partial",
+          "answer": "Local until destroyed or pruned.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "deletion": {
+          "support": "supported",
+          "answer": "destroy and prune remove boxes and state.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "training": {
+          "support": "unknown",
+          "answer": "AgentBox has no model; training use belongs to providers.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "residency": {
+          "support": "unknown",
+          "answer": "Provider-specific.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "subprocessors": {
+          "support": "unknown",
+          "answer": "Providers are the user's choice and are not listed.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "telemetry_disclosure": {
+          "support": "supported",
+          "answer": "Bounded search found no analytics client; the docs state no AgentBox service.",
+          "evidenceIds": [
+            "srch-tele"
+          ]
+        },
+        "telemetry_defaults": {
+          "support": "supported",
+          "answer": "No telemetry exists.",
+          "evidenceIds": [
+            "srch-tele"
+          ]
+        },
+        "telemetry_controls": {
+          "support": "unsupported",
+          "answer": "No telemetry control exists because nothing is collected.",
+          "evidenceIds": [
+            "srch-tele"
+          ]
+        },
+        "consent_prompt": {
+          "support": "unsupported",
+          "answer": "No prompt needed.",
+          "evidenceIds": [
+            "srch-tele"
+          ]
+        },
+        "provider_separation": {
+          "support": "supported",
+          "answer": "Each provider is separate from AgentBox.",
+          "evidenceIds": [
+            "concepts"
+          ]
+        }
+      },
+      "limitations": [
+        "Cloud sandbox and model providers receive code and prompts under their own policies."
+      ],
+      "unknownReason": "Sandbox and model providers' retention, training, residency and subprocessor policies are third-party facts outside the repository.",
+      "evidenceIds": [
+        "concepts",
+        "hubreadme",
+        "srch-tele",
+        "readme",
+        "arch"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentbox:OWN-04",
+      "criterionId": "OWN-04",
+      "answer": "Free open-source tool with no AgentBox price; agent subscriptions or API usage and any cloud provider bills are paid separately.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v0.33.0 (commit 71ed053, npm 0.33.0, 2026-09-21)",
+        "plan": "Open source (MIT), free; cloud provider and agent costs are separate",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "currency": {
+          "support": "unsupported",
+          "answer": "No AgentBox prices exist.",
+          "evidenceIds": [
+            "readme",
+            "srch-cost"
+          ]
+        },
+        "interval": {
+          "support": "unsupported",
+          "answer": "No AgentBox prices exist.",
+          "evidenceIds": [
+            "readme",
+            "srch-cost"
+          ]
+        },
+        "seats": {
+          "support": "unsupported",
+          "answer": "No AgentBox prices exist.",
+          "evidenceIds": [
+            "readme",
+            "srch-cost"
+          ]
+        },
+        "seat_minimum": {
+          "support": "unsupported",
+          "answer": "No AgentBox prices exist.",
+          "evidenceIds": [
+            "readme",
+            "srch-cost"
+          ]
+        },
+        "workspace_fees": {
+          "support": "unsupported",
+          "answer": "No AgentBox prices exist.",
+          "evidenceIds": [
+            "readme",
+            "srch-cost"
+          ]
+        },
+        "included_usage": {
+          "support": "unsupported",
+          "answer": "No AgentBox prices exist.",
+          "evidenceIds": [
+            "readme",
+            "srch-cost"
+          ]
+        },
+        "credits": {
+          "support": "unsupported",
+          "answer": "No AgentBox prices exist.",
+          "evidenceIds": [
+            "readme",
+            "srch-cost"
+          ]
+        },
+        "trial": {
+          "support": "unsupported",
+          "answer": "No AgentBox prices exist.",
+          "evidenceIds": [
+            "readme",
+            "srch-cost"
+          ]
+        },
+        "overages": {
+          "support": "unsupported",
+          "answer": "No AgentBox prices exist.",
+          "evidenceIds": [
+            "readme",
+            "srch-cost"
+          ]
+        },
+        "taxes": {
+          "support": "unsupported",
+          "answer": "No AgentBox prices exist.",
+          "evidenceIds": [
+            "readme",
+            "srch-cost"
+          ]
+        },
+        "model_cost": {
+          "support": "partial",
+          "answer": "Paid to the agent provider.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "compute_cost": {
+          "support": "partial",
+          "answer": "Local free; cloud billed by the provider.",
+          "evidenceIds": [
+            "concepts"
+          ]
+        }
+      },
+      "limitations": [
+        "Cloud compute cost is the provider's; nothing is estimated."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "license",
+        "srch-cost",
+        "concepts"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-01-15",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentbox:OWN-05",
+      "criterionId": "OWN-05",
+      "answer": "AgentBox adds no fee for any team size; agent and cloud costs are not estimated.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v0.33.0 (commit 71ed053, npm 0.33.0, 2026-09-21)",
+        "plan": "Open source (MIT), free; cloud provider and agent costs are separate",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "one_person": {
+          "support": "partial",
+          "answer": "Tool fee zero.",
+          "evidenceIds": [
+            "readme",
+            "license"
+          ]
+        },
+        "two_people": {
+          "support": "partial",
+          "answer": "Tool fee zero.",
+          "evidenceIds": [
+            "readme",
+            "license"
+          ]
+        },
+        "five_people": {
+          "support": "partial",
+          "answer": "Tool fee zero.",
+          "evidenceIds": [
+            "readme",
+            "license"
+          ]
+        },
+        "task_assumptions": {
+          "support": "unsupported",
+          "answer": "No scenario costing; no fee exists.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "concurrency": {
+          "support": "unsupported",
+          "answer": "No scenario costing; no fee exists.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "tokens": {
+          "support": "unsupported",
+          "answer": "No scenario costing; no fee exists.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "compute_hours": {
+          "support": "unsupported",
+          "answer": "No scenario costing; no fee exists.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "fixed_cost": {
+          "support": "supported",
+          "answer": "No fixed cost.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "variable_cost": {
+          "support": "unsupported",
+          "answer": "No scenario costing; no fee exists.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "included_cost": {
+          "support": "supported",
+          "answer": "No included usage.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "unknown_cost": {
+          "support": "supported",
+          "answer": "Cloud and model costs sit outside the product.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Provider costs unknown."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "license"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentbox:OWN-06",
+      "criterionId": "OWN-06",
+      "answer": "Pre-1.0 open-source releases through npm (0.33.0 on 2026-09-21) with a nightly channel; the default branch moved after the release; support through GitHub; only the latest release gets security fixes.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v0.33.0 (commit 71ed053, npm 0.33.0, 2026-09-21)",
+        "plan": "Open source (MIT), free; cloud provider and agent costs are separate",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "release_stage": {
+          "support": "supported",
+          "answer": "Pre-1.0 stable and nightly channels.",
+          "evidenceIds": [
+            "npm",
+            "security"
+          ]
+        },
+        "access_restrictions": {
+          "support": "supported",
+          "answer": "Free install; macOS tray notarized DMG.",
+          "evidenceIds": [
+            "readme",
+            "release"
+          ]
+        },
+        "support": {
+          "support": "partial",
+          "answer": "GitHub issues and CONTRIBUTING.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "response_commitments": {
+          "support": "unknown",
+          "answer": "None published.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "release_activity": {
+          "support": "supported",
+          "answer": "0.33.0 on 2026-09-21 and pushes through 2026-11-11.",
+          "evidenceIds": [
+            "npm",
+            "repoapi"
+          ]
+        },
+        "status_history": {
+          "support": "unknown",
+          "answer": "No status page.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "deprecation": {
+          "support": "partial",
+          "answer": "Only the latest release is supported.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "export_options": {
+          "support": "supported",
+          "answer": "Download, backup and clone.",
+          "evidenceIds": [
+            "sync"
+          ]
+        }
+      },
+      "limitations": [
+        "Pre-1.0; no response commitments."
+      ],
+      "unknownReason": "There is no status page or response commitment published.",
+      "evidenceIds": [
+        "npm",
+        "security",
+        "repoapi",
+        "readme",
+        "release",
+        "sync"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentbox:OWN-07",
+      "criterionId": "OWN-07",
+      "answer": "No ISO or SOC assurance is claimed.",
+      "support": "unknown",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v0.33.0 (commit 71ed053, npm 0.33.0, 2026-09-21)",
+        "plan": "Open source (MIT), free; cloud provider and agent costs are separate",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "iso_scope": {
+          "support": "unknown",
+          "answer": "No certification or audit is claimed in the repository; this is a business fact outside the code.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "iso_issuer": {
+          "support": "unknown",
+          "answer": "No certification or audit is claimed in the repository; this is a business fact outside the code.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "iso_validity": {
+          "support": "unknown",
+          "answer": "No certification or audit is claimed in the repository; this is a business fact outside the code.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "soc2_type": {
+          "support": "unknown",
+          "answer": "No certification or audit is claimed in the repository; this is a business fact outside the code.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "soc2_scope": {
+          "support": "unknown",
+          "answer": "No certification or audit is claimed in the repository; this is a business fact outside the code.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "soc2_period": {
+          "support": "unknown",
+          "answer": "No certification or audit is claimed in the repository; this is a business fact outside the code.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "report_access": {
+          "support": "unknown",
+          "answer": "No certification or audit is claimed in the repository; this is a business fact outside the code.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "verification_date": {
+          "support": "unknown",
+          "answer": "No certification or audit is claimed in the repository; this is a business fact outside the code.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "evidence_status": {
+          "support": "unknown",
+          "answer": "No certification or audit is claimed in the repository; this is a business fact outside the code.",
+          "evidenceIds": [
+            "security"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": "Certification and audit are business facts not present in the open-source repository.",
+      "evidenceIds": [
+        "security"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "internal-only",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentbox:OWN-08",
+      "criterionId": "OWN-08",
+      "answer": "Free to install and use, open source under MIT, with no trial, card or cap; cloud boxes and agents cost money separately.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v0.33.0 (commit 71ed053, npm 0.33.0, 2026-09-21)",
+        "plan": "Open source (MIT), free; cloud provider and agent costs are separate",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "ongoing_free": {
+          "support": "supported",
+          "answer": "Free with no paid tier.",
+          "evidenceIds": [
+            "readme",
+            "license"
+          ]
+        },
+        "trial": {
+          "support": "unsupported",
+          "answer": "No trial exists because nothing is paid.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "credits_trial": {
+          "support": "unsupported",
+          "answer": "No credits.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "self_host_cost": {
+          "support": "supported",
+          "answer": "Docker is free; cloud boxes cost provider fees.",
+          "evidenceIds": [
+            "concepts"
+          ]
+        },
+        "paid_only": {
+          "support": "unsupported",
+          "answer": "Not paid-only.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "early_access": {
+          "support": "partial",
+          "answer": "The nightly channel gives pre-release builds.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "free_scenarios": {
+          "support": "partial",
+          "answer": "Local BYO-subscription isolation, queueing and orchestration work free; collaboration and mobile are absent.",
+          "evidenceIds": [
+            "concepts",
+            "hub"
+          ]
+        },
+        "card_required": {
+          "support": "supported",
+          "answer": "No card or account.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "usage_caps": {
+          "support": "supported",
+          "answer": "No caps beyond local queue settings.",
+          "evidenceIds": [
+            "parallel"
+          ]
+        },
+        "paid_evaluation": {
+          "support": "unsupported",
+          "answer": "No payment needed locally.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Cloud providers and agent subscriptions are separate."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "license",
+        "concepts",
+        "hub",
+        "parallel"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-01-15",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentbox:OWN-09",
+      "criterionId": "OWN-09",
+      "answer": "No pricing exists; the tool is free and provider costs are the user's.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v0.33.0 (commit 71ed053, npm 0.33.0, 2026-09-21)",
+        "plan": "Open source (MIT), free; cloud provider and agent costs are separate",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "units": {
+          "support": "unsupported",
+          "answer": "No prices, limits or overages to disclose.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "included_limits": {
+          "support": "unsupported",
+          "answer": "No prices, limits or overages to disclose.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "overages": {
+          "support": "unsupported",
+          "answer": "No prices, limits or overages to disclose.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "compute_markup": {
+          "support": "unsupported",
+          "answer": "No prices, limits or overages to disclose.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "model_markup": {
+          "support": "unsupported",
+          "answer": "No prices, limits or overages to disclose.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "minimum_commitment": {
+          "support": "unsupported",
+          "answer": "No prices, limits or overages to disclose.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "cancellation": {
+          "support": "unsupported",
+          "answer": "No prices, limits or overages to disclose.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "sales_only_unknowns": {
+          "support": "unsupported",
+          "answer": "No prices, limits or overages to disclose.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "transparency_classification": {
+          "support": "supported",
+          "answer": "Transparent: free MIT software.",
+          "evidenceIds": [
+            "readme",
+            "license"
+          ]
+        }
+      },
+      "limitations": [
+        "Provider costs sit outside."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "license"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-01-15",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    }
+  ],
+  "evidence": [
+    {
+      "id": "readme",
+      "kind": "documented",
+      "url": "https://github.com/madarco/agentbox/blob/71ed05309b27346f1ae9e07b59f33ad88ce488ad/README.md",
+      "title": "AgentBox README",
+      "locator": "How it works; Install; Cloud Providers; How to use",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "CLI that launches coding agents into isolated local Docker or cloud VMs with checkpoints, a dashboard and a tray app; macOS or Linux with Docker; MIT.",
+      "visibility": "public",
+      "commit": "71ed05309b27346f1ae9e07b59f33ad88ce488ad",
+      "path": "README.md"
+    },
+    {
+      "id": "license",
+      "kind": "source-inspected",
+      "url": "https://github.com/madarco/agentbox/blob/71ed05309b27346f1ae9e07b59f33ad88ce488ad/LICENSE",
+      "title": "MIT License",
+      "locator": "header",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "MIT License, copyright 2026 Marco D'Alia.",
+      "visibility": "public",
+      "commit": "71ed05309b27346f1ae9e07b59f33ad88ce488ad",
+      "path": "LICENSE"
+    },
+    {
+      "id": "repoapi",
+      "kind": "documented",
+      "url": "https://api.github.com/repos/madarco/agentbox",
+      "title": "GitHub repository metadata",
+      "locator": "stargazers_count, license, pushed_at, homepage",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "582 stars, MIT, pushed 2026-11-11, created 2026-05-12, homepage agent-box.sh.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "npm",
+      "kind": "documented",
+      "url": "https://www.npmjs.com/package/@madarco/agentbox",
+      "title": "npm @madarco/agentbox",
+      "locator": "version, dist-tags",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Latest 0.33.0 published 2026-09-21; nightly dist-tag 0.33.0-nightly.202609201432.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "release",
+      "kind": "documented",
+      "url": "https://github.com/madarco/agentbox/releases/tag/tray-latest",
+      "title": "AgentBox tray release",
+      "locator": "release assets",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "tray-latest (2026-09-21): AgentBox.dmg and AgentBox.zip with checksums and version.json; no Windows or Linux tray build.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "arch",
+      "kind": "source-inspected",
+      "url": "https://github.com/madarco/agentbox/blob/71ed05309b27346f1ae9e07b59f33ad88ce488ad/docs/architecture.md",
+      "title": "Architecture",
+      "locator": "Goal; Filesystem layout; Pause strategy; Lifecycle",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Isolated boxes per agent run; Docker is the default backend with a git worktree on branch agentbox/<name> in the container; boxes pause and unpause; cloud backends compose the same supervisor and relay.",
+      "visibility": "public",
+      "commit": "71ed05309b27346f1ae9e07b59f33ad88ce488ad",
+      "path": "docs/architecture.md"
+    },
+    {
+      "id": "claudemd",
+      "kind": "source-inspected",
+      "url": "https://github.com/madarco/agentbox/blob/71ed05309b27346f1ae9e07b59f33ad88ce488ad/CLAUDE.md",
+      "title": "Project context",
+      "locator": "Architecture overview",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Seven-plus provider backends behind one Provider interface; one agent per box; in-box supervisor agentbox-ctl; host relay for git push and other host-only actions; checkpoints per provider.",
+      "visibility": "public",
+      "commit": "71ed05309b27346f1ae9e07b59f33ad88ce488ad",
+      "path": "CLAUDE.md"
+    },
+    {
+      "id": "concepts",
+      "kind": "documented",
+      "url": "https://github.com/madarco/agentbox/blob/71ed05309b27346f1ae9e07b59f33ad88ce488ad/apps/web/content/docs/core-concepts.mdx",
+      "title": "Core concepts",
+      "locator": "whole page",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "A box per agent run with passwordless sudo and no access to host files, keys or network; parallel boxes; checkpoints; local or cloud with the same command; git push and PRs only after explicit approval.",
+      "visibility": "public",
+      "commit": "71ed05309b27346f1ae9e07b59f33ad88ce488ad",
+      "path": "apps/web/content/docs/core-concepts.mdx"
+    },
+    {
+      "id": "runagent",
+      "kind": "documented",
+      "url": "https://github.com/madarco/agentbox/blob/71ed05309b27346f1ae9e07b59f33ad88ce488ad/apps/web/content/docs/run-an-agent.mdx",
+      "title": "Run an agent",
+      "locator": "Launch an agent; First-run auth; Share a login; Add an agent",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "agentbox claude, codex, opencode and pi launch agents in detachable tmux sessions; credentials handled on the host and seeded into boxes; custom agents arrive as npm packages through agentbox agent add.",
+      "visibility": "public",
+      "commit": "71ed05309b27346f1ae9e07b59f33ad88ce488ad",
+      "path": "apps/web/content/docs/run-an-agent.mdx"
+    },
+    {
+      "id": "parallel",
+      "kind": "documented",
+      "url": "https://github.com/madarco/agentbox/blob/71ed05309b27346f1ae9e07b59f33ad88ce488ad/apps/web/content/docs/background-and-parallel.mdx",
+      "title": "Background and parallel",
+      "locator": "Queue background runs; Orchestrate boxes from an agent; Approve what a box is blocked on",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "-i queues background runs in a host-wide FIFO capped by queue.maxConcurrent; an installed skill and agentbox drive, agent and queue let an agent run a fleet; blocked prompts can be listed and answered.",
+      "visibility": "public",
+      "commit": "71ed05309b27346f1ae9e07b59f33ad88ce488ad",
+      "path": "apps/web/content/docs/background-and-parallel.mdx"
+    },
+    {
+      "id": "hub",
+      "kind": "documented",
+      "url": "https://github.com/madarco/agentbox/blob/71ed05309b27346f1ae9e07b59f33ad88ce488ad/apps/web/content/docs/hub.mdx",
+      "title": "Hub web UI",
+      "locator": "What's in it; Running it for a team",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Local dashboard served by the host relay at agentbox.localhost with box lifecycle controls, approvals inbox and box detail; the same app can deploy as a shared multi-user control plane with password login on Vercel or a VPS.",
+      "visibility": "public",
+      "commit": "71ed05309b27346f1ae9e07b59f33ad88ce488ad",
+      "path": "apps/web/content/docs/hub.mdx"
+    },
+    {
+      "id": "hubreadme",
+      "kind": "source-inspected",
+      "url": "https://github.com/madarco/agentbox/blob/71ed05309b27346f1ae9e07b59f33ad88ce488ad/apps/hub/README.md",
+      "title": "Hub README",
+      "locator": "Endpoints; Public REST API; Profiles + auth",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Next.js hub with relay core, GitHub App token leasing, approvals in Postgres, versioned /api/v1 REST API with OpenAPI, token or password auth profiles for localhost, hetzner and vercel.",
+      "visibility": "public",
+      "commit": "71ed05309b27346f1ae9e07b59f33ad88ce488ad",
+      "path": "apps/hub/README.md"
+    },
+    {
+      "id": "deployed",
+      "kind": "documented",
+      "url": "https://github.com/madarco/agentbox/blob/71ed05309b27346f1ae9e07b59f33ad88ce488ad/apps/web/content/docs/deployed-hub.mdx",
+      "title": "Deployed hub",
+      "locator": "whole page",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Deploy the hub to a Hetzner VPS, DigitalOcean or Vercel so cloud boxes keep running and the registry is reachable with the laptop off.",
+      "visibility": "public",
+      "commit": "71ed05309b27346f1ae9e07b59f33ad88ce488ad",
+      "path": "apps/web/content/docs/deployed-hub.mdx"
+    },
+    {
+      "id": "sync",
+      "kind": "documented",
+      "url": "https://github.com/madarco/agentbox/blob/71ed05309b27346f1ae9e07b59f33ad88ce488ad/apps/web/content/docs/sync-and-git.mdx",
+      "title": "Sync and git",
+      "locator": "Push & pull via the relay; How the push reaches GitHub",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Box git push, fetch, pull and gh pr operations go through a host relay with approval prompts; credentials stay on the host; download, upload, clone, back up and bring back a box.",
+      "visibility": "public",
+      "commit": "71ed05309b27346f1ae9e07b59f33ad88ce488ad",
+      "path": "apps/web/content/docs/sync-and-git.mdx"
+    },
+    {
+      "id": "checkpoints",
+      "kind": "documented",
+      "url": "https://github.com/madarco/agentbox/blob/71ed05309b27346f1ae9e07b59f33ad88ce488ad/apps/web/content/docs/checkpoints-and-pausing.mdx",
+      "title": "Checkpoints and pausing",
+      "locator": "whole page",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Checkpoints snapshot a box so new boxes start warm; idle boxes pause; resume is sub-second on Docker.",
+      "visibility": "public",
+      "commit": "71ed05309b27346f1ae9e07b59f33ad88ce488ad",
+      "path": "apps/web/content/docs/checkpoints-and-pausing.mdx"
+    },
+    {
+      "id": "config",
+      "kind": "documented",
+      "url": "https://github.com/madarco/agentbox/blob/71ed05309b27346f1ae9e07b59f33ad88ce488ad/apps/web/content/docs/configuration.mdx",
+      "title": "Configuration",
+      "locator": "queue & autopause; box.persistent; provider timeouts",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Layered config with queue, idle and timeout keys per provider and a persistent box option.",
+      "visibility": "public",
+      "commit": "71ed05309b27346f1ae9e07b59f33ad88ce488ad",
+      "path": "apps/web/content/docs/configuration.mdx"
+    },
+    {
+      "id": "api",
+      "kind": "documented",
+      "url": "https://github.com/madarco/agentbox/blob/71ed05309b27346f1ae9e07b59f33ad88ce488ad/apps/web/content/docs/api.mdx",
+      "title": "REST API",
+      "locator": "overview",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Documented versioned /api/v1 REST API with bearer token auth.",
+      "visibility": "public",
+      "commit": "71ed05309b27346f1ae9e07b59f33ad88ce488ad",
+      "path": "apps/web/content/docs/api.mdx"
+    },
+    {
+      "id": "cli",
+      "kind": "documented",
+      "url": "https://github.com/madarco/agentbox/blob/71ed05309b27346f1ae9e07b59f33ad88ce488ad/apps/web/content/docs/cli.mdx",
+      "title": "CLI reference",
+      "locator": "command list",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Full command reference: create, claude, codex, opencode, pi, attach, drive, agent, queue, tasks, workspace, manager, checkpoint, hub and more.",
+      "visibility": "public",
+      "commit": "71ed05309b27346f1ae9e07b59f33ad88ce488ad",
+      "path": "apps/web/content/docs/cli.mdx"
+    },
+    {
+      "id": "providers",
+      "kind": "documented",
+      "url": "https://github.com/madarco/agentbox/blob/71ed05309b27346f1ae9e07b59f33ad88ce488ad/apps/web/content/docs/local-docker.mdx",
+      "title": "Local Docker",
+      "locator": "whole page",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Default local backend running one Docker container per box.",
+      "visibility": "public",
+      "commit": "71ed05309b27346f1ae9e07b59f33ad88ce488ad",
+      "path": "apps/web/content/docs/local-docker.mdx"
+    },
+    {
+      "id": "remote",
+      "kind": "documented",
+      "url": "https://github.com/madarco/agentbox/blob/71ed05309b27346f1ae9e07b59f33ad88ce488ad/apps/web/content/docs/remote-docker.mdx",
+      "title": "Remote Docker",
+      "locator": "whole page",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Run boxes on a machine you already own over SSH with your own ssh config.",
+      "visibility": "public",
+      "commit": "71ed05309b27346f1ae9e07b59f33ad88ce488ad",
+      "path": "apps/web/content/docs/remote-docker.mdx"
+    },
+    {
+      "id": "skills",
+      "kind": "documented",
+      "url": "https://github.com/madarco/agentbox/blob/71ed05309b27346f1ae9e07b59f33ad88ce488ad/apps/web/content/docs/skills.mdx",
+      "title": "Skills",
+      "locator": "whole page",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "AgentBox installs host skills so a host agent can drive the CLI.",
+      "visibility": "public",
+      "commit": "71ed05309b27346f1ae9e07b59f33ad88ce488ad",
+      "path": "apps/web/content/docs/skills.mdx"
+    },
+    {
+      "id": "tasks",
+      "kind": "source-inspected",
+      "url": "https://github.com/madarco/agentbox/blob/71ed05309b27346f1ae9e07b59f33ad88ce488ad/apps/cli/src/commands/tasks.ts#L1-L30",
+      "title": "agentbox tasks",
+      "locator": "STATUSES; subcommands",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Workspace task list with statuses todo, in_progress, blocked and done, priority order, assign to a box, finish, update and delete, used by the human and the manager agent.",
+      "visibility": "public",
+      "commit": "71ed05309b27346f1ae9e07b59f33ad88ce488ad",
+      "path": "apps/cli/src/commands/tasks.ts"
+    },
+    {
+      "id": "workspace",
+      "kind": "source-inspected",
+      "url": "https://github.com/madarco/agentbox/blob/71ed05309b27346f1ae9e07b59f33ad88ce488ad/apps/cli/src/commands/workspace.ts#L1-L15",
+      "title": "agentbox workspace",
+      "locator": "file header",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Workspaces group projects and own a task list and manager sessions, stored on the hub.",
+      "visibility": "public",
+      "commit": "71ed05309b27346f1ae9e07b59f33ad88ce488ad",
+      "path": "apps/cli/src/commands/workspace.ts"
+    },
+    {
+      "id": "manager",
+      "kind": "source-inspected",
+      "url": "https://github.com/madarco/agentbox/blob/71ed05309b27346f1ae9e07b59f33ad88ce488ad/apps/cli/src/commands/manager.ts#L1-L25",
+      "title": "agentbox manager",
+      "locator": "file header",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "A manager is the claude or codex session that creates and watches boxes; the hub can run one in a detached tmux session.",
+      "visibility": "public",
+      "commit": "71ed05309b27346f1ae9e07b59f33ad88ce488ad",
+      "path": "apps/cli/src/commands/manager.ts"
+    },
+    {
+      "id": "plan",
+      "kind": "source-inspected",
+      "url": "https://github.com/madarco/agentbox/blob/71ed05309b27346f1ae9e07b59f33ad88ce488ad/docs/workspaces-tasks-manager-plan.md#L48-L66",
+      "title": "Workspaces, tasks and manager plan",
+      "locator": "Status table",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Phases 1-3, 5, 8a, 9a and 11a done; manager brief, hub UI for tasks, Linear import, tray plan and timeline views planned or in progress.",
+      "visibility": "public",
+      "commit": "71ed05309b27346f1ae9e07b59f33ad88ce488ad",
+      "path": "docs/workspaces-tasks-manager-plan.md"
+    },
+    {
+      "id": "relay",
+      "kind": "source-inspected",
+      "url": "https://github.com/madarco/agentbox/blob/71ed05309b27346f1ae9e07b59f33ad88ce488ad/packages/relay",
+      "title": "Host relay package",
+      "locator": "relay core",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Host process that boxes call for git push, checkpoint capture, file copy and status events; keeps SSH keys out of the box.",
+      "visibility": "public",
+      "commit": "71ed05309b27346f1ae9e07b59f33ad88ce488ad",
+      "path": "packages/relay"
+    },
+    {
+      "id": "queuecfg",
+      "kind": "source-inspected",
+      "url": "https://github.com/madarco/agentbox/blob/71ed05309b27346f1ae9e07b59f33ad88ce488ad/apps/cli/src/commands/queue.ts",
+      "title": "Queue command",
+      "locator": "queue list, show, cancel",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Host-wide FIFO queue for background -i runs.",
+      "visibility": "public",
+      "commit": "71ed05309b27346f1ae9e07b59f33ad88ce488ad",
+      "path": "apps/cli/src/commands/queue.ts"
+    },
+    {
+      "id": "sandbox",
+      "kind": "source-inspected",
+      "url": "https://github.com/madarco/agentbox/blob/71ed05309b27346f1ae9e07b59f33ad88ce488ad/packages/sandbox-docker",
+      "title": "Docker sandbox backend",
+      "locator": "docker provider",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Docker backend implementing the Provider interface; sibling packages for hetzner, daytona, vercel, e2b, digitalocean and remote-docker.",
+      "visibility": "public",
+      "commit": "71ed05309b27346f1ae9e07b59f33ad88ce488ad",
+      "path": "packages/sandbox-docker"
+    },
+    {
+      "id": "agents",
+      "kind": "source-inspected",
+      "url": "https://github.com/madarco/agentbox/blob/71ed05309b27346f1ae9e07b59f33ad88ce488ad/packages/agent-registry",
+      "title": "Agent registry",
+      "locator": "specs",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Built-in agent specs for claude, codex, opencode and pi plus openclaw as a service agent and a plugin path.",
+      "visibility": "public",
+      "commit": "71ed05309b27346f1ae9e07b59f33ad88ce488ad",
+      "path": "packages/agent-registry"
+    },
+    {
+      "id": "security",
+      "kind": "documented",
+      "url": "https://github.com/madarco/agentbox/blob/71ed05309b27346f1ae9e07b59f33ad88ce488ad/SECURITY.md",
+      "title": "Security policy",
+      "locator": "Supported versions; Reporting a vulnerability",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Pre-1.0; only the latest npm release gets security fixes; private reporting.",
+      "visibility": "public",
+      "commit": "71ed05309b27346f1ae9e07b59f33ad88ce488ad",
+      "path": "SECURITY.md"
+    },
+    {
+      "id": "srch-clients",
+      "kind": "source-inspected",
+      "url": "https://github.com/madarco/agentbox/blob/71ed05309b27346f1ae9e07b59f33ad88ce488ad/apps",
+      "title": "Bounded search: other clients",
+      "locator": "grep over apps and packages for electron, tauri, react-native, ios, android, vscode extension, windows",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "No Windows, mobile or editor-extension client; hub is a web app and the tray app lives in a non-public repository.",
+      "visibility": "public",
+      "commit": "71ed05309b27346f1ae9e07b59f33ad88ce488ad",
+      "path": "apps"
+    },
+    {
+      "id": "srch-tele",
+      "kind": "source-inspected",
+      "url": "https://github.com/madarco/agentbox/blob/71ed05309b27346f1ae9e07b59f33ad88ce488ad/apps",
+      "title": "Bounded search: telemetry",
+      "locator": "grep -w for telemetry, analytics, posthog, sentry, plausible, mixpanel over apps/cli/src, apps/hub, packages",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "No analytics or crash-reporting client; telemetry matches configure the launched agents to disable theirs.",
+      "visibility": "public",
+      "commit": "71ed05309b27346f1ae9e07b59f33ad88ce488ad",
+      "path": "apps"
+    },
+    {
+      "id": "srch-team",
+      "kind": "source-inspected",
+      "url": "https://github.com/madarco/agentbox/blob/71ed05309b27346f1ae9e07b59f33ad88ce488ad/apps",
+      "title": "Bounded search: roles and SSO",
+      "locator": "grep -w for sso, saml, oidc, rbac, invite, role over apps/cli/src, apps/hub, packages",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "No roles, SSO or invites; the deployed hub has password login with an admin account.",
+      "visibility": "public",
+      "commit": "71ed05309b27346f1ae9e07b59f33ad88ce488ad",
+      "path": "apps"
+    },
+    {
+      "id": "srch-cost",
+      "kind": "source-inspected",
+      "url": "https://github.com/madarco/agentbox/blob/71ed05309b27346f1ae9e07b59f33ad88ce488ad/apps",
+      "title": "Bounded search: cost tracking",
+      "locator": "grep -w for budget, spend, cost, usd over apps/cli/src, apps/hub, packages",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "No cost or spend tracking; matches are unrelated help text and state.",
+      "visibility": "public",
+      "commit": "71ed05309b27346f1ae9e07b59f33ad88ce488ad",
+      "path": "apps"
+    },
+    {
+      "id": "srch-review",
+      "kind": "source-inspected",
+      "url": "https://github.com/madarco/agentbox/blob/71ed05309b27346f1ae9e07b59f33ad88ce488ad/apps",
+      "title": "Bounded search: diff review",
+      "locator": "grep for diff, changed files, patch over apps/hub/app, components, lib and apps/cli/src",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "No diff or review UI; changes are inspected in the box with an editor, downloaded to the host, or pushed through git.",
+      "visibility": "public",
+      "commit": "71ed05309b27346f1ae9e07b59f33ad88ce488ad",
+      "path": "apps"
+    },
+    {
+      "id": "srch-sched",
+      "kind": "source-inspected",
+      "url": "https://github.com/madarco/agentbox/blob/71ed05309b27346f1ae9e07b59f33ad88ce488ad/apps",
+      "title": "Bounded search: schedules and triggers",
+      "locator": "grep -w for cron, schedule, webhook over apps/cli/src, apps/hub, packages",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "No scheduler or webhook trigger; background runs start on demand through the queue.",
+      "visibility": "public",
+      "commit": "71ed05309b27346f1ae9e07b59f33ad88ce488ad",
+      "path": "apps"
+    }
+  ],
+  "changes": [
+    {
+      "date": "2026-11-16",
+      "author": "researcher-batch08",
+      "type": "initial-research",
+      "summary": "Initial full-profile source pass over release v0.33.0 (commit 71ed053, npm @madarco/agentbox 0.33.0): README, the published docs source in apps/web/content/docs, CLI, hub, relay and provider packages, and bounded code searches covering all 51 criteria. The macOS tray app repository is not public.",
+      "claimIds": [
+        "agentbox:ACC-01",
+        "agentbox:ACC-02",
+        "agentbox:ACC-03",
+        "agentbox:ACC-04",
+        "agentbox:ACC-05",
+        "agentbox:ACC-06",
+        "agentbox:ACC-07",
+        "agentbox:PLAN-01",
+        "agentbox:PLAN-02",
+        "agentbox:PLAN-03",
+        "agentbox:PLAN-04",
+        "agentbox:PLAN-05",
+        "agentbox:PLAN-06",
+        "agentbox:PLAN-07",
+        "agentbox:PLAN-08",
+        "agentbox:COORD-01",
+        "agentbox:COORD-02",
+        "agentbox:COORD-03",
+        "agentbox:COORD-04",
+        "agentbox:COORD-05",
+        "agentbox:COORD-06",
+        "agentbox:COORD-07",
+        "agentbox:RUN-01",
+        "agentbox:RUN-02",
+        "agentbox:RUN-03",
+        "agentbox:RUN-04",
+        "agentbox:RUN-05",
+        "agentbox:RUN-06",
+        "agentbox:RUN-07",
+        "agentbox:RUN-08",
+        "agentbox:TEAM-01",
+        "agentbox:TEAM-02",
+        "agentbox:TEAM-03",
+        "agentbox:TEAM-04",
+        "agentbox:TEAM-05",
+        "agentbox:TEAM-06",
+        "agentbox:SHIP-01",
+        "agentbox:SHIP-02",
+        "agentbox:SHIP-03",
+        "agentbox:SHIP-04",
+        "agentbox:SHIP-05",
+        "agentbox:SHIP-06",
+        "agentbox:OWN-01",
+        "agentbox:OWN-02",
+        "agentbox:OWN-03",
+        "agentbox:OWN-04",
+        "agentbox:OWN-05",
+        "agentbox:OWN-06",
+        "agentbox:OWN-07",
+        "agentbox:OWN-08",
+        "agentbox:OWN-09"
+      ],
+      "evidenceIds": [
+        "readme",
+        "license",
+        "repoapi",
+        "npm",
+        "release",
+        "arch",
+        "claudemd",
+        "concepts",
+        "runagent",
+        "parallel",
+        "hub",
+        "hubreadme",
+        "deployed",
+        "sync",
+        "checkpoints",
+        "config",
+        "api",
+        "cli",
+        "providers",
+        "remote",
+        "skills",
+        "tasks",
+        "workspace",
+        "manager",
+        "plan",
+        "relay",
+        "queuecfg",
+        "sandbox",
+        "agents",
+        "security",
+        "srch-clients",
+        "srch-tele",
+        "srch-team",
+        "srch-cost",
+        "srch-review",
+        "srch-sched"
+      ]
+    }
+  ],
+  "context": {
+    "roadmapReview": {
+      "checkedAt": "2026-11-16",
+      "locations": [
+        {
+          "url": "https://github.com/madarco/agentbox/releases",
+          "result": "GitHub releases hold only the tray-latest (2026-09-21) and tray-nightly builds; CLI releases are published to npm (0.33.0 latest on 2026-09-21, nightly channel 0.33.0-nightly)."
+        },
+        {
+          "url": "https://www.npmjs.com/package/@madarco/agentbox",
+          "result": "Package versions and dist-tags latest and nightly read through npm view."
+        },
+        {
+          "url": "https://github.com/madarco/agentbox/blob/71ed05309b27346f1ae9e07b59f33ad88ce488ad/docs/workspaces-tasks-manager-plan.md",
+          "result": "In-repo plan with a phase table: tray manager view, hub web UI for workspaces and tasks, Linear import and manager brief are marked planned or in progress, without dates."
+        },
+        {
+          "url": "https://agent-box.sh/docs",
+          "result": "Published docs match the repository docs source; no dated roadmap page."
+        }
+      ],
+      "announced": [],
+      "gaps": [
+        "No dated public roadmap; the in-repo plan documents mark phases planned or in progress without dates and are not treated as announcements.",
+        "The default branch moved to commit 605ee75 on 2026-09-23 after the pinned release; no later release exists."
+      ]
+    },
+    "marketContext": {
+      "githubStars": {
+        "value": 582,
+        "observedAt": "2026-11-16",
+        "evidenceIds": [
+          "repoapi"
+        ]
+      }
+    }
+  }
+}
