@@ -2967,9 +2967,10 @@
      ]
     },
     "time_stats": {
-     "support": "partial",
-     "answer": "duration_ms and num_turns are logged per run.",
+     "support": "supported",
+     "answer": "The tracking comment shows the run duration and the step-summary report shows duration and cost for that run; no cross-run time statistics exist.",
      "evidenceIds": [
+      "v276-cost-ui",
       "v276-sdk"
      ]
     },
@@ -3021,7 +3022,8 @@
     "v276-yml",
     "v276-n-cost",
     "v276-run",
-    "v276-guard"
+    "v276-guard",
+    "v276-cost-ui"
    ],
    "checkedAt": "2026-11-08",
    "nextReviewAt": "2026-12-08",
@@ -3051,15 +3053,17 @@
    "subanswers": {
     "task_cost": {
      "support": "partial",
-     "answer": "total_cost_usd for the run is logged and kept in the execution file; it is not aggregated per issue.",
+     "answer": "The run's total_cost_usd is logged and, with display_report on, printed as Cost in the step-summary report; it is not shown in the tracking comment and is not aggregated per issue.",
      "evidenceIds": [
+      "v276-cost-ui",
       "v276-sdk"
      ]
     },
     "session_cost": {
      "support": "partial",
-     "answer": "One run is one session and its total_cost_usd is logged.",
+     "answer": "One run is one session; its total_cost_usd appears in the log and in the opt-in step-summary report.",
      "evidenceIds": [
+      "v276-cost-ui",
       "v276-sdk"
      ]
     },
@@ -3156,7 +3160,8 @@
    "evidenceIds": [
     "v276-sdk",
     "v276-n-cost",
-    "v276-yml"
+    "v276-yml",
+    "v276-cost-ui"
    ],
    "checkedAt": "2026-11-16",
    "nextReviewAt": "2027-03-16",
@@ -6707,7 +6712,7 @@
    "locator": "bounded scan for cost and usage aggregation (v1.0.276, f3b070c88125)",
    "sourceDate": "2026-11-13",
    "retrievedAt": "2026-11-16",
-   "finding": "Searched total_cost_usd, usage, cost, budget, billing and spend: the only cost value is total_cost_usd in the sanitized result log of the single run; there is no aggregation, alert or budget logic.",
+   "finding": "Searched total_cost_usd, usage, cost, budget, billing and spend in src/ and base-action/src: total_cost_usd and duration are read from the Claude result for the sanitized log, the tracking comment (duration) and the step-summary report (cost and duration) of the single run; no aggregation, alert or budget logic exists.",
    "visibility": "public",
    "commit": "f3b070c88125d33dbae5653df5f143101d4ea9dc",
    "path": "src"
@@ -6724,6 +6729,19 @@
    "visibility": "public",
    "commit": "f3b070c88125d33dbae5653df5f143101d4ea9dc",
    "path": "src"
+  },
+  {
+   "id": "v276-cost-ui",
+   "kind": "source-inspected",
+   "url": "https://github.com/anthropics/claude-code-action/blob/f3b070c88125d33dbae5653df5f143101d4ea9dc/src/entrypoints/update-comment-link.ts#L172-L205",
+   "title": "claude-code-action src/entrypoints/update-comment-link.ts at v1.0.276",
+   "locator": "executionDetails read from the execution file (v1.0.276, f3b070c88125)",
+   "sourceDate": "2026-11-13",
+   "retrievedAt": "2026-11-16",
+   "finding": "The final tracking-comment update reads total_cost_usd, duration_ms and duration_api_ms from the last result element of the execution file; the comment body shows the run duration (comment-logic.ts), and format-turns.ts prints a Cost and Duration line in the step-summary report.",
+   "visibility": "public",
+   "commit": "f3b070c88125d33dbae5653df5f143101d4ea9dc",
+   "path": "src/entrypoints/update-comment-link.ts"
   }
  ],
  "changes": [
@@ -9686,6 +9704,70 @@
     "v276-readme",
     "v276-steps",
     "v276-venv"
+   ]
+  },
+  {
+   "date": "2026-11-16",
+   "author": "researcher-ade81",
+   "type": "research-correction",
+   "summary": "Correct cost and duration visibility: the tracking comment shows run duration and the step-summary report shows cost and duration, so per-run cost is visible beyond the log.",
+   "claimIds": [
+    "claude-code-action:RUN-06"
+   ],
+   "before": {
+    "support": "partial",
+    "answer": "GitHub Actions logs expose execution diagnostics; full output may contain sensitive content. The FAQ documents permission, OIDC, tool and CI-access errors and their configuration remedies.",
+    "checkedAt": "2026-11-08",
+    "nextReviewAt": "2026-12-08",
+    "subanswers": {
+     "time_stats": "partial"
+    }
+   },
+   "after": {
+    "support": "partial",
+    "answer": "GitHub Actions logs expose execution diagnostics; full output may contain sensitive content. The FAQ documents permission, OIDC, tool and CI-access errors and their configuration remedies.",
+    "checkedAt": "2026-11-08",
+    "nextReviewAt": "2026-12-08",
+    "subanswers": {
+     "time_stats": "supported"
+    }
+   },
+   "evidenceIds": [
+    "v276-cost-ui",
+    "v276-sdk"
+   ]
+  },
+  {
+   "date": "2026-11-16",
+   "author": "researcher-ade81",
+   "type": "research-correction",
+   "summary": "Correct cost and duration visibility: the tracking comment shows run duration and the step-summary report shows cost and duration, so per-run cost is visible beyond the log.",
+   "claimIds": [
+    "claude-code-action:RUN-07"
+   ],
+   "before": {
+    "support": "partial",
+    "answer": "Only a per-run total_cost_usd and model limits are logged; there is no aggregation, alert or budget.",
+    "checkedAt": "2026-11-16",
+    "nextReviewAt": "2027-03-16",
+    "subanswers": {
+     "task_cost": "partial",
+     "session_cost": "partial"
+    }
+   },
+   "after": {
+    "support": "partial",
+    "answer": "Only a per-run total_cost_usd and model limits are logged; there is no aggregation, alert or budget.",
+    "checkedAt": "2026-11-16",
+    "nextReviewAt": "2027-03-16",
+    "subanswers": {
+     "task_cost": "partial",
+     "session_cost": "partial"
+    }
+   },
+   "evidenceIds": [
+    "v276-cost-ui",
+    "v276-sdk"
    ]
   }
  ],
