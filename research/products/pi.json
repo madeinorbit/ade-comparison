@@ -1,0 +1,5994 @@
+{
+  "schemaVersion": 1,
+  "rubricVersion": "0.3",
+  "id": "pi",
+  "name": "Pi",
+  "category": "B",
+  "researchTier": "full-profile",
+  "researchState": "documented",
+  "identity": {
+    "website": "https://pi.dev/",
+    "repository": "https://github.com/earendil-works/pi",
+    "aliases": [
+      "pi-coding-agent",
+      "@earendil-works/pi-coding-agent"
+    ],
+    "company": "Earendil Inc."
+  },
+  "surfaces": [
+    {
+      "id": "cli",
+      "name": "pi terminal interface (interactive TUI, print and JSON modes)",
+      "type": "cli"
+    },
+    {
+      "id": "rpc",
+      "name": "RPC mode, TypeScript SDK and extensions (programmatic surface)",
+      "type": "api"
+    }
+  ],
+  "claims": [
+    {
+      "id": "pi:ACC-01",
+      "criterionId": "ACC-01",
+      "answer": "Terminal-only client (interactive TUI, print and JSON modes) on macOS, Linux, native Windows (Git Bash/PowerShell) and WSL, plus Termux; programmatic RPC and SDK; no desktop GUI app, mobile app, browser UI or editor extension in the repository.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli",
+          "rpc"
+        ],
+        "version": "Pi coding agent v1.5.0 (commit f9a26365568127461c47a07a37dcb42c140a3ac5), released 2026-11-02",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "desktop_os": {
+          "support": "supported",
+          "answer": "Runs on macOS, Linux (ARM64 and x86-64 via Nix) and Windows natively or in WSL; it is a terminal program, not a desktop GUI.",
+          "evidenceIds": [
+            "readme",
+            "windows"
+          ]
+        },
+        "mobile_apps": {
+          "support": "unsupported",
+          "answer": "No mobile app in the pinned monorepo or documentation; Termux is a terminal environment.",
+          "evidenceIds": [
+            "nogo",
+            "readme"
+          ]
+        },
+        "browser": {
+          "support": "unsupported",
+          "answer": "No browser client; session export produces HTML only.",
+          "evidenceIds": [
+            "nogo",
+            "sessions"
+          ]
+        },
+        "mobile_browser": {
+          "support": "unsupported",
+          "answer": "No mobile web client.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "cli": {
+          "support": "supported",
+          "answer": "pi launcher with interactive, print, JSON and RPC modes.",
+          "evidenceIds": [
+            "cli",
+            "usage"
+          ]
+        },
+        "editor_extensions": {
+          "support": "partial",
+          "answer": "RPC mode is documented for IDE integrations, but the release ships no editor extension.",
+          "evidenceIds": [
+            "rpc",
+            "nogo"
+          ]
+        },
+        "task_actions": {
+          "support": "supported",
+          "answer": "Start, steer (Enter), queue (Alt+Enter), stop (Escape) and resume sessions in the terminal.",
+          "evidenceIds": [
+            "usage"
+          ]
+        },
+        "notifications": {
+          "support": "partial",
+          "answer": "An example notify extension exists but no built-in notification channel.",
+          "evidenceIds": [
+            "extensions"
+          ]
+        },
+        "cross_device_continuity": {
+          "support": "partial",
+          "answer": "Sessions are local files; continuing elsewhere requires the same session file or /share exports.",
+          "evidenceIds": [
+            "sessions",
+            "sessionsrc"
+          ]
+        }
+      },
+      "limitations": [
+        "No GUI, web or phone client; IDEs integrate through RPC/SDK that third parties build."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "windows",
+        "nogo",
+        "sessions",
+        "cli",
+        "usage",
+        "rpc",
+        "extensions",
+        "sessionsrc"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-pi",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "pi:ACC-02",
+      "criterionId": "ACC-02",
+      "answer": "Pi embeds its own agent loop (pi-agent-core) and talks to many model providers directly; it does not host other coding harnesses in the release (a pi-claude-code provider repo exists separately); extensions can add providers and tools.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli",
+          "rpc"
+        ],
+        "version": "Pi coding agent v1.5.0 (commit f9a26365568127461c47a07a37dcb42c140a3ac5), released 2026-11-02",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "harnesses": {
+          "support": "supported",
+          "answer": "The Pi agent harness itself is the only embedded harness.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "model_providers": {
+          "support": "supported",
+          "answer": "Anthropic, OpenAI, Google, GitHub Copilot, Mistral, Groq, xAI, OpenRouter, Bedrock, Vertex and many others.",
+          "evidenceIds": [
+            "providers",
+            "aireadme"
+          ]
+        },
+        "custom_adapters": {
+          "support": "supported",
+          "answer": "Custom providers and models are configured through models.json and extensions.",
+          "evidenceIds": [
+            "models",
+            "extensions"
+          ]
+        },
+        "session_integration": {
+          "support": "supported",
+          "answer": "Embedded agent loop with SDK and RPC control of sessions.",
+          "evidenceIds": [
+            "sdk",
+            "rpc"
+          ]
+        },
+        "mixed_harness_operation": {
+          "support": "unsupported",
+          "answer": "No second harness is supported in the release.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        }
+      },
+      "limitations": [
+        "Only the Pi harness runs in the product; other CLIs are not controlled."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "providers",
+        "aireadme",
+        "models",
+        "extensions",
+        "sdk",
+        "rpc",
+        "nogo"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-pi",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "pi:ACC-03",
+      "criterionId": "ACC-03",
+      "answer": "Bring-your-own API keys for many providers, OAuth subscription logins for supported providers (Anthropic, GitHub Copilot, OpenAI Codex legacy, Kimi) and local models (llama.cpp docs, custom providers); no Pi vendor credits.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "Pi coding agent v1.5.0 (commit f9a26365568127461c47a07a37dcb42c140a3ac5), released 2026-11-02",
+        "plan": "Provider subscriptions and API keys",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "agent_subscriptions": {
+          "support": "supported",
+          "answer": "/login supports OAuth subscription flows for providers such as GitHub Copilot, OpenAI Codex (ChatGPT) and Anthropic.",
+          "evidenceIds": [
+            "providers",
+            "aireadme",
+            "authsrc"
+          ]
+        },
+        "api_accounts": {
+          "support": "supported",
+          "answer": "Environment variable or stored API keys for many providers.",
+          "evidenceIds": [
+            "providers"
+          ]
+        },
+        "vendor_credits": {
+          "support": "unsupported",
+          "answer": "Pi does not sell model credits in the checked sources.",
+          "evidenceIds": [
+            "pidev",
+            "readme"
+          ]
+        },
+        "local_models": {
+          "support": "supported",
+          "answer": "Local model setups via llama.cpp and custom providers.",
+          "evidenceIds": [
+            "models",
+            "quickstart"
+          ]
+        },
+        "account_switching": {
+          "support": "partial",
+          "answer": "/login and /logout per provider; multiple accounts per provider are not documented.",
+          "evidenceIds": [
+            "providers"
+          ]
+        },
+        "vendor_account_requirement": {
+          "support": "supported",
+          "answer": "No Pi account required to use the CLI.",
+          "evidenceIds": [
+            "quickstart"
+          ]
+        },
+        "provider_restrictions": {
+          "support": "unknown",
+          "answer": "Provider-side subscription terms for third-party clients are outside the repository.",
+          "evidenceIds": []
+        }
+      },
+      "limitations": [
+        "Subscription login availability depends on provider and its terms; Radius gateway is a separate service."
+      ],
+      "unknownReason": "See unknown atomic answers for the closed-component, hosted-service or business-fact gaps.",
+      "evidenceIds": [
+        "providers",
+        "aireadme",
+        "authsrc",
+        "pidev",
+        "readme",
+        "models",
+        "quickstart"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-pi",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "pi:ACC-04",
+      "criterionId": "ACC-04",
+      "answer": "Install with curl/PowerShell/npm/Nix, run pi in a folder and /login; any directory works, with or without Git; no hosted-Git, cloud or VPS onboarding.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "Pi coding agent v1.5.0 (commit f9a26365568127461c47a07a37dcb42c140a3ac5), released 2026-11-02",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "first_task_setup": {
+          "support": "supported",
+          "answer": "Install, run pi in the project folder, /login, prompt.",
+          "evidenceIds": [
+            "readme",
+            "quickstart"
+          ]
+        },
+        "no_git": {
+          "support": "supported",
+          "answer": "Pi works in any folder.",
+          "evidenceIds": [
+            "usage"
+          ]
+        },
+        "local_git_without_remote": {
+          "support": "supported",
+          "answer": "Git is not required; the footer shows Git context only.",
+          "evidenceIds": [
+            "usage",
+            "nogo"
+          ]
+        },
+        "hosted_git": {
+          "support": "partial",
+          "answer": "No hosted-Git integration beyond agent bash and optional extensions.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "prerequisite_guidance": {
+          "support": "supported",
+          "answer": "Node.js 22.19 or newer and a model provider.",
+          "evidenceIds": [
+            "readme",
+            "quickstart"
+          ]
+        },
+        "managed_cloud_setup": {
+          "support": "unsupported",
+          "answer": "No managed cloud in the release.",
+          "evidenceIds": [
+            "nogo",
+            "readme"
+          ]
+        },
+        "byo_vps_onboarding": {
+          "support": "partial",
+          "answer": "Run Pi on any host over SSH yourself; an optional ssh example extension routes tools remotely.",
+          "evidenceIds": [
+            "ssh",
+            "contain"
+          ]
+        }
+      },
+      "limitations": [
+        "Project trust prompt for folders with .pi resources."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "quickstart",
+        "usage",
+        "nogo",
+        "ssh",
+        "contain"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-pi",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "pi:ACC-05",
+      "criterionId": "ACC-05",
+      "answer": "CLI print/JSON modes, JSONL RPC mode, TypeScript SDK and extension API; Pi acts as an MCP client but no MCP server for other agents; no webhooks; SDK and RPC are versioned with package releases.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli",
+          "rpc"
+        ],
+        "version": "Pi coding agent v1.5.0 (commit f9a26365568127461c47a07a37dcb42c140a3ac5), released 2026-11-02",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "cli": {
+          "support": "supported",
+          "answer": "Print and JSON modes run non-interactively.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "api": {
+          "support": "supported",
+          "answer": "RPC mode exposes JSONL commands and events over stdio.",
+          "evidenceIds": [
+            "rpc"
+          ]
+        },
+        "sdk": {
+          "support": "supported",
+          "answer": "TypeScript SDK for in-process control.",
+          "evidenceIds": [
+            "sdk"
+          ]
+        },
+        "mcp_server": {
+          "support": "unsupported",
+          "answer": "Pi consumes MCP servers; no mode exposing Pi sessions as an MCP server in docs or source.",
+          "evidenceIds": [
+            "mcp",
+            "nogo"
+          ]
+        },
+        "webhooks": {
+          "support": "unsupported",
+          "answer": "No webhook endpoint or sender in core.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "operations": {
+          "support": "supported",
+          "answer": "RPC commands prompt, steer, abort, manage sessions and models.",
+          "evidenceIds": [
+            "rpc"
+          ]
+        },
+        "authentication": {
+          "support": "partial",
+          "answer": "Local subprocess pipes; no network auth layer.",
+          "evidenceIds": [
+            "rpc"
+          ]
+        },
+        "stability": {
+          "support": "partial",
+          "answer": "Durable package is experimental; core RPC/SDK stability policy not stated.",
+          "evidenceIds": [
+            "durable",
+            "rpc"
+          ]
+        }
+      },
+      "limitations": [
+        "No MCP server mode or webhooks."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "cli",
+        "rpc",
+        "sdk",
+        "mcp",
+        "nogo",
+        "durable"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-pi",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "pi:ACC-06",
+      "criterionId": "ACC-06",
+      "answer": "MCP client (stdio and streamable HTTP, OAuth/bearer), extensions registering tools, skills, prompt templates, themes and packages from npm/git; AGENTS.md/CLAUDE.md context import; project resources need project trust.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli",
+          "rpc"
+        ],
+        "version": "Pi coding agent v1.5.0 (commit f9a26365568127461c47a07a37dcb42c140a3ac5), released 2026-11-02",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "mcp_client": {
+          "support": "supported",
+          "answer": "pi mcp add/list and /mcp manage servers.",
+          "evidenceIds": [
+            "mcp",
+            "mcpsrc"
+          ]
+        },
+        "plugins": {
+          "support": "supported",
+          "answer": "Pi packages and extensions.",
+          "evidenceIds": [
+            "packages",
+            "extensions"
+          ]
+        },
+        "custom_tools": {
+          "support": "supported",
+          "answer": "Extensions register tools and commands.",
+          "evidenceIds": [
+            "extensions"
+          ]
+        },
+        "instructions_import": {
+          "support": "supported",
+          "answer": "AGENTS.md and CLAUDE.md context files and skills are loaded.",
+          "evidenceIds": [
+            "skills",
+            "security"
+          ]
+        },
+        "authentication": {
+          "support": "supported",
+          "answer": "Bearer tokens from environment and OAuth for MCP servers.",
+          "evidenceIds": [
+            "mcp"
+          ]
+        },
+        "permission_scope": {
+          "support": "partial",
+          "answer": "Project trust gates loading; tool calls themselves are unrestricted.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "integration_owner": {
+          "support": "supported",
+          "answer": "Product-managed in Pi itself.",
+          "evidenceIds": [
+            "mcp"
+          ]
+        }
+      },
+      "limitations": [
+        "permission_scope: Project trust gates loading; tool calls themselves are unrestricted."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "mcp",
+        "mcpsrc",
+        "packages",
+        "extensions",
+        "skills",
+        "security"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-pi",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "pi:ACC-07",
+      "criterionId": "ACC-07",
+      "answer": "A TypeScript/Node.js terminal application with its own TUI library (pi-tui) and optional native modules; no GUI client.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "Pi coding agent v1.5.0 (commit f9a26365568127461c47a07a37dcb42c140a3ac5), released 2026-11-02",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "desktop_implementation": {
+          "support": "supported",
+          "answer": "No desktop GUI; terminal TUI built with pi-tui under Node.js.",
+          "evidenceIds": [
+            "readme",
+            "pkgjson"
+          ]
+        },
+        "mobile_implementation": {
+          "support": "unsupported",
+          "answer": "No mobile client.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "hybrids": {
+          "support": "unsupported",
+          "answer": "No hybrid or web wrapper in the release.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "implementation_evidence": {
+          "support": "supported",
+          "answer": "README package table and pinned package.json.",
+          "evidenceIds": [
+            "readme",
+            "pkgjson"
+          ]
+        }
+      },
+      "limitations": [
+        "mobile_implementation: No mobile client.",
+        "hybrids: No hybrid or web wrapper in the release."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "pkgjson",
+        "nogo"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-05-15",
+      "researcher": "researcher-pi",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "pi:PLAN-01",
+      "criterionId": "PLAN-01",
+      "answer": "Work starts from typed prompts, @file references, !commands and print/RPC input; no tracker import or Git/chat triggers in core (pi-chat is a separate repo for Slack); GitHub issue autocomplete exists only as an example extension.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli",
+          "rpc"
+        ],
+        "version": "Pi coding agent v1.5.0 (commit f9a26365568127461c47a07a37dcb42c140a3ac5), released 2026-11-02",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "local_creation": {
+          "support": "supported",
+          "answer": "Prompts create work in sessions.",
+          "evidenceIds": [
+            "usage"
+          ]
+        },
+        "prompt_intake": {
+          "support": "supported",
+          "answer": "Interactive, print and RPC prompt intake.",
+          "evidenceIds": [
+            "usage",
+            "cli",
+            "rpc"
+          ]
+        },
+        "external_import": {
+          "support": "partial",
+          "answer": "Example github-issue-autocomplete extension is optional; no built-in import.",
+          "evidenceIds": [
+            "extensions",
+            "nogo"
+          ]
+        },
+        "chat_git_triggers": {
+          "support": "partial",
+          "answer": "The separate pi-chat repository handles Slack/chat; no Git triggers in core.",
+          "evidenceIds": [
+            "pichat",
+            "nogo"
+          ]
+        },
+        "authoritative_tracker": {
+          "support": "supported",
+          "answer": "None; Pi holds sessions only.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "stable_ids": {
+          "support": "partial",
+          "answer": "Sessions and entries have IDs; no issue IDs.",
+          "evidenceIds": [
+            "sessionsrc"
+          ]
+        },
+        "sync": {
+          "support": "unsupported",
+          "answer": "No tracker sync.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "supported_edits": {
+          "support": "unsupported",
+          "answer": "No tracker edits.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "external_roundtrips": {
+          "support": "supported",
+          "answer": "Any tracker use happens outside Pi.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        }
+      },
+      "limitations": [
+        "external_import: Example github-issue-autocomplete extension is optional; no built-in import.",
+        "chat_git_triggers: The separate pi-chat repository handles Slack/chat; no Git triggers in core.",
+        "stable_ids: Sessions and entries have IDs; no issue IDs."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "usage",
+        "cli",
+        "rpc",
+        "extensions",
+        "nogo",
+        "pichat",
+        "sessionsrc"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-pi",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "pi:PLAN-02",
+      "criterionId": "PLAN-02",
+      "answer": "No built-in plan feature (README says plan mode is skipped); an example plan-mode extension and todo extension exist; sessions keep branchable history.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "Pi coding agent v1.5.0 (commit f9a26365568127461c47a07a37dcb42c140a3ac5), released 2026-11-02",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "plans": {
+          "support": "unsupported",
+          "answer": "Plan mode is explicitly not shipped by default; example extension only.",
+          "evidenceIds": [
+            "readme",
+            "extensions"
+          ]
+        },
+        "acceptance_criteria": {
+          "support": "unsupported",
+          "answer": "No acceptance-criteria structure.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "editors": {
+          "support": "unsupported",
+          "answer": "No plan editor in core.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "revisions": {
+          "support": "partial",
+          "answer": "Session tree and /fork preserve alternative conversations rather than plan revisions.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "implementation_links": {
+          "support": "unsupported",
+          "answer": "No plan-to-implementation links.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "amendment": {
+          "support": "partial",
+          "answer": "Steering changes the current work; no plan object to amend.",
+          "evidenceIds": [
+            "usage"
+          ]
+        },
+        "restart_persistence": {
+          "support": "partial",
+          "answer": "Sessions persist; plans do not exist.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        }
+      },
+      "limitations": [
+        "Plans exist only through optional example extensions."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "extensions",
+        "nogo",
+        "sessions",
+        "usage"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-pi",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "pi:PLAN-03",
+      "criterionId": "PLAN-03",
+      "answer": "No epics, hierarchy, blockers or readiness: conversation trees (/tree, /fork) branch within a session and an example subagent extension can spawn child agents.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "Pi coding agent v1.5.0 (commit f9a26365568127461c47a07a37dcb42c140a3ac5), released 2026-11-02",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "epics": {
+          "support": "unsupported",
+          "answer": "No hierarchy, dependency or readiness model in core.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "hierarchy": {
+          "support": "partial",
+          "answer": "Session tree branches and forks only.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "blockers": {
+          "support": "unsupported",
+          "answer": "No hierarchy, dependency or readiness model in core.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "readiness": {
+          "support": "unsupported",
+          "answer": "No hierarchy, dependency or readiness model in core.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "enforcement": {
+          "support": "unsupported",
+          "answer": "No hierarchy, dependency or readiness model in core.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "state_propagation": {
+          "support": "unsupported",
+          "answer": "No hierarchy, dependency or readiness model in core.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "task_to_epic": {
+          "support": "unsupported",
+          "answer": "No hierarchy, dependency or readiness model in core.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "identity_retention": {
+          "support": "unsupported",
+          "answer": "No hierarchy, dependency or readiness model in core.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "workflow_constraints": {
+          "support": "supported",
+          "answer": "No rigid workflow is imposed.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "epics: No hierarchy, dependency or readiness model in core.",
+        "hierarchy: Session tree branches and forks only.",
+        "blockers: No hierarchy, dependency or readiness model in core."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "nogo",
+        "sessions",
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-pi",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "pi:PLAN-04",
+      "criterionId": "PLAN-04",
+      "answer": "AGENTS.md/CLAUDE.md context files, skills, prompt templates and a system prompt override at user and project scope; no built-in cross-session memory; sessions and compaction summaries persist locally.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "Pi coding agent v1.5.0 (commit f9a26365568127461c47a07a37dcb42c140a3ac5), released 2026-11-02",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "instructions": {
+          "support": "supported",
+          "answer": "Context files and system prompt files at user and project scope.",
+          "evidenceIds": [
+            "skills",
+            "security"
+          ]
+        },
+        "skills": {
+          "support": "supported",
+          "answer": "Skills discovered from user, project and packages.",
+          "evidenceIds": [
+            "skills",
+            "packages"
+          ]
+        },
+        "project_docs": {
+          "support": "supported",
+          "answer": "AGENTS.md and files referenced with @.",
+          "evidenceIds": [
+            "usage",
+            "skills"
+          ]
+        },
+        "memory": {
+          "support": "unsupported",
+          "answer": "No built-in memory feature in core.",
+          "evidenceIds": [
+            "nogo",
+            "readme"
+          ]
+        },
+        "scope": {
+          "support": "supported",
+          "answer": "User versus project scope for resources.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "provenance": {
+          "support": "partial",
+          "answer": "Startup header lists loaded resources.",
+          "evidenceIds": [
+            "usage"
+          ]
+        },
+        "correction": {
+          "support": "partial",
+          "answer": "Edit files directly.",
+          "evidenceIds": [
+            "skills"
+          ]
+        },
+        "deletion": {
+          "support": "partial",
+          "answer": "Delete files or sessions; /logout for credentials.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "freshness": {
+          "support": "partial",
+          "answer": "/reload reloads resources.",
+          "evidenceIds": [
+            "mcp"
+          ]
+        },
+        "takeover_continuity": {
+          "support": "partial",
+          "answer": "Session files can be shared via /share or copied; repository files travel with Git.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        }
+      },
+      "limitations": [
+        "No managed memory store; stale-context control is manual editing."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "skills",
+        "security",
+        "packages",
+        "usage",
+        "nogo",
+        "readme",
+        "sessions",
+        "mcp"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-pi",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "pi:PLAN-05",
+      "criterionId": "PLAN-05",
+      "answer": "File search with @, bash tools (grep/find), image input and MCP resources; no built-in index, citations or architecture checks.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "Pi coding agent v1.5.0 (commit f9a26365568127461c47a07a37dcb42c140a3ac5), released 2026-11-02",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "code_search": {
+          "support": "supported",
+          "answer": "Built-in tools and @ file search.",
+          "evidenceIds": [
+            "usage"
+          ]
+        },
+        "indexing": {
+          "support": "unsupported",
+          "answer": "No repository index in core.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "external_knowledge": {
+          "support": "partial",
+          "answer": "MCP servers and web access through extensions or tools.",
+          "evidenceIds": [
+            "mcp"
+          ]
+        },
+        "multimodal_inputs": {
+          "support": "supported",
+          "answer": "Images can be pasted or dragged into a compatible terminal.",
+          "evidenceIds": [
+            "usage"
+          ]
+        },
+        "freshness": {
+          "support": "partial",
+          "answer": "Reads live files.",
+          "evidenceIds": [
+            "usage"
+          ]
+        },
+        "access_scope": {
+          "support": "partial",
+          "answer": "Operating-system permissions of the Pi process.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "api_retrieval": {
+          "support": "unsupported",
+          "answer": "No retrieval API.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "citations": {
+          "support": "unsupported",
+          "answer": "No citation mechanism.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "conflict_detection": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "review_enforcement": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        }
+      },
+      "limitations": [
+        "Retrieval is tool-driven; no indexing, conflict detection or review enforcement."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "usage",
+        "nogo",
+        "mcp",
+        "security"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-pi",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "pi:PLAN-06",
+      "criterionId": "PLAN-06",
+      "answer": "No native issue management; sessions can be named, resumed and forked.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "Pi coding agent v1.5.0 (commit f9a26365568127461c47a07a37dcb42c140a3ac5), released 2026-11-02",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "create": {
+          "support": "partial",
+          "answer": "Sessions are created with /new.",
+          "evidenceIds": [
+            "usage"
+          ]
+        },
+        "edit": {
+          "support": "unsupported",
+          "answer": "No issue or task entity exists in core; sessions are the only durable objects.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "discuss": {
+          "support": "unsupported",
+          "answer": "No issue or task entity exists in core; sessions are the only durable objects.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "prioritize": {
+          "support": "unsupported",
+          "answer": "No issue or task entity exists in core; sessions are the only durable objects.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "label": {
+          "support": "unsupported",
+          "answer": "No issue or task entity exists in core; sessions are the only durable objects.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "assign": {
+          "support": "unsupported",
+          "answer": "No issue or task entity exists in core; sessions are the only durable objects.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "search": {
+          "support": "partial",
+          "answer": "/resume lists sessions.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "filter": {
+          "support": "unsupported",
+          "answer": "No issue or task entity exists in core; sessions are the only durable objects.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "archive": {
+          "support": "partial",
+          "answer": "Sessions are files that can be deleted; no archive state.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "reopen": {
+          "support": "unsupported",
+          "answer": "No issue or task entity exists in core; sessions are the only durable objects.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "project_epic_views": {
+          "support": "unsupported",
+          "answer": "No issue or task entity exists in core; sessions are the only durable objects.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "idea_parking": {
+          "support": "unsupported",
+          "answer": "No issue or task entity exists in core; sessions are the only durable objects.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "explicit_dispatch": {
+          "support": "unsupported",
+          "answer": "No issue or task entity exists in core; sessions are the only durable objects.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "task_session_separation": {
+          "support": "unsupported",
+          "answer": "No issue or task entity exists in core; sessions are the only durable objects.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "metadata": {
+          "support": "unsupported",
+          "answer": "No issue or task entity exists in core; sessions are the only durable objects.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "durable_states": {
+          "support": "unsupported",
+          "answer": "No issue or task entity exists in core; sessions are the only durable objects.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "external_tracker_requirement": {
+          "support": "unsupported",
+          "answer": "No issue or task entity exists in core; sessions are the only durable objects.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        }
+      },
+      "limitations": [
+        "create: Sessions are created with /new.",
+        "edit: No issue or task entity exists in core; sessions are the only durable objects.",
+        "discuss: No issue or task entity exists in core; sessions are the only durable objects."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "usage",
+        "nogo",
+        "sessions"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-pi",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "pi:PLAN-07",
+      "criterionId": "PLAN-07",
+      "answer": "No issue operations for agents; extensions and RPC can drive sessions but there are no shared durable issue IDs.",
+      "support": "unsupported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli",
+          "rpc"
+        ],
+        "version": "Pi coding agent v1.5.0 (commit f9a26365568127461c47a07a37dcb42c140a3ac5), released 2026-11-02",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "shared_ids": {
+          "support": "unsupported",
+          "answer": "No agent-operable issue entities exist in core.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "read": {
+          "support": "unsupported",
+          "answer": "No agent-operable issue entities exist in core.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "create": {
+          "support": "unsupported",
+          "answer": "No agent-operable issue entities exist in core.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "update": {
+          "support": "unsupported",
+          "answer": "No agent-operable issue entities exist in core.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "claim": {
+          "support": "unsupported",
+          "answer": "No agent-operable issue entities exist in core.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "assign": {
+          "support": "unsupported",
+          "answer": "No agent-operable issue entities exist in core.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "state_changes": {
+          "support": "unsupported",
+          "answer": "No agent-operable issue entities exist in core.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "dependencies": {
+          "support": "unsupported",
+          "answer": "No agent-operable issue entities exist in core.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "children": {
+          "support": "unsupported",
+          "answer": "No agent-operable issue entities exist in core.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "results": {
+          "support": "unsupported",
+          "answer": "No agent-operable issue entities exist in core.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "human_visibility": {
+          "support": "unsupported",
+          "answer": "No agent-operable issue entities exist in core.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "attribution": {
+          "support": "unsupported",
+          "answer": "No agent-operable issue entities exist in core.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "permissions": {
+          "support": "unsupported",
+          "answer": "No agent-operable issue entities exist in core.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "conflicts": {
+          "support": "unsupported",
+          "answer": "No agent-operable issue entities exist in core.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "nogo"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-pi",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "pi:PLAN-08",
+      "criterionId": "PLAN-08",
+      "answer": "No living specification feature.",
+      "support": "unsupported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "Pi coding agent v1.5.0 (commit f9a26365568127461c47a07a37dcb42c140a3ac5), released 2026-11-02",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "persistent_requirements": {
+          "support": "unsupported",
+          "answer": "No persistent requirements, drift detection or spec review in core or docs (terms: living spec, product spec searched).",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "human_edits": {
+          "support": "unsupported",
+          "answer": "No persistent requirements, drift detection or spec review in core or docs (terms: living spec, product spec searched).",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "agent_edits": {
+          "support": "unsupported",
+          "answer": "No persistent requirements, drift detection or spec review in core or docs (terms: living spec, product spec searched).",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "revisions": {
+          "support": "unsupported",
+          "answer": "No persistent requirements, drift detection or spec review in core or docs (terms: living spec, product spec searched).",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "approvals": {
+          "support": "unsupported",
+          "answer": "No persistent requirements, drift detection or spec review in core or docs (terms: living spec, product spec searched).",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "implementation_links": {
+          "support": "unsupported",
+          "answer": "No persistent requirements, drift detection or spec review in core or docs (terms: living spec, product spec searched).",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "later_retrieval": {
+          "support": "unsupported",
+          "answer": "No persistent requirements, drift detection or spec review in core or docs (terms: living spec, product spec searched).",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "drift_detection": {
+          "support": "unsupported",
+          "answer": "No persistent requirements, drift detection or spec review in core or docs (terms: living spec, product spec searched).",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "review_integration": {
+          "support": "unsupported",
+          "answer": "No persistent requirements, drift detection or spec review in core or docs (terms: living spec, product spec searched).",
+          "evidenceIds": [
+            "nogo"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "nogo"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-pi",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "pi:COORD-01",
+      "criterionId": "COORD-01",
+      "answer": "One interactive agent run per process; multiple terminals or the experimental durable runtime can run independent conversations; the example subagent extension spawns parallel child agents; no quotas.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli",
+          "rpc"
+        ],
+        "version": "Pi coding agent v1.5.0 (commit f9a26365568127461c47a07a37dcb42c140a3ac5), released 2026-11-02",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "concurrent_sessions": {
+          "support": "partial",
+          "answer": "Multiple pi processes run independently; the durable runtime supports multiple conversations (experimental).",
+          "evidenceIds": [
+            "durable",
+            "usage"
+          ]
+        },
+        "concurrent_tasks": {
+          "support": "partial",
+          "answer": "Example subagent extension runs child agents.",
+          "evidenceIds": [
+            "extensions"
+          ]
+        },
+        "quotas": {
+          "support": "unsupported",
+          "answer": "No quotas in core.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "observed_concurrency": {
+          "support": "unknown",
+          "answer": "Not measured; no catalog measurement.",
+          "evidenceIds": []
+        },
+        "status_visibility": {
+          "support": "partial",
+          "answer": "Footer shows the current session state; no cross-session dashboard.",
+          "evidenceIds": [
+            "usage"
+          ]
+        }
+      },
+      "limitations": [
+        "Concurrency is user-assembled; no built-in multi-session dashboard."
+      ],
+      "unknownReason": "See unknown atomic answers for the closed-component, hosted-service or business-fact gaps.",
+      "evidenceIds": [
+        "durable",
+        "usage",
+        "extensions",
+        "nogo"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-pi",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "pi:COORD-02",
+      "criterionId": "COORD-02",
+      "answer": "No assignment, claims, queues or routing; message queueing applies within one session.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "Pi coding agent v1.5.0 (commit f9a26365568127461c47a07a37dcb42c140a3ac5), released 2026-11-02",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "human_assignment": {
+          "support": "unsupported",
+          "answer": "No assignment model in core.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "agent_assignment": {
+          "support": "unsupported",
+          "answer": "No assignment model in core.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "claims": {
+          "support": "unsupported",
+          "answer": "No assignment model in core.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "queues": {
+          "support": "partial",
+          "answer": "Alt+Enter queues follow-ups within a session.",
+          "evidenceIds": [
+            "usage"
+          ]
+        },
+        "routing": {
+          "support": "unsupported",
+          "answer": "No assignment model in core.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "duplicate_prevention": {
+          "support": "unsupported",
+          "answer": "No assignment model in core.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "ownership_enforcement": {
+          "support": "unsupported",
+          "answer": "No assignment model in core.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        }
+      },
+      "limitations": [
+        "human_assignment: No assignment model in core.",
+        "agent_assignment: No assignment model in core.",
+        "claims: No assignment model in core."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "nogo",
+        "usage"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-pi",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "pi:COORD-03",
+      "criterionId": "COORD-03",
+      "answer": "The README says Pi skips sub-agents; an example subagent extension spawns child agents with agent definitions, and pi-durable documents abort and subagents (experimental); nothing is enabled by default.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "Pi coding agent v1.5.0 (commit f9a26365568127461c47a07a37dcb42c140a3ac5), released 2026-11-02",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "roles": {
+          "support": "partial",
+          "answer": "Example subagent extension defines agent roles.",
+          "evidenceIds": [
+            "extensions"
+          ]
+        },
+        "model_harness_effort": {
+          "support": "partial",
+          "answer": "Example extension configures per-agent models.",
+          "evidenceIds": [
+            "extensions"
+          ]
+        },
+        "messages": {
+          "support": "partial",
+          "answer": "Example extension passes tasks.",
+          "evidenceIds": [
+            "extensions"
+          ]
+        },
+        "results_return": {
+          "support": "partial",
+          "answer": "Example extension returns results.",
+          "evidenceIds": [
+            "extensions"
+          ]
+        },
+        "cross_harness": {
+          "support": "unsupported",
+          "answer": "No second harness.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "orchestration_owner": {
+          "support": "partial",
+          "answer": "Installed extension, not product-native.",
+          "evidenceIds": [
+            "readme",
+            "extensions"
+          ]
+        },
+        "activation": {
+          "support": "partial",
+          "answer": "Install or copy the extension.",
+          "evidenceIds": [
+            "extensions",
+            "packages"
+          ]
+        },
+        "authentication": {
+          "support": "partial",
+          "answer": "Uses the session credentials.",
+          "evidenceIds": [
+            "extensions"
+          ]
+        },
+        "live_progress": {
+          "support": "unknown",
+          "answer": "Not established from docs; example code not exercised.",
+          "evidenceIds": []
+        },
+        "retained_results": {
+          "support": "unknown",
+          "answer": "Not established.",
+          "evidenceIds": []
+        },
+        "followup": {
+          "support": "unknown",
+          "answer": "Not established.",
+          "evidenceIds": []
+        },
+        "invocation": {
+          "support": "partial",
+          "answer": "Tool call from the model once the extension is loaded.",
+          "evidenceIds": [
+            "extensions"
+          ]
+        }
+      },
+      "limitations": [
+        "Delegation exists only as an optional example extension or experimental runtime."
+      ],
+      "unknownReason": "See unknown atomic answers for the closed-component, hosted-service or business-fact gaps.",
+      "evidenceIds": [
+        "extensions",
+        "nogo",
+        "readme",
+        "packages"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-pi",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "pi:COORD-04",
+      "criterionId": "COORD-04",
+      "answer": "No schedules or triggers in core; print/JSON/RPC modes can be wrapped by cron or CI by the user; a file-trigger example extension exists.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli",
+          "rpc"
+        ],
+        "version": "Pi coding agent v1.5.0 (commit f9a26365568127461c47a07a37dcb42c140a3ac5), released 2026-11-02",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "schedules": {
+          "support": "unsupported",
+          "answer": "No scheduler or event trigger in core (terms: cron, scheduler, webhook searched).",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "events": {
+          "support": "partial",
+          "answer": "Example file-trigger extension reacts to file events.",
+          "evidenceIds": [
+            "extensions"
+          ]
+        },
+        "recurring_tasks": {
+          "support": "unsupported",
+          "answer": "No scheduler or event trigger in core (terms: cron, scheduler, webhook searched).",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "completion_conditions": {
+          "support": "unsupported",
+          "answer": "No scheduler or event trigger in core (terms: cron, scheduler, webhook searched).",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "scheduler_location": {
+          "support": "unsupported",
+          "answer": "No scheduler or event trigger in core (terms: cron, scheduler, webhook searched).",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "overlaps": {
+          "support": "unsupported",
+          "answer": "No scheduler or event trigger in core (terms: cron, scheduler, webhook searched).",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "retries": {
+          "support": "unsupported",
+          "answer": "No scheduler or event trigger in core (terms: cron, scheduler, webhook searched).",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "client_independence": {
+          "support": "partial",
+          "answer": "Runs only while the process runs.",
+          "evidenceIds": [
+            "usage"
+          ]
+        }
+      },
+      "limitations": [
+        "Any scheduling is a manual workaround outside the product."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "nogo",
+        "extensions",
+        "usage"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-pi",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "pi:COORD-05",
+      "criterionId": "COORD-05",
+      "answer": "Steering with Enter, queued follow-ups with Alt+Enter, Escape to stop, session resume; no notifications or approvals in core; example permission-gate, confirm and notify extensions.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "Pi coding agent v1.5.0 (commit f9a26365568127461c47a07a37dcb42c140a3ac5), released 2026-11-02",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "pause": {
+          "support": "unsupported",
+          "answer": "No pause; abort and resume the session.",
+          "evidenceIds": [
+            "usage"
+          ]
+        },
+        "stop": {
+          "support": "supported",
+          "answer": "Escape aborts the current task and returns queued messages to the editor.",
+          "evidenceIds": [
+            "usage"
+          ]
+        },
+        "resume": {
+          "support": "supported",
+          "answer": "/resume and pi --continue.",
+          "evidenceIds": [
+            "usage"
+          ]
+        },
+        "steer": {
+          "support": "supported",
+          "answer": "Messages sent during work guide the next response.",
+          "evidenceIds": [
+            "usage"
+          ]
+        },
+        "notifications": {
+          "support": "partial",
+          "answer": "Example notify extension.",
+          "evidenceIds": [
+            "extensions"
+          ]
+        },
+        "pending_decisions": {
+          "support": "partial",
+          "answer": "Example question/confirm extensions; no built-in.",
+          "evidenceIds": [
+            "extensions"
+          ]
+        },
+        "escalation": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "visible_errors": {
+          "support": "supported",
+          "answer": "Errors and retries appear in the transcript and events.",
+          "evidenceIds": [
+            "usage",
+            "settings"
+          ]
+        },
+        "chat_terminal_parity": {
+          "support": "supported",
+          "answer": "The terminal is the primary interface.",
+          "evidenceIds": [
+            "usage"
+          ]
+        },
+        "retained_history": {
+          "support": "supported",
+          "answer": "Sessions are saved.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        }
+      },
+      "limitations": [
+        "No built-in approval prompts or notifications."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "usage",
+        "extensions",
+        "nogo",
+        "settings",
+        "sessions"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-pi",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "pi:COORD-06",
+      "criterionId": "COORD-06",
+      "answer": "No fleet or epic UI; the session list in /resume is the only multi-session view.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "Pi coding agent v1.5.0 (commit f9a26365568127461c47a07a37dcb42c140a3ac5), released 2026-11-02",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "fleet_fixture": {
+          "support": "unsupported",
+          "answer": "No board, graph or fleet view in core.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "parent_child": {
+          "support": "unsupported",
+          "answer": "No board, graph or fleet view in core.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "dependencies": {
+          "support": "unsupported",
+          "answer": "No board, graph or fleet view in core.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "attention": {
+          "support": "unsupported",
+          "answer": "No board, graph or fleet view in core.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "history": {
+          "support": "partial",
+          "answer": "Saved sessions are listed for resume.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "workload": {
+          "support": "unsupported",
+          "answer": "No board, graph or fleet view in core.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "navigation_errors": {
+          "support": "unsupported",
+          "answer": "No board, graph or fleet view in core.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "fixture_mode": {
+          "support": "unsupported",
+          "answer": "No board, graph or fleet view in core.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        }
+      },
+      "limitations": [
+        "fleet_fixture: No board, graph or fleet view in core.",
+        "parent_child: No board, graph or fleet view in core.",
+        "dependencies: No board, graph or fleet view in core."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "nogo",
+        "sessions"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-pi",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "pi:COORD-07",
+      "criterionId": "COORD-07",
+      "answer": "No presets or workflows are mandatory; per-session model and thinking level, prompt templates and extensions customize behavior; natural-language configuration is by asking Pi to write extensions.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "Pi coding agent v1.5.0 (commit f9a26365568127461c47a07a37dcb42c140a3ac5), released 2026-11-02",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "quick_task": {
+          "support": "supported",
+          "answer": "Run pi or print mode for a quick task.",
+          "evidenceIds": [
+            "usage",
+            "cli"
+          ]
+        },
+        "growing_epic": {
+          "support": "unsupported",
+          "answer": "No epic concept.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "presets": {
+          "support": "partial",
+          "answer": "Prompt templates and example preset extension.",
+          "evidenceIds": [
+            "extensions"
+          ]
+        },
+        "natural_language": {
+          "support": "supported",
+          "answer": "README says to ask Pi to build the workflow you want.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "agent_configuration": {
+          "support": "supported",
+          "answer": "/model, /thinking and settings per session.",
+          "evidenceIds": [
+            "usage"
+          ]
+        },
+        "in_run_changes": {
+          "support": "supported",
+          "answer": "Model and thinking level can change between turns.",
+          "evidenceIds": [
+            "usage"
+          ]
+        },
+        "live_roles": {
+          "support": "unsupported",
+          "answer": "No roles shown.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "retained_relationships": {
+          "support": "partial",
+          "answer": "Session tree records branches.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "discoverability": {
+          "support": "supported",
+          "answer": "Slash command menu and docs.",
+          "evidenceIds": [
+            "usage"
+          ]
+        },
+        "auth_friction": {
+          "support": "supported",
+          "answer": "/login flow or env keys.",
+          "evidenceIds": [
+            "providers"
+          ]
+        }
+      },
+      "limitations": [
+        "No visible orchestration roles or relationships."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "usage",
+        "cli",
+        "nogo",
+        "extensions",
+        "readme",
+        "sessions",
+        "providers"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-pi",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "pi:RUN-01",
+      "criterionId": "RUN-01",
+      "answer": "Local execution on the machine running pi; users can run Pi in Docker, over SSH or on any server themselves, and an optional ssh example extension routes tools to a remote host; no managed cloud; experimental durable runtime resumes after process death.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "Pi coding agent v1.5.0 (commit f9a26365568127461c47a07a37dcb42c140a3ac5), released 2026-11-02",
+        "plan": null,
+        "os": [],
+        "executionModes": [
+          "local"
+        ],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "local": {
+          "support": "supported",
+          "answer": "Runs locally as the user process.",
+          "evidenceIds": [
+            "readme",
+            "security"
+          ]
+        },
+        "byo_remote": {
+          "support": "partial",
+          "answer": "SSH example extension; running pi inside a remote shell or container.",
+          "evidenceIds": [
+            "ssh",
+            "contain"
+          ]
+        },
+        "self_hosted": {
+          "support": "partial",
+          "answer": "The CLI runs where installed; there is no server product.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "managed_cloud": {
+          "support": "unsupported",
+          "answer": "No managed cloud.",
+          "evidenceIds": [
+            "nogo",
+            "readme"
+          ]
+        },
+        "hybrid": {
+          "support": "partial",
+          "answer": "Gondolin extension keeps Pi on the host and tools in a micro-VM.",
+          "evidenceIds": [
+            "contain"
+          ]
+        },
+        "provisioning": {
+          "support": "unsupported",
+          "answer": "No provisioning.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "payer": {
+          "support": "supported",
+          "answer": "User pays for model providers and hosts.",
+          "evidenceIds": [
+            "providers"
+          ]
+        },
+        "resources": {
+          "support": "unsupported",
+          "answer": "No resource model.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "region": {
+          "support": "unsupported",
+          "answer": "Not applicable beyond user host.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "expiry": {
+          "support": "unsupported",
+          "answer": "No expiry model.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "client_disconnect": {
+          "support": "partial",
+          "answer": "Terminal closing ends the interactive run; durable runtime is experimental.",
+          "evidenceIds": [
+            "usage",
+            "durable"
+          ]
+        },
+        "other_device_continuation": {
+          "support": "partial",
+          "answer": "Sessions are local files; remote shell access can reattach if user uses tmux (docs/tmux.md).",
+          "evidenceIds": [
+            "sessions"
+          ]
+        }
+      },
+      "limitations": [
+        "Remote execution is user-assembled; no persistence after the process or host stops except via session files."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "security",
+        "ssh",
+        "contain",
+        "nogo",
+        "providers",
+        "usage",
+        "durable",
+        "sessions"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-pi",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "pi:RUN-02",
+      "criterionId": "RUN-02",
+      "answer": "No built-in isolation: Pi runs with the OS user permissions in the chosen directory; documented isolation by Docker, Docker Sandboxes, OpenShell or the Gondolin micro-VM extension; no worktrees managed by Pi.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "Pi coding agent v1.5.0 (commit f9a26365568127461c47a07a37dcb42c140a3ac5), released 2026-11-02",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "checkout": {
+          "support": "supported",
+          "answer": "Works in the launch folder.",
+          "evidenceIds": [
+            "usage"
+          ]
+        },
+        "branch": {
+          "support": "unsupported",
+          "answer": "No branch management.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "worktree": {
+          "support": "unsupported",
+          "answer": "No worktree management (footer only displays a worktree name).",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "container": {
+          "support": "partial",
+          "answer": "Documented patterns for running Pi in Docker; not a product feature.",
+          "evidenceIds": [
+            "contain"
+          ]
+        },
+        "vm": {
+          "support": "partial",
+          "answer": "Gondolin extension routes tools into a local micro-VM.",
+          "evidenceIds": [
+            "contain",
+            "gondolin"
+          ]
+        },
+        "os_sandbox": {
+          "support": "partial",
+          "answer": "OpenShell and Docker Sandboxes are external.",
+          "evidenceIds": [
+            "contain"
+          ]
+        },
+        "filesystem": {
+          "support": "supported",
+          "answer": "Unrestricted by default.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "process": {
+          "support": "supported",
+          "answer": "Unrestricted by default.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "network": {
+          "support": "supported",
+          "answer": "Unrestricted by default.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "secrets": {
+          "support": "partial",
+          "answer": "Credentials stored in auth.json; handling depends on isolation method.",
+          "evidenceIds": [
+            "providers",
+            "contain"
+          ]
+        },
+        "code_separation": {
+          "support": "unsupported",
+          "answer": "No separation of agent changes beyond user tools.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "security_boundary": {
+          "support": "supported",
+          "answer": "Docs say project trust and transcript review are not security boundaries.",
+          "evidenceIds": [
+            "security"
+          ]
+        }
+      },
+      "limitations": [
+        "Isolation is optional and external; Pi itself provides no security boundary."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "usage",
+        "nogo",
+        "contain",
+        "gondolin",
+        "security",
+        "providers"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-pi",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "pi:RUN-03",
+      "criterionId": "RUN-03",
+      "answer": "Sessions persist as JSONL files and can be resumed after exit; the experimental durable runtime resumes mid-turn after process death; no managed recovery.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "Pi coding agent v1.5.0 (commit f9a26365568127461c47a07a37dcb42c140a3ac5), released 2026-11-02",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "client_disconnect": {
+          "support": "partial",
+          "answer": "Closing the terminal ends the run; session saved.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "worker_crash": {
+          "support": "partial",
+          "answer": "crash-log support exists; durable runtime resumes (experimental).",
+          "evidenceIds": [
+            "durable"
+          ]
+        },
+        "service_restart": {
+          "support": "unsupported",
+          "answer": "No service component.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "expiry": {
+          "support": "unsupported",
+          "answer": "No sandbox expiry.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "transcript_reload": {
+          "support": "supported",
+          "answer": "/resume and --continue.",
+          "evidenceIds": [
+            "usage",
+            "sessions"
+          ]
+        },
+        "process_reconnect": {
+          "support": "unsupported",
+          "answer": "No reattach to a running process in core.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "task_resume": {
+          "support": "supported",
+          "answer": "Resume a saved session.",
+          "evidenceIds": [
+            "usage"
+          ]
+        },
+        "state_reconstruction": {
+          "support": "supported",
+          "answer": "Session JSONL rebuilds context with compaction.",
+          "evidenceIds": [
+            "sessionsrc",
+            "compaction"
+          ]
+        },
+        "context_loss": {
+          "support": "partial",
+          "answer": "Compaction summarizes older history.",
+          "evidenceIds": [
+            "compaction"
+          ]
+        },
+        "duplicate_actions": {
+          "support": "unknown",
+          "answer": "Durable runtime claims replay semantics; core behavior not tested.",
+          "evidenceIds": []
+        },
+        "manual_repair": {
+          "support": "partial",
+          "answer": "User resumes or repairs files.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "multi_day_continuity": {
+          "support": "supported",
+          "answer": "Sessions persist across days.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        }
+      },
+      "limitations": [
+        "Core CLI loses the in-flight turn if the process dies; durable runtime is experimental."
+      ],
+      "unknownReason": "See unknown atomic answers for the closed-component, hosted-service or business-fact gaps.",
+      "evidenceIds": [
+        "sessions",
+        "durable",
+        "nogo",
+        "usage",
+        "sessionsrc",
+        "compaction"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-pi",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "pi:RUN-04",
+      "criterionId": "RUN-04",
+      "answer": "Pi does not manage dependencies, caches, ports or services; the agent runs the project commands.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "Pi coding agent v1.5.0 (commit f9a26365568127461c47a07a37dcb42c140a3ac5), released 2026-11-02",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "dependencies": {
+          "support": "unsupported",
+          "answer": "No dev-environment management in core (terms: snapshot, port allocation, cache).",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "caches": {
+          "support": "unsupported",
+          "answer": "No dev-environment management in core (terms: snapshot, port allocation, cache).",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "snapshots": {
+          "support": "unsupported",
+          "answer": "No dev-environment management in core (terms: snapshot, port allocation, cache).",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "services": {
+          "support": "unsupported",
+          "answer": "No dev-environment management in core (terms: snapshot, port allocation, cache).",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "ports": {
+          "support": "unsupported",
+          "answer": "No dev-environment management in core (terms: snapshot, port allocation, cache).",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "secrets": {
+          "support": "partial",
+          "answer": "Credentials in auth.json or environment; commands inherit environment.",
+          "evidenceIds": [
+            "providers",
+            "contain"
+          ]
+        },
+        "duplicate_installs": {
+          "support": "unsupported",
+          "answer": "No dev-environment management in core (terms: snapshot, port allocation, cache).",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "collisions": {
+          "support": "unsupported",
+          "answer": "No dev-environment management in core (terms: snapshot, port allocation, cache).",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "remote_setup": {
+          "support": "unsupported",
+          "answer": "No dev-environment management in core (terms: snapshot, port allocation, cache).",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "automatic_repair": {
+          "support": "unsupported",
+          "answer": "No dev-environment management in core (terms: snapshot, port allocation, cache).",
+          "evidenceIds": [
+            "nogo"
+          ]
+        }
+      },
+      "limitations": [
+        "dependencies: No dev-environment management in core (terms: snapshot, port allocation, cache).",
+        "caches: No dev-environment management in core (terms: snapshot, port allocation, cache).",
+        "snapshots: No dev-environment management in core (terms: snapshot, port allocation, cache)."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "nogo",
+        "providers",
+        "contain"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-pi",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "pi:RUN-05",
+      "criterionId": "RUN-05",
+      "answer": "Provider retry with exponential backoff (3 retries by default) and provider timeouts are settings; no turn, token or spend limits; compaction manages context.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "Pi coding agent v1.5.0 (commit f9a26365568127461c47a07a37dcb42c140a3ac5), released 2026-11-02",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "time_limits": {
+          "support": "partial",
+          "answer": "Provider request timeout setting; no session time limit.",
+          "evidenceIds": [
+            "settings"
+          ]
+        },
+        "turn_limits": {
+          "support": "unsupported",
+          "answer": "No turn limit setting.",
+          "evidenceIds": [
+            "settings",
+            "nogo"
+          ]
+        },
+        "token_limits": {
+          "support": "partial",
+          "answer": "Context compaction near limits.",
+          "evidenceIds": [
+            "compaction"
+          ]
+        },
+        "spend_limits": {
+          "support": "unsupported",
+          "answer": "No spend limits; cost displayed only.",
+          "evidenceIds": [
+            "usage",
+            "nogo"
+          ]
+        },
+        "timeouts": {
+          "support": "supported",
+          "answer": "retry.provider.timeoutMs and httpIdleTimeoutMs.",
+          "evidenceIds": [
+            "settings"
+          ]
+        },
+        "retries": {
+          "support": "supported",
+          "answer": "retry.maxRetries default 3 with backoff.",
+          "evidenceIds": [
+            "settings"
+          ]
+        },
+        "provider_failures": {
+          "support": "supported",
+          "answer": "Agent-level retry for transient failures.",
+          "evidenceIds": [
+            "settings"
+          ]
+        },
+        "enforcement": {
+          "support": "partial",
+          "answer": "Retries and timeouts are enforced; no budgets.",
+          "evidenceIds": [
+            "settings"
+          ]
+        }
+      },
+      "limitations": [
+        "No spend or turn limits."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "settings",
+        "nogo",
+        "compaction",
+        "usage"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-pi",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "pi:RUN-06",
+      "criterionId": "RUN-06",
+      "answer": "Footer shows context usage and accumulated cost and tokens; /session shows file, ID, message count, token usage and cost; JSON event stream and session JSONL provide logs; crash logs and bug-report export exist; no per-project dashboards.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli",
+          "rpc"
+        ],
+        "version": "Pi coding agent v1.5.0 (commit f9a26365568127461c47a07a37dcb42c140a3ac5), released 2026-11-02",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "logs": {
+          "support": "supported",
+          "answer": "Session JSONL and event stream.",
+          "evidenceIds": [
+            "sessions",
+            "rpc"
+          ]
+        },
+        "traces": {
+          "support": "partial",
+          "answer": "pi-telemetry package defines vendor-neutral telemetry contracts; no default trace UI.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "failure_reasons": {
+          "support": "supported",
+          "answer": "Errors and retries appear in transcript and events.",
+          "evidenceIds": [
+            "usage",
+            "settings"
+          ]
+        },
+        "usage_export": {
+          "support": "partial",
+          "answer": "/export HTML/JSONL include usage.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "task_stats": {
+          "support": "supported",
+          "answer": "/session shows tokens and cost.",
+          "evidenceIds": [
+            "usage"
+          ]
+        },
+        "agent_stats": {
+          "support": "unsupported",
+          "answer": "No per-agent stats.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "project_stats": {
+          "support": "unsupported",
+          "answer": "No project stats.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "time_stats": {
+          "support": "partial",
+          "answer": "Session timestamps in files.",
+          "evidenceIds": [
+            "sessionsrc"
+          ]
+        },
+        "failure_status": {
+          "support": "partial",
+          "answer": "Errors visible in transcript.",
+          "evidenceIds": [
+            "usage"
+          ]
+        },
+        "approval_status": {
+          "support": "unsupported",
+          "answer": "No approvals in core.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "reconnect_consistency": {
+          "support": "supported",
+          "answer": "Sessions reload from files.",
+          "evidenceIds": [
+            "sessionsrc"
+          ]
+        },
+        "performance_method": {
+          "support": "partial",
+          "answer": "Repository includes profiling scripts; catalog does not measure.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "responsiveness": {
+          "support": "unknown",
+          "answer": "Catalog measures none; speed figures come only from ADEMark which does not list Pi.",
+          "evidenceIds": []
+        }
+      },
+      "limitations": [
+        "No aggregate statistics across sessions or projects."
+      ],
+      "unknownReason": "See unknown atomic answers for the closed-component, hosted-service or business-fact gaps.",
+      "evidenceIds": [
+        "sessions",
+        "rpc",
+        "readme",
+        "usage",
+        "settings",
+        "nogo",
+        "sessionsrc"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-pi",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "pi:RUN-07",
+      "criterionId": "RUN-07",
+      "answer": "Per-session cost and token totals are displayed in the footer and /session using model price data; no child or epic aggregation, alerts or exports beyond session files.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "Pi coding agent v1.5.0 (commit f9a26365568127461c47a07a37dcb42c140a3ac5), released 2026-11-02",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "task_cost": {
+          "support": "partial",
+          "answer": "Session cost shown.",
+          "evidenceIds": [
+            "usage"
+          ]
+        },
+        "session_cost": {
+          "support": "supported",
+          "answer": "Footer and /session show accumulated usage and cost.",
+          "evidenceIds": [
+            "usage"
+          ]
+        },
+        "child_cost": {
+          "support": "unsupported",
+          "answer": "No child sessions in core.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "epic_cost": {
+          "support": "unsupported",
+          "answer": "No epics.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "harness_aggregation": {
+          "support": "unsupported",
+          "answer": "Single harness.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "billed_vs_estimated": {
+          "support": "partial",
+          "answer": "Costs are computed from catalog prices, not provider invoices.",
+          "evidenceIds": [
+            "usage",
+            "aireadme"
+          ]
+        },
+        "tokens": {
+          "support": "supported",
+          "answer": "Token usage displayed.",
+          "evidenceIds": [
+            "usage"
+          ]
+        },
+        "subscription_allowance": {
+          "support": "unsupported",
+          "answer": "Subscription allowance not shown.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "provider_reconciliation": {
+          "support": "unsupported",
+          "answer": "No reconciliation.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "compute_cost": {
+          "support": "unsupported",
+          "answer": "No compute fees.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "refresh_delay": {
+          "support": "partial",
+          "answer": "Updates per turn.",
+          "evidenceIds": [
+            "usage"
+          ]
+        },
+        "alerts": {
+          "support": "unsupported",
+          "answer": "No alerts.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "export": {
+          "support": "partial",
+          "answer": "Session export includes usage.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "drilldown": {
+          "support": "partial",
+          "answer": "Per-session only.",
+          "evidenceIds": [
+            "usage"
+          ]
+        }
+      },
+      "limitations": [
+        "Subscription marginal cost is not computed."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "usage",
+        "nogo",
+        "aireadme",
+        "sessions"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-pi",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "pi:RUN-08",
+      "criterionId": "RUN-08",
+      "answer": "No scheduler, resource limits or check deduplication.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "Pi coding agent v1.5.0 (commit f9a26365568127461c47a07a37dcb42c140a3ac5), released 2026-11-02",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "concurrency": {
+          "support": "unsupported",
+          "answer": "No resource-aware scheduling or deduplication in core.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "queues": {
+          "support": "partial",
+          "answer": "Message queue within a session.",
+          "evidenceIds": [
+            "usage"
+          ]
+        },
+        "cpu_ram": {
+          "support": "unsupported",
+          "answer": "No resource-aware scheduling or deduplication in core.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "backpressure": {
+          "support": "unsupported",
+          "answer": "No resource-aware scheduling or deduplication in core.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "host_awareness": {
+          "support": "unsupported",
+          "answer": "No resource-aware scheduling or deduplication in core.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "check_reuse": {
+          "support": "unsupported",
+          "answer": "No resource-aware scheduling or deduplication in core.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "check_deduplication": {
+          "support": "unsupported",
+          "answer": "No resource-aware scheduling or deduplication in core.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "bounded_tests": {
+          "support": "unsupported",
+          "answer": "No resource-aware scheduling or deduplication in core.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "cancellation": {
+          "support": "supported",
+          "answer": "Escape aborts the current task.",
+          "evidenceIds": [
+            "usage"
+          ]
+        },
+        "fairness": {
+          "support": "unsupported",
+          "answer": "No resource-aware scheduling or deduplication in core.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "recovery": {
+          "support": "unsupported",
+          "answer": "No resource-aware scheduling or deduplication in core.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "shared_limits": {
+          "support": "unsupported",
+          "answer": "No resource-aware scheduling or deduplication in core.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        }
+      },
+      "limitations": [
+        "concurrency: No resource-aware scheduling or deduplication in core.",
+        "queues: Message queue within a session.",
+        "cpu_ram: No resource-aware scheduling or deduplication in core."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "nogo",
+        "usage"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-pi",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "pi:TEAM-01",
+      "criterionId": "TEAM-01",
+      "answer": "Single-user local sessions; /share uploads a session as a viewer link (read-only sharing); no presence or co-prompting.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "Pi coding agent v1.5.0 (commit f9a26365568127461c47a07a37dcb42c140a3ac5), released 2026-11-02",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "visibility": {
+          "support": "partial",
+          "answer": "/share creates a viewer link for a session.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "discussion": {
+          "support": "unsupported",
+          "answer": "No collaboration feature in core (terms: multiplayer, collaborat, co-prompt searched).",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "comments": {
+          "support": "unsupported",
+          "answer": "No collaboration feature in core (terms: multiplayer, collaborat, co-prompt searched).",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "presence": {
+          "support": "unsupported",
+          "answer": "No collaboration feature in core (terms: multiplayer, collaborat, co-prompt searched).",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "coprompting": {
+          "support": "unsupported",
+          "answer": "No collaboration feature in core (terms: multiplayer, collaborat, co-prompt searched).",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "ordering": {
+          "support": "unsupported",
+          "answer": "No collaboration feature in core (terms: multiplayer, collaborat, co-prompt searched).",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "conflicts": {
+          "support": "unsupported",
+          "answer": "No collaboration feature in core (terms: multiplayer, collaborat, co-prompt searched).",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "attribution": {
+          "support": "unsupported",
+          "answer": "No collaboration feature in core (terms: multiplayer, collaborat, co-prompt searched).",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "permissions": {
+          "support": "unsupported",
+          "answer": "No collaboration feature in core (terms: multiplayer, collaborat, co-prompt searched).",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "plan_restrictions": {
+          "support": "unsupported",
+          "answer": "No collaboration feature in core (terms: multiplayer, collaborat, co-prompt searched).",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "owner_online": {
+          "support": "supported",
+          "answer": "Not applicable; shared view is an export.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        }
+      },
+      "limitations": [
+        "No multi-user collaboration; /share is a one-way export."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "sessions",
+        "nogo"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-pi",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "pi:TEAM-02",
+      "criterionId": "TEAM-02",
+      "answer": "No roles, membership or SSO.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "Pi coding agent v1.5.0 (commit f9a26365568127461c47a07a37dcb42c140a3ac5), released 2026-11-02",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "organization_roles": {
+          "support": "unsupported",
+          "answer": "No roles, SSO or provisioning in core (terms: rbac, sso, saml, organization role searched).",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "project_roles": {
+          "support": "unsupported",
+          "answer": "No roles, SSO or provisioning in core (terms: rbac, sso, saml, organization role searched).",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "task_roles": {
+          "support": "unsupported",
+          "answer": "No roles, SSO or provisioning in core (terms: rbac, sso, saml, organization role searched).",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "membership": {
+          "support": "unsupported",
+          "answer": "No roles, SSO or provisioning in core (terms: rbac, sso, saml, organization role searched).",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "sso": {
+          "support": "unsupported",
+          "answer": "No roles, SSO or provisioning in core (terms: rbac, sso, saml, organization role searched).",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "provisioning": {
+          "support": "unsupported",
+          "answer": "No roles, SSO or provisioning in core (terms: rbac, sso, saml, organization role searched).",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "unauthorized_access": {
+          "support": "partial",
+          "answer": "Project trust gates project resources; OS permissions apply.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "revocation": {
+          "support": "unsupported",
+          "answer": "No roles, SSO or provisioning in core (terms: rbac, sso, saml, organization role searched).",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "plan_scope": {
+          "support": "unsupported",
+          "answer": "No roles, SSO or provisioning in core (terms: rbac, sso, saml, organization role searched).",
+          "evidenceIds": [
+            "nogo"
+          ]
+        }
+      },
+      "limitations": [
+        "organization_roles: No roles, SSO or provisioning in core (terms: rbac, sso, saml, organization role searched).",
+        "project_roles: No roles, SSO or provisioning in core (terms: rbac, sso, saml, organization role searched).",
+        "task_roles: No roles, SSO or provisioning in core (terms: rbac, sso, saml, organization role searched)."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "nogo",
+        "security"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-pi",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "pi:TEAM-03",
+      "criterionId": "TEAM-03",
+      "answer": "Pi does not ask for approval before tool calls; project trust approves loading project resources; example permission-gate and confirm-destructive extensions exist; no network or secret approvals.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "Pi coding agent v1.5.0 (commit f9a26365568127461c47a07a37dcb42c140a3ac5), released 2026-11-02",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "command": {
+          "support": "partial",
+          "answer": "Example permission-gate extension only.",
+          "evidenceIds": [
+            "extensions",
+            "usage"
+          ]
+        },
+        "tool": {
+          "support": "partial",
+          "answer": "Optional extensions.",
+          "evidenceIds": [
+            "extensions"
+          ]
+        },
+        "network": {
+          "support": "unsupported",
+          "answer": "No network approvals.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "secret": {
+          "support": "unsupported",
+          "answer": "No secret approvals.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "delivery": {
+          "support": "unsupported",
+          "answer": "No delivery approvals.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "approver_identity": {
+          "support": "unsupported",
+          "answer": "No identity model.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "lifetime": {
+          "support": "partial",
+          "answer": "Saved project-trust decisions persist per directory.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "allow": {
+          "support": "supported",
+          "answer": "Project trust allow.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "deny": {
+          "support": "supported",
+          "answer": "Project trust deny or --no-approve.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "revoke": {
+          "support": "partial",
+          "answer": "Saved decisions can be changed in settings.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "tunnels": {
+          "support": "unsupported",
+          "answer": "No tunnels.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "defaults": {
+          "support": "supported",
+          "answer": "No approval by default.",
+          "evidenceIds": [
+            "usage",
+            "security"
+          ]
+        },
+        "safer_modes": {
+          "support": "partial",
+          "answer": "Containerization patterns and optional extensions.",
+          "evidenceIds": [
+            "contain"
+          ]
+        },
+        "enforcement": {
+          "support": "partial",
+          "answer": "Project trust is enforced by the product; command approvals are not.",
+          "evidenceIds": [
+            "security"
+          ]
+        }
+      },
+      "limitations": [
+        "Default posture is full access with the user account; approvals are optional extensions."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "extensions",
+        "usage",
+        "nogo",
+        "security",
+        "contain"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-pi",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "pi:TEAM-04",
+      "criterionId": "TEAM-04",
+      "answer": "Sessions record messages, tool calls and results locally in editable JSONL files; export to HTML/JSONL; no attributed multi-user history, retention or integrity model.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "Pi coding agent v1.5.0 (commit f9a26365568127461c47a07a37dcb42c140a3ac5), released 2026-11-02",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "actions": {
+          "support": "supported",
+          "answer": "Session entries record tool calls.",
+          "evidenceIds": [
+            "sessionsrc",
+            "sessions"
+          ]
+        },
+        "approvals": {
+          "support": "unsupported",
+          "answer": "No approvals to record.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "edits": {
+          "support": "partial",
+          "answer": "Tool results record edits.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "discussion": {
+          "support": "supported",
+          "answer": "Transcript.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "decisions": {
+          "support": "partial",
+          "answer": "Transcript only.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "cross_user_persistence": {
+          "support": "unsupported",
+          "answer": "Single user.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "cross_session_persistence": {
+          "support": "supported",
+          "answer": "Session files.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "export": {
+          "support": "supported",
+          "answer": "/export and /share.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "mutability": {
+          "support": "supported",
+          "answer": "Session files are plain JSONL and editable.",
+          "evidenceIds": [
+            "sessionsrc"
+          ]
+        },
+        "retention": {
+          "support": "supported",
+          "answer": "User-controlled local files.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "integrity": {
+          "support": "unsupported",
+          "answer": "No integrity protection.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        }
+      },
+      "limitations": [
+        "Local files are mutable; no audit integrity."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "sessionsrc",
+        "sessions",
+        "nogo"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-pi",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "pi:TEAM-05",
+      "criterionId": "TEAM-05",
+      "answer": "No review surface: users inspect tool results in the transcript and use their own diff tools; example extensions (git-checkpoint, pi-review repo) add review flows.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "Pi coding agent v1.5.0 (commit f9a26365568127461c47a07a37dcb42c140a3ac5), released 2026-11-02",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "pending_reviews": {
+          "support": "unsupported",
+          "answer": "No review queue.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "change_understanding": {
+          "support": "partial",
+          "answer": "Tool call output in the transcript.",
+          "evidenceIds": [
+            "usage"
+          ]
+        },
+        "evidence_navigation": {
+          "support": "partial",
+          "answer": "Ctrl+O expands tool output.",
+          "evidenceIds": [
+            "usage"
+          ]
+        },
+        "comments": {
+          "support": "unsupported",
+          "answer": "No comments.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "request_changes": {
+          "support": "partial",
+          "answer": "Send follow-up messages.",
+          "evidenceIds": [
+            "usage"
+          ]
+        },
+        "shipping_guidance": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "effort": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "missed_evidence": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "keyboard": {
+          "support": "supported",
+          "answer": "Terminal keyboard shortcuts and keybindings configuration.",
+          "evidenceIds": [
+            "usage"
+          ]
+        },
+        "narrow_screen": {
+          "support": "partial",
+          "answer": "Terminal width only.",
+          "evidenceIds": [
+            "usage"
+          ]
+        },
+        "context_switching": {
+          "support": "partial",
+          "answer": "Sessions are resumable.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "roles": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "retained_context": {
+          "support": "supported",
+          "answer": "Session history.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        }
+      },
+      "limitations": [
+        "Review is outside core; separate pi-review extension repo exists."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "nogo",
+        "usage",
+        "sessions"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-pi",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "pi:TEAM-06",
+      "criterionId": "TEAM-06",
+      "answer": "No colleague takeover; sessions are local files that can be copied or shared as exports; /fork and /clone branch a session for oneself.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "Pi coding agent v1.5.0 (commit f9a26365568127461c47a07a37dcb42c140a3ac5), released 2026-11-02",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "ongoing_takeover": {
+          "support": "unsupported",
+          "answer": "No multi-person takeover feature in core.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "same_task": {
+          "support": "partial",
+          "answer": "Copy a session file.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "session_history": {
+          "support": "partial",
+          "answer": "Session files and /share exports.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "decisions": {
+          "support": "unsupported",
+          "answer": "No multi-person takeover feature in core.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "artifacts": {
+          "support": "unsupported",
+          "answer": "No multi-person takeover feature in core.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "permissions": {
+          "support": "unsupported",
+          "answer": "No multi-person takeover feature in core.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "runtime_context": {
+          "support": "unsupported",
+          "answer": "No multi-person takeover feature in core.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "owner_disconnect": {
+          "support": "unsupported",
+          "answer": "No multi-person takeover feature in core.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "ownership": {
+          "support": "unsupported",
+          "answer": "No multi-person takeover feature in core.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "attribution": {
+          "support": "unsupported",
+          "answer": "No multi-person takeover feature in core.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "context_loss": {
+          "support": "unsupported",
+          "answer": "No multi-person takeover feature in core.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "harness_transfer": {
+          "support": "partial",
+          "answer": "Models can be switched in a session; harness is fixed.",
+          "evidenceIds": [
+            "usage"
+          ]
+        }
+      },
+      "limitations": [
+        "ongoing_takeover: No multi-person takeover feature in core.",
+        "same_task: Copy a session file.",
+        "session_history: Session files and /share exports."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "nogo",
+        "sessions",
+        "usage"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-pi",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "pi:SHIP-01",
+      "criterionId": "SHIP-01",
+      "answer": "Retained outputs are the session transcript with tool results, HTML/JSONL exports and shared viewer links; no screenshots, recordings, previews or gallery.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "Pi coding agent v1.5.0 (commit f9a26365568127461c47a07a37dcb42c140a3ac5), released 2026-11-02",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "diffs": {
+          "support": "partial",
+          "answer": "Edit tool results in the transcript.",
+          "evidenceIds": [
+            "usage"
+          ]
+        },
+        "documents": {
+          "support": "partial",
+          "answer": "Files the agent writes in the repository.",
+          "evidenceIds": [
+            "usage"
+          ]
+        },
+        "screenshots": {
+          "support": "partial",
+          "answer": "Image input supported; no screenshot store.",
+          "evidenceIds": [
+            "usage"
+          ]
+        },
+        "recordings": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "previews": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "test_outputs": {
+          "support": "supported",
+          "answer": "Command output in the transcript.",
+          "evidenceIds": [
+            "usage"
+          ]
+        },
+        "reviewer_outputs": {
+          "support": "unsupported",
+          "answer": "None in core.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "gallery": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "task_links": {
+          "support": "partial",
+          "answer": "Session-level only.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "revision_links": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "persistence": {
+          "support": "supported",
+          "answer": "Session files persist.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "child_findings": {
+          "support": "unknown",
+          "answer": "Subagent example not exercised.",
+          "evidenceIds": []
+        },
+        "prompt_leakage": {
+          "support": "unknown",
+          "answer": "Not established.",
+          "evidenceIds": []
+        }
+      },
+      "limitations": [
+        "No artifact gallery or retained reviewer outputs."
+      ],
+      "unknownReason": "See unknown atomic answers for the closed-component, hosted-service or business-fact gaps.",
+      "evidenceIds": [
+        "usage",
+        "nogo",
+        "sessions"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-pi",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "pi:SHIP-02",
+      "criterionId": "SHIP-02",
+      "answer": "No enforced verification: the agent can run tests and linters via bash; no CI integration, gates or review requirements in core.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "Pi coding agent v1.5.0 (commit f9a26365568127461c47a07a37dcb42c140a3ac5), released 2026-11-02",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "tests": {
+          "support": "partial",
+          "answer": "Agent runs tests via bash if asked.",
+          "evidenceIds": [
+            "usage"
+          ]
+        },
+        "lint": {
+          "support": "partial",
+          "answer": "Same.",
+          "evidenceIds": [
+            "usage"
+          ]
+        },
+        "types": {
+          "support": "partial",
+          "answer": "Same.",
+          "evidenceIds": [
+            "usage"
+          ]
+        },
+        "ci": {
+          "support": "unsupported",
+          "answer": "No gate or required check in core.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "independent_review": {
+          "support": "unsupported",
+          "answer": "No gate or required check in core.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "spec_checks": {
+          "support": "unsupported",
+          "answer": "No gate or required check in core.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "required_checks": {
+          "support": "unsupported",
+          "answer": "No gate or required check in core.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "failure_blocking": {
+          "support": "unsupported",
+          "answer": "No gate or required check in core.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "requirement_conflicts": {
+          "support": "unsupported",
+          "answer": "No gate or required check in core.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "configured_policy": {
+          "support": "unsupported",
+          "answer": "No gate or required check in core.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "enforced_policy": {
+          "support": "unsupported",
+          "answer": "No gate or required check in core.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        }
+      },
+      "limitations": [
+        "tests: Agent runs tests via bash if asked.",
+        "lint: Same.",
+        "types: Same."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "usage",
+        "nogo"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-pi",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "pi:SHIP-03",
+      "criterionId": "SHIP-03",
+      "answer": "Pi has no Git or pull request workflow; the agent uses git through bash, and example extensions add auto-commit on exit, git-checkpoint and merge-and-resolve.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "Pi coding agent v1.5.0 (commit f9a26365568127461c47a07a37dcb42c140a3ac5), released 2026-11-02",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "branches": {
+          "support": "partial",
+          "answer": "Agent runs git commands.",
+          "evidenceIds": [
+            "usage"
+          ]
+        },
+        "worktrees": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "commits": {
+          "support": "partial",
+          "answer": "Optional auto-commit-on-exit example extension.",
+          "evidenceIds": [
+            "extensions"
+          ]
+        },
+        "pull_requests": {
+          "support": "unsupported",
+          "answer": "No pull request integration.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "comments": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "ci_response": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "rebase": {
+          "support": "partial",
+          "answer": "Example git-merge-and-resolve extension.",
+          "evidenceIds": [
+            "extensions"
+          ]
+        },
+        "conflicts": {
+          "support": "partial",
+          "answer": "Same example.",
+          "evidenceIds": [
+            "extensions"
+          ]
+        },
+        "product_state": {
+          "support": "unsupported",
+          "answer": "No product state for Git.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        }
+      },
+      "limitations": [
+        "Git help is optional example code and agent shell commands."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "usage",
+        "nogo",
+        "extensions"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-pi",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "pi:SHIP-04",
+      "criterionId": "SHIP-04",
+      "answer": "No merge, release or deployment authority features.",
+      "support": "unsupported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "Pi coding agent v1.5.0 (commit f9a26365568127461c47a07a37dcb42c140a3ac5), released 2026-11-02",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "approve": {
+          "support": "unsupported",
+          "answer": "No merge, release or deployment feature in core.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "merge": {
+          "support": "unsupported",
+          "answer": "No merge, release or deployment feature in core.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "release": {
+          "support": "unsupported",
+          "answer": "No merge, release or deployment feature in core.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "deploy": {
+          "support": "unsupported",
+          "answer": "No merge, release or deployment feature in core.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "exact_revision": {
+          "support": "unsupported",
+          "answer": "No merge, release or deployment feature in core.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "authority_enforcement": {
+          "support": "unsupported",
+          "answer": "No merge, release or deployment feature in core.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "nogo"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-pi",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "pi:SHIP-05",
+      "criterionId": "SHIP-05",
+      "answer": "No delivery tracking or rollback; session history and Git are the only records.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "Pi coding agent v1.5.0 (commit f9a26365568127461c47a07a37dcb42c140a3ac5), released 2026-11-02",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "commit_links": {
+          "support": "unsupported",
+          "answer": "No delivery evidence feature in core.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "pr_links": {
+          "support": "unsupported",
+          "answer": "No delivery evidence feature in core.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "build_links": {
+          "support": "unsupported",
+          "answer": "No delivery evidence feature in core.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "deployment_links": {
+          "support": "unsupported",
+          "answer": "No delivery evidence feature in core.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "delivery_status": {
+          "support": "unsupported",
+          "answer": "No delivery evidence feature in core.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "retained_evidence": {
+          "support": "partial",
+          "answer": "Session transcript.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "rollback": {
+          "support": "unsupported",
+          "answer": "No delivery evidence feature in core.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "revert": {
+          "support": "unsupported",
+          "answer": "No delivery evidence feature in core.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "stale_approval_invalidation": {
+          "support": "unsupported",
+          "answer": "No delivery evidence feature in core.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        }
+      },
+      "limitations": [
+        "commit_links: No delivery evidence feature in core.",
+        "pr_links: No delivery evidence feature in core.",
+        "build_links: No delivery evidence feature in core."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "nogo",
+        "sessions"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-pi",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "pi:SHIP-06",
+      "criterionId": "SHIP-06",
+      "answer": "No batch review or shipping queue.",
+      "support": "unsupported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "Pi coding agent v1.5.0 (commit f9a26365568127461c47a07a37dcb42c140a3ac5), released 2026-11-02",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "review_queue": {
+          "support": "unsupported",
+          "answer": "No review queue in core (separate pi-review repo is an extension).",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "summaries": {
+          "support": "unsupported",
+          "answer": "No review queue in core (separate pi-review repo is an extension).",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "grouping": {
+          "support": "unsupported",
+          "answer": "No review queue in core (separate pi-review repo is an extension).",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "risk_size_filters": {
+          "support": "unsupported",
+          "answer": "No review queue in core (separate pi-review repo is an extension).",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "findings": {
+          "support": "unsupported",
+          "answer": "No review queue in core (separate pi-review repo is an extension).",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "artifacts": {
+          "support": "unsupported",
+          "answer": "No review queue in core (separate pi-review repo is an extension).",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "request_changes": {
+          "support": "unsupported",
+          "answer": "No review queue in core (separate pi-review repo is an extension).",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "exact_revision_approval": {
+          "support": "unsupported",
+          "answer": "No review queue in core (separate pi-review repo is an extension).",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "dependency_queues": {
+          "support": "unsupported",
+          "answer": "No review queue in core (separate pi-review repo is an extension).",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "next_actions": {
+          "support": "unsupported",
+          "answer": "No review queue in core (separate pi-review repo is an extension).",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "stale_approval_invalidation": {
+          "support": "unsupported",
+          "answer": "No review queue in core (separate pi-review repo is an extension).",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "check_deduplication": {
+          "support": "unsupported",
+          "answer": "No review queue in core (separate pi-review repo is an extension).",
+          "evidenceIds": [
+            "nogo"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "nogo"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-pi",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "pi:OWN-01",
+      "criterionId": "OWN-01",
+      "answer": "Monorepo is MIT-licensed at v1.5.0 (coding agent, agent core, ai, tui, durable); related organization repositories (gondolin, pi-chat) are Apache-2.0; no hosted extension of Pi itself found.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli",
+          "rpc"
+        ],
+        "version": "Pi coding agent v1.5.0 (commit f9a26365568127461c47a07a37dcb42c140a3ac5), released 2026-11-02",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "client_license": {
+          "support": "supported",
+          "answer": "MIT for the monorepo.",
+          "evidenceIds": [
+            "license",
+            "pkgjson",
+            "repo"
+          ]
+        },
+        "server_license": {
+          "support": "unsupported",
+          "answer": "No server component.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "hosted_extensions": {
+          "support": "unknown",
+          "answer": "Closed or hosted: the Radius service and pi.dev catalog are hosted components outside the repository.",
+          "evidenceIds": []
+        },
+        "source_visibility": {
+          "support": "supported",
+          "answer": "Public repository.",
+          "evidenceIds": [
+            "repo"
+          ]
+        },
+        "source_revision": {
+          "support": "supported",
+          "answer": "Tag v1.5.0 at the pinned commit.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "hosted_parity": {
+          "support": "unsupported",
+          "answer": "Repository does not claim hosted parity; no hosted Pi product found.",
+          "evidenceIds": [
+            "pidev"
+          ]
+        }
+      },
+      "limitations": [
+        "Radius gateway and pi.dev model catalog are separate hosted services."
+      ],
+      "unknownReason": "See unknown atomic answers for the closed-component, hosted-service or business-fact gaps.",
+      "evidenceIds": [
+        "license",
+        "pkgjson",
+        "repo",
+        "nogo",
+        "pidev"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-05-15",
+      "researcher": "researcher-pi",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "pi:OWN-02",
+      "criterionId": "OWN-02",
+      "answer": "Entirely local software installable from npm, scripts or Nix; offline mode disables automatic network activity; only model providers are external; session export in HTML/JSONL.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "Pi coding agent v1.5.0 (commit f9a26365568127461c47a07a37dcb42c140a3ac5), released 2026-11-02",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "self_hosting": {
+          "support": "supported",
+          "answer": "Runs on user hardware.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "vendor_dependencies": {
+          "support": "supported",
+          "answer": "No required Pi vendor service; model catalog refresh uses pi.dev unless PI_OFFLINE.",
+          "evidenceIds": [
+            "envvars",
+            "readme"
+          ]
+        },
+        "export": {
+          "support": "supported",
+          "answer": "/export HTML or JSONL.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "import": {
+          "support": "partial",
+          "answer": "Session files can be opened with --session-dir.",
+          "evidenceIds": [
+            "sessions",
+            "cli"
+          ]
+        },
+        "formats": {
+          "support": "supported",
+          "answer": "JSONL session format is documented.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "cancellation": {
+          "support": "supported",
+          "answer": "No account to cancel.",
+          "evidenceIds": [
+            "quickstart"
+          ]
+        },
+        "account_independence": {
+          "support": "supported",
+          "answer": "No Pi account.",
+          "evidenceIds": [
+            "quickstart"
+          ]
+        },
+        "history_portability": {
+          "support": "supported",
+          "answer": "Plain session files.",
+          "evidenceIds": [
+            "sessionsrc"
+          ]
+        }
+      },
+      "limitations": [
+        "import: Session files can be opened with --session-dir."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "envvars",
+        "sessions",
+        "cli",
+        "quickstart",
+        "sessionsrc"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-05-15",
+      "researcher": "researcher-pi",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "pi:OWN-03",
+      "criterionId": "OWN-03",
+      "answer": "Prompts, code and credentials go to the selected model provider; Pi stores sessions and auth.json locally; /share uploads a session to Radius or a private GitHub gist on request; install/update telemetry is on by default (enableInstallTelemetry) with PI_TELEMETRY and a setting to opt out; analytics is opt-in.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "Pi coding agent v1.5.0 (commit f9a26365568127461c47a07a37dcb42c140a3ac5), released 2026-11-02",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "code_data": {
+          "support": "supported",
+          "answer": "Sent to the configured model provider and local tools.",
+          "evidenceIds": [
+            "providers",
+            "security"
+          ]
+        },
+        "prompts": {
+          "support": "supported",
+          "answer": "Same.",
+          "evidenceIds": [
+            "providers"
+          ]
+        },
+        "credentials": {
+          "support": "supported",
+          "answer": "auth.json local storage.",
+          "evidenceIds": [
+            "providers"
+          ]
+        },
+        "logs": {
+          "support": "supported",
+          "answer": "Local session and crash logs.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "artifacts": {
+          "support": "partial",
+          "answer": "Exports are local; /share uploads on request.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "retention": {
+          "support": "partial",
+          "answer": "Local files retained until deleted; shared uploads follow service terms.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "deletion": {
+          "support": "partial",
+          "answer": "User deletes local files.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "training": {
+          "support": "unknown",
+          "answer": "Closed or hosted: provider policies.",
+          "evidenceIds": []
+        },
+        "residency": {
+          "support": "unknown",
+          "answer": "Closed or hosted: provider policies.",
+          "evidenceIds": []
+        },
+        "subprocessors": {
+          "support": "unknown",
+          "answer": "Closed or hosted.",
+          "evidenceIds": []
+        },
+        "telemetry_disclosure": {
+          "support": "supported",
+          "answer": "Settings and environment docs describe install telemetry.",
+          "evidenceIds": [
+            "settings",
+            "envvars"
+          ]
+        },
+        "telemetry_defaults": {
+          "support": "supported",
+          "answer": "enableInstallTelemetry defaults true; enableAnalytics defaults false.",
+          "evidenceIds": [
+            "settings"
+          ]
+        },
+        "telemetry_controls": {
+          "support": "supported",
+          "answer": "PI_TELEMETRY=0 and the setting disable it; PI_OFFLINE disables network activity.",
+          "evidenceIds": [
+            "envvars",
+            "settings",
+            "telemetrysrc"
+          ]
+        },
+        "consent_prompt": {
+          "support": "partial",
+          "answer": "enableAnalytics is used by an experimental first-run setup.",
+          "evidenceIds": [
+            "settings"
+          ]
+        },
+        "provider_separation": {
+          "support": "supported",
+          "answer": "Pi telemetry is separate from model providers.",
+          "evidenceIds": [
+            "settings",
+            "providers"
+          ]
+        }
+      },
+      "limitations": [
+        "Provider retention, training and residency are outside the repository."
+      ],
+      "unknownReason": "See unknown atomic answers for the closed-component, hosted-service or business-fact gaps.",
+      "evidenceIds": [
+        "providers",
+        "security",
+        "sessions",
+        "settings",
+        "envvars",
+        "telemetrysrc"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-pi",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "pi:OWN-04",
+      "criterionId": "OWN-04",
+      "answer": "Pi is free and open source with no paid plan in the checked sources; model provider charges and optional Radius gateway are separate.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "Pi coding agent v1.5.0 (commit f9a26365568127461c47a07a37dcb42c140a3ac5), released 2026-11-02",
+        "plan": "Free MIT software",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "currency": {
+          "support": "supported",
+          "answer": "No price; free.",
+          "evidenceIds": [
+            "pidev",
+            "license"
+          ]
+        },
+        "interval": {
+          "support": "unsupported",
+          "answer": "No billing interval.",
+          "evidenceIds": [
+            "pidev"
+          ]
+        },
+        "seats": {
+          "support": "supported",
+          "answer": "No seats.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "seat_minimum": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "pidev"
+          ]
+        },
+        "workspace_fees": {
+          "support": "supported",
+          "answer": "None.",
+          "evidenceIds": [
+            "pidev"
+          ]
+        },
+        "included_usage": {
+          "support": "unsupported",
+          "answer": "None; provider usage is separate.",
+          "evidenceIds": [
+            "providers"
+          ]
+        },
+        "credits": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "pidev"
+          ]
+        },
+        "trial": {
+          "support": "unsupported",
+          "answer": "Not applicable.",
+          "evidenceIds": [
+            "pidev"
+          ]
+        },
+        "overages": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "pidev"
+          ]
+        },
+        "taxes": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "pidev"
+          ]
+        },
+        "model_cost": {
+          "support": "supported",
+          "answer": "Model costs are paid to providers.",
+          "evidenceIds": [
+            "providers"
+          ]
+        },
+        "compute_cost": {
+          "support": "supported",
+          "answer": "User hardware.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Radius pricing was not checked."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "pidev",
+        "license",
+        "providers",
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-01-15",
+      "researcher": "researcher-pi",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "pi:OWN-05",
+      "criterionId": "OWN-05",
+      "answer": "ADE cost is $0 for one, two and five developers; model provider and own-compute costs are variable and unpriced here.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "Pi coding agent v1.5.0 (commit f9a26365568127461c47a07a37dcb42c140a3ac5), released 2026-11-02",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "one_person": {
+          "support": "supported",
+          "answer": "$0 for Pi.",
+          "evidenceIds": [
+            "pidev",
+            "license"
+          ]
+        },
+        "two_people": {
+          "support": "supported",
+          "answer": "$0 for Pi.",
+          "evidenceIds": [
+            "pidev",
+            "license"
+          ]
+        },
+        "five_people": {
+          "support": "supported",
+          "answer": "$0 for Pi.",
+          "evidenceIds": [
+            "pidev",
+            "license"
+          ]
+        },
+        "task_assumptions": {
+          "support": "unknown",
+          "answer": "No catalog workload assumptions.",
+          "evidenceIds": []
+        },
+        "concurrency": {
+          "support": "unknown",
+          "answer": "Not modeled.",
+          "evidenceIds": []
+        },
+        "tokens": {
+          "support": "unknown",
+          "answer": "Not modeled.",
+          "evidenceIds": []
+        },
+        "compute_hours": {
+          "support": "unknown",
+          "answer": "Not modeled.",
+          "evidenceIds": []
+        },
+        "fixed_cost": {
+          "support": "supported",
+          "answer": "$0.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "variable_cost": {
+          "support": "supported",
+          "answer": "Provider tokens vary.",
+          "evidenceIds": [
+            "providers"
+          ]
+        },
+        "included_cost": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "pidev"
+          ]
+        },
+        "unknown_cost": {
+          "support": "partial",
+          "answer": "Provider costs unknown.",
+          "evidenceIds": [
+            "providers"
+          ]
+        }
+      },
+      "limitations": [
+        "No workload pricing."
+      ],
+      "unknownReason": "See unknown atomic answers for the closed-component, hosted-service or business-fact gaps.",
+      "evidenceIds": [
+        "pidev",
+        "license",
+        "providers"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-pi",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "pi:OWN-06",
+      "criterionId": "OWN-06",
+      "answer": "Stable releases (v1.5.0 on 2026-11-02) with frequent repository activity; new contributors face auto-close of issues by default; durable runtime experimental; support via GitHub and Discord.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "Pi coding agent v1.5.0 (commit f9a26365568127461c47a07a37dcb42c140a3ac5), released 2026-11-02",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "release_stage": {
+          "support": "supported",
+          "answer": "Released v1.5.0; durable experimental.",
+          "evidenceIds": [
+            "release",
+            "durable"
+          ]
+        },
+        "access_restrictions": {
+          "support": "supported",
+          "answer": "Contribution gating: new contributor issues and PRs auto-closed.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "support": {
+          "support": "partial",
+          "answer": "GitHub issues and Discord linked from README/homepage.",
+          "evidenceIds": [
+            "readme",
+            "pidev"
+          ]
+        },
+        "response_commitments": {
+          "support": "unknown",
+          "answer": "Business fact: no SLA stated.",
+          "evidenceIds": []
+        },
+        "release_activity": {
+          "support": "supported",
+          "answer": "Release 2026-11-02, repository pushed 2026-11-16.",
+          "evidenceIds": [
+            "release",
+            "repo"
+          ]
+        },
+        "status_history": {
+          "support": "unknown",
+          "answer": "No status page checked.",
+          "evidenceIds": []
+        },
+        "deprecation": {
+          "support": "unknown",
+          "answer": "No deprecation notices recorded in this pass.",
+          "evidenceIds": []
+        },
+        "export_options": {
+          "support": "supported",
+          "answer": "Session export.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        }
+      },
+      "limitations": [
+        "Response commitments not stated."
+      ],
+      "unknownReason": "See unknown atomic answers for the closed-component, hosted-service or business-fact gaps.",
+      "evidenceIds": [
+        "release",
+        "durable",
+        "readme",
+        "pidev",
+        "repo",
+        "sessions"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-pi",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "pi:OWN-07",
+      "criterionId": "OWN-07",
+      "answer": "No ISO or SOC 2 evidence for Pi was found; certification is a business fact outside the public code.",
+      "support": "unknown",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "Pi coding agent v1.5.0 (commit f9a26365568127461c47a07a37dcb42c140a3ac5), released 2026-11-02",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "iso_scope": {
+          "support": "unknown",
+          "answer": "Business fact or hosted service: no certification or audit reports are claimed in the repository or pi.dev pages checked.",
+          "evidenceIds": []
+        },
+        "iso_issuer": {
+          "support": "unknown",
+          "answer": "Business fact or hosted service: no certification or audit reports are claimed in the repository or pi.dev pages checked.",
+          "evidenceIds": []
+        },
+        "iso_validity": {
+          "support": "unknown",
+          "answer": "Business fact or hosted service: no certification or audit reports are claimed in the repository or pi.dev pages checked.",
+          "evidenceIds": []
+        },
+        "soc2_type": {
+          "support": "unknown",
+          "answer": "Business fact or hosted service: no certification or audit reports are claimed in the repository or pi.dev pages checked.",
+          "evidenceIds": []
+        },
+        "soc2_scope": {
+          "support": "unknown",
+          "answer": "Business fact or hosted service: no certification or audit reports are claimed in the repository or pi.dev pages checked.",
+          "evidenceIds": []
+        },
+        "soc2_period": {
+          "support": "unknown",
+          "answer": "Business fact or hosted service: no certification or audit reports are claimed in the repository or pi.dev pages checked.",
+          "evidenceIds": []
+        },
+        "report_access": {
+          "support": "unknown",
+          "answer": "Business fact or hosted service: no certification or audit reports are claimed in the repository or pi.dev pages checked.",
+          "evidenceIds": []
+        },
+        "verification_date": {
+          "support": "unknown",
+          "answer": "Business fact or hosted service: no certification or audit reports are claimed in the repository or pi.dev pages checked.",
+          "evidenceIds": []
+        },
+        "evidence_status": {
+          "support": "unknown",
+          "answer": "Business fact or hosted service: no certification or audit reports are claimed in the repository or pi.dev pages checked.",
+          "evidenceIds": []
+        }
+      },
+      "limitations": [],
+      "unknownReason": "Business-fact question: certification status cannot be established from public code and no first-party claim was found.",
+      "evidenceIds": [],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-pi",
+      "publication": "internal-only",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "pi:OWN-08",
+      "criterionId": "OWN-08",
+      "answer": "Free MIT software with no account; users pay only model providers; local models avoid payment.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "Pi coding agent v1.5.0 (commit f9a26365568127461c47a07a37dcb42c140a3ac5), released 2026-11-02",
+        "plan": "Free MIT software",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "ongoing_free": {
+          "support": "supported",
+          "answer": "Free open-source download.",
+          "evidenceIds": [
+            "pidev",
+            "license"
+          ]
+        },
+        "trial": {
+          "support": "unsupported",
+          "answer": "Not applicable.",
+          "evidenceIds": [
+            "pidev"
+          ]
+        },
+        "credits_trial": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "pidev"
+          ]
+        },
+        "self_host_cost": {
+          "support": "supported",
+          "answer": "User machine; no license fee.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "paid_only": {
+          "support": "unsupported",
+          "answer": "No paid-only tier found.",
+          "evidenceIds": [
+            "pidev"
+          ]
+        },
+        "early_access": {
+          "support": "partial",
+          "answer": "Experimental durable runtime.",
+          "evidenceIds": [
+            "durable"
+          ]
+        },
+        "free_scenarios": {
+          "support": "partial",
+          "answer": "Local single-user use free; collaboration, issues, mobile, review not offered.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "card_required": {
+          "support": "supported",
+          "answer": "No card; no account.",
+          "evidenceIds": [
+            "quickstart"
+          ]
+        },
+        "usage_caps": {
+          "support": "unsupported",
+          "answer": "No Pi caps.",
+          "evidenceIds": [
+            "pidev"
+          ]
+        },
+        "paid_evaluation": {
+          "support": "supported",
+          "answer": "No payment needed to evaluate with a local model.",
+          "evidenceIds": [
+            "models",
+            "quickstart"
+          ]
+        }
+      },
+      "limitations": [
+        "trial: Not applicable.",
+        "credits_trial: None.",
+        "paid_only: No paid-only tier found."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "pidev",
+        "license",
+        "durable",
+        "nogo",
+        "quickstart",
+        "models"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-01-15",
+      "researcher": "researcher-pi",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "pi:OWN-09",
+      "criterionId": "OWN-09",
+      "answer": "Pi has no price; transparency class: no paid plan in checked sources; Radius and provider prices are separate.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "Pi coding agent v1.5.0 (commit f9a26365568127461c47a07a37dcb42c140a3ac5), released 2026-11-02",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "units": {
+          "support": "unsupported",
+          "answer": "No Pi pricing exists to specify.",
+          "evidenceIds": [
+            "pidev"
+          ]
+        },
+        "included_limits": {
+          "support": "unsupported",
+          "answer": "No Pi pricing exists to specify.",
+          "evidenceIds": [
+            "pidev"
+          ]
+        },
+        "overages": {
+          "support": "unsupported",
+          "answer": "No Pi pricing exists to specify.",
+          "evidenceIds": [
+            "pidev"
+          ]
+        },
+        "compute_markup": {
+          "support": "unsupported",
+          "answer": "No Pi pricing exists to specify.",
+          "evidenceIds": [
+            "pidev"
+          ]
+        },
+        "model_markup": {
+          "support": "unsupported",
+          "answer": "No Pi pricing exists to specify.",
+          "evidenceIds": [
+            "pidev"
+          ]
+        },
+        "minimum_commitment": {
+          "support": "unsupported",
+          "answer": "No Pi pricing exists to specify.",
+          "evidenceIds": [
+            "pidev"
+          ]
+        },
+        "cancellation": {
+          "support": "unsupported",
+          "answer": "No Pi pricing exists to specify.",
+          "evidenceIds": [
+            "pidev"
+          ]
+        },
+        "sales_only_unknowns": {
+          "support": "unsupported",
+          "answer": "No Pi pricing exists to specify.",
+          "evidenceIds": [
+            "pidev"
+          ]
+        },
+        "transparency_classification": {
+          "support": "partial",
+          "answer": "No paid plan found; Radius not checked.",
+          "evidenceIds": [
+            "pidev"
+          ]
+        }
+      },
+      "limitations": [
+        "units: No Pi pricing exists to specify.",
+        "included_limits: No Pi pricing exists to specify.",
+        "overages: No Pi pricing exists to specify."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "pidev"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-pi",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    }
+  ],
+  "evidence": [
+    {
+      "id": "readme",
+      "kind": "documented",
+      "url": "https://github.com/earendil-works/pi/blob/v1.5.0/README.md",
+      "title": "Pi README",
+      "locator": "Sections intro, Getting started, Packages, Permissions & Containerization",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Pi is a minimal extensible agent harness; skips sub-agents and plan mode; interactive, print/JSON, RPC and SDK modes; installs via curl/PowerShell/npm/Nix; no built-in permission system; requires Node.js 22.19+.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "usage",
+      "kind": "documented",
+      "url": "https://github.com/earendil-works/pi/blob/v1.5.0/packages/coding-agent/docs/usage.md",
+      "title": "Use Pi in the terminal",
+      "locator": "Enter a prompt; Change direction; Continue or start over; Run a terminal command",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Terminal transcript and editor; Enter steers a running task, Alt+Enter queues a follow-up, Escape stops; sessions auto-saved, /resume, /tree, /fork, /compact, /export; footer shows context usage and accumulated cost.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "quickstart",
+      "kind": "documented",
+      "url": "https://github.com/earendil-works/pi/blob/v1.5.0/packages/coding-agent/docs/quickstart.md",
+      "title": "Pi quickstart",
+      "locator": "Install and /login",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Install, run pi in a folder, /login to use a subscription, API key or a local model.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "providers",
+      "kind": "documented",
+      "url": "https://github.com/earendil-works/pi/blob/v1.5.0/packages/coding-agent/docs/providers.md",
+      "title": "Providers",
+      "locator": "Authenticate interactively; environment variables table",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "/login supports OAuth or API keys; many providers (Anthropic, OpenAI, Google Gemini, GitHub Copilot, Mistral, Groq, xAI, OpenRouter, Bedrock, Vertex and more); credentials stored in auth.json.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "aireadme",
+      "kind": "documented",
+      "url": "https://github.com/earendil-works/pi/blob/v1.5.0/packages/ai/README.md",
+      "title": "pi-ai README",
+      "locator": "Supported providers; OAuth providers",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Lists API-key providers and OAuth providers including OpenAI Codex (ChatGPT Plus/Pro, legacy), GitHub Copilot and Kimi For Coding subscription endpoint.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "mcp",
+      "kind": "documented",
+      "url": "https://github.com/earendil-works/pi/blob/v1.5.0/packages/coding-agent/docs/mcp.md",
+      "title": "MCP servers",
+      "locator": "Quick setup; Configure servers",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Pi is an MCP client for stdio and streamable HTTP servers with pi mcp add/list, /mcp, user and project config and bearer/OAuth auth; project config needs project trust.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "security",
+      "kind": "documented",
+      "url": "https://github.com/earendil-works/pi/blob/v1.5.0/packages/coding-agent/docs/security.md",
+      "title": "Run Pi safely",
+      "locator": "Choose how to run Pi; Understand project trust",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Pi does not ask approval before every tool call and has no security boundary; project trust gates loading of .pi resources; sandboxing is by running Pi in container, VM or sandbox.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "contain",
+      "kind": "documented",
+      "url": "https://github.com/earendil-works/pi/blob/v1.5.0/packages/coding-agent/docs/containerization.md",
+      "title": "Run Pi in an isolated environment",
+      "locator": "Choose an isolation method",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Plain Docker, Docker Sandboxes, OpenShell and the Gondolin micro-VM extension are documented isolation methods; credentials handling differs.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "rpc",
+      "kind": "documented",
+      "url": "https://github.com/earendil-works/pi/blob/v1.5.0/packages/coding-agent/docs/rpc.md",
+      "title": "RPC mode",
+      "locator": "Start RPC mode; Protocol records; Reference",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "pi --mode rpc runs Pi as a subprocess with JSONL commands, responses and events for IDEs and custom UIs; extension UI forwarding.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "sdk",
+      "kind": "documented",
+      "url": "https://github.com/earendil-works/pi/blob/v1.5.0/packages/coding-agent/docs/sdk.md",
+      "title": "SDK",
+      "locator": "Session lifecycle; Prompting; Subscribing to events",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "TypeScript SDK embeds Pi sessions in Node.js or Bun with prompting, events and session configuration.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "sessions",
+      "kind": "documented",
+      "url": "https://github.com/earendil-works/pi/blob/v1.5.0/packages/coding-agent/docs/sessions.md",
+      "title": "Sessions and context",
+      "locator": "Continue or switch sessions; Choose how to branch; Manage conversation context; Export or share a session",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Saved sessions with /resume, /tree, /fork, /clone, compaction, /export HTML/JSONL and /share upload.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "settings",
+      "kind": "documented",
+      "url": "https://github.com/earendil-works/pi/blob/v1.5.0/packages/coding-agent/docs/settings.md",
+      "title": "Settings",
+      "locator": "Retry; Updates, telemetry, and warnings",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Retry settings (3 retries, exponential backoff); enableInstallTelemetry default true; enableAnalytics default false.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "envvars",
+      "kind": "documented",
+      "url": "https://github.com/earendil-works/pi/blob/v1.5.0/packages/coding-agent/docs/environment-variables.md",
+      "title": "Environment variables",
+      "locator": "PI_OFFLINE, PI_TELEMETRY",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "PI_TELEMETRY overrides install/update telemetry and attribution headers; PI_OFFLINE disables automatic network activity.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "packages",
+      "kind": "documented",
+      "url": "https://github.com/earendil-works/pi/blob/v1.5.0/packages/coding-agent/docs/packages.md",
+      "title": "Packages",
+      "locator": "Install and manage packages; Create a package",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Pi packages bundle extensions, skills, prompt templates and themes installed from npm, git or paths with project or user scope.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "extensions",
+      "kind": "documented",
+      "url": "https://github.com/earendil-works/pi/blob/v1.5.0/packages/coding-agent/docs/extensions.md",
+      "title": "Extensions",
+      "locator": "Examples table (subagent/, plan-mode/, ssh.ts, git-checkpoint, permission-gate, notify, todo)",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Extensions register tools, commands, UI and hooks; the examples directory ships optional example extensions for sub-agents, plan mode, SSH, permission gates, git checkpoints and todos that are not enabled by default.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "skills",
+      "kind": "documented",
+      "url": "https://github.com/earendil-works/pi/blob/v1.5.0/packages/coding-agent/docs/skills.md",
+      "title": "Skills",
+      "locator": "Skill format and discovery",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Pi loads agent skills, AGENTS.md and CLAUDE.md context files and prompt templates.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "models",
+      "kind": "documented",
+      "url": "https://github.com/earendil-works/pi/blob/v1.5.0/packages/coding-agent/docs/models.md",
+      "title": "Choose a model",
+      "locator": "Select models; local models",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Models are selected with /model; custom and local providers (llama.cpp docs) can be configured through models.json.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "windows",
+      "kind": "documented",
+      "url": "https://github.com/earendil-works/pi/blob/v1.5.0/packages/coding-agent/docs/windows.md",
+      "title": "Run Pi on Windows",
+      "locator": "Choose native Windows or WSL",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Native Windows (Git Bash or PowerShell tool) or WSL are supported; README also documents Termux and Nix for Linux/macOS.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "compaction",
+      "kind": "documented",
+      "url": "https://github.com/earendil-works/pi/blob/v1.5.0/packages/coding-agent/docs/compaction.md",
+      "title": "Compaction",
+      "locator": "Automatic and manual compaction",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Conversation history is compacted manually or automatically near the context limit.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "cli",
+      "kind": "documented",
+      "url": "https://github.com/earendil-works/pi/blob/v1.5.0/packages/coding-agent/docs/cli.md",
+      "title": "Command line",
+      "locator": "Modes and options",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Interactive, print (-p), JSON and RPC modes; --continue, --session-dir, --no-session, --offline.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "durable",
+      "kind": "documented",
+      "url": "https://github.com/earendil-works/pi/blob/v1.5.0/packages/durable/README.md",
+      "title": "pi-durable README",
+      "locator": "Intro; Persist and Resume; Abort and Subagents",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Experimental durable agent harness runtime committing conversations and tool calls to storage so a dead process resumes; API changes without notice.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "piclaude",
+      "kind": "documented",
+      "url": "https://github.com/earendil-works/pi-claude-code",
+      "title": "pi-claude-code repository",
+      "locator": "Repository description",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Community-style provider in the earendil-works organization to access a Claude Code subscription via claude-code in Pi.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "pichat",
+      "kind": "documented",
+      "url": "https://github.com/earendil-works/pi-chat",
+      "title": "pi-chat repository",
+      "locator": "README and repository header",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Separate Apache-2.0 repository for Slack/chat automation and workflows with Pi.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "gondolin",
+      "kind": "documented",
+      "url": "https://github.com/earendil-works/gondolin",
+      "title": "Gondolin repository",
+      "locator": "Repository description",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Experimental Linux micro-VM sandbox with a TypeScript control plane (Apache-2.0), used by the Gondolin extension to isolate built-in tools.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "release",
+      "kind": "documented",
+      "url": "https://github.com/earendil-works/pi/releases/tag/v1.5.0",
+      "title": "Pi v1.5.0 release",
+      "locator": "Release metadata",
+      "sourceDate": "2026-11-02",
+      "retrievedAt": "2026-11-16",
+      "finding": "Release v1.5.0 published 2026-11-02T11:05:31Z.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "repo",
+      "kind": "documented",
+      "url": "https://github.com/earendil-works/pi",
+      "title": "earendil-works/pi repository",
+      "locator": "Repository header and GitHub API",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Public monorepo: 122,328 stars on 2026-11-16, MIT license (GitHub API spdx MIT), pushed 2026-11-16.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "pidev",
+      "kind": "documented",
+      "url": "https://pi.dev/",
+      "title": "pi.dev homepage",
+      "locator": "Hero and navigation",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Product homepage: minimal agent harness, install commands, links to documentation, changelog, models, packages and Radius; shows no paid Pi plan on the homepage.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "license",
+      "kind": "source-inspected",
+      "url": "https://github.com/earendil-works/pi/blob/v1.5.0/LICENSE",
+      "title": "Pi LICENSE",
+      "locator": "LICENSE header",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "MIT License, Copyright 2025 Mario Zechner, covering the monorepo.",
+      "visibility": "public",
+      "commit": "f9a26365568127461c47a07a37dcb42c140a3ac5",
+      "path": "LICENSE"
+    },
+    {
+      "id": "pkgjson",
+      "kind": "source-inspected",
+      "url": "https://github.com/earendil-works/pi/blob/v1.5.0/packages/coding-agent/package.json",
+      "title": "coding-agent package.json",
+      "locator": "name, version, license, bin",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Package @earendil-works/pi-coding-agent version 1.5.0, license MIT, bin pi.",
+      "visibility": "public",
+      "commit": "f9a26365568127461c47a07a37dcb42c140a3ac5",
+      "path": "packages/coding-agent/package.json"
+    },
+    {
+      "id": "authsrc",
+      "kind": "source-inspected",
+      "url": "https://github.com/earendil-works/pi/blob/v1.5.0/packages/coding-agent/src/core/auth-storage.ts",
+      "title": "Auth storage",
+      "locator": "auth-storage.ts and packages/ai/src/auth/oauth",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Credential storage for API keys and OAuth tokens per provider with refresh flows (anthropic, openai-codex, github-copilot providers).",
+      "visibility": "public",
+      "commit": "f9a26365568127461c47a07a37dcb42c140a3ac5",
+      "path": "packages/coding-agent/src/core/auth-storage.ts"
+    },
+    {
+      "id": "mcpsrc",
+      "kind": "source-inspected",
+      "url": "https://github.com/earendil-works/pi/blob/v1.5.0/packages/coding-agent/src/core/mcp-servers.ts",
+      "title": "MCP server loader",
+      "locator": "mcp-servers.ts",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Implements MCP client loading of user and project servers.",
+      "visibility": "public",
+      "commit": "f9a26365568127461c47a07a37dcb42c140a3ac5",
+      "path": "packages/coding-agent/src/core/mcp-servers.ts"
+    },
+    {
+      "id": "sessionsrc",
+      "kind": "source-inspected",
+      "url": "https://github.com/earendil-works/pi/blob/v1.5.0/packages/coding-agent/src/core/session-manager.ts",
+      "title": "Session manager",
+      "locator": "session-manager.ts, session-export",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Session persistence as JSONL entries with parent IDs enabling tree branching, compaction entries and export.",
+      "visibility": "public",
+      "commit": "f9a26365568127461c47a07a37dcb42c140a3ac5",
+      "path": "packages/coding-agent/src/core/session-manager.ts"
+    },
+    {
+      "id": "telemetrysrc",
+      "kind": "source-inspected",
+      "url": "https://github.com/earendil-works/pi/blob/v1.5.0/packages/coding-agent/src/core/telemetry.ts",
+      "title": "Install telemetry",
+      "locator": "telemetry.ts and settings-defaults.ts",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Install/update telemetry reporting gated by enableInstallTelemetry and PI_TELEMETRY.",
+      "visibility": "public",
+      "commit": "f9a26365568127461c47a07a37dcb42c140a3ac5",
+      "path": "packages/coding-agent/src/core/telemetry.ts"
+    },
+    {
+      "id": "nogo",
+      "kind": "source-inspected",
+      "url": "https://github.com/earendil-works/pi/blob/v1.5.0/packages/coding-agent/src",
+      "title": "Bounded source search of the pinned release",
+      "locator": "Paths packages/coding-agent/src, packages/agent/src, packages/coding-agent/docs; terms: worktree, issue tracker, kanban, backlog, pull request, createPullRequest, cron, scheduler, multiplayer, collaborat, co-prompt, rbac, sso, saml, organization role, subagent, plan mode, webhook",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "No built-in worktree management, issue tracker, kanban, pull request integration, scheduler, multi-user collaboration, roles or SSO exists in core; matches are the footer showing a git worktree name, cache warming, documentation of examples (subagent, plan-mode) and unrelated identifiers.",
+      "visibility": "public",
+      "commit": "f9a26365568127461c47a07a37dcb42c140a3ac5",
+      "path": "packages/coding-agent/src"
+    },
+    {
+      "id": "ssh",
+      "kind": "source-inspected",
+      "url": "https://github.com/earendil-works/pi/blob/v1.5.0/packages/coding-agent/examples/extensions/ssh.ts",
+      "title": "SSH example extension",
+      "locator": "examples/extensions/ssh.ts",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Optional example extension routing tools to a remote host over SSH; not enabled by default.",
+      "visibility": "public",
+      "commit": "f9a26365568127461c47a07a37dcb42c140a3ac5",
+      "path": "packages/coding-agent/examples/extensions/ssh.ts"
+    }
+  ],
+  "changes": [
+    {
+      "date": "2026-11-16",
+      "author": "researcher-pi",
+      "type": "initial-research",
+      "summary": "Initial full-profile source pass over Pi v1.5.0 (docs in the repository, pinned monorepo source for coding-agent, agent, ai, durable packages, org repositories pi-chat and gondolin, pi.dev) covering all 51 criteria; subagents and plan mode are extension examples, not shipped features; durable runtime is experimental.",
+      "claimIds": []
+    }
+  ],
+  "context": {
+    "roadmapReview": {
+      "checkedAt": "2026-11-16",
+      "locations": [
+        {
+          "url": "https://github.com/earendil-works/pi/releases",
+          "result": "v1.5.0 published 2026-11-02; release entries describe shipped changes with no dated future commitments."
+        },
+        {
+          "url": "https://rfc.earendil.com/keyword/pi/",
+          "result": "Longer-term plans live in RFCs referenced from the README; checked as the roadmap location, no RFC was cited as a current capability and none was recorded as a dated announcement."
+        },
+        {
+          "url": "https://github.com/earendil-works/pi/blob/v1.5.0/packages/coding-agent/CHANGELOG.md",
+          "result": "Changelog lists shipped changes per release; no announced future dates."
+        },
+        {
+          "url": "https://pi.dev/",
+          "result": "Homepage lists documentation, changelog, models, packages and Radius; marketing copy only, no dated roadmap."
+        }
+      ],
+      "announced": [],
+      "gaps": [
+        "RFC list at rfc.earendil.com was not read item by item, so unreleased planned work may exist there."
+      ]
+    },
+    "marketContext": {
+      "githubStars": {
+        "value": 122328,
+        "observedAt": "2026-11-16",
+        "evidenceIds": [
+          "repo"
+        ]
+      }
+    }
+  }
+}
