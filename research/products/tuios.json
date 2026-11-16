@@ -1,0 +1,6162 @@
+{
+  "schemaVersion": 1,
+  "rubricVersion": "0.3",
+  "id": "tuios",
+  "name": "tuios",
+  "category": "A",
+  "researchTier": "full-profile",
+  "researchState": "documented",
+  "identity": {
+    "website": "https://tuios.dev",
+    "repository": "https://github.com/Gaurav-Gosain/tuios",
+    "aliases": [
+      "TUIOS"
+    ],
+    "company": null
+  },
+  "surfaces": [
+    {
+      "id": "tui",
+      "name": "tuios terminal multiplexer and window manager (Go TUI, daemon and CLI)",
+      "type": "cli"
+    },
+    {
+      "id": "web",
+      "name": "tuios-web browser terminal",
+      "type": "web"
+    },
+    {
+      "id": "phone",
+      "name": "tuios phone app (not released; Android in private testing)",
+      "type": "mobile"
+    }
+  ],
+  "claims": [
+    {
+      "id": "tuios:ACC-01",
+      "criterionId": "ACC-01",
+      "answer": "Terminal app and CLI for macOS, Linux, Windows x64, FreeBSD and OpenBSD, plus a browser terminal (tuios-web); the phone app is unreleased and not a client; no editor extension or GUI desktop app.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui",
+          "web"
+        ],
+        "version": "v0.12.1 (commit 850335c0c08bb8b802406fcc7f254355c89af04a, 2026-10-31); source pass 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "desktop_os": {
+          "support": "supported",
+          "answer": "Release binaries for Linux, macOS and Windows (amd64 only); minimum versions not stated. It is a terminal app, not a GUI.",
+          "evidenceIds": [
+            "goreleaser",
+            "readme"
+          ]
+        },
+        "mobile_apps": {
+          "support": "unsupported",
+          "answer": "First-party docs say the phone app is not released: Android in private testing, iOS later.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "browser": {
+          "support": "supported",
+          "answer": "tuios-web serves a browser terminal with TLS, passwords and read-only options.",
+          "evidenceIds": [
+            "web",
+            "webcmd"
+          ]
+        },
+        "mobile_browser": {
+          "support": "supported",
+          "answer": "Docs direct phone users to tuios-web over Tailscale or ssh tunnel; touch support is documented.",
+          "evidenceIds": [
+            "sessions",
+            "web"
+          ]
+        },
+        "cli": {
+          "support": "supported",
+          "answer": "The tuios CLI and daemon are the product.",
+          "evidenceIds": [
+            "cli",
+            "readme"
+          ]
+        },
+        "editor_extensions": {
+          "support": "unsupported",
+          "answer": "Bounded search of the repository tree finds harness integrations only, no editor extension.",
+          "evidenceIds": [
+            "integration-src"
+          ]
+        },
+        "task_actions": {
+          "support": "supported",
+          "answer": "start-agent and fan start work, send/ask steer, Inbox approvals, review and resume from the terminal or browser terminal.",
+          "evidenceIds": [
+            "agents",
+            "agents-review",
+            "agents-resume"
+          ]
+        },
+        "notifications": {
+          "support": "supported",
+          "answer": "Inbox, rail indicators, hooks and push notifications for attention events.",
+          "evidenceIds": [
+            "agents",
+            "push-src",
+            "hooks"
+          ]
+        },
+        "cross_device_continuity": {
+          "support": "supported",
+          "answer": "Daemon sessions survive client exit; attach from another terminal, ssh host or browser; hosts link machines.",
+          "evidenceIds": [
+            "sessions",
+            "web"
+          ]
+        }
+      },
+      "limitations": [
+        "Windows is amd64 only.",
+        "Phone app unreleased.",
+        "No minimum OS versions or editor extension."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "goreleaser",
+        "readme",
+        "sessions",
+        "web",
+        "webcmd",
+        "cli",
+        "integration-src",
+        "agents",
+        "agents-review",
+        "agents-resume",
+        "push-src",
+        "hooks"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch03-tuios",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tuios:ACC-02",
+      "criterionId": "ACC-02",
+      "answer": "Runs and reads any terminal agent; documented hook or screen support for Claude Code, Codex, Gemini CLI, opencode, Kilo, Amp, Pi, Kimi, Qwen, Copilot CLI, Cursor Agent, Crush and Kiro; headless ACP and Codex app-server mode; no model-provider layer.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v0.12.1 (commit 850335c0c08bb8b802406fcc7f254355c89af04a, 2026-10-31); source pass 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "harnesses": {
+          "support": "supported",
+          "answer": "Supported agents table lists 14 harnesses with hook, screen, title or herdr reporting.",
+          "evidenceIds": [
+            "agents-harness"
+          ]
+        },
+        "model_providers": {
+          "support": "not-applicable",
+          "answer": "tuios offers no model access; each harness chooses its own models.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "custom_adapters": {
+          "support": "supported",
+          "answer": "User manifests extend screen and title rules and harness recognition; any program can report via OSC 7501 or tuios status.",
+          "evidenceIds": [
+            "agents",
+            "agents-proto"
+          ]
+        },
+        "session_integration": {
+          "support": "supported",
+          "answer": "Hooks and plugins report state; start-agent --protocol acp or codex makes tuios the protocol client.",
+          "evidenceIds": [
+            "agents-proto",
+            "integration-src"
+          ]
+        },
+        "mixed_harness_operation": {
+          "support": "supported",
+          "answer": "fan --agent claude,codex starts different harnesses in separate worktrees; all appear in one Inbox.",
+          "evidenceIds": [
+            "agents"
+          ]
+        }
+      },
+      "limitations": [
+        "model_providers: not-applicable"
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "agents-harness",
+        "agents",
+        "agents-proto",
+        "integration-src"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch03-tuios",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tuios:ACC-03",
+      "criterionId": "ACC-03",
+      "answer": "No credential layer of its own: subscriptions, API keys and local models come from whatever harness runs in the pane; no vendor account or credits.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v0.12.1 (commit 850335c0c08bb8b802406fcc7f254355c89af04a, 2026-10-31); source pass 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "agent_subscriptions": {
+          "support": "supported",
+          "answer": "Harness CLIs run with the user login in their panes (resume uses claude/codex stored sessions).",
+          "evidenceIds": [
+            "agents-resume",
+            "agents"
+          ]
+        },
+        "api_accounts": {
+          "support": "partial",
+          "answer": "Harness env variables pass through to panes (CODEX_API_KEY, CLAUDE_CONFIG_DIR kept); tuios holds none.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "vendor_credits": {
+          "support": "unsupported",
+          "answer": "MIT open-source tool with no vendor credits or accounts in the repository.",
+          "evidenceIds": [
+            "license",
+            "readme"
+          ]
+        },
+        "local_models": {
+          "support": "partial",
+          "answer": "Possible only through harnesses that support them; tuios has no model layer.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "account_switching": {
+          "support": "partial",
+          "answer": "start-agent and fan accept --env per pane; account handling belongs to the harness.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "vendor_account_requirement": {
+          "support": "supported",
+          "answer": "No tuios account is needed.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "provider_restrictions": {
+          "support": "unknown",
+          "answer": "Third-party provider terms for subscription reuse were not assessed.",
+          "evidenceIds": []
+        }
+      },
+      "limitations": [
+        "api_accounts: partial",
+        "vendor_credits: unsupported",
+        "local_models: partial",
+        "account_switching: partial"
+      ],
+      "unknownReason": "Provider terms are outside the repository.",
+      "evidenceIds": [
+        "agents-resume",
+        "agents",
+        "sessions",
+        "license",
+        "readme",
+        "cli"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch03-tuios",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tuios:ACC-04",
+      "criterionId": "ACC-04",
+      "answer": "Install a binary, run tuios, optionally install harness hooks, then fan or start-agent; works in any directory, git needed only for worktrees; BYO machines via ssh hosts; no managed cloud.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v0.12.1 (commit 850335c0c08bb8b802406fcc7f254355c89af04a, 2026-10-31); source pass 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "first_task_setup": {
+          "support": "supported",
+          "answer": "Set it up steps: integration install, doctor agents, Inbox keys, then start-agent or fan.",
+          "evidenceIds": [
+            "agents",
+            "cli"
+          ]
+        },
+        "no_git": {
+          "support": "supported",
+          "answer": "start-agent runs in any pane directory; only worktree and review features need git.",
+          "evidenceIds": [
+            "agents",
+            "agents-review"
+          ]
+        },
+        "local_git_without_remote": {
+          "support": "supported",
+          "answer": "Worktrees, review, ship commit and ship merge are local git operations.",
+          "evidenceIds": [
+            "agents-ship",
+            "worktree-src"
+          ]
+        },
+        "hosted_git": {
+          "support": "supported",
+          "answer": "ship pr uses the user gh to push and open pull requests.",
+          "evidenceIds": [
+            "agents-ship",
+            "ghpr-src"
+          ]
+        },
+        "prerequisite_guidance": {
+          "support": "supported",
+          "answer": "tuios doctor agents and doctor shell report missing integrations.",
+          "evidenceIds": [
+            "agents",
+            "cli"
+          ]
+        },
+        "managed_cloud_setup": {
+          "support": "unsupported",
+          "answer": "No hosted offering in the repository or docs.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "byo_vps_onboarding": {
+          "support": "supported",
+          "answer": "hosts add, hosts sync, Starting the Daemon on a Host and pairing are documented first-class flows.",
+          "evidenceIds": [
+            "sessions",
+            "cli"
+          ]
+        }
+      },
+      "limitations": [
+        "managed_cloud_setup: unsupported"
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "agents",
+        "cli",
+        "agents-review",
+        "agents-ship",
+        "worktree-src",
+        "ghpr-src",
+        "readme",
+        "sessions"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch03-tuios",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tuios:ACC-05",
+      "criterionId": "ACC-05",
+      "answer": "Broad programmatic surface: full CLI, documented JSON control protocol, MCP server, event subscription and a Go library; hooks and push for outbound events; no inbound webhooks.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v0.12.1 (commit 850335c0c08bb8b802406fcc7f254355c89af04a, 2026-10-31); source pass 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "cli": {
+          "support": "supported",
+          "answer": "CLI covers start-agent, fan, review, ship, list-agents, wait-for and more.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "api": {
+          "support": "supported",
+          "answer": "JSON verb protocol over the daemon socket is documented in protocol.md.",
+          "evidenceIds": [
+            "protocol"
+          ]
+        },
+        "sdk": {
+          "support": "partial",
+          "answer": "LIBRARY.md documents embedding the Go packages; no multi-language SDK.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "mcp_server": {
+          "support": "supported",
+          "answer": "tuios mcp exposes read tools by default and write tools with --write.",
+          "evidenceIds": [
+            "agents-mcp",
+            "mcp-src"
+          ]
+        },
+        "webhooks": {
+          "support": "partial",
+          "answer": "Outbound hooks run shell commands and push notifications go out; no inbound webhook receiver found.",
+          "evidenceIds": [
+            "hooks",
+            "push-src"
+          ]
+        },
+        "operations": {
+          "support": "supported",
+          "answer": "Create (start-agent, fan), inspect (list-agents, capture), steer (send, ask), review and ship verbs exist.",
+          "evidenceIds": [
+            "cli",
+            "agents"
+          ]
+        },
+        "authentication": {
+          "support": "supported",
+          "answer": "Daemon socket is 0700; pane grants and restrict-connection scope callers; links use ssh keys.",
+          "evidenceIds": [
+            "agents-grants",
+            "agents-mcp"
+          ]
+        },
+        "stability": {
+          "support": "partial",
+          "answer": "Protocol carries an integer version bumped on incompatible change; product is pre-1.0 (v0.12.1).",
+          "evidenceIds": [
+            "protocol"
+          ]
+        }
+      },
+      "limitations": [
+        "sdk: partial",
+        "webhooks: partial",
+        "stability: partial"
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "cli",
+        "protocol",
+        "readme",
+        "agents-mcp",
+        "mcp-src",
+        "hooks",
+        "push-src",
+        "agents",
+        "agents-grants"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch03-tuios",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tuios:ACC-06",
+      "criterionId": "ACC-06",
+      "answer": "tuios is not an MCP client; it installs hooks, skills and MCP entries into harnesses and ships its own skill and MCP server; tools inside a harness remain the harness own.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v0.12.1 (commit 850335c0c08bb8b802406fcc7f254355c89af04a, 2026-10-31); source pass 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "mcp_client": {
+          "support": "unsupported",
+          "answer": "Bounded search of internal/mcp and docs finds a server only; MCP use is inherited from harnesses.",
+          "evidenceIds": [
+            "mcp-src",
+            "agents-mcp"
+          ]
+        },
+        "plugins": {
+          "support": "supported",
+          "answer": "integration install writes harness plugins, extensions and hooks for opencode, Pi, Kilo, Amp and others.",
+          "evidenceIds": [
+            "integration-src",
+            "agents"
+          ]
+        },
+        "custom_tools": {
+          "support": "partial",
+          "answer": "Harness manifests, screen rules and hooks are user-extensible; no generic tool registry.",
+          "evidenceIds": [
+            "agents",
+            "hooks"
+          ]
+        },
+        "instructions_import": {
+          "support": "supported",
+          "answer": "Installs a SKILL.md for Claude Code, Codex, opencode and Pi that points to tuios --skill.",
+          "evidenceIds": [
+            "agents",
+            "skills-dir"
+          ]
+        },
+        "authentication": {
+          "support": "partial",
+          "answer": "Authentication for external tools is inherited from the harness.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "permission_scope": {
+          "support": "supported",
+          "answer": "Pane grants and MCP scopes limit what installed tools may do.",
+          "evidenceIds": [
+            "agents-grants",
+            "agents-mcp"
+          ]
+        },
+        "integration_owner": {
+          "support": "supported",
+          "answer": "tuios installs and removes its own hook and MCP entries with a version marker; harness tools stay the harness own.",
+          "evidenceIds": [
+            "agents-mcp",
+            "integration-src"
+          ]
+        }
+      },
+      "limitations": [
+        "mcp_client: unsupported",
+        "custom_tools: partial",
+        "authentication: partial"
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "mcp-src",
+        "agents-mcp",
+        "integration-src",
+        "agents",
+        "hooks",
+        "skills-dir",
+        "agents-grants"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch03-tuios",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tuios:ACC-07",
+      "criterionId": "ACC-07",
+      "answer": "Go terminal UI built on Bubble Tea v2; browser access through a web terminal and a WASM build; no native GUI or mobile client.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v0.12.1 (commit 850335c0c08bb8b802406fcc7f254355c89af04a, 2026-10-31); source pass 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "desktop_implementation": {
+          "support": "supported",
+          "answer": "Go TUI on the Charm stack (Bubble Tea v2, Lipgloss v2); a terminal app, not a native GUI toolkit.",
+          "evidenceIds": [
+            "readme",
+            "go-mod"
+          ]
+        },
+        "mobile_implementation": {
+          "support": "unsupported",
+          "answer": "No phone app is released.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "hybrids": {
+          "support": "partial",
+          "answer": "cmd/tuios-web serves a browser terminal and a WASM command exists; these are web wrappers of the same Go code.",
+          "evidenceIds": [
+            "webcmd",
+            "readme"
+          ]
+        },
+        "implementation_evidence": {
+          "support": "supported",
+          "answer": "README and go.mod show the stack.",
+          "evidenceIds": [
+            "readme",
+            "go-mod"
+          ]
+        }
+      },
+      "limitations": [
+        "mobile_implementation: unsupported",
+        "hybrids: partial"
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "go-mod",
+        "sessions",
+        "webcmd"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-05-15",
+      "researcher": "researcher-batch03-tuios",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tuios:PLAN-01",
+      "criterionId": "PLAN-01",
+      "answer": "Work begins from CLI prompts or typed prompts in panes; no tracker import or git-event triggers.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v0.12.1 (commit 850335c0c08bb8b802406fcc7f254355c89af04a, 2026-10-31); source pass 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "local_creation": {
+          "support": "supported",
+          "answer": "tuios worktree new and start-agent create work locally with an optional --prompt.",
+          "evidenceIds": [
+            "agents",
+            "cli"
+          ]
+        },
+        "prompt_intake": {
+          "support": "supported",
+          "answer": "fan and start-agent take prompts and can type them once the agent is at its prompt.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "external_import": {
+          "support": "unsupported",
+          "answer": "Bounded search finds gh pull request use only; no issue import from Linear, Jira or GitHub issues.",
+          "evidenceIds": [
+            "ghpr-src"
+          ]
+        },
+        "chat_git_triggers": {
+          "support": "unsupported",
+          "answer": "No chat or git-event triggers found; hooks only run on tuios events.",
+          "evidenceIds": [
+            "hooks"
+          ]
+        },
+        "authoritative_tracker": {
+          "support": "unsupported",
+          "answer": "No tracker relationship.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "stable_ids": {
+          "support": "partial",
+          "answer": "Sessions and panes have IDs; no work-item IDs.",
+          "evidenceIds": [
+            "protocol"
+          ]
+        },
+        "sync": {
+          "support": "unsupported",
+          "answer": "No tracker sync.",
+          "evidenceIds": [
+            "ghpr-src"
+          ]
+        },
+        "supported_edits": {
+          "support": "unsupported",
+          "answer": "No tracker edits.",
+          "evidenceIds": [
+            "ghpr-src"
+          ]
+        },
+        "external_roundtrips": {
+          "support": "unsupported",
+          "answer": "No tracker integration exists.",
+          "evidenceIds": [
+            "ghpr-src"
+          ]
+        }
+      },
+      "limitations": [
+        "external_import: unsupported",
+        "chat_git_triggers: unsupported",
+        "authoritative_tracker: unsupported",
+        "stable_ids: partial"
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "agents",
+        "cli",
+        "ghpr-src",
+        "hooks",
+        "protocol"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch03-tuios",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tuios:PLAN-02",
+      "criterionId": "PLAN-02",
+      "answer": "Agent-created plans are surfaced for approval and a plan metadata counter is shown; no product plan editor, acceptance criteria or revisions beyond turn checkpoints.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v0.12.1 (commit 850335c0c08bb8b802406fcc7f254355c89af04a, 2026-10-31); source pass 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "plans": {
+          "support": "partial",
+          "answer": "Plans from harnesses (ACP, Codex) appear in transcripts and plan progress like 3/7 is shown in the rail.",
+          "evidenceIds": [
+            "agents-proto",
+            "agents-meta"
+          ]
+        },
+        "acceptance_criteria": {
+          "support": "unsupported",
+          "answer": "No acceptance criteria object found.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "editors": {
+          "support": "unsupported",
+          "answer": "Plans are not edited in tuios.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "revisions": {
+          "support": "partial",
+          "answer": "Turn checkpoints record file state per turn, not plan revisions.",
+          "evidenceIds": [
+            "agents-checkpoints"
+          ]
+        },
+        "implementation_links": {
+          "support": "unsupported",
+          "answer": "No plan-to-commit links.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "amendment": {
+          "support": "supported",
+          "answer": "Queued messages and mail can steer a running agent.",
+          "evidenceIds": [
+            "agents-queue",
+            "agents-mail"
+          ]
+        },
+        "restart_persistence": {
+          "support": "partial",
+          "answer": "Conversation resumes after restart through the harness; mail does not persist.",
+          "evidenceIds": [
+            "agents-resume",
+            "agents-mail"
+          ]
+        }
+      },
+      "limitations": [
+        "plans: partial",
+        "acceptance_criteria: unsupported",
+        "editors: unsupported",
+        "revisions: partial"
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "agents-proto",
+        "agents-meta",
+        "agents",
+        "agents-checkpoints",
+        "agents-queue",
+        "agents-mail",
+        "agents-resume"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch03-tuios",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tuios:PLAN-03",
+      "criterionId": "PLAN-03",
+      "answer": "No epics or dependencies; sessions, worktrees and fan groups provide simple grouping and selectors.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v0.12.1 (commit 850335c0c08bb8b802406fcc7f254355c89af04a, 2026-10-31); source pass 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "epics": {
+          "support": "unsupported",
+          "answer": "No epic entity found.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "hierarchy": {
+          "support": "partial",
+          "answer": "Fan groups and repository grouping on the rail; subagents shown as metadata.",
+          "evidenceIds": [
+            "agents",
+            "agents-meta"
+          ]
+        },
+        "blockers": {
+          "support": "unsupported",
+          "answer": "No blocker model.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "readiness": {
+          "support": "unsupported",
+          "answer": "Only agent states, no readiness.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "enforcement": {
+          "support": "unsupported",
+          "answer": "No dependency enforcement.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "state_propagation": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "task_to_epic": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "identity_retention": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "workflow_constraints": {
+          "support": "supported",
+          "answer": "No rigid workflow is required.",
+          "evidenceIds": [
+            "agents"
+          ]
+        }
+      },
+      "limitations": [
+        "epics: unsupported",
+        "hierarchy: partial",
+        "blockers: unsupported",
+        "readiness: unsupported"
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "agents",
+        "agents-meta"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch03-tuios",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tuios:PLAN-04",
+      "criterionId": "PLAN-04",
+      "answer": "tuios ships skills and prints topic guides; project instructions and memory belong to harnesses; session stash and return notes are minimal.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v0.12.1 (commit 850335c0c08bb8b802406fcc7f254355c89af04a, 2026-10-31); source pass 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "instructions": {
+          "support": "partial",
+          "answer": "Harnesses read their own instruction files; tuios installs its skill.",
+          "evidenceIds": [
+            "agents",
+            "skills-dir"
+          ]
+        },
+        "skills": {
+          "support": "supported",
+          "answer": "Bundled skills directory and tuios --skill topic guides.",
+          "evidenceIds": [
+            "skills-dir",
+            "agents"
+          ]
+        },
+        "project_docs": {
+          "support": "unsupported",
+          "answer": "No project docs store.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "memory": {
+          "support": "partial",
+          "answer": "Session stash for files and return notes; mail lives in memory only.",
+          "evidenceIds": [
+            "agents-mail",
+            "sessions"
+          ]
+        },
+        "scope": {
+          "support": "partial",
+          "answer": "Memory is per session; mail dies with the daemon.",
+          "evidenceIds": [
+            "agents-mail"
+          ]
+        },
+        "provenance": {
+          "support": "partial",
+          "answer": "Mail has sender claims fenced as untrusted data.",
+          "evidenceIds": [
+            "agents-mail"
+          ]
+        },
+        "correction": {
+          "support": "unsupported",
+          "answer": "No memory correction surface.",
+          "evidenceIds": [
+            "agents-mail"
+          ]
+        },
+        "deletion": {
+          "support": "unsupported",
+          "answer": "No memory deletion surface beyond session end.",
+          "evidenceIds": [
+            "agents-mail"
+          ]
+        },
+        "freshness": {
+          "support": "unsupported",
+          "answer": "No stale-context control.",
+          "evidenceIds": [
+            "agents-mail"
+          ]
+        },
+        "takeover_continuity": {
+          "support": "partial",
+          "answer": "Sessions persist and other clients can attach; mail does not survive the daemon.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        }
+      },
+      "limitations": [
+        "instructions: partial",
+        "project_docs: unsupported",
+        "memory: partial",
+        "scope: partial"
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "agents",
+        "skills-dir",
+        "agents-mail",
+        "sessions"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch03-tuios",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tuios:PLAN-05",
+      "criterionId": "PLAN-05",
+      "answer": "No code index or knowledge layer; tuios reports what harnesses do and ships a skill; agents search code themselves.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v0.12.1 (commit 850335c0c08bb8b802406fcc7f254355c89af04a, 2026-10-31); source pass 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "code_search": {
+          "support": "unsupported",
+          "answer": "Bounded search of the internal packages and docs finds no repository index, retrieval or enforcement feature; these belong to the harness.",
+          "evidenceIds": [
+            "agents",
+            "integration-src"
+          ]
+        },
+        "indexing": {
+          "support": "unsupported",
+          "answer": "Bounded search of the internal packages and docs finds no repository index, retrieval or enforcement feature; these belong to the harness.",
+          "evidenceIds": [
+            "agents",
+            "integration-src"
+          ]
+        },
+        "external_knowledge": {
+          "support": "unsupported",
+          "answer": "Bounded search of the internal packages and docs finds no repository index, retrieval or enforcement feature; these belong to the harness.",
+          "evidenceIds": [
+            "agents",
+            "integration-src"
+          ]
+        },
+        "multimodal_inputs": {
+          "support": "partial",
+          "answer": "Panes can paste images across hosts and render kitty graphics; no agent image analysis feature.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "freshness": {
+          "support": "unsupported",
+          "answer": "Bounded search of the internal packages and docs finds no repository index, retrieval or enforcement feature; these belong to the harness.",
+          "evidenceIds": [
+            "agents",
+            "integration-src"
+          ]
+        },
+        "access_scope": {
+          "support": "supported",
+          "answer": "Pane grants and session scope bound tuios-mediated access.",
+          "evidenceIds": [
+            "agents-grants"
+          ]
+        },
+        "api_retrieval": {
+          "support": "unsupported",
+          "answer": "Bounded search of the internal packages and docs finds no repository index, retrieval or enforcement feature; these belong to the harness.",
+          "evidenceIds": [
+            "agents",
+            "integration-src"
+          ]
+        },
+        "citations": {
+          "support": "unsupported",
+          "answer": "Bounded search of the internal packages and docs finds no repository index, retrieval or enforcement feature; these belong to the harness.",
+          "evidenceIds": [
+            "agents",
+            "integration-src"
+          ]
+        },
+        "conflict_detection": {
+          "support": "unsupported",
+          "answer": "Bounded search of the internal packages and docs finds no repository index, retrieval or enforcement feature; these belong to the harness.",
+          "evidenceIds": [
+            "agents",
+            "integration-src"
+          ]
+        },
+        "review_enforcement": {
+          "support": "unsupported",
+          "answer": "Bounded search of the internal packages and docs finds no repository index, retrieval or enforcement feature; these belong to the harness.",
+          "evidenceIds": [
+            "agents",
+            "integration-src"
+          ]
+        }
+      },
+      "limitations": [
+        "code_search: unsupported",
+        "indexing: unsupported",
+        "external_knowledge: unsupported",
+        "multimodal_inputs: partial"
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "agents",
+        "integration-src",
+        "sessions",
+        "agents-grants"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch03-tuios",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tuios:PLAN-06",
+      "criterionId": "PLAN-06",
+      "answer": "No native issue or idea backlog; sessions and worktrees are the units, with attention items in the Inbox.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v0.12.1 (commit 850335c0c08bb8b802406fcc7f254355c89af04a, 2026-10-31); source pass 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "create": {
+          "support": "unsupported",
+          "answer": "No issue entity; work is a session or worktree.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "edit": {
+          "support": "unsupported",
+          "answer": "No issue entity; work is a session or worktree.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "discuss": {
+          "support": "unsupported",
+          "answer": "No issue entity; work is a session or worktree.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "prioritize": {
+          "support": "unsupported",
+          "answer": "No issue entity; work is a session or worktree.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "label": {
+          "support": "unsupported",
+          "answer": "No issue entity; work is a session or worktree.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "assign": {
+          "support": "unsupported",
+          "answer": "No issue entity; work is a session or worktree.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "search": {
+          "support": "partial",
+          "answer": "list-agents and selectors filter agent panes.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "filter": {
+          "support": "supported",
+          "answer": "Selectors such as group:fan/retry needs:you filter agents.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "archive": {
+          "support": "partial",
+          "answer": "Worktrees can be kept or removed; no archive state.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "reopen": {
+          "support": "partial",
+          "answer": "Conversations can be resumed.",
+          "evidenceIds": [
+            "agents-resume"
+          ]
+        },
+        "project_epic_views": {
+          "support": "unsupported",
+          "answer": "No issue entity; work is a session or worktree.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "idea_parking": {
+          "support": "unsupported",
+          "answer": "No issue entity; work is a session or worktree.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "explicit_dispatch": {
+          "support": "unsupported",
+          "answer": "No issue entity; work is a session or worktree.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "task_session_separation": {
+          "support": "unsupported",
+          "answer": "No issue entity; work is a session or worktree.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "metadata": {
+          "support": "partial",
+          "answer": "Agent metadata shows model, context, cost and plan.",
+          "evidenceIds": [
+            "agents-meta"
+          ]
+        },
+        "durable_states": {
+          "support": "partial",
+          "answer": "Agent states are live; structure persists across restarts.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "external_tracker_requirement": {
+          "support": "partial",
+          "answer": "No tracker is integrated, so tracking lives outside tuios.",
+          "evidenceIds": [
+            "ghpr-src"
+          ]
+        }
+      },
+      "limitations": [
+        "create: unsupported",
+        "edit: unsupported",
+        "discuss: unsupported",
+        "prioritize: unsupported"
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "agents",
+        "agents-resume",
+        "agents-meta",
+        "sessions",
+        "ghpr-src"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch03-tuios",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tuios:PLAN-07",
+      "criterionId": "PLAN-07",
+      "answer": "Agents can read and write tuios state through the CLI and MCP (mail, ask, fan), but there are no issue records.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v0.12.1 (commit 850335c0c08bb8b802406fcc7f254355c89af04a, 2026-10-31); source pass 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "shared_ids": {
+          "support": "partial",
+          "answer": "Panes, sessions and worktrees share IDs readable by agents through the CLI or MCP.",
+          "evidenceIds": [
+            "agents-mcp",
+            "protocol"
+          ]
+        },
+        "read": {
+          "support": "supported",
+          "answer": "MCP and CLI list and capture panes, state and mail.",
+          "evidenceIds": [
+            "agents-mcp"
+          ]
+        },
+        "create": {
+          "support": "partial",
+          "answer": "With write grants an agent can fan or start agents.",
+          "evidenceIds": [
+            "agents-mcp",
+            "agents-grants"
+          ]
+        },
+        "update": {
+          "support": "partial",
+          "answer": "Agents can set their own metadata and state.",
+          "evidenceIds": [
+            "agents-meta"
+          ]
+        },
+        "claim": {
+          "support": "unsupported",
+          "answer": "No claim operation.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "assign": {
+          "support": "unsupported",
+          "answer": "No assignment.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "state_changes": {
+          "support": "partial",
+          "answer": "Agents report their own state; others are set by tuios.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "dependencies": {
+          "support": "unsupported",
+          "answer": "No dependencies.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "children": {
+          "support": "partial",
+          "answer": "fan creates sibling worktrees; no child records.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "results": {
+          "support": "supported",
+          "answer": "Mail and ask-agent return results between agents.",
+          "evidenceIds": [
+            "agents-mail"
+          ]
+        },
+        "human_visibility": {
+          "support": "supported",
+          "answer": "Mail, Inbox and rail show agent writes.",
+          "evidenceIds": [
+            "agents-mail"
+          ]
+        },
+        "attribution": {
+          "support": "partial",
+          "answer": "Mail sender is a claim fenced as untrusted; only human replies are verified.",
+          "evidenceIds": [
+            "agents-mail"
+          ]
+        },
+        "permissions": {
+          "support": "supported",
+          "answer": "Pane grants and restrict-connection.",
+          "evidenceIds": [
+            "agents-grants"
+          ]
+        },
+        "conflicts": {
+          "support": "partial",
+          "answer": "ask-agent refuses a blocked pane and cycles of asks.",
+          "evidenceIds": [
+            "agents-mail"
+          ]
+        }
+      },
+      "limitations": [
+        "shared_ids: partial",
+        "create: partial",
+        "update: partial",
+        "claim: unsupported"
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "agents-mcp",
+        "protocol",
+        "agents-grants",
+        "agents-meta",
+        "agents",
+        "agents-mail"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch03-tuios",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tuios:PLAN-08",
+      "criterionId": "PLAN-08",
+      "answer": "No living specification feature.",
+      "support": "unsupported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v0.12.1 (commit 850335c0c08bb8b802406fcc7f254355c89af04a, 2026-10-31); source pass 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "persistent_requirements": {
+          "support": "unsupported",
+          "answer": "Bounded search of docs and internal packages finds no persistent requirements store.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "human_edits": {
+          "support": "unsupported",
+          "answer": "Bounded search of docs and internal packages finds no persistent requirements store.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "agent_edits": {
+          "support": "unsupported",
+          "answer": "Bounded search of docs and internal packages finds no persistent requirements store.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "revisions": {
+          "support": "unsupported",
+          "answer": "Bounded search of docs and internal packages finds no persistent requirements store.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "approvals": {
+          "support": "unsupported",
+          "answer": "Bounded search of docs and internal packages finds no persistent requirements store.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "implementation_links": {
+          "support": "unsupported",
+          "answer": "Bounded search of docs and internal packages finds no persistent requirements store.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "later_retrieval": {
+          "support": "unsupported",
+          "answer": "Bounded search of docs and internal packages finds no persistent requirements store.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "drift_detection": {
+          "support": "unsupported",
+          "answer": "Bounded search of docs and internal packages finds no persistent requirements store.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "review_integration": {
+          "support": "unsupported",
+          "answer": "Bounded search of docs and internal packages finds no persistent requirements store.",
+          "evidenceIds": [
+            "agents"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "agents"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch03-tuios",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tuios:COORD-01",
+      "criterionId": "COORD-01",
+      "answer": "Many agent panes run in parallel across sessions and machines; the rail and Inbox show each state; no quota.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v0.12.1 (commit 850335c0c08bb8b802406fcc7f254355c89af04a, 2026-10-31); source pass 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "concurrent_sessions": {
+          "support": "supported",
+          "answer": "A session per agent via fan and worktree new.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "concurrent_tasks": {
+          "support": "supported",
+          "answer": "fan N starts N agents in N worktrees.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "quotas": {
+          "support": "unsupported",
+          "answer": "No concurrency quota documented.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "observed_concurrency": {
+          "support": "partial",
+          "answer": "Documented; the catalog does not run the product.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "status_visibility": {
+          "support": "supported",
+          "answer": "Five states per pane as shapes on the rail plus Inbox rows.",
+          "evidenceIds": [
+            "agents"
+          ]
+        }
+      },
+      "limitations": [
+        "quotas: unsupported",
+        "observed_concurrency: partial"
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "agents"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch03-tuios",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tuios:COORD-02",
+      "criterionId": "COORD-02",
+      "answer": "No assignment or queue; selectors and fan groups address agents; ask-agent refuses a pane that needs input.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v0.12.1 (commit 850335c0c08bb8b802406fcc7f254355c89af04a, 2026-10-31); source pass 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "human_assignment": {
+          "support": "unsupported",
+          "answer": "No assignment.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "agent_assignment": {
+          "support": "partial",
+          "answer": "An agent can send mail or ask another agent.",
+          "evidenceIds": [
+            "agents-mail"
+          ]
+        },
+        "claims": {
+          "support": "unsupported",
+          "answer": "No claims.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "queues": {
+          "support": "partial",
+          "answer": "Per-agent queued messages only.",
+          "evidenceIds": [
+            "agents-queue"
+          ]
+        },
+        "routing": {
+          "support": "partial",
+          "answer": "Selectors address groups of agents.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "duplicate_prevention": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "ownership_enforcement": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "agents"
+          ]
+        }
+      },
+      "limitations": [
+        "human_assignment: unsupported",
+        "agent_assignment: partial",
+        "claims: unsupported",
+        "queues: partial"
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "agents",
+        "agents-mail",
+        "agents-queue"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch03-tuios",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tuios:COORD-03",
+      "criterionId": "COORD-03",
+      "answer": "Product-supplied delegation tools: an agent with fan/start-agent via skill or MCP can start other agents, mail them, ask them questions and read replies; roles are not modeled.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v0.12.1 (commit 850335c0c08bb8b802406fcc7f254355c89af04a, 2026-10-31); source pass 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "roles": {
+          "support": "partial",
+          "answer": "start-agent --name reviewer names helpers; no formal role model.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "model_harness_effort": {
+          "support": "partial",
+          "answer": "fan --agent picks the harness per agent; model and effort belong to the harness.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "messages": {
+          "support": "supported",
+          "answer": "send-agent-message and ask-agent between panes.",
+          "evidenceIds": [
+            "agents-mail"
+          ]
+        },
+        "results_return": {
+          "support": "supported",
+          "answer": "ask-agent returns what the pane printed; mail returns replies.",
+          "evidenceIds": [
+            "agents-mail"
+          ]
+        },
+        "cross_harness": {
+          "support": "supported",
+          "answer": "fan --agent claude,codex mixes harnesses.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "orchestration_owner": {
+          "support": "supported",
+          "answer": "tuios supplies the verbs, skill and MCP tools; third-party harnesses act as coordinator.",
+          "evidenceIds": [
+            "agents-mcp"
+          ]
+        },
+        "activation": {
+          "support": "supported",
+          "answer": "Install the skill or --mcp-write; fan tool needs the write MCP mode and grants.",
+          "evidenceIds": [
+            "agents-mcp",
+            "agents-grants"
+          ]
+        },
+        "authentication": {
+          "support": "supported",
+          "answer": "Daemon-enforced grants and pane identification.",
+          "evidenceIds": [
+            "agents-grants"
+          ]
+        },
+        "live_progress": {
+          "support": "supported",
+          "answer": "Rail rows show state, now, plan and subagents.",
+          "evidenceIds": [
+            "agents-meta"
+          ]
+        },
+        "retained_results": {
+          "support": "partial",
+          "answer": "Mail dies with the daemon; panes keep scrollback.",
+          "evidenceIds": [
+            "agents-mail",
+            "sessions"
+          ]
+        },
+        "followup": {
+          "support": "supported",
+          "answer": "ask-agent and mail reach agents at rest.",
+          "evidenceIds": [
+            "agents-mail"
+          ]
+        },
+        "invocation": {
+          "support": "supported",
+          "answer": "tuios --skill fleet, CLI verbs and MCP tools.",
+          "evidenceIds": [
+            "agents",
+            "agents-mcp"
+          ]
+        }
+      },
+      "limitations": [
+        "roles: partial",
+        "model_harness_effort: partial",
+        "retained_results: partial"
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "agents",
+        "agents-mail",
+        "agents-mcp",
+        "agents-grants",
+        "agents-meta",
+        "sessions"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch03-tuios",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tuios:COORD-04",
+      "criterionId": "COORD-04",
+      "answer": "Event hooks run shell commands on 13 tuios events including agent state changes, even with no client attached; there is no scheduler.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v0.12.1 (commit 850335c0c08bb8b802406fcc7f254355c89af04a, 2026-10-31); source pass 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "schedules": {
+          "support": "unsupported",
+          "answer": "Bounded search of docs finds no cron or schedule feature.",
+          "evidenceIds": [
+            "hooks",
+            "config"
+          ]
+        },
+        "events": {
+          "support": "supported",
+          "answer": "after-agent-state, after-new-worktree, after-settle and others fire from the daemon.",
+          "evidenceIds": [
+            "hooks"
+          ]
+        },
+        "recurring_tasks": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "hooks"
+          ]
+        },
+        "completion_conditions": {
+          "support": "partial",
+          "answer": "after-settle reports why an agent settled; wait-for blocks on states.",
+          "evidenceIds": [
+            "hooks",
+            "agents"
+          ]
+        },
+        "scheduler_location": {
+          "support": "supported",
+          "answer": "Hooks run in the daemon for session facts.",
+          "evidenceIds": [
+            "hooks"
+          ]
+        },
+        "overlaps": {
+          "support": "unknown",
+          "answer": "Overlap handling for hooks was not stated.",
+          "evidenceIds": []
+        },
+        "retries": {
+          "support": "unknown",
+          "answer": "Retry behavior for hooks was not stated.",
+          "evidenceIds": []
+        },
+        "client_independence": {
+          "support": "supported",
+          "answer": "Daemon hooks fire with nobody attached.",
+          "evidenceIds": [
+            "hooks"
+          ]
+        }
+      },
+      "limitations": [
+        "schedules: unsupported",
+        "recurring_tasks: unsupported",
+        "completion_conditions: partial",
+        "overlaps: unknown"
+      ],
+      "unknownReason": "The hooks documentation does not state this behavior.",
+      "evidenceIds": [
+        "hooks",
+        "config",
+        "agents"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch03-tuios",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tuios:COORD-05",
+      "criterionId": "COORD-05",
+      "answer": "Inbox for approvals, questions, mail and errors; steer through queued messages and mail; stop by closing panes; resume conversations; history stays in panes.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v0.12.1 (commit 850335c0c08bb8b802406fcc7f254355c89af04a, 2026-10-31); source pass 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "pause": {
+          "support": "unsupported",
+          "answer": "No pause verb found.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "stop": {
+          "support": "partial",
+          "answer": "Panes and agents can be closed or signalled through the terminal; no dedicated cancel except protocol agents.",
+          "evidenceIds": [
+            "agents-proto"
+          ]
+        },
+        "resume": {
+          "support": "supported",
+          "answer": "resume-agent and restart resume offers.",
+          "evidenceIds": [
+            "agents-resume"
+          ]
+        },
+        "steer": {
+          "support": "supported",
+          "answer": "Queued messages, mail and ask-agent.",
+          "evidenceIds": [
+            "agents-queue",
+            "agents-mail"
+          ]
+        },
+        "notifications": {
+          "support": "supported",
+          "answer": "Inbox, rail, hooks and push.",
+          "evidenceIds": [
+            "agents",
+            "push-src"
+          ]
+        },
+        "pending_decisions": {
+          "support": "supported",
+          "answer": "Approvals and ask-human questions wait in the Inbox.",
+          "evidenceIds": [
+            "agents",
+            "agents-approvals"
+          ]
+        },
+        "escalation": {
+          "support": "partial",
+          "answer": "Away recap and alerts; no escalation chain.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "visible_errors": {
+          "support": "supported",
+          "answer": "errored state is distinct.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "chat_terminal_parity": {
+          "support": "supported",
+          "answer": "The terminal is the native surface; CLI-only questions surface as needs_input.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "retained_history": {
+          "support": "supported",
+          "answer": "Scrollback and conversation persist per sessions table.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        }
+      },
+      "limitations": [
+        "pause: unsupported",
+        "stop: partial",
+        "escalation: partial"
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "agents",
+        "agents-proto",
+        "agents-resume",
+        "agents-queue",
+        "agents-mail",
+        "push-src",
+        "agents-approvals",
+        "sessions"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch03-tuios",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tuios:COORD-06",
+      "criterionId": "COORD-06",
+      "answer": "Rail and Inbox show every agent across sessions and machines with state, attention, plan, subagents, PR and check status; no epics or dependency view.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v0.12.1 (commit 850335c0c08bb8b802406fcc7f254355c89af04a, 2026-10-31); source pass 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "fleet_fixture": {
+          "support": "supported",
+          "answer": "The rail groups agents by repository and fan group with state words and shapes.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "parent_child": {
+          "support": "partial",
+          "answer": "Fan groups and subagents; no formal parent-child.",
+          "evidenceIds": [
+            "agents",
+            "agents-meta"
+          ]
+        },
+        "dependencies": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "attention": {
+          "support": "supported",
+          "answer": "Inbox lists approvals, questions, mail, errors and finished turns.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "history": {
+          "support": "partial",
+          "answer": "Away recap and finished-turn items.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "workload": {
+          "support": "partial",
+          "answer": "Counts per state on the rail; no workload metrics.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "navigation_errors": {
+          "support": "supported",
+          "answer": "ctrl+b o jumps to the oldest item; errored state shown.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "fixture_mode": {
+          "support": "not-applicable",
+          "answer": "Catalog does not run the product.",
+          "evidenceIds": [
+            "agents"
+          ]
+        }
+      },
+      "limitations": [
+        "parent_child: partial",
+        "dependencies: unsupported",
+        "history: partial",
+        "workload: partial"
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "agents",
+        "agents-meta"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch03-tuios",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tuios:COORD-07",
+      "criterionId": "COORD-07",
+      "answer": "Quick start with start-agent, fan groups with per-prompt control, harness per agent; no workflow presets; the rail shows what is running.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v0.12.1 (commit 850335c0c08bb8b802406fcc7f254355c89af04a, 2026-10-31); source pass 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "quick_task": {
+          "support": "supported",
+          "answer": "start-agent starts one helper beside you.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "growing_epic": {
+          "support": "unsupported",
+          "answer": "No epic.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "presets": {
+          "support": "partial",
+          "answer": "Hooks and tape scripts automate flows; no presets.",
+          "evidenceIds": [
+            "hooks"
+          ]
+        },
+        "natural_language": {
+          "support": "unsupported",
+          "answer": "No natural-language configuration.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "agent_configuration": {
+          "support": "partial",
+          "answer": "fan --agent per harness, repeated --prompt, --grants; model belongs to harness.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "in_run_changes": {
+          "support": "partial",
+          "answer": "Mail and queued messages change work in flight.",
+          "evidenceIds": [
+            "agents-queue"
+          ]
+        },
+        "live_roles": {
+          "support": "partial",
+          "answer": "Names and groups on the rail.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "retained_relationships": {
+          "support": "partial",
+          "answer": "Fan groups persist in session state.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "discoverability": {
+          "support": "supported",
+          "answer": "tuios --skill topics and docs.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "auth_friction": {
+          "support": "supported",
+          "answer": "No tuios account.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "growing_epic: unsupported",
+        "presets: partial",
+        "natural_language: unsupported",
+        "agent_configuration: partial"
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "agents",
+        "hooks",
+        "agents-queue",
+        "sessions",
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch03-tuios",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tuios:RUN-01",
+      "criterionId": "RUN-01",
+      "answer": "Local by default with a daemon holding PTYs; BYO remote machines through ssh hosts; no managed cloud; work on a host survives a laptop disconnect when its daemon runs there.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui",
+          "web"
+        ],
+        "version": "v0.12.1 (commit 850335c0c08bb8b802406fcc7f254355c89af04a, 2026-10-31); source pass 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "local": {
+          "support": "supported",
+          "answer": "Local daemon sessions.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "byo_remote": {
+          "support": "supported",
+          "answer": "tuios hosts add keeps ssh links; fan, worktree and start-agent take --host.",
+          "evidenceIds": [
+            "agents",
+            "sessions"
+          ]
+        },
+        "self_hosted": {
+          "support": "supported",
+          "answer": "The user runs the daemon and tuios-web on their own machines.",
+          "evidenceIds": [
+            "sessions",
+            "web"
+          ]
+        },
+        "managed_cloud": {
+          "support": "unsupported",
+          "answer": "No hosted offering in repository or docs.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "hybrid": {
+          "support": "supported",
+          "answer": "Global sessions mix local and remote panes.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "provisioning": {
+          "support": "partial",
+          "answer": "User provisions machines; Starting the Daemon on a Host documented.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "payer": {
+          "support": "partial",
+          "answer": "User pays for their own machines; tool is free.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "resources": {
+          "support": "unknown",
+          "answer": "Host sizing is the user choice.",
+          "evidenceIds": []
+        },
+        "region": {
+          "support": "unknown",
+          "answer": "No region concept.",
+          "evidenceIds": []
+        },
+        "expiry": {
+          "support": "unsupported",
+          "answer": "No sandbox expiry.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "client_disconnect": {
+          "support": "supported",
+          "answer": "Detach, ssh drop and crash of the client leave the daemon and agents running.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "other_device_continuation": {
+          "support": "supported",
+          "answer": "Attach from another client, ssh host or browser.",
+          "evidenceIds": [
+            "sessions",
+            "web"
+          ]
+        }
+      },
+      "limitations": [
+        "managed_cloud: unsupported",
+        "provisioning: partial",
+        "payer: partial",
+        "resources: unknown"
+      ],
+      "unknownReason": "Host resources and regions are chosen by the user, not the product.",
+      "evidenceIds": [
+        "sessions",
+        "agents",
+        "web",
+        "readme",
+        "license"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch03-tuios",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tuios:RUN-02",
+      "criterionId": "RUN-02",
+      "answer": "Git worktrees per fan agent and a branch/worktree workflow; panes are ordinary user processes; pane grants limit tuios-mediated actions; no container or VM.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v0.12.1 (commit 850335c0c08bb8b802406fcc7f254355c89af04a, 2026-10-31); source pass 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "checkout": {
+          "support": "supported",
+          "answer": "Agents can work in the existing checkout.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "branch": {
+          "support": "supported",
+          "answer": "worktree new creates a branch.",
+          "evidenceIds": [
+            "agents",
+            "worktree-src"
+          ]
+        },
+        "worktree": {
+          "support": "supported",
+          "answer": "fan and worktree new create worktrees.",
+          "evidenceIds": [
+            "agents",
+            "worktree-src"
+          ]
+        },
+        "container": {
+          "support": "unsupported",
+          "answer": "No container execution in the pinned repository (a Docker image runs tuios itself).",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "vm": {
+          "support": "unsupported",
+          "answer": "No VM execution.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "os_sandbox": {
+          "support": "unsupported",
+          "answer": "No OS sandbox found; pane processes run as the user.",
+          "evidenceIds": [
+            "agents-grants"
+          ]
+        },
+        "filesystem": {
+          "support": "partial",
+          "answer": "Worktrees separate files; no filesystem boundary.",
+          "evidenceIds": [
+            "worktree-src"
+          ]
+        },
+        "process": {
+          "support": "partial",
+          "answer": "Grants bound tuios API calls, not processes.",
+          "evidenceIds": [
+            "agents-grants"
+          ]
+        },
+        "network": {
+          "support": "unsupported",
+          "answer": "No network boundary.",
+          "evidenceIds": [
+            "agents-grants"
+          ]
+        },
+        "secrets": {
+          "support": "partial",
+          "answer": "Panes avoid inheriting agent session variables; no secret store.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "code_separation": {
+          "support": "supported",
+          "answer": "Each fan attempt has its own worktree.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "security_boundary": {
+          "support": "unsupported",
+          "answer": "Docs state what grants do not cover; no hostile-code containment.",
+          "evidenceIds": [
+            "agents-grants"
+          ]
+        }
+      },
+      "limitations": [
+        "container: unsupported",
+        "vm: unsupported",
+        "os_sandbox: unsupported",
+        "filesystem: partial"
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "agents",
+        "worktree-src",
+        "readme",
+        "agents-grants",
+        "sessions"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch03-tuios",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tuios:RUN-03",
+      "criterionId": "RUN-03",
+      "answer": "Daemon keeps PTYs through client loss; a daemon restart restores layout, history and offers conversation resume but not running programs; hosts queue mail when links drop.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v0.12.1 (commit 850335c0c08bb8b802406fcc7f254355c89af04a, 2026-10-31); source pass 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "client_disconnect": {
+          "support": "supported",
+          "answer": "Agents keep running; reattach repaints.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "worker_crash": {
+          "support": "partial",
+          "answer": "Daemon crash restores structure as of the last save; running programs are lost.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "service_restart": {
+          "support": "partial",
+          "answer": "Layout and history return; fresh shells replace processes.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "expiry": {
+          "support": "not-applicable",
+          "answer": "No sandbox that expires.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "transcript_reload": {
+          "support": "supported",
+          "answer": "Screen contents and scrollback are saved and restored as history.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "process_reconnect": {
+          "support": "supported",
+          "answer": "Client reattach reconnects to live PTYs.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "task_resume": {
+          "support": "supported",
+          "answer": "Resume rows or auto resume reopen harness conversations.",
+          "evidenceIds": [
+            "agents-resume"
+          ]
+        },
+        "state_reconstruction": {
+          "support": "partial",
+          "answer": "Structure restored; restored panes report no agent state until the new shell does.",
+          "evidenceIds": [
+            "agents-resume"
+          ]
+        },
+        "context_loss": {
+          "support": "partial",
+          "answer": "The turn running at restart did not finish; mail is lost.",
+          "evidenceIds": [
+            "agents-resume",
+            "agents-mail"
+          ]
+        },
+        "duplicate_actions": {
+          "support": "unknown",
+          "answer": "Not stated for resumed turns.",
+          "evidenceIds": []
+        },
+        "manual_repair": {
+          "support": "partial",
+          "answer": "tuios doctor and resume-agent commands help; shell prompt integration may need fixing.",
+          "evidenceIds": [
+            "cli",
+            "agents-resume"
+          ]
+        },
+        "multi_day_continuity": {
+          "support": "supported",
+          "answer": "Sessions and conversations persist across restarts and reboots.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        }
+      },
+      "limitations": [
+        "worker_crash: partial",
+        "service_restart: partial",
+        "expiry: not-applicable",
+        "state_reconstruction: partial"
+      ],
+      "unknownReason": "Not stated in the documentation.",
+      "evidenceIds": [
+        "sessions",
+        "agents-resume",
+        "agents-mail",
+        "cli"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch03-tuios",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tuios:RUN-04",
+      "criterionId": "RUN-04",
+      "answer": "Worktrees and an after-new-worktree hook for setup such as copying .env; no snapshots, service orchestration or port allocation.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v0.12.1 (commit 850335c0c08bb8b802406fcc7f254355c89af04a, 2026-10-31); source pass 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "dependencies": {
+          "support": "partial",
+          "answer": "A worktree setup command can install dependencies; none is built in.",
+          "evidenceIds": [
+            "cli",
+            "hooks"
+          ]
+        },
+        "caches": {
+          "support": "unsupported",
+          "answer": "None found.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "snapshots": {
+          "support": "unsupported",
+          "answer": "Turn checkpoints snapshot files, not environments.",
+          "evidenceIds": [
+            "agents-checkpoints"
+          ]
+        },
+        "services": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "ports": {
+          "support": "unsupported",
+          "answer": "No port allocation.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "secrets": {
+          "support": "partial",
+          "answer": ".env copy via setup command; --env per pane.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "duplicate_installs": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "collisions": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "remote_setup": {
+          "support": "partial",
+          "answer": "worktree pull and hosts sync move work between machines.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "automatic_repair": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "cli"
+          ]
+        }
+      },
+      "limitations": [
+        "dependencies: partial",
+        "caches: unsupported",
+        "snapshots: unsupported",
+        "services: unsupported"
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "cli",
+        "hooks",
+        "agents-checkpoints",
+        "agents"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch03-tuios",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tuios:RUN-05",
+      "criterionId": "RUN-05",
+      "answer": "No time, token or spend limits; rate limiting only on agent mail; rate-limit retries are shown from harnesses.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v0.12.1 (commit 850335c0c08bb8b802406fcc7f254355c89af04a, 2026-10-31); source pass 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "time_limits": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "turn_limits": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "token_limits": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "spend_limits": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "timeouts": {
+          "support": "partial",
+          "answer": "The 30-second first-run prompt fallback and 10-second git bounds.",
+          "evidenceIds": [
+            "agents",
+            "agents-review"
+          ]
+        },
+        "retries": {
+          "support": "unsupported",
+          "answer": "No product retry; harness retries are displayed.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "provider_failures": {
+          "support": "partial",
+          "answer": "Harness rate limit retry states are shown, not handled.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "enforcement": {
+          "support": "partial",
+          "answer": "Mail rate limit and review bounds only.",
+          "evidenceIds": [
+            "agents-mail",
+            "agents-review"
+          ]
+        }
+      },
+      "limitations": [
+        "time_limits: unsupported",
+        "turn_limits: unsupported",
+        "token_limits: unsupported",
+        "spend_limits: unsupported"
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "agents",
+        "agents-review",
+        "agents-mail"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch03-tuios",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tuios:RUN-06",
+      "criterionId": "RUN-06",
+      "answer": "Per-pane truthful state with confidence sources, finished-turn items, away recap and hooks; model, context and cost metadata when reported; no usage export or project statistics.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v0.12.1 (commit 850335c0c08bb8b802406fcc7f254355c89af04a, 2026-10-31); source pass 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "logs": {
+          "support": "partial",
+          "answer": "Pane scrollback and doctor tools; debug logging exists.",
+          "evidenceIds": [
+            "sessions",
+            "cli"
+          ]
+        },
+        "traces": {
+          "support": "unsupported",
+          "answer": "No traces.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "failure_reasons": {
+          "support": "supported",
+          "answer": "errored state carries why.",
+          "evidenceIds": [
+            "agents-proto"
+          ]
+        },
+        "usage_export": {
+          "support": "unsupported",
+          "answer": "No export.",
+          "evidenceIds": [
+            "agents-meta"
+          ]
+        },
+        "task_stats": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "agents-meta"
+          ]
+        },
+        "agent_stats": {
+          "support": "partial",
+          "answer": "Per-agent model, context, cost, elapsed on rail rows.",
+          "evidenceIds": [
+            "agents-meta"
+          ]
+        },
+        "project_stats": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "agents-meta"
+          ]
+        },
+        "time_stats": {
+          "support": "partial",
+          "answer": "Elapsed time per agent row.",
+          "evidenceIds": [
+            "agents-meta"
+          ]
+        },
+        "failure_status": {
+          "support": "supported",
+          "answer": "errored state.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "approval_status": {
+          "support": "supported",
+          "answer": "needs_input with approval kind.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "reconnect_consistency": {
+          "support": "supported",
+          "answer": "State has sources, confidence and precedence; reattach restores state.",
+          "evidenceIds": [
+            "agents",
+            "sessions"
+          ]
+        },
+        "performance_method": {
+          "support": "not-applicable",
+          "answer": "Catalog measures no speed; ADEMark does not list tuios.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "responsiveness": {
+          "support": "unknown",
+          "answer": "Not established by source reading.",
+          "evidenceIds": []
+        }
+      },
+      "limitations": [
+        "logs: partial",
+        "traces: unsupported",
+        "usage_export: unsupported",
+        "task_stats: unsupported"
+      ],
+      "unknownReason": "Not established by source reading.",
+      "evidenceIds": [
+        "sessions",
+        "cli",
+        "agents",
+        "agents-proto",
+        "agents-meta",
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch03-tuios",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tuios:RUN-07",
+      "criterionId": "RUN-07",
+      "answer": "Context percentage and, where the protocol sends it (ACP), session cost appear as display-only metadata; no per-task aggregation or export.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v0.12.1 (commit 850335c0c08bb8b802406fcc7f254355c89af04a, 2026-10-31); source pass 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "task_cost": {
+          "support": "partial",
+          "answer": "ACP usage_update cost shown per pane when sent; Codex sends none.",
+          "evidenceIds": [
+            "agents-meta",
+            "agents-proto"
+          ]
+        },
+        "session_cost": {
+          "support": "partial",
+          "answer": "Same metadata per pane session.",
+          "evidenceIds": [
+            "agents-meta"
+          ]
+        },
+        "child_cost": {
+          "support": "unsupported",
+          "answer": "No aggregation.",
+          "evidenceIds": [
+            "agents-meta"
+          ]
+        },
+        "epic_cost": {
+          "support": "unsupported",
+          "answer": "No epics.",
+          "evidenceIds": [
+            "agents-meta"
+          ]
+        },
+        "harness_aggregation": {
+          "support": "unsupported",
+          "answer": "No aggregation.",
+          "evidenceIds": [
+            "agents-meta"
+          ]
+        },
+        "billed_vs_estimated": {
+          "support": "unsupported",
+          "answer": "Cost is whatever the agent reports.",
+          "evidenceIds": [
+            "agents-meta"
+          ]
+        },
+        "tokens": {
+          "support": "partial",
+          "answer": "Context fill from Codex and ACP usage updates.",
+          "evidenceIds": [
+            "agents-proto"
+          ]
+        },
+        "subscription_allowance": {
+          "support": "unsupported",
+          "answer": "No allowance display.",
+          "evidenceIds": [
+            "agents-meta"
+          ]
+        },
+        "provider_reconciliation": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "agents-meta"
+          ]
+        },
+        "compute_cost": {
+          "support": "not-applicable",
+          "answer": "No compute fees.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "refresh_delay": {
+          "support": "partial",
+          "answer": "Metadata resent each turn; TTL-capped.",
+          "evidenceIds": [
+            "agents-meta"
+          ]
+        },
+        "alerts": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "agents-meta"
+          ]
+        },
+        "export": {
+          "support": "unsupported",
+          "answer": "Display-only; list-agents JSON carries meta.",
+          "evidenceIds": [
+            "agents-meta"
+          ]
+        },
+        "drilldown": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "agents-meta"
+          ]
+        }
+      },
+      "limitations": [
+        "task_cost: partial",
+        "session_cost: partial",
+        "child_cost: unsupported",
+        "epic_cost: unsupported"
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "agents-meta",
+        "agents-proto",
+        "license"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch03-tuios",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tuios:RUN-08",
+      "criterionId": "RUN-08",
+      "answer": "No compute-aware scheduling; fan starts N agents at once; bounded git calls and rate-limited mail only.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v0.12.1 (commit 850335c0c08bb8b802406fcc7f254355c89af04a, 2026-10-31); source pass 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "concurrency": {
+          "support": "unsupported",
+          "answer": "Bounded search of docs finds no scheduler, resource limits or check deduplication; fan verify runs one command in all attempts.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "queues": {
+          "support": "unsupported",
+          "answer": "Bounded search of docs finds no scheduler, resource limits or check deduplication; fan verify runs one command in all attempts.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "cpu_ram": {
+          "support": "unsupported",
+          "answer": "Bounded search of docs finds no scheduler, resource limits or check deduplication; fan verify runs one command in all attempts.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "backpressure": {
+          "support": "unsupported",
+          "answer": "Bounded search of docs finds no scheduler, resource limits or check deduplication; fan verify runs one command in all attempts.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "host_awareness": {
+          "support": "unsupported",
+          "answer": "Bounded search of docs finds no scheduler, resource limits or check deduplication; fan verify runs one command in all attempts.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "check_reuse": {
+          "support": "unsupported",
+          "answer": "Bounded search of docs finds no scheduler, resource limits or check deduplication; fan verify runs one command in all attempts.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "check_deduplication": {
+          "support": "unsupported",
+          "answer": "Bounded search of docs finds no scheduler, resource limits or check deduplication; fan verify runs one command in all attempts.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "bounded_tests": {
+          "support": "unsupported",
+          "answer": "Bounded search of docs finds no scheduler, resource limits or check deduplication; fan verify runs one command in all attempts.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "cancellation": {
+          "support": "partial",
+          "answer": "Panes can be closed; no dedicated cancel for queued work.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "fairness": {
+          "support": "unsupported",
+          "answer": "Bounded search of docs finds no scheduler, resource limits or check deduplication; fan verify runs one command in all attempts.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "recovery": {
+          "support": "unsupported",
+          "answer": "Bounded search of docs finds no scheduler, resource limits or check deduplication; fan verify runs one command in all attempts.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "shared_limits": {
+          "support": "unsupported",
+          "answer": "Bounded search of docs finds no scheduler, resource limits or check deduplication; fan verify runs one command in all attempts.",
+          "evidenceIds": [
+            "agents"
+          ]
+        }
+      },
+      "limitations": [
+        "concurrency: unsupported",
+        "queues: unsupported",
+        "cpu_ram: unsupported",
+        "backpressure: unsupported"
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "agents"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch03-tuios",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tuios:TEAM-01",
+      "criterionId": "TEAM-01",
+      "answer": "Single-user tool: the daemon socket is 0700 per user; several clients can attach to the same session as the same user; tuios-web gives anyone with the password a shell; no named user presence, comments or roles.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v0.12.1 (commit 850335c0c08bb8b802406fcc7f254355c89af04a, 2026-10-31); source pass 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "visibility": {
+          "support": "partial",
+          "answer": "Multiple clients of one user can watch one session; tuios-web sessions are shared by password holders.",
+          "evidenceIds": [
+            "sessions",
+            "web"
+          ]
+        },
+        "discussion": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "comments": {
+          "support": "unsupported",
+          "answer": "Review notes address the agent, not colleagues.",
+          "evidenceIds": [
+            "agents-review"
+          ]
+        },
+        "presence": {
+          "support": "unsupported",
+          "answer": "No named presence.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "coprompting": {
+          "support": "partial",
+          "answer": "Several clients can type into one session; input arrives from the latest client.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "ordering": {
+          "support": "unknown",
+          "answer": "Input ordering across clients is not documented beyond latest-client sizing.",
+          "evidenceIds": []
+        },
+        "conflicts": {
+          "support": "unknown",
+          "answer": "Not documented.",
+          "evidenceIds": []
+        },
+        "attribution": {
+          "support": "unsupported",
+          "answer": "No per-user attribution.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "permissions": {
+          "support": "partial",
+          "answer": "tuios-web password and read-only mode.",
+          "evidenceIds": [
+            "web"
+          ]
+        },
+        "plan_restrictions": {
+          "support": "not-applicable",
+          "answer": "Free tool without plans.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "owner_online": {
+          "support": "partial",
+          "answer": "Daemon must run on the host; the owner client need not stay attached.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        }
+      },
+      "limitations": [
+        "visibility: partial",
+        "discussion: unsupported",
+        "comments: unsupported",
+        "presence: unsupported"
+      ],
+      "unknownReason": "Not documented.",
+      "evidenceIds": [
+        "sessions",
+        "web",
+        "agents-review",
+        "license"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch03-tuios",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tuios:TEAM-02",
+      "criterionId": "TEAM-02",
+      "answer": "No roles; the daemon socket is per-user and not designed for other users; tuios-web has a single password user.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v0.12.1 (commit 850335c0c08bb8b802406fcc7f254355c89af04a, 2026-10-31); source pass 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "organization_roles": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "agents-grants"
+          ]
+        },
+        "project_roles": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "agents-grants"
+          ]
+        },
+        "task_roles": {
+          "support": "partial",
+          "answer": "Pane grants (read, write, fan, respond) are per pane.",
+          "evidenceIds": [
+            "agents-grants"
+          ]
+        },
+        "membership": {
+          "support": "unsupported",
+          "answer": "No membership.",
+          "evidenceIds": [
+            "web"
+          ]
+        },
+        "sso": {
+          "support": "unsupported",
+          "answer": "No SSO.",
+          "evidenceIds": [
+            "web"
+          ]
+        },
+        "provisioning": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "web"
+          ]
+        },
+        "unauthorized_access": {
+          "support": "partial",
+          "answer": "Socket 0700; web password; link policy.",
+          "evidenceIds": [
+            "agents-grants",
+            "web"
+          ]
+        },
+        "revocation": {
+          "support": "partial",
+          "answer": "Remove an ssh key and host table to revoke a paired device.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "plan_scope": {
+          "support": "not-applicable",
+          "answer": "No plans.",
+          "evidenceIds": [
+            "license"
+          ]
+        }
+      },
+      "limitations": [
+        "organization_roles: unsupported",
+        "project_roles: unsupported",
+        "task_roles: partial",
+        "membership: unsupported"
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "agents-grants",
+        "web",
+        "sessions",
+        "license"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch03-tuios",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tuios:TEAM-03",
+      "criterionId": "TEAM-03",
+      "answer": "Inbox approvals for opted-in harnesses with enforced risk rules, per-pane grants, push confirmation tokens and per-host policy; full access depends on each harness.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v0.12.1 (commit 850335c0c08bb8b802406fcc7f254355c89af04a, 2026-10-31); source pass 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "command": {
+          "support": "supported",
+          "answer": "Inbox answers permission prompts for configured harnesses with risk rules.",
+          "evidenceIds": [
+            "agents-approvals"
+          ]
+        },
+        "tool": {
+          "support": "partial",
+          "answer": "Whole-call checks for supported tool calls; others stay in the harness.",
+          "evidenceIds": [
+            "agents-approvals"
+          ]
+        },
+        "network": {
+          "support": "partial",
+          "answer": "Push and PR need confirmation; no network policy for panes.",
+          "evidenceIds": [
+            "agents-ship"
+          ]
+        },
+        "secret": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "agents-grants"
+          ]
+        },
+        "delivery": {
+          "support": "supported",
+          "answer": "ship push and pr require a token-bound confirm and, from a pane, an Inbox yes.",
+          "evidenceIds": [
+            "agents-ship"
+          ]
+        },
+        "approver_identity": {
+          "support": "supported",
+          "answer": "Only the person can answer; replies are marked verified.",
+          "evidenceIds": [
+            "agents-grants"
+          ]
+        },
+        "lifetime": {
+          "support": "partial",
+          "answer": "Grants fixed per pane at start.",
+          "evidenceIds": [
+            "agents-grants"
+          ]
+        },
+        "allow": {
+          "support": "supported",
+          "answer": "Allow from Inbox.",
+          "evidenceIds": [
+            "agents-approvals"
+          ]
+        },
+        "deny": {
+          "support": "supported",
+          "answer": "Deny with a reason.",
+          "evidenceIds": [
+            "agents-approvals"
+          ]
+        },
+        "revoke": {
+          "support": "partial",
+          "answer": "Config changes and pane close; no live revocation.",
+          "evidenceIds": [
+            "agents-grants"
+          ]
+        },
+        "tunnels": {
+          "support": "supported",
+          "answer": "tuios-web needs password, TLS and read-only; phone pairing keys expire in 5 minutes and are revocable.",
+          "evidenceIds": [
+            "web",
+            "sessions"
+          ]
+        },
+        "defaults": {
+          "support": "partial",
+          "answer": "Approvals are off by default; permission mode is admin unless strict.",
+          "evidenceIds": [
+            "config"
+          ]
+        },
+        "safer_modes": {
+          "support": "supported",
+          "answer": "agents.permissions mode = strict with listed grants.",
+          "evidenceIds": [
+            "config"
+          ]
+        },
+        "enforcement": {
+          "support": "supported",
+          "answer": "The daemon enforces grants, risk_ack and restricted connections.",
+          "evidenceIds": [
+            "agents-grants",
+            "agents-approvals"
+          ]
+        }
+      },
+      "limitations": [
+        "tool: partial",
+        "network: partial",
+        "secret: unsupported",
+        "lifetime: partial"
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "agents-approvals",
+        "agents-ship",
+        "agents-grants",
+        "web",
+        "sessions",
+        "config"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch03-tuios",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tuios:TEAM-04",
+      "criterionId": "TEAM-04",
+      "answer": "Event stream, hooks and scrollback record activity locally; no user-attributed audit log, export or integrity model.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v0.12.1 (commit 850335c0c08bb8b802406fcc7f254355c89af04a, 2026-10-31); source pass 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "actions": {
+          "support": "partial",
+          "answer": "tuios subscribe streams events; scrollback keeps output.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "approvals": {
+          "support": "partial",
+          "answer": "Approvals appear in the Inbox; retention not documented.",
+          "evidenceIds": [
+            "agents-approvals"
+          ]
+        },
+        "edits": {
+          "support": "partial",
+          "answer": "Turn checkpoints record file state per turn.",
+          "evidenceIds": [
+            "agents-checkpoints"
+          ]
+        },
+        "discussion": {
+          "support": "partial",
+          "answer": "Mail within one daemon run.",
+          "evidenceIds": [
+            "agents-mail"
+          ]
+        },
+        "decisions": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "cross_user_persistence": {
+          "support": "unsupported",
+          "answer": "Single user.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "cross_session_persistence": {
+          "support": "partial",
+          "answer": "Layout and scrollback persist; mail does not.",
+          "evidenceIds": [
+            "sessions",
+            "agents-mail"
+          ]
+        },
+        "export": {
+          "support": "partial",
+          "answer": "list-agents --json and event stream; no history export.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "mutability": {
+          "support": "unknown",
+          "answer": "Not documented.",
+          "evidenceIds": []
+        },
+        "retention": {
+          "support": "partial",
+          "answer": "Scrollback keeps last 1000 lines by default.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "integrity": {
+          "support": "unsupported",
+          "answer": "No integrity model.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        }
+      },
+      "limitations": [
+        "actions: partial",
+        "approvals: partial",
+        "edits: partial",
+        "discussion: partial"
+      ],
+      "unknownReason": "Not documented.",
+      "evidenceIds": [
+        "agents",
+        "agents-approvals",
+        "agents-checkpoints",
+        "agents-mail",
+        "sessions",
+        "cli"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch03-tuios",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tuios:TEAM-05",
+      "criterionId": "TEAM-05",
+      "answer": "tuios review shows diffs with line notes sent to the agent as one message; checkpoints and compare views help; works in terminal or browser terminal; no PR-style queue.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v0.12.1 (commit 850335c0c08bb8b802406fcc7f254355c89af04a, 2026-10-31); source pass 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "pending_reviews": {
+          "support": "partial",
+          "answer": "Inbox lists finished turns and conversations; fan compare lists attempts.",
+          "evidenceIds": [
+            "agents",
+            "agents-review"
+          ]
+        },
+        "change_understanding": {
+          "support": "supported",
+          "answer": "Review diff against a base with committed and uncommitted work.",
+          "evidenceIds": [
+            "agents-review"
+          ]
+        },
+        "evidence_navigation": {
+          "support": "partial",
+          "answer": "fan compare, fan verify and fan diff compare attempts and checks.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "comments": {
+          "support": "supported",
+          "answer": "review note FILE:LINE.",
+          "evidenceIds": [
+            "agents-review"
+          ]
+        },
+        "request_changes": {
+          "support": "supported",
+          "answer": "review send types the notes to the agent at rest.",
+          "evidenceIds": [
+            "agents-review"
+          ]
+        },
+        "shipping_guidance": {
+          "support": "supported",
+          "answer": "ship commit, merge and pr; rail shows PR checks.",
+          "evidenceIds": [
+            "agents-ship"
+          ]
+        },
+        "effort": {
+          "support": "unknown",
+          "answer": "Not established.",
+          "evidenceIds": []
+        },
+        "missed_evidence": {
+          "support": "unknown",
+          "answer": "Not established.",
+          "evidenceIds": []
+        },
+        "keyboard": {
+          "support": "supported",
+          "answer": "Keyboard-first TUI with documented keys.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "narrow_screen": {
+          "support": "partial",
+          "answer": "tuios-web works on phones with touch support; layout narrowness not documented.",
+          "evidenceIds": [
+            "web"
+          ]
+        },
+        "context_switching": {
+          "support": "supported",
+          "answer": "Inbox jumps to the oldest item.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "roles": {
+          "support": "partial",
+          "answer": "Named helpers such as reviewer.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "retained_context": {
+          "support": "supported",
+          "answer": "Notes and checkpoints persist.",
+          "evidenceIds": [
+            "agents-review",
+            "agents-checkpoints"
+          ]
+        }
+      },
+      "limitations": [
+        "pending_reviews: partial",
+        "evidence_navigation: partial",
+        "effort: unknown",
+        "missed_evidence: unknown"
+      ],
+      "unknownReason": "Not established by documentation.",
+      "evidenceIds": [
+        "agents",
+        "agents-review",
+        "agents-ship",
+        "readme",
+        "web",
+        "agents-checkpoints"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch03-tuios",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tuios:TEAM-06",
+      "criterionId": "TEAM-06",
+      "answer": "Another client of the same user can attach to the same session, with state and scrollback; there is no multi-user takeover or ownership transfer.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v0.12.1 (commit 850335c0c08bb8b802406fcc7f254355c89af04a, 2026-10-31); source pass 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "ongoing_takeover": {
+          "support": "partial",
+          "answer": "Same-user attach from another device.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "same_task": {
+          "support": "supported",
+          "answer": "Attach shows the same session and panes.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "session_history": {
+          "support": "supported",
+          "answer": "Scrollback repaints on attach.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "decisions": {
+          "support": "partial",
+          "answer": "Inbox state is shared per daemon.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "artifacts": {
+          "support": "partial",
+          "answer": "Worktrees and stash are on the host.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "permissions": {
+          "support": "unsupported",
+          "answer": "No per-user permissions.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "runtime_context": {
+          "support": "supported",
+          "answer": "The daemon host is the runtime.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "owner_disconnect": {
+          "support": "supported",
+          "answer": "Work continues when the client detaches.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "ownership": {
+          "support": "unsupported",
+          "answer": "No ownership transfer.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "attribution": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "context_loss": {
+          "support": "partial",
+          "answer": "Mail is lost on daemon restart.",
+          "evidenceIds": [
+            "agents-mail"
+          ]
+        },
+        "harness_transfer": {
+          "support": "unsupported",
+          "answer": "No transfer to another harness; the harness conversation resume is per harness.",
+          "evidenceIds": [
+            "agents-resume"
+          ]
+        }
+      },
+      "limitations": [
+        "ongoing_takeover: partial",
+        "decisions: partial",
+        "artifacts: partial",
+        "permissions: unsupported"
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "sessions",
+        "agents",
+        "agents-mail",
+        "agents-resume"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch03-tuios",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tuios:SHIP-01",
+      "criterionId": "SHIP-01",
+      "answer": "Diffs and per-turn checkpoints persist in git refs; scrollback and screenshots via terminal; no artifact gallery or recordings.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v0.12.1 (commit 850335c0c08bb8b802406fcc7f254355c89af04a, 2026-10-31); source pass 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "diffs": {
+          "support": "supported",
+          "answer": "review diff and checkpoint diff.",
+          "evidenceIds": [
+            "agents-review",
+            "agents-checkpoints"
+          ]
+        },
+        "documents": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "screenshots": {
+          "support": "partial",
+          "answer": "Capture and screenshot verbs exist in the control protocol.",
+          "evidenceIds": [
+            "protocol"
+          ]
+        },
+        "recordings": {
+          "support": "partial",
+          "answer": "Terminal tape recording and scripting exist for sessions; no recordings of agent task output.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "previews": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "test_outputs": {
+          "support": "partial",
+          "answer": "fan verify records one check per attempt.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "reviewer_outputs": {
+          "support": "partial",
+          "answer": "Review notes persist while the daemon runs.",
+          "evidenceIds": [
+            "agents-review"
+          ]
+        },
+        "gallery": {
+          "support": "unsupported",
+          "answer": "No gallery.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "task_links": {
+          "support": "supported",
+          "answer": "Checkpoints keyed by pane window id.",
+          "evidenceIds": [
+            "agents-checkpoints"
+          ]
+        },
+        "revision_links": {
+          "support": "supported",
+          "answer": "Checkpoint commits record parent HEAD.",
+          "evidenceIds": [
+            "agents-checkpoints"
+          ]
+        },
+        "persistence": {
+          "support": "supported",
+          "answer": "Git refs survive sessions.",
+          "evidenceIds": [
+            "agents-checkpoints"
+          ]
+        },
+        "child_findings": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "prompt_leakage": {
+          "support": "unknown",
+          "answer": "Not evaluated.",
+          "evidenceIds": []
+        }
+      },
+      "limitations": [
+        "documents: unsupported",
+        "screenshots: partial",
+        "recordings: partial",
+        "previews: unsupported"
+      ],
+      "unknownReason": "Not evaluated.",
+      "evidenceIds": [
+        "agents-review",
+        "agents-checkpoints",
+        "agents",
+        "protocol",
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch03-tuios",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tuios:SHIP-02",
+      "criterionId": "SHIP-02",
+      "answer": "fan verify runs one command across attempts; no required checks or gates, though ship status shows PR checks.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v0.12.1 (commit 850335c0c08bb8b802406fcc7f254355c89af04a, 2026-10-31); source pass 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "tests": {
+          "support": "partial",
+          "answer": "fan verify runs a check in every attempt.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "lint": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "types": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "ci": {
+          "support": "partial",
+          "answer": "ship status reads PR checks via gh.",
+          "evidenceIds": [
+            "agents-ship"
+          ]
+        },
+        "independent_review": {
+          "support": "partial",
+          "answer": "start-agent can run a reviewer agent by convention.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "spec_checks": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "required_checks": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "failure_blocking": {
+          "support": "partial",
+          "answer": "ship commit is refused while the agent is working.",
+          "evidenceIds": [
+            "agents-ship"
+          ]
+        },
+        "requirement_conflicts": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "configured_policy": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "enforced_policy": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "agents"
+          ]
+        }
+      },
+      "limitations": [
+        "tests: partial",
+        "lint: unsupported",
+        "types: unsupported",
+        "ci: partial"
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "agents",
+        "agents-ship"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch03-tuios",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tuios:SHIP-03",
+      "criterionId": "SHIP-03",
+      "answer": "Worktrees, review, commits, merge, push and PR creation through ship verbs using the user git and gh; PR and check state on the rail; no rebase tooling.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v0.12.1 (commit 850335c0c08bb8b802406fcc7f254355c89af04a, 2026-10-31); source pass 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "branches": {
+          "support": "supported",
+          "answer": "worktree new.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "worktrees": {
+          "support": "supported",
+          "answer": "fan, worktree ls/pull, fan keep.",
+          "evidenceIds": [
+            "agents",
+            "worktree-src"
+          ]
+        },
+        "commits": {
+          "support": "supported",
+          "answer": "ship commit with the user git identity.",
+          "evidenceIds": [
+            "agents-ship"
+          ]
+        },
+        "pull_requests": {
+          "support": "supported",
+          "answer": "ship pr pushes and opens a PR via gh.",
+          "evidenceIds": [
+            "agents-ship",
+            "ghpr-src"
+          ]
+        },
+        "comments": {
+          "support": "unsupported",
+          "answer": "No PR comment handling.",
+          "evidenceIds": [
+            "agents-ship"
+          ]
+        },
+        "ci_response": {
+          "support": "partial",
+          "answer": "ship status shows checks; no automatic response.",
+          "evidenceIds": [
+            "agents-ship"
+          ]
+        },
+        "rebase": {
+          "support": "unsupported",
+          "answer": "ship merge and squash; no rebase verb.",
+          "evidenceIds": [
+            "agents-ship"
+          ]
+        },
+        "conflicts": {
+          "support": "partial",
+          "answer": "ship merge undoes a conflicting merge and lists files.",
+          "evidenceIds": [
+            "agents-ship"
+          ]
+        },
+        "product_state": {
+          "support": "supported",
+          "answer": "PR token and checks recorded on the worktree session.",
+          "evidenceIds": [
+            "agents-ship"
+          ]
+        }
+      },
+      "limitations": [
+        "comments: unsupported",
+        "ci_response: partial",
+        "rebase: unsupported",
+        "conflicts: partial"
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "agents",
+        "worktree-src",
+        "agents-ship",
+        "ghpr-src"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch03-tuios",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tuios:SHIP-04",
+      "criterionId": "SHIP-04",
+      "answer": "The person runs commit, merge, push and PR; push and PR from a pane need Inbox approval; no release or deploy authority.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v0.12.1 (commit 850335c0c08bb8b802406fcc7f254355c89af04a, 2026-10-31); source pass 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "approve": {
+          "support": "supported",
+          "answer": "Confirm tokens bind push and PR to a specific commit.",
+          "evidenceIds": [
+            "agents-ship"
+          ]
+        },
+        "merge": {
+          "support": "supported",
+          "answer": "ship merge into the base checkout.",
+          "evidenceIds": [
+            "agents-ship"
+          ]
+        },
+        "release": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "agents-ship"
+          ]
+        },
+        "deploy": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "agents-ship"
+          ]
+        },
+        "exact_revision": {
+          "support": "supported",
+          "answer": "Token hashes branch, commit, remote and PR.",
+          "evidenceIds": [
+            "agents-ship"
+          ]
+        },
+        "authority_enforcement": {
+          "support": "supported",
+          "answer": "Daemon enforces grants and Inbox approval for pane callers.",
+          "evidenceIds": [
+            "agents-ship",
+            "agents-grants"
+          ]
+        }
+      },
+      "limitations": [
+        "release: unsupported",
+        "deploy: unsupported"
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "agents-ship",
+        "agents-grants"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch03-tuios",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tuios:SHIP-05",
+      "criterionId": "SHIP-05",
+      "answer": "Turn checkpoints restore files; PR token and checks on the rail; merge undo on conflict; no build or deployment links.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v0.12.1 (commit 850335c0c08bb8b802406fcc7f254355c89af04a, 2026-10-31); source pass 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "commit_links": {
+          "support": "partial",
+          "answer": "Worktree sessions record branch; ship commit makes commits.",
+          "evidenceIds": [
+            "agents-ship"
+          ]
+        },
+        "pr_links": {
+          "support": "supported",
+          "answer": "PR recorded on the worktree session and rail.",
+          "evidenceIds": [
+            "agents-ship"
+          ]
+        },
+        "build_links": {
+          "support": "partial",
+          "answer": "PR checks status only.",
+          "evidenceIds": [
+            "agents-ship"
+          ]
+        },
+        "deployment_links": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "agents-ship"
+          ]
+        },
+        "delivery_status": {
+          "support": "supported",
+          "answer": "PR open pending, pass, fail or merged.",
+          "evidenceIds": [
+            "agents-ship"
+          ]
+        },
+        "retained_evidence": {
+          "support": "partial",
+          "answer": "Checkpoints and PR record.",
+          "evidenceIds": [
+            "agents-checkpoints"
+          ]
+        },
+        "rollback": {
+          "support": "supported",
+          "answer": "checkpoint restore.",
+          "evidenceIds": [
+            "agents-checkpoints"
+          ]
+        },
+        "revert": {
+          "support": "supported",
+          "answer": "Restore a turn; merge conflicts are reset.",
+          "evidenceIds": [
+            "agents-checkpoints",
+            "agents-ship"
+          ]
+        },
+        "stale_approval_invalidation": {
+          "support": "supported",
+          "answer": "Confirm token is hash of the current commit, so a changed candidate needs a new token.",
+          "evidenceIds": [
+            "agents-ship"
+          ]
+        }
+      },
+      "limitations": [
+        "commit_links: partial",
+        "build_links: partial",
+        "deployment_links: unsupported",
+        "retained_evidence: partial"
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "agents-ship",
+        "agents-checkpoints"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch03-tuios",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tuios:SHIP-06",
+      "criterionId": "SHIP-06",
+      "answer": "fan compare, verify, diff and keep give a coordinated compare-and-merge flow for parallel attempts; no cross-task review queue or risk/size filters.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v0.12.1 (commit 850335c0c08bb8b802406fcc7f254355c89af04a, 2026-10-31); source pass 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "review_queue": {
+          "support": "partial",
+          "answer": "Inbox lists finished turns across sessions.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "summaries": {
+          "support": "partial",
+          "answer": "Finished turn items carry the reply first line.",
+          "evidenceIds": [
+            "agents-proto"
+          ]
+        },
+        "grouping": {
+          "support": "supported",
+          "answer": "Fan groups and repository grouping.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "risk_size_filters": {
+          "support": "partial",
+          "answer": "Selectors filter by state and group; diff limits by files and size.",
+          "evidenceIds": [
+            "agents",
+            "agents-review"
+          ]
+        },
+        "findings": {
+          "support": "partial",
+          "answer": "Review notes per session.",
+          "evidenceIds": [
+            "agents-review"
+          ]
+        },
+        "artifacts": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "request_changes": {
+          "support": "supported",
+          "answer": "review send.",
+          "evidenceIds": [
+            "agents-review"
+          ]
+        },
+        "exact_revision_approval": {
+          "support": "supported",
+          "answer": "Token-bound push and PR.",
+          "evidenceIds": [
+            "agents-ship"
+          ]
+        },
+        "dependency_queues": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "next_actions": {
+          "support": "supported",
+          "answer": "Inbox jump and ship commands.",
+          "evidenceIds": [
+            "agents",
+            "agents-ship"
+          ]
+        },
+        "stale_approval_invalidation": {
+          "support": "supported",
+          "answer": "Confirm token binds the commit.",
+          "evidenceIds": [
+            "agents-ship"
+          ]
+        },
+        "check_deduplication": {
+          "support": "partial",
+          "answer": "fan verify runs one check in all attempts; no dedupe.",
+          "evidenceIds": [
+            "agents"
+          ]
+        }
+      },
+      "limitations": [
+        "review_queue: partial",
+        "summaries: partial",
+        "risk_size_filters: partial",
+        "findings: partial"
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "agents",
+        "agents-proto",
+        "agents-review",
+        "agents-ship"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch03-tuios",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tuios:OWN-01",
+      "criterionId": "OWN-01",
+      "answer": "MIT licensed Go source for the CLI, daemon and web terminal; no closed components in the repository; no hosted service.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v0.12.1 (commit 850335c0c08bb8b802406fcc7f254355c89af04a, 2026-10-31); source pass 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "client_license": {
+          "support": "supported",
+          "answer": "MIT license file.",
+          "evidenceIds": [
+            "license",
+            "repo"
+          ]
+        },
+        "server_license": {
+          "support": "supported",
+          "answer": "Daemon and tuios-web are in the same MIT repository.",
+          "evidenceIds": [
+            "license",
+            "webcmd"
+          ]
+        },
+        "hosted_extensions": {
+          "support": "unsupported",
+          "answer": "No hosted extensions exist.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "source_visibility": {
+          "support": "supported",
+          "answer": "Public repository.",
+          "evidenceIds": [
+            "repo"
+          ]
+        },
+        "source_revision": {
+          "support": "supported",
+          "answer": "Pinned tag v0.12.1 at commit 850335c.",
+          "evidenceIds": [
+            "goreleaser"
+          ]
+        },
+        "hosted_parity": {
+          "support": "not-applicable",
+          "answer": "No hosted counterpart.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "hosted_extensions: unsupported",
+        "hosted_parity: not-applicable"
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "license",
+        "repo",
+        "webcmd",
+        "readme",
+        "goreleaser"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-05-15",
+      "researcher": "researcher-batch03-tuios",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tuios:OWN-02",
+      "criterionId": "OWN-02",
+      "answer": "Fully self-hosted local tool with no vendor dependency; state lives in the user daemon files; git worktrees and refs carry portable work.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v0.12.1 (commit 850335c0c08bb8b802406fcc7f254355c89af04a, 2026-10-31); source pass 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "self_hosting": {
+          "support": "supported",
+          "answer": "The whole product runs on user machines.",
+          "evidenceIds": [
+            "readme",
+            "sessions"
+          ]
+        },
+        "vendor_dependencies": {
+          "support": "supported",
+          "answer": "No required vendor service.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "export": {
+          "support": "partial",
+          "answer": "JSON listings and git refs; no history export.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "import": {
+          "support": "partial",
+          "answer": "worktree pull brings work from a host; resurrect restores sessions.",
+          "evidenceIds": [
+            "agents",
+            "sessions"
+          ]
+        },
+        "formats": {
+          "support": "supported",
+          "answer": "Standard git worktrees and branches; TOML config.",
+          "evidenceIds": [
+            "config",
+            "agents"
+          ]
+        },
+        "cancellation": {
+          "support": "not-applicable",
+          "answer": "No account exists.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "account_independence": {
+          "support": "supported",
+          "answer": "No account needed.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "history_portability": {
+          "support": "partial",
+          "answer": "Scrollback is local daemon state.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        }
+      },
+      "limitations": [
+        "export: partial",
+        "import: partial",
+        "cancellation: not-applicable",
+        "history_portability: partial"
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "sessions",
+        "cli",
+        "agents",
+        "config"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-05-15",
+      "researcher": "researcher-batch03-tuios",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tuios:OWN-03",
+      "criterionId": "OWN-03",
+      "answer": "No telemetry code was found in the pinned source; network calls are update checks, web push and gallery feed; prompts and code go wherever the harness sends them.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v0.12.1 (commit 850335c0c08bb8b802406fcc7f254355c89af04a, 2026-10-31); source pass 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "code_data": {
+          "support": "supported",
+          "answer": "tuios handles code locally; agents send it to their providers.",
+          "evidenceIds": [
+            "sessions",
+            "agents"
+          ]
+        },
+        "prompts": {
+          "support": "supported",
+          "answer": "Prompts stay in panes and local mail.",
+          "evidenceIds": [
+            "agents-mail"
+          ]
+        },
+        "credentials": {
+          "support": "partial",
+          "answer": "tuios keeps ssh keys it generates for pairing; harness credentials are untouched.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "logs": {
+          "support": "partial",
+          "answer": "Local logs only.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "artifacts": {
+          "support": "supported",
+          "answer": "Checkpoints are local git refs.",
+          "evidenceIds": [
+            "agents-checkpoints"
+          ]
+        },
+        "retention": {
+          "support": "partial",
+          "answer": "Scrollback limited by config; mail in memory only.",
+          "evidenceIds": [
+            "sessions",
+            "agents-mail"
+          ]
+        },
+        "deletion": {
+          "support": "partial",
+          "answer": "User deletes local files and refs.",
+          "evidenceIds": [
+            "agents-checkpoints"
+          ]
+        },
+        "training": {
+          "support": "not-applicable",
+          "answer": "tuios has no models.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "residency": {
+          "support": "supported",
+          "answer": "Data stays on user machines.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "subprocessors": {
+          "support": "supported",
+          "answer": "No vendor subprocessors.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "telemetry_disclosure": {
+          "support": "unsupported",
+          "answer": "No telemetry documented; bounded search of Go sources for analytics libraries found none.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "telemetry_defaults": {
+          "support": "unsupported",
+          "answer": "No telemetry exists to default.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "telemetry_controls": {
+          "support": "unsupported",
+          "answer": "No telemetry controls exist because no telemetry code was found.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "consent_prompt": {
+          "support": "unsupported",
+          "answer": "No consent prompt documented.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "provider_separation": {
+          "support": "supported",
+          "answer": "No orchestration vendor; providers are the harness vendors.",
+          "evidenceIds": [
+            "agents"
+          ]
+        }
+      },
+      "limitations": [
+        "credentials: partial",
+        "logs: partial",
+        "retention: partial",
+        "deletion: partial"
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "sessions",
+        "agents",
+        "agents-mail",
+        "cli",
+        "agents-checkpoints",
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch03-tuios",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tuios:OWN-04",
+      "criterionId": "OWN-04",
+      "answer": "Free and open source (MIT); no paid plan; model and compute costs depend on the user harnesses and machines.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v0.12.1 (commit 850335c0c08bb8b802406fcc7f254355c89af04a, 2026-10-31); source pass 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "currency": {
+          "support": "not-applicable",
+          "answer": "No price.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "interval": {
+          "support": "not-applicable",
+          "answer": "No billing.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "seats": {
+          "support": "not-applicable",
+          "answer": "No seats.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "seat_minimum": {
+          "support": "not-applicable",
+          "answer": "None.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "workspace_fees": {
+          "support": "supported",
+          "answer": "No fees; MIT license.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "included_usage": {
+          "support": "not-applicable",
+          "answer": "No hosted usage.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "credits": {
+          "support": "not-applicable",
+          "answer": "None.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "trial": {
+          "support": "not-applicable",
+          "answer": "Free software.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "overages": {
+          "support": "not-applicable",
+          "answer": "None.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "taxes": {
+          "support": "not-applicable",
+          "answer": "None.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "model_cost": {
+          "support": "supported",
+          "answer": "Paid to model providers through harnesses, not through tuios.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "compute_cost": {
+          "support": "supported",
+          "answer": "User machines and any ssh hosts.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        }
+      },
+      "limitations": [
+        "currency: not-applicable",
+        "interval: not-applicable",
+        "seats: not-applicable",
+        "seat_minimum: not-applicable"
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "license",
+        "agents",
+        "sessions"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-01-15",
+      "researcher": "researcher-batch03-tuios",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tuios:OWN-05",
+      "criterionId": "OWN-05",
+      "answer": "Software cost is zero for any team size; model and machine costs are user supplied and not modeled.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v0.12.1 (commit 850335c0c08bb8b802406fcc7f254355c89af04a, 2026-10-31); source pass 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "one_person": {
+          "support": "supported",
+          "answer": "The tool costs nothing under MIT; two- and five-person collaboration features are limited (see TEAM-01).",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "two_people": {
+          "support": "supported",
+          "answer": "The tool costs nothing under MIT; two- and five-person collaboration features are limited (see TEAM-01).",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "five_people": {
+          "support": "supported",
+          "answer": "The tool costs nothing under MIT; two- and five-person collaboration features are limited (see TEAM-01).",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "task_assumptions": {
+          "support": "unknown",
+          "answer": "No workloads defined.",
+          "evidenceIds": []
+        },
+        "concurrency": {
+          "support": "unknown",
+          "answer": "Not modeled.",
+          "evidenceIds": []
+        },
+        "tokens": {
+          "support": "unknown",
+          "answer": "Not modeled.",
+          "evidenceIds": []
+        },
+        "compute_hours": {
+          "support": "unknown",
+          "answer": "Not modeled.",
+          "evidenceIds": []
+        },
+        "fixed_cost": {
+          "support": "supported",
+          "answer": "No platform fee.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "variable_cost": {
+          "support": "partial",
+          "answer": "Model costs come from harness plans.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "included_cost": {
+          "support": "supported",
+          "answer": "Everything in the tool is free.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "unknown_cost": {
+          "support": "partial",
+          "answer": "Model and machine costs are unmodeled.",
+          "evidenceIds": [
+            "agents"
+          ]
+        }
+      },
+      "limitations": [
+        "task_assumptions: unknown",
+        "concurrency: unknown",
+        "tokens: unknown",
+        "compute_hours: unknown"
+      ],
+      "unknownReason": "No workload was priced; model and compute costs are outside the product.",
+      "evidenceIds": [
+        "license",
+        "agents"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch03-tuios",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tuios:OWN-06",
+      "criterionId": "OWN-06",
+      "answer": "Open-source releases (v0.12.1 on 2026-10-31) with frequent commits; support through GitHub issues; no commercial response commitments.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v0.12.1 (commit 850335c0c08bb8b802406fcc7f254355c89af04a, 2026-10-31); source pass 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "release_stage": {
+          "support": "supported",
+          "answer": "Tagged releases; version 0.x.",
+          "evidenceIds": [
+            "readme",
+            "goreleaser"
+          ]
+        },
+        "access_restrictions": {
+          "support": "supported",
+          "answer": "Open access.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "support": {
+          "support": "partial",
+          "answer": "GitHub issues and docs; no support contract.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "response_commitments": {
+          "support": "unknown",
+          "answer": "None published.",
+          "evidenceIds": []
+        },
+        "release_activity": {
+          "support": "supported",
+          "answer": "Release v0.12.1 on 2026-10-31 and daily commits on main.",
+          "evidenceIds": [
+            "repo"
+          ]
+        },
+        "status_history": {
+          "support": "not-applicable",
+          "answer": "No hosted service.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "deprecation": {
+          "support": "unknown",
+          "answer": "No deprecation notice found.",
+          "evidenceIds": []
+        },
+        "export_options": {
+          "support": "supported",
+          "answer": "Local files and git.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        }
+      },
+      "limitations": [
+        "support: partial",
+        "response_commitments: unknown",
+        "status_history: not-applicable",
+        "deprecation: unknown"
+      ],
+      "unknownReason": "Not published in the documentation.",
+      "evidenceIds": [
+        "readme",
+        "goreleaser",
+        "license",
+        "repo",
+        "sessions"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch03-tuios",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tuios:OWN-07",
+      "criterionId": "OWN-07",
+      "answer": "No ISO or SOC 2 claims; open-source MIT tool without a hosted service.",
+      "support": "unsupported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v0.12.1 (commit 850335c0c08bb8b802406fcc7f254355c89af04a, 2026-10-31); source pass 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "iso_scope": {
+          "support": "unsupported",
+          "answer": "No certification or audit claim appears in README, docs or SECURITY.md; there is no hosted service to certify.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "iso_issuer": {
+          "support": "unsupported",
+          "answer": "No certification or audit claim appears in README, docs or SECURITY.md; there is no hosted service to certify.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "iso_validity": {
+          "support": "unsupported",
+          "answer": "No certification or audit claim appears in README, docs or SECURITY.md; there is no hosted service to certify.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "soc2_type": {
+          "support": "unsupported",
+          "answer": "No certification or audit claim appears in README, docs or SECURITY.md; there is no hosted service to certify.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "soc2_scope": {
+          "support": "unsupported",
+          "answer": "No certification or audit claim appears in README, docs or SECURITY.md; there is no hosted service to certify.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "soc2_period": {
+          "support": "unsupported",
+          "answer": "No certification or audit claim appears in README, docs or SECURITY.md; there is no hosted service to certify.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "report_access": {
+          "support": "unsupported",
+          "answer": "No certification or audit claim appears in README, docs or SECURITY.md; there is no hosted service to certify.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "verification_date": {
+          "support": "unsupported",
+          "answer": "No certification or audit claim appears in README, docs or SECURITY.md; there is no hosted service to certify.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "evidence_status": {
+          "support": "unsupported",
+          "answer": "No certification or audit claim appears in README, docs or SECURITY.md; there is no hosted service to certify.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch03-tuios",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tuios:OWN-08",
+      "criterionId": "OWN-08",
+      "answer": "Free forever as open-source software with no card, caps or account.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v0.12.1 (commit 850335c0c08bb8b802406fcc7f254355c89af04a, 2026-10-31); source pass 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "ongoing_free": {
+          "support": "supported",
+          "answer": "MIT licensed and free.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "trial": {
+          "support": "not-applicable",
+          "answer": "Not needed.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "credits_trial": {
+          "support": "not-applicable",
+          "answer": "Not applicable.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "self_host_cost": {
+          "support": "supported",
+          "answer": "Own machines and model costs only.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "paid_only": {
+          "support": "unsupported",
+          "answer": "Not paid.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "early_access": {
+          "support": "partial",
+          "answer": "Phone app is in private testing; the rest is public.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "free_scenarios": {
+          "support": "partial",
+          "answer": "Free BYO subscriptions, remote machines and review work; multi-person collaboration and phone apps are limited.",
+          "evidenceIds": [
+            "agents",
+            "sessions"
+          ]
+        },
+        "card_required": {
+          "support": "unsupported",
+          "answer": "No payment flow.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "usage_caps": {
+          "support": "unsupported",
+          "answer": "No caps found.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "paid_evaluation": {
+          "support": "unsupported",
+          "answer": "Evaluation needs no payment.",
+          "evidenceIds": [
+            "license"
+          ]
+        }
+      },
+      "limitations": [
+        "trial: not-applicable",
+        "credits_trial: not-applicable",
+        "paid_only: unsupported",
+        "early_access: partial"
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "license",
+        "agents",
+        "sessions"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-01-15",
+      "researcher": "researcher-batch03-tuios",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tuios:OWN-09",
+      "criterionId": "OWN-09",
+      "answer": "No pricing: the tool is free with no commercial offer.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v0.12.1 (commit 850335c0c08bb8b802406fcc7f254355c89af04a, 2026-10-31); source pass 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "units": {
+          "support": "not-applicable",
+          "answer": "No priced offer exists.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "included_limits": {
+          "support": "not-applicable",
+          "answer": "No priced offer exists.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "overages": {
+          "support": "not-applicable",
+          "answer": "No priced offer exists.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "compute_markup": {
+          "support": "not-applicable",
+          "answer": "No priced offer exists.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "model_markup": {
+          "support": "not-applicable",
+          "answer": "No priced offer exists.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "minimum_commitment": {
+          "support": "not-applicable",
+          "answer": "No priced offer exists.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "cancellation": {
+          "support": "not-applicable",
+          "answer": "No priced offer exists.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "sales_only_unknowns": {
+          "support": "not-applicable",
+          "answer": "No priced offer exists.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "transparency_classification": {
+          "support": "supported",
+          "answer": "Transparent: free under MIT with no paid plan.",
+          "evidenceIds": [
+            "license"
+          ]
+        }
+      },
+      "limitations": [
+        "units: not-applicable",
+        "included_limits: not-applicable",
+        "overages: not-applicable",
+        "compute_markup: not-applicable"
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "license"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch03-tuios",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    }
+  ],
+  "evidence": [
+    {
+      "id": "repo",
+      "kind": "documented",
+      "url": "https://github.com/Gaurav-Gosain/tuios",
+      "title": "Gaurav-Gosain/tuios repository",
+      "locator": "repository header",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Main repository: 6,542 stars on 2026-11-16, MIT per GitHub, default branch main, not archived.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "readme",
+      "kind": "documented",
+      "url": "https://github.com/Gaurav-Gosain/tuios/blob/850335c0c08bb8b802406fcc7f254355c89af04a/README.md",
+      "title": "tuios README",
+      "locator": "intro, Installation, Features",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Modern terminal multiplexer and window manager in Go with vim-like modal interface, BSP tiling, workspaces, daemon sessions, kitty graphics; install via Homebrew, AUR, Nix, install script, go install, Docker and release binaries for Linux, macOS, Windows, FreeBSD and OpenBSD.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "license",
+      "kind": "source-inspected",
+      "url": "https://github.com/Gaurav-Gosain/tuios/blob/850335c0c08bb8b802406fcc7f254355c89af04a/LICENSE",
+      "title": "MIT license file",
+      "locator": "file header",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Repository license is MIT, copyright Gaurav Gosain.",
+      "visibility": "public",
+      "commit": "850335c0c08bb8b802406fcc7f254355c89af04a",
+      "path": "LICENSE"
+    },
+    {
+      "id": "agents",
+      "kind": "documented",
+      "url": "https://github.com/Gaurav-Gosain/tuios/blob/850335c0c08bb8b802406fcc7f254355c89af04a/docs/AGENT_STATE.md",
+      "title": "Agents in tuios guide",
+      "locator": "What you get; Set it up; Supported agents; Fleets; Other machines",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Per-pane agent states (working, needs_input, idle, done, errored), Inbox across sessions and machines, agent mail, fleets via fan and start-agent, other machines via hosts, grants, MCP server and tmux shim.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "agents-harness",
+      "kind": "documented",
+      "url": "https://github.com/Gaurav-Gosain/tuios/blob/850335c0c08bb8b802406fcc7f254355c89af04a/docs/AGENT_STATE.md",
+      "title": "Supported agents table",
+      "locator": "Supported agents table",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Table lists Claude Code, Codex, Gemini CLI, opencode, Kilo, Amp, Pi, oh-my-pi, Kimi Code CLI, Qwen Code, GitHub Copilot CLI, Cursor Agent, Crush and Kiro CLI with how each is read.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "agents-mcp",
+      "kind": "documented",
+      "url": "https://github.com/Gaurav-Gosain/tuios/blob/850335c0c08bb8b802406fcc7f254355c89af04a/docs/AGENT_STATE.md",
+      "title": "The MCP server",
+      "locator": "section The MCP server",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "tuios mcp serves tuios as MCP tools; read-only by default, --write adds send_text, send_keys, ask_agent, respond and fan; scoped to the pane session and enforced by the daemon via restrict-connection.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "agents-proto",
+      "kind": "documented",
+      "url": "https://github.com/Gaurav-Gosain/tuios/blob/850335c0c08bb8b802406fcc7f254355c89af04a/docs/AGENT_STATE.md",
+      "title": "Headless agents over a protocol",
+      "locator": "section Headless agents over a protocol",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "start-agent --protocol acp or codex runs an agent headless with tuios as the client; state comes from the protocol; model, context, cost and plan metadata are reported.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "agents-resume",
+      "kind": "documented",
+      "url": "https://github.com/Gaurav-Gosain/tuios/blob/850335c0c08bb8b802406fcc7f254355c89af04a/docs/AGENT_STATE.md",
+      "title": "Resuming after a restart",
+      "locator": "section Resuming after a restart",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "After a daemon restart the layout returns with new shells; resume offers claude --resume, codex resume or opencode --session per pane (ask, auto or off).",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "agents-review",
+      "kind": "documented",
+      "url": "https://github.com/Gaurav-Gosain/tuios/blob/850335c0c08bb8b802406fcc7f254355c89af04a/docs/AGENT_STATE.md",
+      "title": "Reviewing an agent changes",
+      "locator": "section Reviewing an agent changes",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "tuios review shows committed and uncommitted diffs against a base, accepts line notes and sends them to the agent as one message when it rests.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "agents-checkpoints",
+      "kind": "documented",
+      "url": "https://github.com/Gaurav-Gosain/tuios/blob/850335c0c08bb8b802406fcc7f254355c89af04a/docs/AGENT_STATE.md",
+      "title": "Turn checkpoints",
+      "locator": "section Turn checkpoints",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Daemon saves the work tree after each turn under refs/tuios/checkpoints; list, diff and restore commands undo a turn.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "agents-ship",
+      "kind": "documented",
+      "url": "https://github.com/Gaurav-Gosain/tuios/blob/850335c0c08bb8b802406fcc7f254355c89af04a/docs/AGENT_STATE.md",
+      "title": "Shipping a worktree",
+      "locator": "section Shipping a worktree",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "ship commit, merge, pr and status; push and PR need confirm tokens, use the user gh, hold no token; PR and checks shown on the rail; fan keep --merge keeps one attempt.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "agents-approvals",
+      "kind": "documented",
+      "url": "https://github.com/Gaurav-Gosain/tuios/blob/850335c0c08bb8b802406fcc7f254355c89af04a/docs/AGENT_STATE.md",
+      "title": "Approvals and risk rules",
+      "locator": "sections Approvals from the Inbox, Risk rules, Plans, Reject with a reason",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Inbox answers approval prompts for opted-in harnesses; risky commands (rm -rf, force push, hard reset, pipe to shell, sudo) need a second press and a risk_ack the daemon enforces.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "agents-grants",
+      "kind": "documented",
+      "url": "https://github.com/Gaurav-Gosain/tuios/blob/850335c0c08bb8b802406fcc7f254355c89af04a/docs/AGENT_STATE.md",
+      "title": "What a pane may do",
+      "locator": "sections What a pane may do; Who can act as the person",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Pane grants (read, write, fan, respond and others) bound what an agent pane can do through tuios; link policy bounds other machines; only the person can answer prompts or send as human.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "agents-mail",
+      "kind": "documented",
+      "url": "https://github.com/Gaurav-Gosain/tuios/blob/850335c0c08bb8b802406fcc7f254355c89af04a/docs/AGENT_STATE.md",
+      "title": "Agents talking to agents",
+      "locator": "section Agents talking to agents",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "send-agent-message, read-agent-messages, wait-for, ask-agent and ask-human; mail is fenced as untrusted data, in memory only (256 per session) and dies with the daemon.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "agents-queue",
+      "kind": "documented",
+      "url": "https://github.com/Gaurav-Gosain/tuios/blob/850335c0c08bb8b802406fcc7f254355c89af04a/docs/AGENT_STATE.md",
+      "title": "Queued messages",
+      "locator": "section Queued messages",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Prompts typed while an agent works can be queued and delivered at rest; mail can wake an agent at rest.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "agents-meta",
+      "kind": "documented",
+      "url": "https://github.com/Gaurav-Gosain/tuios/blob/850335c0c08bb8b802406fcc7f254355c89af04a/docs/AGENT_STATE.md",
+      "title": "Agent metadata",
+      "locator": "section Agent metadata",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Display-only metadata per pane: model, context percentage, cost reported by some protocols, plan progress, subagent summaries; capped and cleared when the agent leaves.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "cli",
+      "kind": "documented",
+      "url": "https://github.com/Gaurav-Gosain/tuios/blob/850335c0c08bb8b802406fcc7f254355c89af04a/docs/CLI_REFERENCE.md",
+      "title": "CLI reference",
+      "locator": "tuios fan, start-agent, worktree, hosts, pair, update, mcp, doctor",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Full command reference including fan, start-agent --protocol, worktree new/ls/pull, hosts add, pair, stdio-proxy, update and doctor.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "protocol",
+      "kind": "documented",
+      "url": "https://github.com/Gaurav-Gosain/tuios/blob/850335c0c08bb8b802406fcc7f254355c89af04a/docs/protocol.md",
+      "title": "Control protocol",
+      "locator": "protocol version paragraph; verb list",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "JSON verb protocol over the daemon socket with an integer version bumped only on incompatible change (pong shows protocol 22 in 0.9.5).",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "sessions",
+      "kind": "documented",
+      "url": "https://github.com/Gaurav-Gosain/tuios/blob/850335c0c08bb8b802406fcc7f254355c89af04a/docs/SESSIONS.md",
+      "title": "Sessions guide",
+      "locator": "What Survives; Adding a Phone; Windows on Another Machine; Limitations",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Daemon holds PTYs so detach loses nothing; daemon restart restores structure and history but not running programs; phone app unreleased (Android private testing); hosts over ssh; restored shells use the daemon environment.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "web",
+      "kind": "documented",
+      "url": "https://github.com/Gaurav-Gosain/tuios/blob/850335c0c08bb8b802406fcc7f254355c89af04a/docs/WEB.md",
+      "title": "Web terminal guide",
+      "locator": "Who can connect; behind a reverse proxy",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "tuios-web serves a browser terminal with password, TLS and read-only options; every connected browser gets a shell on the machine.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "hooks",
+      "kind": "documented",
+      "url": "https://github.com/Gaurav-Gosain/tuios/blob/850335c0c08bb8b802406fcc7f254355c89af04a/docs/HOOKS.md",
+      "title": "Hooks",
+      "locator": "events table",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Thirteen events (including after-agent-state, after-new-worktree, after-settle) run shell commands from the daemon even when no client is attached.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "tmux",
+      "kind": "documented",
+      "url": "https://github.com/Gaurav-Gosain/tuios/blob/850335c0c08bb8b802406fcc7f254355c89af04a/docs/TMUX_SHIM.md",
+      "title": "tmux shim",
+      "locator": "Claude Code agent teams",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "tuios tmux-shim lets tools that drive tmux, such as Claude Code agent teams, open teammates as tuios panes with agent state.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "config",
+      "kind": "documented",
+      "url": "https://github.com/Gaurav-Gosain/tuios/blob/850335c0c08bb8b802406fcc7f254355c89af04a/docs/CONFIGURATION.md",
+      "title": "Configuration",
+      "locator": "Turn off agent features; agents tables",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Config.toml controls agents.enabled, approvals, permissions mode and grants, hosts and appearance.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "goreleaser",
+      "kind": "source-inspected",
+      "url": "https://github.com/Gaurav-Gosain/tuios/blob/850335c0c08bb8b802406fcc7f254355c89af04a/.goreleaser.yml",
+      "title": "GoReleaser config",
+      "locator": "builds goos/goarch and ignore rules",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Release builds cover linux, darwin, windows (amd64 only; arm and arm64 ignored), freebsd and openbsd.",
+      "visibility": "public",
+      "commit": "850335c0c08bb8b802406fcc7f254355c89af04a",
+      "path": ".goreleaser.yml"
+    },
+    {
+      "id": "webcmd",
+      "kind": "source-inspected",
+      "url": "https://github.com/Gaurav-Gosain/tuios/blob/850335c0c08bb8b802406fcc7f254355c89af04a/cmd/tuios-web",
+      "title": "tuios-web command",
+      "locator": "cmd/tuios-web directory",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Separate tuios-web binary serves the terminal to browsers.",
+      "visibility": "public",
+      "commit": "850335c0c08bb8b802406fcc7f254355c89af04a",
+      "path": "cmd/tuios-web"
+    },
+    {
+      "id": "mcp-src",
+      "kind": "source-inspected",
+      "url": "https://github.com/Gaurav-Gosain/tuios/blob/850335c0c08bb8b802406fcc7f254355c89af04a/internal/mcp",
+      "title": "MCP server implementation",
+      "locator": "internal/mcp package",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Implements the tuios MCP tool server.",
+      "visibility": "public",
+      "commit": "850335c0c08bb8b802406fcc7f254355c89af04a",
+      "path": "internal/mcp"
+    },
+    {
+      "id": "ghpr-src",
+      "kind": "source-inspected",
+      "url": "https://github.com/Gaurav-Gosain/tuios/blob/850335c0c08bb8b802406fcc7f254355c89af04a/internal/ghpr",
+      "title": "Pull request integration",
+      "locator": "internal/ghpr package",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Wraps gh for pull request creation and status.",
+      "visibility": "public",
+      "commit": "850335c0c08bb8b802406fcc7f254355c89af04a",
+      "path": "internal/ghpr"
+    },
+    {
+      "id": "review-src",
+      "kind": "source-inspected",
+      "url": "https://github.com/Gaurav-Gosain/tuios/blob/850335c0c08bb8b802406fcc7f254355c89af04a/internal/review",
+      "title": "Review implementation",
+      "locator": "internal/review package",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Implements review diffs and notes.",
+      "visibility": "public",
+      "commit": "850335c0c08bb8b802406fcc7f254355c89af04a",
+      "path": "internal/review"
+    },
+    {
+      "id": "risk-src",
+      "kind": "source-inspected",
+      "url": "https://github.com/Gaurav-Gosain/tuios/blob/850335c0c08bb8b802406fcc7f254355c89af04a/internal/risk",
+      "title": "Risk rules implementation",
+      "locator": "internal/risk package",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Implements risky-command matching for approvals.",
+      "visibility": "public",
+      "commit": "850335c0c08bb8b802406fcc7f254355c89af04a",
+      "path": "internal/risk"
+    },
+    {
+      "id": "worktree-src",
+      "kind": "source-inspected",
+      "url": "https://github.com/Gaurav-Gosain/tuios/blob/850335c0c08bb8b802406fcc7f254355c89af04a/internal/worktree",
+      "title": "Worktree implementation",
+      "locator": "internal/worktree package",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Creates and manages git worktrees for fan and worktree commands.",
+      "visibility": "public",
+      "commit": "850335c0c08bb8b802406fcc7f254355c89af04a",
+      "path": "internal/worktree"
+    },
+    {
+      "id": "federation-src",
+      "kind": "source-inspected",
+      "url": "https://github.com/Gaurav-Gosain/tuios/blob/850335c0c08bb8b802406fcc7f254355c89af04a/internal/federation",
+      "title": "Host federation implementation",
+      "locator": "internal/federation package",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Implements ssh links to other machines.",
+      "visibility": "public",
+      "commit": "850335c0c08bb8b802406fcc7f254355c89af04a",
+      "path": "internal/federation"
+    },
+    {
+      "id": "push-src",
+      "kind": "source-inspected",
+      "url": "https://github.com/Gaurav-Gosain/tuios/blob/850335c0c08bb8b802406fcc7f254355c89af04a/internal/pushnotify",
+      "title": "Push notification implementation",
+      "locator": "internal/pushnotify/webpush.go, send.go",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Sends web push and other push notifications for attention events.",
+      "visibility": "public",
+      "commit": "850335c0c08bb8b802406fcc7f254355c89af04a",
+      "path": "internal/pushnotify"
+    },
+    {
+      "id": "go-mod",
+      "kind": "source-inspected",
+      "url": "https://github.com/Gaurav-Gosain/tuios/blob/850335c0c08bb8b802406fcc7f254355c89af04a/go.mod",
+      "title": "Go module file",
+      "locator": "module declaration",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Go module for the Charm-stack TUI (Bubble Tea v2); native binary, no GUI toolkit.",
+      "visibility": "public",
+      "commit": "850335c0c08bb8b802406fcc7f254355c89af04a",
+      "path": "go.mod"
+    },
+    {
+      "id": "skills-dir",
+      "kind": "source-inspected",
+      "url": "https://github.com/Gaurav-Gosain/tuios/blob/850335c0c08bb8b802406fcc7f254355c89af04a/skills",
+      "title": "Bundled skills",
+      "locator": "skills directory",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Ships agent skills; tuios --skill prints topic guides from the binary.",
+      "visibility": "public",
+      "commit": "850335c0c08bb8b802406fcc7f254355c89af04a",
+      "path": "skills"
+    },
+    {
+      "id": "integration-src",
+      "kind": "source-inspected",
+      "url": "https://github.com/Gaurav-Gosain/tuios/blob/850335c0c08bb8b802406fcc7f254355c89af04a/internal/integration",
+      "title": "Harness integration installer",
+      "locator": "internal/integration package",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Writes hooks, plugins, skills and MCP entries for harnesses.",
+      "visibility": "public",
+      "commit": "850335c0c08bb8b802406fcc7f254355c89af04a",
+      "path": "internal/integration"
+    }
+  ],
+  "changes": [
+    {
+      "date": "2026-11-16",
+      "author": "researcher-batch03-tuios",
+      "type": "initial-research",
+      "summary": "Initial full-profile source pass over pinned release v0.12.1 (README, docs/, internal packages, goreleaser config) covering all 51 criteria. tuios is a terminal multiplexer whose agent layer (state, Inbox, fan, ship, MCP) is evaluated as shipped; the agents themselves are third-party harnesses.",
+      "claimIds": []
+    }
+  ],
+  "context": {
+    "roadmapReview": {
+      "checkedAt": "2026-11-16",
+      "locations": [
+        {
+          "url": "https://github.com/Gaurav-Gosain/tuios/releases",
+          "result": "Latest release v0.12.1 (2026-10-31); main branch was ahead on 2026-11-16 and is not scoped."
+        },
+        {
+          "url": "https://github.com/Gaurav-Gosain/tuios/blob/850335c0c08bb8b802406fcc7f254355c89af04a/docs/release-notes",
+          "result": "Release notes directory read for the pinned tag; no dated future commitments."
+        },
+        {
+          "url": "https://github.com/Gaurav-Gosain/tuios/blob/850335c0c08bb8b802406fcc7f254355c89af04a/docs/SESSIONS.md",
+          "result": "States the phone app is not released: Android in private testing, iOS later; no dates."
+        },
+        {
+          "url": "https://tuios.dev",
+          "result": "Docs site mirrors the repository docs; no separate roadmap page located."
+        },
+        {
+          "url": "https://github.com/Gaurav-Gosain/tuios/issues",
+          "result": "Public issues not triaged beyond roadmap markers; none cited."
+        }
+      ],
+      "announced": [
+        {
+          "criterionId": "ACC-01",
+          "summary": "Phone app announced: Android in private testing, iOS later; not released and not counted as a client.",
+          "sourceDate": null,
+          "targetDate": null,
+          "evidenceIds": [
+            "sessions"
+          ]
+        }
+      ],
+      "gaps": [
+        "No dated public roadmap found; GitHub issue backlog was not triaged."
+      ]
+    },
+    "marketContext": {
+      "githubStars": {
+        "value": 6542,
+        "observedAt": "2026-11-16",
+        "evidenceIds": [
+          "repo"
+        ]
+      }
+    }
+  }
+}
