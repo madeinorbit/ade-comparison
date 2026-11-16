@@ -1,0 +1,6144 @@
+{
+  "schemaVersion": 1,
+  "rubricVersion": "0.3",
+  "id": "openrig",
+  "name": "OpenRig",
+  "category": "A",
+  "researchTier": "full-profile",
+  "researchState": "documented",
+  "identity": {
+    "website": "https://openrig.dev",
+    "repository": "https://github.com/mvschwarz/openrig",
+    "aliases": [],
+    "company": null
+  },
+  "surfaces": [
+    {
+      "id": "cli",
+      "name": "rig CLI (@openrig/cli)",
+      "type": "cli"
+    },
+    {
+      "id": "tui",
+      "name": "OpenRig terminal UI (rig tui, tmux, Herdr, cmux)",
+      "type": "cli"
+    },
+    {
+      "id": "daemon",
+      "name": "OpenRig daemon (HTTP API) and MCP server",
+      "type": "api"
+    },
+    {
+      "id": "webui",
+      "name": "OpenRig React web UI (off by default, maintenance mode)",
+      "type": "web"
+    }
+  ],
+  "claims": [
+    {
+      "id": "openrig:ACC-01",
+      "criterionId": "ACC-01",
+      "answer": "macOS and Linux (Windows only through WSL2; native Windows unsupported) with Node 22 or 24 and tmux: the rig CLI, a terminal UI (with optional Herdr or cmux terminal workspaces), a daemon HTTP API and MCP server, and an optional React web UI (off by default, maintenance mode). No native desktop or mobile apps and no editor extension; Slack is an experimental channel for people.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli",
+          "tui",
+          "daemon",
+          "webui"
+        ],
+        "version": "v0.7.16 (commit d77a657e8309887f0783cbd78b90d58a1baf959c, 2026-11-15); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "desktop_os": {
+          "support": "supported",
+          "answer": "macOS and Linux supported; native Windows not supported (WSL2 only).",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "mobile_apps": {
+          "support": "unsupported",
+          "answer": "No mobile app; bounded search of README, docs and packages.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "browser": {
+          "support": "partial",
+          "answer": "React web UI available when ui.enabled is set; maintenance mode.",
+          "evidenceIds": [
+            "browser",
+            "ui"
+          ]
+        },
+        "mobile_browser": {
+          "support": "partial",
+          "answer": "Web UI code includes a mobile layout (rail collapses to a top-bar menu, 44px tap targets, phone-first slice review); the UI is off by default and maintenance mode, and no doc states phone support.",
+          "evidenceIds": [
+            "appshell",
+            "browser"
+          ]
+        },
+        "cli": {
+          "support": "supported",
+          "answer": "rig CLI with the command set in the CLI reference.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "editor_extensions": {
+          "support": "unsupported",
+          "answer": "No editor extension found in packages (searched vscode, extension).",
+          "evidenceIds": [
+            "pkg"
+          ]
+        },
+        "task_actions": {
+          "support": "supported",
+          "answer": "Start (rig up/send), steer (send), approve (permission rows), review (queue artifacts) and resume (restore) from CLI, TUI and MCP.",
+          "evidenceIds": [
+            "cli",
+            "seatdelivery"
+          ]
+        },
+        "notifications": {
+          "support": "partial",
+          "answer": "Slack and the TUI Feed for people; terminal clients only otherwise.",
+          "evidenceIds": [
+            "watchdoc",
+            "gateway"
+          ]
+        },
+        "cross_device_continuity": {
+          "support": "partial",
+          "answer": "Daemon reachable by Tailscale name or paired hosts; sessions live in tmux on the host.",
+          "evidenceIds": [
+            "browser",
+            "cli"
+          ]
+        }
+      },
+      "limitations": [
+        "Native Windows is unsupported; WSL2 setup is community-reported and untested in CI.",
+        "Web UI is in maintenance mode and off by default."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "browser",
+        "ui",
+        "appshell",
+        "cli",
+        "pkg",
+        "seatdelivery",
+        "watchdoc",
+        "gateway"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-openrig",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "openrig:ACC-02",
+      "criterionId": "ACC-02",
+      "answer": "Orchestrates Claude Code and Codex natively, Pi and Oh My Pi through RPC runners, terminal nodes, community harness presets (Cursor, Hermes, OpenClaw and others, untested), ACP-speaking agents through rig acp run, and hosted members over MCP. Models come from each harness provider account; OpenRig does not embed a model loop of its own.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli",
+          "daemon"
+        ],
+        "version": "v0.7.16 (commit d77a657e8309887f0783cbd78b90d58a1baf959c, 2026-11-15); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "harnesses": {
+          "support": "supported",
+          "answer": "Claude Code, Codex, Pi, Oh My Pi, terminal nodes, community presets and ACP agents.",
+          "evidenceIds": [
+            "readme",
+            "community",
+            "acp"
+          ]
+        },
+        "model_providers": {
+          "support": "partial",
+          "answer": "Whatever each harness supports; OpenRig does not select providers beyond Claude and Codex setup.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "custom_adapters": {
+          "support": "supported",
+          "answer": "Community harness presets as data files and ACP command adapters.",
+          "evidenceIds": [
+            "community",
+            "acp"
+          ]
+        },
+        "session_integration": {
+          "support": "supported",
+          "answer": "Controls sessions through tmux, hooks, RPC runners and MCP rather than embedding a harness.",
+          "evidenceIds": [
+            "readme",
+            "arch"
+          ]
+        },
+        "mixed_harness_operation": {
+          "support": "supported",
+          "answer": "Claude Code and Codex in the same rig is the headline example.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "model_providers: Whatever each harness supports; OpenRig does not select providers beyond Claude and Codex setup."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "community",
+        "acp",
+        "arch"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-openrig",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "openrig:ACC-03",
+      "criterionId": "ACC-03",
+      "answer": "Reuses the Claude Code or Codex account already signed in (one is enough; no second subscription required); API-key use follows each harness. OpenRig sells nothing and has no credits.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v0.7.16 (commit d77a657e8309887f0783cbd78b90d58a1baf959c, 2026-11-15); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "agent_subscriptions": {
+          "support": "supported",
+          "answer": "Uses existing Claude Code or Codex logins; setup checks provider login status.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "api_accounts": {
+          "support": "partial",
+          "answer": "Through each harness own configuration.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "vendor_credits": {
+          "support": "not-applicable",
+          "answer": "No vendor credits.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "local_models": {
+          "support": "partial",
+          "answer": "Possible through harnesses that support them; not an OpenRig feature.",
+          "evidenceIds": [
+            "community"
+          ]
+        },
+        "account_switching": {
+          "support": "partial",
+          "answer": "Choose provider per rig or seat; no multi-account manager found.",
+          "evidenceIds": [
+            "rigspec"
+          ]
+        },
+        "vendor_account_requirement": {
+          "support": "supported",
+          "answer": "No OpenRig account required.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "provider_restrictions": {
+          "support": "unknown",
+          "answer": "Provider terms for automated harness use are third-party.",
+          "evidenceIds": []
+        }
+      },
+      "limitations": [
+        "api_accounts: Through each harness own configuration.",
+        "local_models: Possible through harnesses that support them; not an OpenRig feature.",
+        "account_switching: Choose provider per rig or seat; no multi-account manager found.",
+        "provider_restrictions: Provider terms for automated harness use are third-party."
+      ],
+      "unknownReason": "Provider terms are third-party facts.",
+      "evidenceIds": [
+        "readme",
+        "community",
+        "rigspec"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-openrig",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "openrig:ACC-04",
+      "criterionId": "ACC-04",
+      "answer": "Install the @openrig/cli package or let a coding agent do it through the rigs skill; rig setup writes tmux config and may install tmux, Herdr and a missing harness; sign in to Claude Code or Codex; then talk to the kernel operator and launch starter, workshop or factory. Works against any local folder; Git is not required to launch. No managed cloud or VPS installer.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli",
+          "tui"
+        ],
+        "version": "v0.7.16 (commit d77a657e8309887f0783cbd78b90d58a1baf959c, 2026-11-15); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "first_task_setup": {
+          "support": "supported",
+          "answer": "Guided first-use path with install, setup, operator and starter team.",
+          "evidenceIds": [
+            "quick",
+            "readme"
+          ]
+        },
+        "no_git": {
+          "support": "partial",
+          "answer": "Teams launch in a working directory; Git is not stated as required.",
+          "evidenceIds": [
+            "quick"
+          ]
+        },
+        "local_git_without_remote": {
+          "support": "partial",
+          "answer": "Not specifically addressed in docs read.",
+          "evidenceIds": [
+            "quick"
+          ]
+        },
+        "hosted_git": {
+          "support": "partial",
+          "answer": "Agents use gh and git themselves; setup --full installs gh on macOS.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "prerequisite_guidance": {
+          "support": "supported",
+          "answer": "Requirements, rig doctor and what-changes-on-your-machine section.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "managed_cloud_setup": {
+          "support": "unsupported",
+          "answer": "No managed cloud.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "byo_vps_onboarding": {
+          "support": "partial",
+          "answer": "Host pairing for remote machines documented; no VPS installer.",
+          "evidenceIds": [
+            "cli"
+          ]
+        }
+      },
+      "limitations": [
+        "no_git: Teams launch in a working directory; Git is not stated as required.",
+        "local_git_without_remote: Not specifically addressed in docs read.",
+        "hosted_git: Agents use gh and git themselves; setup --full installs gh on macOS.",
+        "managed_cloud_setup: No managed cloud."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "quick",
+        "readme",
+        "cli"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-openrig",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "openrig:ACC-05",
+      "criterionId": "ACC-05",
+      "answer": "Extensive CLI (rig send, queue, watchdog, workflow, usage, telemetry, host, gateway), daemon HTTP API with bearer tokens, MCP server exposing rig_* tools for agents (stdio and HTTP), Slack gateway, and JSON output on commands; no SDK package documented.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli",
+          "daemon"
+        ],
+        "version": "v0.7.16 (commit d77a657e8309887f0783cbd78b90d58a1baf959c, 2026-11-15); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "cli": {
+          "support": "supported",
+          "answer": "CLI reference.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "api": {
+          "support": "supported",
+          "answer": "Daemon HTTP API including telemetry and queue endpoints.",
+          "evidenceIds": [
+            "telemetrydoc",
+            "arch"
+          ]
+        },
+        "sdk": {
+          "support": "unsupported",
+          "answer": "No SDK package among cli, daemon, tui, ui, test-system packages.",
+          "evidenceIds": [
+            "pkg"
+          ]
+        },
+        "mcp_server": {
+          "support": "supported",
+          "answer": "rig mcp serve with per-seat tokens.",
+          "evidenceIds": [
+            "mcp"
+          ]
+        },
+        "webhooks": {
+          "support": "partial",
+          "answer": "Slack app events; no generic webhook ingress found.",
+          "evidenceIds": [
+            "gateway"
+          ]
+        },
+        "operations": {
+          "support": "supported",
+          "answer": "Create, send, inspect, claim, resolve and stop through CLI and MCP.",
+          "evidenceIds": [
+            "cli",
+            "mcp"
+          ]
+        },
+        "authentication": {
+          "support": "supported",
+          "answer": "Bearer tokens; local trust boundary and allowed hosts.",
+          "evidenceIds": [
+            "hosted",
+            "browser"
+          ]
+        },
+        "stability": {
+          "support": "partial",
+          "answer": "0.7.x with per-release migration notes.",
+          "evidenceIds": [
+            "release"
+          ]
+        }
+      },
+      "limitations": [
+        "Pre-1.0 (0.7.x); command and schema changes ship in every release."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "cli",
+        "telemetrydoc",
+        "arch",
+        "pkg",
+        "mcp",
+        "gateway",
+        "hosted",
+        "browser",
+        "release"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-openrig",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "openrig:ACC-06",
+      "criterionId": "ACC-06",
+      "answer": "Agents are extended with skills, plugins, hooks and AgentSpecs; rigs ship specialist teams and a Vault service rig; hosted members and MCP tokens let outside tools join; the underlying harness provides its own MCP client and tool permissions.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli",
+          "daemon"
+        ],
+        "version": "v0.7.16 (commit d77a657e8309887f0783cbd78b90d58a1baf959c, 2026-11-15); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "mcp_client": {
+          "support": "partial",
+          "answer": "Inherited from Claude Code and Codex; OpenRig is an MCP server.",
+          "evidenceIds": [
+            "mcp",
+            "readme"
+          ]
+        },
+        "plugins": {
+          "support": "supported",
+          "answer": "Plugins and skills installed with team launch (plugin command).",
+          "evidenceIds": [
+            "readme",
+            "cli"
+          ]
+        },
+        "custom_tools": {
+          "support": "partial",
+          "answer": "Via skills, hooks and AgentSpecs.",
+          "evidenceIds": [
+            "rigspec"
+          ]
+        },
+        "instructions_import": {
+          "support": "supported",
+          "answer": "Adds managed guidance to AGENTS.md or CLAUDE.md and installs team skills.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "authentication": {
+          "support": "supported",
+          "answer": "Per-seat MCP tokens.",
+          "evidenceIds": [
+            "hosted"
+          ]
+        },
+        "permission_scope": {
+          "support": "supported",
+          "answer": "Per-seat or per-rig tokens and permission policies.",
+          "evidenceIds": [
+            "hosted",
+            "rigspec"
+          ]
+        },
+        "integration_owner": {
+          "support": "partial",
+          "answer": "Mixed: OpenRig for orchestration, harness for tool connections.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "mcp_client: Inherited from Claude Code and Codex; OpenRig is an MCP server.",
+        "custom_tools: Via skills, hooks and AgentSpecs.",
+        "integration_owner: Mixed: OpenRig for orchestration, harness for tool connections."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "mcp",
+        "readme",
+        "cli",
+        "rigspec",
+        "hosted"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-openrig",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "openrig:ACC-07",
+      "criterionId": "ACC-07",
+      "answer": "TypeScript Node packages: terminal UI (tui package), React web UI (ui package), Node CLI and Hono HTTP daemon; no native desktop or mobile clients.",
+      "support": "supported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui",
+          "webui",
+          "cli"
+        ],
+        "version": "v0.7.16 (commit d77a657e8309887f0783cbd78b90d58a1baf959c, 2026-11-15); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "desktop_implementation": {
+          "support": "supported",
+          "answer": "Terminal UI and Node CLI; React web UI served by daemon.",
+          "evidenceIds": [
+            "tui",
+            "ui",
+            "pkg"
+          ]
+        },
+        "mobile_implementation": {
+          "support": "not-applicable",
+          "answer": "No mobile client.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "hybrids": {
+          "support": "not-applicable",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "implementation_evidence": {
+          "support": "supported",
+          "answer": "Package sources at the pinned tag.",
+          "evidenceIds": [
+            "tui",
+            "ui",
+            "pkg"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "tui",
+        "ui",
+        "pkg",
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-05-15",
+      "researcher": "researcher-openrig",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "openrig:PLAN-01",
+      "criterionId": "PLAN-01",
+      "answer": "Work enters as prompts to the operator or lead, rig send messages, queue rows created by people, agents or MCP clients, mission and slice tags, and Slack messages; no native import from external trackers was found. The queue is the authoritative store.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli",
+          "daemon"
+        ],
+        "version": "v0.7.16 (commit d77a657e8309887f0783cbd78b90d58a1baf959c, 2026-11-15); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "local_creation": {
+          "support": "supported",
+          "answer": "rig queue create with mission and slice tags.",
+          "evidenceIds": [
+            "cli",
+            "queue"
+          ]
+        },
+        "prompt_intake": {
+          "support": "supported",
+          "answer": "Talk to the operator or send to a seat.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "external_import": {
+          "support": "unsupported",
+          "answer": "Bounded search found no tracker import (see search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "chat_git_triggers": {
+          "support": "partial",
+          "answer": "Slack gateway (experimental).",
+          "evidenceIds": [
+            "gateway"
+          ]
+        },
+        "authoritative_tracker": {
+          "support": "supported",
+          "answer": "The OpenRig queue and workflow records.",
+          "evidenceIds": [
+            "queue"
+          ]
+        },
+        "stable_ids": {
+          "support": "supported",
+          "answer": "Queue item IDs.",
+          "evidenceIds": [
+            "queue"
+          ]
+        },
+        "sync": {
+          "support": "unsupported",
+          "answer": "No tracker sync code or docs found in the same bounded search.",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "supported_edits": {
+          "support": "supported",
+          "answer": "update, block, resolve, handoff.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "external_roundtrips": {
+          "support": "not-applicable",
+          "answer": "No external tracker integration exists, so nothing round-trips.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "external_import: Bounded search found no tracker import (see search evidence).",
+        "chat_git_triggers: Slack gateway (experimental).",
+        "sync: No tracker sync code or docs found in the same bounded search."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "cli",
+        "queue",
+        "readme",
+        "search",
+        "gateway"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-openrig",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "openrig:PLAN-02",
+      "criterionId": "PLAN-02",
+      "answer": "Workflows compile mission specs into instances with packets and exits; queue rows carry bodies, artifacts and resolutions; a planning dial and wave SDLC conventions exist as docs; plans are amendable via workflow revise with expected version and digest.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v0.7.16 (commit d77a657e8309887f0783cbd78b90d58a1baf959c, 2026-11-15); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "plans": {
+          "support": "supported",
+          "answer": "Workflow compile and instantiate from mission specs.",
+          "evidenceIds": [
+            "cli",
+            "workflowroute"
+          ]
+        },
+        "acceptance_criteria": {
+          "support": "partial",
+          "answer": "rig workflow project takes a typed acceptance candidate, verdict and evidence ref; gates and exit kinds on packets; no free-form criteria field.",
+          "evidenceIds": [
+            "acceptcli",
+            "cli"
+          ]
+        },
+        "editors": {
+          "support": "partial",
+          "answer": "Files and CLI; no plan editor UI.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "revisions": {
+          "support": "supported",
+          "answer": "workflow revise with version and digest, queue transitions.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "implementation_links": {
+          "support": "partial",
+          "answer": "Queue artifacts and rows.",
+          "evidenceIds": [
+            "queue"
+          ]
+        },
+        "amendment": {
+          "support": "supported",
+          "answer": "workflow revise applies amendments to a live instance.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "restart_persistence": {
+          "support": "supported",
+          "answer": "SQLite state with snapshots and restore.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "acceptance_criteria: rig workflow project takes a typed acceptance candidate, verdict and evidence ref; gates and exit kinds on packets; no free-form criteria field.",
+        "editors: Files and CLI; no plan editor UI.",
+        "implementation_links: Queue artifacts and rows."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "cli",
+        "workflowroute",
+        "acceptcli",
+        "queue",
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-openrig",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "openrig:PLAN-03",
+      "criterionId": "PLAN-03",
+      "answer": "Missions, slices, workflow instances and queue items with block-on blockers, handoff and gates; workflow packets move through exit kinds; blocked and dependency handling in the daemon workflow routes.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v0.7.16 (commit d77a657e8309887f0783cbd78b90d58a1baf959c, 2026-11-15); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "epics": {
+          "support": "supported",
+          "answer": "Missions and slices.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "hierarchy": {
+          "support": "partial",
+          "answer": "Mission to slice to queue item; depth rules not read.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "blockers": {
+          "support": "supported",
+          "answer": "rig queue block --on.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "readiness": {
+          "support": "partial",
+          "answer": "Workflow projection and queue states.",
+          "evidenceIds": [
+            "workflowroute"
+          ]
+        },
+        "enforcement": {
+          "support": "partial",
+          "answer": "Workflow engine routes packets; hard dispatch enforcement not verified.",
+          "evidenceIds": [
+            "workflowroute"
+          ]
+        },
+        "state_propagation": {
+          "support": "partial",
+          "answer": "Workflow project and continue commands.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "task_to_epic": {
+          "support": "unsupported",
+          "answer": "Queue tags (including mission and slice) cannot be changed after creation per the watch recipe, so a row cannot be promoted into a mission; a new row is created instead.",
+          "evidenceIds": [
+            "watchdoc"
+          ]
+        },
+        "identity_retention": {
+          "support": "unsupported",
+          "answer": "A row keeps its ID but cannot gain mission or slice tags after creation, so growth needs a new row.",
+          "evidenceIds": [
+            "watchdoc"
+          ]
+        },
+        "workflow_constraints": {
+          "support": "partial",
+          "answer": "Rigs and teams are chosen, but free-form seats and queue use are possible.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "hierarchy: Mission to slice to queue item; depth rules not read.",
+        "readiness: Workflow projection and queue states.",
+        "enforcement: Workflow engine routes packets; hard dispatch enforcement not verified.",
+        "state_propagation: Workflow project and continue commands."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "cli",
+        "workflowroute",
+        "watchdoc",
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-openrig",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "openrig:PLAN-04",
+      "criterionId": "PLAN-04",
+      "answer": "Culture files and managed guidance in AGENTS.md or CLAUDE.md, team skills, context packs and reconstruction packets, restore packets that rebuild a seat after compaction, lore routing; per-seat transcript capture.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v0.7.16 (commit d77a657e8309887f0783cbd78b90d58a1baf959c, 2026-11-15); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "instructions": {
+          "support": "supported",
+          "answer": "Culture file and managed guidance.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "skills": {
+          "support": "supported",
+          "answer": "Team skills installed with launch; rigs skill.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "project_docs": {
+          "support": "partial",
+          "answer": "Project workspace documents.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "memory": {
+          "support": "partial",
+          "answer": "Restore packets and context reconstruction rather than a memory store.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "scope": {
+          "support": "supported",
+          "answer": "Per rig, pod and seat.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "provenance": {
+          "support": "partial",
+          "answer": "Knowledge maturity ladder ties claims to stages and durable evidence; lore items keep an owning-seat address.",
+          "evidenceIds": [
+            "maturity",
+            "lore"
+          ]
+        },
+        "correction": {
+          "support": "partial",
+          "answer": "Promotion and demotion rules in the maturity ladder; files are directly editable.",
+          "evidenceIds": [
+            "maturity"
+          ]
+        },
+        "deletion": {
+          "support": "partial",
+          "answer": "Queue erase command for scrub or delete.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "freshness": {
+          "support": "partial",
+          "answer": "The maturity ladder includes timescales and demotion; no automatic staleness check was read.",
+          "evidenceIds": [
+            "maturity"
+          ]
+        },
+        "takeover_continuity": {
+          "support": "supported",
+          "answer": "Seat identity and authored context persist while the conversation occupying it changes.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "project_docs: Project workspace documents.",
+        "memory: Restore packets and context reconstruction rather than a memory store.",
+        "provenance: Knowledge maturity ladder ties claims to stages and durable evidence; lore items keep an owning-seat address.",
+        "correction: Promotion and demotion rules in the maturity ladder; files are directly editable."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "cli",
+        "maturity",
+        "lore"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-openrig",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "openrig:PLAN-05",
+      "criterionId": "PLAN-05",
+      "answer": "OpenRig does not provide code search or indexing; seats rely on their harness tools; knowledge maturity and lore routing docs describe how teams organize context.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v0.7.16 (commit d77a657e8309887f0783cbd78b90d58a1baf959c, 2026-11-15); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "code_search": {
+          "support": "unsupported",
+          "answer": "No code search feature in packages (harness provides).",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "indexing": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "external_knowledge": {
+          "support": "partial",
+          "answer": "Via harness and MCP.",
+          "evidenceIds": [
+            "mcp"
+          ]
+        },
+        "multimodal_inputs": {
+          "support": "unsupported",
+          "answer": "rig send is text delivery to a pane; packages/cli/src/commands/send.ts has no image or attachment option (search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "freshness": {
+          "support": "unsupported",
+          "answer": "No retrieval index, so no source freshness metadata (search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "access_scope": {
+          "support": "partial",
+          "answer": "Per-seat permission policies.",
+          "evidenceIds": [
+            "rigspec"
+          ]
+        },
+        "api_retrieval": {
+          "support": "partial",
+          "answer": "Telemetry and queue reads via API.",
+          "evidenceIds": [
+            "telemetrydoc"
+          ]
+        },
+        "citations": {
+          "support": "unsupported",
+          "answer": "No retrieval or citation mechanism in packages (search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "conflict_detection": {
+          "support": "unsupported",
+          "answer": "None found in packages (search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "review_enforcement": {
+          "support": "unsupported",
+          "answer": "Only rig-spec conformance surfaces exist; no architecture review enforcement found (search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        }
+      },
+      "limitations": [
+        "code_search: No code search feature in packages (harness provides).",
+        "indexing: None.",
+        "external_knowledge: Via harness and MCP.",
+        "multimodal_inputs: rig send is text delivery to a pane; packages/cli/src/commands/send.ts has no image or attachment option (search evidence)."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "mcp",
+        "search",
+        "rigspec",
+        "telemetrydoc"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-openrig",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "openrig:PLAN-06",
+      "criterionId": "PLAN-06",
+      "answer": "The queue holds durable items with states, tags, priority, tier, gate, mission and slice, owners, notes and artifacts; claim, handoff, block, resolve, archive and search/list filters exist; the TUI shows queue and feed. An idea can be created without starting an agent by queuing it to a seat or inbox.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli",
+          "tui"
+        ],
+        "version": "v0.7.16 (commit d77a657e8309887f0783cbd78b90d58a1baf959c, 2026-11-15); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "create": {
+          "support": "supported",
+          "answer": "rig queue create.",
+          "evidenceIds": [
+            "queue"
+          ]
+        },
+        "edit": {
+          "support": "supported",
+          "answer": "rig queue update.",
+          "evidenceIds": [
+            "queue"
+          ]
+        },
+        "discuss": {
+          "support": "partial",
+          "answer": "Notes on rows and chatrooms.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "prioritize": {
+          "support": "supported",
+          "answer": "--priority and --tier.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "label": {
+          "support": "supported",
+          "answer": "--tags with exact filters.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "assign": {
+          "support": "supported",
+          "answer": "--destination and handoff.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "search": {
+          "support": "supported",
+          "answer": "queue list filters.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "filter": {
+          "support": "supported",
+          "answer": "state, tag, mission, slice, destination.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "archive": {
+          "support": "partial",
+          "answer": "Closure reasons; archive for rigs.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "reopen": {
+          "support": "supported",
+          "answer": "queue update --reopen.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "project_epic_views": {
+          "support": "partial",
+          "answer": "Projects view in the TUI.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "idea_parking": {
+          "support": "supported",
+          "answer": "Inbox-drop and queued rows parked with wake-after.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "explicit_dispatch": {
+          "support": "supported",
+          "answer": "Claim and handoff.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "task_session_separation": {
+          "support": "supported",
+          "answer": "Queue items are separate from seats and sessions.",
+          "evidenceIds": [
+            "queue"
+          ]
+        },
+        "metadata": {
+          "support": "supported",
+          "answer": "Priority, tier, gate, tags, target repo, notes.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "durable_states": {
+          "support": "supported",
+          "answer": "Queue states with transitions history.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "external_tracker_requirement": {
+          "support": "supported",
+          "answer": "No external tracker required.",
+          "evidenceIds": [
+            "queue"
+          ]
+        }
+      },
+      "limitations": [
+        "discuss: Notes on rows and chatrooms.",
+        "archive: Closure reasons; archive for rigs.",
+        "project_epic_views: Projects view in the TUI."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "queue",
+        "cli",
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-openrig",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "openrig:PLAN-07",
+      "criterionId": "PLAN-07",
+      "answer": "Agents use the same queue through the CLI and MCP tools (rig_queue_list, rig_queue_claim and update) with identity from rig whoami; hosted members act as their seat; every row change is attributed to the actor session and kept in transitions.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli",
+          "daemon"
+        ],
+        "version": "v0.7.16 (commit d77a657e8309887f0783cbd78b90d58a1baf959c, 2026-11-15); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "shared_ids": {
+          "support": "supported",
+          "answer": "Same queue item IDs for humans and agents.",
+          "evidenceIds": [
+            "queue",
+            "mcp"
+          ]
+        },
+        "read": {
+          "support": "supported",
+          "answer": "queue list/show via MCP.",
+          "evidenceIds": [
+            "mcp"
+          ]
+        },
+        "create": {
+          "support": "supported",
+          "answer": "queue create.",
+          "evidenceIds": [
+            "queue"
+          ]
+        },
+        "update": {
+          "support": "supported",
+          "answer": "queue update.",
+          "evidenceIds": [
+            "queue"
+          ]
+        },
+        "claim": {
+          "support": "supported",
+          "answer": "queue claim and unclaim.",
+          "evidenceIds": [
+            "queue"
+          ]
+        },
+        "assign": {
+          "support": "supported",
+          "answer": "handoff.",
+          "evidenceIds": [
+            "queue"
+          ]
+        },
+        "state_changes": {
+          "support": "supported",
+          "answer": "update --state.",
+          "evidenceIds": [
+            "queue"
+          ]
+        },
+        "dependencies": {
+          "support": "partial",
+          "answer": "block --on a blocker; workflow dependencies.",
+          "evidenceIds": [
+            "queue",
+            "workflowroute"
+          ]
+        },
+        "children": {
+          "support": "partial",
+          "answer": "Slices and handoffs; explicit parent-child fields not verified.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "results": {
+          "support": "supported",
+          "answer": "resolution, artifacts and notes.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "human_visibility": {
+          "support": "supported",
+          "answer": "TUI and feed show agent writes.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "attribution": {
+          "support": "supported",
+          "answer": "actorSession and identityProvenance in transitions.",
+          "evidenceIds": [
+            "telemetrydoc"
+          ]
+        },
+        "permissions": {
+          "support": "supported",
+          "answer": "Per-seat tokens limit reach to the rig.",
+          "evidenceIds": [
+            "hosted"
+          ]
+        },
+        "conflicts": {
+          "support": "partial",
+          "answer": "Claim exclusivity and transitions; conflict resolution rules not read.",
+          "evidenceIds": [
+            "queue"
+          ]
+        }
+      },
+      "limitations": [
+        "dependencies: block --on a blocker; workflow dependencies.",
+        "children: Slices and handoffs; explicit parent-child fields not verified.",
+        "conflicts: Claim exclusivity and transitions; conflict resolution rules not read."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "queue",
+        "mcp",
+        "workflowroute",
+        "cli",
+        "readme",
+        "telemetrydoc",
+        "hosted"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-openrig",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "openrig:PLAN-08",
+      "criterionId": "PLAN-08",
+      "answer": "Product management and SDLC conventions are documented as team practices (product-management pass, planning dial); no maintained living-spec store with drift detection was found.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v0.7.16 (commit d77a657e8309887f0783cbd78b90d58a1baf959c, 2026-11-15); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "persistent_requirements": {
+          "support": "partial",
+          "answer": "Docs and project workspace files.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "human_edits": {
+          "support": "partial",
+          "answer": "Files.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "agent_edits": {
+          "support": "partial",
+          "answer": "Files.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "revisions": {
+          "support": "partial",
+          "answer": "Git-based.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "approvals": {
+          "support": "partial",
+          "answer": "Workflow gates.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "implementation_links": {
+          "support": "unsupported",
+          "answer": "No requirement-to-implementation link code found (search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "later_retrieval": {
+          "support": "partial",
+          "answer": "Guidance and context packs loaded at seat start.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "drift_detection": {
+          "support": "unsupported",
+          "answer": "No product-spec drift detection found; spec conformance covers rig specs only (search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "review_integration": {
+          "support": "partial",
+          "answer": "Reviewer seats in starter and factory teams.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "persistent_requirements: Docs and project workspace files.",
+        "human_edits: Files.",
+        "agent_edits: Files.",
+        "revisions: Git-based."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "cli",
+        "search"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-openrig",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "openrig:COORD-01",
+      "criterionId": "COORD-01",
+      "answer": "Many seats and rigs run concurrently in tmux; the TUI table and graph show runtime, model, context and state per seat; host resources view reports load and running seats; Herdr lays out up to 16 seats per tab. No fixed concurrency cap documented.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli",
+          "tui"
+        ],
+        "version": "v0.7.16 (commit d77a657e8309887f0783cbd78b90d58a1baf959c, 2026-11-15); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "concurrent_sessions": {
+          "support": "supported",
+          "answer": "Multiple rigs and seats concurrently.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "concurrent_tasks": {
+          "support": "supported",
+          "answer": "Parallel specialists per rig.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "quotas": {
+          "support": "unsupported",
+          "answer": "No quota found; host-aware budget is a roadmap item (#80).",
+          "evidenceIds": [
+            "roadmap"
+          ]
+        },
+        "observed_concurrency": {
+          "support": "unknown",
+          "answer": "Not measured here.",
+          "evidenceIds": []
+        },
+        "status_visibility": {
+          "support": "supported",
+          "answer": "TUI table, graph, rig ps.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "quotas: No quota found; host-aware budget is a roadmap item (#80).",
+        "observed_concurrency: Not measured here."
+      ],
+      "unknownReason": "Concurrency behavior is not measured here.",
+      "evidenceIds": [
+        "readme",
+        "roadmap"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-openrig",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "openrig:COORD-02",
+      "criterionId": "COORD-02",
+      "answer": "Queue rows have an owner (destination), claim, unclaim, handoff and fallback; rosters declare seat capabilities and use_when; the lead routes work; claims are recorded and attributed.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v0.7.16 (commit d77a657e8309887f0783cbd78b90d58a1baf959c, 2026-11-15); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "human_assignment": {
+          "support": "supported",
+          "answer": "Queue create to a seat.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "agent_assignment": {
+          "support": "supported",
+          "answer": "Leads hand off and send.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "claims": {
+          "support": "supported",
+          "answer": "queue claim.",
+          "evidenceIds": [
+            "queue"
+          ]
+        },
+        "queues": {
+          "support": "supported",
+          "answer": "Durable queue with overdue and undelivered views.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "routing": {
+          "support": "supported",
+          "answer": "Rosters and lore routing.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "duplicate_prevention": {
+          "support": "partial",
+          "answer": "Single custodian per row; no global duplicate detection read.",
+          "evidenceIds": [
+            "queue"
+          ]
+        },
+        "ownership_enforcement": {
+          "support": "partial",
+          "answer": "Row custodian recorded; hard enforcement against other actors not verified.",
+          "evidenceIds": [
+            "queue"
+          ]
+        }
+      },
+      "limitations": [
+        "duplicate_prevention: Single custodian per row; no global duplicate detection read.",
+        "ownership_enforcement: Row custodian recorded; hard enforcement against other actors not verified."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "cli",
+        "queue"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-openrig",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "openrig:COORD-03",
+      "criterionId": "COORD-03",
+      "answer": "Product-owned coordination: a kernel operator and team leads delegate with rig send, queue handoff, chatroom and broadcast; seats can grow, shrink and launch other seats through MCP tools; cross-harness teams (Claude Code with Codex, Pi, ACP agents, hosted members) are supported; results return in queue rows and notes.",
+      "support": "supported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli",
+          "daemon"
+        ],
+        "version": "v0.7.16 (commit d77a657e8309887f0783cbd78b90d58a1baf959c, 2026-11-15); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "roles": {
+          "support": "supported",
+          "answer": "Leads, builders, QA, reviewers and advisors in shipped teams.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "model_harness_effort": {
+          "support": "supported",
+          "answer": "Per-seat runtime and model in RigSpec.",
+          "evidenceIds": [
+            "rigspec"
+          ]
+        },
+        "messages": {
+          "support": "supported",
+          "answer": "rig send, broadcast, chatroom.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "results_return": {
+          "support": "supported",
+          "answer": "Queue resolution and handoff.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "cross_harness": {
+          "support": "supported",
+          "answer": "Claude Code and Codex in one rig.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "orchestration_owner": {
+          "support": "supported",
+          "answer": "OpenRig product orchestration.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "activation": {
+          "support": "supported",
+          "answer": "Available in default install.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "authentication": {
+          "support": "supported",
+          "answer": "Inherits harness logins; MCP tokens for hosted members.",
+          "evidenceIds": [
+            "hosted"
+          ]
+        },
+        "live_progress": {
+          "support": "supported",
+          "answer": "TUI and rig ps states.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "retained_results": {
+          "support": "supported",
+          "answer": "Queue history and transcripts.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "followup": {
+          "support": "supported",
+          "answer": "Return to the same seat or builder.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "invocation": {
+          "support": "supported",
+          "answer": "Natural language to the operator or CLI/MCP.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "rigspec",
+        "cli",
+        "hosted"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-openrig",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "openrig:COORD-04",
+      "criterionId": "COORD-04",
+      "answer": "Watchdog jobs run on an interval against a target session with a policy; queue rows can be set aside with wake-after timers and an escalation ladder wakes owners; the keeping-a-watch recipe builds reminders; the daemon runs these while it is up. A daemon on the host is required.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli",
+          "daemon"
+        ],
+        "version": "v0.7.16 (commit d77a657e8309887f0783cbd78b90d58a1baf959c, 2026-11-15); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "schedules": {
+          "support": "supported",
+          "answer": "rig watchdog register with interval seconds; wake-after timers.",
+          "evidenceIds": [
+            "watchdog",
+            "cli"
+          ]
+        },
+        "events": {
+          "support": "partial",
+          "answer": "Slack and hosted members; queue transitions wake owners.",
+          "evidenceIds": [
+            "wake"
+          ]
+        },
+        "recurring_tasks": {
+          "support": "supported",
+          "answer": "Watchdog jobs and re-armed watches.",
+          "evidenceIds": [
+            "watchdoc"
+          ]
+        },
+        "completion_conditions": {
+          "support": "partial",
+          "answer": "Operator judges condition per watch recipe.",
+          "evidenceIds": [
+            "watchdoc"
+          ]
+        },
+        "scheduler_location": {
+          "support": "supported",
+          "answer": "OpenRig daemon on the host.",
+          "evidenceIds": [
+            "watchdog",
+            "arch"
+          ]
+        },
+        "overlaps": {
+          "support": "supported",
+          "answer": "One in-flight watchdog tick at a time; overlapping ticks are not queued.",
+          "evidenceIds": [
+            "wdsched"
+          ]
+        },
+        "retries": {
+          "support": "partial",
+          "answer": "Wake ladder retries wakes; watchdog policies include periodic-reminder and context-usage-threshold.",
+          "evidenceIds": [
+            "wake",
+            "wdpolicy"
+          ]
+        },
+        "client_independence": {
+          "support": "supported",
+          "answer": "Daemon runs without a client attached.",
+          "evidenceIds": [
+            "arch"
+          ]
+        }
+      },
+      "limitations": [
+        "Watch semantics are one-shot timers that must be re-armed; native operator run not yet exercised per docs."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "watchdog",
+        "cli",
+        "wake",
+        "watchdoc",
+        "arch",
+        "wdsched",
+        "wdpolicy"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-openrig",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "openrig:COORD-05",
+      "criterionId": "COORD-05",
+      "answer": "Send, stop and restart seats, checked seat stop, queue block and resolve, permission stops as queue rows to owners, typing guard holding automatic messages, attention surface in the TUI, snapshots and restore, Slack notifications for people.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli",
+          "tui"
+        ],
+        "version": "v0.7.16 (commit d77a657e8309887f0783cbd78b90d58a1baf959c, 2026-11-15); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "pause": {
+          "support": "partial",
+          "answer": "Block a row and set aside with wake-after; typing guard holds delivery.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "stop": {
+          "support": "supported",
+          "answer": "checked seat stop; rig down.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "resume": {
+          "support": "supported",
+          "answer": "rig up restore with per-node outcomes.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "steer": {
+          "support": "supported",
+          "answer": "rig send.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "notifications": {
+          "support": "partial",
+          "answer": "Slack and TUI Feed.",
+          "evidenceIds": [
+            "watchdoc"
+          ]
+        },
+        "pending_decisions": {
+          "support": "supported",
+          "answer": "Permission rows and queue resolve.",
+          "evidenceIds": [
+            "seatdelivery",
+            "acp"
+          ]
+        },
+        "escalation": {
+          "support": "supported",
+          "answer": "Wake ladder and attention surface.",
+          "evidenceIds": [
+            "wake"
+          ]
+        },
+        "visible_errors": {
+          "support": "supported",
+          "answer": "rig health and explain findings.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "chat_terminal_parity": {
+          "support": "partial",
+          "answer": "TUI and CLI share a daemon; web UI limited.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "retained_history": {
+          "support": "supported",
+          "answer": "Queue transitions and transcripts.",
+          "evidenceIds": [
+            "cli"
+          ]
+        }
+      },
+      "limitations": [
+        "pause: Block a row and set aside with wake-after; typing guard holds delivery.",
+        "notifications: Slack and TUI Feed.",
+        "chat_terminal_parity: TUI and CLI share a daemon; web UI limited."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "cli",
+        "readme",
+        "watchdoc",
+        "seatdelivery",
+        "acp",
+        "wake",
+        "arch"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-openrig",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "openrig:COORD-06",
+      "criterionId": "COORD-06",
+      "answer": "The TUI shows rigs, pods and seats as a graph and table with state, context and model, plus Projects, Specs, Feed and System views, and queue overdue lists; no board of epics with dependency visuals was found.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v0.7.16 (commit d77a657e8309887f0783cbd78b90d58a1baf959c, 2026-11-15); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "fleet_fixture": {
+          "support": "supported",
+          "answer": "Topology graph and table across rigs.",
+          "evidenceIds": [
+            "readme",
+            "tui"
+          ]
+        },
+        "parent_child": {
+          "support": "partial",
+          "answer": "Pods and seats; workflow trace.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "dependencies": {
+          "support": "partial",
+          "answer": "Workflow trace.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "attention": {
+          "support": "supported",
+          "answer": "Attention surface and overdue.",
+          "evidenceIds": [
+            "wake"
+          ]
+        },
+        "history": {
+          "support": "supported",
+          "answer": "Feed and transitions.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "workload": {
+          "support": "supported",
+          "answer": "rig usage top and host resources.",
+          "evidenceIds": [
+            "usage",
+            "hostres"
+          ]
+        },
+        "navigation_errors": {
+          "support": "supported",
+          "answer": "Health findings.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "fixture_mode": {
+          "support": "partial",
+          "answer": "Interactive demo with fictional data on the website.",
+          "evidenceIds": [
+            "shots"
+          ]
+        }
+      },
+      "limitations": [
+        "parent_child: Pods and seats; workflow trace.",
+        "dependencies: Workflow trace.",
+        "fixture_mode: Interactive demo with fictional data on the website."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "tui",
+        "cli",
+        "wake",
+        "usage",
+        "hostres",
+        "shots"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-openrig",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "openrig:COORD-07",
+      "criterionId": "COORD-07",
+      "answer": "Teams are chosen (starter, workshop, factory, specialist teams) or authored in YAML; the kernel operator configures teams in natural language; per-seat runtime, model and permission policy; grow, shrink and launch change running rigs; seats and roles visible in TUI and retained in the database.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli",
+          "tui"
+        ],
+        "version": "v0.7.16 (commit d77a657e8309887f0783cbd78b90d58a1baf959c, 2026-11-15); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "quick_task": {
+          "support": "supported",
+          "answer": "starter team and rig send.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "growing_epic": {
+          "support": "partial",
+          "answer": "Grow and shrink running topologies.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "presets": {
+          "support": "supported",
+          "answer": "Starter, workshop, factory and specialist teams.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "natural_language": {
+          "support": "supported",
+          "answer": "Kernel operator adapts teams.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "agent_configuration": {
+          "support": "supported",
+          "answer": "RigSpec per-member settings.",
+          "evidenceIds": [
+            "rigspec"
+          ]
+        },
+        "in_run_changes": {
+          "support": "supported",
+          "answer": "rig grow, shrink, launch, remove.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "live_roles": {
+          "support": "supported",
+          "answer": "TUI seat detail.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "retained_relationships": {
+          "support": "supported",
+          "answer": "Snapshots retain topology.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "discoverability": {
+          "support": "supported",
+          "answer": "Quickstart and rig specs ls.",
+          "evidenceIds": [
+            "quick"
+          ]
+        },
+        "auth_friction": {
+          "support": "partial",
+          "answer": "Needs provider logins and tmux.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "growing_epic: Grow and shrink running topologies.",
+        "auth_friction: Needs provider logins and tmux."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "rigspec",
+        "quick"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-openrig",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "openrig:RUN-01",
+      "criterionId": "RUN-01",
+      "answer": "Agents run in tmux on the machine hosting the daemon, which can be your laptop, a VPS or a home server; registered hosts (SSH or HTTP) let one operator drive seats on other machines; there is no vendor cloud. Work continues while the client closes if the host and tmux stay up; hosted members may be vendor-cloud tools.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli",
+          "daemon"
+        ],
+        "version": "v0.7.16 (commit d77a657e8309887f0783cbd78b90d58a1baf959c, 2026-11-15); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "local": {
+          "support": "supported",
+          "answer": "Default.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "byo_remote": {
+          "support": "supported",
+          "answer": "rig host add with ssh or http transport and pairing.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "self_hosted": {
+          "support": "supported",
+          "answer": "Daemon and rigs self-hosted.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "managed_cloud": {
+          "support": "unsupported",
+          "answer": "No OpenRig-operated cloud.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "hybrid": {
+          "support": "partial",
+          "answer": "Hosted members from vendor tools join through MCP.",
+          "evidenceIds": [
+            "hosted"
+          ]
+        },
+        "provisioning": {
+          "support": "partial",
+          "answer": "User provisions hosts; OpenRig installs tmux and Herdr.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "payer": {
+          "support": "supported",
+          "answer": "User pays machines and providers.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "resources": {
+          "support": "partial",
+          "answer": "Host load view; no resource limits.",
+          "evidenceIds": [
+            "hostres"
+          ]
+        },
+        "region": {
+          "support": "not-applicable",
+          "answer": "User chosen.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "expiry": {
+          "support": "not-applicable",
+          "answer": "No managed expiry.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "client_disconnect": {
+          "support": "supported",
+          "answer": "tmux sessions and daemon persist after the client closes.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "other_device_continuation": {
+          "support": "partial",
+          "answer": "Daemon reachable over Tailscale or paired hosts; TUI attach from another machine.",
+          "evidenceIds": [
+            "browser",
+            "cli"
+          ]
+        }
+      },
+      "limitations": [
+        "Execution survives only while the host machine and daemon keep running."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "cli",
+        "hosted",
+        "hostres",
+        "arch",
+        "browser"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-openrig",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "openrig:RUN-02",
+      "criterionId": "RUN-02",
+      "answer": "Seats are tmux sessions sharing a project folder unless configured otherwise; Codex members can record a workspace-write or read-only sandbox and approval policy; OpenRig itself provides no worktree, container or VM isolation for seats and says its sandbox flags are native harness selections, not a complete boundary. Service rigs can run Docker apps.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v0.7.16 (commit d77a657e8309887f0783cbd78b90d58a1baf959c, 2026-11-15); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "checkout": {
+          "support": "supported",
+          "answer": "Seats share the project working directory.",
+          "evidenceIds": [
+            "rigspec"
+          ]
+        },
+        "branch": {
+          "support": "partial",
+          "answer": "Left to agents.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "worktree": {
+          "support": "partial",
+          "answer": "No provisioning command (search evidence), but operator guidance offers a git worktree copy and batons can carry worktree_path.",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "container": {
+          "support": "partial",
+          "answer": "Docker only for service-backed rigs, not seat isolation.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "vm": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "os_sandbox": {
+          "support": "partial",
+          "answer": "Codex sandbox flags passed through to the harness; no OS sandbox of OpenRig own (no sandbox-exec, bwrap or firejail).",
+          "evidenceIds": [
+            "rigspec",
+            "search"
+          ]
+        },
+        "filesystem": {
+          "support": "partial",
+          "answer": "Harness-level.",
+          "evidenceIds": [
+            "rigspec"
+          ]
+        },
+        "process": {
+          "support": "partial",
+          "answer": "tmux session per seat.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "network": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "rigspec"
+          ]
+        },
+        "secrets": {
+          "support": "partial",
+          "answer": "secrets-manager Vault rig as an example.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "code_separation": {
+          "support": "unsupported",
+          "answer": "Shared folder by default.",
+          "evidenceIds": [
+            "rigspec"
+          ]
+        },
+        "security_boundary": {
+          "support": "partial",
+          "answer": "Docs state native sandbox selection is not a complete boundary.",
+          "evidenceIds": [
+            "rigspec"
+          ]
+        }
+      },
+      "limitations": [
+        "No product-level isolation; kernel and some bundles run with broad permissions by default."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "rigspec",
+        "readme",
+        "search"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-openrig",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "openrig:RUN-03",
+      "criterionId": "RUN-03",
+      "answer": "Snapshots (rig down --snapshot) and restore by name report per-node outcomes (resumed, fresh-primed, awaiting-decision, attention_required, failed); the daemon database survives restarts; handover and recap seats; crash cart and health diagnosis; transcript capture; a queue wake ladder re-wakes owners.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v0.7.16 (commit d77a657e8309887f0783cbd78b90d58a1baf959c, 2026-11-15); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "client_disconnect": {
+          "support": "supported",
+          "answer": "Seats continue in tmux.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "worker_crash": {
+          "support": "supported",
+          "answer": "Restore with per-node outcomes; health findings.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "service_restart": {
+          "support": "supported",
+          "answer": "Daemon restart preserves SQLite state; telemetry cursors persist.",
+          "evidenceIds": [
+            "telemetrydoc"
+          ]
+        },
+        "expiry": {
+          "support": "not-applicable",
+          "answer": "No managed expiry.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "transcript_reload": {
+          "support": "supported",
+          "answer": "Transcript capture and rig transcript.",
+          "evidenceIds": [
+            "hostres"
+          ]
+        },
+        "process_reconnect": {
+          "support": "supported",
+          "answer": "Reattach tmux sessions; adopt discovered sessions.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "task_resume": {
+          "support": "supported",
+          "answer": "Resume native conversation or fresh-prime.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "state_reconstruction": {
+          "support": "supported",
+          "answer": "Restore packets and context reconstruction.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "context_loss": {
+          "support": "partial",
+          "answer": "Fresh-primed restores lose conversation; reported explicitly.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "duplicate_actions": {
+          "support": "partial",
+          "answer": "Delivery refused to unverified panes; duplicates not otherwise addressed.",
+          "evidenceIds": [
+            "seatdelivery"
+          ]
+        },
+        "manual_repair": {
+          "support": "supported",
+          "answer": "rig doctor, seat continue, checked stop.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "multi_day_continuity": {
+          "support": "supported",
+          "answer": "Snapshots and durable queue.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "context_loss: Fresh-primed restores lose conversation; reported explicitly.",
+        "duplicate_actions: Delivery refused to unverified panes; duplicates not otherwise addressed."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "arch",
+        "readme",
+        "telemetrydoc",
+        "hostres",
+        "cli",
+        "seatdelivery"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-openrig",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "openrig:RUN-04",
+      "criterionId": "RUN-04",
+      "answer": "rig setup prepares tmux, Herdr and harness logins; seats launch in project folders with startup files and readiness checks; no dependency caching, port allocation or service duplication handling for projects.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v0.7.16 (commit d77a657e8309887f0783cbd78b90d58a1baf959c, 2026-11-15); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "dependencies": {
+          "support": "partial",
+          "answer": "Startup files and readiness checks; project dependencies left to agents.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "caches": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "snapshots": {
+          "support": "partial",
+          "answer": "Rig topology snapshots, not environment snapshots.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "services": {
+          "support": "partial",
+          "answer": "Service-backed rigs with Docker.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "ports": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "secrets": {
+          "support": "partial",
+          "answer": "Vault example rig; harness trust files.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "duplicate_installs": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "collisions": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "remote_setup": {
+          "support": "partial",
+          "answer": "Host pairing.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "automatic_repair": {
+          "support": "supported",
+          "answer": "rig doctor and health diagnosis.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "dependencies: Startup files and readiness checks; project dependencies left to agents.",
+        "caches: None.",
+        "snapshots: Rig topology snapshots, not environment snapshots.",
+        "services: Service-backed rigs with Docker."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "cli"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-openrig",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "openrig:RUN-05",
+      "criterionId": "RUN-05",
+      "answer": "No time, turn, token or spend limits found; permission policies and non-interruptive mode govern prompts; wake timers and watchdogs bound waiting; host-aware resource budget is a roadmap item.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v0.7.16 (commit d77a657e8309887f0783cbd78b90d58a1baf959c, 2026-11-15); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "time_limits": {
+          "support": "unsupported",
+          "answer": "None found in CLI reference.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "turn_limits": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "token_limits": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "spend_limits": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "timeouts": {
+          "support": "partial",
+          "answer": "Wake-after and watchdog intervals.",
+          "evidenceIds": [
+            "watchdog"
+          ]
+        },
+        "retries": {
+          "support": "partial",
+          "answer": "Wake ladder.",
+          "evidenceIds": [
+            "wake"
+          ]
+        },
+        "provider_failures": {
+          "support": "partial",
+          "answer": "Health findings report provider issues.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "enforcement": {
+          "support": "not-applicable",
+          "answer": "No limits to enforce.",
+          "evidenceIds": [
+            "cli"
+          ]
+        }
+      },
+      "limitations": [
+        "time_limits: None found in CLI reference.",
+        "turn_limits: None.",
+        "token_limits: None.",
+        "spend_limits: None."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "cli",
+        "watchdog",
+        "wake"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-openrig",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "openrig:RUN-06",
+      "criterionId": "RUN-06",
+      "answer": "rig ps with node states, health findings and explanations, transcripts, queue transitions, finite telemetry reads over CLI, HTTP and MCP, usage top/cost/series by seat, host resources, and a TUI feed; states are working/idle/permission-stopped taxonomies; no performance measurements by OpenRig.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli",
+          "tui",
+          "daemon"
+        ],
+        "version": "v0.7.16 (commit d77a657e8309887f0783cbd78b90d58a1baf959c, 2026-11-15); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "logs": {
+          "support": "supported",
+          "answer": "Transcripts and daemon logs.",
+          "evidenceIds": [
+            "hostres"
+          ]
+        },
+        "traces": {
+          "support": "supported",
+          "answer": "Events, transitions, tenures.",
+          "evidenceIds": [
+            "telemetrydoc"
+          ]
+        },
+        "failure_reasons": {
+          "support": "supported",
+          "answer": "health explain and permission stops.",
+          "evidenceIds": [
+            "cli",
+            "seatdelivery"
+          ]
+        },
+        "usage_export": {
+          "support": "supported",
+          "answer": "rig usage --json and telemetry JSON.",
+          "evidenceIds": [
+            "usage",
+            "telemetrydoc"
+          ]
+        },
+        "task_stats": {
+          "support": "supported",
+          "answer": "Queue transitions per qitem.",
+          "evidenceIds": [
+            "telemetrydoc"
+          ]
+        },
+        "agent_stats": {
+          "support": "supported",
+          "answer": "Usage by seat.",
+          "evidenceIds": [
+            "usage"
+          ]
+        },
+        "project_stats": {
+          "support": "partial",
+          "answer": "Projects view.",
+          "evidenceIds": [
+            "tui"
+          ]
+        },
+        "time_stats": {
+          "support": "supported",
+          "answer": "usage series with since and until.",
+          "evidenceIds": [
+            "usage"
+          ]
+        },
+        "failure_status": {
+          "support": "supported",
+          "answer": "Health severity and status filters.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "approval_status": {
+          "support": "supported",
+          "answer": "Permission stop per actor.",
+          "evidenceIds": [
+            "seatdelivery"
+          ]
+        },
+        "reconnect_consistency": {
+          "support": "partial",
+          "answer": "Cursors bind streams; delivery verification.",
+          "evidenceIds": [
+            "telemetrydoc"
+          ]
+        },
+        "performance_method": {
+          "support": "not-applicable",
+          "answer": "This catalog measures no speed; none claimed.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "responsiveness": {
+          "support": "not-applicable",
+          "answer": "None measured.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "project_stats: Projects view.",
+        "reconnect_consistency: Cursors bind streams; delivery verification."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "hostres",
+        "telemetrydoc",
+        "cli",
+        "seatdelivery",
+        "usage",
+        "tui",
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-openrig",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "openrig:RUN-07",
+      "criterionId": "RUN-07",
+      "answer": "rig usage reports tokens per hour, window velocities and provider usage-window percentages per seat from stored samples, with an explicit unknown for seats lacking data; rig usage cost gives Pi seats a model-priced estimate from persisted entries (excluded entries named) and shows OpenRouter actual charges beside it, never summed; ACP runs record reported tokens and cost with their source. There is no per-epic aggregation, budget or alert.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v0.7.16 (commit d77a657e8309887f0783cbd78b90d58a1baf959c, 2026-11-15); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "task_cost": {
+          "support": "partial",
+          "answer": "Per seat; ACP rows record cost per run.",
+          "evidenceIds": [
+            "usage",
+            "acp"
+          ]
+        },
+        "session_cost": {
+          "support": "partial",
+          "answer": "usage cost --seat reports a model-priced estimate for Pi seats; other harnesses report tokens and provider windows.",
+          "evidenceIds": [
+            "usagecli"
+          ]
+        },
+        "child_cost": {
+          "support": "partial",
+          "answer": "Per seat, not per child hierarchy.",
+          "evidenceIds": [
+            "usage"
+          ]
+        },
+        "epic_cost": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "usage"
+          ]
+        },
+        "harness_aggregation": {
+          "support": "supported",
+          "answer": "usage top across seats and harnesses.",
+          "evidenceIds": [
+            "usage"
+          ]
+        },
+        "billed_vs_estimated": {
+          "support": "supported",
+          "answer": "Estimate versus provider charge labelled by source; unknown stays unknown and sub-cent amounts print <$0.01.",
+          "evidenceIds": [
+            "usagecli",
+            "acp"
+          ]
+        },
+        "tokens": {
+          "support": "supported",
+          "answer": "usage series.",
+          "evidenceIds": [
+            "usage"
+          ]
+        },
+        "subscription_allowance": {
+          "support": "supported",
+          "answer": "usage series has a provider_window lane with provider usage-window percentages per seat.",
+          "evidenceIds": [
+            "usageseries"
+          ]
+        },
+        "provider_reconciliation": {
+          "support": "partial",
+          "answer": "OpenRouter actual charge shown beside the model-priced estimate and never summed with it.",
+          "evidenceIds": [
+            "usagecli"
+          ]
+        },
+        "compute_cost": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "usage"
+          ]
+        },
+        "refresh_delay": {
+          "support": "partial",
+          "answer": "Cost and usage derive from stored samples with as-of times; a fixed refresh interval was not read.",
+          "evidenceIds": [
+            "usageseries"
+          ]
+        },
+        "alerts": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "export": {
+          "support": "supported",
+          "answer": "--json.",
+          "evidenceIds": [
+            "usage"
+          ]
+        },
+        "drilldown": {
+          "support": "supported",
+          "answer": "top to series by seat and lane.",
+          "evidenceIds": [
+            "usage"
+          ]
+        }
+      },
+      "limitations": [
+        "task_cost: Per seat; ACP rows record cost per run.",
+        "session_cost: usage cost --seat reports a model-priced estimate for Pi seats; other harnesses report tokens and provider windows.",
+        "child_cost: Per seat, not per child hierarchy.",
+        "epic_cost: None."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "usage",
+        "acp",
+        "usagecli",
+        "usageseries",
+        "cli"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-openrig",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "openrig:RUN-08",
+      "criterionId": "RUN-08",
+      "answer": "Host resources view and transcript capture backoff reduce idle cost; no queues with CPU/RAM-aware dispatch or check deduplication; a host-aware seat resource budget is a roadmap item.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v0.7.16 (commit d77a657e8309887f0783cbd78b90d58a1baf959c, 2026-11-15); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "concurrency": {
+          "support": "unsupported",
+          "answer": "No cap found.",
+          "evidenceIds": [
+            "roadmap"
+          ]
+        },
+        "queues": {
+          "support": "partial",
+          "answer": "The work queue is for tasks, not compute dispatch.",
+          "evidenceIds": [
+            "queue"
+          ]
+        },
+        "cpu_ram": {
+          "support": "partial",
+          "answer": "Load view only.",
+          "evidenceIds": [
+            "hostres"
+          ]
+        },
+        "backpressure": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "hostres"
+          ]
+        },
+        "host_awareness": {
+          "support": "partial",
+          "answer": "rig ps --resources.",
+          "evidenceIds": [
+            "hostres"
+          ]
+        },
+        "check_reuse": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "check_deduplication": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "bounded_tests": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "cancellation": {
+          "support": "partial",
+          "answer": "Stop seats.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "fairness": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "recovery": {
+          "support": "supported",
+          "answer": "Restore.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "shared_limits": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "roadmap"
+          ]
+        }
+      },
+      "limitations": [
+        "concurrency: No cap found.",
+        "queues: The work queue is for tasks, not compute dispatch.",
+        "cpu_ram: Load view only.",
+        "backpressure: None."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "roadmap",
+        "queue",
+        "hostres",
+        "cli",
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-openrig",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "openrig:TEAM-01",
+      "criterionId": "TEAM-01",
+      "answer": "Gateway participants register several people and shared channels with organizations, groups and policy text that agents read; Slack is experimental; chatrooms connect agents; no live presence or co-prompting between people in one session is documented.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli",
+          "daemon"
+        ],
+        "version": "v0.7.16 (commit d77a657e8309887f0783cbd78b90d58a1baf959c, 2026-11-15); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "visibility": {
+          "support": "partial",
+          "answer": "TUI and feed on the host; Slack.",
+          "evidenceIds": [
+            "gateway"
+          ]
+        },
+        "discussion": {
+          "support": "partial",
+          "answer": "Slack channels and chatrooms.",
+          "evidenceIds": [
+            "gateway"
+          ]
+        },
+        "comments": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "gateway"
+          ]
+        },
+        "presence": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "gateway"
+          ]
+        },
+        "coprompting": {
+          "support": "partial",
+          "answer": "Several registered people can message agents through the gateway; ordering rules not read.",
+          "evidenceIds": [
+            "gateway"
+          ]
+        },
+        "ordering": {
+          "support": "partial",
+          "answer": "Messages reach a seat in arrival order through rig send or queue wakes; typing guard holds automatic messages while a person types.",
+          "evidenceIds": [
+            "readme",
+            "seatdelivery"
+          ]
+        },
+        "conflicts": {
+          "support": "partial",
+          "answer": "Typing guard protects a hand-typed seat from automatic sends; no arbitration between two people prompting one seat was found.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "attribution": {
+          "support": "partial",
+          "answer": "Participant identity in gateway.",
+          "evidenceIds": [
+            "gateway"
+          ]
+        },
+        "permissions": {
+          "support": "partial",
+          "answer": "Policy is text agents apply; OpenRig does not enforce it.",
+          "evidenceIds": [
+            "gateway"
+          ]
+        },
+        "plan_restrictions": {
+          "support": "not-applicable",
+          "answer": "No plans.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "owner_online": {
+          "support": "supported",
+          "answer": "Daemon host must be running.",
+          "evidenceIds": [
+            "arch"
+          ]
+        }
+      },
+      "limitations": [
+        "visibility: TUI and feed on the host; Slack.",
+        "discussion: Slack channels and chatrooms.",
+        "comments: None.",
+        "presence: None."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "gateway",
+        "readme",
+        "seatdelivery",
+        "arch"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-openrig",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "openrig:TEAM-02",
+      "criterionId": "TEAM-02",
+      "answer": "Gateway organizations and groups with policy text that is not enforced by OpenRig; MCP tokens scope hosted members; no roles, SSO or membership lifecycle enforcement was found.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "daemon"
+        ],
+        "version": "v0.7.16 (commit d77a657e8309887f0783cbd78b90d58a1baf959c, 2026-11-15); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "organization_roles": {
+          "support": "partial",
+          "answer": "Organizations and groups in gateway; not enforced.",
+          "evidenceIds": [
+            "gateway"
+          ]
+        },
+        "project_roles": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "gateway"
+          ]
+        },
+        "task_roles": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "gateway"
+          ]
+        },
+        "membership": {
+          "support": "partial",
+          "answer": "Participant registration.",
+          "evidenceIds": [
+            "gateway"
+          ]
+        },
+        "sso": {
+          "support": "unsupported",
+          "answer": "No SSO code or docs; only provider OAuth handling (see search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "provisioning": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "unauthorized_access": {
+          "support": "supported",
+          "answer": "Daemon rejects untrusted hosts and browser origins.",
+          "evidenceIds": [
+            "browser"
+          ]
+        },
+        "revocation": {
+          "support": "supported",
+          "answer": "MCP tokens revocable.",
+          "evidenceIds": [
+            "hosted"
+          ]
+        },
+        "plan_scope": {
+          "support": "not-applicable",
+          "answer": "No plans.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "organization_roles: Organizations and groups in gateway; not enforced.",
+        "project_roles: None.",
+        "task_roles: None.",
+        "membership: Participant registration."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "gateway",
+        "search",
+        "readme",
+        "browser",
+        "hosted"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-openrig",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "openrig:TEAM-03",
+      "criterionId": "TEAM-03",
+      "answer": "Permission policies per seat or rig (standard, open, builtin:yolo, flag policies), Codex sandbox and approval selection, non-interruptive mode for full_bypass seats, permission stops routed to owners as queue rows with allow-once and deny resolutions, ACP permission requests recorded; kernel defaults are broader than project teams.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli",
+          "daemon"
+        ],
+        "version": "v0.7.16 (commit d77a657e8309887f0783cbd78b90d58a1baf959c, 2026-11-15); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "command": {
+          "support": "partial",
+          "answer": "Harness permission handling plus OpenRig policies.",
+          "evidenceIds": [
+            "rigspec"
+          ]
+        },
+        "tool": {
+          "support": "partial",
+          "answer": "Per-seat policy.",
+          "evidenceIds": [
+            "rigspec"
+          ]
+        },
+        "network": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "rigspec"
+          ]
+        },
+        "secret": {
+          "support": "partial",
+          "answer": "Vault example.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "delivery": {
+          "support": "partial",
+          "answer": "Reviewer gates.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "approver_identity": {
+          "support": "supported",
+          "answer": "Answer recorded on the row.",
+          "evidenceIds": [
+            "acp"
+          ]
+        },
+        "lifetime": {
+          "support": "partial",
+          "answer": "allow-once resolution.",
+          "evidenceIds": [
+            "acp"
+          ]
+        },
+        "allow": {
+          "support": "supported",
+          "answer": "allow-once.",
+          "evidenceIds": [
+            "acp"
+          ]
+        },
+        "deny": {
+          "support": "supported",
+          "answer": "denied closure reason.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "revoke": {
+          "support": "partial",
+          "answer": "Policy apply and token revoke.",
+          "evidenceIds": [
+            "cli",
+            "hosted"
+          ]
+        },
+        "tunnels": {
+          "support": "not-applicable",
+          "answer": "No tunnels.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "defaults": {
+          "support": "supported",
+          "answer": "Documented team defaults; kernel broader.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "safer_modes": {
+          "support": "supported",
+          "answer": "Policy choices and project team defaults.",
+          "evidenceIds": [
+            "rigspec"
+          ]
+        },
+        "enforcement": {
+          "support": "partial",
+          "answer": "Enforced through harness flags and hooks.",
+          "evidenceIds": [
+            "rigspec"
+          ]
+        }
+      },
+      "limitations": [
+        "OpenRig holds no permission policy of its own for ACP agents; some shipped teams run with broad access."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "rigspec",
+        "readme",
+        "acp",
+        "cli",
+        "hosted"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-openrig",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "openrig:TEAM-04",
+      "criterionId": "TEAM-04",
+      "answer": "Queue transitions retain actor session, identity provenance, closure reasons and timestamps; events and tenures are readable through telemetry commands; data is in a local SQLite database; erase commands can delete or scrub; no immutable audit guarantee.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli",
+          "daemon"
+        ],
+        "version": "v0.7.16 (commit d77a657e8309887f0783cbd78b90d58a1baf959c, 2026-11-15); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "actions": {
+          "support": "supported",
+          "answer": "Events and transitions.",
+          "evidenceIds": [
+            "telemetrydoc"
+          ]
+        },
+        "approvals": {
+          "support": "supported",
+          "answer": "Permission rows with resolution.",
+          "evidenceIds": [
+            "acp"
+          ]
+        },
+        "edits": {
+          "support": "partial",
+          "answer": "Queue updates.",
+          "evidenceIds": [
+            "queue"
+          ]
+        },
+        "discussion": {
+          "support": "supported",
+          "answer": "Chatroom and notes.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "decisions": {
+          "support": "supported",
+          "answer": "queue resolve --decision.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "cross_user_persistence": {
+          "support": "partial",
+          "answer": "Single host database.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "cross_session_persistence": {
+          "support": "supported",
+          "answer": "SQLite.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "export": {
+          "support": "supported",
+          "answer": "telemetry --json and artifacts.",
+          "evidenceIds": [
+            "telemetrydoc"
+          ]
+        },
+        "mutability": {
+          "support": "supported",
+          "answer": "queue erase scrub or delete.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "retention": {
+          "support": "partial",
+          "answer": "Retained history with cursors; policy not read.",
+          "evidenceIds": [
+            "telemetrydoc"
+          ]
+        },
+        "integrity": {
+          "support": "unsupported",
+          "answer": "No integrity model stated.",
+          "evidenceIds": [
+            "telemetrydoc"
+          ]
+        }
+      },
+      "limitations": [
+        "edits: Queue updates.",
+        "cross_user_persistence: Single host database.",
+        "retention: Retained history with cursors; policy not read.",
+        "integrity: No integrity model stated."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "telemetrydoc",
+        "acp",
+        "queue",
+        "readme",
+        "cli",
+        "arch"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-openrig",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "openrig:TEAM-05",
+      "criterionId": "TEAM-05",
+      "answer": "Reviewer seats and gates in starter and factory teams, queue artifacts and reviews of exact candidates, TUI seat details; no diff viewer inside OpenRig.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui",
+          "cli"
+        ],
+        "version": "v0.7.16 (commit d77a657e8309887f0783cbd78b90d58a1baf959c, 2026-11-15); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "pending_reviews": {
+          "support": "partial",
+          "answer": "Queue lists by gate.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "change_understanding": {
+          "support": "partial",
+          "answer": "Reviewer agent summaries.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "evidence_navigation": {
+          "support": "partial",
+          "answer": "queue artifact roots.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "comments": {
+          "support": "partial",
+          "answer": "Notes on rows.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "request_changes": {
+          "support": "partial",
+          "answer": "Reviewer seat returns work.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "shipping_guidance": {
+          "support": "partial",
+          "answer": "Operator guidance.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "effort": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "missed_evidence": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "keyboard": {
+          "support": "supported",
+          "answer": "Keyboard-driven TUI.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "narrow_screen": {
+          "support": "partial",
+          "answer": "Narrow layout below 120 columns.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "context_switching": {
+          "support": "supported",
+          "answer": "Terminals view with Herdr.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "roles": {
+          "support": "supported",
+          "answer": "Reviewer seats and gates.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "retained_context": {
+          "support": "supported",
+          "answer": "Queue transitions.",
+          "evidenceIds": [
+            "cli"
+          ]
+        }
+      },
+      "limitations": [
+        "pending_reviews: Queue lists by gate.",
+        "change_understanding: Reviewer agent summaries.",
+        "evidence_navigation: queue artifact roots.",
+        "comments: Notes on rows."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "cli",
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-openrig",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "openrig:TEAM-06",
+      "criterionId": "TEAM-06",
+      "answer": "Seats keep identity while the conversation occupying them can change; handover to a successor and restore packets carry context; another person can attach to the same tmux seats on the host; no separate takeover permissions.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v0.7.16 (commit d77a657e8309887f0783cbd78b90d58a1baf959c, 2026-11-15); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "ongoing_takeover": {
+          "support": "supported",
+          "answer": "Attach to seats; successors adopt.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "same_task": {
+          "support": "supported",
+          "answer": "Queue row and seat remain.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "session_history": {
+          "support": "supported",
+          "answer": "Transcripts.",
+          "evidenceIds": [
+            "hostres"
+          ]
+        },
+        "decisions": {
+          "support": "supported",
+          "answer": "Queue records.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "artifacts": {
+          "support": "supported",
+          "answer": "Queue artifacts.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "permissions": {
+          "support": "partial",
+          "answer": "Per-seat policy.",
+          "evidenceIds": [
+            "rigspec"
+          ]
+        },
+        "runtime_context": {
+          "support": "supported",
+          "answer": "tmux session persists.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "owner_disconnect": {
+          "support": "supported",
+          "answer": "Daemon keeps running.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "ownership": {
+          "support": "supported",
+          "answer": "Handoff and claim.",
+          "evidenceIds": [
+            "queue"
+          ]
+        },
+        "attribution": {
+          "support": "supported",
+          "answer": "Actor sessions.",
+          "evidenceIds": [
+            "telemetrydoc"
+          ]
+        },
+        "context_loss": {
+          "support": "partial",
+          "answer": "Fresh-primed restores.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "harness_transfer": {
+          "support": "partial",
+          "answer": "Change a seat runtime in spec; transfer of conversation not stated.",
+          "evidenceIds": [
+            "rigspec"
+          ]
+        }
+      },
+      "limitations": [
+        "permissions: Per-seat policy.",
+        "context_loss: Fresh-primed restores.",
+        "harness_transfer: Change a seat runtime in spec; transfer of conversation not stated."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "hostres",
+        "cli",
+        "rigspec",
+        "arch",
+        "queue",
+        "telemetrydoc"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-openrig",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "openrig:SHIP-01",
+      "criterionId": "SHIP-01",
+      "answer": "Queue artifacts, notes and resolutions, transcripts, reviewer outputs and workflow traces are retained and browsable via CLI and TUI; there is no screenshot or recording gallery.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli",
+          "tui"
+        ],
+        "version": "v0.7.16 (commit d77a657e8309887f0783cbd78b90d58a1baf959c, 2026-11-15); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "diffs": {
+          "support": "partial",
+          "answer": "Via git in agent output.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "documents": {
+          "support": "supported",
+          "answer": "Queue artifacts.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "screenshots": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "recordings": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "previews": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "test_outputs": {
+          "support": "partial",
+          "answer": "Agent-recorded evidence refs.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "reviewer_outputs": {
+          "support": "supported",
+          "answer": "Review results on rows.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "gallery": {
+          "support": "partial",
+          "answer": "Queue artifact roots and Feed.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "task_links": {
+          "support": "supported",
+          "answer": "Artifacts per qitem.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "revision_links": {
+          "support": "partial",
+          "answer": "Exact candidate reviews.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "persistence": {
+          "support": "supported",
+          "answer": "SQLite and files.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "child_findings": {
+          "support": "supported",
+          "answer": "Retained on rows.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "prompt_leakage": {
+          "support": "not-applicable",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "diffs: Via git in agent output.",
+        "screenshots: None.",
+        "recordings: None.",
+        "previews: None."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "cli",
+        "arch"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-openrig",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "openrig:SHIP-02",
+      "criterionId": "SHIP-02",
+      "answer": "Gates on queue rows and workflow exits, reviewer seats in shipped teams, wave SDLC conventions; checks themselves run through agents; no CI integration.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v0.7.16 (commit d77a657e8309887f0783cbd78b90d58a1baf959c, 2026-11-15); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "tests": {
+          "support": "partial",
+          "answer": "Agent-run.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "lint": {
+          "support": "partial",
+          "answer": "Agent-run.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "types": {
+          "support": "partial",
+          "answer": "Agent-run.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "ci": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "independent_review": {
+          "support": "supported",
+          "answer": "code-review team with two independent reviews; factory reviewers.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "spec_checks": {
+          "support": "partial",
+          "answer": "Spec validation and conformance surfaces for rig specs only.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "required_checks": {
+          "support": "partial",
+          "answer": "Gates in workflow packets.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "failure_blocking": {
+          "support": "partial",
+          "answer": "Gate role on rows.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "requirement_conflicts": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "configured_policy": {
+          "support": "supported",
+          "answer": "Gates and workflow specs.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "enforced_policy": {
+          "support": "partial",
+          "answer": "Enforcement through workflow routing.",
+          "evidenceIds": [
+            "workflowroute"
+          ]
+        }
+      },
+      "limitations": [
+        "tests: Agent-run.",
+        "lint: Agent-run.",
+        "types: Agent-run.",
+        "ci: None."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "cli",
+        "workflowroute"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-openrig",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "openrig:SHIP-03",
+      "criterionId": "SHIP-03",
+      "answer": "Git and PRs are done by agents; OpenRig tracks target repo and exact candidate in queue rows but has no Git state of its own.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v0.7.16 (commit d77a657e8309887f0783cbd78b90d58a1baf959c, 2026-11-15); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "branches": {
+          "support": "partial",
+          "answer": "target-repo field on rows.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "worktrees": {
+          "support": "unsupported",
+          "answer": "No worktree provisioning.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "commits": {
+          "support": "partial",
+          "answer": "Agent-run.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "pull_requests": {
+          "support": "partial",
+          "answer": "Agent-run with gh.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "comments": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "ci_response": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "rebase": {
+          "support": "partial",
+          "answer": "Agent-run.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "conflicts": {
+          "support": "partial",
+          "answer": "Agent-run.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "product_state": {
+          "support": "unsupported",
+          "answer": "No Git objects stored.",
+          "evidenceIds": [
+            "queue"
+          ]
+        }
+      },
+      "limitations": [
+        "branches: target-repo field on rows.",
+        "worktrees: No worktree provisioning.",
+        "commits: Agent-run.",
+        "pull_requests: Agent-run with gh."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "cli",
+        "readme",
+        "queue"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-openrig",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "openrig:SHIP-04",
+      "criterionId": "SHIP-04",
+      "answer": "Release boundary and project release profile docs exist; merge and deploy authority are held by people and agents under their own credentials.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v0.7.16 (commit d77a657e8309887f0783cbd78b90d58a1baf959c, 2026-11-15); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "approve": {
+          "support": "supported",
+          "answer": "Gate and resolve by role.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "merge": {
+          "support": "partial",
+          "answer": "Agent-run.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "release": {
+          "support": "partial",
+          "answer": "release command and profile docs.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "deploy": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "exact_revision": {
+          "support": "partial",
+          "answer": "Reviews of the exact candidate are a documented practice.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "authority_enforcement": {
+          "support": "partial",
+          "answer": "Role gates.",
+          "evidenceIds": [
+            "cli"
+          ]
+        }
+      },
+      "limitations": [
+        "merge: Agent-run.",
+        "release: release command and profile docs.",
+        "deploy: None.",
+        "exact_revision: Reviews of the exact candidate are a documented practice."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "cli",
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-openrig",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "openrig:SHIP-05",
+      "criterionId": "SHIP-05",
+      "answer": "Queue rows link tasks to artifacts and closure reasons; no build or deployment links or rollback.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v0.7.16 (commit d77a657e8309887f0783cbd78b90d58a1baf959c, 2026-11-15); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "commit_links": {
+          "support": "partial",
+          "answer": "Evidence refs.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "pr_links": {
+          "support": "partial",
+          "answer": "Evidence refs.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "build_links": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "deployment_links": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "delivery_status": {
+          "support": "supported",
+          "answer": "Queue states to done with closure reasons.",
+          "evidenceIds": [
+            "queue"
+          ]
+        },
+        "retained_evidence": {
+          "support": "supported",
+          "answer": "Artifacts.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "rollback": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "revert": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "stale_approval_invalidation": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "commit_links: Evidence refs.",
+        "pr_links: Evidence refs.",
+        "build_links: None.",
+        "deployment_links: None."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "cli",
+        "readme",
+        "queue"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-openrig",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "openrig:SHIP-06",
+      "criterionId": "SHIP-06",
+      "answer": "Queue lists with gate, state, tag and mission filters, overdue and undelivered views, reviewer seats, and workflow traces support batches; no risk or size filters or dependency-aware merge queue.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli",
+          "tui"
+        ],
+        "version": "v0.7.16 (commit d77a657e8309887f0783cbd78b90d58a1baf959c, 2026-11-15); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "review_queue": {
+          "support": "supported",
+          "answer": "queue list --gate and state.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "summaries": {
+          "support": "partial",
+          "answer": "Row summaries.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "grouping": {
+          "support": "supported",
+          "answer": "Mission and slice tags.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "risk_size_filters": {
+          "support": "partial",
+          "answer": "Priority and tier.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "findings": {
+          "support": "supported",
+          "answer": "Retained on rows.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "artifacts": {
+          "support": "supported",
+          "answer": "queue artifact.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "request_changes": {
+          "support": "partial",
+          "answer": "Handoff back.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "exact_revision_approval": {
+          "support": "partial",
+          "answer": "Documented practice.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "dependency_queues": {
+          "support": "partial",
+          "answer": "Block on blockers.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "next_actions": {
+          "support": "partial",
+          "answer": "Operator guidance.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "stale_approval_invalidation": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "check_deduplication": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "summaries: Row summaries.",
+        "risk_size_filters: Priority and tier.",
+        "request_changes: Handoff back.",
+        "exact_revision_approval: Documented practice."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "cli",
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-openrig",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "openrig:OWN-01",
+      "criterionId": "OWN-01",
+      "answer": "Single public monorepo under Apache-2.0 at v0.7.16 covering CLI, daemon, TUI and web UI; no closed components; hosted members are third-party tools.",
+      "support": "supported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli",
+          "tui",
+          "daemon",
+          "webui"
+        ],
+        "version": "v0.7.16 (commit d77a657e8309887f0783cbd78b90d58a1baf959c, 2026-11-15); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "client_license": {
+          "support": "supported",
+          "answer": "Apache-2.0.",
+          "evidenceIds": [
+            "license",
+            "repo"
+          ]
+        },
+        "server_license": {
+          "support": "supported",
+          "answer": "Daemon in same repo and license.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "hosted_extensions": {
+          "support": "not-applicable",
+          "answer": "No hosted service.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "source_visibility": {
+          "support": "supported",
+          "answer": "Public.",
+          "evidenceIds": [
+            "repo"
+          ]
+        },
+        "source_revision": {
+          "support": "supported",
+          "answer": "Tag v0.7.16.",
+          "evidenceIds": [
+            "release"
+          ]
+        },
+        "hosted_parity": {
+          "support": "not-applicable",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "license",
+        "repo",
+        "readme",
+        "release"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-05-15",
+      "researcher": "researcher-openrig",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "openrig:OWN-02",
+      "criterionId": "OWN-02",
+      "answer": "Fully self-hosted: daemon, SQLite database and tmux sessions on your machines with no required vendor service except model providers; bundles and snapshots export rigs; queue and telemetry exports as JSON; no import of external tracker data.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli",
+          "daemon"
+        ],
+        "version": "v0.7.16 (commit d77a657e8309887f0783cbd78b90d58a1baf959c, 2026-11-15); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "self_hosting": {
+          "support": "supported",
+          "answer": "Self-hosted.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "vendor_dependencies": {
+          "support": "partial",
+          "answer": "Harness providers only.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "export": {
+          "support": "supported",
+          "answer": "Bundles, snapshots, telemetry JSON.",
+          "evidenceIds": [
+            "readme",
+            "telemetrydoc"
+          ]
+        },
+        "import": {
+          "support": "supported",
+          "answer": "rig bundle install and import.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "formats": {
+          "support": "supported",
+          "answer": "YAML specs, rig bundles with SHA-256 integrity, JSON.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "cancellation": {
+          "support": "not-applicable",
+          "answer": "No account.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "account_independence": {
+          "support": "supported",
+          "answer": "No OpenRig account.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "history_portability": {
+          "support": "partial",
+          "answer": "Database local; telemetry export JSON.",
+          "evidenceIds": [
+            "telemetrydoc"
+          ]
+        }
+      },
+      "limitations": [
+        "vendor_dependencies: Harness providers only.",
+        "history_portability: Database local; telemetry export JSON."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "telemetrydoc"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-05-15",
+      "researcher": "researcher-openrig",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "openrig:OWN-03",
+      "criterionId": "OWN-03",
+      "answer": "Code and prompts go to Claude Code or Codex providers as each harness does; OpenRig stores queue, transcripts and state locally; setup writes hooks and trust entries into provider config files; no product telemetry phone-home was found (bounded search of packages for analytics, posthog, sentry found only incidental text); rig telemetry reads local retained history.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli",
+          "daemon"
+        ],
+        "version": "v0.7.16 (commit d77a657e8309887f0783cbd78b90d58a1baf959c, 2026-11-15); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "code_data": {
+          "support": "supported",
+          "answer": "To harness providers; local state.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "prompts": {
+          "support": "supported",
+          "answer": "Same.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "credentials": {
+          "support": "partial",
+          "answer": "Uses harness-held logins; OpenRig tokens local.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "logs": {
+          "support": "supported",
+          "answer": "Local transcripts and logs.",
+          "evidenceIds": [
+            "hostres"
+          ]
+        },
+        "artifacts": {
+          "support": "supported",
+          "answer": "Local.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "retention": {
+          "support": "partial",
+          "answer": "Local retention; queue erase.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "deletion": {
+          "support": "supported",
+          "answer": "queue erase delete or scrub.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "training": {
+          "support": "unknown",
+          "answer": "Provider policies not captured.",
+          "evidenceIds": []
+        },
+        "residency": {
+          "support": "unknown",
+          "answer": "Provider dependent.",
+          "evidenceIds": []
+        },
+        "subprocessors": {
+          "support": "unknown",
+          "answer": "Provider dependent.",
+          "evidenceIds": []
+        },
+        "telemetry_disclosure": {
+          "support": "partial",
+          "answer": "Docs describe local telemetry reads only; no statement about outbound telemetry.",
+          "evidenceIds": [
+            "telemetrydoc"
+          ]
+        },
+        "telemetry_defaults": {
+          "support": "supported",
+          "answer": "No outbound telemetry found in bounded search.",
+          "evidenceIds": [
+            "telemetrydoc"
+          ]
+        },
+        "telemetry_controls": {
+          "support": "not-applicable",
+          "answer": "Nothing outbound to control.",
+          "evidenceIds": [
+            "telemetrydoc"
+          ]
+        },
+        "consent_prompt": {
+          "support": "not-applicable",
+          "answer": "None.",
+          "evidenceIds": [
+            "telemetrydoc"
+          ]
+        },
+        "provider_separation": {
+          "support": "supported",
+          "answer": "Providers are the user own accounts.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "credentials: Uses harness-held logins; OpenRig tokens local.",
+        "retention: Local retention; queue erase.",
+        "training: Provider policies not captured.",
+        "residency: Provider dependent."
+      ],
+      "unknownReason": "Provider data terms are third-party facts.",
+      "evidenceIds": [
+        "readme",
+        "hostres",
+        "cli",
+        "telemetrydoc"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-openrig",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "openrig:OWN-04",
+      "criterionId": "OWN-04",
+      "answer": "Free Apache-2.0 software with no paid plan; provider model usage costs still apply.",
+      "support": "supported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v0.7.16 (commit d77a657e8309887f0783cbd78b90d58a1baf959c, 2026-11-15); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "currency": {
+          "support": "not-applicable",
+          "answer": "No ADE price.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "interval": {
+          "support": "not-applicable",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "seats": {
+          "support": "not-applicable",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "seat_minimum": {
+          "support": "not-applicable",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "workspace_fees": {
+          "support": "not-applicable",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "included_usage": {
+          "support": "not-applicable",
+          "answer": "None.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "credits": {
+          "support": "not-applicable",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "trial": {
+          "support": "not-applicable",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "overages": {
+          "support": "not-applicable",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "taxes": {
+          "support": "not-applicable",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "model_cost": {
+          "support": "supported",
+          "answer": "Provider costs apply separately.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "compute_cost": {
+          "support": "supported",
+          "answer": "User machines.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "license"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-01-15",
+      "researcher": "researcher-openrig",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "openrig:OWN-05",
+      "criterionId": "OWN-05",
+      "answer": "Software cost is zero for any team size; provider and machine costs depend on usage and are unpublished.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v0.7.16 (commit d77a657e8309887f0783cbd78b90d58a1baf959c, 2026-11-15); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "one_person": {
+          "support": "supported",
+          "answer": "$0 software.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "two_people": {
+          "support": "supported",
+          "answer": "$0.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "five_people": {
+          "support": "supported",
+          "answer": "$0.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "task_assumptions": {
+          "support": "unknown",
+          "answer": "None.",
+          "evidenceIds": []
+        },
+        "concurrency": {
+          "support": "unknown",
+          "answer": "None.",
+          "evidenceIds": []
+        },
+        "tokens": {
+          "support": "unknown",
+          "answer": "None.",
+          "evidenceIds": []
+        },
+        "compute_hours": {
+          "support": "not-applicable",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "fixed_cost": {
+          "support": "supported",
+          "answer": "Zero.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "variable_cost": {
+          "support": "supported",
+          "answer": "Provider usage.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "included_cost": {
+          "support": "not-applicable",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "unknown_cost": {
+          "support": "supported",
+          "answer": "Provider spend unknown without a workload.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "task_assumptions: None.",
+        "concurrency: None.",
+        "tokens: None."
+      ],
+      "unknownReason": "No public workload pricing exists.",
+      "evidenceIds": [
+        "license",
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-openrig",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "openrig:OWN-06",
+      "criterionId": "OWN-06",
+      "answer": "Actively maintained 0.x project with daily patch releases (v0.7.14 to v0.7.16 on 2026-11-13 to 2026-11-15), GitHub discussions and issues, Slack optional, no response commitments; pre-1.0 changes with migration notes each release.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v0.7.16 (commit d77a657e8309887f0783cbd78b90d58a1baf959c, 2026-11-15); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "release_stage": {
+          "support": "partial",
+          "answer": "0.x releases.",
+          "evidenceIds": [
+            "release"
+          ]
+        },
+        "access_restrictions": {
+          "support": "supported",
+          "answer": "Public.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "support": {
+          "support": "supported",
+          "answer": "Help page, Q&A discussion, issues.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "response_commitments": {
+          "support": "unsupported",
+          "answer": "None stated.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "release_activity": {
+          "support": "supported",
+          "answer": "Daily releases.",
+          "evidenceIds": [
+            "release",
+            "repo"
+          ]
+        },
+        "status_history": {
+          "support": "not-applicable",
+          "answer": "No hosted service.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "deprecation": {
+          "support": "supported",
+          "answer": "Node 20 dropped; legacy topology migration docs.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "export_options": {
+          "support": "supported",
+          "answer": "Bundles and snapshots.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "release_stage: 0.x releases.",
+        "response_commitments: None stated."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "release",
+        "readme",
+        "repo"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-openrig",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "openrig:OWN-07",
+      "criterionId": "OWN-07",
+      "answer": "No ISO or SOC 2 claims were found for an individual open-source project with no hosted service.",
+      "support": "supported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v0.7.16 (commit d77a657e8309887f0783cbd78b90d58a1baf959c, 2026-11-15); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "iso_scope": {
+          "support": "not-applicable",
+          "answer": "No hosted service and no claim.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "iso_issuer": {
+          "support": "not-applicable",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "iso_validity": {
+          "support": "not-applicable",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "soc2_type": {
+          "support": "not-applicable",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "soc2_scope": {
+          "support": "not-applicable",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "soc2_period": {
+          "support": "not-applicable",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "report_access": {
+          "support": "not-applicable",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "verification_date": {
+          "support": "not-applicable",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "evidence_status": {
+          "support": "supported",
+          "answer": "No assurance claim in first-party sources read.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-openrig",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "openrig:OWN-08",
+      "criterionId": "OWN-08",
+      "answer": "Free open-source software; costs are provider subscriptions or API usage and your machines; no trial, card or paid tier.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v0.7.16 (commit d77a657e8309887f0783cbd78b90d58a1baf959c, 2026-11-15); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "ongoing_free": {
+          "support": "supported",
+          "answer": "Free Apache-2.0 install.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "trial": {
+          "support": "not-applicable",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "credits_trial": {
+          "support": "not-applicable",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "self_host_cost": {
+          "support": "supported",
+          "answer": "User pays machines and providers.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "paid_only": {
+          "support": "unsupported",
+          "answer": "Not paid.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "early_access": {
+          "support": "partial",
+          "answer": "Experimental features (Slack, hosted members) flagged.",
+          "evidenceIds": [
+            "hosted"
+          ]
+        },
+        "free_scenarios": {
+          "support": "partial",
+          "answer": "Single-user local and multi-seat work free; no hosted collaboration or mobile product.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "card_required": {
+          "support": "supported",
+          "answer": "No card.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "usage_caps": {
+          "support": "supported",
+          "answer": "None from OpenRig.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "paid_evaluation": {
+          "support": "supported",
+          "answer": "Evaluation needs only a provider login.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "paid_only: Not paid.",
+        "early_access: Experimental features (Slack, hosted members) flagged.",
+        "free_scenarios: Single-user local and multi-seat work free; no hosted collaboration or mobile product."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "license",
+        "readme",
+        "hosted"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-01-15",
+      "researcher": "researcher-openrig",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "openrig:OWN-09",
+      "criterionId": "OWN-09",
+      "answer": "Nothing is sold; pricing transparency concerns only third-party providers.",
+      "support": "supported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v0.7.16 (commit d77a657e8309887f0783cbd78b90d58a1baf959c, 2026-11-15); docs read at the tag 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "units": {
+          "support": "not-applicable",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "included_limits": {
+          "support": "not-applicable",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "overages": {
+          "support": "not-applicable",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "compute_markup": {
+          "support": "not-applicable",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "model_markup": {
+          "support": "not-applicable",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "minimum_commitment": {
+          "support": "not-applicable",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "cancellation": {
+          "support": "not-applicable",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "sales_only_unknowns": {
+          "support": "not-applicable",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "transparency_classification": {
+          "support": "supported",
+          "answer": "No price; free software.",
+          "evidenceIds": [
+            "license"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "license"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-01-15",
+      "researcher": "researcher-openrig",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    }
+  ],
+  "evidence": [
+    {
+      "id": "readme",
+      "kind": "documented",
+      "url": "https://github.com/mvschwarz/openrig/blob/v0.7.16/README.md",
+      "title": "OpenRig README",
+      "locator": "README.md What It Does, Teams, How It Works, Key Concepts, Requirements, Comparison",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Open-source multi-agent harness on tmux: RigSpec YAML teams, rig up/down snapshots, rig send/broadcast/chatroom, TUI, MCP server, Claude Code/Codex/Pi runtimes, Slack (experimental), requires Node 22/24, tmux, macOS or Linux (WSL2 on Windows), Apache-2.0 badge; self-hosted with provider costs separate.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "license",
+      "kind": "source-inspected",
+      "url": "https://github.com/mvschwarz/openrig/blob/v0.7.16/LICENSE",
+      "title": "Apache-2.0 license",
+      "locator": "LICENSE",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Apache License 2.0 text at repository root.",
+      "visibility": "public",
+      "commit": "d77a657e8309887f0783cbd78b90d58a1baf959c",
+      "path": "LICENSE"
+    },
+    {
+      "id": "pkg",
+      "kind": "source-inspected",
+      "url": "https://github.com/mvschwarz/openrig/blob/v0.7.16/package.json",
+      "title": "Root package metadata",
+      "locator": "package.json workspaces, engines",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Monorepo with packages cli, daemon, tui, ui, test-system; Node engines 22 or 24.",
+      "visibility": "public",
+      "commit": "d77a657e8309887f0783cbd78b90d58a1baf959c",
+      "path": "package.json"
+    },
+    {
+      "id": "cli",
+      "kind": "documented",
+      "url": "https://github.com/mvschwarz/openrig/blob/v0.7.16/docs/as-built/cli-reference.md",
+      "title": "rig CLI reference (as-built)",
+      "locator": "queue, watchdog, workflow, policy, usage, telemetry, host, gateway, seat sections",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Generated reference of rig commands: queue (create, claim, block, handoff, resolve, transitions), watchdog register/update/stop, workflow compile/instantiate/trace, policy permissions, usage cost/top/series, host add/pair (ssh/http), gateway, seat, send, chatroom, snapshot/restore.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "queue",
+      "kind": "source-inspected",
+      "url": "https://github.com/mvschwarz/openrig/blob/v0.7.16/packages/cli/src/commands/queue.ts",
+      "title": "Queue command implementation",
+      "locator": "packages/cli/src/commands/queue.ts",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "rig queue create/claim/unclaim/update/block/resolve/handoff/show/list/overdue with states and closure reasons backed by the daemon database.",
+      "visibility": "public",
+      "commit": "d77a657e8309887f0783cbd78b90d58a1baf959c",
+      "path": "packages/cli/src/commands/queue.ts"
+    },
+    {
+      "id": "watchdog",
+      "kind": "source-inspected",
+      "url": "https://github.com/mvschwarz/openrig/blob/v0.7.16/packages/cli/src/commands/watchdog.ts",
+      "title": "Watchdog command implementation",
+      "locator": "packages/cli/src/commands/watchdog.ts",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "rig watchdog register/list/show/status/stop/update schedule interval jobs against a target session with a policy.",
+      "visibility": "public",
+      "commit": "d77a657e8309887f0783cbd78b90d58a1baf959c",
+      "path": "packages/cli/src/commands/watchdog.ts"
+    },
+    {
+      "id": "wake",
+      "kind": "source-inspected",
+      "url": "https://github.com/mvschwarz/openrig/blob/v0.7.16/packages/daemon/src/domain/queue-wake-ladder.ts",
+      "title": "Queue wake ladder",
+      "locator": "packages/daemon/src/domain/queue-wake-ladder.ts",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Daemon escalation ladder that wakes owners of queue rows (wake-after timers, undelivered and overdue handling).",
+      "visibility": "public",
+      "commit": "d77a657e8309887f0783cbd78b90d58a1baf959c",
+      "path": "packages/daemon/src/domain/queue-wake-ladder.ts"
+    },
+    {
+      "id": "mcp",
+      "kind": "source-inspected",
+      "url": "https://github.com/mvschwarz/openrig/blob/v0.7.16/packages/cli/src/mcp-server.ts",
+      "title": "MCP server",
+      "locator": "packages/cli/src/mcp-server.ts and mcp-http.ts",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "rig mcp serve exposes tools (rig_up, rig_ps, rig_send, rig_queue_*, rig_chatroom_send, rig_telemetry_events) over stdio or HTTP with bearer tokens issued per seat.",
+      "visibility": "public",
+      "commit": "d77a657e8309887f0783cbd78b90d58a1baf959c",
+      "path": "packages/cli/src/mcp-server.ts"
+    },
+    {
+      "id": "usage",
+      "kind": "source-inspected",
+      "url": "https://github.com/mvschwarz/openrig/blob/v0.7.16/packages/cli/src/commands/usage.ts",
+      "title": "Usage command",
+      "locator": "packages/cli/src/commands/usage.ts",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "rig usage top/cost/series report per-seat usage and cost from harness transcripts.",
+      "visibility": "public",
+      "commit": "d77a657e8309887f0783cbd78b90d58a1baf959c",
+      "path": "packages/cli/src/commands/usage.ts"
+    },
+    {
+      "id": "workflowroute",
+      "kind": "source-inspected",
+      "url": "https://github.com/mvschwarz/openrig/blob/v0.7.16/packages/daemon/src/routes/workflow.ts",
+      "title": "Workflow daemon routes",
+      "locator": "packages/daemon/src/routes/workflow.ts",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Daemon routes for workflow compile, instantiate, project, trace and continue with blocked/depends handling.",
+      "visibility": "public",
+      "commit": "d77a657e8309887f0783cbd78b90d58a1baf959c",
+      "path": "packages/daemon/src/routes/workflow.ts"
+    },
+    {
+      "id": "rigspec",
+      "kind": "documented",
+      "url": "https://github.com/mvschwarz/openrig/blob/v0.7.16/docs/reference/rig-spec.md",
+      "title": "RigSpec reference",
+      "locator": "Team launch defaults; Codex sandbox and approval selection",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "RigSpec pods, members, edges and continuity; per-member runtime, model, permission policy; Codex members can record sandbox workspace-write/read-only and approval flags; team launch default permissions.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "quick",
+      "kind": "documented",
+      "url": "https://github.com/mvschwarz/openrig/blob/v0.7.16/docs/reference/quickstart.md",
+      "title": "Quickstart",
+      "locator": "Guided first-use path",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Install, talk to the kernel operator, choose starter, workshop or factory team.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "start",
+      "kind": "documented",
+      "url": "https://github.com/mvschwarz/openrig/blob/v0.7.16/docs/reference/getting-started.md",
+      "title": "Getting started",
+      "locator": "OpenRig view checks; WSL2 section",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Installation steps and prerequisites including WSL2 reported working setup.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "community",
+      "kind": "documented",
+      "url": "https://github.com/mvschwarz/openrig/blob/v0.7.16/docs/reference/community-harness-presets.md",
+      "title": "Community harness presets",
+      "locator": "What a community harness gets",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Community-maintained harness presets (examples for Cursor, Hermes, OpenClaw, omo, pi-tui, dsh, openshell) launched by typing a command into a pane; untested by OpenRig and shown as community.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "acp",
+      "kind": "documented",
+      "url": "https://github.com/mvschwarz/openrig/blob/v0.7.16/docs/reference/acp-agents.md",
+      "title": "ACP agents",
+      "locator": "rig acp run and permission requests",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "rig acp run hands one queue row to an ACP-speaking agent; permission requests become queue rows answered by an owner; outcome, tokens and cost recorded.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "hosted",
+      "kind": "documented",
+      "url": "https://github.com/mvschwarz/openrig/blob/v0.7.16/docs/reference/hosted-members.md",
+      "title": "Hosted members",
+      "locator": "Set one up; How it works its rows",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Tools outside the terminal (assistants, bots, cloud routines) join as members through the MCP server under revocable per-seat tokens; experimental, off by default, user-provided TLS.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "browser",
+      "kind": "documented",
+      "url": "https://github.com/mvschwarz/openrig/blob/v0.7.16/docs/reference/browser-access.md",
+      "title": "Browser access",
+      "locator": "What works with no setup; web UI",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Web UI turned on with rig config set ui.enabled true; daemon accepts localhost, IPs and Tailscale names; allowed hosts and origins configurable.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "watchdoc",
+      "kind": "documented",
+      "url": "https://github.com/mvschwarz/openrig/blob/v0.7.16/docs/reference/keeping-a-watch.md",
+      "title": "Keeping a watch",
+      "locator": "The shape; Setting a watch",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "A watch is an operator-owned queue task with a one-shot wake timer re-armed by the operator; reports to a registered human channel (Slack, TUI Feed); status 0.7.0 with native run not yet performed.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "hostres",
+      "kind": "documented",
+      "url": "https://github.com/mvschwarz/openrig/blob/v0.7.16/docs/reference/host-resources.md",
+      "title": "Host load and transcript capture",
+      "locator": "rig ps --resources",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Host CPU count, load averages, running seats and transcript capture counters; observations not billing.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "nonint",
+      "kind": "documented",
+      "url": "https://github.com/mvschwarz/openrig/blob/v0.7.16/docs/reference/non-interruptive-mode.md",
+      "title": "Non-interruptive mode",
+      "locator": "Overview",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Opt-in mode accepting supported harness first-launch warnings for full_bypass seats; does not change permission policy.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "gateway",
+      "kind": "documented",
+      "url": "https://github.com/mvschwarz/openrig/blob/v0.7.16/docs/reference/gateway-participants.md",
+      "title": "Gateway participants",
+      "locator": "Overview",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Several people and shared channels registered with organizations, groups and policy text that agents read; OpenRig does not enforce the policy.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "seatdelivery",
+      "kind": "documented",
+      "url": "https://github.com/mvschwarz/openrig/blob/v0.7.16/docs/reference/seat-delivery.md",
+      "title": "Seat delivery",
+      "locator": "Delivery and permission stop states",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Row state says who claimed or finished work; permission stop observation per actor; delivery refused when a pane is at a shell.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "telemetrydoc",
+      "kind": "documented",
+      "url": "https://github.com/mvschwarz/openrig/blob/v0.7.16/docs/reference/telemetry.md",
+      "title": "Finite telemetry metadata",
+      "locator": "rig telemetry events",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Local read of retained events, queue transitions and tenures from the daemon via CLI, HTTP and MCP; not an outbound telemetry feed.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "maturity",
+      "kind": "documented",
+      "url": "https://github.com/mvschwarz/openrig/blob/v0.7.16/docs/reference/knowledge-maturity.md",
+      "title": "Knowledge maturity ladder",
+      "locator": "The ladder; promotion and demotion; warrant rule",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Claims are tied to visible maturity stages with promotion and demotion rules and a warrant rule requiring durable evidence.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "lore",
+      "kind": "documented",
+      "url": "https://github.com/mvschwarz/openrig/blob/v0.7.16/docs/reference/lore-routing.md",
+      "title": "Lore routing",
+      "locator": "Home, ownership and stable address",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Knowledge earned by a seat is kept as Markdown under that seat lore directory with a stable address and a composition grant for leaving the position boundary.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "usagecli",
+      "kind": "source-inspected",
+      "url": "https://github.com/mvschwarz/openrig/blob/v0.7.16/packages/cli/src/commands/usage.ts#L1-L6",
+      "title": "rig usage command",
+      "locator": "packages/cli/src/commands/usage.ts lines 1-6 and 40-75 (CostPayload, Pi cost line, providerChargeText)",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "rig usage serves tokens per hour, window velocities and an explicit unknown rail from the daemon usage routes; rig usage cost prints Pi seats a model-priced estimate from persisted entries with what is excluded named, shows OpenRouter charge beside (never summed with) the estimate, prints tiny amounts as <$0.01 not $0.00, and says not reported when absent.",
+      "visibility": "public",
+      "commit": "d77a657e8309887f0783cbd78b90d58a1baf959c",
+      "path": "packages/cli/src/commands/usage.ts"
+    },
+    {
+      "id": "usageseries",
+      "kind": "source-inspected",
+      "url": "https://github.com/mvschwarz/openrig/blob/v0.7.16/packages/daemon/src/domain/usage-series.ts#L1-L14",
+      "title": "Usage series projection",
+      "locator": "packages/daemon/src/domain/usage-series.ts lines 1-24 (lanes context and provider_window, honesty rails)",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Over-time usage query over usage_samples with lanes context and provider_window (provider usage-window percentages), counted resets, no negative burn, and an explicit unknown entry with reason instead of a fabricated zero; no account field is served.",
+      "visibility": "public",
+      "commit": "d77a657e8309887f0783cbd78b90d58a1baf959c",
+      "path": "packages/daemon/src/domain/usage-series.ts"
+    },
+    {
+      "id": "wdsched",
+      "kind": "source-inspected",
+      "url": "https://github.com/mvschwarz/openrig/blob/v0.7.16/packages/daemon/src/domain/watchdog-scheduler.ts#L22-L24",
+      "title": "Watchdog scheduler",
+      "locator": "packages/daemon/src/domain/watchdog-scheduler.ts lines 22-30 and 60-110",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "One in-flight tick at a time; a slow tick delays the next and overlapping ticks are not queued; stop awaits the in-flight tick.",
+      "visibility": "public",
+      "commit": "d77a657e8309887f0783cbd78b90d58a1baf959c",
+      "path": "packages/daemon/src/domain/watchdog-scheduler.ts"
+    },
+    {
+      "id": "wdpolicy",
+      "kind": "source-inspected",
+      "url": "https://github.com/mvschwarz/openrig/blob/v0.7.16/packages/daemon/src/domain/watchdog-policy-engine.ts#L4-L7",
+      "title": "Watchdog policy engine",
+      "locator": "packages/daemon/src/domain/watchdog-policy-engine.ts imports lines 4-7",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Built-in watchdog policies: artifact-pool-ready, edge-artifact-required, periodic-reminder and context-usage-threshold.",
+      "visibility": "public",
+      "commit": "d77a657e8309887f0783cbd78b90d58a1baf959c",
+      "path": "packages/daemon/src/domain/watchdog-policy-engine.ts"
+    },
+    {
+      "id": "appshell",
+      "kind": "source-inspected",
+      "url": "https://github.com/mvschwarz/openrig/blob/v0.7.16/packages/ui/src/components/AppShell.tsx#L20",
+      "title": "Web UI shell",
+      "locator": "packages/ui/src/components/AppShell.tsx line 20 and packages/ui/src/hooks/useShellViewport.ts lines 5-17",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Web UI layout code has a mobile rail that collapses into a top-bar menu, iOS-minimum tap targets (line 291) and a phone-first single-column slice review; a viewport hook switches layouts at an iPad-portrait breakpoint.",
+      "visibility": "public",
+      "commit": "d77a657e8309887f0783cbd78b90d58a1baf959c",
+      "path": "packages/ui/src/components/AppShell.tsx"
+    },
+    {
+      "id": "acceptcli",
+      "kind": "source-inspected",
+      "url": "https://github.com/mvschwarz/openrig/blob/v0.7.16/packages/cli/src/commands/workflow.ts#L398-L400",
+      "title": "Workflow acceptance options",
+      "locator": "packages/cli/src/commands/workflow.ts lines 398-400",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "rig workflow project accepts a typed acceptance candidate identity, verdict and evidence reference together.",
+      "visibility": "public",
+      "commit": "d77a657e8309887f0783cbd78b90d58a1baf959c",
+      "path": "packages/cli/src/commands/workflow.ts"
+    },
+    {
+      "id": "search",
+      "kind": "source-inspected",
+      "url": "https://github.com/mvschwarz/openrig/blob/v0.7.16/packages",
+      "title": "Bounded search of the pinned release",
+      "locator": "rg over packages (excluding node_modules and tests), docs and README at v0.7.16",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "No tracker integration: rg -i for linear.app, jira and asana in packages found only CSS linear gradients and timing; no SSO code beyond provider OAuth handling; git worktree appears only in operator guidance text (specs/rigs/launch/kernel/agents/operator/agent/guidance/role.md:262, assets/skills/rigs/SKILL.md:33), not as a provisioning command; no sandbox-exec, bwrap or firejail; docker is used only for service-backed rigs; packages/cli/src/commands/send.ts has no image or attachment option (rg image|attach finds only the rig attach help text at lines 290-291).",
+      "visibility": "public",
+      "commit": "d77a657e8309887f0783cbd78b90d58a1baf959c",
+      "path": "packages"
+    },
+    {
+      "id": "roadmap",
+      "kind": "documented",
+      "url": "https://github.com/mvschwarz/openrig/blob/v0.7.16/ROADMAP.md",
+      "title": "Roadmap",
+      "locator": "Intro; Agents and runtimes; Reliability",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Help-wanted list with no schedule.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "arch",
+      "kind": "documented",
+      "url": "https://github.com/mvschwarz/openrig/blob/v0.7.16/docs/as-built/architecture.md",
+      "title": "As-built architecture",
+      "locator": "Daemon, SQLite, tmux and adapters",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Local daemon (Hono HTTP) over SQLite, tmux and runtime adapters; CLI, TUI and MCP clients.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "tui",
+      "kind": "source-inspected",
+      "url": "https://github.com/mvschwarz/openrig/blob/v0.7.16/packages/tui/src/index.ts",
+      "title": "TUI package",
+      "locator": "packages/tui/src",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Terminal UI topology graph/table, seats, specs, projects, feed and system views.",
+      "visibility": "public",
+      "commit": "d77a657e8309887f0783cbd78b90d58a1baf959c",
+      "path": "packages/tui/src/index.ts"
+    },
+    {
+      "id": "ui",
+      "kind": "source-inspected",
+      "url": "https://github.com/mvschwarz/openrig/blob/v0.7.16/packages/ui/src/main.tsx",
+      "title": "React web UI package",
+      "locator": "packages/ui/src",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Older React web UI served by the daemon when ui.enabled is set; maintenance mode.",
+      "visibility": "public",
+      "commit": "d77a657e8309887f0783cbd78b90d58a1baf959c",
+      "path": "packages/ui/src/main.tsx"
+    },
+    {
+      "id": "release",
+      "kind": "documented",
+      "url": "https://github.com/mvschwarz/openrig/releases/tag/v0.7.16",
+      "title": "OpenRig v0.7.16 release",
+      "locator": "Release notes 2026-11-15",
+      "sourceDate": "2026-11-15",
+      "retrievedAt": "2026-11-16",
+      "finding": "Latest stable release at pass time.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "repo",
+      "kind": "documented",
+      "url": "https://api.github.com/repos/mvschwarz/openrig",
+      "title": "GitHub repository metadata",
+      "locator": "stargazers_count, license, pushed_at",
+      "sourceDate": "2026-11-16",
+      "retrievedAt": "2026-11-16",
+      "finding": "8,870 stars on 2026-11-16; Apache-2.0; not archived; pushed 2026-11-16.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "shots",
+      "kind": "documented",
+      "url": "https://github.com/mvschwarz/openrig/blob/v0.7.16/README.md",
+      "title": "README screenshots",
+      "locator": "See it running; Terminal UI and Workspaces",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Real TUI recording and a TUI topology screenshot captured from the interactive demo with fictional project data.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    }
+  ],
+  "changes": [
+    {
+      "date": "2026-11-16",
+      "author": "researcher-openrig",
+      "type": "initial-research",
+      "summary": "Initial full-profile pass over mvschwarz/openrig tag v0.7.16 (README, docs/reference, docs/as-built CLI reference, ROADMAP, package metadata, CLI and daemon source layout). Some atomic answers remain unknown where the docs read do not establish them and daemon source was not exhaustively inspected.",
+      "claimIds": []
+    }
+  ],
+  "context": {
+    "roadmapReview": {
+      "checkedAt": "2026-11-16",
+      "locations": [
+        {
+          "url": "https://github.com/mvschwarz/openrig/blob/v0.7.16/ROADMAP.md",
+          "result": "Help-wanted themes (more harnesses, Pi operator recovery, Slack DM, draft-aware delivery #48, host-aware resource budget #80) with an explicit no-schedule disclaimer; 0.7.13 listed as released."
+        },
+        {
+          "url": "https://github.com/users/mvschwarz/projects/1",
+          "result": "Linked from ROADMAP.md as the roadmap board; project board page not readable without sign-in, so board items were not recorded."
+        },
+        {
+          "url": "https://github.com/mvschwarz/openrig/releases",
+          "result": "v0.7.16 (2026-11-15), v0.7.15 and v0.7.14 shipped on consecutive days; release notes list shipped changes only."
+        },
+        {
+          "url": "https://github.com/mvschwarz/openrig/blob/v0.7.16/docs/reference/whats-new.md",
+          "result": "Per-release plain-language changes; no future-dated commitments."
+        }
+      ],
+      "announced": [],
+      "gaps": [
+        "The GitHub roadmap board was not readable; ROADMAP.md items are help-wanted ideas, not commitments."
+      ]
+    },
+    "marketContext": {
+      "githubStars": {
+        "value": 8870,
+        "observedAt": "2026-11-16",
+        "evidenceIds": [
+          "repo"
+        ]
+      }
+    }
+  }
+}
