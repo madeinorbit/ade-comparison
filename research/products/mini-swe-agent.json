@@ -1,0 +1,5939 @@
+{
+  "schemaVersion": 1,
+  "rubricVersion": "0.3",
+  "id": "mini-swe-agent",
+  "name": "mini-SWE-agent",
+  "category": "B",
+  "researchTier": "full-profile",
+  "researchState": "documented",
+  "identity": {
+    "website": "https://mini-swe-agent.com",
+    "repository": "https://github.com/SWE-agent/mini-swe-agent",
+    "aliases": [
+      "mini",
+      "mini-swe-agent",
+      "micro-swe-agent"
+    ],
+    "company": null
+  },
+  "surfaces": [
+    {
+      "id": "cli",
+      "name": "mini interactive command line (REPL)",
+      "type": "cli"
+    },
+    {
+      "id": "batch",
+      "name": "mini-extra batch runners and inspector (SWE-bench, ProgramBench)",
+      "type": "cli"
+    },
+    {
+      "id": "python",
+      "name": "Python library (agent, model and environment classes)",
+      "type": "sdk"
+    }
+  ],
+  "claims": [
+    {
+      "id": "mini-swe-agent:ACC-01",
+      "criterionId": "ACC-01",
+      "answer": "Python package installable with pip on any OS: the mini REPL CLI, mini-extra batch and config commands, and a Textual trajectory inspector. No desktop app, mobile app, browser UI or editor extension. Bubblewrap isolation is Linux only.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli",
+          "batch"
+        ],
+        "version": "v2.4.6 (commit a83fcae82d2a08f0ee0c688f9d137b3566c097f8, 2026-07-22); default branch checked 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "desktop_os": {
+          "support": "partial",
+          "answer": "Packaged as an OS-independent Python wheel (no native desktop client); bubblewrap environment is Linux only.",
+          "evidenceIds": [
+            "pyproject",
+            "envdoc"
+          ]
+        },
+        "mobile_apps": {
+          "support": "unsupported",
+          "answer": "No mobile app; bounded search of repo and docs.",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "browser": {
+          "support": "unsupported",
+          "answer": "No browser UI in src or docs.",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "mobile_browser": {
+          "support": "unsupported",
+          "answer": "No browser UI.",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "cli": {
+          "support": "supported",
+          "answer": "mini, mini-swe-agent, mini-extra commands.",
+          "evidenceIds": [
+            "pyproject",
+            "mini"
+          ]
+        },
+        "editor_extensions": {
+          "support": "unsupported",
+          "answer": "No editor extension in repo (searched vscode, extension, plugin).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "task_actions": {
+          "support": "partial",
+          "answer": "Start, confirm or reject each command, switch modes and interrupt in the terminal; review by reading output; resume is not supported except by rerunning with the saved trajectory path.",
+          "evidenceIds": [
+            "interactive",
+            "minidoc"
+          ]
+        },
+        "notifications": {
+          "support": "unsupported",
+          "answer": "No notification code found.",
+          "evidenceIds": [
+            "interactive"
+          ]
+        },
+        "cross_device_continuity": {
+          "support": "unsupported",
+          "answer": "Runs in a terminal; trajectories are local files.",
+          "evidenceIds": [
+            "output"
+          ]
+        }
+      },
+      "limitations": [
+        "desktop_os: Packaged as an OS-independent Python wheel (no native desktop client); bubblewrap environment is Linux only.",
+        "mobile_apps: No mobile app; bounded search of repo and docs.",
+        "browser: No browser UI in src or docs.",
+        "mobile_browser: No browser UI."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "pyproject",
+        "envdoc",
+        "search",
+        "mini",
+        "interactive",
+        "minidoc",
+        "output"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-mini-swe-agent",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "mini-swe-agent:ACC-02",
+      "criterionId": "ACC-02",
+      "answer": "Single embedded minimal agent whose only tool is bash; models via litellm (most providers), OpenRouter, Portkey, Requesty, text-based or tool-call formats, local models; custom agent, model and environment classes by dotted path. It does not drive other coding-agent CLIs.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli",
+          "python"
+        ],
+        "version": "v2.4.6 (commit a83fcae82d2a08f0ee0c688f9d137b3566c097f8, 2026-07-22); default branch checked 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "harnesses": {
+          "support": "partial",
+          "answer": "One embedded agent; no third-party agent CLI is launched.",
+          "evidenceIds": [
+            "readme",
+            "agent"
+          ]
+        },
+        "model_providers": {
+          "support": "supported",
+          "answer": "litellm, OpenRouter, Portkey, Requesty model classes.",
+          "evidenceIds": [
+            "modelsdoc",
+            "readme"
+          ]
+        },
+        "custom_adapters": {
+          "support": "supported",
+          "answer": "--model-class, --agent-class, --environment-class accept dotted import paths.",
+          "evidenceIds": [
+            "mini"
+          ]
+        },
+        "session_integration": {
+          "support": "supported",
+          "answer": "Embedded loop with message history in memory.",
+          "evidenceIds": [
+            "agent"
+          ]
+        },
+        "mixed_harness_operation": {
+          "support": "unsupported",
+          "answer": "Only one harness.",
+          "evidenceIds": [
+            "search"
+          ]
+        }
+      },
+      "limitations": [
+        "harnesses: One embedded agent; no third-party agent CLI is launched.",
+        "mixed_harness_operation: Only one harness."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "agent",
+        "modelsdoc",
+        "mini",
+        "search"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-mini-swe-agent",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "mini-swe-agent:ACC-03",
+      "criterionId": "ACC-03",
+      "answer": "API keys through litellm environment variables or the .env config, local models, OpenRouter and Portkey gateways; no vendor credits and no subscription-login flow in the code.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v2.4.6 (commit a83fcae82d2a08f0ee0c688f9d137b3566c097f8, 2026-07-22); default branch checked 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "agent_subscriptions": {
+          "support": "unsupported",
+          "answer": "No OAuth or subscription login code (searched oauth, login, subscription in src).",
+          "evidenceIds": [
+            "modelsdoc"
+          ]
+        },
+        "api_accounts": {
+          "support": "supported",
+          "answer": "API keys per provider.",
+          "evidenceIds": [
+            "modelsdoc"
+          ]
+        },
+        "vendor_credits": {
+          "support": "not-applicable",
+          "answer": "No vendor credits.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "local_models": {
+          "support": "supported",
+          "answer": "Local model guide and litellm local providers.",
+          "evidenceIds": [
+            "modelsdoc"
+          ]
+        },
+        "account_switching": {
+          "support": "partial",
+          "answer": "Rotating keys for parallel runs described in global config docs.",
+          "evidenceIds": [
+            "globalconfig"
+          ]
+        },
+        "vendor_account_requirement": {
+          "support": "supported",
+          "answer": "No account with the project required.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "provider_restrictions": {
+          "support": "unknown",
+          "answer": "Provider terms are third-party.",
+          "evidenceIds": []
+        }
+      },
+      "limitations": [
+        "agent_subscriptions: No OAuth or subscription login code (searched oauth, login, subscription in src).",
+        "account_switching: Rotating keys for parallel runs described in global config docs.",
+        "provider_restrictions: Provider terms are third-party."
+      ],
+      "unknownReason": "Provider terms are third-party facts.",
+      "evidenceIds": [
+        "modelsdoc",
+        "readme",
+        "globalconfig"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-mini-swe-agent",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "mini-swe-agent:ACC-04",
+      "criterionId": "ACC-04",
+      "answer": "pip install, mini-extra config setup for a model and key, then run mini in any directory; no Git requirement; environments (docker, singularity, bubblewrap) need their own tooling. No managed cloud or VPS onboarding.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v2.4.6 (commit a83fcae82d2a08f0ee0c688f9d137b3566c097f8, 2026-07-22); default branch checked 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "first_task_setup": {
+          "support": "supported",
+          "answer": "Install, mini-extra config setup, run mini.",
+          "evidenceIds": [
+            "modelsdoc",
+            "minidoc"
+          ]
+        },
+        "no_git": {
+          "support": "supported",
+          "answer": "Runs in the current directory.",
+          "evidenceIds": [
+            "minidoc"
+          ]
+        },
+        "local_git_without_remote": {
+          "support": "supported",
+          "answer": "Git is just shell commands for the model.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "hosted_git": {
+          "support": "partial",
+          "answer": "Opening PRs is left to the model through bash and gh.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "prerequisite_guidance": {
+          "support": "supported",
+          "answer": "Setup guides and environment prerequisites documented.",
+          "evidenceIds": [
+            "envdoc",
+            "modelsdoc"
+          ]
+        },
+        "managed_cloud_setup": {
+          "support": "unsupported",
+          "answer": "No managed cloud.",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "byo_vps_onboarding": {
+          "support": "unsupported",
+          "answer": "No VPS onboarding flow.",
+          "evidenceIds": [
+            "envdoc"
+          ]
+        }
+      },
+      "limitations": [
+        "hosted_git: Opening PRs is left to the model through bash and gh.",
+        "managed_cloud_setup: No managed cloud.",
+        "byo_vps_onboarding: No VPS onboarding flow."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "modelsdoc",
+        "minidoc",
+        "readme",
+        "envdoc",
+        "search"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-mini-swe-agent",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "mini-swe-agent:ACC-05",
+      "criterionId": "ACC-05",
+      "answer": "CLI (mini, mini-extra), a Python API documented in python_bindings and the reference, YAML configs; no HTTP API, MCP server or webhooks.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli",
+          "python",
+          "batch"
+        ],
+        "version": "v2.4.6 (commit a83fcae82d2a08f0ee0c688f9d137b3566c097f8, 2026-07-22); default branch checked 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "cli": {
+          "support": "supported",
+          "answer": "mini and mini-extra.",
+          "evidenceIds": [
+            "pyproject",
+            "extra"
+          ]
+        },
+        "api": {
+          "support": "unsupported",
+          "answer": "No HTTP server or API in src.",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "sdk": {
+          "support": "supported",
+          "answer": "Python classes for agent, model and environment.",
+          "evidenceIds": [
+            "readme",
+            "agent"
+          ]
+        },
+        "mcp_server": {
+          "support": "unsupported",
+          "answer": "No MCP code in src or docs (searched mcp).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "webhooks": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "operations": {
+          "support": "partial",
+          "answer": "Run, set limits and read trajectories; no remote steering or stop API.",
+          "evidenceIds": [
+            "agent",
+            "output"
+          ]
+        },
+        "authentication": {
+          "support": "not-applicable",
+          "answer": "No server surface.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "stability": {
+          "support": "partial",
+          "answer": "v2 changed output and APIs with a migration guide; pre-3.0 library.",
+          "evidenceIds": [
+            "rel"
+          ]
+        }
+      },
+      "limitations": [
+        "api: No HTTP server or API in src.",
+        "mcp_server: No MCP code in src or docs (searched mcp).",
+        "webhooks: Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+        "operations: Run, set limits and read trajectories; no remote steering or stop API."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "pyproject",
+        "extra",
+        "search",
+        "readme",
+        "agent",
+        "output",
+        "rel"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-mini-swe-agent",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "mini-swe-agent:ACC-06",
+      "criterionId": "ACC-06",
+      "answer": "No MCP client, plugins, skills or instruction-file import: the agent uses bash plus Jinja-templated system and instance prompts configured in YAML; behavior is extended by subclassing in Python.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli",
+          "python"
+        ],
+        "version": "v2.4.6 (commit a83fcae82d2a08f0ee0c688f9d137b3566c097f8, 2026-07-22); default branch checked 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "mcp_client": {
+          "support": "unsupported",
+          "answer": "No MCP client code or docs.",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "plugins": {
+          "support": "unsupported",
+          "answer": "No plugin system; subclass or dotted-path classes.",
+          "evidenceIds": [
+            "mini"
+          ]
+        },
+        "custom_tools": {
+          "support": "unsupported",
+          "answer": "Bash is the only tool by design.",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "instructions_import": {
+          "support": "unsupported",
+          "answer": "No AGENTS.md or CLAUDE.md import found; prompts come from YAML config.",
+          "evidenceIds": [
+            "agent"
+          ]
+        },
+        "authentication": {
+          "support": "not-applicable",
+          "answer": "No integrations.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "permission_scope": {
+          "support": "partial",
+          "answer": "Confirm mode with regex whitelist for commands.",
+          "evidenceIds": [
+            "interactive"
+          ]
+        },
+        "integration_owner": {
+          "support": "not-applicable",
+          "answer": "No integrations.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "mcp_client: No MCP client code or docs.",
+        "plugins: No plugin system; subclass or dotted-path classes.",
+        "custom_tools: Bash is the only tool by design.",
+        "instructions_import: No AGENTS.md or CLAUDE.md import found; prompts come from YAML config."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "search",
+        "mini",
+        "agent",
+        "readme",
+        "interactive"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-mini-swe-agent",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "mini-swe-agent:ACC-07",
+      "criterionId": "ACC-07",
+      "answer": "Python terminal application (prompt_toolkit and rich REPL, Textual inspector); no desktop or mobile clients.",
+      "support": "supported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v2.4.6 (commit a83fcae82d2a08f0ee0c688f9d137b3566c097f8, 2026-07-22); default branch checked 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "desktop_implementation": {
+          "support": "supported",
+          "answer": "Python terminal UI with rich, prompt_toolkit and Textual.",
+          "evidenceIds": [
+            "pyproject",
+            "inspector"
+          ]
+        },
+        "mobile_implementation": {
+          "support": "not-applicable",
+          "answer": "No mobile client.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "hybrids": {
+          "support": "not-applicable",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "implementation_evidence": {
+          "support": "supported",
+          "answer": "pyproject.toml and sources at the pinned tag.",
+          "evidenceIds": [
+            "pyproject"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "pyproject",
+        "inspector",
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-05-15",
+      "researcher": "researcher-mini-swe-agent",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "mini-swe-agent:PLAN-01",
+      "criterionId": "PLAN-01",
+      "answer": "Intake is a typed or flag-provided task string; batch mode ingests benchmark instances; no tracker integration.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli",
+          "batch"
+        ],
+        "version": "v2.4.6 (commit a83fcae82d2a08f0ee0c688f9d137b3566c097f8, 2026-07-22); default branch checked 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "local_creation": {
+          "support": "supported",
+          "answer": "Task typed or passed with -t.",
+          "evidenceIds": [
+            "mini"
+          ]
+        },
+        "prompt_intake": {
+          "support": "supported",
+          "answer": "Prompt or file.",
+          "evidenceIds": [
+            "mini"
+          ]
+        },
+        "external_import": {
+          "support": "partial",
+          "answer": "Benchmark datasets in batch mode only.",
+          "evidenceIds": [
+            "swebench"
+          ]
+        },
+        "chat_git_triggers": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "authoritative_tracker": {
+          "support": "not-applicable",
+          "answer": "No tracker.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "stable_ids": {
+          "support": "partial",
+          "answer": "Benchmark instance IDs only.",
+          "evidenceIds": [
+            "swebench"
+          ]
+        },
+        "sync": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "supported_edits": {
+          "support": "not-applicable",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "external_roundtrips": {
+          "support": "not-applicable",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "external_import: Benchmark datasets in batch mode only.",
+        "chat_git_triggers: Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+        "stable_ids: Benchmark instance IDs only.",
+        "sync: Not found in the bounded search of src, docs and tests (terms and counts in the search evidence)."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "mini",
+        "swebench",
+        "search",
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-mini-swe-agent",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "mini-swe-agent:PLAN-02",
+      "criterionId": "PLAN-02",
+      "answer": "No plan feature: the model reasons in its THOUGHT section before each command; the whole conversation is the only persistent record.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v2.4.6 (commit a83fcae82d2a08f0ee0c688f9d137b3566c097f8, 2026-07-22); default branch checked 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "plans": {
+          "support": "unsupported",
+          "answer": "No plan objects.",
+          "evidenceIds": [
+            "agent"
+          ]
+        },
+        "acceptance_criteria": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "agent"
+          ]
+        },
+        "editors": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "agent"
+          ]
+        },
+        "revisions": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "agent"
+          ]
+        },
+        "implementation_links": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "agent"
+          ]
+        },
+        "amendment": {
+          "support": "partial",
+          "answer": "User can interrupt and add messages in the REPL.",
+          "evidenceIds": [
+            "interactive"
+          ]
+        },
+        "restart_persistence": {
+          "support": "partial",
+          "answer": "Trajectory saved to .traj.json; resuming a run from it is not documented.",
+          "evidenceIds": [
+            "output"
+          ]
+        }
+      },
+      "limitations": [
+        "plans: No plan objects.",
+        "acceptance_criteria: None.",
+        "editors: None.",
+        "revisions: None."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "agent",
+        "interactive",
+        "output"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-mini-swe-agent",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "mini-swe-agent:PLAN-03",
+      "criterionId": "PLAN-03",
+      "answer": "No hierarchy, dependencies or epics; a single linear message history.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v2.4.6 (commit a83fcae82d2a08f0ee0c688f9d137b3566c097f8, 2026-07-22); default branch checked 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "epics": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "hierarchy": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "blockers": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "readiness": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "enforcement": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "state_propagation": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "task_to_epic": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "identity_retention": {
+          "support": "not-applicable",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "workflow_constraints": {
+          "support": "supported",
+          "answer": "No required workflow.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "epics: Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+        "hierarchy: Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+        "blockers: Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+        "readiness: Not found in the bounded search of src, docs and tests (terms and counts in the search evidence)."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "search",
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-mini-swe-agent",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "mini-swe-agent:PLAN-04",
+      "criterionId": "PLAN-04",
+      "answer": "Behavior is set by YAML system and instance templates; there is no memory, skills or repository-instruction import; each run starts from the task prompt.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli",
+          "python"
+        ],
+        "version": "v2.4.6 (commit a83fcae82d2a08f0ee0c688f9d137b3566c097f8, 2026-07-22); default branch checked 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "instructions": {
+          "support": "partial",
+          "answer": "YAML templates for system and instance prompts.",
+          "evidenceIds": [
+            "agent"
+          ]
+        },
+        "skills": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "project_docs": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "memory": {
+          "support": "unsupported",
+          "answer": "None found (searched memory in src).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "scope": {
+          "support": "partial",
+          "answer": "Global versus per-config files.",
+          "evidenceIds": [
+            "globalconfig"
+          ]
+        },
+        "provenance": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "correction": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "deletion": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "freshness": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "takeover_continuity": {
+          "support": "unsupported",
+          "answer": "Only the local trajectory file survives.",
+          "evidenceIds": [
+            "output"
+          ]
+        }
+      },
+      "limitations": [
+        "instructions: YAML templates for system and instance prompts.",
+        "skills: Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+        "project_docs: Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+        "memory: None found (searched memory in src)."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "agent",
+        "search",
+        "globalconfig",
+        "output"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-mini-swe-agent",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "mini-swe-agent:PLAN-05",
+      "criterionId": "PLAN-05",
+      "answer": "No search, indexing or knowledge tools; the agent uses bash commands the model chooses (grep, find, etc.).",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v2.4.6 (commit a83fcae82d2a08f0ee0c688f9d137b3566c097f8, 2026-07-22); default branch checked 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "code_search": {
+          "support": "partial",
+          "answer": "Only via shell commands the model runs.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "indexing": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "external_knowledge": {
+          "support": "partial",
+          "answer": "Only via curl or similar in bash.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "multimodal_inputs": {
+          "support": "partial",
+          "answer": "openai_multimodal utilities exist for model messages; no UI image input found.",
+          "evidenceIds": [
+            "model"
+          ]
+        },
+        "freshness": {
+          "support": "not-applicable",
+          "answer": "No index.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "access_scope": {
+          "support": "partial",
+          "answer": "Whatever the environment exposes.",
+          "evidenceIds": [
+            "envdoc"
+          ]
+        },
+        "api_retrieval": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "citations": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "conflict_detection": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "review_enforcement": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        }
+      },
+      "limitations": [
+        "code_search: Only via shell commands the model runs.",
+        "indexing: Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+        "external_knowledge: Only via curl or similar in bash.",
+        "multimodal_inputs: openai_multimodal utilities exist for model messages; no UI image input found."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "search",
+        "model",
+        "envdoc"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-mini-swe-agent",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "mini-swe-agent:PLAN-06",
+      "criterionId": "PLAN-06",
+      "answer": "No issue tracker.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v2.4.6 (commit a83fcae82d2a08f0ee0c688f9d137b3566c097f8, 2026-07-22); default branch checked 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "create": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "edit": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "discuss": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "prioritize": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "label": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "assign": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "search": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "filter": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "archive": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "reopen": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "project_epic_views": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "idea_parking": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "explicit_dispatch": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "task_session_separation": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "metadata": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "durable_states": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "external_tracker_requirement": {
+          "support": "supported",
+          "answer": "An external tracker is needed for any issue management.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "create: Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+        "edit: Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+        "discuss: Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+        "prioritize: Not found in the bounded search of src, docs and tests (terms and counts in the search evidence)."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "search",
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-mini-swe-agent",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "mini-swe-agent:PLAN-07",
+      "criterionId": "PLAN-07",
+      "answer": "No shared issue records for agents.",
+      "support": "unsupported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v2.4.6 (commit a83fcae82d2a08f0ee0c688f9d137b3566c097f8, 2026-07-22); default branch checked 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "shared_ids": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "read": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "create": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "update": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "claim": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "assign": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "state_changes": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "dependencies": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "children": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "results": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "human_visibility": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "attribution": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "permissions": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "conflicts": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "search"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-mini-swe-agent",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "mini-swe-agent:PLAN-08",
+      "criterionId": "PLAN-08",
+      "answer": "No living specifications.",
+      "support": "unsupported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v2.4.6 (commit a83fcae82d2a08f0ee0c688f9d137b3566c097f8, 2026-07-22); default branch checked 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "persistent_requirements": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "human_edits": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "agent_edits": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "revisions": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "approvals": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "implementation_links": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "later_retrieval": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "drift_detection": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "review_integration": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "search"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-mini-swe-agent",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "mini-swe-agent:COORD-01",
+      "criterionId": "COORD-01",
+      "answer": "A single agent per mini run; batch benchmark mode runs many instances in parallel worker threads with a live progress table showing step, cost and elapsed time per instance.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "batch",
+          "cli"
+        ],
+        "version": "v2.4.6 (commit a83fcae82d2a08f0ee0c688f9d137b3566c097f8, 2026-07-22); default branch checked 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "concurrent_sessions": {
+          "support": "partial",
+          "answer": "Multiple processes can be started manually; batch threads in swebench.",
+          "evidenceIds": [
+            "swebench"
+          ]
+        },
+        "concurrent_tasks": {
+          "support": "supported",
+          "answer": "--workers parallel instances.",
+          "evidenceIds": [
+            "swebench"
+          ]
+        },
+        "quotas": {
+          "support": "partial",
+          "answer": "Worker count is the only limit.",
+          "evidenceIds": [
+            "swebench"
+          ]
+        },
+        "observed_concurrency": {
+          "support": "unknown",
+          "answer": "Not measured here.",
+          "evidenceIds": []
+        },
+        "status_visibility": {
+          "support": "supported",
+          "answer": "Batch progress table shows per-instance step, cost and time.",
+          "evidenceIds": [
+            "swebench"
+          ]
+        }
+      },
+      "limitations": [
+        "concurrent_sessions: Multiple processes can be started manually; batch threads in swebench.",
+        "quotas: Worker count is the only limit.",
+        "observed_concurrency: Not measured here."
+      ],
+      "unknownReason": "Concurrency behavior in use is not measured here.",
+      "evidenceIds": [
+        "swebench"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-mini-swe-agent",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "mini-swe-agent:COORD-02",
+      "criterionId": "COORD-02",
+      "answer": "No assignment, claims or routing; batch workers pull instances from a list.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "batch"
+        ],
+        "version": "v2.4.6 (commit a83fcae82d2a08f0ee0c688f9d137b3566c097f8, 2026-07-22); default branch checked 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "human_assignment": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "agent_assignment": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "claims": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "queues": {
+          "support": "partial",
+          "answer": "Batch work list across workers.",
+          "evidenceIds": [
+            "swebench"
+          ]
+        },
+        "routing": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "duplicate_prevention": {
+          "support": "partial",
+          "answer": "Batch skips finished instances via output files.",
+          "evidenceIds": [
+            "swebench"
+          ]
+        },
+        "ownership_enforcement": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        }
+      },
+      "limitations": [
+        "human_assignment: Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+        "agent_assignment: Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+        "claims: Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+        "queues: Batch work list across workers."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "search",
+        "swebench"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-mini-swe-agent",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "mini-swe-agent:COORD-03",
+      "criterionId": "COORD-03",
+      "answer": "No delegation: a single agent with a linear history; no subagents, messaging or cross-harness teams.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v2.4.6 (commit a83fcae82d2a08f0ee0c688f9d137b3566c097f8, 2026-07-22); default branch checked 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "roles": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "model_harness_effort": {
+          "support": "unsupported",
+          "answer": "None; a roulette model switches models between calls.",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "messages": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "results_return": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "cross_harness": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "orchestration_owner": {
+          "support": "not-applicable",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "activation": {
+          "support": "not-applicable",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "authentication": {
+          "support": "not-applicable",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "live_progress": {
+          "support": "not-applicable",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "retained_results": {
+          "support": "not-applicable",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "followup": {
+          "support": "not-applicable",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "invocation": {
+          "support": "not-applicable",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "roles: Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+        "model_harness_effort: None; a roulette model switches models between calls.",
+        "messages: Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+        "results_return: Not found in the bounded search of src, docs and tests (terms and counts in the search evidence)."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "search",
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-mini-swe-agent",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "mini-swe-agent:COORD-04",
+      "criterionId": "COORD-04",
+      "answer": "No schedules, triggers or recurring tasks; runs start when a human or script invokes them.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "batch"
+        ],
+        "version": "v2.4.6 (commit a83fcae82d2a08f0ee0c688f9d137b3566c097f8, 2026-07-22); default branch checked 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "schedules": {
+          "support": "unsupported",
+          "answer": "No scheduler in src.",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "events": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "recurring_tasks": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "completion_conditions": {
+          "support": "partial",
+          "answer": "Step, cost and wall-time limits end a run.",
+          "evidenceIds": [
+            "agent"
+          ]
+        },
+        "scheduler_location": {
+          "support": "not-applicable",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "overlaps": {
+          "support": "not-applicable",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "retries": {
+          "support": "not-applicable",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "client_independence": {
+          "support": "partial",
+          "answer": "Batch runs are ordinary processes that can be run headless.",
+          "evidenceIds": [
+            "swebench"
+          ]
+        }
+      },
+      "limitations": [
+        "schedules: No scheduler in src.",
+        "events: Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+        "recurring_tasks: Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+        "completion_conditions: Step, cost and wall-time limits end a run."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "search",
+        "agent",
+        "readme",
+        "swebench"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-mini-swe-agent",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "mini-swe-agent:COORD-05",
+      "criterionId": "COORD-05",
+      "answer": "Ctrl+C interrupt, confirm or reject each command with a message, mode switching, human takeover, exit confirmation; no pause or remote steering; history saved to the trajectory.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v2.4.6 (commit a83fcae82d2a08f0ee0c688f9d137b3566c097f8, 2026-07-22); default branch checked 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "pause": {
+          "support": "partial",
+          "answer": "Interrupt returns to a prompt where the user can resume with a mode choice.",
+          "evidenceIds": [
+            "interactive"
+          ]
+        },
+        "stop": {
+          "support": "supported",
+          "answer": "Ctrl+C interrupts; trajectory is saved.",
+          "evidenceIds": [
+            "interactive",
+            "mini"
+          ]
+        },
+        "resume": {
+          "support": "partial",
+          "answer": "Continue the same process after interruption; no resume command from a trajectory.",
+          "evidenceIds": [
+            "interactive"
+          ]
+        },
+        "steer": {
+          "support": "supported",
+          "answer": "User can add messages and take over.",
+          "evidenceIds": [
+            "interactive"
+          ]
+        },
+        "notifications": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "interactive"
+          ]
+        },
+        "pending_decisions": {
+          "support": "supported",
+          "answer": "Confirmation prompts.",
+          "evidenceIds": [
+            "interactive"
+          ]
+        },
+        "escalation": {
+          "support": "partial",
+          "answer": "Format-error and limit exceptions end the run.",
+          "evidenceIds": [
+            "agent"
+          ]
+        },
+        "visible_errors": {
+          "support": "supported",
+          "answer": "Errors printed and recorded in the trajectory.",
+          "evidenceIds": [
+            "agent",
+            "output"
+          ]
+        },
+        "chat_terminal_parity": {
+          "support": "not-applicable",
+          "answer": "Single terminal surface.",
+          "evidenceIds": [
+            "minidoc"
+          ]
+        },
+        "retained_history": {
+          "support": "supported",
+          "answer": ".traj.json.",
+          "evidenceIds": [
+            "output"
+          ]
+        }
+      },
+      "limitations": [
+        "pause: Interrupt returns to a prompt where the user can resume with a mode choice.",
+        "resume: Continue the same process after interruption; no resume command from a trajectory.",
+        "notifications: None.",
+        "escalation: Format-error and limit exceptions end the run."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "interactive",
+        "mini",
+        "agent",
+        "output",
+        "minidoc"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-mini-swe-agent",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "mini-swe-agent:COORD-06",
+      "criterionId": "COORD-06",
+      "answer": "Batch progress table and the trajectory inspector; no fleet or epic view.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "batch"
+        ],
+        "version": "v2.4.6 (commit a83fcae82d2a08f0ee0c688f9d137b3566c097f8, 2026-07-22); default branch checked 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "fleet_fixture": {
+          "support": "partial",
+          "answer": "Batch progress view lists instances with step, cost, time.",
+          "evidenceIds": [
+            "swebench"
+          ]
+        },
+        "parent_child": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "dependencies": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "attention": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "history": {
+          "support": "supported",
+          "answer": "Trajectory browser.",
+          "evidenceIds": [
+            "inspector"
+          ]
+        },
+        "workload": {
+          "support": "partial",
+          "answer": "Overall progress, cost and ETA in batch view.",
+          "evidenceIds": [
+            "swebench"
+          ]
+        },
+        "navigation_errors": {
+          "support": "partial",
+          "answer": "Exit statuses summarized.",
+          "evidenceIds": [
+            "swebench"
+          ]
+        },
+        "fixture_mode": {
+          "support": "not-applicable",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "fleet_fixture: Batch progress view lists instances with step, cost, time.",
+        "parent_child: Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+        "dependencies: Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+        "attention: Not found in the bounded search of src, docs and tests (terms and counts in the search evidence)."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "swebench",
+        "search",
+        "inspector",
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-mini-swe-agent",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "mini-swe-agent:COORD-07",
+      "criterionId": "COORD-07",
+      "answer": "No presets or natural-language configuration; behavior is YAML config and CLI flags, with modes confirm/yolo/human switchable in a run.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli",
+          "python"
+        ],
+        "version": "v2.4.6 (commit a83fcae82d2a08f0ee0c688f9d137b3566c097f8, 2026-07-22); default branch checked 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "quick_task": {
+          "support": "supported",
+          "answer": "mini -t.",
+          "evidenceIds": [
+            "mini"
+          ]
+        },
+        "growing_epic": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "presets": {
+          "support": "partial",
+          "answer": "Config files such as mini.yaml and benchmark configs.",
+          "evidenceIds": [
+            "mini"
+          ]
+        },
+        "natural_language": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "agent_configuration": {
+          "support": "partial",
+          "answer": "YAML templates and limits.",
+          "evidenceIds": [
+            "agent"
+          ]
+        },
+        "in_run_changes": {
+          "support": "supported",
+          "answer": "Switch mode with /c /y /u.",
+          "evidenceIds": [
+            "interactive"
+          ]
+        },
+        "live_roles": {
+          "support": "not-applicable",
+          "answer": "No roles.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "retained_relationships": {
+          "support": "not-applicable",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "discoverability": {
+          "support": "supported",
+          "answer": "Docs and --help.",
+          "evidenceIds": [
+            "minidoc"
+          ]
+        },
+        "auth_friction": {
+          "support": "supported",
+          "answer": "Keys only.",
+          "evidenceIds": [
+            "modelsdoc"
+          ]
+        }
+      },
+      "limitations": [
+        "growing_epic: Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+        "presets: Config files such as mini.yaml and benchmark configs.",
+        "natural_language: Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+        "agent_configuration: YAML templates and limits."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "mini",
+        "search",
+        "agent",
+        "interactive",
+        "readme",
+        "minidoc",
+        "modelsdoc"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-mini-swe-agent",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "mini-swe-agent:RUN-01",
+      "criterionId": "RUN-01",
+      "answer": "Runs locally by default; docker or podman, Singularity, bubblewrap, ConTree, and SWE-ReX Docker or Modal cloud environments run commands elsewhere while the agent loop stays in your process; no managed vendor cloud and nothing continues after your process ends.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli",
+          "batch"
+        ],
+        "version": "v2.4.6 (commit a83fcae82d2a08f0ee0c688f9d137b3566c097f8, 2026-07-22); default branch checked 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "local": {
+          "support": "supported",
+          "answer": "LocalEnvironment default for mini.",
+          "evidenceIds": [
+            "envdoc",
+            "local"
+          ]
+        },
+        "byo_remote": {
+          "support": "partial",
+          "answer": "SWE-ReX and docker hosts configurable; setup is manual.",
+          "evidenceIds": [
+            "envdoc"
+          ]
+        },
+        "self_hosted": {
+          "support": "not-applicable",
+          "answer": "No service.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "managed_cloud": {
+          "support": "unsupported",
+          "answer": "No project-operated cloud; Modal is a third-party service the user brings.",
+          "evidenceIds": [
+            "envdoc"
+          ]
+        },
+        "hybrid": {
+          "support": "partial",
+          "answer": "Agent runs locally while commands run in Modal or containers.",
+          "evidenceIds": [
+            "envdoc"
+          ]
+        },
+        "provisioning": {
+          "support": "partial",
+          "answer": "Container started per run.",
+          "evidenceIds": [
+            "docker"
+          ]
+        },
+        "payer": {
+          "support": "supported",
+          "answer": "User pays infrastructure and models.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "resources": {
+          "support": "partial",
+          "answer": "Container options through run_args.",
+          "evidenceIds": [
+            "docker"
+          ]
+        },
+        "region": {
+          "support": "not-applicable",
+          "answer": "Provider dependent.",
+          "evidenceIds": [
+            "envdoc"
+          ]
+        },
+        "expiry": {
+          "support": "supported",
+          "answer": "container_timeout default 2h.",
+          "evidenceIds": [
+            "docker"
+          ]
+        },
+        "client_disconnect": {
+          "support": "unsupported",
+          "answer": "The agent loop is in the client process; it stops when the process ends.",
+          "evidenceIds": [
+            "agent"
+          ]
+        },
+        "other_device_continuation": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "output"
+          ]
+        }
+      },
+      "limitations": [
+        "byo_remote: SWE-ReX and docker hosts configurable; setup is manual.",
+        "managed_cloud: No project-operated cloud; Modal is a third-party service the user brings.",
+        "hybrid: Agent runs locally while commands run in Modal or containers.",
+        "provisioning: Container started per run."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "envdoc",
+        "local",
+        "readme",
+        "docker",
+        "agent",
+        "output"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-mini-swe-agent",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "mini-swe-agent:RUN-02",
+      "criterionId": "RUN-02",
+      "answer": "Local environment has no isolation; docker/podman containers, Singularity and bubblewrap (Linux) isolate execution per run; each action is an independent subprocess; no worktrees or branches created.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli",
+          "batch"
+        ],
+        "version": "v2.4.6 (commit a83fcae82d2a08f0ee0c688f9d137b3566c097f8, 2026-07-22); default branch checked 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "checkout": {
+          "support": "supported",
+          "answer": "Local runs in the current directory.",
+          "evidenceIds": [
+            "local"
+          ]
+        },
+        "branch": {
+          "support": "unsupported",
+          "answer": "No branch handling.",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "worktree": {
+          "support": "unsupported",
+          "answer": "Bounded search of src found no worktree code.",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "container": {
+          "support": "supported",
+          "answer": "DockerEnvironment (docker or podman executable).",
+          "evidenceIds": [
+            "docker"
+          ]
+        },
+        "vm": {
+          "support": "partial",
+          "answer": "Modal and ConTree sandboxes via SWE-ReX; not VM-specific.",
+          "evidenceIds": [
+            "envdoc"
+          ]
+        },
+        "os_sandbox": {
+          "support": "supported",
+          "answer": "Bubblewrap on Linux.",
+          "evidenceIds": [
+            "bwrap"
+          ]
+        },
+        "filesystem": {
+          "support": "partial",
+          "answer": "Container or bubblewrap filesystem boundaries.",
+          "evidenceIds": [
+            "docker",
+            "bwrap"
+          ]
+        },
+        "process": {
+          "support": "supported",
+          "answer": "Per-action subprocess in the environment.",
+          "evidenceIds": [
+            "local",
+            "docker"
+          ]
+        },
+        "network": {
+          "support": "partial",
+          "answer": "Container networking is up to run_args.",
+          "evidenceIds": [
+            "docker"
+          ]
+        },
+        "secrets": {
+          "support": "partial",
+          "answer": "forward_env selects forwarded environment variables.",
+          "evidenceIds": [
+            "docker"
+          ]
+        },
+        "code_separation": {
+          "support": "partial",
+          "answer": "Per-run container.",
+          "evidenceIds": [
+            "docker"
+          ]
+        },
+        "security_boundary": {
+          "support": "partial",
+          "answer": "Documented as sandboxing options, not hostile-code guarantees.",
+          "evidenceIds": [
+            "envdoc"
+          ]
+        }
+      },
+      "limitations": [
+        "Default mini environment is not sandboxed."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "local",
+        "search",
+        "docker",
+        "envdoc",
+        "bwrap"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-mini-swe-agent",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "mini-swe-agent:RUN-03",
+      "criterionId": "RUN-03",
+      "answer": "The trajectory is saved when a run ends or is interrupted; there is no process recovery; a crash loses the in-memory run apart from the trajectory written so far.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli",
+          "batch"
+        ],
+        "version": "v2.4.6 (commit a83fcae82d2a08f0ee0c688f9d137b3566c097f8, 2026-07-22); default branch checked 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "client_disconnect": {
+          "support": "unsupported",
+          "answer": "Process ends with the terminal.",
+          "evidenceIds": [
+            "agent"
+          ]
+        },
+        "worker_crash": {
+          "support": "partial",
+          "answer": "Trajectory persisted on exit and exceptions.",
+          "evidenceIds": [
+            "agent"
+          ]
+        },
+        "service_restart": {
+          "support": "not-applicable",
+          "answer": "No service.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "expiry": {
+          "support": "supported",
+          "answer": "Container timeout.",
+          "evidenceIds": [
+            "docker"
+          ]
+        },
+        "transcript_reload": {
+          "support": "supported",
+          "answer": "Inspector loads .traj.json.",
+          "evidenceIds": [
+            "inspector"
+          ]
+        },
+        "process_reconnect": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "task_resume": {
+          "support": "unsupported",
+          "answer": "No resume command.",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "state_reconstruction": {
+          "support": "partial",
+          "answer": "Messages can be reloaded manually.",
+          "evidenceIds": [
+            "output"
+          ]
+        },
+        "context_loss": {
+          "support": "partial",
+          "answer": "Linear history; long histories are not compacted.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "duplicate_actions": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "manual_repair": {
+          "support": "partial",
+          "answer": "Manual rerun.",
+          "evidenceIds": [
+            "output"
+          ]
+        },
+        "multi_day_continuity": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        }
+      },
+      "limitations": [
+        "client_disconnect: Process ends with the terminal.",
+        "worker_crash: Trajectory persisted on exit and exceptions.",
+        "process_reconnect: Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+        "task_resume: No resume command."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "agent",
+        "readme",
+        "docker",
+        "inspector",
+        "search",
+        "output"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-mini-swe-agent",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "mini-swe-agent:RUN-04",
+      "criterionId": "RUN-04",
+      "answer": "Environments start containers and forward selected environment variables; no dependency caching, port allocation or setup scripts are provided.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "batch",
+          "cli"
+        ],
+        "version": "v2.4.6 (commit a83fcae82d2a08f0ee0c688f9d137b3566c097f8, 2026-07-22); default branch checked 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "dependencies": {
+          "support": "partial",
+          "answer": "Benchmark containers come prepared; no setup scripts.",
+          "evidenceIds": [
+            "swebench"
+          ]
+        },
+        "caches": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "snapshots": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "services": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "ports": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "secrets": {
+          "support": "partial",
+          "answer": "forward_env.",
+          "evidenceIds": [
+            "docker"
+          ]
+        },
+        "duplicate_installs": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "collisions": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "remote_setup": {
+          "support": "partial",
+          "answer": "Modal and SWE-ReX configuration.",
+          "evidenceIds": [
+            "envdoc"
+          ]
+        },
+        "automatic_repair": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        }
+      },
+      "limitations": [
+        "dependencies: Benchmark containers come prepared; no setup scripts.",
+        "caches: Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+        "snapshots: Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+        "services: Not found in the bounded search of src, docs and tests (terms and counts in the search evidence)."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "swebench",
+        "search",
+        "docker",
+        "envdoc"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-mini-swe-agent",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "mini-swe-agent:RUN-05",
+      "criterionId": "RUN-05",
+      "answer": "Step limit, cost limit (default $3), wall-time limit, per-command timeout (30s), container timeout (2h), consecutive format-error limit, model retries with exponential backoff; limits are enforced stops.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli",
+          "batch"
+        ],
+        "version": "v2.4.6 (commit a83fcae82d2a08f0ee0c688f9d137b3566c097f8, 2026-07-22); default branch checked 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "time_limits": {
+          "support": "supported",
+          "answer": "wall_time_limit_seconds and container_timeout.",
+          "evidenceIds": [
+            "agent",
+            "docker"
+          ]
+        },
+        "turn_limits": {
+          "support": "supported",
+          "answer": "step_limit.",
+          "evidenceIds": [
+            "agent"
+          ]
+        },
+        "token_limits": {
+          "support": "unsupported",
+          "answer": "No token cap; cost limit instead.",
+          "evidenceIds": [
+            "agent"
+          ]
+        },
+        "spend_limits": {
+          "support": "supported",
+          "answer": "cost_limit default 3.0.",
+          "evidenceIds": [
+            "agent"
+          ]
+        },
+        "timeouts": {
+          "support": "supported",
+          "answer": "Per-command timeout default 30s.",
+          "evidenceIds": [
+            "local"
+          ]
+        },
+        "retries": {
+          "support": "supported",
+          "answer": "Tenacity retries with exponential wait.",
+          "evidenceIds": [
+            "retry"
+          ]
+        },
+        "provider_failures": {
+          "support": "partial",
+          "answer": "Retries then error.",
+          "evidenceIds": [
+            "retry"
+          ]
+        },
+        "enforcement": {
+          "support": "supported",
+          "answer": "LimitsExceeded exception ends the run.",
+          "evidenceIds": [
+            "agent"
+          ]
+        }
+      },
+      "limitations": [
+        "token_limits: No token cap; cost limit instead.",
+        "provider_failures: Retries then error."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "agent",
+        "docker",
+        "local",
+        "retry"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-mini-swe-agent",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "mini-swe-agent:RUN-06",
+      "criterionId": "RUN-06",
+      "answer": "Full trajectories with per-call cost metadata, exit status and run configuration saved as JSON; a Textual inspector; batch progress summary; no traces, dashboards or aggregate statistics beyond batch output.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli",
+          "batch"
+        ],
+        "version": "v2.4.6 (commit a83fcae82d2a08f0ee0c688f9d137b3566c097f8, 2026-07-22); default branch checked 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "logs": {
+          "support": "supported",
+          "answer": "Logging and trajectory files.",
+          "evidenceIds": [
+            "output"
+          ]
+        },
+        "traces": {
+          "support": "partial",
+          "answer": "Trajectory with messages and model responses.",
+          "evidenceIds": [
+            "output"
+          ]
+        },
+        "failure_reasons": {
+          "support": "supported",
+          "answer": "Exit statuses and exceptions recorded.",
+          "evidenceIds": [
+            "swebench",
+            "output"
+          ]
+        },
+        "usage_export": {
+          "support": "partial",
+          "answer": "JSON trajectories; global model stats.",
+          "evidenceIds": [
+            "model",
+            "output"
+          ]
+        },
+        "task_stats": {
+          "support": "supported",
+          "answer": "Per-run cost and calls.",
+          "evidenceIds": [
+            "agent"
+          ]
+        },
+        "agent_stats": {
+          "support": "not-applicable",
+          "answer": "Single agent.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "project_stats": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "time_stats": {
+          "support": "partial",
+          "answer": "Elapsed time in batch view.",
+          "evidenceIds": [
+            "swebench"
+          ]
+        },
+        "failure_status": {
+          "support": "supported",
+          "answer": "Exit status table.",
+          "evidenceIds": [
+            "swebench"
+          ]
+        },
+        "approval_status": {
+          "support": "partial",
+          "answer": "Confirmations in the REPL.",
+          "evidenceIds": [
+            "interactive"
+          ]
+        },
+        "reconnect_consistency": {
+          "support": "not-applicable",
+          "answer": "No reconnect.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "performance_method": {
+          "support": "not-applicable",
+          "answer": "This catalog measures no speed; vendor claims of >74% SWE-bench Verified are not repeated as findings.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "responsiveness": {
+          "support": "not-applicable",
+          "answer": "None measured.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "traces: Trajectory with messages and model responses.",
+        "usage_export: JSON trajectories; global model stats.",
+        "project_stats: Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+        "time_stats: Elapsed time in batch view."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "output",
+        "swebench",
+        "model",
+        "agent",
+        "readme",
+        "search",
+        "interactive"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-mini-swe-agent",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "mini-swe-agent:RUN-07",
+      "criterionId": "RUN-07",
+      "answer": "Per-call and cumulative model cost computed through litellm pricing (or provider-reported) and shown during runs and saved in the trajectory; cost limit enforces a stop; no compute cost, alerts or aggregation across runs beyond global stats.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli",
+          "batch"
+        ],
+        "version": "v2.4.6 (commit a83fcae82d2a08f0ee0c688f9d137b3566c097f8, 2026-07-22); default branch checked 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "task_cost": {
+          "support": "supported",
+          "answer": "Agent cost tracked per run.",
+          "evidenceIds": [
+            "agent",
+            "model"
+          ]
+        },
+        "session_cost": {
+          "support": "supported",
+          "answer": "Same.",
+          "evidenceIds": [
+            "agent"
+          ]
+        },
+        "child_cost": {
+          "support": "not-applicable",
+          "answer": "No children.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "epic_cost": {
+          "support": "not-applicable",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "harness_aggregation": {
+          "support": "not-applicable",
+          "answer": "Single harness.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "billed_vs_estimated": {
+          "support": "partial",
+          "answer": "litellm cost estimates; ignore_errors mode when pricing missing.",
+          "evidenceIds": [
+            "model"
+          ]
+        },
+        "tokens": {
+          "support": "supported",
+          "answer": "Token usage in responses saved in the trajectory.",
+          "evidenceIds": [
+            "output"
+          ]
+        },
+        "subscription_allowance": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "model"
+          ]
+        },
+        "provider_reconciliation": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "model"
+          ]
+        },
+        "compute_cost": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "refresh_delay": {
+          "support": "supported",
+          "answer": "Updated each model call.",
+          "evidenceIds": [
+            "model"
+          ]
+        },
+        "alerts": {
+          "support": "partial",
+          "answer": "Cost limit stop only.",
+          "evidenceIds": [
+            "agent"
+          ]
+        },
+        "export": {
+          "support": "supported",
+          "answer": "JSON trajectories.",
+          "evidenceIds": [
+            "output"
+          ]
+        },
+        "drilldown": {
+          "support": "partial",
+          "answer": "Per-message cost metadata.",
+          "evidenceIds": [
+            "model"
+          ]
+        }
+      },
+      "limitations": [
+        "billed_vs_estimated: litellm cost estimates; ignore_errors mode when pricing missing.",
+        "subscription_allowance: None.",
+        "provider_reconciliation: None.",
+        "compute_cost: Not found in the bounded search of src, docs and tests (terms and counts in the search evidence)."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "agent",
+        "model",
+        "readme",
+        "output",
+        "search"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-mini-swe-agent",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "mini-swe-agent:RUN-08",
+      "criterionId": "RUN-08",
+      "answer": "Batch runs use a configurable worker count; no CPU or RAM awareness, queues with backpressure, or check deduplication.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "batch"
+        ],
+        "version": "v2.4.6 (commit a83fcae82d2a08f0ee0c688f9d137b3566c097f8, 2026-07-22); default branch checked 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "concurrency": {
+          "support": "supported",
+          "answer": "--workers.",
+          "evidenceIds": [
+            "swebench"
+          ]
+        },
+        "queues": {
+          "support": "partial",
+          "answer": "Thread pool work list.",
+          "evidenceIds": [
+            "swebench"
+          ]
+        },
+        "cpu_ram": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "swebench"
+          ]
+        },
+        "backpressure": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "swebench"
+          ]
+        },
+        "host_awareness": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "swebench"
+          ]
+        },
+        "check_reuse": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "swebench"
+          ]
+        },
+        "check_deduplication": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "swebench"
+          ]
+        },
+        "bounded_tests": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "swebench"
+          ]
+        },
+        "cancellation": {
+          "support": "partial",
+          "answer": "Interrupt the batch process; futures cancelled.",
+          "evidenceIds": [
+            "swebench"
+          ]
+        },
+        "fairness": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "swebench"
+          ]
+        },
+        "recovery": {
+          "support": "partial",
+          "answer": "Finished instances skipped on rerun.",
+          "evidenceIds": [
+            "swebench"
+          ]
+        },
+        "shared_limits": {
+          "support": "unsupported",
+          "answer": "Limits are per agent.",
+          "evidenceIds": [
+            "agent"
+          ]
+        }
+      },
+      "limitations": [
+        "queues: Thread pool work list.",
+        "cpu_ram: None.",
+        "backpressure: None.",
+        "host_awareness: None."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "swebench",
+        "agent"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-mini-swe-agent",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "mini-swe-agent:TEAM-01",
+      "criterionId": "TEAM-01",
+      "answer": "Single-user local tool: no sharing, comments or presence.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v2.4.6 (commit a83fcae82d2a08f0ee0c688f9d137b3566c097f8, 2026-07-22); default branch checked 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "visibility": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "discussion": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "comments": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "presence": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "coprompting": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "ordering": {
+          "support": "not-applicable",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "conflicts": {
+          "support": "not-applicable",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "attribution": {
+          "support": "not-applicable",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "permissions": {
+          "support": "not-applicable",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "plan_restrictions": {
+          "support": "not-applicable",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "owner_online": {
+          "support": "not-applicable",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "visibility: Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+        "discussion: Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+        "comments: Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+        "presence: Not found in the bounded search of src, docs and tests (terms and counts in the search evidence)."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "search",
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-mini-swe-agent",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "mini-swe-agent:TEAM-02",
+      "criterionId": "TEAM-02",
+      "answer": "No roles, membership or SSO; local library.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v2.4.6 (commit a83fcae82d2a08f0ee0c688f9d137b3566c097f8, 2026-07-22); default branch checked 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "organization_roles": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "project_roles": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "task_roles": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "membership": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "sso": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "provisioning": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "unauthorized_access": {
+          "support": "not-applicable",
+          "answer": "No access model.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "revocation": {
+          "support": "not-applicable",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "plan_scope": {
+          "support": "not-applicable",
+          "answer": "No plans.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "organization_roles: Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+        "project_roles: Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+        "task_roles: Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+        "membership: Not found in the bounded search of src, docs and tests (terms and counts in the search evidence)."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "search",
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-mini-swe-agent",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "mini-swe-agent:TEAM-03",
+      "criterionId": "TEAM-03",
+      "answer": "Confirm mode asks before each command unless it matches a whitelist regex; yolo mode runs immediately; environments provide containment; no network, secret or delivery approvals.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v2.4.6 (commit a83fcae82d2a08f0ee0c688f9d137b3566c097f8, 2026-07-22); default branch checked 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "command": {
+          "support": "supported",
+          "answer": "Confirm mode with whitelist_actions.",
+          "evidenceIds": [
+            "interactive"
+          ]
+        },
+        "tool": {
+          "support": "not-applicable",
+          "answer": "Bash is the only tool.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "network": {
+          "support": "unsupported",
+          "answer": "None except container options.",
+          "evidenceIds": [
+            "docker"
+          ]
+        },
+        "secret": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "interactive"
+          ]
+        },
+        "delivery": {
+          "support": "partial",
+          "answer": "Commands such as git push are ordinary commands subject to confirmation.",
+          "evidenceIds": [
+            "interactive"
+          ]
+        },
+        "approver_identity": {
+          "support": "not-applicable",
+          "answer": "Single user.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "lifetime": {
+          "support": "not-applicable",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "allow": {
+          "support": "supported",
+          "answer": "Enter to confirm; whitelist.",
+          "evidenceIds": [
+            "interactive"
+          ]
+        },
+        "deny": {
+          "support": "supported",
+          "answer": "Reject with a message.",
+          "evidenceIds": [
+            "interactive"
+          ]
+        },
+        "revoke": {
+          "support": "partial",
+          "answer": "Change mode with /c.",
+          "evidenceIds": [
+            "interactive"
+          ]
+        },
+        "tunnels": {
+          "support": "not-applicable",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "defaults": {
+          "support": "supported",
+          "answer": "confirm is default; yolo opt-in.",
+          "evidenceIds": [
+            "minidoc"
+          ]
+        },
+        "safer_modes": {
+          "support": "supported",
+          "answer": "Confirm and sandbox environments.",
+          "evidenceIds": [
+            "interactive",
+            "envdoc"
+          ]
+        },
+        "enforcement": {
+          "support": "supported",
+          "answer": "Enforced in the interactive agent code.",
+          "evidenceIds": [
+            "interactive"
+          ]
+        }
+      },
+      "limitations": [
+        "network: None except container options.",
+        "secret: None.",
+        "delivery: Commands such as git push are ordinary commands subject to confirmation.",
+        "revoke: Change mode with /c."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "interactive",
+        "readme",
+        "docker",
+        "minidoc",
+        "envdoc"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-mini-swe-agent",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "mini-swe-agent:TEAM-04",
+      "criterionId": "TEAM-04",
+      "answer": "Trajectory files are the only history: full messages, config and metadata, locally stored and mutable; no attribution, approvals log or retention policy.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v2.4.6 (commit a83fcae82d2a08f0ee0c688f9d137b3566c097f8, 2026-07-22); default branch checked 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "actions": {
+          "support": "supported",
+          "answer": "Messages and actions in trajectory.",
+          "evidenceIds": [
+            "output"
+          ]
+        },
+        "approvals": {
+          "support": "partial",
+          "answer": "Rejections appear in messages.",
+          "evidenceIds": [
+            "interactive"
+          ]
+        },
+        "edits": {
+          "support": "partial",
+          "answer": "Only through commands in messages.",
+          "evidenceIds": [
+            "output"
+          ]
+        },
+        "discussion": {
+          "support": "supported",
+          "answer": "Full conversation.",
+          "evidenceIds": [
+            "output"
+          ]
+        },
+        "decisions": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "output"
+          ]
+        },
+        "cross_user_persistence": {
+          "support": "not-applicable",
+          "answer": "Single user.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "cross_session_persistence": {
+          "support": "partial",
+          "answer": "Last run file overwritten by default; custom output path possible.",
+          "evidenceIds": [
+            "mini"
+          ]
+        },
+        "export": {
+          "support": "supported",
+          "answer": "JSON.",
+          "evidenceIds": [
+            "output"
+          ]
+        },
+        "mutability": {
+          "support": "supported",
+          "answer": "Files are editable.",
+          "evidenceIds": [
+            "output"
+          ]
+        },
+        "retention": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "output"
+          ]
+        },
+        "integrity": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "output"
+          ]
+        }
+      },
+      "limitations": [
+        "approvals: Rejections appear in messages.",
+        "edits: Only through commands in messages.",
+        "decisions: None.",
+        "cross_session_persistence: Last run file overwritten by default; custom output path possible."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "output",
+        "interactive",
+        "readme",
+        "mini"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-mini-swe-agent",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "mini-swe-agent:TEAM-05",
+      "criterionId": "TEAM-05",
+      "answer": "The inspector browses trajectory steps; there is no diff review, comments or review queue.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "batch"
+        ],
+        "version": "v2.4.6 (commit a83fcae82d2a08f0ee0c688f9d137b3566c097f8, 2026-07-22); default branch checked 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "pending_reviews": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "inspector"
+          ]
+        },
+        "change_understanding": {
+          "support": "partial",
+          "answer": "Step-by-step trajectory view.",
+          "evidenceIds": [
+            "inspector"
+          ]
+        },
+        "evidence_navigation": {
+          "support": "supported",
+          "answer": "Step navigation with keyboard.",
+          "evidenceIds": [
+            "inspector"
+          ]
+        },
+        "comments": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "inspector"
+          ]
+        },
+        "request_changes": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "inspector"
+          ]
+        },
+        "shipping_guidance": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "inspector"
+          ]
+        },
+        "effort": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "inspector"
+          ]
+        },
+        "missed_evidence": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "inspector"
+          ]
+        },
+        "keyboard": {
+          "support": "supported",
+          "answer": "Documented key bindings (step, scroll, palette).",
+          "evidenceIds": [
+            "inspector"
+          ]
+        },
+        "narrow_screen": {
+          "support": "partial",
+          "answer": "Terminal UI.",
+          "evidenceIds": [
+            "inspector"
+          ]
+        },
+        "context_switching": {
+          "support": "partial",
+          "answer": "Multiple trajectories 1/3 in inspector.",
+          "evidenceIds": [
+            "inspector"
+          ]
+        },
+        "roles": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "inspector"
+          ]
+        },
+        "retained_context": {
+          "support": "supported",
+          "answer": "Full trajectory.",
+          "evidenceIds": [
+            "output"
+          ]
+        }
+      },
+      "limitations": [
+        "pending_reviews: None.",
+        "change_understanding: Step-by-step trajectory view.",
+        "comments: None.",
+        "request_changes: None."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "inspector",
+        "output"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-mini-swe-agent",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "mini-swe-agent:TEAM-06",
+      "criterionId": "TEAM-06",
+      "answer": "No takeover: trajectories are files that another person can open, but runs cannot be handed over.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v2.4.6 (commit a83fcae82d2a08f0ee0c688f9d137b3566c097f8, 2026-07-22); default branch checked 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "ongoing_takeover": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "same_task": {
+          "support": "partial",
+          "answer": "Trajectory file shareable manually.",
+          "evidenceIds": [
+            "output"
+          ]
+        },
+        "session_history": {
+          "support": "partial",
+          "answer": "Same.",
+          "evidenceIds": [
+            "output"
+          ]
+        },
+        "decisions": {
+          "support": "partial",
+          "answer": "In messages.",
+          "evidenceIds": [
+            "output"
+          ]
+        },
+        "artifacts": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "permissions": {
+          "support": "not-applicable",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "runtime_context": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "owner_disconnect": {
+          "support": "unsupported",
+          "answer": "Run ends.",
+          "evidenceIds": [
+            "agent"
+          ]
+        },
+        "ownership": {
+          "support": "not-applicable",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "attribution": {
+          "support": "not-applicable",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "context_loss": {
+          "support": "not-applicable",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "harness_transfer": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        }
+      },
+      "limitations": [
+        "ongoing_takeover: Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+        "same_task: Trajectory file shareable manually.",
+        "session_history: Same.",
+        "decisions: In messages."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "search",
+        "output",
+        "readme",
+        "agent"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-mini-swe-agent",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "mini-swe-agent:SHIP-01",
+      "criterionId": "SHIP-01",
+      "answer": "Retained outputs are trajectories and, in benchmark mode, patches and result files; no gallery, screenshots or previews.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli",
+          "batch"
+        ],
+        "version": "v2.4.6 (commit a83fcae82d2a08f0ee0c688f9d137b3566c097f8, 2026-07-22); default branch checked 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "diffs": {
+          "support": "partial",
+          "answer": "Batch mode stores model patches; interactive mode has none.",
+          "evidenceIds": [
+            "swebench"
+          ]
+        },
+        "documents": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "screenshots": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "recordings": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "previews": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "test_outputs": {
+          "support": "partial",
+          "answer": "Command outputs inside the trajectory.",
+          "evidenceIds": [
+            "output"
+          ]
+        },
+        "reviewer_outputs": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "gallery": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "task_links": {
+          "support": "partial",
+          "answer": "Instance ID to trajectory file.",
+          "evidenceIds": [
+            "swebench"
+          ]
+        },
+        "revision_links": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "persistence": {
+          "support": "supported",
+          "answer": "JSON files.",
+          "evidenceIds": [
+            "output"
+          ]
+        },
+        "child_findings": {
+          "support": "not-applicable",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "prompt_leakage": {
+          "support": "not-applicable",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "diffs: Batch mode stores model patches; interactive mode has none.",
+        "documents: Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+        "screenshots: Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+        "recordings: Not found in the bounded search of src, docs and tests (terms and counts in the search evidence)."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "swebench",
+        "search",
+        "output",
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-mini-swe-agent",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "mini-swe-agent:SHIP-02",
+      "criterionId": "SHIP-02",
+      "answer": "No gates; checks are whatever commands the model runs, and benchmark runners evaluate patches outside the agent.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v2.4.6 (commit a83fcae82d2a08f0ee0c688f9d137b3566c097f8, 2026-07-22); default branch checked 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "tests": {
+          "support": "partial",
+          "answer": "Model-run commands.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "lint": {
+          "support": "partial",
+          "answer": "Same.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "types": {
+          "support": "partial",
+          "answer": "Same.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "ci": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "independent_review": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "spec_checks": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "required_checks": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "failure_blocking": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "requirement_conflicts": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "configured_policy": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "enforced_policy": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        }
+      },
+      "limitations": [
+        "tests: Model-run commands.",
+        "lint: Same.",
+        "types: Same.",
+        "ci: Not found in the bounded search of src, docs and tests (terms and counts in the search evidence)."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "search"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-mini-swe-agent",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "mini-swe-agent:SHIP-03",
+      "criterionId": "SHIP-03",
+      "answer": "No Git integration: the model runs git and gh through bash if instructed.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v2.4.6 (commit a83fcae82d2a08f0ee0c688f9d137b3566c097f8, 2026-07-22); default branch checked 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "branches": {
+          "support": "partial",
+          "answer": "Model-run git.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "worktrees": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "commits": {
+          "support": "partial",
+          "answer": "Model-run git.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "pull_requests": {
+          "support": "partial",
+          "answer": "Model-run gh; README says to tell the LM to open PRs.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "comments": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "ci_response": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "rebase": {
+          "support": "partial",
+          "answer": "Model-run git.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "conflicts": {
+          "support": "partial",
+          "answer": "Model-run git.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "product_state": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        }
+      },
+      "limitations": [
+        "branches: Model-run git.",
+        "worktrees: Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+        "commits: Model-run git.",
+        "pull_requests: Model-run gh; README says to tell the LM to open PRs."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "search"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-mini-swe-agent",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "mini-swe-agent:SHIP-04",
+      "criterionId": "SHIP-04",
+      "answer": "No merge, release or deploy features.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v2.4.6 (commit a83fcae82d2a08f0ee0c688f9d137b3566c097f8, 2026-07-22); default branch checked 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "approve": {
+          "support": "partial",
+          "answer": "Command confirmation only.",
+          "evidenceIds": [
+            "interactive"
+          ]
+        },
+        "merge": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "release": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "deploy": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "exact_revision": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "authority_enforcement": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        }
+      },
+      "limitations": [
+        "approve: Command confirmation only.",
+        "merge: Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+        "release: Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+        "deploy: Not found in the bounded search of src, docs and tests (terms and counts in the search evidence)."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "interactive",
+        "search"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-mini-swe-agent",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "mini-swe-agent:SHIP-05",
+      "criterionId": "SHIP-05",
+      "answer": "No delivery tracking, rollback or evidence links.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v2.4.6 (commit a83fcae82d2a08f0ee0c688f9d137b3566c097f8, 2026-07-22); default branch checked 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "commit_links": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "pr_links": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "build_links": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "deployment_links": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "delivery_status": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "retained_evidence": {
+          "support": "partial",
+          "answer": "Trajectory.",
+          "evidenceIds": [
+            "output"
+          ]
+        },
+        "rollback": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "revert": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "stale_approval_invalidation": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        }
+      },
+      "limitations": [
+        "commit_links: Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+        "pr_links: Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+        "build_links: Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+        "deployment_links: Not found in the bounded search of src, docs and tests (terms and counts in the search evidence)."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "search",
+        "output"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-mini-swe-agent",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "mini-swe-agent:SHIP-06",
+      "criterionId": "SHIP-06",
+      "answer": "No batch review or shipping queue; batch mode evaluates patches against benchmarks.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "batch"
+        ],
+        "version": "v2.4.6 (commit a83fcae82d2a08f0ee0c688f9d137b3566c097f8, 2026-07-22); default branch checked 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "review_queue": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "swebench"
+          ]
+        },
+        "summaries": {
+          "support": "partial",
+          "answer": "Exit-status table.",
+          "evidenceIds": [
+            "swebench"
+          ]
+        },
+        "grouping": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "swebench"
+          ]
+        },
+        "risk_size_filters": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "swebench"
+          ]
+        },
+        "findings": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "swebench"
+          ]
+        },
+        "artifacts": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "swebench"
+          ]
+        },
+        "request_changes": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "swebench"
+          ]
+        },
+        "exact_revision_approval": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "swebench"
+          ]
+        },
+        "dependency_queues": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "swebench"
+          ]
+        },
+        "next_actions": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "swebench"
+          ]
+        },
+        "stale_approval_invalidation": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "swebench"
+          ]
+        },
+        "check_deduplication": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "swebench"
+          ]
+        }
+      },
+      "limitations": [
+        "review_queue: None.",
+        "summaries: Exit-status table.",
+        "grouping: None.",
+        "risk_size_filters: None."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "swebench"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-mini-swe-agent",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "mini-swe-agent:OWN-01",
+      "criterionId": "OWN-01",
+      "answer": "Single public repository under the MIT license at v2.4.6 covering the agent, environments, models and runners; no closed or hosted component.",
+      "support": "supported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli",
+          "batch",
+          "python"
+        ],
+        "version": "v2.4.6 (commit a83fcae82d2a08f0ee0c688f9d137b3566c097f8, 2026-07-22); default branch checked 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "client_license": {
+          "support": "supported",
+          "answer": "MIT.",
+          "evidenceIds": [
+            "license",
+            "repo"
+          ]
+        },
+        "server_license": {
+          "support": "not-applicable",
+          "answer": "No server.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "hosted_extensions": {
+          "support": "not-applicable",
+          "answer": "No hosted service.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "source_visibility": {
+          "support": "supported",
+          "answer": "Public.",
+          "evidenceIds": [
+            "repo"
+          ]
+        },
+        "source_revision": {
+          "support": "supported",
+          "answer": "Tag v2.4.6.",
+          "evidenceIds": [
+            "rel"
+          ]
+        },
+        "hosted_parity": {
+          "support": "not-applicable",
+          "answer": "No hosted service.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "license",
+        "repo",
+        "readme",
+        "rel"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-05-15",
+      "researcher": "researcher-mini-swe-agent",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "mini-swe-agent:OWN-02",
+      "criterionId": "OWN-02",
+      "answer": "Fully local library; all data in local .env and trajectory files with JSON export; no vendor account; no import.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v2.4.6 (commit a83fcae82d2a08f0ee0c688f9d137b3566c097f8, 2026-07-22); default branch checked 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "self_hosting": {
+          "support": "supported",
+          "answer": "Runs entirely on user machine.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "vendor_dependencies": {
+          "support": "partial",
+          "answer": "Model providers only.",
+          "evidenceIds": [
+            "modelsdoc"
+          ]
+        },
+        "export": {
+          "support": "supported",
+          "answer": "JSON trajectories.",
+          "evidenceIds": [
+            "output"
+          ]
+        },
+        "import": {
+          "support": "partial",
+          "answer": "Inspector reads trajectory files.",
+          "evidenceIds": [
+            "inspector"
+          ]
+        },
+        "formats": {
+          "support": "supported",
+          "answer": "JSON and YAML.",
+          "evidenceIds": [
+            "output"
+          ]
+        },
+        "cancellation": {
+          "support": "not-applicable",
+          "answer": "No account.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "account_independence": {
+          "support": "supported",
+          "answer": "No account.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "history_portability": {
+          "support": "supported",
+          "answer": "Plain files.",
+          "evidenceIds": [
+            "output"
+          ]
+        }
+      },
+      "limitations": [
+        "vendor_dependencies: Model providers only.",
+        "import: Inspector reads trajectory files."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "modelsdoc",
+        "output",
+        "inspector"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-05-15",
+      "researcher": "researcher-mini-swe-agent",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "mini-swe-agent:OWN-03",
+      "criterionId": "OWN-03",
+      "answer": "Code and prompts go to the model provider you configure through litellm; keys stay in local .env; trajectories are local; no telemetry code was found in src or dependencies (searched telemetry, analytics, posthog, sentry); no consent dialog exists.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v2.4.6 (commit a83fcae82d2a08f0ee0c688f9d137b3566c097f8, 2026-07-22); default branch checked 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "code_data": {
+          "support": "supported",
+          "answer": "To the configured provider.",
+          "evidenceIds": [
+            "modelsdoc"
+          ]
+        },
+        "prompts": {
+          "support": "supported",
+          "answer": "Same.",
+          "evidenceIds": [
+            "modelsdoc"
+          ]
+        },
+        "credentials": {
+          "support": "supported",
+          "answer": "Local .env file.",
+          "evidenceIds": [
+            "globalconfig"
+          ]
+        },
+        "logs": {
+          "support": "supported",
+          "answer": "Local logging and trajectories.",
+          "evidenceIds": [
+            "output"
+          ]
+        },
+        "artifacts": {
+          "support": "supported",
+          "answer": "Local.",
+          "evidenceIds": [
+            "output"
+          ]
+        },
+        "retention": {
+          "support": "supported",
+          "answer": "Files persist until deleted.",
+          "evidenceIds": [
+            "output"
+          ]
+        },
+        "deletion": {
+          "support": "supported",
+          "answer": "Delete files.",
+          "evidenceIds": [
+            "output"
+          ]
+        },
+        "training": {
+          "support": "unknown",
+          "answer": "Provider policy not captured.",
+          "evidenceIds": []
+        },
+        "residency": {
+          "support": "unknown",
+          "answer": "Provider dependent.",
+          "evidenceIds": []
+        },
+        "subprocessors": {
+          "support": "unknown",
+          "answer": "Provider dependent.",
+          "evidenceIds": []
+        },
+        "telemetry_disclosure": {
+          "support": "partial",
+          "answer": "No telemetry code or statement found (rg for telemetry, analytics, posthog and sentry: 0 hits in src, docs, tests).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "telemetry_defaults": {
+          "support": "supported",
+          "answer": "None found in src (bounded search).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "telemetry_controls": {
+          "support": "not-applicable",
+          "answer": "Nothing to control.",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "consent_prompt": {
+          "support": "not-applicable",
+          "answer": "None needed.",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "provider_separation": {
+          "support": "supported",
+          "answer": "Providers are user chosen.",
+          "evidenceIds": [
+            "modelsdoc"
+          ]
+        }
+      },
+      "limitations": [
+        "training: Provider policy not captured.",
+        "residency: Provider dependent.",
+        "subprocessors: Provider dependent.",
+        "telemetry_disclosure: No telemetry code or statement found (rg for telemetry, analytics, posthog and sentry: 0 hits in src, docs, tests)."
+      ],
+      "unknownReason": "Provider data policies are third-party facts.",
+      "evidenceIds": [
+        "modelsdoc",
+        "globalconfig",
+        "output",
+        "search"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-mini-swe-agent",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "mini-swe-agent:OWN-04",
+      "criterionId": "OWN-04",
+      "answer": "Free MIT software with no paid plan; model usage is billed by providers.",
+      "support": "supported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v2.4.6 (commit a83fcae82d2a08f0ee0c688f9d137b3566c097f8, 2026-07-22); default branch checked 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "currency": {
+          "support": "not-applicable",
+          "answer": "No ADE price.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "interval": {
+          "support": "not-applicable",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "seats": {
+          "support": "not-applicable",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "seat_minimum": {
+          "support": "not-applicable",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "workspace_fees": {
+          "support": "not-applicable",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "included_usage": {
+          "support": "not-applicable",
+          "answer": "None.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "credits": {
+          "support": "not-applicable",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "trial": {
+          "support": "not-applicable",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "overages": {
+          "support": "not-applicable",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "taxes": {
+          "support": "not-applicable",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "model_cost": {
+          "support": "supported",
+          "answer": "Provider costs separate; cost tracked and limited by cost_limit.",
+          "evidenceIds": [
+            "agent",
+            "readme"
+          ]
+        },
+        "compute_cost": {
+          "support": "supported",
+          "answer": "User pays containers or Modal.",
+          "evidenceIds": [
+            "envdoc"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "license",
+        "agent",
+        "envdoc"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-01-15",
+      "researcher": "researcher-mini-swe-agent",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "mini-swe-agent:OWN-05",
+      "criterionId": "OWN-05",
+      "answer": "Software cost is zero for any team size; model and compute costs depend on provider and use and are unpublished.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v2.4.6 (commit a83fcae82d2a08f0ee0c688f9d137b3566c097f8, 2026-07-22); default branch checked 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "one_person": {
+          "support": "supported",
+          "answer": "$0 software.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "two_people": {
+          "support": "supported",
+          "answer": "$0.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "five_people": {
+          "support": "supported",
+          "answer": "$0.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "task_assumptions": {
+          "support": "unknown",
+          "answer": "None.",
+          "evidenceIds": []
+        },
+        "concurrency": {
+          "support": "unknown",
+          "answer": "None.",
+          "evidenceIds": []
+        },
+        "tokens": {
+          "support": "unknown",
+          "answer": "None.",
+          "evidenceIds": []
+        },
+        "compute_hours": {
+          "support": "not-applicable",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "fixed_cost": {
+          "support": "supported",
+          "answer": "Zero.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "variable_cost": {
+          "support": "supported",
+          "answer": "Model usage.",
+          "evidenceIds": [
+            "agent"
+          ]
+        },
+        "included_cost": {
+          "support": "not-applicable",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "unknown_cost": {
+          "support": "supported",
+          "answer": "Model spend unknown without workload.",
+          "evidenceIds": [
+            "agent"
+          ]
+        }
+      },
+      "limitations": [
+        "task_assumptions: None.",
+        "concurrency: None.",
+        "tokens: None."
+      ],
+      "unknownReason": "No public workload pricing exists.",
+      "evidenceIds": [
+        "license",
+        "readme",
+        "agent"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-mini-swe-agent",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "mini-swe-agent:OWN-06",
+      "criterionId": "OWN-06",
+      "answer": "Maintained research-lab open-source project (Princeton and Stanford SWE-bench team): v2.4.6 on 2026-07-23, default branch active to 2026-11-09, Slack and GitHub issues for support; no response commitments.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v2.4.6 (commit a83fcae82d2a08f0ee0c688f9d137b3566c097f8, 2026-07-22); default branch checked 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "release_stage": {
+          "support": "supported",
+          "answer": "Versioned releases v2.x.",
+          "evidenceIds": [
+            "rel"
+          ]
+        },
+        "access_restrictions": {
+          "support": "supported",
+          "answer": "Public.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "support": {
+          "support": "supported",
+          "answer": "Slack and GitHub issues.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "response_commitments": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "release_activity": {
+          "support": "supported",
+          "answer": "Releases July 2026; commits to November 2026.",
+          "evidenceIds": [
+            "rel",
+            "repo"
+          ]
+        },
+        "status_history": {
+          "support": "not-applicable",
+          "answer": "No hosted service.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "deprecation": {
+          "support": "supported",
+          "answer": "v1 branch and v2 migration guide.",
+          "evidenceIds": [
+            "rel"
+          ]
+        },
+        "export_options": {
+          "support": "supported",
+          "answer": "JSON.",
+          "evidenceIds": [
+            "output"
+          ]
+        }
+      },
+      "limitations": [
+        "response_commitments: Not found in the bounded search of src, docs and tests (terms and counts in the search evidence)."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "rel",
+        "readme",
+        "search",
+        "repo",
+        "output"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-mini-swe-agent",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "mini-swe-agent:OWN-07",
+      "criterionId": "OWN-07",
+      "answer": "No ISO or SOC 2 claims; the security policy lists a vulnerability contact only. The project is open-source software with no hosted service to certify.",
+      "support": "supported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v2.4.6 (commit a83fcae82d2a08f0ee0c688f9d137b3566c097f8, 2026-07-22); default branch checked 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "iso_scope": {
+          "support": "not-applicable",
+          "answer": "No hosted service and no claim.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "iso_issuer": {
+          "support": "not-applicable",
+          "answer": "None.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "iso_validity": {
+          "support": "not-applicable",
+          "answer": "None.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "soc2_type": {
+          "support": "not-applicable",
+          "answer": "None.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "soc2_scope": {
+          "support": "not-applicable",
+          "answer": "None.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "soc2_period": {
+          "support": "not-applicable",
+          "answer": "None.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "report_access": {
+          "support": "not-applicable",
+          "answer": "None.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "verification_date": {
+          "support": "not-applicable",
+          "answer": "None.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "evidence_status": {
+          "support": "supported",
+          "answer": "No assurance claim exists in first-party sources.",
+          "evidenceIds": [
+            "security"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "security"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-mini-swe-agent",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "mini-swe-agent:OWN-08",
+      "criterionId": "OWN-08",
+      "answer": "Free open-source software; costs are model usage and any compute you add; no trial or paid tier.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v2.4.6 (commit a83fcae82d2a08f0ee0c688f9d137b3566c097f8, 2026-07-22); default branch checked 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "ongoing_free": {
+          "support": "supported",
+          "answer": "Free MIT download.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "trial": {
+          "support": "not-applicable",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "credits_trial": {
+          "support": "not-applicable",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "self_host_cost": {
+          "support": "supported",
+          "answer": "User pays models and compute.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "paid_only": {
+          "support": "unsupported",
+          "answer": "Not paid.",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "early_access": {
+          "support": "unsupported",
+          "answer": "Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+          "evidenceIds": [
+            "search"
+          ]
+        },
+        "free_scenarios": {
+          "support": "partial",
+          "answer": "Single-user local use; no collaboration, remote or mobile features.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "card_required": {
+          "support": "supported",
+          "answer": "No card for the software.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "usage_caps": {
+          "support": "supported",
+          "answer": "Only the cost limit you set.",
+          "evidenceIds": [
+            "agent"
+          ]
+        },
+        "paid_evaluation": {
+          "support": "supported",
+          "answer": "Evaluation needs only a model key or local model.",
+          "evidenceIds": [
+            "modelsdoc"
+          ]
+        }
+      },
+      "limitations": [
+        "paid_only: Not paid.",
+        "early_access: Not found in the bounded search of src, docs and tests (terms and counts in the search evidence).",
+        "free_scenarios: Single-user local use; no collaboration, remote or mobile features."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "license",
+        "readme",
+        "search",
+        "agent",
+        "modelsdoc"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-01-15",
+      "researcher": "researcher-mini-swe-agent",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "mini-swe-agent:OWN-09",
+      "criterionId": "OWN-09",
+      "answer": "Nothing is sold; pricing transparency concerns only third-party model providers.",
+      "support": "supported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v2.4.6 (commit a83fcae82d2a08f0ee0c688f9d137b3566c097f8, 2026-07-22); default branch checked 2026-11-16",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "units": {
+          "support": "not-applicable",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "included_limits": {
+          "support": "not-applicable",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "overages": {
+          "support": "not-applicable",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "compute_markup": {
+          "support": "not-applicable",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "model_markup": {
+          "support": "not-applicable",
+          "answer": "None; direct provider billing.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "minimum_commitment": {
+          "support": "not-applicable",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "cancellation": {
+          "support": "not-applicable",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "sales_only_unknowns": {
+          "support": "not-applicable",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "transparency_classification": {
+          "support": "supported",
+          "answer": "No price; free software.",
+          "evidenceIds": [
+            "license"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "license"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-01-15",
+      "researcher": "researcher-mini-swe-agent",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    }
+  ],
+  "evidence": [
+    {
+      "id": "readme",
+      "kind": "documented",
+      "url": "https://github.com/SWE-agent/mini-swe-agent/blob/v2.4.6/README.md",
+      "title": "mini-SWE-agent README",
+      "locator": "README.md intro, motivation, deployable and compatible bullets",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Minimal agent: bash is the only tool, linear message history, subprocess.run per action; local, docker/podman, singularity, bubblewrap, contree environments; models via litellm, openrouter, portkey, requesty; >74% SWE-bench Verified; MIT.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "license",
+      "kind": "source-inspected",
+      "url": "https://github.com/SWE-agent/mini-swe-agent/blob/v2.4.6/LICENSE.md",
+      "title": "MIT license",
+      "locator": "LICENSE.md",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "MIT license, copyright Kilian A. Lieret and Carlos E. Jimenez.",
+      "visibility": "public",
+      "commit": "a83fcae82d2a08f0ee0c688f9d137b3566c097f8",
+      "path": "LICENSE.md"
+    },
+    {
+      "id": "agent",
+      "kind": "source-inspected",
+      "url": "https://github.com/SWE-agent/mini-swe-agent/blob/v2.4.6/src/minisweagent/agents/default.py#L19-L36",
+      "title": "DefaultAgent and AgentConfig",
+      "locator": "src/minisweagent/agents/default.py AgentConfig (step_limit, cost_limit=3.0, wall_time_limit_seconds, max_consecutive_format_errors) and run/query/execute_actions",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "About 190-line agent loop; stops at step, cost or wall-time limits (cost limit default $3); trajectory saved to output_path; no tools besides bash.",
+      "visibility": "public",
+      "commit": "a83fcae82d2a08f0ee0c688f9d137b3566c097f8",
+      "path": "src/minisweagent/agents/default.py"
+    },
+    {
+      "id": "interactive",
+      "kind": "source-inspected",
+      "url": "https://github.com/SWE-agent/mini-swe-agent/blob/v2.4.6/src/minisweagent/agents/interactive.py#L24-L30",
+      "title": "InteractiveAgent modes",
+      "locator": "src/minisweagent/agents/interactive.py InteractiveAgentConfig mode human/confirm/yolo, whitelist_actions, _ask_confirmation_or_interrupt",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Three modes: confirm (default, user confirms each command unless whitelisted by regex), yolo, human takeover; Ctrl+C interrupts; /c /y /u switch modes.",
+      "visibility": "public",
+      "commit": "a83fcae82d2a08f0ee0c688f9d137b3566c097f8",
+      "path": "src/minisweagent/agents/interactive.py"
+    },
+    {
+      "id": "mini",
+      "kind": "source-inspected",
+      "url": "https://github.com/SWE-agent/mini-swe-agent/blob/v2.4.6/src/minisweagent/run/mini.py#L54-L65",
+      "title": "mini run script",
+      "locator": "src/minisweagent/run/mini.py options -m -t -y -l -c -o and DEFAULT_OUTPUT_FILE",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "mini CLI with model, task, yolo, cost limit, config and trajectory output (last_mini_run.traj.json in the global config directory).",
+      "visibility": "public",
+      "commit": "a83fcae82d2a08f0ee0c688f9d137b3566c097f8",
+      "path": "src/minisweagent/run/mini.py"
+    },
+    {
+      "id": "extra",
+      "kind": "source-inspected",
+      "url": "https://github.com/SWE-agent/mini-swe-agent/blob/v2.4.6/src/minisweagent/run/utilities/mini_extra.py#L13-L19",
+      "title": "mini-extra subcommands",
+      "locator": "src/minisweagent/run/utilities/mini_extra.py subcommands list",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "config, inspect, swebench, swebench-single and programbench subcommands.",
+      "visibility": "public",
+      "commit": "a83fcae82d2a08f0ee0c688f9d137b3566c097f8",
+      "path": "src/minisweagent/run/utilities/mini_extra.py"
+    },
+    {
+      "id": "swebench",
+      "kind": "source-inspected",
+      "url": "https://github.com/SWE-agent/mini-swe-agent/blob/v2.4.6/src/minisweagent/run/benchmarks/swebench.py#L209",
+      "title": "SWE-bench batch runner",
+      "locator": "src/minisweagent/run/benchmarks/swebench.py --workers, concurrent.futures",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Batch mode runs many instances in parallel worker threads with a progress display.",
+      "visibility": "public",
+      "commit": "a83fcae82d2a08f0ee0c688f9d137b3566c097f8",
+      "path": "src/minisweagent/run/benchmarks/swebench.py"
+    },
+    {
+      "id": "envs",
+      "kind": "source-inspected",
+      "url": "https://github.com/SWE-agent/mini-swe-agent/blob/v2.4.6/src/minisweagent/environments/__init__.py#L9-L17",
+      "title": "Environment registry",
+      "locator": "src/minisweagent/environments/__init__.py _ENVIRONMENT_MAPPING",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Environments: docker, singularity, local, swerex_docker, swerex_modal, bubblewrap, contree.",
+      "visibility": "public",
+      "commit": "a83fcae82d2a08f0ee0c688f9d137b3566c097f8",
+      "path": "src/minisweagent/environments/__init__.py"
+    },
+    {
+      "id": "envdoc",
+      "kind": "documented",
+      "url": "https://github.com/SWE-agent/mini-swe-agent/blob/v2.4.6/docs/advanced/environments.md",
+      "title": "Environment classes docs",
+      "locator": "environment list",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "local runs with subprocess.run and no isolation; docker exec; Singularity/Apptainer; SWE-ReX Docker and Modal cloud; bubblewrap (Linux only) unprivileged sandbox; ConTree.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "local",
+      "kind": "source-inspected",
+      "url": "https://github.com/SWE-agent/mini-swe-agent/blob/v2.4.6/src/minisweagent/environments/local.py#L13-L16",
+      "title": "LocalEnvironment",
+      "locator": "src/minisweagent/environments/local.py LocalEnvironmentConfig (cwd, env, timeout=30)",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Executes bash commands on the host with a 30 second default per-command timeout.",
+      "visibility": "public",
+      "commit": "a83fcae82d2a08f0ee0c688f9d137b3566c097f8",
+      "path": "src/minisweagent/environments/local.py"
+    },
+    {
+      "id": "docker",
+      "kind": "source-inspected",
+      "url": "https://github.com/SWE-agent/mini-swe-agent/blob/v2.4.6/src/minisweagent/environments/docker.py#L15-L36",
+      "title": "DockerEnvironment",
+      "locator": "src/minisweagent/environments/docker.py DockerEnvironmentConfig (executable, forward_env, timeout, container_timeout 2h)",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Runs each action with docker exec in a container started per run; executable can be podman; container lifetime 2h default.",
+      "visibility": "public",
+      "commit": "a83fcae82d2a08f0ee0c688f9d137b3566c097f8",
+      "path": "src/minisweagent/environments/docker.py"
+    },
+    {
+      "id": "bwrap",
+      "kind": "source-inspected",
+      "url": "https://github.com/SWE-agent/mini-swe-agent/blob/v2.4.6/src/minisweagent/environments/extra/bubblewrap.py#L10",
+      "title": "BubblewrapEnvironment",
+      "locator": "src/minisweagent/environments/extra/bubblewrap.py",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Linux-only unprivileged bubblewrap sandbox for commands.",
+      "visibility": "public",
+      "commit": "a83fcae82d2a08f0ee0c688f9d137b3566c097f8",
+      "path": "src/minisweagent/environments/extra/bubblewrap.py"
+    },
+    {
+      "id": "model",
+      "kind": "source-inspected",
+      "url": "https://github.com/SWE-agent/mini-swe-agent/blob/v2.4.6/src/minisweagent/models/litellm_model.py#L36",
+      "title": "LitellmModel cost tracking",
+      "locator": "src/minisweagent/models/litellm_model.py cost_tracking, GLOBAL_MODEL_STATS",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Every model call records cost and adds it to global stats; cost_tracking can ignore missing cost info.",
+      "visibility": "public",
+      "commit": "a83fcae82d2a08f0ee0c688f9d137b3566c097f8",
+      "path": "src/minisweagent/models/litellm_model.py"
+    },
+    {
+      "id": "retry",
+      "kind": "source-inspected",
+      "url": "https://github.com/SWE-agent/mini-swe-agent/blob/v2.4.6/src/minisweagent/models/utils/retry.py#L9",
+      "title": "Model retry utility",
+      "locator": "src/minisweagent/models/utils/retry.py tenacity Retrying",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Model queries retry with exponential wait and a bounded attempt count via tenacity.",
+      "visibility": "public",
+      "commit": "a83fcae82d2a08f0ee0c688f9d137b3566c097f8",
+      "path": "src/minisweagent/models/utils/retry.py"
+    },
+    {
+      "id": "pyproject",
+      "kind": "source-inspected",
+      "url": "https://github.com/SWE-agent/mini-swe-agent/blob/v2.4.6/pyproject.toml#L33-L45",
+      "title": "Package metadata",
+      "locator": "pyproject.toml dependencies, scripts, classifiers",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Python 3.10+, OS independent; dependencies litellm, textual, typer, rich; scripts mini, mini-swe-agent, mini-extra.",
+      "visibility": "public",
+      "commit": "a83fcae82d2a08f0ee0c688f9d137b3566c097f8",
+      "path": "pyproject.toml"
+    },
+    {
+      "id": "modelsdoc",
+      "kind": "documented",
+      "url": "https://github.com/SWE-agent/mini-swe-agent/blob/v2.4.6/docs/models/quickstart.md",
+      "title": "Model setup quickstart",
+      "locator": "Setting API keys",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "API keys through mini-extra config setup, env vars or .env; litellm supports most providers, plus OpenRouter and Portkey.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "inspector",
+      "kind": "documented",
+      "url": "https://github.com/SWE-agent/mini-swe-agent/blob/v2.4.6/docs/usage/inspector.md",
+      "title": "Inspector docs",
+      "locator": "Overview",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Textual-based trajectory browser for .traj.json files (mini-extra inspect).",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "output",
+      "kind": "documented",
+      "url": "https://github.com/SWE-agent/mini-swe-agent/blob/v2.4.6/docs/usage/output_files.md",
+      "title": "Output files",
+      "locator": "Trajectory files",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Full run history, config and metadata saved as .traj.json.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "minidoc",
+      "kind": "documented",
+      "url": "https://github.com/SWE-agent/mini-swe-agent/blob/v2.4.6/docs/usage/mini.md",
+      "title": "mini usage docs",
+      "locator": "Command line options; Modes of operation",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "REPL-style CLI for local use; confirm/yolo/human modes; history of the last run saved to the global config directory.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "globalconfig",
+      "kind": "documented",
+      "url": "https://github.com/SWE-agent/mini-swe-agent/blob/v2.4.6/docs/advanced/global_configuration.md",
+      "title": "Global configuration",
+      "locator": "Setting global configuration",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "API keys and defaults stored in a .env file via mini-extra config; env vars override.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "faq",
+      "kind": "documented",
+      "url": "https://github.com/SWE-agent/mini-swe-agent/blob/v2.4.6/docs/faq.md",
+      "title": "FAQ",
+      "locator": "Why no shell session; model support",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Design rationale: independent subprocess actions instead of a stateful shell; linear history.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "security",
+      "kind": "documented",
+      "url": "https://github.com/SWE-agent/mini-swe-agent/blob/v2.4.6/docs/SECURITY.md",
+      "title": "Security policy",
+      "locator": "Reporting a Vulnerability",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Only a vulnerability contact list; no certifications.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "search",
+      "kind": "source-inspected",
+      "url": "https://github.com/SWE-agent/mini-swe-agent/blob/v2.4.6/src/minisweagent",
+      "title": "Bounded search of the pinned release",
+      "locator": "rg -ci over src/, docs/ and tests/ at v2.4.6",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Search terms and hit counts (src/docs/tests): mcp 0/0/0; worktree 0/0/0; schedule|cron 0/0/0; webhook 0/0/0; skill 0/0/0; AGENTS.md|CLAUDE.md|.cursorrules 0/0/0; telemetry|analytics|posthog|sentry 0/0/0; snapshot|checkpoint|resume 0/0/0; screenshot 0/0/0; oauth|subscription|login 2/0/0 (docker.py:41 login-shell flag, swebench.yaml:125 BASH_ENV, neither a product login); subagent|delegate|spawn 2/0/1 (programbench.yaml prompt text and a timeout test only); github issue|gh pr 3/5/1 (error-message links and docs links only).",
+      "visibility": "public",
+      "commit": "a83fcae82d2a08f0ee0c688f9d137b3566c097f8",
+      "path": "src/minisweagent"
+    },
+    {
+      "id": "repo",
+      "kind": "documented",
+      "url": "https://api.github.com/repos/SWE-agent/mini-swe-agent",
+      "title": "GitHub repository metadata",
+      "locator": "stargazers_count, license, pushed_at",
+      "sourceDate": "2026-11-16",
+      "retrievedAt": "2026-11-16",
+      "finding": "9,661 stars on 2026-11-16; MIT; not archived; last pushed 2026-11-09.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "rel",
+      "kind": "documented",
+      "url": "https://github.com/SWE-agent/mini-swe-agent/releases/tag/v2.4.6",
+      "title": "mini-swe-agent v2.4.6 release",
+      "locator": "Release 2026-07-23",
+      "sourceDate": "2026-07-23",
+      "retrievedAt": "2026-11-16",
+      "finding": "Latest tagged release at pass time.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "media",
+      "kind": "documented",
+      "url": "https://github.com/SWE-agent/swe-agent-media/tree/main/media/mini",
+      "title": "mini-swe-agent documentation media",
+      "locator": "media/mini png and gif directory",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "First-party screenshots and recordings used on the docs site: mini, inspector, swebench.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    }
+  ],
+  "changes": [
+    {
+      "date": "2026-11-16",
+      "author": "researcher-mini-swe-agent",
+      "type": "initial-research",
+      "summary": "Initial full-profile pass over SWE-agent/mini-swe-agent tag v2.4.6 (agents, environments, models, run scripts, docs, pyproject); bounded code search used for unsupported answers; no closed or hosted component exists.",
+      "claimIds": []
+    }
+  ],
+  "context": {
+    "roadmapReview": {
+      "checkedAt": "2026-11-16",
+      "locations": [
+        {
+          "url": "https://github.com/SWE-agent/mini-swe-agent/releases",
+          "result": "Latest tagged release v2.4.6 (2026-07-23); default branch last pushed 2026-11-09; no future-dated commitments in release notes."
+        },
+        {
+          "url": "https://github.com/SWE-agent/mini-swe-agent/blob/v2.4.6/docs/advanced/v2_migration.md",
+          "result": "v2 migration guide describes shipped format changes only."
+        },
+        {
+          "url": "https://mini-swe-agent.com/latest/",
+          "result": "Documentation site mirrors the repo docs; no roadmap page; README news items announce benchmarks and tutorials, not product features."
+        },
+        {
+          "url": "https://github.com/SWE-agent/mini-swe-agent/issues",
+          "result": "Public issue tracker checked; no maintainer-announced dated roadmap items found."
+        }
+      ],
+      "announced": [],
+      "gaps": [
+        "No official roadmap page exists."
+      ]
+    },
+    "marketContext": {
+      "githubStars": {
+        "value": 9661,
+        "observedAt": "2026-11-16",
+        "evidenceIds": [
+          "repo"
+        ]
+      }
+    }
+  }
+}
