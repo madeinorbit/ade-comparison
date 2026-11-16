@@ -929,14 +929,18 @@
           ]
         },
         "blockers": {
-          "support": "unknown",
-          "answer": "Board and team dependency fields not verified.",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "Team tasks carry blocks and blockedBy lists mirrored between tasks.",
+          "evidenceIds": [
+            "teamsrc"
+          ]
         },
         "readiness": {
-          "support": "unknown",
-          "answer": "Not established.",
-          "evidenceIds": []
+          "support": "partial",
+          "answer": "The team manager picks pending tasks with no blockers; no explicit ready state is shown.",
+          "evidenceIds": [
+            "teamsrc"
+          ]
         },
         "enforcement": {
           "support": "unsupported",
@@ -946,9 +950,11 @@
           ]
         },
         "state_propagation": {
-          "support": "unknown",
-          "answer": "Not established.",
-          "evidenceIds": []
+          "support": "unsupported",
+          "answer": "Bounded inspection of agents/team found dependency mirroring only and no status propagation between parents and children.",
+          "evidenceIds": [
+            "teamsrc"
+          ]
         },
         "task_to_epic": {
           "support": "unsupported",
@@ -958,9 +964,11 @@
           ]
         },
         "identity_retention": {
-          "support": "unknown",
-          "answer": "Not established.",
-          "evidenceIds": []
+          "support": "partial",
+          "answer": "Team tasks keep IDs while their fields change; there is no separate thread or epic promotion.",
+          "evidenceIds": [
+            "teamsrc"
+          ]
         },
         "workflow_constraints": {
           "support": "supported",
@@ -973,11 +981,12 @@
       "limitations": [
         "Team and board features are experimental and local."
       ],
-      "unknownReason": "See unknown atomic answers for the closed-component, hosted-service or business-fact gaps.",
+      "unknownReason": null,
       "evidenceIds": [
         "nogo",
         "team",
         "board",
+        "teamsrc",
         "readme"
       ],
       "checkedAt": "2026-11-16",
@@ -1927,14 +1936,19 @@
           ]
         },
         "overlaps": {
-          "support": "unknown",
-          "answer": "Not established.",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "Busy sessions fire a missed task once when idle, not once per missed interval.",
+          "evidenceIds": [
+            "cronnotes"
+          ]
         },
         "retries": {
-          "support": "unknown",
-          "answer": "Not established.",
-          "evidenceIds": []
+          "support": "unsupported",
+          "answer": "No retry setting for failed scheduled runs was found in the scheduled-tasks docs.",
+          "evidenceIds": [
+            "cron",
+            "cronnotes"
+          ]
         },
         "client_independence": {
           "support": "partial",
@@ -1948,12 +1962,13 @@
       "limitations": [
         "Terminal schedules live in the process; persistence needs the daemon or channels."
       ],
-      "unknownReason": "See unknown atomic answers for the closed-component, hosted-service or business-fact gaps.",
+      "unknownReason": null,
       "evidenceIds": [
         "cron",
         "channels",
         "goals",
-        "serve"
+        "serve",
+        "cronnotes"
       ],
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
@@ -2496,9 +2511,11 @@
           ]
         },
         "secrets": {
-          "support": "unknown",
-          "answer": "Not established.",
-          "evidenceIds": []
+          "support": "partial",
+          "answer": "Shell child processes get a sanitized environment that drops Qwen-internal credentials; provider keys follow sandbox settings.",
+          "evidenceIds": [
+            "sanitizesrc"
+          ]
         },
         "code_separation": {
           "support": "supported",
@@ -2518,13 +2535,14 @@
       "limitations": [
         "Sandbox and worktrees are opt-in."
       ],
-      "unknownReason": "See unknown atomic answers for the closed-component, hosted-service or business-fact gaps.",
+      "unknownReason": null,
       "evidenceIds": [
         "readme",
         "worktree",
         "arena",
         "sandbox",
-        "nogo"
+        "nogo",
+        "sanitizesrc"
       ],
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
@@ -2609,19 +2627,25 @@
           ]
         },
         "context_loss": {
-          "support": "unknown",
-          "answer": "Not established.",
-          "evidenceIds": []
+          "support": "partial",
+          "answer": "History is compressed automatically or with /compress, summarizing earlier turns.",
+          "evidenceIds": [
+            "compresssrc"
+          ]
         },
         "duplicate_actions": {
-          "support": "unknown",
-          "answer": "Not established.",
-          "evidenceIds": []
+          "support": "partial",
+          "answer": "A session writer lease prevents concurrent writers; no tool-call replay deduplication was found.",
+          "evidenceIds": [
+            "leasesrc"
+          ]
         },
         "manual_repair": {
-          "support": "unknown",
-          "answer": "Not established.",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "/restore and /rewind commands let the user return to earlier state.",
+          "evidenceIds": [
+            "compresssrc"
+          ]
         },
         "multi_day_continuity": {
           "support": "supported",
@@ -2637,7 +2661,9 @@
       "unknownReason": "See unknown atomic answers for the closed-component, hosted-service or business-fact gaps.",
       "evidenceIds": [
         "serve",
-        "sessions"
+        "sessions",
+        "compresssrc",
+        "leasesrc"
       ],
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
@@ -2773,14 +2799,20 @@
       },
       "subanswers": {
         "time_limits": {
-          "support": "unknown",
-          "answer": "Not established.",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "--max-wall-time and model.maxWallTimeSeconds bound unattended runs; goals have an active-time window.",
+          "evidenceIds": [
+            "headless",
+            "settings"
+          ]
         },
         "turn_limits": {
-          "support": "unknown",
-          "answer": "Not established.",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "--max-session-turns and model.maxSessionTurns exit with code 53 on overrun; goalMaxTurns bounds goal turns.",
+          "evidenceIds": [
+            "headless",
+            "settings"
+          ]
         },
         "token_limits": {
           "support": "supported",
@@ -2790,41 +2822,50 @@
           ]
         },
         "spend_limits": {
-          "support": "unknown",
-          "answer": "Closed or hosted: plan quotas are Alibaba service matters.",
-          "evidenceIds": []
+          "support": "unsupported",
+          "answer": "Budgets cover turns, wall time and tool calls and goal tokens; no currency spend limit setting was found in headless or settings docs.",
+          "evidenceIds": [
+            "headless",
+            "settings"
+          ]
         },
         "timeouts": {
-          "support": "unknown",
-          "answer": "Not established.",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "generationConfig timeout and streamIdleTimeoutMs (default 240000 ms) abort silent streams.",
+          "evidenceIds": [
+            "settings"
+          ]
         },
         "retries": {
-          "support": "unknown",
-          "answer": "Not established.",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "generationConfig.maxRetries and retryInitialDelayMs retry rate-limit errors; idle-stream aborts are retryable.",
+          "evidenceIds": [
+            "settings"
+          ]
         },
         "provider_failures": {
-          "support": "unknown",
-          "answer": "Not established.",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "Turn handling records fallback on HTTP status codes such as 429, 503 and 529.",
+          "evidenceIds": [
+            "settings"
+          ]
         },
         "enforcement": {
-          "support": "partial",
-          "answer": "Goal budget and loop protection are enforced.",
+          "support": "supported",
+          "answer": "Budgets abort the run with distinct exit codes (53 turns, 55 budgets).",
           "evidenceIds": [
-            "goals",
-            "settings"
+            "headless"
           ]
         }
       },
       "limitations": [
-        "enforcement: Goal budget and loop protection are enforced."
+        "spend_limits: Budgets cover turns, wall time and tool calls and goal tokens; no currency spend limit setting was found in headless or settings docs."
       ],
-      "unknownReason": "See unknown atomic answers for the closed-component, hosted-service or business-fact gaps.",
+      "unknownReason": null,
       "evidenceIds": [
-        "goals",
-        "settings"
+        "headless",
+        "settings",
+        "goals"
       ],
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
@@ -2889,14 +2930,18 @@
           ]
         },
         "agent_stats": {
-          "support": "unknown",
-          "answer": "Not established.",
-          "evidenceIds": []
+          "support": "partial",
+          "answer": "/stats groups tokens and requests by model and auth type, not by agent.",
+          "evidenceIds": [
+            "statssrc"
+          ]
         },
         "project_stats": {
-          "support": "unknown",
-          "answer": "Not established.",
-          "evidenceIds": []
+          "support": "unsupported",
+          "answer": "No per-project aggregation in /stats.",
+          "evidenceIds": [
+            "statssrc"
+          ]
         },
         "time_stats": {
           "support": "partial",
@@ -2948,7 +2993,8 @@
       "evidenceIds": [
         "serve",
         "settings",
-        "readme"
+        "readme",
+        "statssrc"
       ],
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
@@ -2960,7 +3006,7 @@
     {
       "id": "qwen-code:RUN-07",
       "criterionId": "RUN-07",
-      "answer": "Context-cost documentation and token caching; subscription plans meter by plan quota; no per-task currency cost aggregation verified.",
+      "answer": "/stats shows session model, per-model and auth-type token and request totals and an estimated cost computed from per-million-token prices the user configures (N/A when no price is set); no per-task, child or epic aggregation, alerts or reconciliation with provider bills.",
       "support": "partial",
       "availability": "generally-available",
       "delivery": "native",
@@ -2977,88 +3023,115 @@
       },
       "subanswers": {
         "task_cost": {
-          "support": "unknown",
-          "answer": "Not established from checked docs; code could answer with deeper inspection of the context-cost feature.",
-          "evidenceIds": []
+          "support": "unsupported",
+          "answer": "No per-task cost view; /stats is per session.",
+          "evidenceIds": [
+            "statssrc"
+          ]
         },
         "session_cost": {
-          "support": "unknown",
-          "answer": "Not established from checked docs; code could answer with deeper inspection of the context-cost feature.",
-          "evidenceIds": []
+          "support": "partial",
+          "answer": "Session token totals always; cost only when model pricing is configured.",
+          "evidenceIds": [
+            "statssrc"
+          ]
         },
         "child_cost": {
-          "support": "unknown",
-          "answer": "Not established from checked docs; code could answer with deeper inspection of the context-cost feature.",
-          "evidenceIds": []
+          "support": "unsupported",
+          "answer": "Subagent usage is not reported separately in /stats.",
+          "evidenceIds": [
+            "statssrc"
+          ]
         },
         "epic_cost": {
-          "support": "unknown",
-          "answer": "Not established from checked docs; code could answer with deeper inspection of the context-cost feature.",
-          "evidenceIds": []
+          "support": "unsupported",
+          "answer": "No epic entity.",
+          "evidenceIds": [
+            "nogo"
+          ]
         },
         "harness_aggregation": {
-          "support": "unknown",
-          "answer": "Not established from checked docs; code could answer with deeper inspection of the context-cost feature.",
-          "evidenceIds": []
+          "support": "unsupported",
+          "answer": "Single harness.",
+          "evidenceIds": [
+            "nogo"
+          ]
         },
         "billed_vs_estimated": {
-          "support": "unknown",
-          "answer": "Not established from checked docs; code could answer with deeper inspection of the context-cost feature.",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "Cost is an estimate computed from configured prices, shown as N/A otherwise.",
+          "evidenceIds": [
+            "statssrc"
+          ]
         },
         "tokens": {
-          "support": "partial",
-          "answer": "Token caching and context-cost docs exist.",
+          "support": "supported",
+          "answer": "Input and output token totals per model.",
           "evidenceIds": [
-            "readme"
+            "statssrc"
           ]
         },
         "subscription_allowance": {
-          "support": "partial",
-          "answer": "Plans carry quotas.",
+          "support": "unsupported",
+          "answer": "Plan quota use is not shown in /stats.",
           "evidenceIds": [
-            "auth"
+            "statssrc"
           ]
         },
         "provider_reconciliation": {
-          "support": "unknown",
-          "answer": "Not established from checked docs; code could answer with deeper inspection of the context-cost feature.",
-          "evidenceIds": []
+          "support": "unsupported",
+          "answer": "No invoice reconciliation in the inspected code.",
+          "evidenceIds": [
+            "statssrc"
+          ]
         },
         "compute_cost": {
-          "support": "unknown",
-          "answer": "Not established from checked docs; code could answer with deeper inspection of the context-cost feature.",
-          "evidenceIds": []
+          "support": "unsupported",
+          "answer": "No compute fees tracked.",
+          "evidenceIds": [
+            "statssrc"
+          ]
         },
         "refresh_delay": {
-          "support": "unknown",
-          "answer": "Not established from checked docs; code could answer with deeper inspection of the context-cost feature.",
-          "evidenceIds": []
+          "support": "partial",
+          "answer": "Stats update per turn locally.",
+          "evidenceIds": [
+            "statssrc"
+          ]
         },
         "alerts": {
-          "support": "unknown",
-          "answer": "Not established from checked docs; code could answer with deeper inspection of the context-cost feature.",
-          "evidenceIds": []
+          "support": "unsupported",
+          "answer": "No spend alerts; goal budgets only.",
+          "evidenceIds": [
+            "goals"
+          ]
         },
         "export": {
-          "support": "unknown",
-          "answer": "Not established from checked docs; code could answer with deeper inspection of the context-cost feature.",
-          "evidenceIds": []
+          "support": "partial",
+          "answer": "Telemetry export target.",
+          "evidenceIds": [
+            "settings"
+          ]
         },
         "drilldown": {
-          "support": "unknown",
-          "answer": "Not established from checked docs; code could answer with deeper inspection of the context-cost feature.",
-          "evidenceIds": []
+          "support": "partial",
+          "answer": "/stats groups by model and auth type; /context detail drills into context cost.",
+          "evidenceIds": [
+            "statssrc",
+            "readme"
+          ]
         }
       },
       "limitations": [
-        "tokens: Token caching and context-cost docs exist.",
-        "subscription_allowance: Plans carry quotas."
+        "Cost is a configured-price estimate, not a billed amount; subscription allowance use is not shown."
       ],
-      "unknownReason": "See unknown atomic answers for the closed-component, hosted-service or business-fact gaps.",
+      "unknownReason": null,
       "evidenceIds": [
-        "readme",
-        "auth"
+        "statssrc",
+        "nogo",
+        "goals",
+        "settings",
+        "readme"
       ],
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
@@ -3245,9 +3318,11 @@
           ]
         },
         "ordering": {
-          "support": "unknown",
-          "answer": "Not established.",
-          "evidenceIds": []
+          "support": "partial",
+          "answer": "Daemon permission requests are answered by the first responder; prompt ordering across clients is otherwise not specified.",
+          "evidenceIds": [
+            "serve"
+          ]
         },
         "conflicts": {
           "support": "partial",
@@ -3257,16 +3332,18 @@
           ]
         },
         "attribution": {
-          "support": "unknown",
-          "answer": "Not established.",
-          "evidenceIds": []
+          "support": "partial",
+          "answer": "Channel sender identity is used by pairing and allowlist policies; group history backfill records senders.",
+          "evidenceIds": [
+            "chanoverview"
+          ]
         },
         "permissions": {
-          "support": "partial",
-          "answer": "Daemon token; channel allowlists.",
+          "support": "supported",
+          "answer": "Daemon token; channel pairing and allowlist policies; operator privileges for session management in shared sessions.",
           "evidenceIds": [
             "serve",
-            "channels"
+            "chanoverview"
           ]
         },
         "plan_restrictions": {
@@ -3287,11 +3364,12 @@
       "limitations": [
         "First-responder is not a role-aware co-steering model; presence not found."
       ],
-      "unknownReason": "See unknown atomic answers for the closed-component, hosted-service or business-fact gaps.",
+      "unknownReason": null,
       "evidenceIds": [
         "serve",
         "channels",
         "nogo",
+        "chanoverview",
         "repo"
       ],
       "checkedAt": "2026-11-16",
@@ -3446,9 +3524,11 @@
           ]
         },
         "secret": {
-          "support": "unknown",
-          "answer": "Not established.",
-          "evidenceIds": []
+          "support": "partial",
+          "answer": "Sanitized child environment; no secret-specific approval prompt.",
+          "evidenceIds": [
+            "sanitizesrc"
+          ]
         },
         "delivery": {
           "support": "partial",
@@ -3465,9 +3545,11 @@
           ]
         },
         "lifetime": {
-          "support": "unknown",
-          "answer": "Not established.",
-          "evidenceIds": []
+          "support": "partial",
+          "answer": "/approve-always grants longer-lived approvals; scoped lifetimes not detailed.",
+          "evidenceIds": [
+            "chanoverview"
+          ]
         },
         "allow": {
           "support": "supported",
@@ -3484,9 +3566,11 @@
           ]
         },
         "revoke": {
-          "support": "unknown",
-          "answer": "Not established.",
-          "evidenceIds": []
+          "support": "partial",
+          "answer": "Always-approvals can be cancelled by operators in shared sessions.",
+          "evidenceIds": [
+            "chanoverview"
+          ]
         },
         "tunnels": {
           "support": "partial",
@@ -3520,14 +3604,16 @@
       },
       "limitations": [
         "network: Sandbox settings.",
-        "delivery: Commands such as git push need approval by mode.",
-        "approver_identity: First responder client."
+        "secret: Sanitized child environment; no secret-specific approval prompt.",
+        "delivery: Commands such as git push need approval by mode."
       ],
-      "unknownReason": "See unknown atomic answers for the closed-component, hosted-service or business-fact gaps.",
+      "unknownReason": null,
       "evidenceIds": [
         "approval",
         "sandbox",
-        "serve"
+        "sanitizesrc",
+        "serve",
+        "chanoverview"
       ],
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
@@ -3539,7 +3625,7 @@
     {
       "id": "qwen-code:TEAM-04",
       "criterionId": "TEAM-04",
-      "answer": "Persisted transcripts and optional telemetry; no attributed multi-user audit or integrity model.",
+      "answer": "Sessions are recorded as append-only JSONL with tool calls and system records; transcripts persist and are replayable; no multi-user attributed audit or integrity model.",
       "support": "partial",
       "availability": "generally-available",
       "delivery": "native",
@@ -3559,28 +3645,38 @@
           "support": "supported",
           "answer": "Transcripts record tool calls.",
           "evidenceIds": [
+            "recordsrc",
             "sessions"
           ]
         },
         "approvals": {
-          "support": "unknown",
-          "answer": "Not established; code could answer with deeper inspection.",
-          "evidenceIds": []
+          "support": "partial",
+          "answer": "Permission decisions appear as records in the transcript.",
+          "evidenceIds": [
+            "recordsrc"
+          ]
         },
         "edits": {
-          "support": "unknown",
-          "answer": "Not established; code could answer with deeper inspection.",
-          "evidenceIds": []
+          "support": "partial",
+          "answer": "Tool calls record edits; file history state is kept for restore.",
+          "evidenceIds": [
+            "recordsrc",
+            "compresssrc"
+          ]
         },
         "discussion": {
-          "support": "unknown",
-          "answer": "Not established; code could answer with deeper inspection.",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "Conversation transcript.",
+          "evidenceIds": [
+            "recordsrc"
+          ]
         },
         "decisions": {
-          "support": "unknown",
-          "answer": "Not established; code could answer with deeper inspection.",
-          "evidenceIds": []
+          "support": "partial",
+          "answer": "Within transcript.",
+          "evidenceIds": [
+            "recordsrc"
+          ]
         },
         "cross_user_persistence": {
           "support": "unsupported",
@@ -3598,34 +3694,41 @@
         },
         "export": {
           "support": "partial",
-          "answer": "Telemetry export.",
+          "answer": "Telemetry export and local files.",
           "evidenceIds": [
             "settings"
           ]
         },
         "mutability": {
-          "support": "unknown",
-          "answer": "Not established; code could answer with deeper inspection.",
-          "evidenceIds": []
+          "support": "partial",
+          "answer": "Append-only writes by the product, but local files are user-editable.",
+          "evidenceIds": [
+            "recordsrc"
+          ]
         },
         "retention": {
-          "support": "unknown",
-          "answer": "Not established; code could answer with deeper inspection.",
-          "evidenceIds": []
+          "support": "partial",
+          "answer": "Local files retained until deleted.",
+          "evidenceIds": [
+            "sessions"
+          ]
         },
         "integrity": {
-          "support": "unknown",
-          "answer": "Not established; code could answer with deeper inspection.",
-          "evidenceIds": []
+          "support": "unsupported",
+          "answer": "No integrity or tamper protection in the inspected code.",
+          "evidenceIds": [
+            "recordsrc"
+          ]
         }
       },
       "limitations": [
-        "cross_user_persistence: Single-user local data.",
-        "export: Telemetry export."
+        "Local plain files can be edited; no integrity protection."
       ],
-      "unknownReason": "See unknown atomic answers for the closed-component, hosted-service or business-fact gaps.",
+      "unknownReason": null,
       "evidenceIds": [
+        "recordsrc",
         "sessions",
+        "compresssrc",
         "nogo",
         "settings"
       ],
@@ -4184,9 +4287,10 @@
           ]
         },
         "pull_requests": {
-          "support": "partial",
-          "answer": "Autofix watches PRs; creation via agent shell.",
+          "support": "supported",
+          "answer": "The daemon creates a GitHub pull request from a session (Web Shell Git dialog) and binds it to the session; autofix then watches it.",
           "evidenceIds": [
+            "prsrc",
             "autofix"
           ]
         },
@@ -4228,13 +4332,14 @@
       },
       "limitations": [
         "commits: Agent runs git commit; autofix commits fixes.",
-        "pull_requests: Autofix watches PRs; creation via agent shell.",
-        "rebase: Merge conflict fixing."
+        "rebase: Merge conflict fixing.",
+        "product_state: Watch status commands."
       ],
       "unknownReason": null,
       "evidenceIds": [
         "worktree",
-        "autofix"
+        "autofix",
+        "prsrc"
       ],
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
@@ -4344,10 +4449,10 @@
           ]
         },
         "pr_links": {
-          "support": "partial",
-          "answer": "Autofix status per PR.",
+          "support": "supported",
+          "answer": "Session PR binding is persisted by the daemon.",
           "evidenceIds": [
-            "autofix"
+            "prsrc"
           ]
         },
         "build_links": {
@@ -4402,13 +4507,13 @@
       },
       "limitations": [
         "commit_links: No delivery evidence or rollback feature found.",
-        "pr_links: Autofix status per PR.",
-        "build_links: No delivery evidence or rollback feature found."
+        "build_links: No delivery evidence or rollback feature found.",
+        "deployment_links: No delivery evidence or rollback feature found."
       ],
       "unknownReason": null,
       "evidenceIds": [
         "nogo",
-        "autofix"
+        "prsrc"
       ],
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
@@ -4804,9 +4909,11 @@
           ]
         },
         "telemetry_defaults": {
-          "support": "unknown",
-          "answer": "Default value of usageStatisticsEnabled was not verified in this pass.",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "privacy.usageStatisticsEnabled defaults to true.",
+          "evidenceIds": [
+            "settings"
+          ]
         },
         "telemetry_controls": {
           "support": "supported",
@@ -5903,6 +6010,123 @@
       "path": "packages/managed-agent-server"
     },
     {
+      "id": "teamsrc",
+      "kind": "source-inspected",
+      "url": "https://github.com/QwenLM/qwen-code/blob/v0.27.4/packages/core/src/agents/team/types.ts",
+      "title": "Agent Team task types",
+      "locator": "types.ts lines 123-126 (blocks, blockedBy); TeamManager.ts line 2178; task-update.ts mirrors blocks into blockedBy",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Team tasks carry blocks and blockedBy lists; update logic mirrors A.blocks=[B] into B.blockedBy=[A] and the manager skips tasks that still have blockers when picking pending work; no code propagates status to parents.",
+      "visibility": "public",
+      "commit": "f35dde84157f992bc324c0a3f59b1119344a683d",
+      "path": "packages/core/src/agents/team/types.ts"
+    },
+    {
+      "id": "statssrc",
+      "kind": "source-inspected",
+      "url": "https://github.com/QwenLM/qwen-code/blob/v0.27.4/packages/cli/src/ui/commands/statsCommand.ts",
+      "title": "Stats command and cost calculator",
+      "locator": "statsCommand.ts lines 58-143; packages/cli/src/utils/costCalculator.ts calculateCost",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "/stats prints session model, per-model and auth-type token and request totals and an optional cost computed from configured per-million-token prices; cost is N/A when no price is configured.",
+      "visibility": "public",
+      "commit": "f35dde84157f992bc324c0a3f59b1119344a683d",
+      "path": "packages/cli/src/ui/commands/statsCommand.ts"
+    },
+    {
+      "id": "sanitizesrc",
+      "kind": "source-inspected",
+      "url": "https://github.com/QwenLM/qwen-code/blob/v0.27.4/packages/core/src/utils/sanitize-child-env.ts",
+      "title": "Child environment sanitization",
+      "locator": "sanitize-child-env.ts used at shellExecutionService.ts lines 1013 and 2003",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Strips Qwen-internal credentials and private parent capability variables from the environment passed to shell child processes.",
+      "visibility": "public",
+      "commit": "f35dde84157f992bc324c0a3f59b1119344a683d",
+      "path": "packages/core/src/utils/sanitize-child-env.ts"
+    },
+    {
+      "id": "prsrc",
+      "kind": "source-inspected",
+      "url": "https://github.com/QwenLM/qwen-code/blob/v0.27.4/packages/core/src/services/session-pr-service.ts",
+      "title": "Session pull request binding",
+      "locator": "session-pr-service.ts header comment",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Daemon persists a GitHub pull request binding for a session when a PR is created from the session (for example from the Web Shell Git dialog).",
+      "visibility": "public",
+      "commit": "f35dde84157f992bc324c0a3f59b1119344a683d",
+      "path": "packages/core/src/services/session-pr-service.ts"
+    },
+    {
+      "id": "compresssrc",
+      "kind": "source-inspected",
+      "url": "https://github.com/QwenLM/qwen-code/blob/v0.27.4/packages/core/src/services/chatCompressionService.ts",
+      "title": "Chat compression",
+      "locator": "chatCompressionService.ts; cli commands compressCommand.ts, restoreCommand.ts, rewindCommand.ts",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Conversation history is compressed automatically or with /compress; /restore and /rewind commands exist to return to earlier state.",
+      "visibility": "public",
+      "commit": "f35dde84157f992bc324c0a3f59b1119344a683d",
+      "path": "packages/core/src/services/chatCompressionService.ts"
+    },
+    {
+      "id": "leasesrc",
+      "kind": "source-inspected",
+      "url": "https://github.com/QwenLM/qwen-code/blob/v0.27.4/packages/core/src/services/session-writer-lease.ts",
+      "title": "Session writer lease",
+      "locator": "session-writer-lease.ts",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "A writer lease prevents two processes from writing the same session concurrently.",
+      "visibility": "public",
+      "commit": "f35dde84157f992bc324c0a3f59b1119344a683d",
+      "path": "packages/core/src/services/session-writer-lease.ts"
+    },
+    {
+      "id": "chanoverview",
+      "kind": "documented",
+      "url": "https://github.com/QwenLM/qwen-code/blob/v0.27.4/docs/%75sers/features/channels/overview.md",
+      "title": "Channels overview (access policy)",
+      "locator": "privatePolicy and sender policy; shared-session operator privileges",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Managed channels default to pairing access; allowlist and open policies exist; in shared sessions, session management such as /approve-always and cancel requires operator privileges.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "cronnotes",
+      "kind": "documented",
+      "url": "https://github.com/QwenLM/qwen-code/blob/v0.27.4/docs/%75sers/features/scheduled-tasks.md",
+      "title": "Scheduled tasks behavior notes",
+      "locator": "No catch-up for missed fires",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "A task whose time passes while Qwen Code is busy fires once when idle, not once per missed interval; gates must finish in the foreground.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "recordsrc",
+      "kind": "source-inspected",
+      "url": "https://github.com/QwenLM/qwen-code/blob/v0.27.4/packages/core/src/services/chatRecordingService.ts",
+      "title": "Chat recording service",
+      "locator": "chatRecordingService.ts lines 136, 302, 430 (append-only JSONL, system records)",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Sessions are recorded as append-only JSONL files with system records that can alter how history is reconstructed; files are plain local files.",
+      "visibility": "public",
+      "commit": "f35dde84157f992bc324c0a3f59b1119344a683d",
+      "path": "packages/core/src/services/chatRecordingService.ts"
+    },
+    {
       "id": "nogo",
       "kind": "source-inspected",
       "url": "https://github.com/QwenLM/qwen-code/blob/v0.27.4/packages/core",
@@ -5923,6 +6147,20 @@
       "type": "initial-research",
       "summary": "Initial full-profile source pass over Qwen Code v0.27.4 stable (README, user docs, pinned monorepo packages including desktop, web-shell, channels, managed-agent-server; desktop-v0.27.4 release assets); Agent Team, Agent Arena, daemon, Web Shell, VS Code extension, managed-agent server and several channels kept at their experimental or beta status; legacy free Qwen OAuth allowance discontinued 2026-04-15.",
       "claimIds": []
+    },
+    {
+      "date": "2026-11-16",
+      "author": "researcher-qwen-code",
+      "type": "research-correction",
+      "summary": "Second source pass over the pinned release after coordinator guidance: searched code, in-repo docs and sibling repositories for the remaining unknown atomic answers and added evidence for those the code or docs answer.",
+      "claimIds": [],
+      "evidenceIds": [],
+      "before": {
+        "note": "Several atomic answers on this open-source product were unknown after the first pass."
+      },
+      "after": {
+        "note": "Second source pass answered code- and docs-answerable atoms from pinned code with added evidence; remaining unknowns name closed, hosted or business-fact reasons."
+      }
     }
   ],
   "context": {
