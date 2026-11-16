@@ -1,0 +1,5964 @@
+{
+  "schemaVersion": 1,
+  "rubricVersion": "0.3",
+  "id": "qwen-code",
+  "name": "Qwen Code",
+  "category": "B",
+  "researchTier": "full-profile",
+  "researchState": "documented",
+  "identity": {
+    "website": "https://github.com/QwenLM/qwen-code",
+    "repository": "https://github.com/QwenLM/qwen-code",
+    "aliases": [
+      "@qwen-code/qwen-code",
+      "qwen"
+    ],
+    "company": "Alibaba Qwen team"
+  },
+  "surfaces": [
+    {
+      "id": "cli",
+      "name": "qwen terminal interface (interactive TUI, headless -p)",
+      "type": "cli"
+    },
+    {
+      "id": "desktop",
+      "name": "Qwen Code Desktop (Tauri 2 shell around the Web Shell)",
+      "type": "desktop"
+    },
+    {
+      "id": "web",
+      "name": "Web Shell served by qwen serve (experimental, browser and phone browser)",
+      "type": "web"
+    },
+    {
+      "id": "ide",
+      "name": "VS Code extension (beta), Zed extension and JetBrains integration",
+      "type": "editor-extension"
+    },
+    {
+      "id": "channels",
+      "name": "Chat channels (Telegram, DingTalk, WeChat, WeCom, Feishu, QQ, email, GitHub, GitLab)",
+      "type": "chat"
+    },
+    {
+      "id": "api",
+      "name": "Daemon HTTP+SSE API, SDKs (TypeScript, Python, Java), ACP, managed-agent-server",
+      "type": "api"
+    }
+  ],
+  "claims": [
+    {
+      "id": "qwen-code:ACC-01",
+      "criterionId": "ACC-01",
+      "answer": "Terminal CLI, Tauri desktop app (macOS arm64/x64, Linux x64/arm64 AppImage/deb/rpm, Windows x64 installer), experimental browser Web Shell (also phone browser over LAN/HTTPS), VS Code extension (beta), Zed and JetBrains integrations, chat channels and SDKs; no native iOS/Android app.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli",
+          "desktop",
+          "web",
+          "ide",
+          "channels"
+        ],
+        "version": "Qwen Code v0.27.4 stable (commit f35dde84157f992bc324c0a3f59b1119344a683d, 2026-11-15); desktop-v0.27.4 installers; nightly builds also published",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "desktop_os": {
+          "support": "supported",
+          "answer": "Desktop 0.27.4 ships macOS (dmg, arm64 and x64), Linux (AppImage, deb, rpm for x64 and arm64) and Windows x64 setup.exe; CLI also via npm and Homebrew.",
+          "evidenceIds": [
+            "desktoprelease",
+            "readme"
+          ]
+        },
+        "mobile_apps": {
+          "support": "unsupported",
+          "answer": "Bounded search of the pinned monorepo and desktop release assets found no iOS or Android app (mobile-shell and mobile-mcp packages are tooling).",
+          "evidenceIds": [
+            "nogo",
+            "desktoprelease"
+          ]
+        },
+        "browser": {
+          "support": "supported",
+          "answer": "Web Shell served by qwen serve at 127.0.0.1:4170 (experimental).",
+          "evidenceIds": [
+            "serve",
+            "readme"
+          ]
+        },
+        "mobile_browser": {
+          "support": "supported",
+          "answer": "Daemon docs cover remote Web Shell and phone access with HTTPS for LAN devices; desktop Local Control shares a QR code.",
+          "evidenceIds": [
+            "serve",
+            "desktopreadme"
+          ]
+        },
+        "cli": {
+          "support": "supported",
+          "answer": "qwen CLI with interactive and headless modes.",
+          "evidenceIds": [
+            "readme",
+            "headless"
+          ]
+        },
+        "editor_extensions": {
+          "support": "supported",
+          "answer": "VS Code extension (Beta), Zed extension and JetBrains integration.",
+          "evidenceIds": [
+            "vscode",
+            "readme"
+          ]
+        },
+        "task_actions": {
+          "support": "supported",
+          "answer": "Start, steer, approve and resume sessions in terminal, desktop and Web Shell; chat channels support prompts and approvals.",
+          "evidenceIds": [
+            "serve",
+            "channels",
+            "sessions"
+          ]
+        },
+        "notifications": {
+          "support": "partial",
+          "answer": "Background-task notifications in TUI and ACP and chat-channel results; OS push not documented.",
+          "evidenceIds": [
+            "subagents",
+            "channels"
+          ]
+        },
+        "cross_device_continuity": {
+          "support": "supported",
+          "answer": "Daemon reconnect-safe streaming lets other clients reattach to active sessions while the daemon runs.",
+          "evidenceIds": [
+            "serve"
+          ]
+        }
+      },
+      "limitations": [
+        "Web Shell and daemon are experimental; VS Code extension is beta.",
+        "No native phone app; phones use the Web Shell or chat apps."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "desktoprelease",
+        "readme",
+        "nogo",
+        "serve",
+        "desktopreadme",
+        "headless",
+        "vscode",
+        "channels",
+        "sessions",
+        "subagents"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-qwen-code",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "qwen-code:ACC-02",
+      "criterionId": "ACC-02",
+      "answer": "Embeds the Qwen Code agent harness and speaks OpenAI, Anthropic, Gemini and Qwen API protocols with local providers; exposes itself over ACP to other tools; a delegation skill lets other agents drive Qwen Code; does not host other coding CLIs as harnesses.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli",
+          "api"
+        ],
+        "version": "Qwen Code v0.27.4 stable (commit f35dde84157f992bc324c0a3f59b1119344a683d, 2026-11-15); desktop-v0.27.4 installers; nightly builds also published",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "harnesses": {
+          "support": "supported",
+          "answer": "The Qwen Code harness only (Hosted Harness for the managed server).",
+          "evidenceIds": [
+            "readme",
+            "managed"
+          ]
+        },
+        "model_providers": {
+          "support": "supported",
+          "answer": "Qwen, OpenAI, Anthropic, Gemini, DeepSeek, Grok, MiniMax, Z.AI, Kimi, OpenRouter, Ollama, vLLM and custom endpoints.",
+          "evidenceIds": [
+            "auth",
+            "providers"
+          ]
+        },
+        "custom_adapters": {
+          "support": "supported",
+          "answer": "Custom Provider option and channel plugins.",
+          "evidenceIds": [
+            "auth",
+            "channels"
+          ]
+        },
+        "session_integration": {
+          "support": "supported",
+          "answer": "Embedded harness controlled through ACP, SDKs and daemon HTTP+SSE.",
+          "evidenceIds": [
+            "serve",
+            "sdkts"
+          ]
+        },
+        "mixed_harness_operation": {
+          "support": "unsupported",
+          "answer": "No second coding harness is run by the product.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        }
+      },
+      "limitations": [
+        "Only the Qwen Code harness runs in the product."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "managed",
+        "auth",
+        "providers",
+        "channels",
+        "serve",
+        "sdkts",
+        "nogo"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-qwen-code",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "qwen-code:ACC-03",
+      "criterionId": "ACC-03",
+      "answer": "Qwen account with Plus/Pro subscription via Qwen OAuth, QwenCloud Token Plan, Alibaba ModelStudio Coding Plan, API keys for many providers and local models; the legacy free Qwen OAuth allowance was discontinued on 2026-04-15; no non-Qwen coding-agent subscription logins documented.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli",
+          "desktop"
+        ],
+        "version": "Qwen Code v0.27.4 stable (commit f35dde84157f992bc324c0a3f59b1119344a683d, 2026-11-15); desktop-v0.27.4 installers; nightly builds also published",
+        "plan": "Qwen Plus/Pro, QwenCloud Token Plan, Alibaba Coding Plan, API keys",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "agent_subscriptions": {
+          "support": "supported",
+          "answer": "Qwen Account with Subscription (Plus or Pro) and Coding/Token Plans.",
+          "evidenceIds": [
+            "auth"
+          ]
+        },
+        "api_accounts": {
+          "support": "supported",
+          "answer": "Standard API keys and third-party provider keys.",
+          "evidenceIds": [
+            "auth",
+            "providers"
+          ]
+        },
+        "vendor_credits": {
+          "support": "partial",
+          "answer": "Token Plan carries a monthly credit quota; pricing is hosted.",
+          "evidenceIds": [
+            "auth"
+          ]
+        },
+        "local_models": {
+          "support": "supported",
+          "answer": "Ollama and vLLM providers.",
+          "evidenceIds": [
+            "providers",
+            "readme"
+          ]
+        },
+        "account_switching": {
+          "support": "supported",
+          "answer": "/auth switches methods and models switch at runtime.",
+          "evidenceIds": [
+            "auth",
+            "readme"
+          ]
+        },
+        "vendor_account_requirement": {
+          "support": "supported",
+          "answer": "A subscription, plan or API key is required; no free allowance remains.",
+          "evidenceIds": [
+            "auth",
+            "tos"
+          ]
+        },
+        "provider_restrictions": {
+          "support": "supported",
+          "answer": "Terms and privacy depend on authentication method; free allowance discontinued.",
+          "evidenceIds": [
+            "tos"
+          ]
+        }
+      },
+      "limitations": [
+        "Subscription prices and quotas are Alibaba service matters.",
+        "Free Qwen OAuth allowance ended 2026-04-15."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "auth",
+        "providers",
+        "readme",
+        "tos"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-qwen-code",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "qwen-code:ACC-04",
+      "criterionId": "ACC-04",
+      "answer": "Install via curl/PowerShell installer, npm, Homebrew or desktop app, run qwen in a project and /auth; any directory works, Git optional (worktrees, autofix need Git); GitHub/GitLab channels and Action integrate hosted Git; no managed cloud setup; the daemon plus deployment docs cover self-hosted remote use.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli",
+          "desktop",
+          "web"
+        ],
+        "version": "Qwen Code v0.27.4 stable (commit f35dde84157f992bc324c0a3f59b1119344a683d, 2026-11-15); desktop-v0.27.4 installers; nightly builds also published",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "first_task_setup": {
+          "support": "supported",
+          "answer": "Install, qwen, /auth, prompt.",
+          "evidenceIds": [
+            "readme",
+            "auth"
+          ]
+        },
+        "no_git": {
+          "support": "supported",
+          "answer": "Runs in any folder; No-workspace sessions exist in Web Shell.",
+          "evidenceIds": [
+            "readme",
+            "serve"
+          ]
+        },
+        "local_git_without_remote": {
+          "support": "supported",
+          "answer": "Worktrees and autofix work on local repositories.",
+          "evidenceIds": [
+            "worktree"
+          ]
+        },
+        "hosted_git": {
+          "support": "supported",
+          "answer": "GitHub and GitLab channels, GitHub Action and /autofix-pr.",
+          "evidenceIds": [
+            "channels",
+            "ghaction",
+            "autofix"
+          ]
+        },
+        "prerequisite_guidance": {
+          "support": "supported",
+          "answer": "Node.js 22+, auth and daemon token guidance.",
+          "evidenceIds": [
+            "readme",
+            "serve"
+          ]
+        },
+        "managed_cloud_setup": {
+          "support": "unsupported",
+          "answer": "No Qwen-operated managed cloud workspace in the repository; managed-agent-server is self-deployed.",
+          "evidenceIds": [
+            "managed",
+            "nogo"
+          ]
+        },
+        "byo_vps_onboarding": {
+          "support": "partial",
+          "answer": "Daemon docs and local deploy guide describe running qwen serve on a host with token and HTTPS; no installer/provisioner.",
+          "evidenceIds": [
+            "serve"
+          ]
+        }
+      },
+      "limitations": [
+        "managed_cloud_setup: No Qwen-operated managed cloud workspace in the repository; managed-agent-server is self-deployed.",
+        "byo_vps_onboarding: Daemon docs and local deploy guide describe running qwen serve on a host with token and HTTPS; no installer/provisioner."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "auth",
+        "serve",
+        "worktree",
+        "channels",
+        "ghaction",
+        "autofix",
+        "managed",
+        "nogo"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-qwen-code",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "qwen-code:ACC-05",
+      "criterionId": "ACC-05",
+      "answer": "Headless -p, daemon HTTP+SSE API with Web Shell, ACP over stdio, TypeScript/Python/Java SDKs, hooks and channel webhooks; Qwen Code as an MCP client; a skill lets other agents delegate to it via ACP; daemon and managed server are experimental.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli",
+          "api"
+        ],
+        "version": "Qwen Code v0.27.4 stable (commit f35dde84157f992bc324c0a3f59b1119344a683d, 2026-11-15); desktop-v0.27.4 installers; nightly builds also published",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "cli": {
+          "support": "supported",
+          "answer": "Headless -p and daemon CLI commands.",
+          "evidenceIds": [
+            "headless",
+            "readme"
+          ]
+        },
+        "api": {
+          "support": "supported",
+          "answer": "Daemon HTTP+SSE API with sessions, transcripts, approval-mode control and workspace endpoints.",
+          "evidenceIds": [
+            "serve"
+          ]
+        },
+        "sdk": {
+          "support": "supported",
+          "answer": "TypeScript, Python and Java SDKs.",
+          "evidenceIds": [
+            "sdkts",
+            "readme"
+          ]
+        },
+        "mcp_server": {
+          "support": "partial",
+          "answer": "Computer-use native MCP tools ship for use by Qwen Code, Claude Code or Codex, but Qwen Code sessions themselves are exposed over ACP rather than MCP.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "webhooks": {
+          "support": "partial",
+          "answer": "Webhook sending to DingTalk, Feishu and WeCom groups; inbound webhook callback for WeCom.",
+          "evidenceIds": [
+            "channels"
+          ]
+        },
+        "operations": {
+          "support": "supported",
+          "answer": "Create, steer, approve and inspect sessions via the daemon API.",
+          "evidenceIds": [
+            "serve"
+          ]
+        },
+        "authentication": {
+          "support": "supported",
+          "answer": "Bearer token (QWEN_SERVER_TOKEN, --require-auth); managed server signed requests.",
+          "evidenceIds": [
+            "serve",
+            "managedpkg"
+          ]
+        },
+        "stability": {
+          "support": "partial",
+          "answer": "Daemon documented as experimental; SDK versions are 0.1.x.",
+          "evidenceIds": [
+            "serve",
+            "sdkts"
+          ]
+        }
+      },
+      "limitations": [
+        "Daemon, managed server and board are experimental; no stability policy found."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "headless",
+        "readme",
+        "serve",
+        "sdkts",
+        "channels",
+        "managedpkg"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-qwen-code",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "qwen-code:ACC-06",
+      "criterionId": "ACC-06",
+      "answer": "MCP client, skills, hooks, extensions, LSP integration (experimental), computer-use and browser-use tools, channel plugins; QWEN.md/AGENTS.md imports; setup is product-managed through settings.",
+      "support": "supported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli",
+          "desktop"
+        ],
+        "version": "Qwen Code v0.27.4 stable (commit f35dde84157f992bc324c0a3f59b1119344a683d, 2026-11-15); desktop-v0.27.4 installers; nightly builds also published",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "mcp_client": {
+          "support": "supported",
+          "answer": "MCP servers for tools, resources and prompts.",
+          "evidenceIds": [
+            "mcp"
+          ]
+        },
+        "plugins": {
+          "support": "supported",
+          "answer": "Extensions and channel plugins.",
+          "evidenceIds": [
+            "skills",
+            "channels"
+          ]
+        },
+        "custom_tools": {
+          "support": "supported",
+          "answer": "Skills, MCP and hooks.",
+          "evidenceIds": [
+            "skills",
+            "mcp",
+            "hooks"
+          ]
+        },
+        "instructions_import": {
+          "support": "supported",
+          "answer": "QWEN.md and AGENTS.md load automatically.",
+          "evidenceIds": [
+            "memory"
+          ]
+        },
+        "authentication": {
+          "support": "supported",
+          "answer": "Provider auth through /auth; MCP auth per server.",
+          "evidenceIds": [
+            "auth",
+            "mcp"
+          ]
+        },
+        "permission_scope": {
+          "support": "supported",
+          "answer": "Approval modes and trusted folders.",
+          "evidenceIds": [
+            "approval"
+          ]
+        },
+        "integration_owner": {
+          "support": "supported",
+          "answer": "Product-managed.",
+          "evidenceIds": [
+            "mcp"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "mcp",
+        "skills",
+        "channels",
+        "hooks",
+        "memory",
+        "auth",
+        "approval"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-qwen-code",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "qwen-code:ACC-07",
+      "criterionId": "ACC-07",
+      "answer": "Desktop is a Tauri 2 shell around the browser Web Shell (no second UI) bundling a Node.js runtime; the terminal UI is Node.js/Ink; the Web Shell is a web app; no mobile client.",
+      "support": "supported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop",
+          "web",
+          "cli"
+        ],
+        "version": "Qwen Code v0.27.4 stable (commit f35dde84157f992bc324c0a3f59b1119344a683d, 2026-11-15); desktop-v0.27.4 installers; nightly builds also published",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "desktop_implementation": {
+          "support": "supported",
+          "answer": "Tauri 2 shell wrapping the Web Shell with bundled qwen runtime.",
+          "evidenceIds": [
+            "desktopreadme",
+            "desktoppkg"
+          ]
+        },
+        "mobile_implementation": {
+          "support": "supported",
+          "answer": "No native mobile client; phones use the web UI.",
+          "evidenceIds": [
+            "serve",
+            "nogo"
+          ]
+        },
+        "hybrids": {
+          "support": "supported",
+          "answer": "Hybrid: native Tauri window hosting a web UI served by the local daemon.",
+          "evidenceIds": [
+            "desktopreadme"
+          ]
+        },
+        "implementation_evidence": {
+          "support": "supported",
+          "answer": "Pinned packages/desktop and README.",
+          "evidenceIds": [
+            "desktoppkg",
+            "desktopreadme"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "desktopreadme",
+        "desktoppkg",
+        "serve",
+        "nogo"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-05-15",
+      "researcher": "researcher-qwen-code",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "qwen-code:PLAN-01",
+      "criterionId": "PLAN-01",
+      "answer": "Prompts, @ references, headless input, chat channels, GitHub/GitLab channel events and /autofix-pr or /review on PRs; no native tracker import; external trackers stay authoritative.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli",
+          "channels"
+        ],
+        "version": "Qwen Code v0.27.4 stable (commit f35dde84157f992bc324c0a3f59b1119344a683d, 2026-11-15); desktop-v0.27.4 installers; nightly builds also published",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "local_creation": {
+          "support": "supported",
+          "answer": "Prompts create sessions and goals.",
+          "evidenceIds": [
+            "readme",
+            "goals"
+          ]
+        },
+        "prompt_intake": {
+          "support": "supported",
+          "answer": "Terminal, Web Shell, channels and headless.",
+          "evidenceIds": [
+            "readme",
+            "channels"
+          ]
+        },
+        "external_import": {
+          "support": "partial",
+          "answer": "GitHub and GitLab channels feed events; no issue import UI.",
+          "evidenceIds": [
+            "channels"
+          ]
+        },
+        "chat_git_triggers": {
+          "support": "supported",
+          "answer": "Chat and Git-host channels plus the GitHub Action trigger work.",
+          "evidenceIds": [
+            "channels",
+            "ghaction"
+          ]
+        },
+        "authoritative_tracker": {
+          "support": "supported",
+          "answer": "External tracker; the Agent Board is local files.",
+          "evidenceIds": [
+            "board",
+            "nogo"
+          ]
+        },
+        "stable_ids": {
+          "support": "partial",
+          "answer": "Board and session IDs exist locally.",
+          "evidenceIds": [
+            "board"
+          ]
+        },
+        "sync": {
+          "support": "unsupported",
+          "answer": "No tracker sync.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "supported_edits": {
+          "support": "partial",
+          "answer": "Via channel tools only.",
+          "evidenceIds": [
+            "channels"
+          ]
+        },
+        "external_roundtrips": {
+          "support": "supported",
+          "answer": "Issue management occurs on the hosting platform.",
+          "evidenceIds": [
+            "channels",
+            "nogo"
+          ]
+        }
+      },
+      "limitations": [
+        "external_import: GitHub and GitLab channels feed events; no issue import UI.",
+        "stable_ids: Board and session IDs exist locally.",
+        "sync: No tracker sync."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "goals",
+        "channels",
+        "ghaction",
+        "board",
+        "nogo"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-qwen-code",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "qwen-code:PLAN-02",
+      "criterionId": "PLAN-02",
+      "answer": "Plan Mode writes a read-only plan before changes; /goal keeps a session working until an independent verifier accepts the outcome within a token budget; no structured acceptance criteria or revision history beyond sessions.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "Qwen Code v0.27.4 stable (commit f35dde84157f992bc324c0a3f59b1119344a683d, 2026-11-15); desktop-v0.27.4 installers; nightly builds also published",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "plans": {
+          "support": "supported",
+          "answer": "Plan Mode.",
+          "evidenceIds": [
+            "approval"
+          ]
+        },
+        "acceptance_criteria": {
+          "support": "partial",
+          "answer": "Goals state a condition checked by an independent verifier.",
+          "evidenceIds": [
+            "goals"
+          ]
+        },
+        "editors": {
+          "support": "partial",
+          "answer": "Plans are reviewed in the session UI.",
+          "evidenceIds": [
+            "approval"
+          ]
+        },
+        "revisions": {
+          "support": "unknown",
+          "answer": "Not established.",
+          "evidenceIds": []
+        },
+        "implementation_links": {
+          "support": "partial",
+          "answer": "Goal status ties outcome to the session.",
+          "evidenceIds": [
+            "goals"
+          ]
+        },
+        "amendment": {
+          "support": "supported",
+          "answer": "Goals can be replaced mid-run.",
+          "evidenceIds": [
+            "goals"
+          ]
+        },
+        "restart_persistence": {
+          "support": "partial",
+          "answer": "Sessions can be resumed.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        }
+      },
+      "limitations": [
+        "Plans are session artifacts; goals are verified by a model verifier."
+      ],
+      "unknownReason": "See unknown atomic answers for the closed-component, hosted-service or business-fact gaps.",
+      "evidenceIds": [
+        "approval",
+        "goals",
+        "sessions"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-qwen-code",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "qwen-code:PLAN-03",
+      "criterionId": "PLAN-03",
+      "answer": "Agent Team (experimental) shares a task list among leader and teammates; Agent Board is an experimental file-based task board; Dynamic Workflows orchestrate agents; no epics, enforced blockers or persistent hierarchy across sessions.",
+      "support": "partial",
+      "availability": "beta",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "Qwen Code v0.27.4 stable (commit f35dde84157f992bc324c0a3f59b1119344a683d, 2026-11-15); desktop-v0.27.4 installers; nightly builds also published",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "epics": {
+          "support": "unsupported",
+          "answer": "No epic entity found.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "hierarchy": {
+          "support": "partial",
+          "answer": "Leader and teammates; board tasks are flat.",
+          "evidenceIds": [
+            "team",
+            "board"
+          ]
+        },
+        "blockers": {
+          "support": "unknown",
+          "answer": "Board and team dependency fields not verified.",
+          "evidenceIds": []
+        },
+        "readiness": {
+          "support": "unknown",
+          "answer": "Not established.",
+          "evidenceIds": []
+        },
+        "enforcement": {
+          "support": "unsupported",
+          "answer": "Board does not start or wake agents; owners are labels.",
+          "evidenceIds": [
+            "board"
+          ]
+        },
+        "state_propagation": {
+          "support": "unknown",
+          "answer": "Not established.",
+          "evidenceIds": []
+        },
+        "task_to_epic": {
+          "support": "unsupported",
+          "answer": "No epic concept.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "identity_retention": {
+          "support": "unknown",
+          "answer": "Not established.",
+          "evidenceIds": []
+        },
+        "workflow_constraints": {
+          "support": "supported",
+          "answer": "No rigid workflow required.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Team and board features are experimental and local."
+      ],
+      "unknownReason": "See unknown atomic answers for the closed-component, hosted-service or business-fact gaps.",
+      "evidenceIds": [
+        "nogo",
+        "team",
+        "board",
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-qwen-code",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "qwen-code:PLAN-04",
+      "criterionId": "PLAN-04",
+      "answer": "QWEN.md and AGENTS.md briefings, rules, Auto-Memory (agent-written notes recalled across sessions), Skills and Auto-Skills, optional mem0 integration; user and project scope; memory files can be edited or deleted.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "Qwen Code v0.27.4 stable (commit f35dde84157f992bc324c0a3f59b1119344a683d, 2026-11-15); desktop-v0.27.4 installers; nightly builds also published",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "instructions": {
+          "support": "supported",
+          "answer": "QWEN.md, AGENTS.md and rules.",
+          "evidenceIds": [
+            "memory"
+          ]
+        },
+        "skills": {
+          "support": "supported",
+          "answer": "Built-in and generated skills.",
+          "evidenceIds": [
+            "skills"
+          ]
+        },
+        "project_docs": {
+          "support": "supported",
+          "answer": "Briefings load automatically.",
+          "evidenceIds": [
+            "memory"
+          ]
+        },
+        "memory": {
+          "support": "supported",
+          "answer": "Auto-Memory.",
+          "evidenceIds": [
+            "memory"
+          ]
+        },
+        "scope": {
+          "support": "supported",
+          "answer": "User and project scope.",
+          "evidenceIds": [
+            "memory"
+          ]
+        },
+        "provenance": {
+          "support": "partial",
+          "answer": "Memory files are visible; provenance details not verified.",
+          "evidenceIds": [
+            "memory"
+          ]
+        },
+        "correction": {
+          "support": "supported",
+          "answer": "Edit memory files.",
+          "evidenceIds": [
+            "memory"
+          ]
+        },
+        "deletion": {
+          "support": "supported",
+          "answer": "Delete memory files.",
+          "evidenceIds": [
+            "memory"
+          ]
+        },
+        "freshness": {
+          "support": "partial",
+          "answer": "/curator maintains skills.",
+          "evidenceIds": [
+            "skills"
+          ]
+        },
+        "takeover_continuity": {
+          "support": "partial",
+          "answer": "Project files travel with Git; sessions are local.",
+          "evidenceIds": [
+            "memory",
+            "sessions"
+          ]
+        }
+      },
+      "limitations": [
+        "Auto-skills opt-in; staleness control is manual or via /curator."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "memory",
+        "skills",
+        "sessions"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-qwen-code",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "qwen-code:PLAN-05",
+      "criterionId": "PLAN-05",
+      "answer": "File search tools, LSP integration (experimental, opt-in), web search (QwenCloud keys), MCP resources, image and terminal-image input, token caching; no persistent code index, citations or architecture enforcement.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "Qwen Code v0.27.4 stable (commit f35dde84157f992bc324c0a3f59b1119344a683d, 2026-11-15); desktop-v0.27.4 installers; nightly builds also published",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "code_search": {
+          "support": "supported",
+          "answer": "Search tools and LSP.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "indexing": {
+          "support": "unsupported",
+          "answer": "No persistent index found.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "external_knowledge": {
+          "support": "supported",
+          "answer": "Web search and MCP.",
+          "evidenceIds": [
+            "auth",
+            "mcp"
+          ]
+        },
+        "multimodal_inputs": {
+          "support": "partial",
+          "answer": "Images supported; details not verified.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "freshness": {
+          "support": "partial",
+          "answer": "Reads live files.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "access_scope": {
+          "support": "supported",
+          "answer": "Trusted folders and approval modes.",
+          "evidenceIds": [
+            "approval"
+          ]
+        },
+        "api_retrieval": {
+          "support": "unsupported",
+          "answer": "No retrieval API.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "citations": {
+          "support": "unknown",
+          "answer": "Not established.",
+          "evidenceIds": []
+        },
+        "conflict_detection": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "review_enforcement": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        }
+      },
+      "limitations": [
+        "No repository index or review-time enforcement."
+      ],
+      "unknownReason": "See unknown atomic answers for the closed-component, hosted-service or business-fact gaps.",
+      "evidenceIds": [
+        "readme",
+        "nogo",
+        "auth",
+        "mcp",
+        "approval"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-qwen-code",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "qwen-code:PLAN-06",
+      "criterionId": "PLAN-06",
+      "answer": "No native issue management; sessions are archivable and an experimental local Agent Board holds simple tasks.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "Qwen Code v0.27.4 stable (commit f35dde84157f992bc324c0a3f59b1119344a683d, 2026-11-15); desktop-v0.27.4 installers; nightly builds also published",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "create": {
+          "support": "partial",
+          "answer": "qwen board task creates local board tasks.",
+          "evidenceIds": [
+            "board"
+          ]
+        },
+        "edit": {
+          "support": "unsupported",
+          "answer": "No persistent issue tracker in the inspected release.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "discuss": {
+          "support": "unsupported",
+          "answer": "No persistent issue tracker in the inspected release.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "prioritize": {
+          "support": "unsupported",
+          "answer": "No persistent issue tracker in the inspected release.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "label": {
+          "support": "unsupported",
+          "answer": "No persistent issue tracker in the inspected release.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "assign": {
+          "support": "unsupported",
+          "answer": "No persistent issue tracker in the inspected release.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "search": {
+          "support": "partial",
+          "answer": "Session browsing.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "filter": {
+          "support": "unsupported",
+          "answer": "No persistent issue tracker in the inspected release.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "archive": {
+          "support": "partial",
+          "answer": "Sessions can be archived.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "reopen": {
+          "support": "partial",
+          "answer": "Resume sessions.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "project_epic_views": {
+          "support": "unsupported",
+          "answer": "No persistent issue tracker in the inspected release.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "idea_parking": {
+          "support": "unsupported",
+          "answer": "No persistent issue tracker in the inspected release.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "explicit_dispatch": {
+          "support": "unsupported",
+          "answer": "No persistent issue tracker in the inspected release.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "task_session_separation": {
+          "support": "unsupported",
+          "answer": "No persistent issue tracker in the inspected release.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "metadata": {
+          "support": "unsupported",
+          "answer": "No persistent issue tracker in the inspected release.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "durable_states": {
+          "support": "unsupported",
+          "answer": "No persistent issue tracker in the inspected release.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "external_tracker_requirement": {
+          "support": "unsupported",
+          "answer": "No persistent issue tracker in the inspected release.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        }
+      },
+      "limitations": [
+        "create: qwen board task creates local board tasks.",
+        "edit: No persistent issue tracker in the inspected release.",
+        "discuss: No persistent issue tracker in the inspected release."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "board",
+        "nogo",
+        "sessions"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-qwen-code",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "qwen-code:PLAN-07",
+      "criterionId": "PLAN-07",
+      "answer": "Agents can read and write the experimental Agent Board through qwen board commands with an actor label; records are local files, not a shared issue system.",
+      "support": "partial",
+      "availability": "beta",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "Qwen Code v0.27.4 stable (commit f35dde84157f992bc324c0a3f59b1119344a683d, 2026-11-15); desktop-v0.27.4 installers; nightly builds also published",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "shared_ids": {
+          "support": "partial",
+          "answer": "Board task IDs.",
+          "evidenceIds": [
+            "board"
+          ]
+        },
+        "read": {
+          "support": "supported",
+          "answer": "qwen board show.",
+          "evidenceIds": [
+            "board"
+          ]
+        },
+        "create": {
+          "support": "supported",
+          "answer": "qwen board task.",
+          "evidenceIds": [
+            "board"
+          ]
+        },
+        "update": {
+          "support": "unsupported",
+          "answer": "No shared durable issue records.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "claim": {
+          "support": "unsupported",
+          "answer": "No shared durable issue records.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "assign": {
+          "support": "unsupported",
+          "answer": "No shared durable issue records.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "state_changes": {
+          "support": "unsupported",
+          "answer": "No shared durable issue records.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "dependencies": {
+          "support": "unsupported",
+          "answer": "No shared durable issue records.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "children": {
+          "support": "unsupported",
+          "answer": "No shared durable issue records.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "results": {
+          "support": "unsupported",
+          "answer": "No shared durable issue records.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "human_visibility": {
+          "support": "unsupported",
+          "answer": "No shared durable issue records.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "attribution": {
+          "support": "partial",
+          "answer": "--as declares the actor label.",
+          "evidenceIds": [
+            "board"
+          ]
+        },
+        "permissions": {
+          "support": "unsupported",
+          "answer": "No shared durable issue records.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "conflicts": {
+          "support": "unsupported",
+          "answer": "No shared durable issue records.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        }
+      },
+      "limitations": [
+        "Experimental on-disk format; owner is only a label."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "board",
+        "nogo"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-qwen-code",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "qwen-code:PLAN-08",
+      "criterionId": "PLAN-08",
+      "answer": "No living product specification feature.",
+      "support": "unsupported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "Qwen Code v0.27.4 stable (commit f35dde84157f992bc324c0a3f59b1119344a683d, 2026-11-15); desktop-v0.27.4 installers; nightly builds also published",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "persistent_requirements": {
+          "support": "unsupported",
+          "answer": "No persistent requirements or drift detection in docs or inspected source.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "human_edits": {
+          "support": "unsupported",
+          "answer": "No persistent requirements or drift detection in docs or inspected source.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "agent_edits": {
+          "support": "unsupported",
+          "answer": "No persistent requirements or drift detection in docs or inspected source.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "revisions": {
+          "support": "unsupported",
+          "answer": "No persistent requirements or drift detection in docs or inspected source.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "approvals": {
+          "support": "unsupported",
+          "answer": "No persistent requirements or drift detection in docs or inspected source.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "implementation_links": {
+          "support": "unsupported",
+          "answer": "No persistent requirements or drift detection in docs or inspected source.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "later_retrieval": {
+          "support": "unsupported",
+          "answer": "No persistent requirements or drift detection in docs or inspected source.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "drift_detection": {
+          "support": "unsupported",
+          "answer": "No persistent requirements or drift detection in docs or inspected source.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "review_integration": {
+          "support": "unsupported",
+          "answer": "No persistent requirements or drift detection in docs or inspected source.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "nogo"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-qwen-code",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "qwen-code:COORD-01",
+      "criterionId": "COORD-01",
+      "answer": "Multiple sessions share one daemon across workspaces; background subagents, Agent Team and Arena run concurrent agents; multiple CLI processes run independently; no documented quotas.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli",
+          "web"
+        ],
+        "version": "Qwen Code v0.27.4 stable (commit f35dde84157f992bc324c0a3f59b1119344a683d, 2026-11-15); desktop-v0.27.4 installers; nightly builds also published",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "concurrent_sessions": {
+          "support": "supported",
+          "answer": "Daemon hosts multiple sessions and workspaces for many clients.",
+          "evidenceIds": [
+            "serve"
+          ]
+        },
+        "concurrent_tasks": {
+          "support": "supported",
+          "answer": "Background subagents, workflows and Arena agents.",
+          "evidenceIds": [
+            "subagents",
+            "arena"
+          ]
+        },
+        "quotas": {
+          "support": "unknown",
+          "answer": "Not stated.",
+          "evidenceIds": []
+        },
+        "observed_concurrency": {
+          "support": "unknown",
+          "answer": "Not measured.",
+          "evidenceIds": []
+        },
+        "status_visibility": {
+          "support": "supported",
+          "answer": "Web Shell sidebar and Agent View tabs show sessions and teammates.",
+          "evidenceIds": [
+            "serve",
+            "team"
+          ]
+        }
+      },
+      "limitations": [
+        "Daemon runs up to one primary ACP child plus on-demand children per workspace; no stated quota."
+      ],
+      "unknownReason": "See unknown atomic answers for the closed-component, hosted-service or business-fact gaps.",
+      "evidenceIds": [
+        "serve",
+        "subagents",
+        "arena",
+        "team"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-qwen-code",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "qwen-code:COORD-02",
+      "criterionId": "COORD-02",
+      "answer": "No assignment or claims between humans; Agent Board owners are recorded labels; cross-session protocol buffers messages; no exclusive ownership.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "Qwen Code v0.27.4 stable (commit f35dde84157f992bc324c0a3f59b1119344a683d, 2026-11-15); desktop-v0.27.4 installers; nightly builds also published",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "human_assignment": {
+          "support": "unsupported",
+          "answer": "No enforced assignment or claims in inspected docs/source.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "agent_assignment": {
+          "support": "partial",
+          "answer": "Leader assigns workstreams to teammates in Agent Team.",
+          "evidenceIds": [
+            "team"
+          ]
+        },
+        "claims": {
+          "support": "partial",
+          "answer": "Board task owner label.",
+          "evidenceIds": [
+            "board"
+          ]
+        },
+        "queues": {
+          "support": "partial",
+          "answer": "Cross-session messages queue up to 50.",
+          "evidenceIds": [
+            "board"
+          ]
+        },
+        "routing": {
+          "support": "unsupported",
+          "answer": "No enforced assignment or claims in inspected docs/source.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "duplicate_prevention": {
+          "support": "unsupported",
+          "answer": "No enforced assignment or claims in inspected docs/source.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "ownership_enforcement": {
+          "support": "unsupported",
+          "answer": "No enforced assignment or claims in inspected docs/source.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        }
+      },
+      "limitations": [
+        "human_assignment: No enforced assignment or claims in inspected docs/source.",
+        "agent_assignment: Leader assigns workstreams to teammates in Agent Team.",
+        "claims: Board task owner label."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "nogo",
+        "team",
+        "board"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-qwen-code",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "qwen-code:COORD-03",
+      "criterionId": "COORD-03",
+      "answer": "Subagents (foreground/background), experimental Agent Team with leader and teammates exchanging messages and a shared task list, Agent Arena across models, Dynamic Workflows; teammates visible in Agent View; a skill lets other agents delegate to Qwen Code via ACP.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "Qwen Code v0.27.4 stable (commit f35dde84157f992bc324c0a3f59b1119344a683d, 2026-11-15); desktop-v0.27.4 installers; nightly builds also published",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "roles": {
+          "support": "supported",
+          "answer": "Leader, teammates, read-only investigators and an optional single worktree writer.",
+          "evidenceIds": [
+            "team"
+          ]
+        },
+        "model_harness_effort": {
+          "support": "supported",
+          "answer": "Arena runs different models; subagents can have own model/tools.",
+          "evidenceIds": [
+            "arena",
+            "subagents"
+          ]
+        },
+        "messages": {
+          "support": "supported",
+          "answer": "Teammates exchange messages.",
+          "evidenceIds": [
+            "team"
+          ]
+        },
+        "results_return": {
+          "support": "supported",
+          "answer": "Teammates and subagents report to the leader.",
+          "evidenceIds": [
+            "team",
+            "subagents"
+          ]
+        },
+        "cross_harness": {
+          "support": "partial",
+          "answer": "Qwen Code can be delegated to by other agents via ACP, but it does not run them.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "orchestration_owner": {
+          "support": "supported",
+          "answer": "Product-native.",
+          "evidenceIds": [
+            "team"
+          ]
+        },
+        "activation": {
+          "support": "supported",
+          "answer": "experimental.agentTeam setting or env var; workflows opt-in.",
+          "evidenceIds": [
+            "team",
+            "readme"
+          ]
+        },
+        "authentication": {
+          "support": "supported",
+          "answer": "Session credentials.",
+          "evidenceIds": [
+            "team"
+          ]
+        },
+        "live_progress": {
+          "support": "supported",
+          "answer": "Agent View tabs show teammate conversations and approvals.",
+          "evidenceIds": [
+            "team"
+          ]
+        },
+        "retained_results": {
+          "support": "partial",
+          "answer": "Transcripts retained per session.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "followup": {
+          "support": "partial",
+          "answer": "Teammates are reachable by messages while the team runs.",
+          "evidenceIds": [
+            "team"
+          ]
+        },
+        "invocation": {
+          "support": "supported",
+          "answer": "/coordinate skill or natural language.",
+          "evidenceIds": [
+            "team"
+          ]
+        }
+      },
+      "limitations": [
+        "Agent Team and Arena are experimental; workflows opt-in."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "team",
+        "arena",
+        "subagents",
+        "readme",
+        "sessions"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-qwen-code",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "qwen-code:COORD-04",
+      "criterionId": "COORD-04",
+      "answer": "/loop and cron tools re-run prompts on intervals (session-scoped in the terminal), Web Shell Scheduled Tasks page and channel loops persist, /autofix-pr watches PRs on an interval, daemon-managed channels run unattended; closing a terminal ends session-scoped tasks.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli",
+          "web",
+          "channels"
+        ],
+        "version": "Qwen Code v0.27.4 stable (commit f35dde84157f992bc324c0a3f59b1119344a683d, 2026-11-15); desktop-v0.27.4 installers; nightly builds also published",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "schedules": {
+          "support": "supported",
+          "answer": "Interval and time-based tasks.",
+          "evidenceIds": [
+            "cron"
+          ]
+        },
+        "events": {
+          "support": "supported",
+          "answer": "Channel messages and GitHub/GitLab events trigger agent work.",
+          "evidenceIds": [
+            "channels"
+          ]
+        },
+        "recurring_tasks": {
+          "support": "supported",
+          "answer": "/loop, cron tools, Web Shell tasks.",
+          "evidenceIds": [
+            "cron"
+          ]
+        },
+        "completion_conditions": {
+          "support": "partial",
+          "answer": "Goals complete when a verifier accepts.",
+          "evidenceIds": [
+            "goals"
+          ]
+        },
+        "scheduler_location": {
+          "support": "supported",
+          "answer": "In the Qwen Code process or daemon.",
+          "evidenceIds": [
+            "cron",
+            "serve"
+          ]
+        },
+        "overlaps": {
+          "support": "unknown",
+          "answer": "Not established.",
+          "evidenceIds": []
+        },
+        "retries": {
+          "support": "unknown",
+          "answer": "Not established.",
+          "evidenceIds": []
+        },
+        "client_independence": {
+          "support": "partial",
+          "answer": "Daemon continues while it runs; terminal tasks end with the process.",
+          "evidenceIds": [
+            "cron",
+            "serve"
+          ]
+        }
+      },
+      "limitations": [
+        "Terminal schedules live in the process; persistence needs the daemon or channels."
+      ],
+      "unknownReason": "See unknown atomic answers for the closed-component, hosted-service or business-fact gaps.",
+      "evidenceIds": [
+        "cron",
+        "channels",
+        "goals",
+        "serve"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-qwen-code",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "qwen-code:COORD-05",
+      "criterionId": "COORD-05",
+      "answer": "Interrupt, steer, approve and resume sessions; approval modes; first-responder permissions across clients; desktop and channel interactions; background notifications.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli",
+          "web"
+        ],
+        "version": "Qwen Code v0.27.4 stable (commit f35dde84157f992bc324c0a3f59b1119344a683d, 2026-11-15); desktop-v0.27.4 installers; nightly builds also published",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "pause": {
+          "support": "partial",
+          "answer": "Approvals pause; no explicit pause.",
+          "evidenceIds": [
+            "approval"
+          ]
+        },
+        "stop": {
+          "support": "supported",
+          "answer": "Cancel the current turn or stop agents.",
+          "evidenceIds": [
+            "sessions",
+            "subagents"
+          ]
+        },
+        "resume": {
+          "support": "supported",
+          "answer": "/resume.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "steer": {
+          "support": "supported",
+          "answer": "Send messages mid-run.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "notifications": {
+          "support": "partial",
+          "answer": "Completion notifications and channel pushes.",
+          "evidenceIds": [
+            "subagents",
+            "channels"
+          ]
+        },
+        "pending_decisions": {
+          "support": "supported",
+          "answer": "Permission requests shown to every connected client.",
+          "evidenceIds": [
+            "serve"
+          ]
+        },
+        "escalation": {
+          "support": "partial",
+          "answer": "Channel delivery of results.",
+          "evidenceIds": [
+            "channels"
+          ]
+        },
+        "visible_errors": {
+          "support": "supported",
+          "answer": "Errors surfaced in UI.",
+          "evidenceIds": [
+            "serve"
+          ]
+        },
+        "chat_terminal_parity": {
+          "support": "partial",
+          "answer": "Terminal, Web Shell and channels share the agent.",
+          "evidenceIds": [
+            "serve",
+            "channels"
+          ]
+        },
+        "retained_history": {
+          "support": "supported",
+          "answer": "Persisted transcripts.",
+          "evidenceIds": [
+            "serve",
+            "sessions"
+          ]
+        }
+      },
+      "limitations": [
+        "pause: Approvals pause; no explicit pause.",
+        "notifications: Completion notifications and channel pushes.",
+        "escalation: Channel delivery of results."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "approval",
+        "sessions",
+        "subagents",
+        "channels",
+        "serve"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-qwen-code",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "qwen-code:COORD-06",
+      "criterionId": "COORD-06",
+      "answer": "Web Shell sidebar lists sessions by workspace with pinned groups and Agent View tabs show teammates; no epic/fleet board.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "web"
+        ],
+        "version": "Qwen Code v0.27.4 stable (commit f35dde84157f992bc324c0a3f59b1119344a683d, 2026-11-15); desktop-v0.27.4 installers; nightly builds also published",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "fleet_fixture": {
+          "support": "partial",
+          "answer": "Sidebar grouped by workspace.",
+          "evidenceIds": [
+            "serve"
+          ]
+        },
+        "parent_child": {
+          "support": "partial",
+          "answer": "Leader and teammates tabs.",
+          "evidenceIds": [
+            "team"
+          ]
+        },
+        "dependencies": {
+          "support": "unsupported",
+          "answer": "No multi-epic fleet board in inspected source.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "attention": {
+          "support": "unsupported",
+          "answer": "No multi-epic fleet board in inspected source.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "history": {
+          "support": "supported",
+          "answer": "Persisted transcripts.",
+          "evidenceIds": [
+            "serve"
+          ]
+        },
+        "workload": {
+          "support": "unsupported",
+          "answer": "No multi-epic fleet board in inspected source.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "navigation_errors": {
+          "support": "partial",
+          "answer": "Not verified.",
+          "evidenceIds": [
+            "serve"
+          ]
+        },
+        "fixture_mode": {
+          "support": "unsupported",
+          "answer": "No multi-epic fleet board in inspected source.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        }
+      },
+      "limitations": [
+        "fleet_fixture: Sidebar grouped by workspace.",
+        "parent_child: Leader and teammates tabs.",
+        "dependencies: No multi-epic fleet board in inspected source."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "serve",
+        "team",
+        "nogo"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-qwen-code",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "qwen-code:COORD-07",
+      "criterionId": "COORD-07",
+      "answer": "Approval modes, models and skills configure runs; /goal and workflows orchestrate; Agent Team shows teammates; natural-language commands build skills; no mandatory preset.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "Qwen Code v0.27.4 stable (commit f35dde84157f992bc324c0a3f59b1119344a683d, 2026-11-15); desktop-v0.27.4 installers; nightly builds also published",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "quick_task": {
+          "support": "supported",
+          "answer": "qwen -p or interactive prompt.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "growing_epic": {
+          "support": "unsupported",
+          "answer": "No epic concept.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "presets": {
+          "support": "partial",
+          "answer": "Skills and output styles act as presets.",
+          "evidenceIds": [
+            "skills"
+          ]
+        },
+        "natural_language": {
+          "support": "supported",
+          "answer": "Dynamic Workflows are written by the model; /learn builds skills.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "agent_configuration": {
+          "support": "supported",
+          "answer": "Model and approval mode per session, subagent tools.",
+          "evidenceIds": [
+            "subagents",
+            "approval"
+          ]
+        },
+        "in_run_changes": {
+          "support": "supported",
+          "answer": "Remote runtime control changes approval mode and tools mid-session.",
+          "evidenceIds": [
+            "serve"
+          ]
+        },
+        "live_roles": {
+          "support": "supported",
+          "answer": "Agent View shows teammates.",
+          "evidenceIds": [
+            "team"
+          ]
+        },
+        "retained_relationships": {
+          "support": "partial",
+          "answer": "Transcripts.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "discoverability": {
+          "support": "supported",
+          "answer": "Slash commands and docs.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "auth_friction": {
+          "support": "partial",
+          "answer": "/auth required.",
+          "evidenceIds": [
+            "auth"
+          ]
+        }
+      },
+      "limitations": [
+        "growing_epic: No epic concept.",
+        "presets: Skills and output styles act as presets.",
+        "retained_relationships: Transcripts."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "nogo",
+        "skills",
+        "subagents",
+        "approval",
+        "serve",
+        "team",
+        "sessions",
+        "auth"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-qwen-code",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "qwen-code:RUN-01",
+      "criterionId": "RUN-01",
+      "answer": "Local execution; a long-lived daemon can run on a user server and serve clients; desktop starts a local daemon; managed-agent-server (experimental) runs hosted harness sessions on a user-trusted host or Kubernetes; no Qwen-operated cloud workspace.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli",
+          "desktop",
+          "web",
+          "api"
+        ],
+        "version": "Qwen Code v0.27.4 stable (commit f35dde84157f992bc324c0a3f59b1119344a683d, 2026-11-15); desktop-v0.27.4 installers; nightly builds also published",
+        "plan": null,
+        "os": [],
+        "executionModes": [
+          "local",
+          "own-server"
+        ],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "local": {
+          "support": "supported",
+          "answer": "CLI and desktop run locally.",
+          "evidenceIds": [
+            "readme",
+            "desktopreadme"
+          ]
+        },
+        "byo_remote": {
+          "support": "supported",
+          "answer": "qwen serve on a remote host with token and HTTPS.",
+          "evidenceIds": [
+            "serve"
+          ]
+        },
+        "self_hosted": {
+          "support": "partial",
+          "answer": "Managed Agent reference deployment (experimental).",
+          "evidenceIds": [
+            "managed"
+          ]
+        },
+        "managed_cloud": {
+          "support": "unsupported",
+          "answer": "No Qwen-operated managed cloud workspace in the repository.",
+          "evidenceIds": [
+            "managed",
+            "nogo"
+          ]
+        },
+        "hybrid": {
+          "support": "partial",
+          "answer": "Desktop Local Control shares a local daemon with a phone.",
+          "evidenceIds": [
+            "desktopreadme"
+          ]
+        },
+        "provisioning": {
+          "support": "partial",
+          "answer": "User deploys daemon or managed server.",
+          "evidenceIds": [
+            "serve",
+            "managed"
+          ]
+        },
+        "payer": {
+          "support": "partial",
+          "answer": "User pays hosts and model providers.",
+          "evidenceIds": [
+            "auth"
+          ]
+        },
+        "resources": {
+          "support": "unknown",
+          "answer": "Not stated.",
+          "evidenceIds": []
+        },
+        "region": {
+          "support": "unknown",
+          "answer": "Not stated.",
+          "evidenceIds": []
+        },
+        "expiry": {
+          "support": "unknown",
+          "answer": "Not stated.",
+          "evidenceIds": []
+        },
+        "client_disconnect": {
+          "support": "supported",
+          "answer": "Daemon continues and clients reconnect with SSE replay.",
+          "evidenceIds": [
+            "serve"
+          ]
+        },
+        "other_device_continuation": {
+          "support": "supported",
+          "answer": "Another client reattaches to active sessions.",
+          "evidenceIds": [
+            "serve"
+          ]
+        }
+      },
+      "limitations": [
+        "Daemon sessions end when the daemon stops; managed server is experimental."
+      ],
+      "unknownReason": "See unknown atomic answers for the closed-component, hosted-service or business-fact gaps.",
+      "evidenceIds": [
+        "readme",
+        "desktopreadme",
+        "serve",
+        "managed",
+        "nogo",
+        "auth"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-qwen-code",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "qwen-code:RUN-02",
+      "criterionId": "RUN-02",
+      "answer": "Optional worktrees (--worktree, Arena, managed session worktrees), Linux bubblewrap tool sandbox, whole-CLI sandbox methods (Docker, Podman, macOS Seatbelt); default shared checkout.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "Qwen Code v0.27.4 stable (commit f35dde84157f992bc324c0a3f59b1119344a683d, 2026-11-15); desktop-v0.27.4 installers; nightly builds also published",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "checkout": {
+          "support": "supported",
+          "answer": "Default shared checkout.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "branch": {
+          "support": "partial",
+          "answer": "Worktrees create branches.",
+          "evidenceIds": [
+            "worktree"
+          ]
+        },
+        "worktree": {
+          "support": "supported",
+          "answer": "qwen --worktree and Arena.",
+          "evidenceIds": [
+            "worktree",
+            "arena"
+          ]
+        },
+        "container": {
+          "support": "supported",
+          "answer": "Docker/Podman sandbox methods.",
+          "evidenceIds": [
+            "sandbox"
+          ]
+        },
+        "vm": {
+          "support": "unsupported",
+          "answer": "No VM sandbox found.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "os_sandbox": {
+          "support": "supported",
+          "answer": "bubblewrap on Linux and Seatbelt on macOS.",
+          "evidenceIds": [
+            "sandbox"
+          ]
+        },
+        "filesystem": {
+          "support": "supported",
+          "answer": "Sandbox confines tool execution.",
+          "evidenceIds": [
+            "sandbox"
+          ]
+        },
+        "process": {
+          "support": "supported",
+          "answer": "Sandboxed tool processes.",
+          "evidenceIds": [
+            "sandbox"
+          ]
+        },
+        "network": {
+          "support": "partial",
+          "answer": "Sandbox settings only.",
+          "evidenceIds": [
+            "sandbox"
+          ]
+        },
+        "secrets": {
+          "support": "unknown",
+          "answer": "Not established.",
+          "evidenceIds": []
+        },
+        "code_separation": {
+          "support": "supported",
+          "answer": "Worktrees isolate edits.",
+          "evidenceIds": [
+            "worktree"
+          ]
+        },
+        "security_boundary": {
+          "support": "partial",
+          "answer": "Docs describe the boundary as the strongest supported on Linux with bwrap; no hostile-code claim checked.",
+          "evidenceIds": [
+            "sandbox"
+          ]
+        }
+      },
+      "limitations": [
+        "Sandbox and worktrees are opt-in."
+      ],
+      "unknownReason": "See unknown atomic answers for the closed-component, hosted-service or business-fact gaps.",
+      "evidenceIds": [
+        "readme",
+        "worktree",
+        "arena",
+        "sandbox",
+        "nogo"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-qwen-code",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "qwen-code:RUN-03",
+      "criterionId": "RUN-03",
+      "answer": "Persisted transcripts and resume; daemon SSE reconnect with Last-Event-ID; hosted-workspace recovery documentation; conversations recovery docs; session-scoped cron is lost with the process.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli",
+          "web"
+        ],
+        "version": "Qwen Code v0.27.4 stable (commit f35dde84157f992bc324c0a3f59b1119344a683d, 2026-11-15); desktop-v0.27.4 installers; nightly builds also published",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "client_disconnect": {
+          "support": "supported",
+          "answer": "Daemon clients reconnect and resume streams.",
+          "evidenceIds": [
+            "serve"
+          ]
+        },
+        "worker_crash": {
+          "support": "partial",
+          "answer": "Recovery docs exist (conversations recovery); behavior not verified.",
+          "evidenceIds": [
+            "serve"
+          ]
+        },
+        "service_restart": {
+          "support": "partial",
+          "answer": "Persisted transcripts are replayable.",
+          "evidenceIds": [
+            "serve",
+            "sessions"
+          ]
+        },
+        "expiry": {
+          "support": "unknown",
+          "answer": "Not stated.",
+          "evidenceIds": []
+        },
+        "transcript_reload": {
+          "support": "supported",
+          "answer": "Paged persisted transcripts.",
+          "evidenceIds": [
+            "serve"
+          ]
+        },
+        "process_reconnect": {
+          "support": "supported",
+          "answer": "SSE replay window.",
+          "evidenceIds": [
+            "serve"
+          ]
+        },
+        "task_resume": {
+          "support": "supported",
+          "answer": "/resume.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "state_reconstruction": {
+          "support": "supported",
+          "answer": "Transcript replay.",
+          "evidenceIds": [
+            "serve"
+          ]
+        },
+        "context_loss": {
+          "support": "unknown",
+          "answer": "Not established.",
+          "evidenceIds": []
+        },
+        "duplicate_actions": {
+          "support": "unknown",
+          "answer": "Not established.",
+          "evidenceIds": []
+        },
+        "manual_repair": {
+          "support": "unknown",
+          "answer": "Not established.",
+          "evidenceIds": []
+        },
+        "multi_day_continuity": {
+          "support": "supported",
+          "answer": "Sessions persist.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        }
+      },
+      "limitations": [
+        "Terminal process loss ends in-flight work."
+      ],
+      "unknownReason": "See unknown atomic answers for the closed-component, hosted-service or business-fact gaps.",
+      "evidenceIds": [
+        "serve",
+        "sessions"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-qwen-code",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "qwen-code:RUN-04",
+      "criterionId": "RUN-04",
+      "answer": "No dependency, cache or port management; managed session worktrees docs exist; agent runs project commands.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "Qwen Code v0.27.4 stable (commit f35dde84157f992bc324c0a3f59b1119344a683d, 2026-11-15); desktop-v0.27.4 installers; nightly builds also published",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "dependencies": {
+          "support": "unsupported",
+          "answer": "No dev-environment management found in inspected docs and source.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "caches": {
+          "support": "unsupported",
+          "answer": "No dev-environment management found in inspected docs and source.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "snapshots": {
+          "support": "unsupported",
+          "answer": "No dev-environment management found in inspected docs and source.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "services": {
+          "support": "unsupported",
+          "answer": "No dev-environment management found in inspected docs and source.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "ports": {
+          "support": "unsupported",
+          "answer": "No dev-environment management found in inspected docs and source.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "secrets": {
+          "support": "partial",
+          "answer": "Daemon token and provider keys in settings.",
+          "evidenceIds": [
+            "serve"
+          ]
+        },
+        "duplicate_installs": {
+          "support": "unsupported",
+          "answer": "No dev-environment management found in inspected docs and source.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "collisions": {
+          "support": "unsupported",
+          "answer": "No dev-environment management found in inspected docs and source.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "remote_setup": {
+          "support": "unsupported",
+          "answer": "No dev-environment management found in inspected docs and source.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "automatic_repair": {
+          "support": "unsupported",
+          "answer": "No dev-environment management found in inspected docs and source.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        }
+      },
+      "limitations": [
+        "dependencies: No dev-environment management found in inspected docs and source.",
+        "caches: No dev-environment management found in inspected docs and source.",
+        "snapshots: No dev-environment management found in inspected docs and source."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "nogo",
+        "serve"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-qwen-code",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "qwen-code:RUN-05",
+      "criterionId": "RUN-05",
+      "answer": "Goals run within a token budget, loop protection warns or stops loops, session-scoped cron, provider retries; no turn or spend limits beyond provider plans.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "Qwen Code v0.27.4 stable (commit f35dde84157f992bc324c0a3f59b1119344a683d, 2026-11-15); desktop-v0.27.4 installers; nightly builds also published",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "time_limits": {
+          "support": "unknown",
+          "answer": "Not established.",
+          "evidenceIds": []
+        },
+        "turn_limits": {
+          "support": "unknown",
+          "answer": "Not established.",
+          "evidenceIds": []
+        },
+        "token_limits": {
+          "support": "supported",
+          "answer": "Goals have a token budget; token caching.",
+          "evidenceIds": [
+            "goals"
+          ]
+        },
+        "spend_limits": {
+          "support": "unknown",
+          "answer": "Closed or hosted: plan quotas are Alibaba service matters.",
+          "evidenceIds": []
+        },
+        "timeouts": {
+          "support": "unknown",
+          "answer": "Not established.",
+          "evidenceIds": []
+        },
+        "retries": {
+          "support": "unknown",
+          "answer": "Not established.",
+          "evidenceIds": []
+        },
+        "provider_failures": {
+          "support": "unknown",
+          "answer": "Not established.",
+          "evidenceIds": []
+        },
+        "enforcement": {
+          "support": "partial",
+          "answer": "Goal budget and loop protection are enforced.",
+          "evidenceIds": [
+            "goals",
+            "settings"
+          ]
+        }
+      },
+      "limitations": [
+        "enforcement: Goal budget and loop protection are enforced."
+      ],
+      "unknownReason": "See unknown atomic answers for the closed-component, hosted-service or business-fact gaps.",
+      "evidenceIds": [
+        "goals",
+        "settings"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-qwen-code",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "qwen-code:RUN-06",
+      "criterionId": "RUN-06",
+      "answer": "Telemetry settings, context-cost view, usage statistics, transcripts and daemon logs; no cross-project dashboard.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli",
+          "web"
+        ],
+        "version": "Qwen Code v0.27.4 stable (commit f35dde84157f992bc324c0a3f59b1119344a683d, 2026-11-15); desktop-v0.27.4 installers; nightly builds also published",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "logs": {
+          "support": "supported",
+          "answer": "Daemon logs and transcripts.",
+          "evidenceIds": [
+            "serve"
+          ]
+        },
+        "traces": {
+          "support": "partial",
+          "answer": "Telemetry export target local or gcp.",
+          "evidenceIds": [
+            "settings"
+          ]
+        },
+        "failure_reasons": {
+          "support": "partial",
+          "answer": "Errors surfaced in UI.",
+          "evidenceIds": [
+            "serve"
+          ]
+        },
+        "usage_export": {
+          "support": "partial",
+          "answer": "Telemetry file/GCP.",
+          "evidenceIds": [
+            "settings"
+          ]
+        },
+        "task_stats": {
+          "support": "partial",
+          "answer": "Context-cost feature exists.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "agent_stats": {
+          "support": "unknown",
+          "answer": "Not established.",
+          "evidenceIds": []
+        },
+        "project_stats": {
+          "support": "unknown",
+          "answer": "Not established.",
+          "evidenceIds": []
+        },
+        "time_stats": {
+          "support": "partial",
+          "answer": "Telemetry.",
+          "evidenceIds": [
+            "settings"
+          ]
+        },
+        "failure_status": {
+          "support": "partial",
+          "answer": "UI.",
+          "evidenceIds": [
+            "serve"
+          ]
+        },
+        "approval_status": {
+          "support": "supported",
+          "answer": "Permissions visible to clients.",
+          "evidenceIds": [
+            "serve"
+          ]
+        },
+        "reconnect_consistency": {
+          "support": "supported",
+          "answer": "SSE replay.",
+          "evidenceIds": [
+            "serve"
+          ]
+        },
+        "performance_method": {
+          "support": "partial",
+          "answer": "Evaluation docs report SWE-bench scores; catalog measures none.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "responsiveness": {
+          "support": "unknown",
+          "answer": "Catalog measures none; speed figures come only from ADEMark which does not list Qwen Code.",
+          "evidenceIds": []
+        }
+      },
+      "limitations": [
+        "traces: Telemetry export target local or gcp.",
+        "failure_reasons: Errors surfaced in UI.",
+        "usage_export: Telemetry file/GCP."
+      ],
+      "unknownReason": "See unknown atomic answers for the closed-component, hosted-service or business-fact gaps.",
+      "evidenceIds": [
+        "serve",
+        "settings",
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-qwen-code",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "qwen-code:RUN-07",
+      "criterionId": "RUN-07",
+      "answer": "Context-cost documentation and token caching; subscription plans meter by plan quota; no per-task currency cost aggregation verified.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "Qwen Code v0.27.4 stable (commit f35dde84157f992bc324c0a3f59b1119344a683d, 2026-11-15); desktop-v0.27.4 installers; nightly builds also published",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "task_cost": {
+          "support": "unknown",
+          "answer": "Not established from checked docs; code could answer with deeper inspection of the context-cost feature.",
+          "evidenceIds": []
+        },
+        "session_cost": {
+          "support": "unknown",
+          "answer": "Not established from checked docs; code could answer with deeper inspection of the context-cost feature.",
+          "evidenceIds": []
+        },
+        "child_cost": {
+          "support": "unknown",
+          "answer": "Not established from checked docs; code could answer with deeper inspection of the context-cost feature.",
+          "evidenceIds": []
+        },
+        "epic_cost": {
+          "support": "unknown",
+          "answer": "Not established from checked docs; code could answer with deeper inspection of the context-cost feature.",
+          "evidenceIds": []
+        },
+        "harness_aggregation": {
+          "support": "unknown",
+          "answer": "Not established from checked docs; code could answer with deeper inspection of the context-cost feature.",
+          "evidenceIds": []
+        },
+        "billed_vs_estimated": {
+          "support": "unknown",
+          "answer": "Not established from checked docs; code could answer with deeper inspection of the context-cost feature.",
+          "evidenceIds": []
+        },
+        "tokens": {
+          "support": "partial",
+          "answer": "Token caching and context-cost docs exist.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "subscription_allowance": {
+          "support": "partial",
+          "answer": "Plans carry quotas.",
+          "evidenceIds": [
+            "auth"
+          ]
+        },
+        "provider_reconciliation": {
+          "support": "unknown",
+          "answer": "Not established from checked docs; code could answer with deeper inspection of the context-cost feature.",
+          "evidenceIds": []
+        },
+        "compute_cost": {
+          "support": "unknown",
+          "answer": "Not established from checked docs; code could answer with deeper inspection of the context-cost feature.",
+          "evidenceIds": []
+        },
+        "refresh_delay": {
+          "support": "unknown",
+          "answer": "Not established from checked docs; code could answer with deeper inspection of the context-cost feature.",
+          "evidenceIds": []
+        },
+        "alerts": {
+          "support": "unknown",
+          "answer": "Not established from checked docs; code could answer with deeper inspection of the context-cost feature.",
+          "evidenceIds": []
+        },
+        "export": {
+          "support": "unknown",
+          "answer": "Not established from checked docs; code could answer with deeper inspection of the context-cost feature.",
+          "evidenceIds": []
+        },
+        "drilldown": {
+          "support": "unknown",
+          "answer": "Not established from checked docs; code could answer with deeper inspection of the context-cost feature.",
+          "evidenceIds": []
+        }
+      },
+      "limitations": [
+        "tokens: Token caching and context-cost docs exist.",
+        "subscription_allowance: Plans carry quotas."
+      ],
+      "unknownReason": "See unknown atomic answers for the closed-component, hosted-service or business-fact gaps.",
+      "evidenceIds": [
+        "readme",
+        "auth"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-qwen-code",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "qwen-code:RUN-08",
+      "criterionId": "RUN-08",
+      "answer": "No compute-aware scheduling documented; daemon limits children per workspace.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "Qwen Code v0.27.4 stable (commit f35dde84157f992bc324c0a3f59b1119344a683d, 2026-11-15); desktop-v0.27.4 installers; nightly builds also published",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "concurrency": {
+          "support": "partial",
+          "answer": "Daemon starts up to one primary child plus on-demand children.",
+          "evidenceIds": [
+            "serve"
+          ]
+        },
+        "queues": {
+          "support": "unsupported",
+          "answer": "No resource-aware scheduling or check deduplication found.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "cpu_ram": {
+          "support": "unsupported",
+          "answer": "No resource-aware scheduling or check deduplication found.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "backpressure": {
+          "support": "unsupported",
+          "answer": "No resource-aware scheduling or check deduplication found.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "host_awareness": {
+          "support": "unsupported",
+          "answer": "No resource-aware scheduling or check deduplication found.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "check_reuse": {
+          "support": "unsupported",
+          "answer": "No resource-aware scheduling or check deduplication found.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "check_deduplication": {
+          "support": "unsupported",
+          "answer": "No resource-aware scheduling or check deduplication found.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "bounded_tests": {
+          "support": "unsupported",
+          "answer": "No resource-aware scheduling or check deduplication found.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "cancellation": {
+          "support": "unsupported",
+          "answer": "No resource-aware scheduling or check deduplication found.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "fairness": {
+          "support": "unsupported",
+          "answer": "No resource-aware scheduling or check deduplication found.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "recovery": {
+          "support": "unsupported",
+          "answer": "No resource-aware scheduling or check deduplication found.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "shared_limits": {
+          "support": "unsupported",
+          "answer": "No resource-aware scheduling or check deduplication found.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        }
+      },
+      "limitations": [
+        "concurrency: Daemon starts up to one primary child plus on-demand children.",
+        "queues: No resource-aware scheduling or check deduplication found.",
+        "cpu_ram: No resource-aware scheduling or check deduplication found."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "serve",
+        "nogo"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-qwen-code",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "qwen-code:TEAM-01",
+      "criterionId": "TEAM-01",
+      "answer": "Daemon permission requests are shown to every connected client and the first responder wins; multiple clients can share sessions; chat channels let several chat users message one agent; no presence.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "web",
+          "channels"
+        ],
+        "version": "Qwen Code v0.27.4 stable (commit f35dde84157f992bc324c0a3f59b1119344a683d, 2026-11-15); desktop-v0.27.4 installers; nightly builds also published",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "visibility": {
+          "support": "supported",
+          "answer": "Multiple clients attach to the same session.",
+          "evidenceIds": [
+            "serve"
+          ]
+        },
+        "discussion": {
+          "support": "partial",
+          "answer": "Chat channels carry conversation.",
+          "evidenceIds": [
+            "channels"
+          ]
+        },
+        "comments": {
+          "support": "unsupported",
+          "answer": "No comment threads.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "presence": {
+          "support": "unsupported",
+          "answer": "No presence found.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "coprompting": {
+          "support": "partial",
+          "answer": "Multiple clients and channel users can send messages; ordering and permissions are not role-based.",
+          "evidenceIds": [
+            "serve",
+            "channels"
+          ]
+        },
+        "ordering": {
+          "support": "unknown",
+          "answer": "Not established.",
+          "evidenceIds": []
+        },
+        "conflicts": {
+          "support": "partial",
+          "answer": "First responder wins permissions.",
+          "evidenceIds": [
+            "serve"
+          ]
+        },
+        "attribution": {
+          "support": "unknown",
+          "answer": "Not established.",
+          "evidenceIds": []
+        },
+        "permissions": {
+          "support": "partial",
+          "answer": "Daemon token; channel allowlists.",
+          "evidenceIds": [
+            "serve",
+            "channels"
+          ]
+        },
+        "plan_restrictions": {
+          "support": "supported",
+          "answer": "Open source; none.",
+          "evidenceIds": [
+            "repo"
+          ]
+        },
+        "owner_online": {
+          "support": "supported",
+          "answer": "Daemon must be running.",
+          "evidenceIds": [
+            "serve"
+          ]
+        }
+      },
+      "limitations": [
+        "First-responder is not a role-aware co-steering model; presence not found."
+      ],
+      "unknownReason": "See unknown atomic answers for the closed-component, hosted-service or business-fact gaps.",
+      "evidenceIds": [
+        "serve",
+        "channels",
+        "nogo",
+        "repo"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-qwen-code",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "qwen-code:TEAM-02",
+      "criterionId": "TEAM-02",
+      "answer": "No roles or SSO in the product; managed-agent-server uses tenant IDs asserted by a trusted upstream header or signed requests.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "api"
+        ],
+        "version": "Qwen Code v0.27.4 stable (commit f35dde84157f992bc324c0a3f59b1119344a683d, 2026-11-15); desktop-v0.27.4 installers; nightly builds also published",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "organization_roles": {
+          "support": "partial",
+          "answer": "Tenant-scoped managed server.",
+          "evidenceIds": [
+            "managedpkg"
+          ]
+        },
+        "project_roles": {
+          "support": "unsupported",
+          "answer": "No role model or SSO found.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "task_roles": {
+          "support": "unsupported",
+          "answer": "No role model or SSO found.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "membership": {
+          "support": "unsupported",
+          "answer": "No role model or SSO found.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "sso": {
+          "support": "unsupported",
+          "answer": "No role model or SSO found.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "provisioning": {
+          "support": "unsupported",
+          "answer": "No role model or SSO found.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "unauthorized_access": {
+          "support": "supported",
+          "answer": "Bearer token and signed mode.",
+          "evidenceIds": [
+            "serve",
+            "managedpkg"
+          ]
+        },
+        "revocation": {
+          "support": "unsupported",
+          "answer": "No role model or SSO found.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "plan_scope": {
+          "support": "supported",
+          "answer": "Open source.",
+          "evidenceIds": [
+            "repo"
+          ]
+        }
+      },
+      "limitations": [
+        "organization_roles: Tenant-scoped managed server.",
+        "project_roles: No role model or SSO found.",
+        "task_roles: No role model or SSO found."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "managedpkg",
+        "nogo",
+        "serve",
+        "repo"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-qwen-code",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "qwen-code:TEAM-03",
+      "criterionId": "TEAM-03",
+      "answer": "Approval modes (plan, default, auto-edit, classifier Auto Mode, yolo), per-tool permission prompts, trusted folders, sandbox options, daemon bearer token and first-responder approvals.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli",
+          "web"
+        ],
+        "version": "Qwen Code v0.27.4 stable (commit f35dde84157f992bc324c0a3f59b1119344a683d, 2026-11-15); desktop-v0.27.4 installers; nightly builds also published",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "command": {
+          "support": "supported",
+          "answer": "Shell confirmation by approval mode.",
+          "evidenceIds": [
+            "approval"
+          ]
+        },
+        "tool": {
+          "support": "supported",
+          "answer": "Per-tool approvals.",
+          "evidenceIds": [
+            "approval"
+          ]
+        },
+        "network": {
+          "support": "partial",
+          "answer": "Sandbox settings.",
+          "evidenceIds": [
+            "sandbox"
+          ]
+        },
+        "secret": {
+          "support": "unknown",
+          "answer": "Not established.",
+          "evidenceIds": []
+        },
+        "delivery": {
+          "support": "partial",
+          "answer": "Commands such as git push need approval by mode.",
+          "evidenceIds": [
+            "approval"
+          ]
+        },
+        "approver_identity": {
+          "support": "partial",
+          "answer": "First responder client.",
+          "evidenceIds": [
+            "serve"
+          ]
+        },
+        "lifetime": {
+          "support": "unknown",
+          "answer": "Not established.",
+          "evidenceIds": []
+        },
+        "allow": {
+          "support": "supported",
+          "answer": "Allow.",
+          "evidenceIds": [
+            "approval"
+          ]
+        },
+        "deny": {
+          "support": "supported",
+          "answer": "Deny.",
+          "evidenceIds": [
+            "approval"
+          ]
+        },
+        "revoke": {
+          "support": "unknown",
+          "answer": "Not established.",
+          "evidenceIds": []
+        },
+        "tunnels": {
+          "support": "partial",
+          "answer": "Token and HTTPS requirements for remote daemon.",
+          "evidenceIds": [
+            "serve"
+          ]
+        },
+        "defaults": {
+          "support": "supported",
+          "answer": "Default mode prompts.",
+          "evidenceIds": [
+            "approval"
+          ]
+        },
+        "safer_modes": {
+          "support": "supported",
+          "answer": "Plan mode and sandbox.",
+          "evidenceIds": [
+            "approval",
+            "sandbox"
+          ]
+        },
+        "enforcement": {
+          "support": "partial",
+          "answer": "Mode enforcement in product.",
+          "evidenceIds": [
+            "approval"
+          ]
+        }
+      },
+      "limitations": [
+        "network: Sandbox settings.",
+        "delivery: Commands such as git push need approval by mode.",
+        "approver_identity: First responder client."
+      ],
+      "unknownReason": "See unknown atomic answers for the closed-component, hosted-service or business-fact gaps.",
+      "evidenceIds": [
+        "approval",
+        "sandbox",
+        "serve"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-qwen-code",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "qwen-code:TEAM-04",
+      "criterionId": "TEAM-04",
+      "answer": "Persisted transcripts and optional telemetry; no attributed multi-user audit or integrity model.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "Qwen Code v0.27.4 stable (commit f35dde84157f992bc324c0a3f59b1119344a683d, 2026-11-15); desktop-v0.27.4 installers; nightly builds also published",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "actions": {
+          "support": "supported",
+          "answer": "Transcripts record tool calls.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "approvals": {
+          "support": "unknown",
+          "answer": "Not established; code could answer with deeper inspection.",
+          "evidenceIds": []
+        },
+        "edits": {
+          "support": "unknown",
+          "answer": "Not established; code could answer with deeper inspection.",
+          "evidenceIds": []
+        },
+        "discussion": {
+          "support": "unknown",
+          "answer": "Not established; code could answer with deeper inspection.",
+          "evidenceIds": []
+        },
+        "decisions": {
+          "support": "unknown",
+          "answer": "Not established; code could answer with deeper inspection.",
+          "evidenceIds": []
+        },
+        "cross_user_persistence": {
+          "support": "unsupported",
+          "answer": "Single-user local data.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "cross_session_persistence": {
+          "support": "supported",
+          "answer": "Persisted sessions.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "export": {
+          "support": "partial",
+          "answer": "Telemetry export.",
+          "evidenceIds": [
+            "settings"
+          ]
+        },
+        "mutability": {
+          "support": "unknown",
+          "answer": "Not established; code could answer with deeper inspection.",
+          "evidenceIds": []
+        },
+        "retention": {
+          "support": "unknown",
+          "answer": "Not established; code could answer with deeper inspection.",
+          "evidenceIds": []
+        },
+        "integrity": {
+          "support": "unknown",
+          "answer": "Not established; code could answer with deeper inspection.",
+          "evidenceIds": []
+        }
+      },
+      "limitations": [
+        "cross_user_persistence: Single-user local data.",
+        "export: Telemetry export."
+      ],
+      "unknownReason": "See unknown atomic answers for the closed-component, hosted-service or business-fact gaps.",
+      "evidenceIds": [
+        "sessions",
+        "nogo",
+        "settings"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-qwen-code",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "qwen-code:TEAM-05",
+      "criterionId": "TEAM-05",
+      "answer": "Desktop and Web Shell show diffs; VS Code extension shows native diffs; /review reviews changes; no review queue or comments workflow.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "web",
+          "ide"
+        ],
+        "version": "Qwen Code v0.27.4 stable (commit f35dde84157f992bc324c0a3f59b1119344a683d, 2026-11-15); desktop-v0.27.4 installers; nightly builds also published",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "pending_reviews": {
+          "support": "unsupported",
+          "answer": "No review queue or request-changes workflow found.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "change_understanding": {
+          "support": "supported",
+          "answer": "Native diffs in VS Code and Web Shell.",
+          "evidenceIds": [
+            "vscode",
+            "webshell"
+          ]
+        },
+        "evidence_navigation": {
+          "support": "unsupported",
+          "answer": "No review queue or request-changes workflow found.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "comments": {
+          "support": "unsupported",
+          "answer": "No review queue or request-changes workflow found.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "request_changes": {
+          "support": "partial",
+          "answer": "Send follow-up prompts.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "shipping_guidance": {
+          "support": "unsupported",
+          "answer": "No review queue or request-changes workflow found.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "effort": {
+          "support": "unsupported",
+          "answer": "No review queue or request-changes workflow found.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "missed_evidence": {
+          "support": "unsupported",
+          "answer": "No review queue or request-changes workflow found.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "keyboard": {
+          "support": "partial",
+          "answer": "Web Shell and terminal shortcuts.",
+          "evidenceIds": [
+            "serve"
+          ]
+        },
+        "narrow_screen": {
+          "support": "unsupported",
+          "answer": "No review queue or request-changes workflow found.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "context_switching": {
+          "support": "unsupported",
+          "answer": "No review queue or request-changes workflow found.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "roles": {
+          "support": "unsupported",
+          "answer": "No review queue or request-changes workflow found.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "retained_context": {
+          "support": "supported",
+          "answer": "Sessions persist.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        }
+      },
+      "limitations": [
+        "pending_reviews: No review queue or request-changes workflow found.",
+        "evidence_navigation: No review queue or request-changes workflow found.",
+        "comments: No review queue or request-changes workflow found."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "nogo",
+        "vscode",
+        "webshell",
+        "sessions",
+        "serve"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-qwen-code",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "qwen-code:TEAM-06",
+      "criterionId": "TEAM-06",
+      "answer": "No colleague takeover; other clients of the same daemon can attach to active sessions.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "web"
+        ],
+        "version": "Qwen Code v0.27.4 stable (commit f35dde84157f992bc324c0a3f59b1119344a683d, 2026-11-15); desktop-v0.27.4 installers; nightly builds also published",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "ongoing_takeover": {
+          "support": "partial",
+          "answer": "Multiple clients share a session.",
+          "evidenceIds": [
+            "serve"
+          ]
+        },
+        "same_task": {
+          "support": "supported",
+          "answer": "Same session in several clients.",
+          "evidenceIds": [
+            "serve"
+          ]
+        },
+        "session_history": {
+          "support": "supported",
+          "answer": "Transcripts shared with attached clients.",
+          "evidenceIds": [
+            "serve"
+          ]
+        },
+        "decisions": {
+          "support": "unsupported",
+          "answer": "No ownership transfer or person-to-person takeover found.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "artifacts": {
+          "support": "unsupported",
+          "answer": "No ownership transfer or person-to-person takeover found.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "permissions": {
+          "support": "unsupported",
+          "answer": "No ownership transfer or person-to-person takeover found.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "runtime_context": {
+          "support": "supported",
+          "answer": "Daemon holds runtime.",
+          "evidenceIds": [
+            "serve"
+          ]
+        },
+        "owner_disconnect": {
+          "support": "supported",
+          "answer": "Daemon continues.",
+          "evidenceIds": [
+            "serve"
+          ]
+        },
+        "ownership": {
+          "support": "unsupported",
+          "answer": "No ownership transfer or person-to-person takeover found.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "attribution": {
+          "support": "unsupported",
+          "answer": "No ownership transfer or person-to-person takeover found.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "context_loss": {
+          "support": "unsupported",
+          "answer": "No ownership transfer or person-to-person takeover found.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "harness_transfer": {
+          "support": "unsupported",
+          "answer": "No ownership transfer or person-to-person takeover found.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        }
+      },
+      "limitations": [
+        "ongoing_takeover: Multiple clients share a session.",
+        "decisions: No ownership transfer or person-to-person takeover found.",
+        "artifacts: No ownership transfer or person-to-person takeover found."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "serve",
+        "nogo"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-qwen-code",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "qwen-code:SHIP-01",
+      "criterionId": "SHIP-01",
+      "answer": "Diffs, transcripts, files; Chrome extension and browser-use tooling for page checks; no artifact gallery.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli",
+          "web"
+        ],
+        "version": "Qwen Code v0.27.4 stable (commit f35dde84157f992bc324c0a3f59b1119344a683d, 2026-11-15); desktop-v0.27.4 installers; nightly builds also published",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "diffs": {
+          "support": "supported",
+          "answer": "Diffs in IDE and Web Shell.",
+          "evidenceIds": [
+            "vscode",
+            "webshell"
+          ]
+        },
+        "documents": {
+          "support": "unsupported",
+          "answer": "No artifact gallery or retained reviewer outputs found.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "screenshots": {
+          "support": "unsupported",
+          "answer": "No artifact gallery or retained reviewer outputs found.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "recordings": {
+          "support": "unsupported",
+          "answer": "No artifact gallery or retained reviewer outputs found.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "previews": {
+          "support": "partial",
+          "answer": "Browser Use tools.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "test_outputs": {
+          "support": "supported",
+          "answer": "Terminal output in transcripts.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "reviewer_outputs": {
+          "support": "unsupported",
+          "answer": "No artifact gallery or retained reviewer outputs found.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "gallery": {
+          "support": "unsupported",
+          "answer": "No artifact gallery or retained reviewer outputs found.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "task_links": {
+          "support": "unsupported",
+          "answer": "No artifact gallery or retained reviewer outputs found.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "revision_links": {
+          "support": "unsupported",
+          "answer": "No artifact gallery or retained reviewer outputs found.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "persistence": {
+          "support": "supported",
+          "answer": "Transcripts persist.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "child_findings": {
+          "support": "unsupported",
+          "answer": "No artifact gallery or retained reviewer outputs found.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "prompt_leakage": {
+          "support": "unsupported",
+          "answer": "No artifact gallery or retained reviewer outputs found.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        }
+      },
+      "limitations": [
+        "documents: No artifact gallery or retained reviewer outputs found.",
+        "screenshots: No artifact gallery or retained reviewer outputs found.",
+        "recordings: No artifact gallery or retained reviewer outputs found."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "vscode",
+        "webshell",
+        "nogo",
+        "readme",
+        "sessions"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-qwen-code",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "qwen-code:SHIP-02",
+      "criterionId": "SHIP-02",
+      "answer": "Goals are accepted by an independent verifier; /review and /autofix-pr; hooks can run checks; no enforced required checks.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "Qwen Code v0.27.4 stable (commit f35dde84157f992bc324c0a3f59b1119344a683d, 2026-11-15); desktop-v0.27.4 installers; nightly builds also published",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "tests": {
+          "support": "partial",
+          "answer": "Agent runs tests.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "lint": {
+          "support": "partial",
+          "answer": "Agent runs lint.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "types": {
+          "support": "partial",
+          "answer": "Agent runs checks.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "ci": {
+          "support": "supported",
+          "answer": "/autofix-pr responds to failed CI.",
+          "evidenceIds": [
+            "autofix"
+          ]
+        },
+        "independent_review": {
+          "support": "supported",
+          "answer": "Goal verifier and /review.",
+          "evidenceIds": [
+            "goals",
+            "review"
+          ]
+        },
+        "spec_checks": {
+          "support": "unsupported",
+          "answer": "No enforced gate found.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "required_checks": {
+          "support": "unsupported",
+          "answer": "No enforced gate found.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "failure_blocking": {
+          "support": "unsupported",
+          "answer": "No enforced gate found.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "requirement_conflicts": {
+          "support": "unsupported",
+          "answer": "No enforced gate found.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "configured_policy": {
+          "support": "partial",
+          "answer": "Hooks.",
+          "evidenceIds": [
+            "hooks"
+          ]
+        },
+        "enforced_policy": {
+          "support": "partial",
+          "answer": "Goal verifier gates goal completion.",
+          "evidenceIds": [
+            "goals"
+          ]
+        }
+      },
+      "limitations": [
+        "tests: Agent runs tests.",
+        "lint: Agent runs lint.",
+        "types: Agent runs checks."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "autofix",
+        "goals",
+        "review",
+        "nogo",
+        "hooks"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-qwen-code",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "qwen-code:SHIP-03",
+      "criterionId": "SHIP-03",
+      "answer": "Worktrees, Arena merges winner, /autofix-pr fixes CI, review comments and conflicts from a worktree, GitHub/GitLab channels and Action; agent runs git via shell.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli",
+          "channels"
+        ],
+        "version": "Qwen Code v0.27.4 stable (commit f35dde84157f992bc324c0a3f59b1119344a683d, 2026-11-15); desktop-v0.27.4 installers; nightly builds also published",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "branches": {
+          "support": "supported",
+          "answer": "Worktrees and branches.",
+          "evidenceIds": [
+            "worktree"
+          ]
+        },
+        "worktrees": {
+          "support": "supported",
+          "answer": "Worktrees.",
+          "evidenceIds": [
+            "worktree"
+          ]
+        },
+        "commits": {
+          "support": "partial",
+          "answer": "Agent runs git commit; autofix commits fixes.",
+          "evidenceIds": [
+            "autofix"
+          ]
+        },
+        "pull_requests": {
+          "support": "partial",
+          "answer": "Autofix watches PRs; creation via agent shell.",
+          "evidenceIds": [
+            "autofix"
+          ]
+        },
+        "comments": {
+          "support": "supported",
+          "answer": "Autofix responds to trusted review feedback.",
+          "evidenceIds": [
+            "autofix"
+          ]
+        },
+        "ci_response": {
+          "support": "supported",
+          "answer": "Autofix fixes failed CI.",
+          "evidenceIds": [
+            "autofix"
+          ]
+        },
+        "rebase": {
+          "support": "partial",
+          "answer": "Merge conflict fixing.",
+          "evidenceIds": [
+            "autofix"
+          ]
+        },
+        "conflicts": {
+          "support": "supported",
+          "answer": "Autofix resolves merge conflicts.",
+          "evidenceIds": [
+            "autofix"
+          ]
+        },
+        "product_state": {
+          "support": "partial",
+          "answer": "Watch status commands.",
+          "evidenceIds": [
+            "autofix"
+          ]
+        }
+      },
+      "limitations": [
+        "commits: Agent runs git commit; autofix commits fixes.",
+        "pull_requests: Autofix watches PRs; creation via agent shell.",
+        "rebase: Merge conflict fixing."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "worktree",
+        "autofix"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-qwen-code",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "qwen-code:SHIP-04",
+      "criterionId": "SHIP-04",
+      "answer": "No merge, release or deploy authority features beyond agent shell actions.",
+      "support": "unsupported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "Qwen Code v0.27.4 stable (commit f35dde84157f992bc324c0a3f59b1119344a683d, 2026-11-15); desktop-v0.27.4 installers; nightly builds also published",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "approve": {
+          "support": "unsupported",
+          "answer": "No merge or deployment feature found.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "merge": {
+          "support": "unsupported",
+          "answer": "No merge or deployment feature found.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "release": {
+          "support": "unsupported",
+          "answer": "No merge or deployment feature found.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "deploy": {
+          "support": "unsupported",
+          "answer": "No merge or deployment feature found.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "exact_revision": {
+          "support": "unsupported",
+          "answer": "No merge or deployment feature found.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "authority_enforcement": {
+          "support": "unsupported",
+          "answer": "No merge or deployment feature found.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "nogo"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-qwen-code",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "qwen-code:SHIP-05",
+      "criterionId": "SHIP-05",
+      "answer": "No delivery tracking; Arena winner merge and autofix watch state are the only delivery-related features.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "Qwen Code v0.27.4 stable (commit f35dde84157f992bc324c0a3f59b1119344a683d, 2026-11-15); desktop-v0.27.4 installers; nightly builds also published",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "commit_links": {
+          "support": "unsupported",
+          "answer": "No delivery evidence or rollback feature found.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "pr_links": {
+          "support": "partial",
+          "answer": "Autofix status per PR.",
+          "evidenceIds": [
+            "autofix"
+          ]
+        },
+        "build_links": {
+          "support": "unsupported",
+          "answer": "No delivery evidence or rollback feature found.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "deployment_links": {
+          "support": "unsupported",
+          "answer": "No delivery evidence or rollback feature found.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "delivery_status": {
+          "support": "unsupported",
+          "answer": "No delivery evidence or rollback feature found.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "retained_evidence": {
+          "support": "unsupported",
+          "answer": "No delivery evidence or rollback feature found.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "rollback": {
+          "support": "unsupported",
+          "answer": "No delivery evidence or rollback feature found.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "revert": {
+          "support": "unsupported",
+          "answer": "No delivery evidence or rollback feature found.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "stale_approval_invalidation": {
+          "support": "unsupported",
+          "answer": "No delivery evidence or rollback feature found.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        }
+      },
+      "limitations": [
+        "commit_links: No delivery evidence or rollback feature found.",
+        "pr_links: Autofix status per PR.",
+        "build_links: No delivery evidence or rollback feature found."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "nogo",
+        "autofix"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-qwen-code",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "qwen-code:SHIP-06",
+      "criterionId": "SHIP-06",
+      "answer": "No batch review queue; /batch skill exists for bulk changes.",
+      "support": "unsupported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "Qwen Code v0.27.4 stable (commit f35dde84157f992bc324c0a3f59b1119344a683d, 2026-11-15); desktop-v0.27.4 installers; nightly builds also published",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "review_queue": {
+          "support": "unsupported",
+          "answer": "No review queue found.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "summaries": {
+          "support": "unsupported",
+          "answer": "No review queue found.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "grouping": {
+          "support": "unsupported",
+          "answer": "No review queue found.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "risk_size_filters": {
+          "support": "unsupported",
+          "answer": "No review queue found.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "findings": {
+          "support": "unsupported",
+          "answer": "No review queue found.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "artifacts": {
+          "support": "unsupported",
+          "answer": "No review queue found.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "request_changes": {
+          "support": "unsupported",
+          "answer": "No review queue found.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "exact_revision_approval": {
+          "support": "unsupported",
+          "answer": "No review queue found.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "dependency_queues": {
+          "support": "unsupported",
+          "answer": "No review queue found.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "next_actions": {
+          "support": "unsupported",
+          "answer": "No review queue found.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "stale_approval_invalidation": {
+          "support": "unsupported",
+          "answer": "No review queue found.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        },
+        "check_deduplication": {
+          "support": "unsupported",
+          "answer": "No review queue found.",
+          "evidenceIds": [
+            "nogo"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "nogo"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-qwen-code",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "qwen-code:OWN-01",
+      "criterionId": "OWN-01",
+      "answer": "Monorepo (CLI, core, desktop, Web Shell, channels, SDKs, managed-agent-server, IDE companions) is Apache-2.0 at v0.27.4; Qwen models are open-source per README but hosted Qwen services are separate; managed server is experimental.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli",
+          "desktop",
+          "web",
+          "api"
+        ],
+        "version": "Qwen Code v0.27.4 stable (commit f35dde84157f992bc324c0a3f59b1119344a683d, 2026-11-15); desktop-v0.27.4 installers; nightly builds also published",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "client_license": {
+          "support": "supported",
+          "answer": "Apache-2.0.",
+          "evidenceIds": [
+            "license",
+            "repo"
+          ]
+        },
+        "server_license": {
+          "support": "supported",
+          "answer": "Daemon and managed server are in the same repository.",
+          "evidenceIds": [
+            "license",
+            "managedsrc"
+          ]
+        },
+        "hosted_extensions": {
+          "support": "unknown",
+          "answer": "Closed or hosted: Qwen OAuth, QwenCloud and ModelStudio services.",
+          "evidenceIds": []
+        },
+        "source_visibility": {
+          "support": "supported",
+          "answer": "Public repository.",
+          "evidenceIds": [
+            "repo"
+          ]
+        },
+        "source_revision": {
+          "support": "supported",
+          "answer": "Tag v0.27.4 at the pinned commit.",
+          "evidenceIds": [
+            "license",
+            "pkgjson"
+          ]
+        },
+        "hosted_parity": {
+          "support": "unsupported",
+          "answer": "No parity claim.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "hosted_parity: No parity claim."
+      ],
+      "unknownReason": "See unknown atomic answers for the closed-component, hosted-service or business-fact gaps.",
+      "evidenceIds": [
+        "license",
+        "repo",
+        "managedsrc",
+        "pkgjson",
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-05-15",
+      "researcher": "researcher-qwen-code",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "qwen-code:OWN-02",
+      "criterionId": "OWN-02",
+      "answer": "Fully local or self-hosted software; hosted model services optional through auth choices; local models via Ollama/vLLM; transcripts are local files.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli",
+          "web"
+        ],
+        "version": "Qwen Code v0.27.4 stable (commit f35dde84157f992bc324c0a3f59b1119344a683d, 2026-11-15); desktop-v0.27.4 installers; nightly builds also published",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "self_hosting": {
+          "support": "supported",
+          "answer": "CLI, daemon and managed server run on user infrastructure.",
+          "evidenceIds": [
+            "serve",
+            "managed"
+          ]
+        },
+        "vendor_dependencies": {
+          "support": "partial",
+          "answer": "Qwen/ModelStudio services for hosted models; none for local models.",
+          "evidenceIds": [
+            "auth",
+            "providers"
+          ]
+        },
+        "export": {
+          "support": "partial",
+          "answer": "Local transcripts.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "import": {
+          "support": "partial",
+          "answer": "Resume local sessions.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "formats": {
+          "support": "partial",
+          "answer": "Transcript files; ACP.",
+          "evidenceIds": [
+            "serve"
+          ]
+        },
+        "cancellation": {
+          "support": "unknown",
+          "answer": "Closed or hosted: Qwen subscription terms.",
+          "evidenceIds": []
+        },
+        "account_independence": {
+          "support": "supported",
+          "answer": "Local providers need no vendor account.",
+          "evidenceIds": [
+            "providers"
+          ]
+        },
+        "history_portability": {
+          "support": "partial",
+          "answer": "Local files.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        }
+      },
+      "limitations": [
+        "vendor_dependencies: Qwen/ModelStudio services for hosted models; none for local models.",
+        "export: Local transcripts.",
+        "import: Resume local sessions."
+      ],
+      "unknownReason": "See unknown atomic answers for the closed-component, hosted-service or business-fact gaps.",
+      "evidenceIds": [
+        "serve",
+        "managed",
+        "auth",
+        "providers",
+        "sessions"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-05-15",
+      "researcher": "researcher-qwen-code",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "qwen-code:OWN-03",
+      "criterionId": "OWN-03",
+      "answer": "Prompts and code go to the selected provider under per-auth terms; transcripts stay local; usage statistics controlled by privacy.usageStatisticsEnabled (also stops the models.dev catalog refresh); telemetry export is configurable; Chrome extension and Browser Use have their own data notes.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "Qwen Code v0.27.4 stable (commit f35dde84157f992bc324c0a3f59b1119344a683d, 2026-11-15); desktop-v0.27.4 installers; nightly builds also published",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "code_data": {
+          "support": "supported",
+          "answer": "Sent to chosen provider.",
+          "evidenceIds": [
+            "tos"
+          ]
+        },
+        "prompts": {
+          "support": "supported",
+          "answer": "Same.",
+          "evidenceIds": [
+            "tos"
+          ]
+        },
+        "credentials": {
+          "support": "partial",
+          "answer": "Settings and environment.",
+          "evidenceIds": [
+            "auth"
+          ]
+        },
+        "logs": {
+          "support": "supported",
+          "answer": "Local transcripts and optional telemetry.",
+          "evidenceIds": [
+            "settings"
+          ]
+        },
+        "artifacts": {
+          "support": "partial",
+          "answer": "Local.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "retention": {
+          "support": "unknown",
+          "answer": "Closed or hosted: provider terms.",
+          "evidenceIds": []
+        },
+        "deletion": {
+          "support": "partial",
+          "answer": "Local deletion.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "training": {
+          "support": "unknown",
+          "answer": "Closed or hosted: provider terms.",
+          "evidenceIds": []
+        },
+        "residency": {
+          "support": "unknown",
+          "answer": "Closed or hosted.",
+          "evidenceIds": []
+        },
+        "subprocessors": {
+          "support": "unknown",
+          "answer": "Closed or hosted.",
+          "evidenceIds": []
+        },
+        "telemetry_disclosure": {
+          "support": "supported",
+          "answer": "ToS/privacy notice and settings docs.",
+          "evidenceIds": [
+            "tos",
+            "settings"
+          ]
+        },
+        "telemetry_defaults": {
+          "support": "unknown",
+          "answer": "Default value of usageStatisticsEnabled was not verified in this pass.",
+          "evidenceIds": []
+        },
+        "telemetry_controls": {
+          "support": "supported",
+          "answer": "privacy.usageStatisticsEnabled and telemetry.enabled.",
+          "evidenceIds": [
+            "settings"
+          ]
+        },
+        "consent_prompt": {
+          "support": "unknown",
+          "answer": "Not verified.",
+          "evidenceIds": []
+        },
+        "provider_separation": {
+          "support": "supported",
+          "answer": "Docs separate auth-method terms.",
+          "evidenceIds": [
+            "tos"
+          ]
+        }
+      },
+      "limitations": [
+        "credentials: Settings and environment.",
+        "artifacts: Local.",
+        "deletion: Local deletion."
+      ],
+      "unknownReason": "See unknown atomic answers for the closed-component, hosted-service or business-fact gaps.",
+      "evidenceIds": [
+        "tos",
+        "auth",
+        "settings",
+        "sessions"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-qwen-code",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "qwen-code:OWN-04",
+      "criterionId": "OWN-04",
+      "answer": "Qwen Code is free open-source software; model access via Qwen Plus/Pro subscription, QwenCloud Token Plan, ModelStudio Coding Plan or API keys is priced by Alibaba/Qwen and not captured here; legacy free allowance discontinued 2026-04-15.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "Qwen Code v0.27.4 stable (commit f35dde84157f992bc324c0a3f59b1119344a683d, 2026-11-15); desktop-v0.27.4 installers; nightly builds also published",
+        "plan": "Free software; Qwen/Alibaba plans separate",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "currency": {
+          "support": "unknown",
+          "answer": "Closed or hosted: plan prices not captured.",
+          "evidenceIds": []
+        },
+        "interval": {
+          "support": "unknown",
+          "answer": "Closed or hosted.",
+          "evidenceIds": []
+        },
+        "seats": {
+          "support": "partial",
+          "answer": "Token Plan has Personal and Team editions.",
+          "evidenceIds": [
+            "auth"
+          ]
+        },
+        "seat_minimum": {
+          "support": "unknown",
+          "answer": "Closed or hosted.",
+          "evidenceIds": []
+        },
+        "workspace_fees": {
+          "support": "supported",
+          "answer": "No fee for the software.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "included_usage": {
+          "support": "partial",
+          "answer": "Token Plan monthly credit quota; Coding Plan weekly quota.",
+          "evidenceIds": [
+            "auth"
+          ]
+        },
+        "credits": {
+          "support": "partial",
+          "answer": "Token Plan credits.",
+          "evidenceIds": [
+            "auth"
+          ]
+        },
+        "trial": {
+          "support": "unknown",
+          "answer": "Closed or hosted.",
+          "evidenceIds": []
+        },
+        "overages": {
+          "support": "unknown",
+          "answer": "Closed or hosted.",
+          "evidenceIds": []
+        },
+        "taxes": {
+          "support": "unknown",
+          "answer": "Closed or hosted.",
+          "evidenceIds": []
+        },
+        "model_cost": {
+          "support": "supported",
+          "answer": "Pay-as-you-go or plan billed by provider.",
+          "evidenceIds": [
+            "auth"
+          ]
+        },
+        "compute_cost": {
+          "support": "supported",
+          "answer": "User hardware.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Plan prices not captured."
+      ],
+      "unknownReason": "See unknown atomic answers for the closed-component, hosted-service or business-fact gaps.",
+      "evidenceIds": [
+        "auth",
+        "license",
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-01-15",
+      "researcher": "researcher-qwen-code",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "qwen-code:OWN-05",
+      "criterionId": "OWN-05",
+      "answer": "Software cost is $0; model plan costs for one, two or five developers are Alibaba/Qwen prices not captured.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "Qwen Code v0.27.4 stable (commit f35dde84157f992bc324c0a3f59b1119344a683d, 2026-11-15); desktop-v0.27.4 installers; nightly builds also published",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "one_person": {
+          "support": "unknown",
+          "answer": "Closed or hosted: plan pricing not captured.",
+          "evidenceIds": []
+        },
+        "two_people": {
+          "support": "unknown",
+          "answer": "Closed or hosted: plan pricing not captured.",
+          "evidenceIds": []
+        },
+        "five_people": {
+          "support": "unknown",
+          "answer": "Closed or hosted: plan pricing not captured.",
+          "evidenceIds": []
+        },
+        "task_assumptions": {
+          "support": "unknown",
+          "answer": "Closed or hosted: plan pricing not captured.",
+          "evidenceIds": []
+        },
+        "concurrency": {
+          "support": "unknown",
+          "answer": "Closed or hosted: plan pricing not captured.",
+          "evidenceIds": []
+        },
+        "tokens": {
+          "support": "unknown",
+          "answer": "Closed or hosted: plan pricing not captured.",
+          "evidenceIds": []
+        },
+        "compute_hours": {
+          "support": "unknown",
+          "answer": "Closed or hosted: plan pricing not captured.",
+          "evidenceIds": []
+        },
+        "fixed_cost": {
+          "support": "supported",
+          "answer": "$0 for the software.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "variable_cost": {
+          "support": "unknown",
+          "answer": "Closed or hosted: plan pricing not captured.",
+          "evidenceIds": []
+        },
+        "included_cost": {
+          "support": "unknown",
+          "answer": "Closed or hosted: plan pricing not captured.",
+          "evidenceIds": []
+        },
+        "unknown_cost": {
+          "support": "unknown",
+          "answer": "Closed or hosted: plan pricing not captured.",
+          "evidenceIds": []
+        }
+      },
+      "limitations": [
+        "Some atomic questions are unknown; see their gaps."
+      ],
+      "unknownReason": "See unknown atomic answers for the closed-component, hosted-service or business-fact gaps.",
+      "evidenceIds": [
+        "license"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-qwen-code",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "qwen-code:OWN-06",
+      "criterionId": "OWN-06",
+      "answer": "Frequent stable releases (v0.27.3 2026-11-13, v0.27.4 2026-11-15) plus nightly builds and a desktop/SDK release train; experimental labels on daemon, teams, arena and board; 1.0 Preview in a separate branch; support via GitHub.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "Qwen Code v0.27.4 stable (commit f35dde84157f992bc324c0a3f59b1119344a683d, 2026-11-15); desktop-v0.27.4 installers; nightly builds also published",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "release_stage": {
+          "support": "supported",
+          "answer": "Stable plus nightly; experimental features labeled.",
+          "evidenceIds": [
+            "release",
+            "readme"
+          ]
+        },
+        "access_restrictions": {
+          "support": "supported",
+          "answer": "Free Qwen OAuth allowance discontinued; subscription or key required.",
+          "evidenceIds": [
+            "tos"
+          ]
+        },
+        "support": {
+          "support": "partial",
+          "answer": "GitHub issues.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "response_commitments": {
+          "support": "unknown",
+          "answer": "Business fact: none stated.",
+          "evidenceIds": []
+        },
+        "release_activity": {
+          "support": "supported",
+          "answer": "Releases on 2026-11-13 and 2026-11-15.",
+          "evidenceIds": [
+            "release"
+          ]
+        },
+        "status_history": {
+          "support": "unknown",
+          "answer": "Not checked.",
+          "evidenceIds": []
+        },
+        "deprecation": {
+          "support": "supported",
+          "answer": "Legacy free Qwen OAuth allowance discontinued on 2026-04-15.",
+          "evidenceIds": [
+            "tos"
+          ]
+        },
+        "export_options": {
+          "support": "partial",
+          "answer": "Local transcripts.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        }
+      },
+      "limitations": [
+        "support: GitHub issues.",
+        "export_options: Local transcripts."
+      ],
+      "unknownReason": "See unknown atomic answers for the closed-component, hosted-service or business-fact gaps.",
+      "evidenceIds": [
+        "release",
+        "readme",
+        "tos",
+        "sessions"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-qwen-code",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "qwen-code:OWN-07",
+      "criterionId": "OWN-07",
+      "answer": "No ISO or SOC 2 evidence for Qwen Code was checked; Alibaba Cloud certifications are separate and were not evaluated.",
+      "support": "unknown",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "Qwen Code v0.27.4 stable (commit f35dde84157f992bc324c0a3f59b1119344a683d, 2026-11-15); desktop-v0.27.4 installers; nightly builds also published",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "iso_scope": {
+          "support": "unknown",
+          "answer": "Business fact or hosted service: certification evidence is not established by public code.",
+          "evidenceIds": []
+        },
+        "iso_issuer": {
+          "support": "unknown",
+          "answer": "Business fact or hosted service: certification evidence is not established by public code.",
+          "evidenceIds": []
+        },
+        "iso_validity": {
+          "support": "unknown",
+          "answer": "Business fact or hosted service: certification evidence is not established by public code.",
+          "evidenceIds": []
+        },
+        "soc2_type": {
+          "support": "unknown",
+          "answer": "Business fact or hosted service: certification evidence is not established by public code.",
+          "evidenceIds": []
+        },
+        "soc2_scope": {
+          "support": "unknown",
+          "answer": "Business fact or hosted service: certification evidence is not established by public code.",
+          "evidenceIds": []
+        },
+        "soc2_period": {
+          "support": "unknown",
+          "answer": "Business fact or hosted service: certification evidence is not established by public code.",
+          "evidenceIds": []
+        },
+        "report_access": {
+          "support": "unknown",
+          "answer": "Business fact or hosted service: certification evidence is not established by public code.",
+          "evidenceIds": []
+        },
+        "verification_date": {
+          "support": "unknown",
+          "answer": "Business fact or hosted service: certification evidence is not established by public code.",
+          "evidenceIds": []
+        },
+        "evidence_status": {
+          "support": "unknown",
+          "answer": "Business fact or hosted service: certification evidence is not established by public code.",
+          "evidenceIds": []
+        }
+      },
+      "limitations": [],
+      "unknownReason": "Business-fact question: certification status is not established by public code.",
+      "evidenceIds": [],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-qwen-code",
+      "publication": "internal-only",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "qwen-code:OWN-08",
+      "criterionId": "OWN-08",
+      "answer": "The software is free to download and self-host; model access needs a Plus/Pro subscription, plan or API key since the legacy free Qwen OAuth allowance ended 2026-04-15; local models are free to run.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "Qwen Code v0.27.4 stable (commit f35dde84157f992bc324c0a3f59b1119344a683d, 2026-11-15); desktop-v0.27.4 installers; nightly builds also published",
+        "plan": "Free software",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "ongoing_free": {
+          "support": "partial",
+          "answer": "Free software; no free hosted model allowance.",
+          "evidenceIds": [
+            "tos",
+            "license"
+          ]
+        },
+        "trial": {
+          "support": "unknown",
+          "answer": "Closed or hosted.",
+          "evidenceIds": []
+        },
+        "credits_trial": {
+          "support": "unknown",
+          "answer": "Closed or hosted.",
+          "evidenceIds": []
+        },
+        "self_host_cost": {
+          "support": "supported",
+          "answer": "No license fee.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "paid_only": {
+          "support": "partial",
+          "answer": "Hosted Qwen access is paid.",
+          "evidenceIds": [
+            "auth",
+            "tos"
+          ]
+        },
+        "early_access": {
+          "support": "supported",
+          "answer": "Nightly and experimental features.",
+          "evidenceIds": [
+            "release",
+            "readme"
+          ]
+        },
+        "free_scenarios": {
+          "support": "partial",
+          "answer": "Local models free; collaboration, issues and review not offered.",
+          "evidenceIds": [
+            "providers"
+          ]
+        },
+        "card_required": {
+          "support": "unknown",
+          "answer": "Closed or hosted.",
+          "evidenceIds": []
+        },
+        "usage_caps": {
+          "support": "unknown",
+          "answer": "Closed or hosted.",
+          "evidenceIds": []
+        },
+        "paid_evaluation": {
+          "support": "partial",
+          "answer": "Local providers allow evaluation without payment.",
+          "evidenceIds": [
+            "providers"
+          ]
+        }
+      },
+      "limitations": [
+        "ongoing_free: Free software; no free hosted model allowance.",
+        "paid_only: Hosted Qwen access is paid.",
+        "free_scenarios: Local models free; collaboration, issues and review not offered."
+      ],
+      "unknownReason": "See unknown atomic answers for the closed-component, hosted-service or business-fact gaps.",
+      "evidenceIds": [
+        "tos",
+        "license",
+        "auth",
+        "release",
+        "readme",
+        "providers"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-01-15",
+      "researcher": "researcher-qwen-code",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "qwen-code:OWN-09",
+      "criterionId": "OWN-09",
+      "answer": "No software price; plan pricing not captured; classification not determined.",
+      "support": "unknown",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "Qwen Code v0.27.4 stable (commit f35dde84157f992bc324c0a3f59b1119344a683d, 2026-11-15); desktop-v0.27.4 installers; nightly builds also published",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "units": {
+          "support": "unknown",
+          "answer": "Closed or hosted: Qwen/Alibaba plan pricing not captured.",
+          "evidenceIds": []
+        },
+        "included_limits": {
+          "support": "unknown",
+          "answer": "Closed or hosted: Qwen/Alibaba plan pricing not captured.",
+          "evidenceIds": []
+        },
+        "overages": {
+          "support": "unknown",
+          "answer": "Closed or hosted: Qwen/Alibaba plan pricing not captured.",
+          "evidenceIds": []
+        },
+        "compute_markup": {
+          "support": "unknown",
+          "answer": "Closed or hosted: Qwen/Alibaba plan pricing not captured.",
+          "evidenceIds": []
+        },
+        "model_markup": {
+          "support": "unknown",
+          "answer": "Closed or hosted: Qwen/Alibaba plan pricing not captured.",
+          "evidenceIds": []
+        },
+        "minimum_commitment": {
+          "support": "unknown",
+          "answer": "Closed or hosted: Qwen/Alibaba plan pricing not captured.",
+          "evidenceIds": []
+        },
+        "cancellation": {
+          "support": "unknown",
+          "answer": "Closed or hosted: Qwen/Alibaba plan pricing not captured.",
+          "evidenceIds": []
+        },
+        "sales_only_unknowns": {
+          "support": "unknown",
+          "answer": "Closed or hosted: Qwen/Alibaba plan pricing not captured.",
+          "evidenceIds": []
+        },
+        "transparency_classification": {
+          "support": "unknown",
+          "answer": "Closed or hosted: Qwen/Alibaba plan pricing not captured.",
+          "evidenceIds": []
+        }
+      },
+      "limitations": [],
+      "unknownReason": "Not established by the checked sources.",
+      "evidenceIds": [],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-qwen-code",
+      "publication": "internal-only",
+      "review": null,
+      "contradictions": []
+    }
+  ],
+  "evidence": [
+    {
+      "id": "readme",
+      "kind": "documented",
+      "url": "https://github.com/QwenLM/qwen-code/blob/v0.27.4/README.md",
+      "title": "Qwen Code README",
+      "locator": "Why Qwen Code; How to Use; Daemon Mode; Capabilities",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Open-source AI coding agent for terminal, editor, desktop, browser and chat; subagents, experimental Agent Teams and Agent Arena, dynamic workflows, goals, scheduled tasks, memory, skills, hooks, MCP, sandbox and worktrees; any provider (OpenAI, Anthropic, Gemini, Qwen, Ollama, vLLM); SDKs and daemon.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "auth",
+      "kind": "documented",
+      "url": "https://github.com/QwenLM/qwen-code/blob/v0.27.4/docs/%75sers/configuration/auth.md",
+      "title": "Authentication",
+      "locator": "Five /auth options",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Qwen OAuth with Plus/Pro subscription, QwenCloud Token Plan or API key, Alibaba ModelStudio Coding/Token Plan or API key, third-party provider keys and custom providers.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "providers",
+      "kind": "documented",
+      "url": "https://github.com/QwenLM/qwen-code/blob/v0.27.4/docs/%75sers/configuration/model-providers.md",
+      "title": "Model providers",
+      "locator": "Provider configuration",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "OpenAI, Anthropic, Gemini and Qwen API protocols, third-party and local providers (Ollama, vLLM) configurable at runtime.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "tos",
+      "kind": "documented",
+      "url": "https://github.com/QwenLM/qwen-code/blob/v0.27.4/docs/%75sers/support/tos-privacy.md",
+      "title": "Terms of service and privacy notice",
+      "locator": "Authentication methods; legacy free allowance note",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Privacy depends on authentication method; legacy free Qwen OAuth allowance was discontinued on 2026-04-15.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "settings",
+      "kind": "documented",
+      "url": "https://github.com/QwenLM/qwen-code/blob/v0.27.4/docs/%75sers/configuration/settings.md",
+      "title": "Settings reference",
+      "locator": "privacy.usageStatisticsEnabled; telemetry",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "privacy.usageStatisticsEnabled disables usage statistics collection; telemetry.enabled controls local/GCP telemetry export.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "serve",
+      "kind": "documented",
+      "url": "https://github.com/QwenLM/qwen-code/blob/v0.27.4/docs/%75sers/qwen-serve.md",
+      "title": "Daemon mode (qwen serve)",
+      "locator": "What it gives you; Deployment and security notes",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Experimental HTTP+SSE daemon with Web Shell, multiple workspaces, reconnect-safe streaming, first-responder permissions, remote runtime control and daemon-managed channels; loopback unauthenticated by default, token required beyond loopback; HTTPS guidance for phone access.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "desktopreadme",
+      "kind": "documented",
+      "url": "https://github.com/QwenLM/qwen-code/blob/v0.27.4/packages/desktop/README.md",
+      "title": "Desktop shell README",
+      "locator": "Runtime layout; Local Control",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Tauri 2 shell around the Web Shell starting qwen serve on loopback with a per-launch token; Local Control shares the daemon with a phone on the same Wi-Fi via QR code.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "desktoprelease",
+      "kind": "documented",
+      "url": "https://github.com/QwenLM/qwen-code/releases/tag/desktop-v0.27.4",
+      "title": "Qwen Code Desktop 0.27.4 release",
+      "locator": "Release asset list",
+      "sourceDate": "2026-11-15",
+      "retrievedAt": "2026-11-16",
+      "finding": "Desktop assets: macOS dmg and app tarballs for arm64 and x64, Linux AppImage, deb and rpm for x64 and arm64, Windows x64 setup.exe; released 2026-11-15.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "webshell",
+      "kind": "documented",
+      "url": "https://github.com/QwenLM/qwen-code/blob/v0.27.4/packages/web-shell/README.md",
+      "title": "Web Shell package",
+      "locator": "Header",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Browser Web Shell UI package served by the daemon.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "vscode",
+      "kind": "documented",
+      "url": "https://github.com/QwenLM/qwen-code/blob/v0.27.4/docs/%75sers/integration-vscode.md",
+      "title": "VS Code integration",
+      "locator": "Intro and features",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "VS Code extension (Beta) with sidebar panel showing Qwen changes in real time with native diffs; Zed and JetBrains integrations documented separately.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "subagents",
+      "kind": "documented",
+      "url": "https://github.com/QwenLM/qwen-code/blob/v0.27.4/docs/%75sers/features/sub-agents.md",
+      "title": "Subagents",
+      "locator": "Foreground and background agents",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Specialized subagents with own context and tools, foreground or background, with completion notifications.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "team",
+      "kind": "documented",
+      "url": "https://github.com/QwenLM/qwen-code/blob/v0.27.4/docs/%75sers/features/multi-agent-coordination.md",
+      "title": "Multi-agent coordination",
+      "locator": "Enable Agent Team; Run a coordinated task",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Experimental Agent Team: leader creates a team of up to three workstreams sharing a task list and messages, visible in Agent View tabs; enabled by experimental.agentTeam or QWEN_CODE_ENABLE_AGENT_TEAM=1.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "arena",
+      "kind": "documented",
+      "url": "https://github.com/QwenLM/qwen-code/blob/v0.27.4/docs/%75sers/features/arena.md",
+      "title": "Agent Arena",
+      "locator": "Intro; Limitations",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Experimental: run the same task with multiple models in isolated Git worktrees, compare side by side and pick the winner.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "board",
+      "kind": "documented",
+      "url": "https://github.com/QwenLM/qwen-code/blob/v0.27.4/docs/%75sers/features/agent-board.md",
+      "title": "Agent Board",
+      "locator": "Use a board",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Experimental file-based task board shared by independently started agents on one machine with qwen board commands; owner is only a recorded label.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "goals",
+      "kind": "documented",
+      "url": "https://github.com/QwenLM/qwen-code/blob/v0.27.4/docs/%75sers/features/goals.md",
+      "title": "Goals",
+      "locator": "Commands",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "/goal keeps the session working until an independent verifier accepts the outcome within a token budget.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "cron",
+      "kind": "documented",
+      "url": "https://github.com/QwenLM/qwen-code/blob/v0.27.4/docs/%75sers/features/scheduled-tasks.md",
+      "title": "Scheduled tasks",
+      "locator": "Session-scoped /loop and cron tools; Web Shell tasks",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "/loop and cron tools re-run prompts on intervals; terminal tasks are session-scoped; Web Shell Scheduled Tasks page and channel loops persist; experimental.cron enabled by default.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "worktree",
+      "kind": "documented",
+      "url": "https://github.com/QwenLM/qwen-code/blob/v0.27.4/docs/%75sers/features/worktree.md",
+      "title": "Worktrees",
+      "locator": "Quick start; --worktree",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "qwen --worktree runs a session in an isolated Git worktree; mid-session worktree support.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "sandbox",
+      "kind": "documented",
+      "url": "https://github.com/QwenLM/qwen-code/blob/v0.27.4/docs/%75sers/features/sandbox.md",
+      "title": "Sandbox",
+      "locator": "Linux tool execution sandbox",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Linux bubblewrap tool-execution sandbox plus whole-CLI sandbox methods (Docker, Podman, macOS Seatbelt).",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "approval",
+      "kind": "documented",
+      "url": "https://github.com/QwenLM/qwen-code/blob/v0.27.4/docs/%75sers/features/approval-mode.md",
+      "title": "Approval modes",
+      "locator": "Plan, default, auto-edit, auto mode, yolo",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Plan mode and approval modes including classifier-driven Auto Mode and yolo.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "memory",
+      "kind": "documented",
+      "url": "https://github.com/QwenLM/qwen-code/blob/v0.27.4/docs/%75sers/features/memory.md",
+      "title": "Memory",
+      "locator": "Auto-Memory and QWEN.md",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Agent-written auto-memory recalled across sessions plus QWEN.md and AGENTS.md briefings.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "skills",
+      "kind": "documented",
+      "url": "https://github.com/QwenLM/qwen-code/blob/v0.27.4/docs/%75sers/features/skills.md",
+      "title": "Skills",
+      "locator": "Built-in and custom skills",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Built-in skills (/review, /batch, /bugfix), /learn, auto-skills (opt-in) and /curator.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "hooks",
+      "kind": "documented",
+      "url": "https://github.com/QwenLM/qwen-code/blob/v0.27.4/docs/%75sers/features/hooks.md",
+      "title": "Hooks",
+      "locator": "Lifecycle events",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Hooks run user scripts before/after tool calls and at session lifecycle events.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "mcp",
+      "kind": "documented",
+      "url": "https://github.com/QwenLM/qwen-code/blob/v0.27.4/docs/%75sers/features/mcp.md",
+      "title": "MCP",
+      "locator": "Server configuration",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "MCP client for tools, resources and prompts.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "sessions",
+      "kind": "documented",
+      "url": "https://github.com/QwenLM/qwen-code/blob/v0.27.4/docs/%75sers/features/session-overview.md",
+      "title": "Session management",
+      "locator": "Resume, rename, archive",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Sessions can be resumed, browsed, renamed and archived; persisted transcripts.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "review",
+      "kind": "documented",
+      "url": "https://github.com/QwenLM/qwen-code/blob/v0.27.4/docs/%75sers/features/code-review.md",
+      "title": "Code review",
+      "locator": "Intro",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Built-in /review skill reviews code changes.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "autofix",
+      "kind": "documented",
+      "url": "https://github.com/QwenLM/qwen-code/blob/v0.27.4/docs/%75sers/features/autofix-pr.md",
+      "title": "Autofix a pull request",
+      "locator": "Usage; flags",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "/autofix-pr watches a PR from a local session and fixes failed CI, trusted review feedback and merge conflicts in a worktree, with --once or --every scheduling.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "channels",
+      "kind": "documented",
+      "url": "https://github.com/QwenLM/qwen-code/blob/v0.27.4/docs/%75sers/features/channels/overview.md",
+      "title": "Channels",
+      "locator": "How it works",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Telegram, WeChat, QQ, DingTalk, WeCom, Feishu, email, GitHub and GitLab channels drive an ACP agent process; scheduled channel loops; webhook delivery.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "ghaction",
+      "kind": "documented",
+      "url": "https://github.com/QwenLM/qwen-code/blob/v0.27.4/docs/%75sers/integration-github-action.md",
+      "title": "GitHub Action integration",
+      "locator": "Workflows",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "GitHub Action integration to run Qwen Code in workflows.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "managed",
+      "kind": "documented",
+      "url": "https://github.com/QwenLM/qwen-code/blob/v0.27.4/docs/%75sers/managed-agent-reference-deployment.md",
+      "title": "Managed Agent reference deployment",
+      "locator": "Choose a tier",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Experimental Java control plane with Runtime Broker, MySQL and Hosted Harness on one trusted Linux host; tiers from text-only to Kubernetes; tenant model via trusted upstream header.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "managedpkg",
+      "kind": "documented",
+      "url": "https://github.com/QwenLM/qwen-code/blob/v0.27.4/packages/managed-agent-server/README.md",
+      "title": "Managed Agent Server",
+      "locator": "Intro and authentication",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Standalone Spring Boot control plane with tenant header or signed-request authentication.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "headless",
+      "kind": "documented",
+      "url": "https://github.com/QwenLM/qwen-code/blob/v0.27.4/docs/%75sers/features/headless.md",
+      "title": "Headless mode",
+      "locator": "Usage",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "qwen -p runs non-interactively with structured output.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "sdkts",
+      "kind": "documented",
+      "url": "https://github.com/QwenLM/qwen-code/blob/v0.27.4/packages/sdk-typescript/README.md",
+      "title": "TypeScript SDK",
+      "locator": "Usage",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "TypeScript SDK for driving Qwen Code programmatically (Python and Java SDKs also ship).",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "repo",
+      "kind": "documented",
+      "url": "https://github.com/QwenLM/qwen-code",
+      "title": "QwenLM/qwen-code repository",
+      "locator": "Repository header and GitHub API",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Public repository with 30,600 stars on 2026-11-16, Apache-2.0 license, pushed 2026-11-16.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "release",
+      "kind": "documented",
+      "url": "https://github.com/QwenLM/qwen-code/releases/tag/v0.27.4",
+      "title": "Qwen Code v0.27.4",
+      "locator": "Release metadata",
+      "sourceDate": "2026-11-15",
+      "retrievedAt": "2026-11-16",
+      "finding": "Stable release v0.27.4 published 2026-11-15T07:04:40Z.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "license",
+      "kind": "source-inspected",
+      "url": "https://github.com/QwenLM/qwen-code/blob/v0.27.4/LICENSE",
+      "title": "Qwen Code LICENSE",
+      "locator": "LICENSE header",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Apache License 2.0 for the monorepo.",
+      "visibility": "public",
+      "commit": "f35dde84157f992bc324c0a3f59b1119344a683d",
+      "path": "LICENSE"
+    },
+    {
+      "id": "pkgjson",
+      "kind": "source-inspected",
+      "url": "https://github.com/QwenLM/qwen-code/blob/v0.27.4/packages/cli/package.json",
+      "title": "CLI package.json",
+      "locator": "version",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "CLI package version 0.27.4.",
+      "visibility": "public",
+      "commit": "f35dde84157f992bc324c0a3f59b1119344a683d",
+      "path": "packages/cli/package.json"
+    },
+    {
+      "id": "desktoppkg",
+      "kind": "source-inspected",
+      "url": "https://github.com/QwenLM/qwen-code/blob/v0.27.4/packages/desktop",
+      "title": "Desktop package source",
+      "locator": "packages/desktop (Tauri 2 shell)",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Isolated Tauri 2 shell around the existing Web Shell with no second UI; bundles Node.js runtime and qwen CLI.",
+      "visibility": "public",
+      "commit": "f35dde84157f992bc324c0a3f59b1119344a683d",
+      "path": "packages/desktop"
+    },
+    {
+      "id": "chansrc",
+      "kind": "source-inspected",
+      "url": "https://github.com/QwenLM/qwen-code/blob/v0.27.4/packages/channels",
+      "title": "Channel adapters source",
+      "locator": "packages/channels: telegram, dingtalk, weixin, wecom, feishu, qqbot, email, github, gitlab",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Implements the chat and code-host channel adapters.",
+      "visibility": "public",
+      "commit": "f35dde84157f992bc324c0a3f59b1119344a683d",
+      "path": "packages/channels"
+    },
+    {
+      "id": "managedsrc",
+      "kind": "source-inspected",
+      "url": "https://github.com/QwenLM/qwen-code/blob/v0.27.4/packages/managed-agent-server",
+      "title": "Managed agent server source",
+      "locator": "packages/managed-agent-server",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Java Spring Boot control plane for hosted harness sessions.",
+      "visibility": "public",
+      "commit": "f35dde84157f992bc324c0a3f59b1119344a683d",
+      "path": "packages/managed-agent-server"
+    },
+    {
+      "id": "nogo",
+      "kind": "source-inspected",
+      "url": "https://github.com/QwenLM/qwen-code/blob/v0.27.4/packages/core",
+      "title": "Bounded source search of the pinned release",
+      "locator": "Paths packages/core, packages/cli, packages/web-shell, packages/channels, docs/users; terms: issue tracker, kanban, backlog, rbac, saml, sso, organization role, co-prompt, presence, review queue, deploy",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "No persistent issue tracker, role model, SSO, presence or review queue was found in the inspected paths; Agent Board is a file-based local task board and tenant IDs in the managed server are header-asserted.",
+      "visibility": "public",
+      "commit": "f35dde84157f992bc324c0a3f59b1119344a683d",
+      "path": "packages/core"
+    }
+  ],
+  "changes": [
+    {
+      "date": "2026-11-16",
+      "author": "researcher-qwen-code",
+      "type": "initial-research",
+      "summary": "Initial full-profile source pass over Qwen Code v0.27.4 stable (README, user docs, pinned monorepo packages including desktop, web-shell, channels, managed-agent-server; desktop-v0.27.4 release assets); Agent Team, Agent Arena, daemon, Web Shell, VS Code extension, managed-agent server and several channels kept at their experimental or beta status; legacy free Qwen OAuth allowance discontinued 2026-04-15.",
+      "claimIds": []
+    }
+  ],
+  "context": {
+    "roadmapReview": {
+      "checkedAt": "2026-11-16",
+      "locations": [
+        {
+          "url": "https://github.com/QwenLM/qwen-code/releases",
+          "result": "v0.27.4 stable 2026-11-15, desktop-v0.27.4 2026-11-15 and SDK releases; nightly prereleases; no future-dated commitments."
+        },
+        {
+          "url": "https://github.com/QwenLM/qwen-code/blob/v0.27.4/CHANGELOG.md",
+          "result": "Changelog lists shipped changes per release; no dated future commitments."
+        },
+        {
+          "url": "https://github.com/QwenLM/qwen-code/blob/v0.27.4/README.md",
+          "result": "README advertises Qwen Code 1.0 Preview (v1.0.0-preview branch combining Qoder harness capabilities) with no release date; marked as separate preview, not current main capability."
+        },
+        {
+          "url": "https://github.com/QwenLM/qwen-code/tree/v0.27.4/docs/plans",
+          "result": "Directory of internal design/plan documents exists; not treated as commitments; not read item by item."
+        }
+      ],
+      "announced": [],
+      "gaps": [
+        "Qwen Code 1.0 Preview (v1.0.0-preview) is a separate branch not inspected; docs/plans and docs/design were not read exhaustively."
+      ]
+    },
+    "marketContext": {
+      "githubStars": {
+        "value": 30600,
+        "observedAt": "2026-11-16",
+        "evidenceIds": [
+          "repo"
+        ]
+      }
+    }
+  }
+}
