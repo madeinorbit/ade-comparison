@@ -1,0 +1,6094 @@
+{
+  "schemaVersion": 1,
+  "rubricVersion": "0.3",
+  "id": "takopi",
+  "name": "takopi",
+  "category": "A",
+  "researchTier": "full-profile",
+  "researchState": "documented",
+  "identity": {
+    "website": "https://github.com/banteg/takopi",
+    "repository": "https://github.com/banteg/takopi",
+    "aliases": [],
+    "company": "banteg"
+  },
+  "surfaces": [
+    {
+      "id": "telegram",
+      "name": "Telegram bot interface (messages, replies, topics, inline buttons) served by the takopi process",
+      "type": "chat"
+    },
+    {
+      "id": "cli",
+      "name": "takopi CLI (onboarding, init, config, doctor, plugins) and the process that bridges Telegram to local agent CLIs",
+      "type": "cli"
+    }
+  ],
+  "claims": [
+    {
+      "id": "takopi:ACC-01",
+      "criterionId": "ACC-01",
+      "answer": "No client of its own: the interface is Telegram (any Telegram app or web client, including phones) talking to a takopi process on the user machine, plus a takopi CLI for setup and running. No desktop app, web UI or editor extension. The bridge runs where Python 3.14 and uv run (OS independent).",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "telegram",
+          "cli"
+        ],
+        "version": "takopi release v0.23.4 (tag v0.23.4, commit e0123d4, 2026-05-25); the banteg account has one public takopi repository; third-party engine and transport plugins are separate packages and out of scope",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "desktop_os": {
+          "support": "unsupported",
+          "answer": "No desktop client; the takopi package is a Python process (classifier OS Independent).",
+          "evidenceIds": [
+            "pyproject"
+          ]
+        },
+        "mobile_apps": {
+          "support": "unsupported",
+          "answer": "No takopi mobile app; users use the Telegram app.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "browser": {
+          "support": "unsupported",
+          "answer": "No takopi browser client; Telegram Web is Telegram own.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "mobile_browser": {
+          "support": "unsupported",
+          "answer": "No takopi mobile web client.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "cli": {
+          "support": "supported",
+          "answer": "takopi, takopi init, config get/set/list, chat-id, doctor and plugins commands.",
+          "evidenceIds": [
+            "commands"
+          ]
+        },
+        "editor_extensions": {
+          "support": "unsupported",
+          "answer": "No editor extension found in the repository.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "task_actions": {
+          "support": "supported",
+          "answer": "Through Telegram: send a task (with /engine, /project and @branch directives), reply to continue, /cancel, steer or cancel queued Codex continuations with buttons, /new, /file put and get.",
+          "evidenceIds": [
+            "commands",
+            "changelog"
+          ]
+        },
+        "notifications": {
+          "support": "partial",
+          "answer": "Telegram delivers the progress and final messages; --final-notify sends the result as a new message; no other channels.",
+          "evidenceIds": [
+            "commands"
+          ]
+        },
+        "cross_device_continuity": {
+          "support": "supported",
+          "answer": "Resume lines let a Telegram run continue in the terminal and chat sessions continue from any Telegram client.",
+          "evidenceIds": [
+            "readme",
+            "telegram"
+          ]
+        }
+      },
+      "limitations": [
+        "desktop os: No desktop client; the takopi package is a Python process (classifier OS Independent).",
+        "mobile apps: No takopi mobile app; users use the Telegram app.",
+        "browser: No takopi browser client; Telegram Web is Telegram own.",
+        "mobile browser: No takopi mobile web client.",
+        "editor extensions: No editor extension found in the repository.",
+        "notifications: Telegram delivers the progress and final messages; --final-notify sends the result as a new message; no other channels."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "pyproject",
+        "commands",
+        "changelog",
+        "telegram"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-ade63",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "takopi:ACC-02",
+      "criterionId": "ACC-02",
+      "answer": "Bridges four agent CLIs as engines: Codex (app-server by default, exec mode optional), Claude Code (claude -p), OpenCode and Pi; entry-point plugins can add engines. Engine chosen per message with /engine, per chat or topic with /agent, and per project.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "telegram"
+        ],
+        "version": "takopi release v0.23.4 (tag v0.23.4, commit e0123d4, 2026-05-25); the banteg account has one public takopi repository; third-party engine and transport plugins are separate packages and out of scope",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "harnesses": {
+          "support": "supported",
+          "answer": "codex, claude, opencode and pi runners in src/takopi/runners.",
+          "evidenceIds": [
+            "readme",
+            "codexrun"
+          ]
+        },
+        "model_providers": {
+          "support": "partial",
+          "answer": "Model choice is each CLI own; /model and /reasoning set overrides (Claude and Pi reasoning levels).",
+          "evidenceIds": [
+            "changelog",
+            "commands"
+          ]
+        },
+        "custom_adapters": {
+          "support": "supported",
+          "answer": "Plugin API for engine backends via entry points.",
+          "evidenceIds": [
+            "plugin"
+          ]
+        },
+        "session_integration": {
+          "support": "supported",
+          "answer": "Controls each CLI through its machine protocol (Codex app-server JSON-RPC, claude stream-json, opencode and pi event streams) with normalized events.",
+          "evidenceIds": [
+            "codexrun",
+            "spec"
+          ]
+        },
+        "mixed_harness_operation": {
+          "support": "supported",
+          "answer": "Different engines run in different threads, topics or messages; one resume token per engine per chat.",
+          "evidenceIds": [
+            "telegram",
+            "commands"
+          ]
+        }
+      },
+      "limitations": [
+        "model providers: Model choice is each CLI own; /model and /reasoning set overrides (Claude and Pi reasoning levels)."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "plugin",
+        "config",
+        "codexrun",
+        "changelog",
+        "commands",
+        "spec",
+        "telegram"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-ade63",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "takopi:ACC-03",
+      "criterionId": "ACC-03",
+      "answer": "Uses the engines own logins and subscriptions; Claude billing option use_api_billing; voice notes can use an OpenAI key. No takopi credits.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "telegram"
+        ],
+        "version": "takopi release v0.23.4 (tag v0.23.4, commit e0123d4, 2026-05-25); the banteg account has one public takopi repository; third-party engine and transport plugins are separate packages and out of scope",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "agent_subscriptions": {
+          "support": "supported",
+          "answer": "README: works with existing Anthropic and OpenAI subscriptions.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "api_accounts": {
+          "support": "supported",
+          "answer": "Engines read their own API keys; claude use_api_billing option.",
+          "evidenceIds": [
+            "clauderun"
+          ]
+        },
+        "vendor_credits": {
+          "support": "unsupported",
+          "answer": "No takopi credits.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "local_models": {
+          "support": "partial",
+          "answer": "Any local model the engine CLI supports; none first-party.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "account_switching": {
+          "support": "unsupported",
+          "answer": "No account switching found in config reference.",
+          "evidenceIds": [
+            "config"
+          ]
+        },
+        "vendor_account_requirement": {
+          "support": "supported",
+          "answer": "Needs a Telegram bot token and chat id; no takopi account.",
+          "evidenceIds": [
+            "config"
+          ]
+        },
+        "provider_restrictions": {
+          "support": "unknown",
+          "answer": "No statement about provider terms for non-interactive use of subscription CLIs.",
+          "evidenceIds": [
+            "clauderun"
+          ]
+        }
+      },
+      "limitations": [
+        "vendor credits: No takopi credits.",
+        "local models: Any local model the engine CLI supports; none first-party.",
+        "account switching: No account switching found in config reference.",
+        "provider restrictions: No statement about provider terms for non-interactive use of subscription CLIs."
+      ],
+      "unknownReason": "The repository does not discuss provider terms.",
+      "evidenceIds": [
+        "readme",
+        "clauderun",
+        "config"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-ade63",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "takopi:ACC-04",
+      "criterionId": "ACC-04",
+      "answer": "Install with uv, run takopi and follow the onboarding wizard (bot token via BotFather, workflow, chat, engine); projects registered with takopi init. A git repo is needed for worktrees; GitHub is not used.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "telegram"
+        ],
+        "version": "takopi release v0.23.4 (tag v0.23.4, commit e0123d4, 2026-05-25); the banteg account has one public takopi repository; third-party engine and transport plugins are separate packages and out of scope",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "first_task_setup": {
+          "support": "supported",
+          "answer": "Install uv and Python 3.14, uv tool install takopi, run takopi and follow onboarding, then message the bot.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "no_git": {
+          "support": "partial",
+          "answer": "A project path without git can run; @branch worktrees need git.",
+          "evidenceIds": [
+            "worktrees"
+          ]
+        },
+        "local_git_without_remote": {
+          "support": "supported",
+          "answer": "Worktrees are local git.",
+          "evidenceIds": [
+            "wtpy"
+          ]
+        },
+        "hosted_git": {
+          "support": "unsupported",
+          "answer": "No GitHub integration; engines may use gh themselves.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "prerequisite_guidance": {
+          "support": "supported",
+          "answer": "README requirements and takopi doctor validate Telegram connectivity.",
+          "evidenceIds": [
+            "readme",
+            "commands"
+          ]
+        },
+        "managed_cloud_setup": {
+          "support": "unsupported",
+          "answer": "No managed cloud; it runs on the user machine.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "byo_vps_onboarding": {
+          "support": "unsupported",
+          "answer": "No VPS onboarding feature; a user can run it on any machine.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "no git: A project path without git can run; @branch worktrees need git.",
+        "hosted git: No GitHub integration; engines may use gh themselves.",
+        "managed cloud setup: No managed cloud; it runs on the user machine.",
+        "byo vps onboarding: No VPS onboarding feature; a user can run it on any machine."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "commands",
+        "worktrees",
+        "wtpy"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-ade63",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "takopi:ACC-05",
+      "criterionId": "ACC-05",
+      "answer": "CLI for configuration only plus a plugin API for engines, transports and commands. No public API, SDK, MCP server or webhooks for driving tasks from outside Telegram.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "telegram"
+        ],
+        "version": "takopi release v0.23.4 (tag v0.23.4, commit e0123d4, 2026-05-25); the banteg account has one public takopi repository; third-party engine and transport plugins are separate packages and out of scope",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "cli": {
+          "support": "partial",
+          "answer": "CLI configures and starts the bridge; it does not create or steer tasks.",
+          "evidenceIds": [
+            "commands"
+          ]
+        },
+        "api": {
+          "support": "unsupported",
+          "answer": "No HTTP or RPC API; the Telegram bot is the interface.",
+          "evidenceIds": [
+            "plugin"
+          ]
+        },
+        "sdk": {
+          "support": "partial",
+          "answer": "Importable takopi.api for plugins.",
+          "evidenceIds": [
+            "plugin"
+          ]
+        },
+        "mcp_server": {
+          "support": "unsupported",
+          "answer": "No MCP server.",
+          "evidenceIds": [
+            "plugin"
+          ]
+        },
+        "webhooks": {
+          "support": "unsupported",
+          "answer": "Telegram long polling (getUpdates), no webhooks.",
+          "evidenceIds": [
+            "telegram"
+          ]
+        },
+        "operations": {
+          "support": "partial",
+          "answer": "Plugins can add commands; task control is through chat messages.",
+          "evidenceIds": [
+            "plugin"
+          ]
+        },
+        "authentication": {
+          "support": "partial",
+          "answer": "Telegram bot token and allowed_user_ids sender allowlist.",
+          "evidenceIds": [
+            "config"
+          ]
+        },
+        "stability": {
+          "support": "unknown",
+          "answer": "No API stability statement beyond the specification MUSTs.",
+          "evidenceIds": [
+            "spec"
+          ]
+        }
+      },
+      "limitations": [
+        "cli: CLI configures and starts the bridge; it does not create or steer tasks.",
+        "api: No HTTP or RPC API; the Telegram bot is the interface.",
+        "sdk: Importable takopi.api for plugins.",
+        "mcp server: No MCP server.",
+        "webhooks: Telegram long polling (getUpdates), no webhooks.",
+        "operations: Plugins can add commands; task control is through chat messages.",
+        "authentication: Telegram bot token and allowed_user_ids sender allowlist.",
+        "stability: No API stability statement beyond the specification MUSTs."
+      ],
+      "unknownReason": "The plugin API carries no versioning promise in the docs read.",
+      "evidenceIds": [
+        "commands",
+        "plugin",
+        "config",
+        "telegram",
+        "spec"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-ade63",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "takopi:ACC-06",
+      "criterionId": "ACC-06",
+      "answer": "Extension through Python entry-point plugins (engines, transports, commands); MCP, skills and instruction files belong to the engines; takopi itself exposes no MCP client.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "telegram"
+        ],
+        "version": "takopi release v0.23.4 (tag v0.23.4, commit e0123d4, 2026-05-25); the banteg account has one public takopi repository; third-party engine and transport plugins are separate packages and out of scope",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "mcp_client": {
+          "support": "unsupported",
+          "answer": "No MCP client; MCP elicitation requests from Codex are declined.",
+          "evidenceIds": [
+            "codexrun"
+          ]
+        },
+        "plugins": {
+          "support": "supported",
+          "answer": "Entry-point plugins for engines, transports and commands.",
+          "evidenceIds": [
+            "plugin"
+          ]
+        },
+        "custom_tools": {
+          "support": "unsupported",
+          "answer": "No custom tool registry.",
+          "evidenceIds": [
+            "plugin"
+          ]
+        },
+        "instructions_import": {
+          "support": "unsupported",
+          "answer": "Instruction files are read by the engines only.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "authentication": {
+          "support": "partial",
+          "answer": "Plugin config under plugins.<id>.",
+          "evidenceIds": [
+            "config"
+          ]
+        },
+        "permission_scope": {
+          "support": "partial",
+          "answer": "Engine permissions are configured in each CLI.",
+          "evidenceIds": [
+            "clauderun"
+          ]
+        },
+        "integration_owner": {
+          "support": "supported",
+          "answer": "Plugins are separate packages.",
+          "evidenceIds": [
+            "plugin"
+          ]
+        }
+      },
+      "limitations": [
+        "mcp client: No MCP client; MCP elicitation requests from Codex are declined.",
+        "custom tools: No custom tool registry.",
+        "instructions import: Instruction files are read by the engines only.",
+        "authentication: Plugin config under plugins.<id>.",
+        "permission scope: Engine permissions are configured in each CLI."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "plugin",
+        "clauderun",
+        "codexrun",
+        "readme",
+        "config"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-ade63",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "takopi:ACC-07",
+      "criterionId": "ACC-07",
+      "answer": "Python application (anyio, httpx, msgspec) with a Telegram transport; no native or webview client.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "telegram"
+        ],
+        "version": "takopi release v0.23.4 (tag v0.23.4, commit e0123d4, 2026-05-25); the banteg account has one public takopi repository; third-party engine and transport plugins are separate packages and out of scope",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "desktop_implementation": {
+          "support": "unsupported",
+          "answer": "No desktop client; Python process.",
+          "evidenceIds": [
+            "pyproject"
+          ]
+        },
+        "mobile_implementation": {
+          "support": "unsupported",
+          "answer": "No mobile client.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "hybrids": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "implementation_evidence": {
+          "support": "supported",
+          "answer": "pyproject.toml dependencies and src/takopi layout at the pinned commit.",
+          "evidenceIds": [
+            "pyproject"
+          ]
+        }
+      },
+      "limitations": [
+        "desktop implementation: No desktop client; Python process.",
+        "mobile implementation: No mobile client.",
+        "hybrids: None."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "pyproject",
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-05-15",
+      "researcher": "researcher-ade63",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "takopi:PLAN-01",
+      "criterionId": "PLAN-01",
+      "answer": "No task intake beyond chat messages: each Telegram message or reply starts or continues an agent run; projects are registered locally. No issue import or tracker link.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "telegram"
+        ],
+        "version": "takopi release v0.23.4 (tag v0.23.4, commit e0123d4, 2026-05-25); the banteg account has one public takopi repository; third-party engine and transport plugins are separate packages and out of scope",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "local_creation": {
+          "support": "supported",
+          "answer": "A message starts a run.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "prompt_intake": {
+          "support": "supported",
+          "answer": "Text, voice notes (transcribed) and forwarded messages coalesced into a prompt.",
+          "evidenceIds": [
+            "telegram"
+          ]
+        },
+        "external_import": {
+          "support": "unsupported",
+          "answer": "No issue import.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "chat_git_triggers": {
+          "support": "partial",
+          "answer": "Telegram chat is the trigger; no git event triggers.",
+          "evidenceIds": [
+            "telegram"
+          ]
+        },
+        "authoritative_tracker": {
+          "support": "unsupported",
+          "answer": "No tracker.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "stable_ids": {
+          "support": "partial",
+          "answer": "Resume tokens identify engine sessions.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "sync": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "supported_edits": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "external_roundtrips": {
+          "support": "unsupported",
+          "answer": "Not applicable: no tracker integration.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "external import: No issue import.",
+        "chat git triggers: Telegram chat is the trigger; no git event triggers.",
+        "authoritative tracker: No tracker.",
+        "stable ids: Resume tokens identify engine sessions.",
+        "sync: None.",
+        "supported edits: None.",
+        "external roundtrips: Not applicable: no tracker integration."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "commands",
+        "telegram",
+        "spec"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-ade63",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "takopi:PLAN-02",
+      "criterionId": "PLAN-02",
+      "answer": "No task plans: the engine own plan mode applies; takopi stores context (project and branch) and resume tokens only.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "telegram"
+        ],
+        "version": "takopi release v0.23.4 (tag v0.23.4, commit e0123d4, 2026-05-25); the banteg account has one public takopi repository; third-party engine and transport plugins are separate packages and out of scope",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "plans": {
+          "support": "unsupported",
+          "answer": "No plan objects in specification or source.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "acceptance_criteria": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "editors": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "revisions": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "implementation_links": {
+          "support": "partial",
+          "answer": "ctx footer links a message to a project and branch.",
+          "evidenceIds": [
+            "worktrees"
+          ]
+        },
+        "amendment": {
+          "support": "partial",
+          "answer": "Reply or steer a running Codex turn.",
+          "evidenceIds": [
+            "changelog"
+          ]
+        },
+        "restart_persistence": {
+          "support": "supported",
+          "answer": "Chat sessions persist in telegram_chat_sessions_state.json; resume tokens survive restart.",
+          "evidenceIds": [
+            "telegram"
+          ]
+        }
+      },
+      "limitations": [
+        "plans: No plan objects in specification or source.",
+        "acceptance criteria: None.",
+        "editors: None.",
+        "revisions: None.",
+        "implementation links: ctx footer links a message to a project and branch.",
+        "amendment: Reply or steer a running Codex turn."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "spec",
+        "telegram",
+        "worktrees",
+        "changelog"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-ade63",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "takopi:PLAN-03",
+      "criterionId": "PLAN-03",
+      "answer": "No hierarchy or dependencies; each thread (chat, topic or session) is independent with a serialized queue.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "telegram"
+        ],
+        "version": "takopi release v0.23.4 (tag v0.23.4, commit e0123d4, 2026-05-25); the banteg account has one public takopi repository; third-party engine and transport plugins are separate packages and out of scope",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "epics": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "hierarchy": {
+          "support": "partial",
+          "answer": "Projects contain branches (worktrees) and topics.",
+          "evidenceIds": [
+            "topics"
+          ]
+        },
+        "blockers": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "readiness": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "enforcement": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "state_propagation": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "task_to_epic": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "identity_retention": {
+          "support": "partial",
+          "answer": "A topic keeps its session.",
+          "evidenceIds": [
+            "topics"
+          ]
+        },
+        "workflow_constraints": {
+          "support": "supported",
+          "answer": "Three onboarding workflows only configure defaults; none is mandatory.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "epics: None.",
+        "hierarchy: Projects contain branches (worktrees) and topics.",
+        "blockers: None.",
+        "readiness: None.",
+        "enforcement: None.",
+        "state propagation: None.",
+        "task to epic: None.",
+        "identity retention: A topic keeps its session."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "spec",
+        "topics",
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-ade63",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "takopi:PLAN-04",
+      "criterionId": "PLAN-04",
+      "answer": "Context is each engine own (instruction files, memory); takopi persists the project and branch context binding and the per-engine resume token.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "telegram"
+        ],
+        "version": "takopi release v0.23.4 (tag v0.23.4, commit e0123d4, 2026-05-25); the banteg account has one public takopi repository; third-party engine and transport plugins are separate packages and out of scope",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "instructions": {
+          "support": "unsupported",
+          "answer": "Read by engines only.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "skills": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "project_docs": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "memory": {
+          "support": "partial",
+          "answer": "Resume tokens give continuity inside the engine session.",
+          "evidenceIds": [
+            "telegram"
+          ]
+        },
+        "scope": {
+          "support": "supported",
+          "answer": "Per chat, topic and sender.",
+          "evidenceIds": [
+            "telegram"
+          ]
+        },
+        "provenance": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "correction": {
+          "support": "partial",
+          "answer": "/ctx set and clear; /new clears sessions.",
+          "evidenceIds": [
+            "commands"
+          ]
+        },
+        "deletion": {
+          "support": "supported",
+          "answer": "/new clears stored sessions.",
+          "evidenceIds": [
+            "commands"
+          ]
+        },
+        "freshness": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "takeover_continuity": {
+          "support": "supported",
+          "answer": "Reply resume lines continue a session in chat or terminal.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "instructions: Read by engines only.",
+        "skills: None.",
+        "project docs: None.",
+        "memory: Resume tokens give continuity inside the engine session.",
+        "provenance: None.",
+        "correction: /ctx set and clear; /new clears sessions.",
+        "freshness: None."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "telegram",
+        "worktrees",
+        "commands",
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-ade63",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "takopi:PLAN-05",
+      "criterionId": "PLAN-05",
+      "answer": "No retrieval or indexing; files can be sent to and fetched from the repo through Telegram; voice notes are transcribed.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "telegram"
+        ],
+        "version": "takopi release v0.23.4 (tag v0.23.4, commit e0123d4, 2026-05-25); the banteg account has one public takopi repository; third-party engine and transport plugins are separate packages and out of scope",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "code_search": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "files"
+          ]
+        },
+        "indexing": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "files"
+          ]
+        },
+        "external_knowledge": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "files"
+          ]
+        },
+        "multimodal_inputs": {
+          "support": "partial",
+          "answer": "Voice notes and uploaded files; images depend on the engine.",
+          "evidenceIds": [
+            "voice",
+            "files"
+          ]
+        },
+        "freshness": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "files"
+          ]
+        },
+        "access_scope": {
+          "support": "supported",
+          "answer": "Uploads go to a repo-relative dir with a deny glob list.",
+          "evidenceIds": [
+            "files"
+          ]
+        },
+        "api_retrieval": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "files"
+          ]
+        },
+        "citations": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "files"
+          ]
+        },
+        "conflict_detection": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "files"
+          ]
+        },
+        "review_enforcement": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "files"
+          ]
+        }
+      },
+      "limitations": [
+        "code search: None.",
+        "indexing: None.",
+        "external knowledge: None.",
+        "multimodal inputs: Voice notes and uploaded files; images depend on the engine.",
+        "freshness: None.",
+        "api retrieval: None.",
+        "citations: None.",
+        "conflict detection: None.",
+        "review enforcement: None."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "files",
+        "voice"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-ade63",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "takopi:PLAN-06",
+      "criterionId": "PLAN-06",
+      "answer": "No native issue management or idea backlog: only chat threads and sessions.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "telegram"
+        ],
+        "version": "takopi release v0.23.4 (tag v0.23.4, commit e0123d4, 2026-05-25); the banteg account has one public takopi repository; third-party engine and transport plugins are separate packages and out of scope",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "create": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "edit": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "discuss": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "prioritize": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "label": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "assign": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "search": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "filter": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "archive": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "reopen": {
+          "support": "partial",
+          "answer": "Reply to a message to continue a session.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "project_epic_views": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "idea_parking": {
+          "support": "partial",
+          "answer": "Telegram scheduled messages hold prompts to send later.",
+          "evidenceIds": [
+            "schedule"
+          ]
+        },
+        "explicit_dispatch": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "task_session_separation": {
+          "support": "unsupported",
+          "answer": "A thread is the session.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "metadata": {
+          "support": "partial",
+          "answer": "Project, branch and engine in the ctx footer.",
+          "evidenceIds": [
+            "worktrees"
+          ]
+        },
+        "durable_states": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "external_tracker_requirement": {
+          "support": "supported",
+          "answer": "No tracker is required or supported.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "create: None.",
+        "edit: None.",
+        "discuss: None.",
+        "prioritize: None.",
+        "label: None.",
+        "assign: None.",
+        "search: None.",
+        "filter: None.",
+        "archive: None.",
+        "reopen: Reply to a message to continue a session.",
+        "project epic views: None.",
+        "idea parking: Telegram scheduled messages hold prompts to send later.",
+        "explicit dispatch: None.",
+        "task session separation: A thread is the session.",
+        "metadata: Project, branch and engine in the ctx footer.",
+        "durable states: None."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "spec",
+        "readme",
+        "schedule",
+        "worktrees"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-ade63",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "takopi:PLAN-07",
+      "criterionId": "PLAN-07",
+      "answer": "No agent-operable issue records.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "telegram"
+        ],
+        "version": "takopi release v0.23.4 (tag v0.23.4, commit e0123d4, 2026-05-25); the banteg account has one public takopi repository; third-party engine and transport plugins are separate packages and out of scope",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "shared_ids": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "read": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "create": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "update": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "claim": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "assign": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "state_changes": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "dependencies": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "children": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "results": {
+          "support": "partial",
+          "answer": "Final message returns the agent answer to Telegram.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "human_visibility": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "attribution": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "permissions": {
+          "support": "partial",
+          "answer": "allowed_user_ids.",
+          "evidenceIds": [
+            "config"
+          ]
+        },
+        "conflicts": {
+          "support": "partial",
+          "answer": "Per-thread serialization.",
+          "evidenceIds": [
+            "spec"
+          ]
+        }
+      },
+      "limitations": [
+        "shared ids: None.",
+        "read: None.",
+        "create: None.",
+        "update: None.",
+        "claim: None.",
+        "assign: None.",
+        "state changes: None.",
+        "dependencies: None.",
+        "children: None.",
+        "results: Final message returns the agent answer to Telegram.",
+        "human visibility: None.",
+        "attribution: None.",
+        "permissions: allowed_user_ids.",
+        "conflicts: Per-thread serialization."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "spec",
+        "plugin",
+        "config"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-ade63",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "takopi:PLAN-08",
+      "criterionId": "PLAN-08",
+      "answer": "No living specifications.",
+      "support": "unsupported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "telegram"
+        ],
+        "version": "takopi release v0.23.4 (tag v0.23.4, commit e0123d4, 2026-05-25); the banteg account has one public takopi repository; third-party engine and transport plugins are separate packages and out of scope",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "persistent_requirements": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "human_edits": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "agent_edits": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "revisions": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "approvals": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "implementation_links": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "later_retrieval": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "drift_detection": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "review_integration": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        }
+      },
+      "limitations": [
+        "persistent requirements: None.",
+        "human edits: None.",
+        "agent edits: None.",
+        "revisions: None.",
+        "approvals: None.",
+        "implementation links: None.",
+        "later retrieval: None.",
+        "drift detection: None.",
+        "review integration: None."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "spec"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-ade63",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "takopi:COORD-01",
+      "criterionId": "COORD-01",
+      "answer": "Parallel runs across different threads (chats, topics, branches); runs for the same session are serialized with a per-thread queue and Codex steer or cancel buttons. No documented concurrency quota.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "telegram"
+        ],
+        "version": "takopi release v0.23.4 (tag v0.23.4, commit e0123d4, 2026-05-25); the banteg account has one public takopi repository; third-party engine and transport plugins are separate packages and out of scope",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "concurrent_sessions": {
+          "support": "supported",
+          "answer": "README: parallel runs across agent sessions.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "concurrent_tasks": {
+          "support": "supported",
+          "answer": "Different threads and worktrees run concurrently; same thread serialized (specification 5.3).",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "quotas": {
+          "support": "unsupported",
+          "answer": "No limit or quota in config reference or specification.",
+          "evidenceIds": [
+            "config"
+          ]
+        },
+        "observed_concurrency": {
+          "support": "unknown",
+          "answer": "The catalog measures no concurrency.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "status_visibility": {
+          "support": "partial",
+          "answer": "Each run posts a progress message (engine, elapsed time, steps) edited in place; no cross-run dashboard.",
+          "evidenceIds": [
+            "telegram",
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "quotas: No limit or quota in config reference or specification.",
+        "observed concurrency: The catalog measures no concurrency.",
+        "status visibility: Each run posts a progress message (engine, elapsed time, steps) edited in place; no cross-run dashboard."
+      ],
+      "unknownReason": "The catalog performs no benchmark runs.",
+      "evidenceIds": [
+        "readme",
+        "spec",
+        "changelog",
+        "config",
+        "telegram"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-ade63",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "takopi:COORD-02",
+      "criterionId": "COORD-02",
+      "answer": "Work is routed by chat, topic, project and engine directives; per-thread queue; no assignees, claims or duplicate prevention beyond serialization.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "telegram"
+        ],
+        "version": "takopi release v0.23.4 (tag v0.23.4, commit e0123d4, 2026-05-25); the banteg account has one public takopi repository; third-party engine and transport plugins are separate packages and out of scope",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "human_assignment": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "agent_assignment": {
+          "support": "supported",
+          "answer": "Engine selected per message, topic or project.",
+          "evidenceIds": [
+            "commands"
+          ]
+        },
+        "claims": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "queues": {
+          "support": "supported",
+          "answer": "Per-thread queue with queued jobs addressable for steer or cancel.",
+          "evidenceIds": [
+            "spec",
+            "changelog"
+          ]
+        },
+        "routing": {
+          "support": "supported",
+          "answer": "/project, @branch and /ctx route to repos and branches; topics bind contexts.",
+          "evidenceIds": [
+            "commands",
+            "topics"
+          ]
+        },
+        "duplicate_prevention": {
+          "support": "supported",
+          "answer": "Steered prompts are not also run later; per-session lock.",
+          "evidenceIds": [
+            "changelog",
+            "spec"
+          ]
+        },
+        "ownership_enforcement": {
+          "support": "partial",
+          "answer": "allowed_user_ids sender filter; lockfile allows one takopi instance.",
+          "evidenceIds": [
+            "config",
+            "spec"
+          ]
+        }
+      },
+      "limitations": [
+        "human assignment: None.",
+        "claims: None.",
+        "ownership enforcement: allowed_user_ids sender filter; lockfile allows one takopi instance."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "commands",
+        "spec",
+        "topics",
+        "changelog",
+        "config"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-ade63",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "takopi:COORD-03",
+      "criterionId": "COORD-03",
+      "answer": "No delegation: takopi has no coordinator, subagent tools or agent-to-agent messaging; engines own any subagent features.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "telegram"
+        ],
+        "version": "takopi release v0.23.4 (tag v0.23.4, commit e0123d4, 2026-05-25); the banteg account has one public takopi repository; third-party engine and transport plugins are separate packages and out of scope",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "roles": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "model_harness_effort": {
+          "support": "partial",
+          "answer": "Users choose engine, model and reasoning per scope.",
+          "evidenceIds": [
+            "commands"
+          ]
+        },
+        "messages": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "results_return": {
+          "support": "unsupported",
+          "answer": "None between agents.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "cross_harness": {
+          "support": "unsupported",
+          "answer": "No cross-harness teams.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "orchestration_owner": {
+          "support": "unsupported",
+          "answer": "Not applicable.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "activation": {
+          "support": "unsupported",
+          "answer": "Not applicable.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "authentication": {
+          "support": "unsupported",
+          "answer": "Not applicable.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "live_progress": {
+          "support": "partial",
+          "answer": "Progress shows engine actions only.",
+          "evidenceIds": [
+            "telegram"
+          ]
+        },
+        "retained_results": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "followup": {
+          "support": "partial",
+          "answer": "Reply continues the same session.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "invocation": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        }
+      },
+      "limitations": [
+        "roles: None.",
+        "model harness effort: Users choose engine, model and reasoning per scope.",
+        "messages: None.",
+        "results return: None between agents.",
+        "cross harness: No cross-harness teams.",
+        "orchestration owner: Not applicable.",
+        "activation: Not applicable.",
+        "authentication: Not applicable.",
+        "live progress: Progress shows engine actions only.",
+        "retained results: None.",
+        "followup: Reply continues the same session.",
+        "invocation: None."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "spec",
+        "plugin",
+        "commands",
+        "telegram",
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-ade63",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "takopi:COORD-04",
+      "criterionId": "COORD-04",
+      "answer": "No scheduler or triggers of its own: docs rely on Telegram native scheduled and recurring messages; the internal scheduler only queues thread jobs. Runs only while the takopi process is up.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "telegram"
+        ],
+        "version": "takopi release v0.23.4 (tag v0.23.4, commit e0123d4, 2026-05-25); the banteg account has one public takopi repository; third-party engine and transport plugins are separate packages and out of scope",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "schedules": {
+          "support": "partial",
+          "answer": "Telegram scheduled messages (including daily and weekly) deliver prompts at a time; takopi has no scheduler.",
+          "evidenceIds": [
+            "schedule"
+          ]
+        },
+        "events": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "recurring_tasks": {
+          "support": "partial",
+          "answer": "Telegram recurring scheduled messages.",
+          "evidenceIds": [
+            "schedule"
+          ]
+        },
+        "completion_conditions": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "scheduler_location": {
+          "support": "partial",
+          "answer": "Telegram servers hold scheduled messages; takopi receives them as ordinary messages.",
+          "evidenceIds": [
+            "schedule"
+          ]
+        },
+        "overlaps": {
+          "support": "supported",
+          "answer": "Overlapping messages for one session queue serially.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "retries": {
+          "support": "partial",
+          "answer": "Telegram network errors are retried; runs are not retried.",
+          "evidenceIds": [
+            "changelog"
+          ]
+        },
+        "client_independence": {
+          "support": "partial",
+          "answer": "Needs the takopi process running to act; Telegram client can be closed.",
+          "evidenceIds": [
+            "schedule"
+          ]
+        }
+      },
+      "limitations": [
+        "schedules: Telegram scheduled messages (including daily and weekly) deliver prompts at a time; takopi has no scheduler.",
+        "events: None.",
+        "recurring tasks: Telegram recurring scheduled messages.",
+        "completion conditions: None.",
+        "scheduler location: Telegram servers hold scheduled messages; takopi receives them as ordinary messages.",
+        "retries: Telegram network errors are retried; runs are not retried.",
+        "client independence: Needs the takopi process running to act; Telegram client can be closed."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "schedule",
+        "spec",
+        "changelog"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-ade63",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "takopi:COORD-05",
+      "criterionId": "COORD-05",
+      "answer": "Cancel with /cancel (reply to the progress message), steer or cancel queued Codex continuations with buttons, reply to continue, errors shown in the final message. No pause, approvals or escalation; Claude cannot ask questions mid-run.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "telegram"
+        ],
+        "version": "takopi release v0.23.4 (tag v0.23.4, commit e0123d4, 2026-05-25); the banteg account has one public takopi repository; third-party engine and transport plugins are separate packages and out of scope",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "pause": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "stop": {
+          "support": "supported",
+          "answer": "/cancel stops the current run.",
+          "evidenceIds": [
+            "commands"
+          ]
+        },
+        "resume": {
+          "support": "supported",
+          "answer": "Reply with a resume line or auto-resume.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "steer": {
+          "support": "partial",
+          "answer": "Codex app-server steering through buttons; other engines queue.",
+          "evidenceIds": [
+            "changelog"
+          ]
+        },
+        "notifications": {
+          "support": "partial",
+          "answer": "Telegram messages and push from Telegram app.",
+          "evidenceIds": [
+            "telegram"
+          ]
+        },
+        "pending_decisions": {
+          "support": "unsupported",
+          "answer": "Engine prompts are not surfaced: Claude -p cannot answer interactive questions and Codex approvals are auto-accepted.",
+          "evidenceIds": [
+            "clauderun",
+            "codexrun"
+          ]
+        },
+        "escalation": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "visible_errors": {
+          "support": "supported",
+          "answer": "Runner errors are rendered in the final message; crash handling in spec 6.7.",
+          "evidenceIds": [
+            "spec",
+            "changelog"
+          ]
+        },
+        "chat_terminal_parity": {
+          "support": "partial",
+          "answer": "Resume lines continue the session in the terminal.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "retained_history": {
+          "support": "partial",
+          "answer": "Telegram history; takopi stores resume tokens only.",
+          "evidenceIds": [
+            "telegram"
+          ]
+        }
+      },
+      "limitations": [
+        "pause: None.",
+        "steer: Codex app-server steering through buttons; other engines queue.",
+        "notifications: Telegram messages and push from Telegram app.",
+        "pending decisions: Engine prompts are not surfaced: Claude -p cannot answer interactive questions and Codex approvals are auto-accepted.",
+        "escalation: None.",
+        "chat terminal parity: Resume lines continue the session in the terminal.",
+        "retained history: Telegram history; takopi stores resume tokens only."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "commands",
+        "changelog",
+        "clauderun",
+        "spec",
+        "readme",
+        "telegram",
+        "codexrun"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-ade63",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "takopi:COORD-06",
+      "criterionId": "COORD-06",
+      "answer": "No fleet or epic UI: Telegram forum topics list contexts per repo and branch; topic status icons are only a feature request.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "telegram"
+        ],
+        "version": "takopi release v0.23.4 (tag v0.23.4, commit e0123d4, 2026-05-25); the banteg account has one public takopi repository; third-party engine and transport plugins are separate packages and out of scope",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "fleet_fixture": {
+          "support": "unknown",
+          "answer": "No fixture; the catalog runs no products.",
+          "evidenceIds": [
+            "topics"
+          ]
+        },
+        "parent_child": {
+          "support": "partial",
+          "answer": "Topics per project and branch.",
+          "evidenceIds": [
+            "topics"
+          ]
+        },
+        "dependencies": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "attention": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "history": {
+          "support": "partial",
+          "answer": "Telegram topic history.",
+          "evidenceIds": [
+            "topics"
+          ]
+        },
+        "workload": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "navigation_errors": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "fixture_mode": {
+          "support": "unknown",
+          "answer": "No fixture mode applies.",
+          "evidenceIds": [
+            "topics"
+          ]
+        }
+      },
+      "limitations": [
+        "fleet fixture: No fixture; the catalog runs no products.",
+        "parent child: Topics per project and branch.",
+        "dependencies: None.",
+        "attention: None.",
+        "history: Telegram topic history.",
+        "workload: None.",
+        "navigation errors: None.",
+        "fixture mode: No fixture mode applies."
+      ],
+      "unknownReason": "Fixture questions require hands-on runs which the catalog does not perform.",
+      "evidenceIds": [
+        "topics",
+        "spec"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-ade63",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "takopi:COORD-07",
+      "criterionId": "COORD-07",
+      "answer": "No mandatory workflow beyond three onboarding presets (assistant, workspace, handoff) that set defaults; engine and context chosen per message; changes mid-run are limited to steering.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "telegram"
+        ],
+        "version": "takopi release v0.23.4 (tag v0.23.4, commit e0123d4, 2026-05-25); the banteg account has one public takopi repository; third-party engine and transport plugins are separate packages and out of scope",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "quick_task": {
+          "support": "supported",
+          "answer": "Send a message.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "growing_epic": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "presets": {
+          "support": "supported",
+          "answer": "Assistant, workspace and handoff workflows.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "natural_language": {
+          "support": "unsupported",
+          "answer": "Directives are a small syntax, not natural-language configuration.",
+          "evidenceIds": [
+            "commands"
+          ]
+        },
+        "agent_configuration": {
+          "support": "partial",
+          "answer": "/agent, /model and /reasoning per scope.",
+          "evidenceIds": [
+            "commands"
+          ]
+        },
+        "in_run_changes": {
+          "support": "partial",
+          "answer": "Steer a Codex turn; cancel.",
+          "evidenceIds": [
+            "changelog"
+          ]
+        },
+        "live_roles": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "retained_relationships": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "discoverability": {
+          "support": "supported",
+          "answer": "Telegram command menu and docs.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "auth_friction": {
+          "support": "partial",
+          "answer": "Needs each engine logged in and a Telegram bot.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "growing epic: None.",
+        "natural language: Directives are a small syntax, not natural-language configuration.",
+        "agent configuration: /agent, /model and /reasoning per scope.",
+        "in run changes: Steer a Codex turn; cancel.",
+        "live roles: None.",
+        "retained relationships: None.",
+        "auth friction: Needs each engine logged in and a Telegram bot."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "commands",
+        "config",
+        "spec",
+        "changelog"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-ade63",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "takopi:RUN-01",
+      "criterionId": "RUN-01",
+      "answer": "Agents run on the machine where takopi runs (local, or any server the user chooses to run it on); no managed cloud; the bridge process must stay up.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "telegram"
+        ],
+        "version": "takopi release v0.23.4 (tag v0.23.4, commit e0123d4, 2026-05-25); the banteg account has one public takopi repository; third-party engine and transport plugins are separate packages and out of scope",
+        "plan": null,
+        "os": [],
+        "executionModes": [
+          "local"
+        ],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "local": {
+          "support": "supported",
+          "answer": "Runs coding agents on your computer.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "byo_remote": {
+          "support": "partial",
+          "answer": "Nothing prevents running takopi on a server, but no remote execution feature or guide exists.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "self_hosted": {
+          "support": "partial",
+          "answer": "Self-run Python process; no hosted control plane.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "managed_cloud": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "hybrid": {
+          "support": "partial",
+          "answer": "Phone chat controls a host process.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "provisioning": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "payer": {
+          "support": "supported",
+          "answer": "User pays for engines.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "resources": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "region": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "expiry": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "client_disconnect": {
+          "support": "supported",
+          "answer": "Closing Telegram leaves runs going.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "other_device_continuation": {
+          "support": "supported",
+          "answer": "Any Telegram client continues the chat.",
+          "evidenceIds": [
+            "telegram"
+          ]
+        }
+      },
+      "limitations": [
+        "byo remote: Nothing prevents running takopi on a server, but no remote execution feature or guide exists.",
+        "self hosted: Self-run Python process; no hosted control plane.",
+        "managed cloud: None.",
+        "hybrid: Phone chat controls a host process.",
+        "provisioning: None.",
+        "resources: None.",
+        "region: None.",
+        "expiry: None."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "spec",
+        "telegram"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-ade63",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "takopi:RUN-02",
+      "criterionId": "RUN-02",
+      "answer": "Optional git worktree per branch via @branch under .worktrees; otherwise runs in the project directory; no container, VM or sandbox of its own.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "telegram"
+        ],
+        "version": "takopi release v0.23.4 (tag v0.23.4, commit e0123d4, 2026-05-25); the banteg account has one public takopi repository; third-party engine and transport plugins are separate packages and out of scope",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "checkout": {
+          "support": "supported",
+          "answer": "Default runs in the project path.",
+          "evidenceIds": [
+            "worktrees"
+          ]
+        },
+        "branch": {
+          "support": "supported",
+          "answer": "@branch creates or uses the branch.",
+          "evidenceIds": [
+            "wtpy"
+          ]
+        },
+        "worktree": {
+          "support": "supported",
+          "answer": "git worktree add under worktrees_dir.",
+          "evidenceIds": [
+            "wtpy"
+          ]
+        },
+        "container": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "vm": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "os_sandbox": {
+          "support": "partial",
+          "answer": "Engine sandboxes only; Codex approvals are auto-accepted.",
+          "evidenceIds": [
+            "codexrun"
+          ]
+        },
+        "filesystem": {
+          "support": "partial",
+          "answer": "Project or worktree path; engines can reach elsewhere.",
+          "evidenceIds": [
+            "worktrees"
+          ]
+        },
+        "process": {
+          "support": "unsupported",
+          "answer": "Separate engine processes only.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "network": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "secrets": {
+          "support": "partial",
+          "answer": "Bot token in takopi.toml; engines use their own credentials.",
+          "evidenceIds": [
+            "config"
+          ]
+        },
+        "code_separation": {
+          "support": "supported",
+          "answer": "Worktrees.",
+          "evidenceIds": [
+            "worktrees"
+          ]
+        },
+        "security_boundary": {
+          "support": "unsupported",
+          "answer": "None claimed; dangerously_skip_permissions is documented as high risk.",
+          "evidenceIds": [
+            "clauderun"
+          ]
+        }
+      },
+      "limitations": [
+        "container: None.",
+        "vm: None.",
+        "os sandbox: Engine sandboxes only; Codex approvals are auto-accepted.",
+        "filesystem: Project or worktree path; engines can reach elsewhere.",
+        "process: Separate engine processes only.",
+        "network: None.",
+        "secrets: Bot token in takopi.toml; engines use their own credentials.",
+        "security boundary: None claimed; dangerously_skip_permissions is documented as high risk."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "worktrees",
+        "wtpy",
+        "codexrun",
+        "readme",
+        "spec",
+        "config",
+        "clauderun"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-ade63",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "takopi:RUN-03",
+      "criterionId": "RUN-03",
+      "answer": "Resume tokens and chat sessions persist; stateless resume lines continue sessions anywhere; Telegram network errors are retried; a lockfile enforces a single instance; crashed or hung runs surface as errors. Processes do not survive a takopi restart.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "telegram"
+        ],
+        "version": "takopi release v0.23.4 (tag v0.23.4, commit e0123d4, 2026-05-25); the banteg account has one public takopi repository; third-party engine and transport plugins are separate packages and out of scope",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "client_disconnect": {
+          "support": "supported",
+          "answer": "Run continues if Telegram client closes.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "worker_crash": {
+          "support": "supported",
+          "answer": "Runner failures are rendered as errors (spec 6.7; Codex app-server shutdown surfaced).",
+          "evidenceIds": [
+            "spec",
+            "changelog"
+          ]
+        },
+        "service_restart": {
+          "support": "partial",
+          "answer": "Sessions resume by token after restart; running turns are lost.",
+          "evidenceIds": [
+            "telegram"
+          ]
+        },
+        "expiry": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "transcript_reload": {
+          "support": "partial",
+          "answer": "Telegram history; engine session files.",
+          "evidenceIds": [
+            "telegram"
+          ]
+        },
+        "process_reconnect": {
+          "support": "unsupported",
+          "answer": "No reattachment to engine processes.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "task_resume": {
+          "support": "supported",
+          "answer": "Resume lines and chat auto-resume.",
+          "evidenceIds": [
+            "telegram"
+          ]
+        },
+        "state_reconstruction": {
+          "support": "partial",
+          "answer": "State JSON per chat and topic.",
+          "evidenceIds": [
+            "telegram"
+          ]
+        },
+        "context_loss": {
+          "support": "partial",
+          "answer": "Depends on engine session.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "duplicate_actions": {
+          "support": "supported",
+          "answer": "Steered prompts do not also run later.",
+          "evidenceIds": [
+            "changelog"
+          ]
+        },
+        "manual_repair": {
+          "support": "partial",
+          "answer": "/new resets sessions; takopi doctor.",
+          "evidenceIds": [
+            "commands"
+          ]
+        },
+        "multi_day_continuity": {
+          "support": "partial",
+          "answer": "Sessions persist in state file and engine stores.",
+          "evidenceIds": [
+            "telegram"
+          ]
+        }
+      },
+      "limitations": [
+        "service restart: Sessions resume by token after restart; running turns are lost.",
+        "expiry: None.",
+        "transcript reload: Telegram history; engine session files.",
+        "process reconnect: No reattachment to engine processes.",
+        "state reconstruction: State JSON per chat and topic.",
+        "context loss: Depends on engine session.",
+        "manual repair: /new resets sessions; takopi doctor.",
+        "multi day continuity: Sessions persist in state file and engine stores."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "spec",
+        "telegram",
+        "changelog",
+        "readme",
+        "commands"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-ade63",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "takopi:RUN-04",
+      "criterionId": "RUN-04",
+      "answer": "No environment management: no dependency caches, services, ports or secret injection beyond the engine process environment.",
+      "support": "unsupported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "telegram"
+        ],
+        "version": "takopi release v0.23.4 (tag v0.23.4, commit e0123d4, 2026-05-25); the banteg account has one public takopi repository; third-party engine and transport plugins are separate packages and out of scope",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "dependencies": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "worktrees"
+          ]
+        },
+        "caches": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "worktrees"
+          ]
+        },
+        "snapshots": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "worktrees"
+          ]
+        },
+        "services": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "worktrees"
+          ]
+        },
+        "ports": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "worktrees"
+          ]
+        },
+        "secrets": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "config"
+          ]
+        },
+        "duplicate_installs": {
+          "support": "unsupported",
+          "answer": "Worktrees do not link dependencies.",
+          "evidenceIds": [
+            "worktrees"
+          ]
+        },
+        "collisions": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "worktrees"
+          ]
+        },
+        "remote_setup": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "worktrees"
+          ]
+        },
+        "automatic_repair": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "worktrees"
+          ]
+        }
+      },
+      "limitations": [
+        "dependencies: None.",
+        "caches: None.",
+        "snapshots: None.",
+        "services: None.",
+        "ports: None.",
+        "secrets: None.",
+        "duplicate installs: Worktrees do not link dependencies.",
+        "collisions: None.",
+        "remote setup: None.",
+        "automatic repair: None."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "worktrees",
+        "config"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-ade63",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "takopi:RUN-05",
+      "criterionId": "RUN-05",
+      "answer": "Few limits: Telegram message size handling (trim or split), voice and file size caps, outbox rate limiting with backoff; no time, turn, token or spend limits for agent runs.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "telegram"
+        ],
+        "version": "takopi release v0.23.4 (tag v0.23.4, commit e0123d4, 2026-05-25); the banteg account has one public takopi repository; third-party engine and transport plugins are separate packages and out of scope",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "time_limits": {
+          "support": "unsupported",
+          "answer": "None for runs.",
+          "evidenceIds": [
+            "config"
+          ]
+        },
+        "turn_limits": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "config"
+          ]
+        },
+        "token_limits": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "config"
+          ]
+        },
+        "spend_limits": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "config"
+          ]
+        },
+        "timeouts": {
+          "support": "partial",
+          "answer": "Telegram requests have timeouts and retries.",
+          "evidenceIds": [
+            "telegram"
+          ]
+        },
+        "retries": {
+          "support": "partial",
+          "answer": "Network errors retried (v0.23.1).",
+          "evidenceIds": [
+            "changelog"
+          ]
+        },
+        "provider_failures": {
+          "support": "supported",
+          "answer": "Provider errors such as 429 render as the final message.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "enforcement": {
+          "support": "partial",
+          "answer": "Only transport limits are enforced.",
+          "evidenceIds": [
+            "telegram"
+          ]
+        }
+      },
+      "limitations": [
+        "time limits: None for runs.",
+        "turn limits: None.",
+        "token limits: None.",
+        "spend limits: None.",
+        "timeouts: Telegram requests have timeouts and retries.",
+        "retries: Network errors retried (v0.23.1).",
+        "enforcement: Only transport limits are enforced."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "telegram",
+        "config",
+        "changelog",
+        "spec"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-ade63",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "takopi:RUN-06",
+      "criterionId": "RUN-06",
+      "answer": "Progress messages show engine, elapsed time, step count and actions (commands, tools, file changes); structured logs with TAKOPI_LOG_* settings; no statistics or exports; an error final message states the failure.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "telegram"
+        ],
+        "version": "takopi release v0.23.4 (tag v0.23.4, commit e0123d4, 2026-05-25); the banteg account has one public takopi repository; third-party engine and transport plugins are separate packages and out of scope",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "logs": {
+          "support": "supported",
+          "answer": "TAKOPI_LOG_LEVEL, FORMAT and FILE.",
+          "evidenceIds": [
+            "env"
+          ]
+        },
+        "traces": {
+          "support": "partial",
+          "answer": "TAKOPI_TRACE_PIPELINE logs pipeline events.",
+          "evidenceIds": [
+            "env"
+          ]
+        },
+        "failure_reasons": {
+          "support": "supported",
+          "answer": "Final message includes the runner error.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "usage_export": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "env"
+          ]
+        },
+        "task_stats": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "env"
+          ]
+        },
+        "agent_stats": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "env"
+          ]
+        },
+        "project_stats": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "env"
+          ]
+        },
+        "time_stats": {
+          "support": "partial",
+          "answer": "Elapsed time per run in the message.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "failure_status": {
+          "support": "supported",
+          "answer": "Final status error or done.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "approval_status": {
+          "support": "unsupported",
+          "answer": "No approval status exists.",
+          "evidenceIds": [
+            "codexrun"
+          ]
+        },
+        "reconnect_consistency": {
+          "support": "partial",
+          "answer": "Progress messages are edited in place; ordering via the outbox.",
+          "evidenceIds": [
+            "telegram"
+          ]
+        },
+        "performance_method": {
+          "support": "unknown",
+          "answer": "No performance claims in the repository.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "responsiveness": {
+          "support": "unknown",
+          "answer": "Not measured.",
+          "evidenceIds": [
+            "spec"
+          ]
+        }
+      },
+      "limitations": [
+        "traces: TAKOPI_TRACE_PIPELINE logs pipeline events.",
+        "usage export: None.",
+        "task stats: None.",
+        "agent stats: None.",
+        "project stats: None.",
+        "time stats: Elapsed time per run in the message.",
+        "approval status: No approval status exists.",
+        "reconnect consistency: Progress messages are edited in place; ordering via the outbox.",
+        "performance method: No performance claims in the repository.",
+        "responsiveness: Not measured."
+      ],
+      "unknownReason": "Performance figures are excluded by catalog policy.",
+      "evidenceIds": [
+        "readme",
+        "env",
+        "spec",
+        "codexrun",
+        "telegram"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-ade63",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "takopi:RUN-07",
+      "criterionId": "RUN-07",
+      "answer": "No cost tracking: an open pull request proposes Pi token usage display; no cost fields exist at v0.23.4.",
+      "support": "unsupported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "telegram"
+        ],
+        "version": "takopi release v0.23.4 (tag v0.23.4, commit e0123d4, 2026-05-25); the banteg account has one public takopi repository; third-party engine and transport plugins are separate packages and out of scope",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "task_cost": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "env"
+          ]
+        },
+        "session_cost": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "env"
+          ]
+        },
+        "child_cost": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "env"
+          ]
+        },
+        "epic_cost": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "env"
+          ]
+        },
+        "harness_aggregation": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "env"
+          ]
+        },
+        "billed_vs_estimated": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "env"
+          ]
+        },
+        "tokens": {
+          "support": "unsupported",
+          "answer": "None at the pinned release.",
+          "evidenceIds": [
+            "changelog"
+          ]
+        },
+        "subscription_allowance": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "env"
+          ]
+        },
+        "provider_reconciliation": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "env"
+          ]
+        },
+        "compute_cost": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "env"
+          ]
+        },
+        "refresh_delay": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "env"
+          ]
+        },
+        "alerts": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "env"
+          ]
+        },
+        "export": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "env"
+          ]
+        },
+        "drilldown": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "env"
+          ]
+        }
+      },
+      "limitations": [
+        "task cost: None.",
+        "session cost: None.",
+        "child cost: None.",
+        "epic cost: None.",
+        "harness aggregation: None.",
+        "billed vs estimated: None.",
+        "tokens: None at the pinned release.",
+        "subscription allowance: None.",
+        "provider reconciliation: None.",
+        "compute cost: None.",
+        "refresh delay: None.",
+        "alerts: None.",
+        "export: None.",
+        "drilldown: None."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "env",
+        "changelog"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-ade63",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "takopi:RUN-08",
+      "criterionId": "RUN-08",
+      "answer": "No compute-aware scheduling: per-thread serialization and an outbox rate limiter only.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "telegram"
+        ],
+        "version": "takopi release v0.23.4 (tag v0.23.4, commit e0123d4, 2026-05-25); the banteg account has one public takopi repository; third-party engine and transport plugins are separate packages and out of scope",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "concurrency": {
+          "support": "partial",
+          "answer": "Per-thread serialization; unlimited across threads.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "queues": {
+          "support": "supported",
+          "answer": "Per-thread queue.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "cpu_ram": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "backpressure": {
+          "support": "partial",
+          "answer": "Outbox backoff for Telegram limits.",
+          "evidenceIds": [
+            "telegram"
+          ]
+        },
+        "host_awareness": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "check_reuse": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "check_deduplication": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "bounded_tests": {
+          "support": "unsupported",
+          "answer": "Takopi runs no checks.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "cancellation": {
+          "support": "supported",
+          "answer": "/cancel.",
+          "evidenceIds": [
+            "commands"
+          ]
+        },
+        "fairness": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "recovery": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "shared_limits": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        }
+      },
+      "limitations": [
+        "concurrency: Per-thread serialization; unlimited across threads.",
+        "cpu ram: None.",
+        "backpressure: Outbox backoff for Telegram limits.",
+        "host awareness: None.",
+        "check reuse: None.",
+        "check deduplication: None.",
+        "bounded tests: Takopi runs no checks.",
+        "fairness: None.",
+        "recovery: None.",
+        "shared limits: None."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "spec",
+        "telegram",
+        "commands"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-ade63",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "takopi:TEAM-01",
+      "criterionId": "TEAM-01",
+      "answer": "Group chats and forum topics let several Telegram users message the same bot and topic; allowed_user_ids restricts senders; sessions are per sender in group chats, mentions-only trigger mode reduces noise. No presence or attribution beyond Telegram own.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "telegram"
+        ],
+        "version": "takopi release v0.23.4 (tag v0.23.4, commit e0123d4, 2026-05-25); the banteg account has one public takopi repository; third-party engine and transport plugins are separate packages and out of scope",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "visibility": {
+          "support": "supported",
+          "answer": "Group members see progress and results in the topic.",
+          "evidenceIds": [
+            "topics"
+          ]
+        },
+        "discussion": {
+          "support": "supported",
+          "answer": "Telegram chat discussion.",
+          "evidenceIds": [
+            "topics"
+          ]
+        },
+        "comments": {
+          "support": "partial",
+          "answer": "Telegram replies.",
+          "evidenceIds": [
+            "telegram"
+          ]
+        },
+        "presence": {
+          "support": "partial",
+          "answer": "Telegram own presence only.",
+          "evidenceIds": [
+            "telegram"
+          ]
+        },
+        "coprompting": {
+          "support": "partial",
+          "answer": "Several allowed users can prompt; chat sessions store one token per sender.",
+          "evidenceIds": [
+            "telegram"
+          ]
+        },
+        "ordering": {
+          "support": "supported",
+          "answer": "Per-thread serialization queues overlapping prompts.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "conflicts": {
+          "support": "partial",
+          "answer": "Serialization only.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "attribution": {
+          "support": "partial",
+          "answer": "Telegram shows the sender; takopi quotes the prompt.",
+          "evidenceIds": [
+            "telegram"
+          ]
+        },
+        "permissions": {
+          "support": "partial",
+          "answer": "allowed_user_ids sender allowlist; admin rights for topics.",
+          "evidenceIds": [
+            "config",
+            "topics"
+          ]
+        },
+        "plan_restrictions": {
+          "support": "supported",
+          "answer": "No plans.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "owner_online": {
+          "support": "supported",
+          "answer": "The host running takopi must stay online.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "comments: Telegram replies.",
+        "presence: Telegram own presence only.",
+        "coprompting: Several allowed users can prompt; chat sessions store one token per sender.",
+        "conflicts: Serialization only.",
+        "attribution: Telegram shows the sender; takopi quotes the prompt.",
+        "permissions: allowed_user_ids sender allowlist; admin rights for topics."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "telegram",
+        "topics",
+        "config",
+        "spec",
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-ade63",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "takopi:TEAM-02",
+      "criterionId": "TEAM-02",
+      "answer": "No roles, organisations or SSO: a sender allowlist (allowed_user_ids) and Telegram group admin rights only.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "telegram"
+        ],
+        "version": "takopi release v0.23.4 (tag v0.23.4, commit e0123d4, 2026-05-25); the banteg account has one public takopi repository; third-party engine and transport plugins are separate packages and out of scope",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "organization_roles": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "config"
+          ]
+        },
+        "project_roles": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "config"
+          ]
+        },
+        "task_roles": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "config"
+          ]
+        },
+        "membership": {
+          "support": "partial",
+          "answer": "Telegram group membership and allowlist.",
+          "evidenceIds": [
+            "config"
+          ]
+        },
+        "sso": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "config"
+          ]
+        },
+        "provisioning": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "config"
+          ]
+        },
+        "unauthorized_access": {
+          "support": "partial",
+          "answer": "Updates from senders outside allowed_user_ids are ignored when set; empty allows everyone.",
+          "evidenceIds": [
+            "config"
+          ]
+        },
+        "revocation": {
+          "support": "partial",
+          "answer": "Edit the allowlist (hot reload with watch_config).",
+          "evidenceIds": [
+            "config"
+          ]
+        },
+        "plan_scope": {
+          "support": "supported",
+          "answer": "No plans.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "organization roles: None.",
+        "project roles: None.",
+        "task roles: None.",
+        "membership: Telegram group membership and allowlist.",
+        "sso: None.",
+        "provisioning: None.",
+        "unauthorized access: Updates from senders outside allowed_user_ids are ignored when set; empty allows everyone.",
+        "revocation: Edit the allowlist (hot reload with watch_config)."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "config",
+        "topics",
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-ade63",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "takopi:TEAM-03",
+      "criterionId": "TEAM-03",
+      "answer": "No approval workflow: Codex approval requests are auto-accepted and permission requests granted for the turn, Claude runs non-interactively with preconfigured permissions or the dangerous skip flag, MCP elicitation is declined.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "telegram"
+        ],
+        "version": "takopi release v0.23.4 (tag v0.23.4, commit e0123d4, 2026-05-25); the banteg account has one public takopi repository; third-party engine and transport plugins are separate packages and out of scope",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "command": {
+          "support": "unsupported",
+          "answer": "Approvals are auto-accepted for Codex and not surfaced for Claude.",
+          "evidenceIds": [
+            "codexrun"
+          ]
+        },
+        "tool": {
+          "support": "unsupported",
+          "answer": "No tool approval UI.",
+          "evidenceIds": [
+            "clauderun"
+          ]
+        },
+        "network": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "codexrun"
+          ]
+        },
+        "secret": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "codexrun"
+          ]
+        },
+        "delivery": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "codexrun"
+          ]
+        },
+        "approver_identity": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "codexrun"
+          ]
+        },
+        "lifetime": {
+          "support": "partial",
+          "answer": "Permission grants are scoped to the turn.",
+          "evidenceIds": [
+            "codexrun"
+          ]
+        },
+        "allow": {
+          "support": "partial",
+          "answer": "Automatic accept in the runner.",
+          "evidenceIds": [
+            "codexrun"
+          ]
+        },
+        "deny": {
+          "support": "partial",
+          "answer": "Claude allowed_tools lists restrict tools.",
+          "evidenceIds": [
+            "clauderun"
+          ]
+        },
+        "revoke": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "codexrun"
+          ]
+        },
+        "tunnels": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "defaults": {
+          "support": "supported",
+          "answer": "Codex approvals accepted by default; Claude uses its settings.",
+          "evidenceIds": [
+            "codexrun",
+            "clauderun"
+          ]
+        },
+        "safer_modes": {
+          "support": "partial",
+          "answer": "Claude allowed_tools; engine sandboxes.",
+          "evidenceIds": [
+            "clauderun"
+          ]
+        },
+        "enforcement": {
+          "support": "partial",
+          "answer": "Enforced by the engine CLI, not takopi.",
+          "evidenceIds": [
+            "clauderun"
+          ]
+        }
+      },
+      "limitations": [
+        "command: Approvals are auto-accepted for Codex and not surfaced for Claude.",
+        "tool: No tool approval UI.",
+        "network: None.",
+        "secret: None.",
+        "delivery: None.",
+        "approver identity: None.",
+        "lifetime: Permission grants are scoped to the turn.",
+        "allow: Automatic accept in the runner.",
+        "deny: Claude allowed_tools lists restrict tools.",
+        "revoke: None.",
+        "tunnels: None.",
+        "safer modes: Claude allowed_tools; engine sandboxes.",
+        "enforcement: Enforced by the engine CLI, not takopi."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "codexrun",
+        "clauderun",
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-ade63",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "takopi:TEAM-04",
+      "criterionId": "TEAM-04",
+      "answer": "No history features of its own: Telegram holds the conversation; takopi writes optional debug logs and a chat sessions state file.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "telegram"
+        ],
+        "version": "takopi release v0.23.4 (tag v0.23.4, commit e0123d4, 2026-05-25); the banteg account has one public takopi repository; third-party engine and transport plugins are separate packages and out of scope",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "actions": {
+          "support": "partial",
+          "answer": "Logs when enabled.",
+          "evidenceIds": [
+            "env"
+          ]
+        },
+        "approvals": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "env"
+          ]
+        },
+        "edits": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "env"
+          ]
+        },
+        "discussion": {
+          "support": "partial",
+          "answer": "Telegram history.",
+          "evidenceIds": [
+            "telegram"
+          ]
+        },
+        "decisions": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "env"
+          ]
+        },
+        "cross_user_persistence": {
+          "support": "partial",
+          "answer": "Topic sessions persist.",
+          "evidenceIds": [
+            "telegram"
+          ]
+        },
+        "cross_session_persistence": {
+          "support": "supported",
+          "answer": "State file.",
+          "evidenceIds": [
+            "telegram"
+          ]
+        },
+        "export": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "env"
+          ]
+        },
+        "mutability": {
+          "support": "partial",
+          "answer": "Telegram messages and local files are editable.",
+          "evidenceIds": [
+            "telegram"
+          ]
+        },
+        "retention": {
+          "support": "unknown",
+          "answer": "No retention policy.",
+          "evidenceIds": [
+            "env"
+          ]
+        },
+        "integrity": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "env"
+          ]
+        }
+      },
+      "limitations": [
+        "actions: Logs when enabled.",
+        "approvals: None.",
+        "edits: None.",
+        "discussion: Telegram history.",
+        "decisions: None.",
+        "cross user persistence: Topic sessions persist.",
+        "export: None.",
+        "mutability: Telegram messages and local files are editable.",
+        "retention: No retention policy.",
+        "integrity: None."
+      ],
+      "unknownReason": "No retention statement exists.",
+      "evidenceIds": [
+        "telegram",
+        "env"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-ade63",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "takopi:TEAM-05",
+      "criterionId": "TEAM-05",
+      "answer": "No review experience: progress shows file change actions but no diff view, comments or review queue.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "telegram"
+        ],
+        "version": "takopi release v0.23.4 (tag v0.23.4, commit e0123d4, 2026-05-25); the banteg account has one public takopi repository; third-party engine and transport plugins are separate packages and out of scope",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "pending_reviews": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "change_understanding": {
+          "support": "partial",
+          "answer": "Progress lists commands, tools and file changes.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "evidence_navigation": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "comments": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "request_changes": {
+          "support": "partial",
+          "answer": "Reply with a new instruction.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "shipping_guidance": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "effort": {
+          "support": "unknown",
+          "answer": "No measurement.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "missed_evidence": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "keyboard": {
+          "support": "unsupported",
+          "answer": "Not applicable.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "narrow_screen": {
+          "support": "supported",
+          "answer": "Telegram on phones.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "context_switching": {
+          "support": "partial",
+          "answer": "Topics per repo.",
+          "evidenceIds": [
+            "topics"
+          ]
+        },
+        "roles": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "retained_context": {
+          "support": "partial",
+          "answer": "Telegram history.",
+          "evidenceIds": [
+            "telegram"
+          ]
+        }
+      },
+      "limitations": [
+        "pending reviews: None.",
+        "change understanding: Progress lists commands, tools and file changes.",
+        "evidence navigation: None.",
+        "comments: None.",
+        "request changes: Reply with a new instruction.",
+        "shipping guidance: None.",
+        "effort: No measurement.",
+        "missed evidence: None.",
+        "keyboard: Not applicable.",
+        "context switching: Topics per repo.",
+        "roles: None.",
+        "retained context: Telegram history."
+      ],
+      "unknownReason": "Review effort is not measured.",
+      "evidenceIds": [
+        "readme",
+        "spec",
+        "topics",
+        "telegram"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-ade63",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "takopi:TEAM-06",
+      "criterionId": "TEAM-06",
+      "answer": "Not designed for takeover: a different user would reply to a resume line; resume lines move a session to the terminal; sessions are per sender in group chats.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "telegram"
+        ],
+        "version": "takopi release v0.23.4 (tag v0.23.4, commit e0123d4, 2026-05-25); the banteg account has one public takopi repository; third-party engine and transport plugins are separate packages and out of scope",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "ongoing_takeover": {
+          "support": "partial",
+          "answer": "Reply with a resume line in the topic or terminal.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "same_task": {
+          "support": "supported",
+          "answer": "Resume token addresses the same engine session.",
+          "evidenceIds": [
+            "telegram"
+          ]
+        },
+        "session_history": {
+          "support": "partial",
+          "answer": "Engine session files and Telegram history.",
+          "evidenceIds": [
+            "telegram"
+          ]
+        },
+        "decisions": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "artifacts": {
+          "support": "partial",
+          "answer": "/file get fetches files.",
+          "evidenceIds": [
+            "files"
+          ]
+        },
+        "permissions": {
+          "support": "partial",
+          "answer": "allowed_user_ids.",
+          "evidenceIds": [
+            "config"
+          ]
+        },
+        "runtime_context": {
+          "support": "partial",
+          "answer": "Context footer ctx: project and branch.",
+          "evidenceIds": [
+            "worktrees"
+          ]
+        },
+        "owner_disconnect": {
+          "support": "supported",
+          "answer": "Host keeps running.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "ownership": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "attribution": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "context_loss": {
+          "support": "partial",
+          "answer": "Chat sessions are stored per sender, so another sender starts fresh unless they reply.",
+          "evidenceIds": [
+            "telegram"
+          ]
+        },
+        "harness_transfer": {
+          "support": "unsupported",
+          "answer": "Resume tokens are per engine; switching engines starts a new session.",
+          "evidenceIds": [
+            "telegram"
+          ]
+        }
+      },
+      "limitations": [
+        "ongoing takeover: Reply with a resume line in the topic or terminal.",
+        "session history: Engine session files and Telegram history.",
+        "decisions: None.",
+        "artifacts: /file get fetches files.",
+        "permissions: allowed_user_ids.",
+        "runtime context: Context footer ctx: project and branch.",
+        "ownership: None.",
+        "attribution: None.",
+        "context loss: Chat sessions are stored per sender, so another sender starts fresh unless they reply.",
+        "harness transfer: Resume tokens are per engine; switching engines starts a new session."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "telegram",
+        "files",
+        "config",
+        "worktrees"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-ade63",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "takopi:SHIP-01",
+      "criterionId": "SHIP-01",
+      "answer": "Files can be fetched back to Telegram with /file get; no diffs, screenshots, recordings or gallery.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "telegram"
+        ],
+        "version": "takopi release v0.23.4 (tag v0.23.4, commit e0123d4, 2026-05-25); the banteg account has one public takopi repository; third-party engine and transport plugins are separate packages and out of scope",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "diffs": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "files"
+          ]
+        },
+        "documents": {
+          "support": "partial",
+          "answer": "/file get sends files and directories (50 MiB cap).",
+          "evidenceIds": [
+            "files"
+          ]
+        },
+        "screenshots": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "files"
+          ]
+        },
+        "recordings": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "files"
+          ]
+        },
+        "previews": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "files"
+          ]
+        },
+        "test_outputs": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "files"
+          ]
+        },
+        "reviewer_outputs": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "files"
+          ]
+        },
+        "gallery": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "files"
+          ]
+        },
+        "task_links": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "files"
+          ]
+        },
+        "revision_links": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "files"
+          ]
+        },
+        "persistence": {
+          "support": "partial",
+          "answer": "Telegram stores messages.",
+          "evidenceIds": [
+            "telegram"
+          ]
+        },
+        "child_findings": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "files"
+          ]
+        },
+        "prompt_leakage": {
+          "support": "unknown",
+          "answer": "Not addressed.",
+          "evidenceIds": [
+            "files"
+          ]
+        }
+      },
+      "limitations": [
+        "diffs: None.",
+        "documents: /file get sends files and directories (50 MiB cap).",
+        "screenshots: None.",
+        "recordings: None.",
+        "previews: None.",
+        "test outputs: None.",
+        "reviewer outputs: None.",
+        "gallery: None.",
+        "task links: None.",
+        "revision links: None.",
+        "persistence: Telegram stores messages.",
+        "child findings: None.",
+        "prompt leakage: Not addressed."
+      ],
+      "unknownReason": "Prompt leakage is not addressed.",
+      "evidenceIds": [
+        "files",
+        "readme",
+        "telegram"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-ade63",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "takopi:SHIP-02",
+      "criterionId": "SHIP-02",
+      "answer": "No verification gates: takopi runs no tests or checks; CI exists only for the project itself.",
+      "support": "unsupported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "telegram"
+        ],
+        "version": "takopi release v0.23.4 (tag v0.23.4, commit e0123d4, 2026-05-25); the banteg account has one public takopi repository; third-party engine and transport plugins are separate packages and out of scope",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "tests": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "lint": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "types": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "ci": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "independent_review": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "spec_checks": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "required_checks": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "failure_blocking": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "requirement_conflicts": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "configured_policy": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "enforced_policy": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        }
+      },
+      "limitations": [
+        "tests: None.",
+        "lint: None.",
+        "types: None.",
+        "ci: None.",
+        "independent review: None.",
+        "spec checks: None.",
+        "required checks: None.",
+        "failure blocking: None.",
+        "requirement conflicts: None.",
+        "configured policy: None.",
+        "enforced policy: None."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "spec",
+        "ci"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-ade63",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "takopi:SHIP-03",
+      "criterionId": "SHIP-03",
+      "answer": "Git support is limited to creating branch worktrees; commits, pull requests and merges are left to the engine.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "telegram"
+        ],
+        "version": "takopi release v0.23.4 (tag v0.23.4, commit e0123d4, 2026-05-25); the banteg account has one public takopi repository; third-party engine and transport plugins are separate packages and out of scope",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "branches": {
+          "support": "supported",
+          "answer": "@branch creates or checks out branches in worktrees.",
+          "evidenceIds": [
+            "wtpy"
+          ]
+        },
+        "worktrees": {
+          "support": "supported",
+          "answer": "Worktrees under worktrees_dir.",
+          "evidenceIds": [
+            "wtpy"
+          ]
+        },
+        "commits": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "worktrees"
+          ]
+        },
+        "pull_requests": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "worktrees"
+          ]
+        },
+        "comments": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "worktrees"
+          ]
+        },
+        "ci_response": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "worktrees"
+          ]
+        },
+        "rebase": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "worktrees"
+          ]
+        },
+        "conflicts": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "worktrees"
+          ]
+        },
+        "product_state": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "worktrees"
+          ]
+        }
+      },
+      "limitations": [
+        "commits: None.",
+        "pull requests: None.",
+        "comments: None.",
+        "ci response: None.",
+        "rebase: None.",
+        "conflicts: None.",
+        "product state: None."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "worktrees",
+        "wtpy"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-ade63",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "takopi:SHIP-04",
+      "criterionId": "SHIP-04",
+      "answer": "No merge or deployment authority: nothing in takopi merges, releases or deploys.",
+      "support": "unsupported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "telegram"
+        ],
+        "version": "takopi release v0.23.4 (tag v0.23.4, commit e0123d4, 2026-05-25); the banteg account has one public takopi repository; third-party engine and transport plugins are separate packages and out of scope",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "approve": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "merge": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "release": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "deploy": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "exact_revision": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "authority_enforcement": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        }
+      },
+      "limitations": [
+        "approve: None.",
+        "merge: None.",
+        "release: None.",
+        "deploy: None.",
+        "exact revision: None.",
+        "authority enforcement: None."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "spec"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-ade63",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "takopi:SHIP-05",
+      "criterionId": "SHIP-05",
+      "answer": "No completion evidence: only the final Telegram message.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "telegram"
+        ],
+        "version": "takopi release v0.23.4 (tag v0.23.4, commit e0123d4, 2026-05-25); the banteg account has one public takopi repository; third-party engine and transport plugins are separate packages and out of scope",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "commit_links": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "pr_links": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "build_links": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "deployment_links": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "delivery_status": {
+          "support": "partial",
+          "answer": "Final message says done or error.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "retained_evidence": {
+          "support": "partial",
+          "answer": "Telegram history.",
+          "evidenceIds": [
+            "telegram"
+          ]
+        },
+        "rollback": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "revert": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "stale_approval_invalidation": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        }
+      },
+      "limitations": [
+        "commit links: None.",
+        "pr links: None.",
+        "build links: None.",
+        "deployment links: None.",
+        "delivery status: Final message says done or error.",
+        "retained evidence: Telegram history.",
+        "rollback: None.",
+        "revert: None.",
+        "stale approval invalidation: None."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "spec",
+        "telegram"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-ade63",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "takopi:SHIP-06",
+      "criterionId": "SHIP-06",
+      "answer": "No batch review or shipping features.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "telegram"
+        ],
+        "version": "takopi release v0.23.4 (tag v0.23.4, commit e0123d4, 2026-05-25); the banteg account has one public takopi repository; third-party engine and transport plugins are separate packages and out of scope",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "review_queue": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "summaries": {
+          "support": "partial",
+          "answer": "Final message summarises the agent answer.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "grouping": {
+          "support": "partial",
+          "answer": "Topics group by repo and branch.",
+          "evidenceIds": [
+            "topics"
+          ]
+        },
+        "risk_size_filters": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "findings": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "artifacts": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "request_changes": {
+          "support": "partial",
+          "answer": "Reply.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "exact_revision_approval": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "dependency_queues": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "next_actions": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "stale_approval_invalidation": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        },
+        "check_deduplication": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spec"
+          ]
+        }
+      },
+      "limitations": [
+        "review queue: None.",
+        "summaries: Final message summarises the agent answer.",
+        "grouping: Topics group by repo and branch.",
+        "risk size filters: None.",
+        "findings: None.",
+        "artifacts: None.",
+        "request changes: Reply.",
+        "exact revision approval: None.",
+        "dependency queues: None.",
+        "next actions: None.",
+        "stale approval invalidation: None.",
+        "check deduplication: None."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "spec",
+        "topics",
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-ade63",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "takopi:OWN-01",
+      "criterionId": "OWN-01",
+      "answer": "MIT license, single public repository, also on PyPI.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "telegram"
+        ],
+        "version": "takopi release v0.23.4 (tag v0.23.4, commit e0123d4, 2026-05-25); the banteg account has one public takopi repository; third-party engine and transport plugins are separate packages and out of scope",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "client_license": {
+          "support": "supported",
+          "answer": "MIT.",
+          "evidenceIds": [
+            "license",
+            "repo"
+          ]
+        },
+        "server_license": {
+          "support": "supported",
+          "answer": "No separate server; the bridge is the one package under MIT.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "hosted_extensions": {
+          "support": "unsupported",
+          "answer": "No hosted component.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "source_visibility": {
+          "support": "supported",
+          "answer": "Public.",
+          "evidenceIds": [
+            "repo"
+          ]
+        },
+        "source_revision": {
+          "support": "supported",
+          "answer": "Pinned to v0.23.4 (e0123d4).",
+          "evidenceIds": [
+            "rel"
+          ]
+        },
+        "hosted_parity": {
+          "support": "unsupported",
+          "answer": "No hosted offering.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "hosted extensions: No hosted component.",
+        "hosted parity: No hosted offering."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "license",
+        "repo",
+        "rel",
+        "pypi",
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-05-15",
+      "researcher": "researcher-ade63",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "takopi:OWN-02",
+      "criterionId": "OWN-02",
+      "answer": "Runs on user infrastructure; state is JSON and TOML beside the config; no export or import; no account.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "telegram"
+        ],
+        "version": "takopi release v0.23.4 (tag v0.23.4, commit e0123d4, 2026-05-25); the banteg account has one public takopi repository; third-party engine and transport plugins are separate packages and out of scope",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "self_hosting": {
+          "support": "supported",
+          "answer": "Self-run process.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "vendor_dependencies": {
+          "support": "partial",
+          "answer": "Telegram bot API is required; engines call their providers; voice transcription uses an OpenAI-compatible endpoint when enabled.",
+          "evidenceIds": [
+            "telegram",
+            "voice"
+          ]
+        },
+        "export": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "config"
+          ]
+        },
+        "import": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "config"
+          ]
+        },
+        "formats": {
+          "support": "partial",
+          "answer": "TOML config and JSON state.",
+          "evidenceIds": [
+            "config",
+            "telegram"
+          ]
+        },
+        "cancellation": {
+          "support": "supported",
+          "answer": "Nothing to cancel.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "account_independence": {
+          "support": "partial",
+          "answer": "Needs a Telegram account and bot, not a takopi account.",
+          "evidenceIds": [
+            "config"
+          ]
+        },
+        "history_portability": {
+          "support": "unsupported",
+          "answer": "Sessions stay in engine stores; no export.",
+          "evidenceIds": [
+            "telegram"
+          ]
+        }
+      },
+      "limitations": [
+        "vendor dependencies: Telegram bot API is required; engines call their providers; voice transcription uses an OpenAI-compatible endpoint when enabled.",
+        "export: None.",
+        "import: None.",
+        "formats: TOML config and JSON state.",
+        "account independence: Needs a Telegram account and bot, not a takopi account.",
+        "history portability: Sessions stay in engine stores; no export."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "config",
+        "telegram",
+        "readme",
+        "voice"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-05-15",
+      "researcher": "researcher-ade63",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "takopi:OWN-03",
+      "criterionId": "OWN-03",
+      "answer": "No telemetry or analytics in the package; messages flow through Telegram servers (not end-to-end encrypted bot chats), prompts go to the engines providers, and voice notes optionally to an OpenAI-compatible endpoint; files transfer through Telegram.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "telegram"
+        ],
+        "version": "takopi release v0.23.4 (tag v0.23.4, commit e0123d4, 2026-05-25); the banteg account has one public takopi repository; third-party engine and transport plugins are separate packages and out of scope",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "code_data": {
+          "support": "partial",
+          "answer": "Code stays local except content the user sends or fetches through Telegram.",
+          "evidenceIds": [
+            "files"
+          ]
+        },
+        "prompts": {
+          "support": "partial",
+          "answer": "Prompts travel through Telegram to the bridge and then to the engine provider.",
+          "evidenceIds": [
+            "telegram"
+          ]
+        },
+        "credentials": {
+          "support": "partial",
+          "answer": "Bot token and optional voice key in takopi.toml; engines hold their own.",
+          "evidenceIds": [
+            "config"
+          ]
+        },
+        "logs": {
+          "support": "partial",
+          "answer": "Local logs when enabled.",
+          "evidenceIds": [
+            "env"
+          ]
+        },
+        "artifacts": {
+          "support": "partial",
+          "answer": "Files through Telegram.",
+          "evidenceIds": [
+            "files"
+          ]
+        },
+        "retention": {
+          "support": "unknown",
+          "answer": "No retention statement.",
+          "evidenceIds": [
+            "telegram"
+          ]
+        },
+        "deletion": {
+          "support": "partial",
+          "answer": "/new clears sessions; Telegram deletes messages.",
+          "evidenceIds": [
+            "commands"
+          ]
+        },
+        "training": {
+          "support": "unknown",
+          "answer": "Provider and Telegram terms govern.",
+          "evidenceIds": [
+            "telegram"
+          ]
+        },
+        "residency": {
+          "support": "unknown",
+          "answer": "Not stated.",
+          "evidenceIds": [
+            "telegram"
+          ]
+        },
+        "subprocessors": {
+          "support": "partial",
+          "answer": "Telegram and the user chosen engines and transcription endpoint.",
+          "evidenceIds": [
+            "telegram",
+            "voice"
+          ]
+        },
+        "telemetry_disclosure": {
+          "support": "partial",
+          "answer": "Environment variable reference lists no telemetry; no privacy document.",
+          "evidenceIds": [
+            "env"
+          ]
+        },
+        "telemetry_defaults": {
+          "support": "supported",
+          "answer": "No telemetry found in src/takopi (bounded search for telemetry, analytics and sentry).",
+          "evidenceIds": [
+            "env"
+          ]
+        },
+        "telemetry_controls": {
+          "support": "unsupported",
+          "answer": "None needed.",
+          "evidenceIds": [
+            "env"
+          ]
+        },
+        "consent_prompt": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "env"
+          ]
+        },
+        "provider_separation": {
+          "support": "supported",
+          "answer": "Voice transcription has its own base URL and key.",
+          "evidenceIds": [
+            "config"
+          ]
+        }
+      },
+      "limitations": [
+        "code data: Code stays local except content the user sends or fetches through Telegram.",
+        "prompts: Prompts travel through Telegram to the bridge and then to the engine provider.",
+        "credentials: Bot token and optional voice key in takopi.toml; engines hold their own.",
+        "logs: Local logs when enabled.",
+        "artifacts: Files through Telegram.",
+        "retention: No retention statement.",
+        "deletion: /new clears sessions; Telegram deletes messages.",
+        "training: Provider and Telegram terms govern.",
+        "residency: Not stated.",
+        "subprocessors: Telegram and the user chosen engines and transcription endpoint.",
+        "telemetry disclosure: Environment variable reference lists no telemetry; no privacy document.",
+        "telemetry controls: None needed.",
+        "consent prompt: None."
+      ],
+      "unknownReason": "The repository has no privacy document; Telegram and provider terms are external.",
+      "evidenceIds": [
+        "telegram",
+        "voice",
+        "env",
+        "readme",
+        "files",
+        "config",
+        "commands"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-ade63",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "takopi:OWN-04",
+      "criterionId": "OWN-04",
+      "answer": "Free MIT software; no paid plan.",
+      "support": "supported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "telegram"
+        ],
+        "version": "takopi release v0.23.4 (tag v0.23.4, commit e0123d4, 2026-05-25); the banteg account has one public takopi repository; third-party engine and transport plugins are separate packages and out of scope",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "currency": {
+          "support": "supported",
+          "answer": "No price.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "interval": {
+          "support": "supported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "seats": {
+          "support": "supported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "seat_minimum": {
+          "support": "supported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "workspace_fees": {
+          "support": "supported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "included_usage": {
+          "support": "supported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "credits": {
+          "support": "supported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "trial": {
+          "support": "supported",
+          "answer": "None needed.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "overages": {
+          "support": "supported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "taxes": {
+          "support": "supported",
+          "answer": "Not applicable.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "model_cost": {
+          "support": "supported",
+          "answer": "Paid to engine providers.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "compute_cost": {
+          "support": "supported",
+          "answer": "User machine.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "license"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-01-15",
+      "researcher": "researcher-ade63",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "takopi:OWN-05",
+      "criterionId": "OWN-05",
+      "answer": "No takopi cost at any team size; engine usage applies.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "telegram"
+        ],
+        "version": "takopi release v0.23.4 (tag v0.23.4, commit e0123d4, 2026-05-25); the banteg account has one public takopi repository; third-party engine and transport plugins are separate packages and out of scope",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "one_person": {
+          "support": "supported",
+          "answer": "Free.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "two_people": {
+          "support": "supported",
+          "answer": "Free.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "five_people": {
+          "support": "supported",
+          "answer": "Free.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "task_assumptions": {
+          "support": "unknown",
+          "answer": "None published.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "concurrency": {
+          "support": "supported",
+          "answer": "No fee.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "tokens": {
+          "support": "unsupported",
+          "answer": "Not tracked.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "compute_hours": {
+          "support": "supported",
+          "answer": "User machine.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "fixed_cost": {
+          "support": "supported",
+          "answer": "Zero.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "variable_cost": {
+          "support": "partial",
+          "answer": "Engine usage varies.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "included_cost": {
+          "support": "supported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "unknown_cost": {
+          "support": "partial",
+          "answer": "Engine costs are not shown.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "task assumptions: None published.",
+        "tokens: Not tracked.",
+        "variable cost: Engine usage varies.",
+        "unknown cost: Engine costs are not shown."
+      ],
+      "unknownReason": "No scenario cost model is published.",
+      "evidenceIds": [
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-ade63",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "takopi:OWN-06",
+      "criterionId": "OWN-06",
+      "answer": "Open-source Python package at version 0.23.4; releases were frequent until 2026-05-25 and no commit has been pushed since; support through GitHub issues (52 open); no SLA.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "telegram"
+        ],
+        "version": "takopi release v0.23.4 (tag v0.23.4, commit e0123d4, 2026-05-25); the banteg account has one public takopi repository; third-party engine and transport plugins are separate packages and out of scope",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "release_stage": {
+          "support": "partial",
+          "answer": "Version 0.x.",
+          "evidenceIds": [
+            "rel"
+          ]
+        },
+        "access_restrictions": {
+          "support": "supported",
+          "answer": "Public on PyPI and GitHub.",
+          "evidenceIds": [
+            "pypi"
+          ]
+        },
+        "support": {
+          "support": "partial",
+          "answer": "GitHub issues.",
+          "evidenceIds": [
+            "repo"
+          ]
+        },
+        "response_commitments": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "repo"
+          ]
+        },
+        "release_activity": {
+          "support": "partial",
+          "answer": "Releases on 2026-05-15 and 2026-05-25; nothing newer at 2026-11-16.",
+          "evidenceIds": [
+            "rel",
+            "changelog"
+          ]
+        },
+        "status_history": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "repo"
+          ]
+        },
+        "deprecation": {
+          "support": "unknown",
+          "answer": "No statement.",
+          "evidenceIds": [
+            "repo"
+          ]
+        },
+        "export_options": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "config"
+          ]
+        }
+      },
+      "limitations": [
+        "release stage: Version 0.x.",
+        "support: GitHub issues.",
+        "response commitments: None.",
+        "release activity: Releases on 2026-05-15 and 2026-05-25; nothing newer at 2026-11-16.",
+        "status history: None.",
+        "deprecation: No statement.",
+        "export options: None."
+      ],
+      "unknownReason": "No deprecation or maintenance statement exists.",
+      "evidenceIds": [
+        "rel",
+        "repo",
+        "changelog",
+        "pypi",
+        "config"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-ade63",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "takopi:OWN-07",
+      "criterionId": "OWN-07",
+      "answer": "No ISO 27001 or SOC 2 material is published; assurance is a business fact outside the code.",
+      "support": "unknown",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "telegram"
+        ],
+        "version": "takopi release v0.23.4 (tag v0.23.4, commit e0123d4, 2026-05-25); the banteg account has one public takopi repository; third-party engine and transport plugins are separate packages and out of scope",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "iso_scope": {
+          "support": "unknown",
+          "answer": "No certificate found in readme or docs.",
+          "evidenceIds": []
+        },
+        "iso_issuer": {
+          "support": "unknown",
+          "answer": "None.",
+          "evidenceIds": []
+        },
+        "iso_validity": {
+          "support": "unknown",
+          "answer": "None.",
+          "evidenceIds": []
+        },
+        "soc2_type": {
+          "support": "unknown",
+          "answer": "No report found.",
+          "evidenceIds": []
+        },
+        "soc2_scope": {
+          "support": "unknown",
+          "answer": "None.",
+          "evidenceIds": []
+        },
+        "soc2_period": {
+          "support": "unknown",
+          "answer": "None.",
+          "evidenceIds": []
+        },
+        "report_access": {
+          "support": "unknown",
+          "answer": "None.",
+          "evidenceIds": []
+        },
+        "verification_date": {
+          "support": "unknown",
+          "answer": "Nothing to verify.",
+          "evidenceIds": []
+        },
+        "evidence_status": {
+          "support": "unknown",
+          "answer": "No assurance evidence found.",
+          "evidenceIds": []
+        }
+      },
+      "limitations": [
+        "iso scope: No certificate found in readme or docs.",
+        "iso issuer: None.",
+        "iso validity: None.",
+        "soc2 type: No report found.",
+        "soc2 scope: None.",
+        "soc2 period: None.",
+        "report access: None.",
+        "verification date: Nothing to verify.",
+        "evidence status: No assurance evidence found."
+      ],
+      "unknownReason": "Business-fact question: a bounded search of readme and docs found no certificate or report.",
+      "evidenceIds": [],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-ade63",
+      "publication": "internal-only",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "takopi:OWN-08",
+      "criterionId": "OWN-08",
+      "answer": "Everything is free.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "telegram"
+        ],
+        "version": "takopi release v0.23.4 (tag v0.23.4, commit e0123d4, 2026-05-25); the banteg account has one public takopi repository; third-party engine and transport plugins are separate packages and out of scope",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "ongoing_free": {
+          "support": "supported",
+          "answer": "Free MIT.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "trial": {
+          "support": "supported",
+          "answer": "None needed.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "credits_trial": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "self_host_cost": {
+          "support": "supported",
+          "answer": "User machine.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "paid_only": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "early_access": {
+          "support": "partial",
+          "answer": "Version 0.x.",
+          "evidenceIds": [
+            "rel"
+          ]
+        },
+        "free_scenarios": {
+          "support": "supported",
+          "answer": "All.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "card_required": {
+          "support": "supported",
+          "answer": "No.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "usage_caps": {
+          "support": "supported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "paid_evaluation": {
+          "support": "supported",
+          "answer": "Not needed.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "credits trial: None.",
+        "paid only: None.",
+        "early access: Version 0.x."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "license",
+        "rel"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-01-15",
+      "researcher": "researcher-ade63",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "takopi:OWN-09",
+      "criterionId": "OWN-09",
+      "answer": "Transparent: nothing is sold.",
+      "support": "supported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "telegram"
+        ],
+        "version": "takopi release v0.23.4 (tag v0.23.4, commit e0123d4, 2026-05-25); the banteg account has one public takopi repository; third-party engine and transport plugins are separate packages and out of scope",
+        "plan": null,
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "units": {
+          "support": "supported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "included_limits": {
+          "support": "supported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "overages": {
+          "support": "supported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "compute_markup": {
+          "support": "supported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "model_markup": {
+          "support": "supported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "minimum_commitment": {
+          "support": "supported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "cancellation": {
+          "support": "supported",
+          "answer": "Nothing to cancel.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "sales_only_unknowns": {
+          "support": "supported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "transparency_classification": {
+          "support": "supported",
+          "answer": "Free software.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-ade63",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    }
+  ],
+  "evidence": [
+    {
+      "id": "repo",
+      "kind": "documented",
+      "url": "https://github.com/banteg/takopi",
+      "title": "banteg/takopi repository",
+      "locator": "Repository header and GitHub API",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "MIT license, 1,059 stars on 2026-11-16, last push 2026-05-25, not archived, 52 open issues and pull requests.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "rel",
+      "kind": "documented",
+      "url": "https://github.com/banteg/takopi/releases/tag/v0.23.4",
+      "title": "takopi v0.23.4 release",
+      "locator": "Release page",
+      "sourceDate": "2026-05-25",
+      "retrievedAt": "2026-11-16",
+      "finding": "Release v0.23.4 published 2026-05-25; also published to PyPI as takopi 0.23.4.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "pypi",
+      "kind": "documented",
+      "url": "https://pypi.org/project/takopi/",
+      "title": "takopi on PyPI",
+      "locator": "Project page",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Package takopi 0.23.4 with documentation, homepage, issues and repository links to takopi.dev and GitHub.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "readme",
+      "kind": "source-inspected",
+      "url": "https://github.com/banteg/takopi/blob/e0123d4f9b2588bf45ec7250ad648c324e20ce20/readme.md",
+      "title": "takopi readme",
+      "locator": "features, requirements, install, setup, usage, plugins",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Telegram bridge for codex, claude code, opencode and pi with projects, git worktrees, stateless resume, progress streaming, parallel runs with per-session queue, voice notes, file transfer, topics and existing subscriptions; requires uv, Python 3.14 and an engine on PATH.",
+      "visibility": "public",
+      "commit": "e0123d4f9b2588bf45ec7250ad648c324e20ce20",
+      "path": "readme.md"
+    },
+    {
+      "id": "license",
+      "kind": "source-inspected",
+      "url": "https://github.com/banteg/takopi/blob/e0123d4f9b2588bf45ec7250ad648c324e20ce20/LICENSE",
+      "title": "MIT License",
+      "locator": "Whole file",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "MIT license text.",
+      "visibility": "public",
+      "commit": "e0123d4f9b2588bf45ec7250ad648c324e20ce20",
+      "path": "LICENSE"
+    },
+    {
+      "id": "pyproject",
+      "kind": "source-inspected",
+      "url": "https://github.com/banteg/takopi/blob/e0123d4f9b2588bf45ec7250ad648c324e20ce20/pyproject.toml",
+      "title": "pyproject.toml",
+      "locator": "dependencies, classifiers",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Python package with anyio, httpx, openai, pydantic, typer, watchfiles; MIT classifier; OS Independent; Python 3.14.",
+      "visibility": "public",
+      "commit": "e0123d4f9b2588bf45ec7250ad648c324e20ce20",
+      "path": "pyproject.toml"
+    },
+    {
+      "id": "changelog",
+      "kind": "source-inspected",
+      "url": "https://github.com/banteg/takopi/blob/e0123d4f9b2588bf45ec7250ad648c324e20ce20/changelog.md",
+      "title": "changelog",
+      "locator": "v0.22 to v0.23.4",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Releases through v0.23.4 (2026-05-25): Codex app-server default, steer and cancel buttons, reasoning overrides, retry of Telegram network errors.",
+      "visibility": "public",
+      "commit": "e0123d4f9b2588bf45ec7250ad648c324e20ce20",
+      "path": "changelog.md"
+    },
+    {
+      "id": "config",
+      "kind": "source-inspected",
+      "url": "https://github.com/banteg/takopi/blob/e0123d4f9b2588bf45ec7250ad648c324e20ce20/docs/reference/config.md",
+      "title": "Configuration reference",
+      "locator": "Top-level keys, transports.telegram, projects, plugins",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Config at ~/.takopi/takopi.toml: bot token, chat id, allowed_user_ids, session_mode, voice, topics, files, projects with worktrees_dir and worktree_base, plugins.",
+      "visibility": "public",
+      "commit": "e0123d4f9b2588bf45ec7250ad648c324e20ce20",
+      "path": "docs/reference/config.md"
+    },
+    {
+      "id": "commands",
+      "kind": "source-inspected",
+      "url": "https://github.com/banteg/takopi/blob/e0123d4f9b2588bf45ec7250ad648c324e20ce20/docs/reference/commands-and-directives.md",
+      "title": "Commands and directives",
+      "locator": "Message directives, Telegram in-chat commands, CLI",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Directives /engine, /project and @branch, in-chat commands /cancel /agent /model /reasoning /trigger /file /topic /ctx /new, and CLI commands init, chat-id, doctor, plugins.",
+      "visibility": "public",
+      "commit": "e0123d4f9b2588bf45ec7250ad648c324e20ce20",
+      "path": "docs/reference/commands-and-directives.md"
+    },
+    {
+      "id": "worktrees",
+      "kind": "source-inspected",
+      "url": "https://github.com/banteg/takopi/blob/e0123d4f9b2588bf45ec7250ad648c324e20ce20/docs/how-to/worktrees.md",
+      "title": "Worktrees how-to",
+      "locator": "Whole file",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "@branch runs a task in a dedicated git worktree under worktrees_dir; ctx footer carries context forward.",
+      "visibility": "public",
+      "commit": "e0123d4f9b2588bf45ec7250ad648c324e20ce20",
+      "path": "docs/how-to/worktrees.md"
+    },
+    {
+      "id": "wtpy",
+      "kind": "source-inspected",
+      "url": "https://github.com/banteg/takopi/blob/e0123d4f9b2588bf45ec7250ad648c324e20ce20/src/takopi/worktrees.py",
+      "title": "Worktree implementation",
+      "locator": "_git_worktree_add",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Runs git worktree add (with -b for a new branch) under the project worktrees directory and refuses a non-worktree path.",
+      "visibility": "public",
+      "commit": "e0123d4f9b2588bf45ec7250ad648c324e20ce20",
+      "path": "src/takopi/worktrees.py"
+    },
+    {
+      "id": "spec",
+      "kind": "source-inspected",
+      "url": "https://github.com/banteg/takopi/blob/e0123d4f9b2588bf45ec7250ad648c324e20ce20/docs/reference/specification.md",
+      "title": "Takopi specification",
+      "locator": "Sections 3 to 10",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Resume tokens and lines, normalized events, per-thread serialization, scheduling, progress and cancellation, lockfile for a single instance.",
+      "visibility": "public",
+      "commit": "e0123d4f9b2588bf45ec7250ad648c324e20ce20",
+      "path": "docs/reference/specification.md"
+    },
+    {
+      "id": "telegram",
+      "kind": "source-inspected",
+      "url": "https://github.com/banteg/takopi/blob/e0123d4f9b2588bf45ec7250ad648c324e20ce20/docs/reference/transports/telegram.md",
+      "title": "Telegram transport",
+      "locator": "Incoming messages, Trigger mode, Chat sessions, Forum topics, Outbox, Rate limiting",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Voice transcription, mentions-only trigger mode, chat sessions stored in telegram_chat_sessions_state.json, forum topics, outbox with rate limiting and backoff.",
+      "visibility": "public",
+      "commit": "e0123d4f9b2588bf45ec7250ad648c324e20ce20",
+      "path": "docs/reference/transports/telegram.md"
+    },
+    {
+      "id": "topics",
+      "kind": "source-inspected",
+      "url": "https://github.com/banteg/takopi/blob/e0123d4f9b2588bf45ec7250ad648c324e20ce20/docs/how-to/topics.md",
+      "title": "Topics",
+      "locator": "Whole file",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Forum topics bind a repo and branch with their own session and default engine for team chats.",
+      "visibility": "public",
+      "commit": "e0123d4f9b2588bf45ec7250ad648c324e20ce20",
+      "path": "docs/how-to/topics.md"
+    },
+    {
+      "id": "files",
+      "kind": "source-inspected",
+      "url": "https://github.com/banteg/takopi/blob/e0123d4f9b2588bf45ec7250ad648c324e20ce20/docs/how-to/file-transfer.md",
+      "title": "File transfer",
+      "locator": "Whole file",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Optional /file put and /file get with upload and download size limits and a deny glob list.",
+      "visibility": "public",
+      "commit": "e0123d4f9b2588bf45ec7250ad648c324e20ce20",
+      "path": "docs/how-to/file-transfer.md"
+    },
+    {
+      "id": "voice",
+      "kind": "source-inspected",
+      "url": "https://github.com/banteg/takopi/blob/e0123d4f9b2588bf45ec7250ad648c324e20ce20/docs/how-to/voice-notes.md",
+      "title": "Voice notes",
+      "locator": "Whole file",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Optional voice transcription through an OpenAI-compatible transcription endpoint.",
+      "visibility": "public",
+      "commit": "e0123d4f9b2588bf45ec7250ad648c324e20ce20",
+      "path": "docs/how-to/voice-notes.md"
+    },
+    {
+      "id": "schedule",
+      "kind": "source-inspected",
+      "url": "https://github.com/banteg/takopi/blob/e0123d4f9b2588bf45ec7250ad648c324e20ce20/docs/how-to/schedule-tasks.md",
+      "title": "Schedule tasks",
+      "locator": "Whole file",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Relies on Telegram native scheduled messages (including daily and weekly recurrence); takopi has no scheduler of its own.",
+      "visibility": "public",
+      "commit": "e0123d4f9b2588bf45ec7250ad648c324e20ce20",
+      "path": "docs/how-to/schedule-tasks.md"
+    },
+    {
+      "id": "codexrun",
+      "kind": "source-inspected",
+      "url": "https://github.com/banteg/takopi/blob/e0123d4f9b2588bf45ec7250ad648c324e20ce20/src/takopi/runners/codex.py",
+      "title": "Codex runner",
+      "locator": "_handle_server_request",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Runs codex app-server by default and answers approval requests with accept, permission requests with the requested scope and MCP elicitation with decline.",
+      "visibility": "public",
+      "commit": "e0123d4f9b2588bf45ec7250ad648c324e20ce20",
+      "path": "src/takopi/runners/codex.py"
+    },
+    {
+      "id": "clauderun",
+      "kind": "source-inspected",
+      "url": "https://github.com/banteg/takopi/blob/e0123d4f9b2588bf45ec7250ad648c324e20ce20/docs/reference/runners/claude/runner.md",
+      "title": "Claude runner",
+      "locator": "Goals, Permissions / non-interactive runs, Config",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Runs claude -p non-interactively; permissions must be preconfigured or dangerously_skip_permissions set; no interactive question handling.",
+      "visibility": "public",
+      "commit": "e0123d4f9b2588bf45ec7250ad648c324e20ce20",
+      "path": "docs/reference/runners/claude/runner.md"
+    },
+    {
+      "id": "plugin",
+      "kind": "source-inspected",
+      "url": "https://github.com/banteg/takopi/blob/e0123d4f9b2588bf45ec7250ad648c324e20ce20/docs/reference/plugin-api.md",
+      "title": "Plugin API",
+      "locator": "Whole file",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Entry-point plugins for engines, transports and commands.",
+      "visibility": "public",
+      "commit": "e0123d4f9b2588bf45ec7250ad648c324e20ce20",
+      "path": "docs/reference/plugin-api.md"
+    },
+    {
+      "id": "env",
+      "kind": "source-inspected",
+      "url": "https://github.com/banteg/takopi/blob/e0123d4f9b2588bf45ec7250ad648c324e20ce20/docs/reference/env-vars.md",
+      "title": "Environment variables",
+      "locator": "Whole file",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Only logging, non-interactive and Pi directory variables; no telemetry settings.",
+      "visibility": "public",
+      "commit": "e0123d4f9b2588bf45ec7250ad648c324e20ce20",
+      "path": "docs/reference/env-vars.md"
+    },
+    {
+      "id": "ci",
+      "kind": "source-inspected",
+      "url": "https://github.com/banteg/takopi/blob/e0123d4f9b2588bf45ec7250ad648c324e20ce20/.github/workflows/ci.yml",
+      "title": "CI workflow",
+      "locator": "jobs",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "CI runs ruff format and lint checks, ty type checking, pytest, uv build and a docs build, and notifies on commits.",
+      "visibility": "public",
+      "commit": "e0123d4f9b2588bf45ec7250ad648c324e20ce20",
+      "path": ".github/workflows/ci.yml"
+    }
+  ],
+  "changes": [
+    {
+      "date": "2026-11-16",
+      "author": "researcher-ade63",
+      "type": "initial-research",
+      "summary": "Initial full-profile source pass over takopi v0.23.4 (commit e0123d4): readme, docs/, src/takopi (runners, telegram transport, scheduler, worktrees, config), CI and release workflows, covering all 51 criteria.",
+      "claimIds": [],
+      "evidenceIds": []
+    }
+  ],
+  "context": {
+    "roadmapReview": {
+      "checkedAt": "2026-11-16",
+      "locations": [
+        {
+          "url": "https://github.com/banteg/takopi/releases",
+          "result": "Latest release v0.23.4 (2026-05-25), v0.23.3 (2026-05-15); last repository push 2026-05-25, about six months before this check; no roadmap."
+        },
+        {
+          "url": "https://github.com/banteg/takopi/blob/e0123d4f9b2588bf45ec7250ad648c324e20ce20/changelog.md",
+          "result": "Changelog through v0.23.4 lists shipped changes only; no announced future work."
+        },
+        {
+          "url": "https://github.com/banteg/takopi/issues",
+          "result": "52 open issues and pull requests including topic status icons (161) and voice transcript echo (169); requests only."
+        },
+        {
+          "url": "https://takopi.dev/",
+          "result": "Documentation site loads; it mirrors docs/ and has no roadmap."
+        }
+      ],
+      "announced": [],
+      "gaps": [
+        "No commits since 2026-05-25 were found; the project may be dormant, which is recorded in OWN-06 without a maintainer statement."
+      ]
+    },
+    "marketContext": {
+      "githubStars": {
+        "value": 1059,
+        "observedAt": "2026-11-16",
+        "evidenceIds": [
+          "repo"
+        ]
+      }
+    }
+  }
+}
