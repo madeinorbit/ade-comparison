@@ -267,9 +267,12 @@
           ]
         },
         "vendor_credits": {
-          "support": "unknown",
-          "answer": "Closed or hosted: Google credit and billing mechanics are service-side; billing module only tracks quota context.",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "Settings expose billing.overageStrategy (ask, always, never) controlling whether Google AI credits are used when quota is exhausted; credit purchase itself is a Google service.",
+          "evidenceIds": [
+            "settingsschema",
+            "config"
+          ]
         },
         "local_models": {
           "support": "partial",
@@ -279,9 +282,12 @@
           ]
         },
         "account_switching": {
-          "support": "unknown",
-          "answer": "Not established from checked docs.",
-          "evidenceIds": []
+          "support": "partial",
+          "answer": "The /auth command group offers logout and re-login to change authentication method; multiple simultaneous accounts are not supported in the inspected code.",
+          "evidenceIds": [
+            "readme",
+            "auth"
+          ]
         },
         "vendor_account_requirement": {
           "support": "supported",
@@ -302,11 +308,13 @@
         "Free individual and Google AI plan access moved to Antigravity CLI per the README banner, contradicting pinned quota docs.",
         "Billing and quotas are Google service terms outside the repository."
       ],
-      "unknownReason": "See unknown atomic answers for the closed-component, hosted-service or business-fact gaps.",
+      "unknownReason": null,
       "evidenceIds": [
         "readme",
         "auth",
-        "quota"
+        "quota",
+        "settingsschema",
+        "config"
       ],
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
@@ -917,27 +925,32 @@
         },
         "enforcement": {
           "support": "partial",
-          "answer": "tracker_add_dependency ensures topological execution for the agent plan; no product dispatch gate.",
+          "answer": "Closing a task is blocked until its dependencies are closed and circular dependencies are rejected; nothing gates dispatching other work.",
           "evidenceIds": [
+            "trackersvc",
             "tracker"
           ]
         },
         "state_propagation": {
-          "support": "unknown",
-          "answer": "Not established from docs; implementation behavior not tested here.",
-          "evidenceIds": []
+          "support": "unsupported",
+          "answer": "trackerService.ts updates only the named task; no code propagates status between parent and child tasks.",
+          "evidenceIds": [
+            "trackersvc"
+          ]
         },
         "task_to_epic": {
-          "support": "partial",
-          "answer": "Task type can be updated by the agent; not documented as identity-preserving promotion.",
+          "support": "supported",
+          "answer": "updateTask accepts type changes (task to epic) while keeping the task ID.",
           "evidenceIds": [
-            "tracker"
+            "trackersvc"
           ]
         },
         "identity_retention": {
-          "support": "unknown",
-          "answer": "Not established.",
-          "evidenceIds": []
+          "support": "partial",
+          "answer": "Task ID and JSON file are retained across type and status changes; discussion and outputs are only the task description since there is no separate thread.",
+          "evidenceIds": [
+            "trackersvc"
+          ]
         },
         "workflow_constraints": {
           "support": "supported",
@@ -950,10 +963,11 @@
       "limitations": [
         "Experimental; per-session; no human-visible fleet view or enforced dispatch gating."
       ],
-      "unknownReason": "See unknown atomic answers for the closed-component, hosted-service or business-fact gaps.",
+      "unknownReason": null,
       "evidenceIds": [
         "tracker",
         "trackersrc",
+        "trackersvc",
         "plan"
       ],
       "checkedAt": "2026-11-16",
@@ -1818,9 +1832,11 @@
           ]
         },
         "followup": {
-          "support": "unknown",
-          "answer": "Not established from docs.",
-          "evidenceIds": []
+          "support": "partial",
+          "answer": "Remote A2A agents can receive further messages through the A2A client; local subagents expose no follow-up API in packages/core/src/agents.",
+          "evidenceIds": [
+            "a2aclient"
+          ]
         },
         "invocation": {
           "support": "supported",
@@ -1833,12 +1849,13 @@
       "limitations": [
         "Delegation is inside one session; no cross-harness orchestration."
       ],
-      "unknownReason": "See unknown atomic answers for the closed-component, hosted-service or business-fact gaps.",
+      "unknownReason": null,
       "evidenceIds": [
         "subagents",
         "remoteagents",
         "nogo",
-        "sessions"
+        "sessions",
+        "a2aclient"
       ],
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
@@ -1888,9 +1905,11 @@
           ]
         },
         "completion_conditions": {
-          "support": "unknown",
-          "answer": "Not established.",
-          "evidenceIds": []
+          "support": "partial",
+          "answer": "Workflow jobs end by GitHub job timeout-minutes (7 or 30 in examples) or when the CLI exits.",
+          "evidenceIds": [
+            "actionwf"
+          ]
         },
         "scheduler_location": {
           "support": "supported",
@@ -1900,14 +1919,18 @@
           ]
         },
         "overlaps": {
-          "support": "unknown",
-          "answer": "GitHub concurrency controls are outside this repository.",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "Example workflows use a GitHub concurrency group with cancel-in-progress.",
+          "evidenceIds": [
+            "actionwf"
+          ]
         },
         "retries": {
-          "support": "unknown",
-          "answer": "Not established.",
-          "evidenceIds": []
+          "support": "unsupported",
+          "answer": "No retry configuration appears in the example workflows of run-gemini-cli.",
+          "evidenceIds": [
+            "actionwf"
+          ]
         },
         "client_independence": {
           "support": "supported",
@@ -1920,9 +1943,10 @@
       "limitations": [
         "Scheduling and triggers live in the separate GitHub Action repository, not the CLI."
       ],
-      "unknownReason": "See unknown atomic answers for the closed-component, hosted-service or business-fact gaps.",
+      "unknownReason": null,
       "evidenceIds": [
-        "action"
+        "action",
+        "actionwf"
       ],
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
@@ -2734,14 +2758,19 @@
       },
       "subanswers": {
         "time_limits": {
-          "support": "unknown",
-          "answer": "Not established.",
-          "evidenceIds": []
+          "support": "partial",
+          "answer": "Shell commands have an inactivity timeout (default 300 seconds); no overall session time limit.",
+          "evidenceIds": [
+            "settingsschema"
+          ]
         },
         "turn_limits": {
-          "support": "unknown",
-          "answer": "Not established from docs; settings such as maxSessionTurns were not verified.",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "model.maxSessionTurns limits kept turns; default -1 (unlimited).",
+          "evidenceIds": [
+            "settingsschema",
+            "config"
+          ]
         },
         "token_limits": {
           "support": "partial",
@@ -2751,24 +2780,34 @@
           ]
         },
         "spend_limits": {
-          "support": "unknown",
-          "answer": "Closed or hosted: Google Cloud billing controls.",
-          "evidenceIds": []
+          "support": "partial",
+          "answer": "billing.overageStrategy controls AI-credit use after quota exhaustion; hard spend caps are Google Cloud billing controls.",
+          "evidenceIds": [
+            "settingsschema",
+            "config"
+          ]
         },
         "timeouts": {
-          "support": "unknown",
-          "answer": "Not established.",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "tools.shell.inactivityTimeout and per-server MCP request timeouts.",
+          "evidenceIds": [
+            "settingsschema",
+            "config"
+          ]
         },
         "retries": {
-          "support": "unknown",
-          "answer": "Retry settings not verified in this pass.",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "Model fallback policy has maxAttempts per model (3 in the documented auto-preview chain) and general.retryFetchErrors retries fetch failures.",
+          "evidenceIds": [
+            "config"
+          ]
         },
         "provider_failures": {
-          "support": "unknown",
-          "answer": "Fallback routing exists in core but behavior was not verified.",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "Model availability policy defines actions per failure class (terminal, transient, not_found, unknown) with sticky retry or prompt.",
+          "evidenceIds": [
+            "config"
+          ]
         },
         "enforcement": {
           "support": "partial",
@@ -2781,8 +2820,10 @@
       "limitations": [
         "Spend limits are Google Cloud billing controls."
       ],
-      "unknownReason": "See unknown atomic answers for the closed-component, hosted-service or business-fact gaps.",
+      "unknownReason": null,
       "evidenceIds": [
+        "settingsschema",
+        "config",
         "quota"
       ],
       "checkedAt": "2026-11-16",
@@ -2955,9 +2996,11 @@
           ]
         },
         "child_cost": {
-          "support": "unknown",
-          "answer": "Not established.",
-          "evidenceIds": []
+          "support": "unsupported",
+          "answer": "Subagent token use is not reported separately in the inspected stats code or docs.",
+          "evidenceIds": [
+            "subagents"
+          ]
         },
         "epic_cost": {
           "support": "unsupported",
@@ -3005,9 +3048,11 @@
           "evidenceIds": []
         },
         "refresh_delay": {
-          "support": "unknown",
-          "answer": "Not established.",
-          "evidenceIds": []
+          "support": "partial",
+          "answer": "Stats update per turn in the session; no external refresh delay applies.",
+          "evidenceIds": [
+            "sessions"
+          ]
         },
         "alerts": {
           "support": "unsupported",
@@ -3038,6 +3083,7 @@
       "evidenceIds": [
         "sessions",
         "headless",
+        "subagents",
         "nogo",
         "quota",
         "telemetrydoc"
@@ -3591,9 +3637,12 @@
           ]
         },
         "mutability": {
-          "support": "unknown",
-          "answer": "Not established.",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "Tracker tasks and session records are plain JSON files on the local disk and can be edited or deleted by the user.",
+          "evidenceIds": [
+            "trackersvc",
+            "sessions"
+          ]
         },
         "retention": {
           "support": "supported",
@@ -3613,11 +3662,12 @@
       "limitations": [
         "Local files; no audit integrity."
       ],
-      "unknownReason": "See unknown atomic answers for the closed-component, hosted-service or business-fact gaps.",
+      "unknownReason": null,
       "evidenceIds": [
         "sessions",
         "telemetrydoc",
-        "nogo"
+        "nogo",
+        "trackersvc"
       ],
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
@@ -4791,10 +4841,11 @@
           ]
         },
         "telemetry_defaults": {
-          "support": "partial",
-          "answer": "usageStatisticsEnabled setting exists; default value was not verified for this release.",
+          "support": "supported",
+          "answer": "privacy.usageStatisticsEnabled defaults to true.",
           "evidenceIds": [
-            "config"
+            "config",
+            "settingsschema"
           ]
         },
         "telemetry_controls": {
@@ -4805,9 +4856,11 @@
           ]
         },
         "consent_prompt": {
-          "support": "unknown",
-          "answer": "First-run consent behavior not verified.",
-          "evidenceIds": []
+          "support": "unsupported",
+          "answer": "No component under packages/cli/src/ui references usageStatistics, so no first-run consent dialog for it exists in the pinned source.",
+          "evidenceIds": [
+            "settingsschema"
+          ]
         },
         "provider_separation": {
           "support": "supported",
@@ -4827,7 +4880,8 @@
         "auth",
         "sessions",
         "telemetrydoc",
-        "config"
+        "config",
+        "settingsschema"
       ],
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
@@ -5895,6 +5949,58 @@
       "path": "packages/vscode-ide-companion"
     },
     {
+      "id": "trackersvc",
+      "kind": "source-inspected",
+      "url": "https://github.com/google-gemini/gemini-cli/blob/v0.68.0-preview.0/packages/core/src/services/trackerService.ts",
+      "title": "Tracker service",
+      "locator": "updateTask (lines 139-171), validateCanClose (186-200), createTask parent check (53-58)",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Tracker tasks are stored as one JSON file per task ID; updateTask keeps the ID while allowing type, status and dependency changes, rejects missing parents and circular dependencies, and refuses to close a task until all its dependencies are closed; no code propagates state to parents or children.",
+      "visibility": "public",
+      "commit": "6ee817519b3de6522a987c82734d9c5729ac3372",
+      "path": "packages/core/src/services/trackerService.ts"
+    },
+    {
+      "id": "settingsschema",
+      "kind": "source-inspected",
+      "url": "https://github.com/google-gemini/gemini-cli/blob/v0.68.0-preview.0/packages/cli/src/config/settingsSchema.ts",
+      "title": "Settings schema",
+      "locator": "privacy.usageStatisticsEnabled (line 970, default true); model.maxSessionTurns; tools.shell.inactivityTimeout; billing.overageStrategy",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Settings schema defaults: usage statistics enabled true, maxSessionTurns -1 (unlimited), shell inactivity timeout 300 seconds, AI-credit overage strategy ask.",
+      "visibility": "public",
+      "commit": "6ee817519b3de6522a987c82734d9c5729ac3372",
+      "path": "packages/cli/src/config/settingsSchema.ts"
+    },
+    {
+      "id": "actionwf",
+      "kind": "source-inspected",
+      "url": "https://github.com/google-github-actions/run-gemini-cli/blob/387c8ddb7a72078825da941758b811b9153c71e8/examples/workflows/issue-triage/gemini-scheduled-triage.yml",
+      "title": "run-gemini-cli scheduled triage workflow",
+      "locator": "concurrency group with cancel-in-progress, timeout-minutes 7",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Example scheduled workflow sets a GitHub concurrency group with cancel-in-progress and a 7-minute job timeout; other examples use 30 minutes; no retry configuration appears in the example workflows.",
+      "visibility": "public",
+      "commit": "387c8ddb7a72078825da941758b811b9153c71e8",
+      "path": "examples/workflows/issue-triage/gemini-scheduled-triage.yml"
+    },
+    {
+      "id": "a2aclient",
+      "kind": "source-inspected",
+      "url": "https://github.com/google-gemini/gemini-cli/blob/v0.68.0-preview.0/packages/core/src/agents/a2a-client-manager.ts",
+      "title": "A2A client manager",
+      "locator": "sendMessageStream (line 200)",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Sends messages to a loaded remote A2A agent and streams responses; local subagents expose no follow-up API in packages/core/src/agents.",
+      "visibility": "public",
+      "commit": "6ee817519b3de6522a987c82734d9c5729ac3372",
+      "path": "packages/core/src/agents/a2a-client-manager.ts"
+    },
+    {
       "id": "nogo",
       "kind": "source-inspected",
       "url": "https://github.com/google-gemini/gemini-cli/blob/v0.68.0-preview.0/packages/core/src",
@@ -5915,6 +6021,20 @@
       "type": "initial-research",
       "summary": "Initial full-profile source pass over Gemini CLI v0.68.0-preview.0 (pinned monorepo source and docs, README status banner, google-github-actions/run-gemini-cli); README banner (enterprise Code Assist only, free tier moved to Antigravity CLI on 2026-06-18) contradicts in-repo quota docs that still describe a free tier, recorded as a visible contradiction.",
       "claimIds": []
+    },
+    {
+      "date": "2026-11-16",
+      "author": "researcher-gemini-cli",
+      "type": "research-correction",
+      "summary": "Second source pass over the pinned release after coordinator guidance: searched code, in-repo docs and sibling repositories for the remaining unknown atomic answers and added evidence for those the code or docs answer.",
+      "claimIds": [],
+      "evidenceIds": [],
+      "before": {
+        "note": "Several atomic answers on this open-source product were unknown after the first pass."
+      },
+      "after": {
+        "note": "Second source pass answered code- and docs-answerable atoms from pinned code with added evidence; remaining unknowns name closed, hosted or business-fact reasons."
+      }
     }
   ],
   "context": {
