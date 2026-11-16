@@ -1,0 +1,6208 @@
+{
+  "schemaVersion": 1,
+  "rubricVersion": "0.3",
+  "id": "kooky",
+  "name": "Kooky",
+  "category": "A",
+  "researchTier": "full-profile",
+  "researchState": "documented",
+  "identity": {
+    "website": "https://github.com/iAmCorey/kooky",
+    "repository": "https://github.com/iAmCorey/kooky",
+    "aliases": [],
+    "company": null
+  },
+  "surfaces": [
+    {
+      "id": "desktop",
+      "name": "Kooky native macOS app (SwiftUI, libghostty terminal)",
+      "type": "desktop"
+    },
+    {
+      "id": "cli",
+      "name": "kooky-cli control CLI and kooky-hook agent hook helper",
+      "type": "cli"
+    }
+  ],
+  "claims": [
+    {
+      "id": "kooky:ACC-01",
+      "criterionId": "ACC-01",
+      "answer": "Native macOS 14+ desktop app and a kooky-cli control CLI; no Windows, Linux, mobile, browser or editor-extension client.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop",
+          "cli"
+        ],
+        "version": "v0.51.12 (commit fc54bd9, released 2026-10-12)",
+        "plan": "Open source (MIT), free download",
+        "os": [
+          "macOS 14+"
+        ],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "desktop_os": {
+          "support": "supported",
+          "answer": "macOS 14 (Sonoma) or newer, from the DMG release; Package.swift declares only macOS and release v0.51.12 ships a single DMG, so Windows and Linux are unsupported.",
+          "evidenceIds": [
+            "readme",
+            "pkg",
+            "release"
+          ]
+        },
+        "mobile_apps": {
+          "support": "unsupported",
+          "answer": "No iOS or Android app in the release or source.",
+          "evidenceIds": [
+            "release",
+            "srch-clients"
+          ]
+        },
+        "browser": {
+          "support": "unsupported",
+          "answer": "No web client in the source.",
+          "evidenceIds": [
+            "srch-clients"
+          ]
+        },
+        "mobile_browser": {
+          "support": "unsupported",
+          "answer": "No phone or browser access.",
+          "evidenceIds": [
+            "srch-clients"
+          ]
+        },
+        "cli": {
+          "support": "supported",
+          "answer": "kooky-cli opens tabs, resumes conversations, lists, focuses, renames and closes tabs, and reports status.",
+          "evidenceIds": [
+            "readme",
+            "cliproto",
+            "clictl"
+          ]
+        },
+        "editor_extensions": {
+          "support": "unsupported",
+          "answer": "No editor extension; the Open in button only hands a directory to other apps.",
+          "evidenceIds": [
+            "srch-clients",
+            "readme"
+          ]
+        },
+        "task_actions": {
+          "support": "partial",
+          "answer": "Start an agent tab from the + menu or CLI, type or compose prompts, answer approvals inside the agent terminal and resume conversations by ID; review is limited to a changed-file list with +/- counts.",
+          "evidenceIds": [
+            "readme",
+            "agents",
+            "gitstatus"
+          ]
+        },
+        "notifications": {
+          "support": "supported",
+          "answer": "macOS notifications and an in-app inbox when an agent waits or a command fails.",
+          "evidenceIds": [
+            "readme",
+            "notif"
+          ]
+        },
+        "cross_device_continuity": {
+          "support": "unsupported",
+          "answer": "State is local to one Mac; no sync or second-device access.",
+          "evidenceIds": [
+            "srch-clients",
+            "persist"
+          ]
+        }
+      },
+      "limitations": [
+        "macOS only; review is limited to file-level changed-line counts; no mobile or browser access."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "release",
+        "pkg",
+        "srch-clients",
+        "cliproto",
+        "clictl",
+        "agents",
+        "gitstatus",
+        "notif",
+        "persist"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "kooky:ACC-02",
+      "criterionId": "ACC-02",
+      "answer": "Fifteen built-in coding CLIs plus any custom command, launched in terminal tabs; Kooky observes them through hooks and process wrappers rather than embedding a harness.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v0.51.12 (commit fc54bd9, released 2026-10-12)",
+        "plan": "Open source (MIT), free download",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "harnesses": {
+          "support": "supported",
+          "answer": "Claude Code, Codex, Gemini CLI, OpenCode, Amp, Cursor CLI, Copilot CLI, Grok Build, Antigravity CLI, Kimi Code, Pi, Oh My Pi, Reasonix, Kiro CLI and Droid.",
+          "evidenceIds": [
+            "readme",
+            "agents"
+          ]
+        },
+        "model_providers": {
+          "support": "partial",
+          "answer": "Kooky has no provider layer; models are chosen inside each CLI. Claude-based custom agents can set provider endpoint variables.",
+          "evidenceIds": [
+            "customagents",
+            "readme"
+          ]
+        },
+        "custom_adapters": {
+          "support": "supported",
+          "answer": "Settings, Agents accepts a name and a command, optionally based on a built-in agent to inherit its launch binary and activity tracking.",
+          "evidenceIds": [
+            "readme",
+            "customagents"
+          ]
+        },
+        "session_integration": {
+          "support": "supported",
+          "answer": "Launches each agent CLI in a shell tab and watches it through lifecycle hooks, a wrapper script and transcript files; it does not embed the harness or call a session API.",
+          "evidenceIds": [
+            "agents",
+            "hookenv",
+            "hooksrv"
+          ]
+        },
+        "mixed_harness_operation": {
+          "support": "supported",
+          "answer": "Tabs, panes and workspaces can run different agents at once and the agent panel lists them together.",
+          "evidenceIds": [
+            "readme",
+            "agentmon"
+          ]
+        }
+      },
+      "limitations": [
+        "Mixed-harness work is side-by-side tabs; activity and tool-pill detail varies by agent and standalone custom commands have no status dot."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "agents",
+        "customagents",
+        "hookenv",
+        "hooksrv",
+        "agentmon"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "kooky:ACC-03",
+      "criterionId": "ACC-03",
+      "answer": "Kooky starts the real agent CLI, so existing subscription or API logins in the user shell are used as-is; Kooky has no accounts, credits or billing of its own.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v0.51.12 (commit fc54bd9, released 2026-10-12)",
+        "plan": "Open source (MIT), free download",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "agent_subscriptions": {
+          "support": "supported",
+          "answer": "Agents run with whatever native login the CLI already has; Kooky does not intercept it. Codex plan type is displayed.",
+          "evidenceIds": [
+            "readme",
+            "codexusage"
+          ]
+        },
+        "api_accounts": {
+          "support": "partial",
+          "answer": "Claude-based custom agents can carry ANTHROPIC_BASE_URL and token variables; other agents use the user shell environment.",
+          "evidenceIds": [
+            "customagents"
+          ]
+        },
+        "vendor_credits": {
+          "support": "unsupported",
+          "answer": "No vendor credits or Kooky account exist.",
+          "evidenceIds": [
+            "readme",
+            "srch-tele"
+          ]
+        },
+        "local_models": {
+          "support": "unsupported",
+          "answer": "No local-model feature; a custom command could launch any CLI.",
+          "evidenceIds": [
+            "readme",
+            "customagents"
+          ]
+        },
+        "account_switching": {
+          "support": "partial",
+          "answer": "Separate custom Claude entries can hold different endpoint variables; there is no account switcher.",
+          "evidenceIds": [
+            "customagents"
+          ]
+        },
+        "vendor_account_requirement": {
+          "support": "supported",
+          "answer": "No account of any kind is required to use Kooky.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "provider_restrictions": {
+          "support": "unknown",
+          "answer": "Provider restrictions are in the agents' own terms, not in this repository.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Credential handling belongs to each agent CLI; only Claude-based custom agents get a product field for environment variables."
+      ],
+      "unknownReason": "Agent providers' subscription terms and restrictions are third-party documents outside the repository.",
+      "evidenceIds": [
+        "readme",
+        "customagents",
+        "codexusage",
+        "srch-tele"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "kooky:ACC-04",
+      "criterionId": "ACC-04",
+      "answer": "Install the DMG, bypass Gatekeeper once (adhoc-signed), open any folder as a workspace and pick an agent from the + menu; works with no Git, local Git and cloned remotes, plus SSH hosts.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v0.51.12 (commit fc54bd9, released 2026-10-12)",
+        "plan": "Open source (MIT), free download",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "first_task_setup": {
+          "support": "supported",
+          "answer": "README Install: download DMG, drag to Applications, bypass Gatekeeper, open a folder, choose an agent from +.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "no_git": {
+          "support": "supported",
+          "answer": "Any folder opens as a workspace; git pills appear only inside repositories.",
+          "evidenceIds": [
+            "readme",
+            "gitstatus"
+          ]
+        },
+        "local_git_without_remote": {
+          "support": "supported",
+          "answer": "Worktrees, branch switching and diff counts use the local repository only.",
+          "evidenceIds": [
+            "readme",
+            "worktree",
+            "gitstatus"
+          ]
+        },
+        "hosted_git": {
+          "support": "supported",
+          "answer": "Cloned repositories work like local ones; the repo pill opens the remote on GitHub, GitLab or Bitbucket without any integration login.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "prerequisite_guidance": {
+          "support": "supported",
+          "answer": "README documents macOS 14+, Gatekeeper bypass paths and build prerequisites (Xcode 26+).",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "managed_cloud_setup": {
+          "support": "unsupported",
+          "answer": "No managed cloud.",
+          "evidenceIds": [
+            "srch-tele",
+            "readme"
+          ]
+        },
+        "byo_vps_onboarding": {
+          "support": "partial",
+          "answer": "File, New SSH Workspace attaches a workspace to an existing host; it does not provision or install anything on it.",
+          "evidenceIds": [
+            "readme",
+            "sshsheet",
+            "ssh"
+          ]
+        }
+      },
+      "limitations": [
+        "Adhoc-signed, not notarized: first launch needs a manual Gatekeeper bypass; no managed cloud; SSH workspaces need a host the user already runs."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "gitstatus",
+        "worktree",
+        "srch-tele",
+        "sshsheet",
+        "ssh"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "kooky:ACC-05",
+      "criterionId": "ACC-05",
+      "answer": "kooky-cli plus kooky:// deep links drive a running app over an owner-only local unix socket; there is no HTTP API, SDK, MCP server or webhook.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli",
+          "desktop"
+        ],
+        "version": "v0.51.12 (commit fc54bd9, released 2026-10-12)",
+        "plan": "Open source (MIT), free download",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "cli": {
+          "support": "supported",
+          "answer": "kooky-cli open, resume, list --json, focus, close, rename and status.",
+          "evidenceIds": [
+            "readme",
+            "cliproto",
+            "clicmd"
+          ]
+        },
+        "api": {
+          "support": "partial",
+          "answer": "The CLI and hooks speak a versioned JSON protocol over a unix socket; it is internal and undocumented as an API.",
+          "evidenceIds": [
+            "cliproto",
+            "hooksrv"
+          ]
+        },
+        "sdk": {
+          "support": "unsupported",
+          "answer": "No SDK in the repository.",
+          "evidenceIds": [
+            "srch-api"
+          ]
+        },
+        "mcp_server": {
+          "support": "unsupported",
+          "answer": "Kooky does not expose an MCP server.",
+          "evidenceIds": [
+            "srch-api"
+          ]
+        },
+        "webhooks": {
+          "support": "unsupported",
+          "answer": "No webhooks.",
+          "evidenceIds": [
+            "srch-api"
+          ]
+        },
+        "operations": {
+          "support": "partial",
+          "answer": "Create (open, resume), inspect (list, status), focus, rename and close tabs; no steer, approve, stop-agent or review operations.",
+          "evidenceIds": [
+            "readme",
+            "cliproto",
+            "clictl"
+          ]
+        },
+        "authentication": {
+          "support": "supported",
+          "answer": "Commands flow only through a local socket with mode 0600; kooky:// links cannot carry commands.",
+          "evidenceIds": [
+            "hooksrv",
+            "deeplink",
+            "readme"
+          ]
+        },
+        "stability": {
+          "support": "partial",
+          "answer": "The envelope carries a protocolVersion and the app refuses newer requests; there is no stability guarantee or deprecation policy.",
+          "evidenceIds": [
+            "cliproto",
+            "clictl"
+          ]
+        }
+      },
+      "limitations": [
+        "Local-only; cannot send input, answer approvals, stop an agent or read diffs; socket protocol is not documented as a public API."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "cliproto",
+        "clictl",
+        "clicmd",
+        "hooksrv",
+        "srch-api",
+        "deeplink"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "kooky:ACC-06",
+      "criterionId": "ACC-06",
+      "answer": "Kooky is not an MCP client or plugin host; MCP servers, skills and instruction files belong to each launched agent. Custom agents and Terminal presets are the only extension points.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v0.51.12 (commit fc54bd9, released 2026-10-12)",
+        "plan": "Open source (MIT), free download",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "mcp_client": {
+          "support": "unsupported",
+          "answer": "Kooky is not an MCP client; the launched agents manage their own MCP configuration.",
+          "evidenceIds": [
+            "srch-api"
+          ]
+        },
+        "plugins": {
+          "support": "unsupported",
+          "answer": "No plugin API.",
+          "evidenceIds": [
+            "srch-api"
+          ]
+        },
+        "custom_tools": {
+          "support": "partial",
+          "answer": "Custom agents and Terminal presets add launch entries, not agent tools.",
+          "evidenceIds": [
+            "customagents",
+            "readme"
+          ]
+        },
+        "instructions_import": {
+          "support": "unsupported",
+          "answer": "Kooky imports no instruction files; agents read their own.",
+          "evidenceIds": [
+            "srch-api"
+          ]
+        },
+        "authentication": {
+          "support": "unsupported",
+          "answer": "No integration authentication in Kooky.",
+          "evidenceIds": [
+            "srch-api"
+          ]
+        },
+        "permission_scope": {
+          "support": "unsupported",
+          "answer": "No product-level permission scopes for integrations.",
+          "evidenceIds": [
+            "srch-api"
+          ]
+        },
+        "integration_owner": {
+          "support": "supported",
+          "answer": "Every connection is owned by the launched agent CLI; Kooky only starts it and reads hooks.",
+          "evidenceIds": [
+            "agents",
+            "hookenv"
+          ]
+        }
+      },
+      "limitations": [
+        "No product-managed MCP, plugin or skill system; integration setup is inherited entirely from the underlying agent CLI."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "customagents",
+        "srch-api",
+        "agents",
+        "hookenv"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "kooky:ACC-07",
+      "criterionId": "ACC-07",
+      "answer": "Native macOS app written in Swift with SwiftUI and AppKit views, rendering terminals with the libghostty GPU engine; no web view, Electron or Tauri.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v0.51.12 (commit fc54bd9, released 2026-10-12)",
+        "plan": "Open source (MIT), free download",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "desktop_implementation": {
+          "support": "supported",
+          "answer": "Swift package (swift-tools 6.2, macOS 14) with SwiftUI/AppKit and libghostty; README says SwiftUI-native.",
+          "evidenceIds": [
+            "readme",
+            "pkg",
+            "engine"
+          ]
+        },
+        "mobile_implementation": {
+          "support": "unsupported",
+          "answer": "No mobile client.",
+          "evidenceIds": [
+            "srch-clients"
+          ]
+        },
+        "hybrids": {
+          "support": "unsupported",
+          "answer": "No Electron, Tauri or web hybrid found; terminals are native views over libghostty.",
+          "evidenceIds": [
+            "srch-clients",
+            "engine"
+          ]
+        },
+        "implementation_evidence": {
+          "support": "supported",
+          "answer": "Package.swift targets and the LibghosttyEngine source at the pinned commit.",
+          "evidenceIds": [
+            "pkg",
+            "engine"
+          ]
+        }
+      },
+      "limitations": [
+        "Implementation detail only; says nothing about responsiveness."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "pkg",
+        "engine",
+        "srch-clients"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-05-15",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "kooky:PLAN-01",
+      "criterionId": "PLAN-01",
+      "answer": "No task intake or tracker integration; work starts from prompts typed or composed in an agent tab, or from right-click Ask <agent> on selected terminal text.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v0.51.12 (commit fc54bd9, released 2026-10-12)",
+        "plan": "Open source (MIT), free download",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "local_creation": {
+          "support": "unsupported",
+          "answer": "No task or tracker entity; Kooky has no issue integration.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "prompt_intake": {
+          "support": "supported",
+          "answer": "Prompt composer (Cmd+L) and Ask <agent> on a terminal selection submit a first prompt.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "external_import": {
+          "support": "unsupported",
+          "answer": "No task or tracker entity; Kooky has no issue integration.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "chat_git_triggers": {
+          "support": "unsupported",
+          "answer": "No task or tracker entity; Kooky has no issue integration.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "authoritative_tracker": {
+          "support": "unsupported",
+          "answer": "No task or tracker entity; Kooky has no issue integration.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "stable_ids": {
+          "support": "unsupported",
+          "answer": "No task or tracker entity; Kooky has no issue integration.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "sync": {
+          "support": "unsupported",
+          "answer": "No task or tracker entity; Kooky has no issue integration.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "supported_edits": {
+          "support": "unsupported",
+          "answer": "No task or tracker entity; Kooky has no issue integration.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "external_roundtrips": {
+          "support": "unsupported",
+          "answer": "No task or tracker entity; Kooky has no issue integration.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        }
+      },
+      "limitations": [
+        "No issue import, tracker sync or task IDs."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "srch-issues"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "kooky:PLAN-02",
+      "criterionId": "PLAN-02",
+      "answer": "No plans, acceptance criteria or revisions; agents keep their own plans.",
+      "support": "unsupported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v0.51.12 (commit fc54bd9, released 2026-10-12)",
+        "plan": "Open source (MIT), free download",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "plans": {
+          "support": "unsupported",
+          "answer": "No plan feature in Kooky.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "acceptance_criteria": {
+          "support": "unsupported",
+          "answer": "No plan feature in Kooky.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "editors": {
+          "support": "unsupported",
+          "answer": "No plan feature in Kooky.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "revisions": {
+          "support": "unsupported",
+          "answer": "No plan feature in Kooky.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "implementation_links": {
+          "support": "unsupported",
+          "answer": "No plan feature in Kooky.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "amendment": {
+          "support": "unsupported",
+          "answer": "No plan feature in Kooky.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "restart_persistence": {
+          "support": "unsupported",
+          "answer": "No plan feature in Kooky.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "srch-issues"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "kooky:PLAN-03",
+      "criterionId": "PLAN-03",
+      "answer": "No epics, hierarchy or dependencies; work units are tabs inside folder workspaces.",
+      "support": "unsupported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v0.51.12 (commit fc54bd9, released 2026-10-12)",
+        "plan": "Open source (MIT), free download",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "epics": {
+          "support": "unsupported",
+          "answer": "No hierarchy or dependency model.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "hierarchy": {
+          "support": "unsupported",
+          "answer": "No hierarchy or dependency model.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "blockers": {
+          "support": "unsupported",
+          "answer": "No hierarchy or dependency model.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "readiness": {
+          "support": "unsupported",
+          "answer": "No hierarchy or dependency model.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "enforcement": {
+          "support": "unsupported",
+          "answer": "No hierarchy or dependency model.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "state_propagation": {
+          "support": "unsupported",
+          "answer": "No hierarchy or dependency model.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "task_to_epic": {
+          "support": "unsupported",
+          "answer": "No hierarchy or dependency model.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "identity_retention": {
+          "support": "unsupported",
+          "answer": "No hierarchy or dependency model.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "workflow_constraints": {
+          "support": "unsupported",
+          "answer": "No hierarchy or dependency model.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "srch-issues"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "kooky:PLAN-04",
+      "criterionId": "PLAN-04",
+      "answer": "Kooky stores no instructions, skills or memory itself; agents load their own. State that survives: workspaces, tabs and resumable conversation IDs on the same Mac.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v0.51.12 (commit fc54bd9, released 2026-10-12)",
+        "plan": "Open source (MIT), free download",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "instructions": {
+          "support": "unsupported",
+          "answer": "Kooky has no memory, skill or instruction layer.",
+          "evidenceIds": [
+            "srch-orch"
+          ]
+        },
+        "skills": {
+          "support": "unsupported",
+          "answer": "Kooky has no memory, skill or instruction layer.",
+          "evidenceIds": [
+            "srch-orch"
+          ]
+        },
+        "project_docs": {
+          "support": "unsupported",
+          "answer": "Kooky has no memory, skill or instruction layer.",
+          "evidenceIds": [
+            "srch-orch"
+          ]
+        },
+        "memory": {
+          "support": "unsupported",
+          "answer": "Kooky has no memory, skill or instruction layer.",
+          "evidenceIds": [
+            "srch-orch"
+          ]
+        },
+        "scope": {
+          "support": "unsupported",
+          "answer": "Kooky has no memory, skill or instruction layer.",
+          "evidenceIds": [
+            "srch-orch"
+          ]
+        },
+        "provenance": {
+          "support": "unsupported",
+          "answer": "Kooky has no memory, skill or instruction layer.",
+          "evidenceIds": [
+            "srch-orch"
+          ]
+        },
+        "correction": {
+          "support": "unsupported",
+          "answer": "Kooky has no memory, skill or instruction layer.",
+          "evidenceIds": [
+            "srch-orch"
+          ]
+        },
+        "deletion": {
+          "support": "partial",
+          "answer": "History rows can be hidden; the agents' own conversation data is never touched.",
+          "evidenceIds": [
+            "changelog",
+            "history"
+          ]
+        },
+        "freshness": {
+          "support": "unsupported",
+          "answer": "Kooky has no memory, skill or instruction layer.",
+          "evidenceIds": [
+            "srch-orch"
+          ]
+        },
+        "takeover_continuity": {
+          "support": "partial",
+          "answer": "Workspaces, tabs and agent conversations restore across relaunch on the same machine; no second person can take over.",
+          "evidenceIds": [
+            "persist",
+            "history"
+          ]
+        }
+      },
+      "limitations": [
+        "No shared or correctable memory; only layout and conversation resume persist."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "persist",
+        "history",
+        "srch-orch",
+        "changelog"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "kooky:PLAN-05",
+      "criterionId": "PLAN-05",
+      "answer": "No code index or knowledge retrieval; Quick Open searches workspaces, tabs and projects, and pasted screenshots or files are passed to agents as paths.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v0.51.12 (commit fc54bd9, released 2026-10-12)",
+        "plan": "Open source (MIT), free download",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "code_search": {
+          "support": "unsupported",
+          "answer": "No retrieval or architecture-awareness feature.",
+          "evidenceIds": [
+            "srch-orch"
+          ]
+        },
+        "indexing": {
+          "support": "unsupported",
+          "answer": "No retrieval or architecture-awareness feature.",
+          "evidenceIds": [
+            "srch-orch"
+          ]
+        },
+        "external_knowledge": {
+          "support": "unsupported",
+          "answer": "No retrieval or architecture-awareness feature.",
+          "evidenceIds": [
+            "srch-orch"
+          ]
+        },
+        "multimodal_inputs": {
+          "support": "partial",
+          "answer": "Pasting or dropping a file or screenshot inserts its path (uploaded first for SSH workspaces).",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "freshness": {
+          "support": "unsupported",
+          "answer": "No retrieval or architecture-awareness feature.",
+          "evidenceIds": [
+            "srch-orch"
+          ]
+        },
+        "access_scope": {
+          "support": "unsupported",
+          "answer": "No retrieval or architecture-awareness feature.",
+          "evidenceIds": [
+            "srch-orch"
+          ]
+        },
+        "api_retrieval": {
+          "support": "unsupported",
+          "answer": "No retrieval or architecture-awareness feature.",
+          "evidenceIds": [
+            "srch-orch"
+          ]
+        },
+        "citations": {
+          "support": "unsupported",
+          "answer": "No retrieval or architecture-awareness feature.",
+          "evidenceIds": [
+            "srch-orch"
+          ]
+        },
+        "conflict_detection": {
+          "support": "unsupported",
+          "answer": "No retrieval or architecture-awareness feature.",
+          "evidenceIds": [
+            "srch-orch"
+          ]
+        },
+        "review_enforcement": {
+          "support": "unsupported",
+          "answer": "No retrieval or architecture-awareness feature.",
+          "evidenceIds": [
+            "srch-orch"
+          ]
+        }
+      },
+      "limitations": [
+        "Quick Open does not search code; multimodal input is just file paths."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "srch-orch"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "kooky:PLAN-06",
+      "criterionId": "PLAN-06",
+      "answer": "No issue or idea backlog; workspaces are folders and colour tags only.",
+      "support": "unsupported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v0.51.12 (commit fc54bd9, released 2026-10-12)",
+        "plan": "Open source (MIT), free download",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "create": {
+          "support": "unsupported",
+          "answer": "No native issue entity; sidebar tags only label workspaces.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "edit": {
+          "support": "unsupported",
+          "answer": "No native issue entity; sidebar tags only label workspaces.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "discuss": {
+          "support": "unsupported",
+          "answer": "No native issue entity; sidebar tags only label workspaces.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "prioritize": {
+          "support": "unsupported",
+          "answer": "No native issue entity; sidebar tags only label workspaces.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "label": {
+          "support": "unsupported",
+          "answer": "No native issue entity; sidebar tags only label workspaces.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "assign": {
+          "support": "unsupported",
+          "answer": "No native issue entity; sidebar tags only label workspaces.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "search": {
+          "support": "unsupported",
+          "answer": "No native issue entity; sidebar tags only label workspaces.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "filter": {
+          "support": "unsupported",
+          "answer": "No native issue entity; sidebar tags only label workspaces.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "archive": {
+          "support": "unsupported",
+          "answer": "No native issue entity; sidebar tags only label workspaces.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "reopen": {
+          "support": "unsupported",
+          "answer": "No native issue entity; sidebar tags only label workspaces.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "project_epic_views": {
+          "support": "unsupported",
+          "answer": "No native issue entity; sidebar tags only label workspaces.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "idea_parking": {
+          "support": "unsupported",
+          "answer": "No native issue entity; sidebar tags only label workspaces.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "explicit_dispatch": {
+          "support": "unsupported",
+          "answer": "No native issue entity; sidebar tags only label workspaces.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "task_session_separation": {
+          "support": "unsupported",
+          "answer": "No native issue entity; sidebar tags only label workspaces.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "metadata": {
+          "support": "unsupported",
+          "answer": "No native issue entity; sidebar tags only label workspaces.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "durable_states": {
+          "support": "unsupported",
+          "answer": "No native issue entity; sidebar tags only label workspaces.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "external_tracker_requirement": {
+          "support": "unsupported",
+          "answer": "No native issue entity; sidebar tags only label workspaces.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "srch-issues",
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "kooky:PLAN-07",
+      "criterionId": "PLAN-07",
+      "answer": "No issue records for agents to operate; kooky-cli controls tabs only.",
+      "support": "unsupported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v0.51.12 (commit fc54bd9, released 2026-10-12)",
+        "plan": "Open source (MIT), free download",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "shared_ids": {
+          "support": "unsupported",
+          "answer": "No shared issue records or agent-writable fields.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "read": {
+          "support": "unsupported",
+          "answer": "No shared issue records or agent-writable fields.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "create": {
+          "support": "unsupported",
+          "answer": "No shared issue records or agent-writable fields.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "update": {
+          "support": "unsupported",
+          "answer": "No shared issue records or agent-writable fields.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "claim": {
+          "support": "unsupported",
+          "answer": "No shared issue records or agent-writable fields.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "assign": {
+          "support": "unsupported",
+          "answer": "No shared issue records or agent-writable fields.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "state_changes": {
+          "support": "unsupported",
+          "answer": "No shared issue records or agent-writable fields.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "dependencies": {
+          "support": "unsupported",
+          "answer": "No shared issue records or agent-writable fields.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "children": {
+          "support": "unsupported",
+          "answer": "No shared issue records or agent-writable fields.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "results": {
+          "support": "unsupported",
+          "answer": "No shared issue records or agent-writable fields.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "human_visibility": {
+          "support": "unsupported",
+          "answer": "No shared issue records or agent-writable fields.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "attribution": {
+          "support": "unsupported",
+          "answer": "No shared issue records or agent-writable fields.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "permissions": {
+          "support": "unsupported",
+          "answer": "No shared issue records or agent-writable fields.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "conflicts": {
+          "support": "unsupported",
+          "answer": "No shared issue records or agent-writable fields.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "srch-issues",
+        "cliproto"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "kooky:PLAN-08",
+      "criterionId": "PLAN-08",
+      "answer": "No persistent product specification feature.",
+      "support": "unsupported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v0.51.12 (commit fc54bd9, released 2026-10-12)",
+        "plan": "Open source (MIT), free download",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "persistent_requirements": {
+          "support": "unsupported",
+          "answer": "No living-spec feature.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "human_edits": {
+          "support": "unsupported",
+          "answer": "No living-spec feature.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "agent_edits": {
+          "support": "unsupported",
+          "answer": "No living-spec feature.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "revisions": {
+          "support": "unsupported",
+          "answer": "No living-spec feature.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "approvals": {
+          "support": "unsupported",
+          "answer": "No living-spec feature.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "implementation_links": {
+          "support": "unsupported",
+          "answer": "No living-spec feature.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "later_retrieval": {
+          "support": "unsupported",
+          "answer": "No living-spec feature.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "drift_detection": {
+          "support": "unsupported",
+          "answer": "No living-spec feature.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "review_integration": {
+          "support": "unsupported",
+          "answer": "No living-spec feature.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "srch-issues"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "kooky:COORD-01",
+      "criterionId": "COORD-01",
+      "answer": "Any number of tabs, panes and windows run agents concurrently, each in its own PTY; the agent panel shows waiting, failed, running and idle across windows.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v0.51.12 (commit fc54bd9, released 2026-10-12)",
+        "plan": "Open source (MIT), free download",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "concurrent_sessions": {
+          "support": "supported",
+          "answer": "Independent terminal sessions run in parallel across tabs, splits and windows.",
+          "evidenceIds": [
+            "readme",
+            "agentmon"
+          ]
+        },
+        "concurrent_tasks": {
+          "support": "unsupported",
+          "answer": "No task entity; the unit is a session.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "quotas": {
+          "support": "unsupported",
+          "answer": "No quota or concurrency cap found in the app source.",
+          "evidenceIds": [
+            "srch-orch"
+          ]
+        },
+        "observed_concurrency": {
+          "support": "unknown",
+          "answer": "No published concurrency measurements.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "status_visibility": {
+          "support": "supported",
+          "answer": "Sidebar dots and the agent panel show running (blue), waiting (amber), idle and failed (red) states.",
+          "evidenceIds": [
+            "readme",
+            "agentmon"
+          ]
+        }
+      },
+      "limitations": [
+        "No task entity and no documented quota; concurrency measurements are not published."
+      ],
+      "unknownReason": "Measured concurrency is a benchmark fact not in the repository; this catalog does not run products.",
+      "evidenceIds": [
+        "readme",
+        "agentmon",
+        "srch-issues",
+        "srch-orch"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "kooky:COORD-02",
+      "criterionId": "COORD-02",
+      "answer": "No assignment, claims or queues; each tab is a user-started session.",
+      "support": "unsupported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v0.51.12 (commit fc54bd9, released 2026-10-12)",
+        "plan": "Open source (MIT), free download",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "human_assignment": {
+          "support": "unsupported",
+          "answer": "No ownership or dispatch features.",
+          "evidenceIds": [
+            "srch-orch"
+          ]
+        },
+        "agent_assignment": {
+          "support": "unsupported",
+          "answer": "No ownership or dispatch features.",
+          "evidenceIds": [
+            "srch-orch"
+          ]
+        },
+        "claims": {
+          "support": "unsupported",
+          "answer": "No ownership or dispatch features.",
+          "evidenceIds": [
+            "srch-orch"
+          ]
+        },
+        "queues": {
+          "support": "unsupported",
+          "answer": "No ownership or dispatch features.",
+          "evidenceIds": [
+            "srch-orch"
+          ]
+        },
+        "routing": {
+          "support": "unsupported",
+          "answer": "No ownership or dispatch features.",
+          "evidenceIds": [
+            "srch-orch"
+          ]
+        },
+        "duplicate_prevention": {
+          "support": "unsupported",
+          "answer": "No ownership or dispatch features.",
+          "evidenceIds": [
+            "srch-orch"
+          ]
+        },
+        "ownership_enforcement": {
+          "support": "unsupported",
+          "answer": "No ownership or dispatch features.",
+          "evidenceIds": [
+            "srch-orch"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "srch-orch"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "kooky:COORD-03",
+      "criterionId": "COORD-03",
+      "answer": "No product coordinator or delegation; agents may use their own subagent features, which Kooky does not model. kooky-cli can open tabs for scripts.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v0.51.12 (commit fc54bd9, released 2026-10-12)",
+        "plan": "Open source (MIT), free download",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "roles": {
+          "support": "unsupported",
+          "answer": "No delegation or inter-agent messaging in Kooky.",
+          "evidenceIds": [
+            "srch-orch"
+          ]
+        },
+        "model_harness_effort": {
+          "support": "unsupported",
+          "answer": "No delegation or inter-agent messaging in Kooky.",
+          "evidenceIds": [
+            "srch-orch"
+          ]
+        },
+        "messages": {
+          "support": "unsupported",
+          "answer": "No delegation or inter-agent messaging in Kooky.",
+          "evidenceIds": [
+            "srch-orch"
+          ]
+        },
+        "results_return": {
+          "support": "unsupported",
+          "answer": "No delegation or inter-agent messaging in Kooky.",
+          "evidenceIds": [
+            "srch-orch"
+          ]
+        },
+        "cross_harness": {
+          "support": "unsupported",
+          "answer": "No delegation or inter-agent messaging in Kooky.",
+          "evidenceIds": [
+            "srch-orch"
+          ]
+        },
+        "orchestration_owner": {
+          "support": "unsupported",
+          "answer": "No delegation or inter-agent messaging in Kooky.",
+          "evidenceIds": [
+            "srch-orch"
+          ]
+        },
+        "activation": {
+          "support": "unsupported",
+          "answer": "No delegation or inter-agent messaging in Kooky.",
+          "evidenceIds": [
+            "srch-orch"
+          ]
+        },
+        "authentication": {
+          "support": "supported",
+          "answer": "Local owner-only socket; no credentials.",
+          "evidenceIds": [
+            "hooksrv"
+          ]
+        },
+        "live_progress": {
+          "support": "unsupported",
+          "answer": "No delegation or inter-agent messaging in Kooky.",
+          "evidenceIds": [
+            "srch-orch"
+          ]
+        },
+        "retained_results": {
+          "support": "partial",
+          "answer": "Session history lists past conversations from agent transcripts and can resume them.",
+          "evidenceIds": [
+            "history"
+          ]
+        },
+        "followup": {
+          "support": "partial",
+          "answer": "A completed conversation can be resumed from history or by kooky://resume.",
+          "evidenceIds": [
+            "history",
+            "deeplink"
+          ]
+        },
+        "invocation": {
+          "support": "partial",
+          "answer": "A script or agent could call kooky-cli open --agent to start another tab, a generic command rather than a coordinator role.",
+          "evidenceIds": [
+            "readme",
+            "cliproto"
+          ]
+        }
+      },
+      "limitations": [
+        "kooky-cli opens and resumes tabs but lets no agent read another agent's output or message it."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "srch-orch",
+        "cliproto",
+        "hooksrv",
+        "history",
+        "deeplink",
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "kooky:COORD-04",
+      "criterionId": "COORD-04",
+      "answer": "No scheduler or event triggers; kooky-cli could be called by an external scheduler the user sets up.",
+      "support": "unsupported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v0.51.12 (commit fc54bd9, released 2026-10-12)",
+        "plan": "Open source (MIT), free download",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "schedules": {
+          "support": "unsupported",
+          "answer": "No scheduler or trigger in Kooky.",
+          "evidenceIds": [
+            "srch-sched"
+          ]
+        },
+        "events": {
+          "support": "unsupported",
+          "answer": "No scheduler or trigger in Kooky.",
+          "evidenceIds": [
+            "srch-sched"
+          ]
+        },
+        "recurring_tasks": {
+          "support": "unsupported",
+          "answer": "No scheduler or trigger in Kooky.",
+          "evidenceIds": [
+            "srch-sched"
+          ]
+        },
+        "completion_conditions": {
+          "support": "unsupported",
+          "answer": "No scheduler or trigger in Kooky.",
+          "evidenceIds": [
+            "srch-sched"
+          ]
+        },
+        "scheduler_location": {
+          "support": "unsupported",
+          "answer": "No scheduler or trigger in Kooky.",
+          "evidenceIds": [
+            "srch-sched"
+          ]
+        },
+        "overlaps": {
+          "support": "unsupported",
+          "answer": "No scheduler or trigger in Kooky.",
+          "evidenceIds": [
+            "srch-sched"
+          ]
+        },
+        "retries": {
+          "support": "unsupported",
+          "answer": "No scheduler or trigger in Kooky.",
+          "evidenceIds": [
+            "srch-sched"
+          ]
+        },
+        "client_independence": {
+          "support": "unsupported",
+          "answer": "No scheduler or trigger in Kooky.",
+          "evidenceIds": [
+            "srch-sched"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "srch-sched",
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "kooky:COORD-05",
+      "criterionId": "COORD-05",
+      "answer": "Steer by typing in the agent terminal or the prompt composer; closing a tab stops it; waiting agents raise notifications and amber dots. No pause, no escalation.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v0.51.12 (commit fc54bd9, released 2026-10-12)",
+        "plan": "Open source (MIT), free download",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "pause": {
+          "support": "unsupported",
+          "answer": "No pause control beyond the terminal itself.",
+          "evidenceIds": [
+            "srch-orch"
+          ]
+        },
+        "stop": {
+          "support": "supported",
+          "answer": "Closing a tab terminates its foreground process group after a bounded grace period, with an optional confirm-close setting.",
+          "evidenceIds": [
+            "readme",
+            "changelog"
+          ]
+        },
+        "resume": {
+          "support": "supported",
+          "answer": "Conversations resume by exact session ID after relaunch or from history.",
+          "evidenceIds": [
+            "readme",
+            "history"
+          ]
+        },
+        "steer": {
+          "support": "supported",
+          "answer": "Type into the terminal or the Cmd+L prompt composer.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "notifications": {
+          "support": "supported",
+          "answer": "macOS notifications plus an inbox for waiting agents and failed commands.",
+          "evidenceIds": [
+            "readme",
+            "notif"
+          ]
+        },
+        "pending_decisions": {
+          "support": "partial",
+          "answer": "A waiting dot (including pending tool approval) flags it; the decision itself is made inside the agent.",
+          "evidenceIds": [
+            "readme",
+            "agentmon"
+          ]
+        },
+        "escalation": {
+          "support": "unsupported",
+          "answer": "No escalation or routing.",
+          "evidenceIds": [
+            "srch-orch"
+          ]
+        },
+        "visible_errors": {
+          "support": "supported",
+          "answer": "Tabs and workspaces turn red when the last command exits non-zero, with exit code and duration on hover.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "chat_terminal_parity": {
+          "support": "supported",
+          "answer": "The terminal is the only surface, so there is nothing to diverge.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "retained_history": {
+          "support": "partial",
+          "answer": "Agent conversation history is browsable and resumable; scrollback is lost on quit.",
+          "evidenceIds": [
+            "history",
+            "persist"
+          ]
+        }
+      },
+      "limitations": [
+        "No pause or escalation; stop is closing the tab; pending decisions are answered inside the agent TUI."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "notif",
+        "agentmon",
+        "srch-orch",
+        "changelog",
+        "history",
+        "persist"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "kooky:COORD-06",
+      "criterionId": "COORD-06",
+      "answer": "The agent panel and sidebar show every agent and workspace across windows ordered by attention; there are no epics, dependencies or workload view.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v0.51.12 (commit fc54bd9, released 2026-10-12)",
+        "plan": "Open source (MIT), free download",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "fleet_fixture": {
+          "support": "supported",
+          "answer": "Agent panel lists all agents with state across windows sorted waiting, failed, running, idle.",
+          "evidenceIds": [
+            "agentmon",
+            "readme"
+          ]
+        },
+        "parent_child": {
+          "support": "unsupported",
+          "answer": "No epics or dependency graph.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "dependencies": {
+          "support": "unsupported",
+          "answer": "No epics or dependency graph.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "attention": {
+          "support": "supported",
+          "answer": "Waiting agents sort first and carry amber dots and notifications.",
+          "evidenceIds": [
+            "readme",
+            "agentmon"
+          ]
+        },
+        "history": {
+          "support": "partial",
+          "answer": "Session history lists past conversations; no per-fleet timeline.",
+          "evidenceIds": [
+            "history"
+          ]
+        },
+        "workload": {
+          "support": "unsupported",
+          "answer": "No epics or dependency graph.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "navigation_errors": {
+          "support": "supported",
+          "answer": "Clicking a row jumps to the tab; failed commands show red dots and inbox entries.",
+          "evidenceIds": [
+            "readme",
+            "agentmon"
+          ]
+        },
+        "fixture_mode": {
+          "support": "unsupported",
+          "answer": "Not applicable; there is no fixture mode.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        }
+      },
+      "limitations": [
+        "No parent/child, dependency or workload views."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "agentmon",
+        "srch-issues",
+        "history"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "kooky:COORD-07",
+      "criterionId": "COORD-07",
+      "answer": "Opening an agent is one click from the + menu with no preset; Settings configures agents, Terminal presets and launch options, with no natural-language setup or role UI.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v0.51.12 (commit fc54bd9, released 2026-10-12)",
+        "plan": "Open source (MIT), free download",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "quick_task": {
+          "support": "supported",
+          "answer": "Pick an agent from + and start; the agent boots before the first prompt prints.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "growing_epic": {
+          "support": "unsupported",
+          "answer": "No workflow or orchestration layer.",
+          "evidenceIds": [
+            "srch-orch"
+          ]
+        },
+        "presets": {
+          "support": "partial",
+          "answer": "Terminal presets (pinned directory) and per-agent launch options exist; no workflow presets.",
+          "evidenceIds": [
+            "readme",
+            "customagents"
+          ]
+        },
+        "natural_language": {
+          "support": "unsupported",
+          "answer": "No workflow or orchestration layer.",
+          "evidenceIds": [
+            "srch-orch"
+          ]
+        },
+        "agent_configuration": {
+          "support": "partial",
+          "answer": "Custom agents can add launch options and environment; model and effort are set inside the agent.",
+          "evidenceIds": [
+            "customagents"
+          ]
+        },
+        "in_run_changes": {
+          "support": "partial",
+          "answer": "The user can type into the running agent; Kooky offers no run-level change.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "live_roles": {
+          "support": "unsupported",
+          "answer": "No workflow or orchestration layer.",
+          "evidenceIds": [
+            "srch-orch"
+          ]
+        },
+        "retained_relationships": {
+          "support": "unsupported",
+          "answer": "No workflow or orchestration layer.",
+          "evidenceIds": [
+            "srch-orch"
+          ]
+        },
+        "discoverability": {
+          "support": "supported",
+          "answer": "The + menu and Quick Open list every agent and preset.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "auth_friction": {
+          "support": "supported",
+          "answer": "No Kooky login; existing agent logins apply.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "No growth path from a quick task to a structured effort; no role views."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "agents",
+        "srch-orch",
+        "customagents"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "kooky:RUN-01",
+      "criterionId": "RUN-01",
+      "answer": "Agents run locally on the Mac or, for SSH workspaces, inside plain ssh sessions on a host the user controls; Kooky has no managed or hosted execution.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v0.51.12 (commit fc54bd9, released 2026-10-12)",
+        "plan": "Open source (MIT), free download",
+        "os": [],
+        "executionModes": [
+          "local",
+          "own-server"
+        ],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "local": {
+          "support": "supported",
+          "answer": "Default mode: agents run in local PTYs.",
+          "evidenceIds": [
+            "readme",
+            "engine"
+          ]
+        },
+        "byo_remote": {
+          "support": "partial",
+          "answer": "SSH workspaces start tabs and agents on a user-owned host via ssh with shared ControlMaster connections.",
+          "evidenceIds": [
+            "readme",
+            "ssh",
+            "sshsheet"
+          ]
+        },
+        "self_hosted": {
+          "support": "unsupported",
+          "answer": "No self-hosted service component exists.",
+          "evidenceIds": [
+            "srch-tele"
+          ]
+        },
+        "managed_cloud": {
+          "support": "unsupported",
+          "answer": "No managed cloud.",
+          "evidenceIds": [
+            "srch-tele"
+          ]
+        },
+        "hybrid": {
+          "support": "partial",
+          "answer": "Local and SSH workspaces can be open side by side.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "provisioning": {
+          "support": "unsupported",
+          "answer": "Kooky does not provision remote hosts.",
+          "evidenceIds": [
+            "sshsheet"
+          ]
+        },
+        "payer": {
+          "support": "supported",
+          "answer": "The user pays for their own machines and agent subscriptions; Kooky is free.",
+          "evidenceIds": [
+            "readme",
+            "license"
+          ]
+        },
+        "resources": {
+          "support": "unsupported",
+          "answer": "Kooky sets no compute resources.",
+          "evidenceIds": [
+            "srch-container"
+          ]
+        },
+        "region": {
+          "support": "unsupported",
+          "answer": "No regions; no hosted service.",
+          "evidenceIds": [
+            "srch-tele"
+          ]
+        },
+        "expiry": {
+          "support": "unsupported",
+          "answer": "No lifetime limits; sessions end with the ssh connection or app.",
+          "evidenceIds": [
+            "ssh",
+            "persist"
+          ]
+        },
+        "client_disconnect": {
+          "support": "unsupported",
+          "answer": "A plain ssh session ends when the connection or the app ends; keep-awake only stops the Mac sleeping.",
+          "evidenceIds": [
+            "ssh",
+            "sleep"
+          ]
+        },
+        "other_device_continuation": {
+          "support": "unsupported",
+          "answer": "No second-device access.",
+          "evidenceIds": [
+            "srch-clients"
+          ]
+        }
+      },
+      "limitations": [
+        "SSH tabs are live ssh connections, not detached remote sessions; there is no vendor cloud and no provisioning."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "ssh",
+        "srch-tele",
+        "engine",
+        "sshsheet",
+        "license",
+        "srch-container",
+        "persist",
+        "sleep",
+        "srch-clients"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "kooky:RUN-02",
+      "criterionId": "RUN-02",
+      "answer": "Git worktrees on request (Create Worktree creates a branch folder nested under its repo); otherwise agents share the opened folder. No container, VM or OS sandbox.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v0.51.12 (commit fc54bd9, released 2026-10-12)",
+        "plan": "Open source (MIT), free download",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "checkout": {
+          "support": "supported",
+          "answer": "Default workspace is the opened folder, shared by all its tabs.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "branch": {
+          "support": "supported",
+          "answer": "Worktree creation targets a new or existing branch.",
+          "evidenceIds": [
+            "readme",
+            "worktree"
+          ]
+        },
+        "worktree": {
+          "support": "supported",
+          "answer": "Create Worktree, adopt mode and optional removal with branch delete.",
+          "evidenceIds": [
+            "readme",
+            "worktree"
+          ]
+        },
+        "container": {
+          "support": "unsupported",
+          "answer": "No container isolation.",
+          "evidenceIds": [
+            "srch-container"
+          ]
+        },
+        "vm": {
+          "support": "unsupported",
+          "answer": "No VM isolation.",
+          "evidenceIds": [
+            "srch-container"
+          ]
+        },
+        "os_sandbox": {
+          "support": "unsupported",
+          "answer": "No OS sandbox; only macOS secure keyboard input and clipboard confirmation.",
+          "evidenceIds": [
+            "srch-container",
+            "secure",
+            "clip"
+          ]
+        },
+        "filesystem": {
+          "support": "unsupported",
+          "answer": "No filesystem boundary beyond worktree folders.",
+          "evidenceIds": [
+            "srch-container"
+          ]
+        },
+        "process": {
+          "support": "unsupported",
+          "answer": "No process boundary; agents are child processes of the user shell.",
+          "evidenceIds": [
+            "srch-container",
+            "agents"
+          ]
+        },
+        "network": {
+          "support": "unsupported",
+          "answer": "No network boundary.",
+          "evidenceIds": [
+            "srch-container"
+          ]
+        },
+        "secrets": {
+          "support": "partial",
+          "answer": "Custom agent environment variables stay out of the shell export for Claude entries, via a settings file; no secret isolation.",
+          "evidenceIds": [
+            "customagents"
+          ]
+        },
+        "code_separation": {
+          "support": "partial",
+          "answer": "Worktrees keep branches separate on disk.",
+          "evidenceIds": [
+            "worktree"
+          ]
+        },
+        "security_boundary": {
+          "support": "unsupported",
+          "answer": "None; a worktree is not a security boundary.",
+          "evidenceIds": [
+            "srch-container"
+          ]
+        }
+      },
+      "limitations": [
+        "A worktree separates files only; agents run as the user with full access."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "worktree",
+        "srch-container",
+        "secure",
+        "clip",
+        "agents",
+        "customagents"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "kooky:RUN-03",
+      "criterionId": "RUN-03",
+      "answer": "Layout, cwd, worktree and SSH-host metadata restore on relaunch and agent conversations resume by exact session ID; scrollback and running processes cannot survive quit.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v0.51.12 (commit fc54bd9, released 2026-10-12)",
+        "plan": "Open source (MIT), free download",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "client_disconnect": {
+          "support": "partial",
+          "answer": "There is no separate client; SSH tabs end when the connection drops and reconnect on next spawn.",
+          "evidenceIds": [
+            "ssh",
+            "persist"
+          ]
+        },
+        "worker_crash": {
+          "support": "unsupported",
+          "answer": "No worker process model; a crash writes a local stderr log only.",
+          "evidenceIds": [
+            "crash"
+          ]
+        },
+        "service_restart": {
+          "support": "unsupported",
+          "answer": "No service.",
+          "evidenceIds": [
+            "srch-tele"
+          ]
+        },
+        "expiry": {
+          "support": "unsupported",
+          "answer": "No sandbox expiry.",
+          "evidenceIds": [
+            "srch-container"
+          ]
+        },
+        "transcript_reload": {
+          "support": "partial",
+          "answer": "Agent history can be re-read and resumed; Kooky scrollback is not persisted.",
+          "evidenceIds": [
+            "history",
+            "persist"
+          ]
+        },
+        "process_reconnect": {
+          "support": "unsupported",
+          "answer": "Processes cannot be reattached after quit; panes respawn.",
+          "evidenceIds": [
+            "persist"
+          ]
+        },
+        "task_resume": {
+          "support": "supported",
+          "answer": "Agents resume their exact conversation after relaunch or from history.",
+          "evidenceIds": [
+            "readme",
+            "history",
+            "changelog"
+          ]
+        },
+        "state_reconstruction": {
+          "support": "supported",
+          "answer": "state.json rebuilds windows, panes, workspaces, worktrees and SSH hosts.",
+          "evidenceIds": [
+            "persist"
+          ]
+        },
+        "context_loss": {
+          "support": "partial",
+          "answer": "Terminal scrollback and unsaved shell input are lost; agent context returns through resume.",
+          "evidenceIds": [
+            "persist"
+          ]
+        },
+        "duplicate_actions": {
+          "support": "unsupported",
+          "answer": "No documented guard against agent repeating actions after resume.",
+          "evidenceIds": [
+            "history"
+          ]
+        },
+        "manual_repair": {
+          "support": "partial",
+          "answer": "Users reopen missing worktrees or SSH hosts; entries whose directory is gone are cleaned at launch.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "multi_day_continuity": {
+          "support": "partial",
+          "answer": "Conversations resume from agent transcripts on the same Mac, with no compute replacement concept.",
+          "evidenceIds": [
+            "history"
+          ]
+        }
+      },
+      "limitations": [
+        "Processes and scrollback are lost on quit or disconnect; resume depends on each agent CLI."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "persist",
+        "history",
+        "changelog",
+        "ssh",
+        "crash",
+        "srch-tele",
+        "srch-container",
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "kooky:RUN-04",
+      "criterionId": "RUN-04",
+      "answer": "Kooky does not install dependencies or manage services; the status bar shows Node, Python venv, proxy and branch state and can switch Node versions and branches.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v0.51.12 (commit fc54bd9, released 2026-10-12)",
+        "plan": "Open source (MIT), free download",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "dependencies": {
+          "support": "partial",
+          "answer": "Status bar detects Node and venv and can run a Node version switch in the shell.",
+          "evidenceIds": [
+            "readme",
+            "fileinfo"
+          ]
+        },
+        "caches": {
+          "support": "unsupported",
+          "answer": "No environment provisioning in Kooky.",
+          "evidenceIds": [
+            "srch-container"
+          ]
+        },
+        "snapshots": {
+          "support": "unsupported",
+          "answer": "No environment provisioning in Kooky.",
+          "evidenceIds": [
+            "srch-container"
+          ]
+        },
+        "services": {
+          "support": "unsupported",
+          "answer": "No environment provisioning in Kooky.",
+          "evidenceIds": [
+            "srch-container"
+          ]
+        },
+        "ports": {
+          "support": "partial",
+          "answer": "Session Info lists a tab's listening ports and opens them in a browser; nothing allocates ports.",
+          "evidenceIds": [
+            "fileinfo"
+          ]
+        },
+        "secrets": {
+          "support": "unsupported",
+          "answer": "No environment provisioning in Kooky.",
+          "evidenceIds": [
+            "srch-container"
+          ]
+        },
+        "duplicate_installs": {
+          "support": "unsupported",
+          "answer": "No environment provisioning in Kooky.",
+          "evidenceIds": [
+            "srch-container"
+          ]
+        },
+        "collisions": {
+          "support": "unsupported",
+          "answer": "No environment provisioning in Kooky.",
+          "evidenceIds": [
+            "srch-container"
+          ]
+        },
+        "remote_setup": {
+          "support": "partial",
+          "answer": "SSH agents start with the remote shell setup loaded so nvm-installed tools resolve.",
+          "evidenceIds": [
+            "readme",
+            "ssh"
+          ]
+        },
+        "automatic_repair": {
+          "support": "unsupported",
+          "answer": "No automatic repair.",
+          "evidenceIds": [
+            "srch-container"
+          ]
+        }
+      },
+      "limitations": [
+        "No caches, snapshots, services or port allocation."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "fileinfo",
+        "srch-container",
+        "ssh"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "kooky:RUN-05",
+      "criterionId": "RUN-05",
+      "answer": "No time, turn, token or spend limits; Codex rate-limit percentages are displayed only.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v0.51.12 (commit fc54bd9, released 2026-10-12)",
+        "plan": "Open source (MIT), free download",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "time_limits": {
+          "support": "unsupported",
+          "answer": "No limit enforcement in Kooky.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "turn_limits": {
+          "support": "unsupported",
+          "answer": "No limit enforcement in Kooky.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "token_limits": {
+          "support": "partial",
+          "answer": "Codex 5-hour and weekly rate-limit percentages are shown.",
+          "evidenceIds": [
+            "codexusage"
+          ]
+        },
+        "spend_limits": {
+          "support": "unsupported",
+          "answer": "No limit enforcement in Kooky.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "timeouts": {
+          "support": "unsupported",
+          "answer": "No limit enforcement in Kooky.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "retries": {
+          "support": "unsupported",
+          "answer": "No limit enforcement in Kooky.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "provider_failures": {
+          "support": "unsupported",
+          "answer": "Provider failures are visible only in the agent terminal.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "enforcement": {
+          "support": "unsupported",
+          "answer": "No limit enforcement in Kooky.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        }
+      },
+      "limitations": [
+        "Display of Codex limits is read-only."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "codexusage",
+        "srch-cost"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "kooky:RUN-06",
+      "criterionId": "RUN-06",
+      "answer": "Sidebar and agent-panel states, exit codes with durations, a Session Info inspector and a tool pill for supported agents; no usage export or statistics.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v0.51.12 (commit fc54bd9, released 2026-10-12)",
+        "plan": "Open source (MIT), free download",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "logs": {
+          "support": "partial",
+          "answer": "A local stderr log at ~/Library/Logs/kooky; terminal output is not logged.",
+          "evidenceIds": [
+            "crash"
+          ]
+        },
+        "traces": {
+          "support": "partial",
+          "answer": "A tool pill shows the running tool and elapsed time; full tool history opens on click.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "failure_reasons": {
+          "support": "partial",
+          "answer": "Non-zero exit code and duration on hover; agent errors appear in the terminal.",
+          "evidenceIds": [
+            "readme",
+            "fileinfo"
+          ]
+        },
+        "usage_export": {
+          "support": "unsupported",
+          "answer": "No usage export.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "task_stats": {
+          "support": "unsupported",
+          "answer": "No task statistics.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "agent_stats": {
+          "support": "unsupported",
+          "answer": "No agent statistics.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "project_stats": {
+          "support": "unsupported",
+          "answer": "No project statistics.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "time_stats": {
+          "support": "unsupported",
+          "answer": "No time statistics.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "failure_status": {
+          "support": "supported",
+          "answer": "Red dots for last command failure; failed tool calls turn red.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "approval_status": {
+          "support": "supported",
+          "answer": "Amber waiting dot covers pending tool approvals for hooked agents.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "reconnect_consistency": {
+          "support": "partial",
+          "answer": "State is rebuilt from the saved layout and agent hooks on relaunch.",
+          "evidenceIds": [
+            "persist"
+          ]
+        },
+        "performance_method": {
+          "support": "unknown",
+          "answer": "No benchmark method in the repository beyond a bench script.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "responsiveness": {
+          "support": "unknown",
+          "answer": "No published responsiveness measurements.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "No per-task or per-agent statistics or exports; only local stderr log."
+      ],
+      "unknownReason": "Performance and responsiveness are benchmark facts the catalog does not measure.",
+      "evidenceIds": [
+        "readme",
+        "fileinfo",
+        "agentmon",
+        "crash",
+        "srch-cost",
+        "persist"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "kooky:RUN-07",
+      "criterionId": "RUN-07",
+      "answer": "No cost tracking; for Codex the status bar shows rate-limit usage and context occupancy.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v0.51.12 (commit fc54bd9, released 2026-10-12)",
+        "plan": "Open source (MIT), free download",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "task_cost": {
+          "support": "unsupported",
+          "answer": "No cost tracking.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "session_cost": {
+          "support": "unsupported",
+          "answer": "No cost tracking.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "child_cost": {
+          "support": "unsupported",
+          "answer": "No cost tracking.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "epic_cost": {
+          "support": "unsupported",
+          "answer": "No cost tracking.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "harness_aggregation": {
+          "support": "unsupported",
+          "answer": "No cost tracking.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "billed_vs_estimated": {
+          "support": "unsupported",
+          "answer": "No cost tracking.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "tokens": {
+          "support": "partial",
+          "answer": "Codex context-window occupancy in tokens is shown.",
+          "evidenceIds": [
+            "codexusage"
+          ]
+        },
+        "subscription_allowance": {
+          "support": "partial",
+          "answer": "Codex 5-hour and weekly allowance percentages and plan type.",
+          "evidenceIds": [
+            "codexusage"
+          ]
+        },
+        "provider_reconciliation": {
+          "support": "unsupported",
+          "answer": "No cost tracking.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "compute_cost": {
+          "support": "unsupported",
+          "answer": "No cost tracking.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "refresh_delay": {
+          "support": "unsupported",
+          "answer": "No cost tracking.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "alerts": {
+          "support": "unsupported",
+          "answer": "No cost tracking.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "export": {
+          "support": "unsupported",
+          "answer": "No cost tracking.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "drilldown": {
+          "support": "unsupported",
+          "answer": "No cost tracking.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        }
+      },
+      "limitations": [
+        "No dollar or token cost for any agent; Codex gauge only."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "codexusage",
+        "srch-cost"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "kooky:RUN-08",
+      "criterionId": "RUN-08",
+      "answer": "No compute-aware scheduling, queues or limits; background tabs pause rendering to save GPU only.",
+      "support": "unsupported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v0.51.12 (commit fc54bd9, released 2026-10-12)",
+        "plan": "Open source (MIT), free download",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "concurrency": {
+          "support": "unsupported",
+          "answer": "No scheduling or resource-limit feature.",
+          "evidenceIds": [
+            "srch-orch"
+          ]
+        },
+        "queues": {
+          "support": "unsupported",
+          "answer": "No scheduling or resource-limit feature.",
+          "evidenceIds": [
+            "srch-orch"
+          ]
+        },
+        "cpu_ram": {
+          "support": "unsupported",
+          "answer": "No scheduling or resource-limit feature.",
+          "evidenceIds": [
+            "srch-orch"
+          ]
+        },
+        "backpressure": {
+          "support": "unsupported",
+          "answer": "No scheduling or resource-limit feature.",
+          "evidenceIds": [
+            "srch-orch"
+          ]
+        },
+        "host_awareness": {
+          "support": "unsupported",
+          "answer": "No scheduling or resource-limit feature.",
+          "evidenceIds": [
+            "srch-orch"
+          ]
+        },
+        "check_reuse": {
+          "support": "unsupported",
+          "answer": "No scheduling or resource-limit feature.",
+          "evidenceIds": [
+            "srch-orch"
+          ]
+        },
+        "check_deduplication": {
+          "support": "unsupported",
+          "answer": "No scheduling or resource-limit feature.",
+          "evidenceIds": [
+            "srch-orch"
+          ]
+        },
+        "bounded_tests": {
+          "support": "unsupported",
+          "answer": "No scheduling or resource-limit feature.",
+          "evidenceIds": [
+            "srch-orch"
+          ]
+        },
+        "cancellation": {
+          "support": "unsupported",
+          "answer": "No scheduling or resource-limit feature.",
+          "evidenceIds": [
+            "srch-orch"
+          ]
+        },
+        "fairness": {
+          "support": "unsupported",
+          "answer": "No scheduling or resource-limit feature.",
+          "evidenceIds": [
+            "srch-orch"
+          ]
+        },
+        "recovery": {
+          "support": "unsupported",
+          "answer": "No scheduling or resource-limit feature.",
+          "evidenceIds": [
+            "srch-orch"
+          ]
+        },
+        "shared_limits": {
+          "support": "unsupported",
+          "answer": "No scheduling or resource-limit feature.",
+          "evidenceIds": [
+            "srch-orch"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "srch-orch",
+        "changelog"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "kooky:TEAM-01",
+      "criterionId": "TEAM-01",
+      "answer": "Single-user local app; no sharing, comments or presence.",
+      "support": "unsupported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v0.51.12 (commit fc54bd9, released 2026-10-12)",
+        "plan": "Open source (MIT), free download",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "visibility": {
+          "support": "unsupported",
+          "answer": "No multi-user feature.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "discussion": {
+          "support": "unsupported",
+          "answer": "No multi-user feature.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "comments": {
+          "support": "unsupported",
+          "answer": "No multi-user feature.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "presence": {
+          "support": "unsupported",
+          "answer": "No multi-user feature.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "coprompting": {
+          "support": "unsupported",
+          "answer": "No multi-user feature.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "ordering": {
+          "support": "unsupported",
+          "answer": "No multi-user feature.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "conflicts": {
+          "support": "unsupported",
+          "answer": "No multi-user feature.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "attribution": {
+          "support": "unsupported",
+          "answer": "No multi-user feature.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "permissions": {
+          "support": "unsupported",
+          "answer": "No multi-user feature.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "plan_restrictions": {
+          "support": "unsupported",
+          "answer": "No multi-user feature.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "owner_online": {
+          "support": "unsupported",
+          "answer": "No multi-user feature.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "srch-team",
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "kooky:TEAM-02",
+      "criterionId": "TEAM-02",
+      "answer": "No roles, SSO or membership; the app has no accounts.",
+      "support": "unsupported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v0.51.12 (commit fc54bd9, released 2026-10-12)",
+        "plan": "Open source (MIT), free download",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "organization_roles": {
+          "support": "unsupported",
+          "answer": "No account or role system.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "project_roles": {
+          "support": "unsupported",
+          "answer": "No account or role system.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "task_roles": {
+          "support": "unsupported",
+          "answer": "No account or role system.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "membership": {
+          "support": "unsupported",
+          "answer": "No account or role system.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "sso": {
+          "support": "unsupported",
+          "answer": "No account or role system.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "provisioning": {
+          "support": "unsupported",
+          "answer": "No account or role system.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "unauthorized_access": {
+          "support": "unsupported",
+          "answer": "No account or role system.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "revocation": {
+          "support": "unsupported",
+          "answer": "No account or role system.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "plan_scope": {
+          "support": "unsupported",
+          "answer": "No account or role system.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "srch-team",
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "kooky:TEAM-03",
+      "criterionId": "TEAM-03",
+      "answer": "No Kooky approval system; agents ask in their own terminals and Kooky flags the wait. Product-side guards cover risky paste and clipboard access only.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v0.51.12 (commit fc54bd9, released 2026-10-12)",
+        "plan": "Open source (MIT), free download",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "command": {
+          "support": "partial",
+          "answer": "Multi-line paste outside bracketed paste asks for confirmation with a preview.",
+          "evidenceIds": [
+            "readme",
+            "clip"
+          ]
+        },
+        "tool": {
+          "support": "partial",
+          "answer": "Pending tool approvals are surfaced as a waiting dot; the agent enforces them.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "network": {
+          "support": "unsupported",
+          "answer": "No product-level approval or access policy.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "secret": {
+          "support": "partial",
+          "answer": "macOS secure keyboard input is held during sudo or ssh password entry.",
+          "evidenceIds": [
+            "readme",
+            "secure"
+          ]
+        },
+        "delivery": {
+          "support": "unsupported",
+          "answer": "No product-level approval or access policy.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "approver_identity": {
+          "support": "unsupported",
+          "answer": "Single user.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "lifetime": {
+          "support": "unsupported",
+          "answer": "No product-level approval or access policy.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "allow": {
+          "support": "partial",
+          "answer": "Clipboard-write and OSC 52 read prompts offer allow.",
+          "evidenceIds": [
+            "readme",
+            "clip"
+          ]
+        },
+        "deny": {
+          "support": "partial",
+          "answer": "Same prompts offer deny.",
+          "evidenceIds": [
+            "readme",
+            "clip"
+          ]
+        },
+        "revoke": {
+          "support": "unsupported",
+          "answer": "No product-level approval or access policy.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "tunnels": {
+          "support": "unsupported",
+          "answer": "No product-level approval or access policy.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "defaults": {
+          "support": "partial",
+          "answer": "Agents run with their own default permissions.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "safer_modes": {
+          "support": "partial",
+          "answer": "Optional confirm-close-surface and clipboard-write = ask settings.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "enforcement": {
+          "support": "unsupported",
+          "answer": "No product-level approval or access policy.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        }
+      },
+      "limitations": [
+        "Command and tool approvals are not product-enforced; defaults are whatever each agent allows."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "clip",
+        "secure",
+        "srch-team",
+        "agents"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "kooky:TEAM-04",
+      "criterionId": "TEAM-04",
+      "answer": "No attributed activity history; the notification inbox and agent session history are local single-user records.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v0.51.12 (commit fc54bd9, released 2026-10-12)",
+        "plan": "Open source (MIT), free download",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "actions": {
+          "support": "partial",
+          "answer": "Notification inbox keeps who waited, what failed and what finished.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "approvals": {
+          "support": "unsupported",
+          "answer": "No audit or attribution feature.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "edits": {
+          "support": "unsupported",
+          "answer": "No audit or attribution feature.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "discussion": {
+          "support": "unsupported",
+          "answer": "No audit or attribution feature.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "decisions": {
+          "support": "unsupported",
+          "answer": "No audit or attribution feature.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "cross_user_persistence": {
+          "support": "unsupported",
+          "answer": "No audit or attribution feature.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "cross_session_persistence": {
+          "support": "partial",
+          "answer": "Agent conversation history persists in each agent's own files.",
+          "evidenceIds": [
+            "history"
+          ]
+        },
+        "export": {
+          "support": "unsupported",
+          "answer": "No audit or attribution feature.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "mutability": {
+          "support": "partial",
+          "answer": "Users can hide history rows; transcripts belong to the agents.",
+          "evidenceIds": [
+            "changelog",
+            "history"
+          ]
+        },
+        "retention": {
+          "support": "unsupported",
+          "answer": "No audit or attribution feature.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "integrity": {
+          "support": "unsupported",
+          "answer": "No audit or attribution feature.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        }
+      },
+      "limitations": [
+        "Local, mutable, single-user lists."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "history",
+        "srch-team",
+        "changelog"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "kooky:TEAM-05",
+      "criterionId": "TEAM-05",
+      "answer": "Review is a changed-files popover with +/- counts per file, a file tree with change counts and open-in-editor handoff; no diff viewer, comments or request-changes flow.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v0.51.12 (commit fc54bd9, released 2026-10-12)",
+        "plan": "Open source (MIT), free download",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "pending_reviews": {
+          "support": "partial",
+          "answer": "Diff pill shows files changed in the current tab's repository.",
+          "evidenceIds": [
+            "gitstatus"
+          ]
+        },
+        "change_understanding": {
+          "support": "partial",
+          "answer": "Per-file insertions and deletions only.",
+          "evidenceIds": [
+            "gitstatus"
+          ]
+        },
+        "evidence_navigation": {
+          "support": "partial",
+          "answer": "Show in File Tree and open file in preferred editor.",
+          "evidenceIds": [
+            "gitstatus",
+            "readme"
+          ]
+        },
+        "comments": {
+          "support": "unsupported",
+          "answer": "No review workflow in Kooky.",
+          "evidenceIds": [
+            "srch-pr"
+          ]
+        },
+        "request_changes": {
+          "support": "unsupported",
+          "answer": "No review workflow in Kooky.",
+          "evidenceIds": [
+            "srch-pr"
+          ]
+        },
+        "shipping_guidance": {
+          "support": "unsupported",
+          "answer": "No review workflow in Kooky.",
+          "evidenceIds": [
+            "srch-pr"
+          ]
+        },
+        "effort": {
+          "support": "unknown",
+          "answer": "Review effort is a usability measure not documented.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "missed_evidence": {
+          "support": "unsupported",
+          "answer": "No review workflow in Kooky.",
+          "evidenceIds": [
+            "srch-pr"
+          ]
+        },
+        "keyboard": {
+          "support": "partial",
+          "answer": "Many shortcuts exist; review-specific keyboard flows do not.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "narrow_screen": {
+          "support": "unsupported",
+          "answer": "Desktop-only layout.",
+          "evidenceIds": [
+            "srch-clients"
+          ]
+        },
+        "context_switching": {
+          "support": "unsupported",
+          "answer": "No review workflow in Kooky.",
+          "evidenceIds": [
+            "srch-pr"
+          ]
+        },
+        "roles": {
+          "support": "unsupported",
+          "answer": "No review workflow in Kooky.",
+          "evidenceIds": [
+            "srch-pr"
+          ]
+        },
+        "retained_context": {
+          "support": "partial",
+          "answer": "Panes keep their state until quit.",
+          "evidenceIds": [
+            "persist"
+          ]
+        }
+      },
+      "limitations": [
+        "No line-level diff, comments or guided review."
+      ],
+      "unknownReason": "Review effort is a usability measure not documented in the repository.",
+      "evidenceIds": [
+        "gitstatus",
+        "readme",
+        "srch-pr",
+        "srch-clients",
+        "persist"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "kooky:TEAM-06",
+      "criterionId": "TEAM-06",
+      "answer": "No takeover; one local user, and an SSH workspace or kooky:// link is not a handoff.",
+      "support": "unsupported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v0.51.12 (commit fc54bd9, released 2026-10-12)",
+        "plan": "Open source (MIT), free download",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "ongoing_takeover": {
+          "support": "unsupported",
+          "answer": "No colleague or second-device takeover.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "same_task": {
+          "support": "unsupported",
+          "answer": "No colleague or second-device takeover.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "session_history": {
+          "support": "unsupported",
+          "answer": "No colleague or second-device takeover.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "decisions": {
+          "support": "unsupported",
+          "answer": "No colleague or second-device takeover.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "artifacts": {
+          "support": "unsupported",
+          "answer": "No colleague or second-device takeover.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "permissions": {
+          "support": "unsupported",
+          "answer": "No colleague or second-device takeover.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "runtime_context": {
+          "support": "unsupported",
+          "answer": "No colleague or second-device takeover.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "owner_disconnect": {
+          "support": "unsupported",
+          "answer": "No colleague or second-device takeover.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "ownership": {
+          "support": "unsupported",
+          "answer": "No colleague or second-device takeover.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "attribution": {
+          "support": "unsupported",
+          "answer": "No colleague or second-device takeover.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "context_loss": {
+          "support": "unsupported",
+          "answer": "No colleague or second-device takeover.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "harness_transfer": {
+          "support": "unsupported",
+          "answer": "No colleague or second-device takeover.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "srch-team",
+        "persist"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "kooky:SHIP-01",
+      "criterionId": "SHIP-01",
+      "answer": "Kooky retains only agent transcripts through history and a changed-file list; no screenshots, recordings, previews, gallery or test outputs.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v0.51.12 (commit fc54bd9, released 2026-10-12)",
+        "plan": "Open source (MIT), free download",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "diffs": {
+          "support": "partial",
+          "answer": "Changed-file counts only, no diff content.",
+          "evidenceIds": [
+            "gitstatus"
+          ]
+        },
+        "documents": {
+          "support": "unsupported",
+          "answer": "No artifact retention feature.",
+          "evidenceIds": [
+            "srch-pr"
+          ]
+        },
+        "screenshots": {
+          "support": "unsupported",
+          "answer": "No artifact retention feature.",
+          "evidenceIds": [
+            "srch-pr"
+          ]
+        },
+        "recordings": {
+          "support": "unsupported",
+          "answer": "No artifact retention feature.",
+          "evidenceIds": [
+            "srch-pr"
+          ]
+        },
+        "previews": {
+          "support": "unsupported",
+          "answer": "No artifact retention feature.",
+          "evidenceIds": [
+            "srch-pr"
+          ]
+        },
+        "test_outputs": {
+          "support": "unsupported",
+          "answer": "No artifact retention feature.",
+          "evidenceIds": [
+            "srch-pr"
+          ]
+        },
+        "reviewer_outputs": {
+          "support": "partial",
+          "answer": "Past agent conversations can be reopened from history.",
+          "evidenceIds": [
+            "history"
+          ]
+        },
+        "gallery": {
+          "support": "unsupported",
+          "answer": "No artifact retention feature.",
+          "evidenceIds": [
+            "srch-pr"
+          ]
+        },
+        "task_links": {
+          "support": "unsupported",
+          "answer": "No artifact retention feature.",
+          "evidenceIds": [
+            "srch-pr"
+          ]
+        },
+        "revision_links": {
+          "support": "unsupported",
+          "answer": "No artifact retention feature.",
+          "evidenceIds": [
+            "srch-pr"
+          ]
+        },
+        "persistence": {
+          "support": "partial",
+          "answer": "Conversation transcripts persist in agent directories.",
+          "evidenceIds": [
+            "history"
+          ]
+        },
+        "child_findings": {
+          "support": "unsupported",
+          "answer": "No artifact retention feature.",
+          "evidenceIds": [
+            "srch-pr"
+          ]
+        },
+        "prompt_leakage": {
+          "support": "unknown",
+          "answer": "Not documented in the repository.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "No artifact gallery; outputs live in the agents and the working tree."
+      ],
+      "unknownReason": "Prompt leakage into artifacts is not addressed in the inspected sources.",
+      "evidenceIds": [
+        "gitstatus",
+        "history",
+        "srch-pr",
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "kooky:SHIP-02",
+      "criterionId": "SHIP-02",
+      "answer": "No test, lint, type, CI or review gates in Kooky; its own repository runs swift test locally.",
+      "support": "unsupported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v0.51.12 (commit fc54bd9, released 2026-10-12)",
+        "plan": "Open source (MIT), free download",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "tests": {
+          "support": "unsupported",
+          "answer": "No verification gate feature.",
+          "evidenceIds": [
+            "srch-pr"
+          ]
+        },
+        "lint": {
+          "support": "unsupported",
+          "answer": "No verification gate feature.",
+          "evidenceIds": [
+            "srch-pr"
+          ]
+        },
+        "types": {
+          "support": "unsupported",
+          "answer": "No verification gate feature.",
+          "evidenceIds": [
+            "srch-pr"
+          ]
+        },
+        "ci": {
+          "support": "unsupported",
+          "answer": "No verification gate feature.",
+          "evidenceIds": [
+            "srch-pr"
+          ]
+        },
+        "independent_review": {
+          "support": "unsupported",
+          "answer": "No verification gate feature.",
+          "evidenceIds": [
+            "srch-pr"
+          ]
+        },
+        "spec_checks": {
+          "support": "unsupported",
+          "answer": "No verification gate feature.",
+          "evidenceIds": [
+            "srch-pr"
+          ]
+        },
+        "required_checks": {
+          "support": "unsupported",
+          "answer": "No verification gate feature.",
+          "evidenceIds": [
+            "srch-pr"
+          ]
+        },
+        "failure_blocking": {
+          "support": "unsupported",
+          "answer": "No verification gate feature.",
+          "evidenceIds": [
+            "srch-pr"
+          ]
+        },
+        "requirement_conflicts": {
+          "support": "unsupported",
+          "answer": "No verification gate feature.",
+          "evidenceIds": [
+            "srch-pr"
+          ]
+        },
+        "configured_policy": {
+          "support": "unsupported",
+          "answer": "No verification gate feature.",
+          "evidenceIds": [
+            "srch-pr"
+          ]
+        },
+        "enforced_policy": {
+          "support": "unsupported",
+          "answer": "No verification gate feature.",
+          "evidenceIds": [
+            "srch-pr"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "srch-pr",
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "kooky:SHIP-03",
+      "criterionId": "SHIP-03",
+      "answer": "Worktree creation on new or existing branches, branch switching from the status bar and live diff counts; no commit, PR, rebase or conflict handling.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v0.51.12 (commit fc54bd9, released 2026-10-12)",
+        "plan": "Open source (MIT), free download",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "branches": {
+          "support": "supported",
+          "answer": "Click the branch pill to switch branches; worktrees can target new or existing branches.",
+          "evidenceIds": [
+            "readme",
+            "worktree"
+          ]
+        },
+        "worktrees": {
+          "support": "supported",
+          "answer": "Create, adopt and remove worktrees nested in the sidebar.",
+          "evidenceIds": [
+            "readme",
+            "worktree"
+          ]
+        },
+        "commits": {
+          "support": "unsupported",
+          "answer": "No product git workflow beyond branches and worktrees.",
+          "evidenceIds": [
+            "srch-pr"
+          ]
+        },
+        "pull_requests": {
+          "support": "unsupported",
+          "answer": "No product git workflow beyond branches and worktrees.",
+          "evidenceIds": [
+            "srch-pr"
+          ]
+        },
+        "comments": {
+          "support": "unsupported",
+          "answer": "No product git workflow beyond branches and worktrees.",
+          "evidenceIds": [
+            "srch-pr"
+          ]
+        },
+        "ci_response": {
+          "support": "unsupported",
+          "answer": "No product git workflow beyond branches and worktrees.",
+          "evidenceIds": [
+            "srch-pr"
+          ]
+        },
+        "rebase": {
+          "support": "unsupported",
+          "answer": "No product git workflow beyond branches and worktrees.",
+          "evidenceIds": [
+            "srch-pr"
+          ]
+        },
+        "conflicts": {
+          "support": "unsupported",
+          "answer": "No product git workflow beyond branches and worktrees.",
+          "evidenceIds": [
+            "srch-pr"
+          ]
+        },
+        "product_state": {
+          "support": "partial",
+          "answer": "Sidebar nests worktrees under their source workspace and diff counts update live.",
+          "evidenceIds": [
+            "readme",
+            "gitstatus"
+          ]
+        }
+      },
+      "limitations": [
+        "Git state is shown and branches and worktrees are managed; commits, PRs and rebases are left to the agent or user."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "worktree",
+        "gitstatus",
+        "srch-pr"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "kooky:SHIP-04",
+      "criterionId": "SHIP-04",
+      "answer": "No approval, merge, release or deploy authority in Kooky.",
+      "support": "unsupported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v0.51.12 (commit fc54bd9, released 2026-10-12)",
+        "plan": "Open source (MIT), free download",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "approve": {
+          "support": "unsupported",
+          "answer": "No delivery authority feature.",
+          "evidenceIds": [
+            "srch-pr"
+          ]
+        },
+        "merge": {
+          "support": "unsupported",
+          "answer": "No delivery authority feature.",
+          "evidenceIds": [
+            "srch-pr"
+          ]
+        },
+        "release": {
+          "support": "unsupported",
+          "answer": "No delivery authority feature.",
+          "evidenceIds": [
+            "srch-pr"
+          ]
+        },
+        "deploy": {
+          "support": "unsupported",
+          "answer": "No delivery authority feature.",
+          "evidenceIds": [
+            "srch-pr"
+          ]
+        },
+        "exact_revision": {
+          "support": "unsupported",
+          "answer": "No delivery authority feature.",
+          "evidenceIds": [
+            "srch-pr"
+          ]
+        },
+        "authority_enforcement": {
+          "support": "unsupported",
+          "answer": "No delivery authority feature.",
+          "evidenceIds": [
+            "srch-pr"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "srch-pr"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "kooky:SHIP-05",
+      "criterionId": "SHIP-05",
+      "answer": "No delivery links, completion evidence or rollback; the repo pill opens the remote repository page.",
+      "support": "unsupported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v0.51.12 (commit fc54bd9, released 2026-10-12)",
+        "plan": "Open source (MIT), free download",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "commit_links": {
+          "support": "unsupported",
+          "answer": "No delivery tracking.",
+          "evidenceIds": [
+            "srch-pr"
+          ]
+        },
+        "pr_links": {
+          "support": "unsupported",
+          "answer": "No delivery tracking.",
+          "evidenceIds": [
+            "srch-pr"
+          ]
+        },
+        "build_links": {
+          "support": "unsupported",
+          "answer": "No delivery tracking.",
+          "evidenceIds": [
+            "srch-pr"
+          ]
+        },
+        "deployment_links": {
+          "support": "unsupported",
+          "answer": "No delivery tracking.",
+          "evidenceIds": [
+            "srch-pr"
+          ]
+        },
+        "delivery_status": {
+          "support": "unsupported",
+          "answer": "No delivery tracking.",
+          "evidenceIds": [
+            "srch-pr"
+          ]
+        },
+        "retained_evidence": {
+          "support": "unsupported",
+          "answer": "No delivery tracking.",
+          "evidenceIds": [
+            "srch-pr"
+          ]
+        },
+        "rollback": {
+          "support": "unsupported",
+          "answer": "No delivery tracking.",
+          "evidenceIds": [
+            "srch-pr"
+          ]
+        },
+        "revert": {
+          "support": "unsupported",
+          "answer": "No delivery tracking.",
+          "evidenceIds": [
+            "srch-pr"
+          ]
+        },
+        "stale_approval_invalidation": {
+          "support": "unsupported",
+          "answer": "No delivery tracking.",
+          "evidenceIds": [
+            "srch-pr"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "srch-pr",
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "kooky:SHIP-06",
+      "criterionId": "SHIP-06",
+      "answer": "No review queue or batch delivery.",
+      "support": "unsupported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v0.51.12 (commit fc54bd9, released 2026-10-12)",
+        "plan": "Open source (MIT), free download",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "review_queue": {
+          "support": "unsupported",
+          "answer": "No batch review or delivery queue.",
+          "evidenceIds": [
+            "srch-pr"
+          ]
+        },
+        "summaries": {
+          "support": "unsupported",
+          "answer": "No batch review or delivery queue.",
+          "evidenceIds": [
+            "srch-pr"
+          ]
+        },
+        "grouping": {
+          "support": "unsupported",
+          "answer": "No batch review or delivery queue.",
+          "evidenceIds": [
+            "srch-pr"
+          ]
+        },
+        "risk_size_filters": {
+          "support": "unsupported",
+          "answer": "No batch review or delivery queue.",
+          "evidenceIds": [
+            "srch-pr"
+          ]
+        },
+        "findings": {
+          "support": "unsupported",
+          "answer": "No batch review or delivery queue.",
+          "evidenceIds": [
+            "srch-pr"
+          ]
+        },
+        "artifacts": {
+          "support": "unsupported",
+          "answer": "No batch review or delivery queue.",
+          "evidenceIds": [
+            "srch-pr"
+          ]
+        },
+        "request_changes": {
+          "support": "unsupported",
+          "answer": "No batch review or delivery queue.",
+          "evidenceIds": [
+            "srch-pr"
+          ]
+        },
+        "exact_revision_approval": {
+          "support": "unsupported",
+          "answer": "No batch review or delivery queue.",
+          "evidenceIds": [
+            "srch-pr"
+          ]
+        },
+        "dependency_queues": {
+          "support": "unsupported",
+          "answer": "No batch review or delivery queue.",
+          "evidenceIds": [
+            "srch-pr"
+          ]
+        },
+        "next_actions": {
+          "support": "unsupported",
+          "answer": "No batch review or delivery queue.",
+          "evidenceIds": [
+            "srch-pr"
+          ]
+        },
+        "stale_approval_invalidation": {
+          "support": "unsupported",
+          "answer": "No batch review or delivery queue.",
+          "evidenceIds": [
+            "srch-pr"
+          ]
+        },
+        "check_deduplication": {
+          "support": "unsupported",
+          "answer": "No batch review or delivery queue.",
+          "evidenceIds": [
+            "srch-pr"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "srch-pr"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "kooky:OWN-01",
+      "criterionId": "OWN-01",
+      "answer": "MIT-licensed application source in one public repository; bundled fonts and theme palettes keep their own licenses; libghostty is linked as a dependency.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v0.51.12 (commit fc54bd9, released 2026-10-12)",
+        "plan": "Open source (MIT), free download",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "client_license": {
+          "support": "supported",
+          "answer": "MIT; copyright 2026 kooky contributors.",
+          "evidenceIds": [
+            "license",
+            "readme"
+          ]
+        },
+        "server_license": {
+          "support": "unsupported",
+          "answer": "No server component exists.",
+          "evidenceIds": [
+            "srch-tele"
+          ]
+        },
+        "hosted_extensions": {
+          "support": "unsupported",
+          "answer": "No hosted extension exists.",
+          "evidenceIds": [
+            "srch-tele"
+          ]
+        },
+        "source_visibility": {
+          "support": "supported",
+          "answer": "Public GitHub repository with the full app, CLI and hook helper.",
+          "evidenceIds": [
+            "readme",
+            "repoapi"
+          ]
+        },
+        "source_revision": {
+          "support": "supported",
+          "answer": "Pinned to release v0.51.12, commit fc54bd9.",
+          "evidenceIds": [
+            "release",
+            "repoapi"
+          ]
+        },
+        "hosted_parity": {
+          "support": "unsupported",
+          "answer": "No hosted product exists to compare.",
+          "evidenceIds": [
+            "srch-tele"
+          ]
+        }
+      },
+      "limitations": [
+        "Bundled third-party assets retain upstream licenses."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "license",
+        "readme",
+        "notice",
+        "release",
+        "srch-tele",
+        "repoapi"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-05-15",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "kooky:OWN-02",
+      "criterionId": "OWN-02",
+      "answer": "The whole app runs on the user Mac with no required vendor service; state is a local state.json and settings.json; source is MIT.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v0.51.12 (commit fc54bd9, released 2026-10-12)",
+        "plan": "Open source (MIT), free download",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "self_hosting": {
+          "support": "supported",
+          "answer": "All components run locally with no vendor service; the only call is a manual update check.",
+          "evidenceIds": [
+            "readme",
+            "update"
+          ]
+        },
+        "vendor_dependencies": {
+          "support": "supported",
+          "answer": "None required; the optional update check calls GitHub.",
+          "evidenceIds": [
+            "update"
+          ]
+        },
+        "export": {
+          "support": "partial",
+          "answer": "Settings and state are plain JSON files; there is no export feature.",
+          "evidenceIds": [
+            "persist"
+          ]
+        },
+        "import": {
+          "support": "partial",
+          "answer": "Existing Ghostty config and theme files are inherited.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "formats": {
+          "support": "partial",
+          "answer": "state.json and settings.json, Ghostty-style theme files.",
+          "evidenceIds": [
+            "persist",
+            "readme"
+          ]
+        },
+        "cancellation": {
+          "support": "unsupported",
+          "answer": "No account exists to cancel.",
+          "evidenceIds": [
+            "srch-tele"
+          ]
+        },
+        "account_independence": {
+          "support": "supported",
+          "answer": "Everything works without any account.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "history_portability": {
+          "support": "partial",
+          "answer": "Agent conversations stay in each agent's own directories and can be resumed by deep link.",
+          "evidenceIds": [
+            "history",
+            "deeplink"
+          ]
+        }
+      },
+      "limitations": [
+        "State and history are local files, not an interchange format; no hosted account exists."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "persist",
+        "update",
+        "srch-tele",
+        "history",
+        "deeplink"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-05-15",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "kooky:OWN-03",
+      "criterionId": "OWN-03",
+      "answer": "README states no accounts, no telemetry and no cloud sync; the only network call found is a manual GitHub release check; prompts and code go from the user terminal to whichever agent provider they use.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v0.51.12 (commit fc54bd9, released 2026-10-12)",
+        "plan": "Open source (MIT), free download",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "code_data": {
+          "support": "supported",
+          "answer": "Code and prompts stay on the Mac except where the launched agent sends them.",
+          "evidenceIds": [
+            "readme",
+            "srch-tele"
+          ]
+        },
+        "prompts": {
+          "support": "supported",
+          "answer": "Prompts go from the terminal to the agent CLI; Kooky stores none.",
+          "evidenceIds": [
+            "readme",
+            "history"
+          ]
+        },
+        "credentials": {
+          "support": "supported",
+          "answer": "Kooky holds no credentials; custom environment values live in local settings.",
+          "evidenceIds": [
+            "customagents"
+          ]
+        },
+        "logs": {
+          "support": "supported",
+          "answer": "A local stderr log only.",
+          "evidenceIds": [
+            "crash"
+          ]
+        },
+        "artifacts": {
+          "support": "supported",
+          "answer": "Local state.json and settings.json.",
+          "evidenceIds": [
+            "persist"
+          ]
+        },
+        "retention": {
+          "support": "partial",
+          "answer": "Local files remain until the user deletes them; no policy.",
+          "evidenceIds": [
+            "persist"
+          ]
+        },
+        "deletion": {
+          "support": "partial",
+          "answer": "Hidden history rows only hide; the user deletes local files manually.",
+          "evidenceIds": [
+            "changelog"
+          ]
+        },
+        "training": {
+          "support": "unknown",
+          "answer": "Kooky has no model; training use belongs to the agent providers.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "residency": {
+          "support": "unknown",
+          "answer": "Provider-specific.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "subprocessors": {
+          "support": "unknown",
+          "answer": "Kooky has no vendor service; provider subprocessors are outside the repository.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "telemetry_disclosure": {
+          "support": "supported",
+          "answer": "README: no accounts, no telemetry; bounded search found no analytics client.",
+          "evidenceIds": [
+            "readme",
+            "srch-tele"
+          ]
+        },
+        "telemetry_defaults": {
+          "support": "supported",
+          "answer": "No telemetry exists, so none is on by default.",
+          "evidenceIds": [
+            "srch-tele"
+          ]
+        },
+        "telemetry_controls": {
+          "support": "unsupported",
+          "answer": "No telemetry control, because nothing is collected.",
+          "evidenceIds": [
+            "srch-tele"
+          ]
+        },
+        "consent_prompt": {
+          "support": "unsupported",
+          "answer": "No consent prompt; none is needed.",
+          "evidenceIds": [
+            "srch-tele"
+          ]
+        },
+        "provider_separation": {
+          "support": "supported",
+          "answer": "Orchestration (none) and model-provider data flow are separate because Kooky never calls providers.",
+          "evidenceIds": [
+            "update",
+            "srch-tele"
+          ]
+        }
+      },
+      "limitations": [
+        "Provider data handling is each agent vendor's policy; absence of a code path does not prove nothing leaves other processes."
+      ],
+      "unknownReason": "Agent providers' retention, training, residency and subprocessor policies are third-party business facts outside the repository.",
+      "evidenceIds": [
+        "readme",
+        "update",
+        "srch-tele",
+        "crash",
+        "history",
+        "customagents",
+        "persist",
+        "changelog"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "kooky:OWN-04",
+      "criterionId": "OWN-04",
+      "answer": "Free open-source app with no price, tiers, seats or credits; agent subscriptions and API usage are paid separately to providers.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v0.51.12 (commit fc54bd9, released 2026-10-12)",
+        "plan": "Open source (MIT), free download",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "currency": {
+          "support": "unsupported",
+          "answer": "No prices or billing exist in Kooky.",
+          "evidenceIds": [
+            "srch-cost",
+            "readme"
+          ]
+        },
+        "interval": {
+          "support": "unsupported",
+          "answer": "No prices or billing exist in Kooky.",
+          "evidenceIds": [
+            "srch-cost",
+            "readme"
+          ]
+        },
+        "seats": {
+          "support": "unsupported",
+          "answer": "No prices or billing exist in Kooky.",
+          "evidenceIds": [
+            "srch-cost",
+            "readme"
+          ]
+        },
+        "seat_minimum": {
+          "support": "unsupported",
+          "answer": "No prices or billing exist in Kooky.",
+          "evidenceIds": [
+            "srch-cost",
+            "readme"
+          ]
+        },
+        "workspace_fees": {
+          "support": "unsupported",
+          "answer": "No prices or billing exist in Kooky.",
+          "evidenceIds": [
+            "srch-cost",
+            "readme"
+          ]
+        },
+        "included_usage": {
+          "support": "unsupported",
+          "answer": "No prices or billing exist in Kooky.",
+          "evidenceIds": [
+            "srch-cost",
+            "readme"
+          ]
+        },
+        "credits": {
+          "support": "unsupported",
+          "answer": "No prices or billing exist in Kooky.",
+          "evidenceIds": [
+            "srch-cost",
+            "readme"
+          ]
+        },
+        "trial": {
+          "support": "unsupported",
+          "answer": "No prices or billing exist in Kooky.",
+          "evidenceIds": [
+            "srch-cost",
+            "readme"
+          ]
+        },
+        "overages": {
+          "support": "unsupported",
+          "answer": "No prices or billing exist in Kooky.",
+          "evidenceIds": [
+            "srch-cost",
+            "readme"
+          ]
+        },
+        "taxes": {
+          "support": "unsupported",
+          "answer": "No prices or billing exist in Kooky.",
+          "evidenceIds": [
+            "srch-cost",
+            "readme"
+          ]
+        },
+        "model_cost": {
+          "support": "partial",
+          "answer": "Paid to the agent providers directly; not shown.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "compute_cost": {
+          "support": "partial",
+          "answer": "Own Mac or SSH host; no fee.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Provider costs are outside the product and not estimated."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "license",
+        "srch-cost"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-01-15",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "kooky:OWN-05",
+      "criterionId": "OWN-05",
+      "answer": "Kooky platform cost is zero for any team size; agent subscription or API cost is not estimated.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v0.51.12 (commit fc54bd9, released 2026-10-12)",
+        "plan": "Open source (MIT), free download",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "one_person": {
+          "support": "partial",
+          "answer": "Platform fee zero; agent cost excluded.",
+          "evidenceIds": [
+            "readme",
+            "license"
+          ]
+        },
+        "two_people": {
+          "support": "partial",
+          "answer": "Platform fee zero; agent cost excluded.",
+          "evidenceIds": [
+            "readme",
+            "license"
+          ]
+        },
+        "five_people": {
+          "support": "partial",
+          "answer": "Platform fee zero; agent cost excluded.",
+          "evidenceIds": [
+            "readme",
+            "license"
+          ]
+        },
+        "task_assumptions": {
+          "support": "unsupported",
+          "answer": "No scenario costing; no fee exists.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "concurrency": {
+          "support": "unsupported",
+          "answer": "No scenario costing; no fee exists.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "tokens": {
+          "support": "unsupported",
+          "answer": "No scenario costing; no fee exists.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "compute_hours": {
+          "support": "unsupported",
+          "answer": "No scenario costing; no fee exists.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "fixed_cost": {
+          "support": "supported",
+          "answer": "No Kooky fixed cost.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "variable_cost": {
+          "support": "unsupported",
+          "answer": "No scenario costing; no fee exists.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "included_cost": {
+          "support": "supported",
+          "answer": "No included usage.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "unknown_cost": {
+          "support": "supported",
+          "answer": "Agent and compute costs are outside the product and unknown.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Agent costs are unknown and not modelled."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "license"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "kooky:OWN-06",
+      "criterionId": "OWN-06",
+      "answer": "Generally available open-source release from a single maintainer-led repository with regular releases through 2026-10-12; support via GitHub issues and discussions; no commitments.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v0.51.12 (commit fc54bd9, released 2026-10-12)",
+        "plan": "Open source (MIT), free download",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "release_stage": {
+          "support": "supported",
+          "answer": "Public releases through v0.51.12 (pre-1.0 numbering).",
+          "evidenceIds": [
+            "release",
+            "changelog"
+          ]
+        },
+        "access_restrictions": {
+          "support": "supported",
+          "answer": "Free download; adhoc-signed so Gatekeeper needs a manual bypass.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "support": {
+          "support": "partial",
+          "answer": "GitHub issues, discussions and a sponsorship link.",
+          "evidenceIds": [
+            "issues",
+            "repoapi"
+          ]
+        },
+        "response_commitments": {
+          "support": "unknown",
+          "answer": "None published.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "release_activity": {
+          "support": "supported",
+          "answer": "Releases through v0.51.12 dated 2026-10-12 and a default-branch push the same day.",
+          "evidenceIds": [
+            "release",
+            "changelog",
+            "repoapi"
+          ]
+        },
+        "status_history": {
+          "support": "unknown",
+          "answer": "No status page.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "deprecation": {
+          "support": "unsupported",
+          "answer": "No deprecation policy.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "export_options": {
+          "support": "partial",
+          "answer": "Local JSON files.",
+          "evidenceIds": [
+            "persist"
+          ]
+        }
+      },
+      "limitations": [
+        "Adhoc-signed builds; no support SLA; one maintainer wrote nearly all commits."
+      ],
+      "unknownReason": "Response commitments and status history are business facts not published.",
+      "evidenceIds": [
+        "release",
+        "changelog",
+        "repoapi",
+        "issues",
+        "readme",
+        "persist"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "kooky:OWN-07",
+      "criterionId": "OWN-07",
+      "answer": "No ISO or SOC assurance is claimed.",
+      "support": "unknown",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v0.51.12 (commit fc54bd9, released 2026-10-12)",
+        "plan": "Open source (MIT), free download",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "iso_scope": {
+          "support": "unknown",
+          "answer": "No certification or audit is claimed in the repository; this is a business fact outside the code.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "iso_issuer": {
+          "support": "unknown",
+          "answer": "No certification or audit is claimed in the repository; this is a business fact outside the code.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "iso_validity": {
+          "support": "unknown",
+          "answer": "No certification or audit is claimed in the repository; this is a business fact outside the code.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "soc2_type": {
+          "support": "unknown",
+          "answer": "No certification or audit is claimed in the repository; this is a business fact outside the code.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "soc2_scope": {
+          "support": "unknown",
+          "answer": "No certification or audit is claimed in the repository; this is a business fact outside the code.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "soc2_period": {
+          "support": "unknown",
+          "answer": "No certification or audit is claimed in the repository; this is a business fact outside the code.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "report_access": {
+          "support": "unknown",
+          "answer": "No certification or audit is claimed in the repository; this is a business fact outside the code.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "verification_date": {
+          "support": "unknown",
+          "answer": "No certification or audit is claimed in the repository; this is a business fact outside the code.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "evidence_status": {
+          "support": "unknown",
+          "answer": "No certification or audit is claimed in the repository; this is a business fact outside the code.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": "Certification and audit are business facts not present in the open-source repository.",
+      "evidenceIds": [
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "internal-only",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "kooky:OWN-08",
+      "criterionId": "OWN-08",
+      "answer": "Free to download and use, open source under MIT, with no trial, card or usage cap; agent subscriptions are separate.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v0.51.12 (commit fc54bd9, released 2026-10-12)",
+        "plan": "Open source (MIT), free download",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "ongoing_free": {
+          "support": "supported",
+          "answer": "Free download with no paid tier.",
+          "evidenceIds": [
+            "readme",
+            "license"
+          ]
+        },
+        "trial": {
+          "support": "unsupported",
+          "answer": "No trial exists because nothing is paid.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "credits_trial": {
+          "support": "unsupported",
+          "answer": "No credits.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "self_host_cost": {
+          "support": "supported",
+          "answer": "Own Mac or SSH host; no fee.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "paid_only": {
+          "support": "unsupported",
+          "answer": "Not paid-only.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "early_access": {
+          "support": "unsupported",
+          "answer": "No gated access.",
+          "evidenceIds": [
+            "release"
+          ]
+        },
+        "free_scenarios": {
+          "support": "partial",
+          "answer": "Single-user local and SSH use; collaboration, mobile and issues are absent.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "card_required": {
+          "support": "supported",
+          "answer": "No card or account.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "usage_caps": {
+          "support": "unsupported",
+          "answer": "No caps.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "paid_evaluation": {
+          "support": "unsupported",
+          "answer": "No payment needed.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Agent subscriptions and API usage are paid separately."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "license",
+        "release"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-01-15",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "kooky:OWN-09",
+      "criterionId": "OWN-09",
+      "answer": "No pricing exists; the app is free and sponsorship is optional.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v0.51.12 (commit fc54bd9, released 2026-10-12)",
+        "plan": "Open source (MIT), free download",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "units": {
+          "support": "unsupported",
+          "answer": "No prices, limits or overages to disclose.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "included_limits": {
+          "support": "unsupported",
+          "answer": "No prices, limits or overages to disclose.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "overages": {
+          "support": "unsupported",
+          "answer": "No prices, limits or overages to disclose.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "compute_markup": {
+          "support": "unsupported",
+          "answer": "No prices, limits or overages to disclose.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "model_markup": {
+          "support": "unsupported",
+          "answer": "No prices, limits or overages to disclose.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "minimum_commitment": {
+          "support": "unsupported",
+          "answer": "No prices, limits or overages to disclose.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "cancellation": {
+          "support": "unsupported",
+          "answer": "No prices, limits or overages to disclose.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "sales_only_unknowns": {
+          "support": "unsupported",
+          "answer": "No prices, limits or overages to disclose.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "transparency_classification": {
+          "support": "supported",
+          "answer": "Transparent: the app has no price and its license is public.",
+          "evidenceIds": [
+            "readme",
+            "license"
+          ]
+        }
+      },
+      "limitations": [
+        "Agent and compute costs sit outside."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "license"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-01-15",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    }
+  ],
+  "evidence": [
+    {
+      "id": "readme",
+      "kind": "documented",
+      "url": "https://github.com/iAmCorey/kooky/blob/fc54bd9002aa97fd6d67edb9d13c4b5143360fee/README.md",
+      "title": "Kooky README",
+      "locator": "Features; CLI; Install; Build from source",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Native macOS 14+ terminal with sidebar workspaces, splits, fifteen one-click agents with activity dots, worktrees, SSH workspaces, keep-awake, notifications, history, kooky-cli; MIT; no accounts or telemetry; adhoc-signed DMG.",
+      "visibility": "public",
+      "commit": "fc54bd9002aa97fd6d67edb9d13c4b5143360fee",
+      "path": "README.md"
+    },
+    {
+      "id": "changelog",
+      "kind": "documented",
+      "url": "https://github.com/iAmCorey/kooky/blob/fc54bd9002aa97fd6d67edb9d13c4b5143360fee/CHANGELOG.md",
+      "title": "Kooky changelog",
+      "locator": "v0.51.0 to v0.51.12",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Frequent small releases; v0.51.0 introduced kooky-cli; v0.51.12 added keyboard shortcuts and hidden history rows; no dated roadmap.",
+      "visibility": "public",
+      "commit": "fc54bd9002aa97fd6d67edb9d13c4b5143360fee",
+      "path": "CHANGELOG.md"
+    },
+    {
+      "id": "license",
+      "kind": "source-inspected",
+      "url": "https://github.com/iAmCorey/kooky/blob/fc54bd9002aa97fd6d67edb9d13c4b5143360fee/LICENSE",
+      "title": "MIT License",
+      "locator": "header",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "MIT License, copyright 2026 kooky contributors.",
+      "visibility": "public",
+      "commit": "fc54bd9002aa97fd6d67edb9d13c4b5143360fee",
+      "path": "LICENSE"
+    },
+    {
+      "id": "notice",
+      "kind": "source-inspected",
+      "url": "https://github.com/iAmCorey/kooky/blob/fc54bd9002aa97fd6d67edb9d13c4b5143360fee/NOTICE.md",
+      "title": "Third-party notices",
+      "locator": "Bundled in the source tree",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Bundled fonts (OFL) and Shiki theme palettes (MIT) retain upstream licenses; libghostty is linked as a dependency.",
+      "visibility": "public",
+      "commit": "fc54bd9002aa97fd6d67edb9d13c4b5143360fee",
+      "path": "NOTICE.md"
+    },
+    {
+      "id": "release",
+      "kind": "documented",
+      "url": "https://github.com/iAmCorey/kooky/releases/tag/v0.51.12",
+      "title": "Kooky v0.51.12 release",
+      "locator": "release assets",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Single asset Kooky-v0.51.12.dmg (10.1 MB), published 2026-10-12; no Windows, Linux, iOS or Android artifact.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "repoapi",
+      "kind": "documented",
+      "url": "https://api.github.com/repos/iAmCorey/kooky",
+      "title": "GitHub repository metadata",
+      "locator": "stargazers_count, license, pushed_at",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "656 stars, MIT, last push 2026-10-12, created 2026-05-08, no homepage set, not archived.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "pkg",
+      "kind": "source-inspected",
+      "url": "https://github.com/iAmCorey/kooky/blob/fc54bd9002aa97fd6d67edb9d13c4b5143360fee/Package.swift",
+      "title": "Swift package manifest",
+      "locator": "platforms and targets",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "macOS 14 floor; targets Kooky (app), KookyKit, KookyHook, kooky-cli and KookyHookKit; links GhosttyKit; no other platform.",
+      "visibility": "public",
+      "commit": "fc54bd9002aa97fd6d67edb9d13c4b5143360fee",
+      "path": "Package.swift"
+    },
+    {
+      "id": "agents",
+      "kind": "source-inspected",
+      "url": "https://github.com/iAmCorey/kooky/blob/fc54bd9002aa97fd6d67edb9d13c4b5143360fee/Sources/KookyKit/Sessions/AgentTemplate.swift#L420-L730",
+      "title": "Built-in agent templates",
+      "locator": "built-in template definitions",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Templates for terminal, claude-code, codex, gemini, opencode, amp, cursor, copilot, grok, antigravity, kimi, pi, omp, reasonix, kiro and droid; each launches the vendor CLI under a shell wrapper and resumes by exact conversation ID.",
+      "visibility": "public",
+      "commit": "fc54bd9002aa97fd6d67edb9d13c4b5143360fee",
+      "path": "Sources/KookyKit/Sessions/AgentTemplate.swift"
+    },
+    {
+      "id": "customagents",
+      "kind": "source-inspected",
+      "url": "https://github.com/iAmCorey/kooky/blob/fc54bd9002aa97fd6d67edb9d13c4b5143360fee/Sources/KookyKit/Sessions/AgentTemplate.swift#L880-L945",
+      "title": "Custom agents and environment",
+      "locator": "CustomAgentData; parseEnv",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "User-defined agents (name + command, optional built-in base) with per-agent .env-style environment variables for Claude-based entries; KOOKY_-prefixed keys are dropped.",
+      "visibility": "public",
+      "commit": "fc54bd9002aa97fd6d67edb9d13c4b5143360fee",
+      "path": "Sources/KookyKit/Sessions/AgentTemplate.swift"
+    },
+    {
+      "id": "hookenv",
+      "kind": "source-inspected",
+      "url": "https://github.com/iAmCorey/kooky/blob/fc54bd9002aa97fd6d67edb9d13c4b5143360fee/Sources/KookyKit/Terminal/ShellIntegration.swift#L520-L570",
+      "title": "Hook wiring for agents",
+      "locator": "Claude --settings; cursor and gemini hooks.json",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Kooky passes a generated hooks file to claude with --settings and writes managed hook blocks for other agents so lifecycle events reach the app.",
+      "visibility": "public",
+      "commit": "fc54bd9002aa97fd6d67edb9d13c4b5143360fee",
+      "path": "Sources/KookyKit/Terminal/ShellIntegration.swift"
+    },
+    {
+      "id": "hooksrv",
+      "kind": "source-inspected",
+      "url": "https://github.com/iAmCorey/kooky/blob/fc54bd9002aa97fd6d67edb9d13c4b5143360fee/Sources/KookyKit/Sessions/HookServer.swift#L99-L150",
+      "title": "Local unix socket server",
+      "locator": "socketPath; chmod 0o600",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "App owns a unix socket (mode 0600) that the hook helper and kooky-cli connect to; no network listener.",
+      "visibility": "public",
+      "commit": "fc54bd9002aa97fd6d67edb9d13c4b5143360fee",
+      "path": "Sources/KookyKit/Sessions/HookServer.swift"
+    },
+    {
+      "id": "cliproto",
+      "kind": "source-inspected",
+      "url": "https://github.com/iAmCorey/kooky/blob/fc54bd9002aa97fd6d67edb9d13c4b5143360fee/Sources/KookyHookKit/CLIProtocol.swift#L63-L75",
+      "title": "CLI wire protocol",
+      "locator": "KookyCLIVerb",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Verbs: open, resume, list, focus, close, status, rename; versioned envelope.",
+      "visibility": "public",
+      "commit": "fc54bd9002aa97fd6d67edb9d13c4b5143360fee",
+      "path": "Sources/KookyHookKit/CLIProtocol.swift"
+    },
+    {
+      "id": "clictl",
+      "kind": "source-inspected",
+      "url": "https://github.com/iAmCorey/kooky/blob/fc54bd9002aa97fd6d67edb9d13c4b5143360fee/Sources/KookyKit/App/CLIController.swift#L165-L200",
+      "title": "CLI request handling",
+      "locator": "handle(...)",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Dispatches list, close, open, resume, focus, rename; refuses a protocol version newer than the app.",
+      "visibility": "public",
+      "commit": "fc54bd9002aa97fd6d67edb9d13c4b5143360fee",
+      "path": "Sources/KookyKit/App/CLIController.swift"
+    },
+    {
+      "id": "clicmd",
+      "kind": "source-inspected",
+      "url": "https://github.com/iAmCorey/kooky/blob/fc54bd9002aa97fd6d67edb9d13c4b5143360fee/Sources/KookyCLI/main.swift",
+      "title": "kooky-cli entry point",
+      "locator": "main",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "kooky-cli parses verbs and prints one reason line on failure; exit code 0 means accepted.",
+      "visibility": "public",
+      "commit": "fc54bd9002aa97fd6d67edb9d13c4b5143360fee",
+      "path": "Sources/KookyCLI/main.swift"
+    },
+    {
+      "id": "deeplink",
+      "kind": "source-inspected",
+      "url": "https://github.com/iAmCorey/kooky/blob/fc54bd9002aa97fd6d67edb9d13c4b5143360fee/Sources/KookyKit/App/DeepLink.swift#L1-L30",
+      "title": "kooky:// deep links",
+      "locator": "resume link grammar",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "kooky://resume?agent=&id=[&cwd=] with strict character validation; links cannot carry prompts or commands.",
+      "visibility": "public",
+      "commit": "fc54bd9002aa97fd6d67edb9d13c4b5143360fee",
+      "path": "Sources/KookyKit/App/DeepLink.swift"
+    },
+    {
+      "id": "history",
+      "kind": "source-inspected",
+      "url": "https://github.com/iAmCorey/kooky/blob/fc54bd9002aa97fd6d67edb9d13c4b5143360fee/Sources/KookyKit/Sessions/AgentSessionHistory.swift#L60-L70",
+      "title": "Agent session history",
+      "locator": "Store list; collectClaude; Codex rollouts",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Scans each agent own transcript directory (for example ~/.claude/projects and ~/.codex/sessions) to list and resume past conversations; read-only.",
+      "visibility": "public",
+      "commit": "fc54bd9002aa97fd6d67edb9d13c4b5143360fee",
+      "path": "Sources/KookyKit/Sessions/AgentSessionHistory.swift"
+    },
+    {
+      "id": "codexusage",
+      "kind": "source-inspected",
+      "url": "https://github.com/iAmCorey/kooky/blob/fc54bd9002aa97fd6d67edb9d13c4b5143360fee/Sources/KookyKit/Sessions/CodexUsageMonitor.swift#L1-L60",
+      "title": "Codex usage gauge",
+      "locator": "CodexUsage",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Reads Codex rollout token_count events for 5-hour and weekly rate-limit percentages, plan type and context-window occupancy; display only.",
+      "visibility": "public",
+      "commit": "fc54bd9002aa97fd6d67edb9d13c4b5143360fee",
+      "path": "Sources/KookyKit/Sessions/CodexUsageMonitor.swift"
+    },
+    {
+      "id": "worktree",
+      "kind": "source-inspected",
+      "url": "https://github.com/iAmCorey/kooky/blob/fc54bd9002aa97fd6d67edb9d13c4b5143360fee/Sources/KookyKit/Sessions/WorktreeManager.swift#L25-L60",
+      "title": "Git worktree manager",
+      "locator": "git worktree add/remove",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Creates worktrees on a new or existing branch, adopts existing ones, removes with optional branch delete.",
+      "visibility": "public",
+      "commit": "fc54bd9002aa97fd6d67edb9d13c4b5143360fee",
+      "path": "Sources/KookyKit/Sessions/WorktreeManager.swift"
+    },
+    {
+      "id": "ssh",
+      "kind": "source-inspected",
+      "url": "https://github.com/iAmCorey/kooky/blob/fc54bd9002aa97fd6d67edb9d13c4b5143360fee/Sources/KookyKit/Terminal/ShellIntegration.swift#L275-L295",
+      "title": "SSH workspace wrapper",
+      "locator": "ControlMaster / ControlPath",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "SSH workspaces use ssh with ControlMaster multiplexing; every tab runs a plain ssh session and agents are started on the remote through the wrapper.",
+      "visibility": "public",
+      "commit": "fc54bd9002aa97fd6d67edb9d13c4b5143360fee",
+      "path": "Sources/KookyKit/Terminal/ShellIntegration.swift"
+    },
+    {
+      "id": "sshsheet",
+      "kind": "source-inspected",
+      "url": "https://github.com/iAmCorey/kooky/blob/fc54bd9002aa97fd6d67edb9d13c4b5143360fee/Sources/KookyKit/Sidebar/CreateSSHWorkspaceSheet.swift#L1-L30",
+      "title": "New SSH workspace sheet",
+      "locator": "CreateSSHWorkspaceSheet",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "File menu sheet that records a remote host for a workspace.",
+      "visibility": "public",
+      "commit": "fc54bd9002aa97fd6d67edb9d13c4b5143360fee",
+      "path": "Sources/KookyKit/Sidebar/CreateSSHWorkspaceSheet.swift"
+    },
+    {
+      "id": "sleep",
+      "kind": "source-inspected",
+      "url": "https://github.com/iAmCorey/kooky/blob/fc54bd9002aa97fd6d67edb9d13c4b5143360fee/Sources/KookyKit/App/ClosedLidSleep.swift#L1-L40",
+      "title": "Keep-awake including closed lid",
+      "locator": "pmset disablesleep helper",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Fixed two-verb root helper around pmset -a disablesleep with a one-time admin authorization; keeps the Mac awake while agents work.",
+      "visibility": "public",
+      "commit": "fc54bd9002aa97fd6d67edb9d13c4b5143360fee",
+      "path": "Sources/KookyKit/App/ClosedLidSleep.swift"
+    },
+    {
+      "id": "notif",
+      "kind": "source-inspected",
+      "url": "https://github.com/iAmCorey/kooky/blob/fc54bd9002aa97fd6d67edb9d13c4b5143360fee/Sources/KookyKit/App/NotificationManager.swift#L18-L45",
+      "title": "Notification manager",
+      "locator": "UNUserNotificationCenter wrapper",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "macOS notifications when a background agent waits or a command fails; settings toggle each kind.",
+      "visibility": "public",
+      "commit": "fc54bd9002aa97fd6d67edb9d13c4b5143360fee",
+      "path": "Sources/KookyKit/App/NotificationManager.swift"
+    },
+    {
+      "id": "persist",
+      "kind": "source-inspected",
+      "url": "https://github.com/iAmCorey/kooky/blob/fc54bd9002aa97fd6d67edb9d13c4b5143360fee/Sources/KookyKit/Sessions/Persistence.swift#L1-L30",
+      "title": "State persistence",
+      "locator": "PersistedState",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "state.json keeps workspaces, panes, cwd, worktree and SSH host; scrollback and processes cannot survive PTY exit, so panes respawn.",
+      "visibility": "public",
+      "commit": "fc54bd9002aa97fd6d67edb9d13c4b5143360fee",
+      "path": "Sources/KookyKit/Sessions/Persistence.swift"
+    },
+    {
+      "id": "update",
+      "kind": "source-inspected",
+      "url": "https://github.com/iAmCorey/kooky/blob/fc54bd9002aa97fd6d67edb9d13c4b5143360fee/Sources/KookyKit/App/UpdateChecker.swift#L1-L45",
+      "title": "Update checker",
+      "locator": "UpdateChecker.check",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Manual Help menu check calls api.github.com releases/latest; no startup poll; only network call found in the app.",
+      "visibility": "public",
+      "commit": "fc54bd9002aa97fd6d67edb9d13c4b5143360fee",
+      "path": "Sources/KookyKit/App/UpdateChecker.swift"
+    },
+    {
+      "id": "gitstatus",
+      "kind": "source-inspected",
+      "url": "https://github.com/iAmCorey/kooky/blob/fc54bd9002aa97fd6d67edb9d13c4b5143360fee/Sources/KookyKit/Sessions/GitStatusFetcher.swift#L28-L45",
+      "title": "Git status and diff pill",
+      "locator": "GitDiffSnapshot; diff --numstat",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Status bar shows branch and git diff --numstat counts; popover lists changed files with insertions and deletions, not diff hunks.",
+      "visibility": "public",
+      "commit": "fc54bd9002aa97fd6d67edb9d13c4b5143360fee",
+      "path": "Sources/KookyKit/Sessions/GitStatusFetcher.swift"
+    },
+    {
+      "id": "agentmon",
+      "kind": "source-inspected",
+      "url": "https://github.com/iAmCorey/kooky/blob/fc54bd9002aa97fd6d67edb9d13c4b5143360fee/Sources/KookyKit/App/AgentMonitor.swift#L35-L60",
+      "title": "Agent panel",
+      "locator": "state ordering",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Right panel lists every agent across windows sorted attention (waiting), failed, running, idle.",
+      "visibility": "public",
+      "commit": "fc54bd9002aa97fd6d67edb9d13c4b5143360fee",
+      "path": "Sources/KookyKit/App/AgentMonitor.swift"
+    },
+    {
+      "id": "clip",
+      "kind": "source-inspected",
+      "url": "https://github.com/iAmCorey/kooky/blob/fc54bd9002aa97fd6d67edb9d13c4b5143360fee/Sources/KookyKit/Terminal/ClipboardConfirmSheet.swift#L169-L200",
+      "title": "Clipboard confirmation",
+      "locator": "ClipboardConfirmSheet",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Confirmation sheet before risky paste and OSC 52 clipboard access.",
+      "visibility": "public",
+      "commit": "fc54bd9002aa97fd6d67edb9d13c4b5143360fee",
+      "path": "Sources/KookyKit/Terminal/ClipboardConfirmSheet.swift"
+    },
+    {
+      "id": "secure",
+      "kind": "source-inspected",
+      "url": "https://github.com/iAmCorey/kooky/blob/fc54bd9002aa97fd6d67edb9d13c4b5143360fee/Sources/KookyKit/Terminal/SecureInput.swift#L1-L20",
+      "title": "Secure keyboard input",
+      "locator": "EnableSecureEventInput",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Holds macOS secure keyboard input during password entry.",
+      "visibility": "public",
+      "commit": "fc54bd9002aa97fd6d67edb9d13c4b5143360fee",
+      "path": "Sources/KookyKit/Terminal/SecureInput.swift"
+    },
+    {
+      "id": "crash",
+      "kind": "source-inspected",
+      "url": "https://github.com/iAmCorey/kooky/blob/fc54bd9002aa97fd6d67edb9d13c4b5143360fee/Sources/KookyKit/App/CrashForensics.swift#L1-L30",
+      "title": "Local crash forensics",
+      "locator": "redirectStderrIfDiscarded",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Writes stderr and exit notes to ~/Library/Logs/kooky/stderr.log; nothing is uploaded.",
+      "visibility": "public",
+      "commit": "fc54bd9002aa97fd6d67edb9d13c4b5143360fee",
+      "path": "Sources/KookyKit/App/CrashForensics.swift"
+    },
+    {
+      "id": "engine",
+      "kind": "source-inspected",
+      "url": "https://github.com/iAmCorey/kooky/blob/fc54bd9002aa97fd6d67edb9d13c4b5143360fee/Sources/KookyKit/Terminal/LibghosttyEngine.swift",
+      "title": "libghostty terminal engine",
+      "locator": "LibghosttyEngine",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Terminal sessions render through the libghostty xcframework inside SwiftUI/AppKit views.",
+      "visibility": "public",
+      "commit": "fc54bd9002aa97fd6d67edb9d13c4b5143360fee",
+      "path": "Sources/KookyKit/Terminal/LibghosttyEngine.swift"
+    },
+    {
+      "id": "fileinfo",
+      "kind": "source-inspected",
+      "url": "https://github.com/iAmCorey/kooky/blob/fc54bd9002aa97fd6d67edb9d13c4b5143360fee/Sources/KookyKit/App/SessionInfoView.swift#L320-L345",
+      "title": "Session Info panel",
+      "locator": "process tree, ports, last command",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Inspector shows git branch/diff, venv, Node version, process tree with CPU and memory, listening ports and last command exit code.",
+      "visibility": "public",
+      "commit": "fc54bd9002aa97fd6d67edb9d13c4b5143360fee",
+      "path": "Sources/KookyKit/App/SessionInfoView.swift"
+    },
+    {
+      "id": "issues",
+      "kind": "documented",
+      "url": "https://github.com/iAmCorey/kooky/pulls",
+      "title": "Kooky pull requests and discussions",
+      "locator": "open pull requests #48, #85, #87",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Open pull requests propose Mosh transport, project grouping and SSH ports; no roadmap or announcement.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "srch-clients",
+      "kind": "source-inspected",
+      "url": "https://github.com/iAmCorey/kooky/blob/fc54bd9002aa97fd6d67edb9d13c4b5143360fee/Sources",
+      "title": "Bounded search: other clients",
+      "locator": "grep -w over Sources and Package.swift for linux, windows, docker, electron, tauri, webview, WKWebView, iOS, android",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "No non-macOS client, web client, phone client or editor extension; matches are Swift window objects.",
+      "visibility": "public",
+      "commit": "fc54bd9002aa97fd6d67edb9d13c4b5143360fee",
+      "path": "Sources"
+    },
+    {
+      "id": "srch-api",
+      "kind": "source-inspected",
+      "url": "https://github.com/iAmCorey/kooky/blob/fc54bd9002aa97fd6d67edb9d13c4b5143360fee/Sources",
+      "title": "Bounded search: APIs, MCP, webhooks, SDK",
+      "locator": "grep -w for mcp, webhook, openapi, NWListener, GraphQL, sdk over Sources",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "No MCP server or client, webhook, HTTP API or SDK; only the local unix socket CLI.",
+      "visibility": "public",
+      "commit": "fc54bd9002aa97fd6d67edb9d13c4b5143360fee",
+      "path": "Sources"
+    },
+    {
+      "id": "srch-sched",
+      "kind": "source-inspected",
+      "url": "https://github.com/iAmCorey/kooky/blob/fc54bd9002aa97fd6d67edb9d13c4b5143360fee/Sources",
+      "title": "Bounded search: schedules and triggers",
+      "locator": "grep -w for cron, launchd, LaunchAgent, crontab over Sources",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "No scheduler or event trigger.",
+      "visibility": "public",
+      "commit": "fc54bd9002aa97fd6d67edb9d13c4b5143360fee",
+      "path": "Sources"
+    },
+    {
+      "id": "srch-team",
+      "kind": "source-inspected",
+      "url": "https://github.com/iAmCorey/kooky/blob/fc54bd9002aa97fd6d67edb9d13c4b5143360fee/Sources",
+      "title": "Bounded search: collaboration and enterprise",
+      "locator": "grep -w for sso, saml, rbac, invite, multiplayer, presence over Sources",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "No accounts, roles, SSO, sharing or multi-user features.",
+      "visibility": "public",
+      "commit": "fc54bd9002aa97fd6d67edb9d13c4b5143360fee",
+      "path": "Sources"
+    },
+    {
+      "id": "srch-container",
+      "kind": "source-inspected",
+      "url": "https://github.com/iAmCorey/kooky/blob/fc54bd9002aa97fd6d67edb9d13c4b5143360fee/Sources",
+      "title": "Bounded search: container or VM isolation",
+      "locator": "grep -w for docker, podman, lima, colima, qemu, virtualization, sandbox-exec, seatbelt over Sources",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "No container, VM or OS sandbox isolation.",
+      "visibility": "public",
+      "commit": "fc54bd9002aa97fd6d67edb9d13c4b5143360fee",
+      "path": "Sources"
+    },
+    {
+      "id": "srch-cost",
+      "kind": "source-inspected",
+      "url": "https://github.com/iAmCorey/kooky/blob/fc54bd9002aa97fd6d67edb9d13c4b5143360fee/Sources",
+      "title": "Bounded search: cost tracking",
+      "locator": "grep -w for usd, dollar, spend, budget, totalCost, pricing over Sources",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "No dollar cost, spend, budget or pricing code; only Codex rate-limit percentages.",
+      "visibility": "public",
+      "commit": "fc54bd9002aa97fd6d67edb9d13c4b5143360fee",
+      "path": "Sources"
+    },
+    {
+      "id": "srch-issues",
+      "kind": "source-inspected",
+      "url": "https://github.com/iAmCorey/kooky/blob/fc54bd9002aa97fd6d67edb9d13c4b5143360fee/Sources",
+      "title": "Bounded search: native issues and tasks",
+      "locator": "grep -w for ticket, backlog, kanban, epic, jira, linear over Sources",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "No issue, task or ticket entity; workspaces are folders.",
+      "visibility": "public",
+      "commit": "fc54bd9002aa97fd6d67edb9d13c4b5143360fee",
+      "path": "Sources"
+    },
+    {
+      "id": "srch-orch",
+      "kind": "source-inspected",
+      "url": "https://github.com/iAmCorey/kooky/blob/fc54bd9002aa97fd6d67edb9d13c4b5143360fee/Sources",
+      "title": "Bounded search: delegation and orchestration",
+      "locator": "grep -w for subagent, orchestrator, orchestration over Sources",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "No coordinator or delegation tool; kooky-cli is a tab-control interface.",
+      "visibility": "public",
+      "commit": "fc54bd9002aa97fd6d67edb9d13c4b5143360fee",
+      "path": "Sources"
+    },
+    {
+      "id": "srch-pr",
+      "kind": "source-inspected",
+      "url": "https://github.com/iAmCorey/kooky/blob/fc54bd9002aa97fd6d67edb9d13c4b5143360fee/Sources",
+      "title": "Bounded search: pull requests and delivery",
+      "locator": "grep for gh pr, pull request, createPR, merge request, git commit, git push over Sources",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "No PR, commit, merge or deploy action; git is used read-only plus worktree and branch switching.",
+      "visibility": "public",
+      "commit": "fc54bd9002aa97fd6d67edb9d13c4b5143360fee",
+      "path": "Sources"
+    },
+    {
+      "id": "srch-tele",
+      "kind": "source-inspected",
+      "url": "https://github.com/iAmCorey/kooky/blob/fc54bd9002aa97fd6d67edb9d13c4b5143360fee/Sources",
+      "title": "Bounded search: telemetry",
+      "locator": "grep -i for telemetry, analytics, sentry, posthog, mixpanel, crashreport over Sources, README",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "No analytics or crash-reporting client; README says no telemetry; only the manual GitHub update check.",
+      "visibility": "public",
+      "commit": "fc54bd9002aa97fd6d67edb9d13c4b5143360fee",
+      "path": "Sources"
+    }
+  ],
+  "changes": [
+    {
+      "date": "2026-11-16",
+      "author": "researcher-batch08",
+      "type": "initial-research",
+      "summary": "Initial full-profile source pass over release v0.51.12 (commit fc54bd9): README, CHANGELOG, Swift sources of the app, kooky-cli and kooky-hook, and bounded code searches covering all 51 criteria.",
+      "claimIds": [
+        "kooky:ACC-01",
+        "kooky:ACC-02",
+        "kooky:ACC-03",
+        "kooky:ACC-04",
+        "kooky:ACC-05",
+        "kooky:ACC-06",
+        "kooky:ACC-07",
+        "kooky:PLAN-01",
+        "kooky:PLAN-02",
+        "kooky:PLAN-03",
+        "kooky:PLAN-04",
+        "kooky:PLAN-05",
+        "kooky:PLAN-06",
+        "kooky:PLAN-07",
+        "kooky:PLAN-08",
+        "kooky:COORD-01",
+        "kooky:COORD-02",
+        "kooky:COORD-03",
+        "kooky:COORD-04",
+        "kooky:COORD-05",
+        "kooky:COORD-06",
+        "kooky:COORD-07",
+        "kooky:RUN-01",
+        "kooky:RUN-02",
+        "kooky:RUN-03",
+        "kooky:RUN-04",
+        "kooky:RUN-05",
+        "kooky:RUN-06",
+        "kooky:RUN-07",
+        "kooky:RUN-08",
+        "kooky:TEAM-01",
+        "kooky:TEAM-02",
+        "kooky:TEAM-03",
+        "kooky:TEAM-04",
+        "kooky:TEAM-05",
+        "kooky:TEAM-06",
+        "kooky:SHIP-01",
+        "kooky:SHIP-02",
+        "kooky:SHIP-03",
+        "kooky:SHIP-04",
+        "kooky:SHIP-05",
+        "kooky:SHIP-06",
+        "kooky:OWN-01",
+        "kooky:OWN-02",
+        "kooky:OWN-03",
+        "kooky:OWN-04",
+        "kooky:OWN-05",
+        "kooky:OWN-06",
+        "kooky:OWN-07",
+        "kooky:OWN-08",
+        "kooky:OWN-09"
+      ],
+      "evidenceIds": [
+        "readme",
+        "changelog",
+        "license",
+        "notice",
+        "release",
+        "repoapi",
+        "pkg",
+        "agents",
+        "customagents",
+        "hookenv",
+        "hooksrv",
+        "cliproto",
+        "clictl",
+        "clicmd",
+        "deeplink",
+        "history",
+        "codexusage",
+        "worktree",
+        "ssh",
+        "sshsheet",
+        "sleep",
+        "notif",
+        "persist",
+        "update",
+        "gitstatus",
+        "agentmon",
+        "clip",
+        "secure",
+        "crash",
+        "engine",
+        "fileinfo",
+        "issues",
+        "srch-clients",
+        "srch-api",
+        "srch-sched",
+        "srch-team",
+        "srch-container",
+        "srch-cost",
+        "srch-issues",
+        "srch-orch",
+        "srch-pr",
+        "srch-tele"
+      ]
+    }
+  ],
+  "context": {
+    "roadmapReview": {
+      "checkedAt": "2026-11-16",
+      "locations": [
+        {
+          "url": "https://github.com/iAmCorey/kooky/releases",
+          "result": "v0.51.12 (2026-10-12) is the latest release; release notes list shipped changes only."
+        },
+        {
+          "url": "https://github.com/iAmCorey/kooky/blob/fc54bd9002aa97fd6d67edb9d13c4b5143360fee/CHANGELOG.md",
+          "result": "Per-release changelog from v0.51.0 to v0.51.12 and earlier; no dated future commitments."
+        },
+        {
+          "url": "https://github.com/iAmCorey/kooky/blob/fc54bd9002aa97fd6d67edb9d13c4b5143360fee/README.md",
+          "result": "No roadmap section. Says public-distribution signing and notarization will come when there are real users, without a date."
+        },
+        {
+          "url": "https://github.com/iAmCorey/kooky/pulls",
+          "result": "Open pull requests such as project grouping (#85), SSH explicit port (#87) and a Mosh transport (#48) are unmerged proposals, not announcements, and are not treated as shipped."
+        },
+        {
+          "url": "https://github.com/iAmCorey/kooky/discussions",
+          "result": "Linked from the issue-template config as the place for ideas; no dated product announcements read."
+        }
+      ],
+      "announced": [],
+      "gaps": [
+        "No official roadmap exists in the repository; there is no separate product website."
+      ]
+    },
+    "marketContext": {
+      "githubStars": {
+        "value": 656,
+        "observedAt": "2026-11-16",
+        "evidenceIds": [
+          "repoapi"
+        ]
+      }
+    }
+  }
+}
