@@ -1,0 +1,6187 @@
+{
+  "schemaVersion": 1,
+  "rubricVersion": "0.3",
+  "id": "helmor",
+  "name": "Helmor",
+  "category": "A",
+  "researchTier": "full-profile",
+  "researchState": "documented",
+  "identity": {
+    "website": "https://helmor.ai",
+    "repository": "https://github.com/dohooo/helmor",
+    "aliases": [],
+    "company": null
+  },
+  "surfaces": [
+    {
+      "id": "desktop",
+      "name": "Helmor Tauri desktop app (macOS, Windows x64)",
+      "type": "desktop"
+    },
+    {
+      "id": "cli",
+      "name": "helmor CLI and stdio MCP server",
+      "type": "cli"
+    },
+    {
+      "id": "companion",
+      "name": "Experimental mobile browser companion (Cloudflare tunnel)",
+      "type": "web"
+    }
+  ],
+  "claims": [
+    {
+      "id": "helmor:ACC-01",
+      "criterionId": "ACC-01",
+      "answer": "Tauri desktop app for macOS (Apple Silicon and Intel) and Windows x64, a helmor CLI, and an experimental phone-browser companion over a Cloudflare tunnel; no native mobile app, Linux build or editor extension.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop",
+          "cli",
+          "companion"
+        ],
+        "version": "v0.46.0 (commit a76cda1, released 2026-07-24)",
+        "plan": "Open source (Apache-2.0)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "desktop_os": {
+          "support": "supported",
+          "answer": "Release assets include macOS aarch64 and x64 DMGs and a Windows x64 installer; FAQ lists macOS (Apple Silicon and Intel) and Windows (x64) as supported.",
+          "evidenceIds": [
+            "release",
+            "faq",
+            "install"
+          ]
+        },
+        "mobile_apps": {
+          "support": "unsupported",
+          "answer": "No native iOS/Android app in releases or source.",
+          "evidenceIds": [
+            "release",
+            "srch-clients"
+          ]
+        },
+        "browser": {
+          "support": "partial",
+          "answer": "The companion serves the same frontend to a browser through a tunnel, but it is experimental and not a general browser client.",
+          "evidenceIds": [
+            "companion"
+          ]
+        },
+        "mobile_browser": {
+          "support": "partial",
+          "answer": "Experimental companion pairs a phone browser to the desktop over a Cloudflare tunnel, gated by HELMOR_COMPANION.",
+          "evidenceIds": [
+            "companion",
+            "readme"
+          ]
+        },
+        "cli": {
+          "support": "supported",
+          "answer": "helmor CLI installed from Settings with machine-readable --json output.",
+          "evidenceIds": [
+            "cli-mcp"
+          ]
+        },
+        "editor_extensions": {
+          "support": "unsupported",
+          "answer": "No editor extension.",
+          "evidenceIds": [
+            "srch-clients"
+          ]
+        },
+        "task_actions": {
+          "support": "supported",
+          "answer": "Start, steer, approve (questions, permissions, plan approval), review diffs and resume sessions in the desktop app; CLI can create workspaces and send prompts.",
+          "evidenceIds": [
+            "sessions",
+            "review",
+            "cli-mcp"
+          ]
+        },
+        "notifications": {
+          "support": "supported",
+          "answer": "Desktop notifications with sounds when an agent finishes or needs input.",
+          "evidenceIds": [
+            "parallel",
+            "settings"
+          ]
+        },
+        "cross_device_continuity": {
+          "support": "partial",
+          "answer": "State is local; the experimental companion lets a phone drive the desktop while it is on.",
+          "evidenceIds": [
+            "companion",
+            "privacy"
+          ]
+        }
+      },
+      "limitations": [
+        "No Linux build; no native mobile app; the mobile companion is experimental and gated behind an environment variable."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "release",
+        "faq",
+        "install",
+        "srch-clients",
+        "companion",
+        "readme",
+        "cli-mcp",
+        "sessions",
+        "review",
+        "parallel",
+        "settings",
+        "privacy"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch04",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "helmor:ACC-02",
+      "criterionId": "ACC-02",
+      "answer": "Bundles and drives Claude Code (Claude Agent SDK), Codex CLI, Cursor, OpenCode and Kimi Code through a sidecar; custom Claude-compatible providers and OpenCode providers add models; sessions can use different agents.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v0.46.0 (commit a76cda1, released 2026-07-24)",
+        "plan": "Open source (Apache-2.0)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "harnesses": {
+          "support": "supported",
+          "answer": "Claude Code, Codex, Cursor and OpenCode documented; Kimi Code listed in README and present in the sidecar.",
+          "evidenceIds": [
+            "agents-doc",
+            "readme",
+            "sidecar"
+          ]
+        },
+        "model_providers": {
+          "support": "supported",
+          "answer": "Anthropic, OpenAI, Cursor models, any OpenCode-configured provider and custom Claude-compatible endpoints.",
+          "evidenceIds": [
+            "agents-doc"
+          ]
+        },
+        "custom_adapters": {
+          "support": "partial",
+          "answer": "Custom Claude-compatible providers and OpenCode providers; no adapter API for new agents.",
+          "evidenceIds": [
+            "agents-doc",
+            "srch-agents"
+          ]
+        },
+        "session_integration": {
+          "support": "supported",
+          "answer": "Embeds the Claude Agent SDK, Codex app-server, Cursor and OpenCode SDK through a Bun sidecar; Terminal Mode runs the agent's native TUI.",
+          "evidenceIds": [
+            "agents-md",
+            "sidecar",
+            "agents-doc"
+          ]
+        },
+        "mixed_harness_operation": {
+          "support": "supported",
+          "answer": "Model and agent are chosen per session, so different sessions in one workspace can use different agents.",
+          "evidenceIds": [
+            "agents-doc"
+          ]
+        }
+      },
+      "limitations": [
+        "No generic adapter for arbitrary agent CLIs."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "agents-doc",
+        "readme",
+        "sidecar",
+        "srch-agents",
+        "agents-md"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch04",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "helmor:ACC-03",
+      "criterionId": "ACC-03",
+      "answer": "Reuses existing Claude Code and Codex logins (subscription) or API keys, a Cursor API key, OpenCode providers and custom endpoints; no vendor credits.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v0.46.0 (commit a76cda1, released 2026-07-24)",
+        "plan": "Open source (Apache-2.0)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "agent_subscriptions": {
+          "support": "supported",
+          "answer": "Claude subscription via Claude Code login and ChatGPT via Codex login are picked up automatically.",
+          "evidenceIds": [
+            "agents-doc"
+          ]
+        },
+        "api_accounts": {
+          "support": "supported",
+          "answer": "Anthropic and OpenAI API keys, Cursor API key and custom provider keys.",
+          "evidenceIds": [
+            "agents-doc",
+            "settings"
+          ]
+        },
+        "vendor_credits": {
+          "support": "unsupported",
+          "answer": "Helmor sells no tokens or credits and never proxies traffic.",
+          "evidenceIds": [
+            "agents-doc",
+            "srch-vendor"
+          ]
+        },
+        "local_models": {
+          "support": "partial",
+          "answer": "OpenCode-compatible providers may be local; the bundled llama.cpp runtime only powers titles, not coding agents.",
+          "evidenceIds": [
+            "agents-doc"
+          ]
+        },
+        "account_switching": {
+          "support": "partial",
+          "answer": "Multiple GitHub/GitLab accounts per repository; agent logins are the CLIs' own, with per-session provider choice.",
+          "evidenceIds": [
+            "install",
+            "agents-doc"
+          ]
+        },
+        "vendor_account_requirement": {
+          "support": "supported",
+          "answer": "No Helmor account; only agent and forge accounts.",
+          "evidenceIds": [
+            "privacy"
+          ]
+        },
+        "provider_restrictions": {
+          "support": "unknown",
+          "answer": "Provider policy on third-party subscription use is not documented by Helmor.",
+          "evidenceIds": [
+            "agents-doc"
+          ]
+        }
+      },
+      "limitations": [
+        "Cursor requires an API key rather than a Cursor login."
+      ],
+      "unknownReason": "Provider-side terms for subscription reuse are external policy facts.",
+      "evidenceIds": [
+        "agents-doc",
+        "settings",
+        "srch-vendor",
+        "install",
+        "privacy"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch04",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "helmor:ACC-04",
+      "criterionId": "ACC-04",
+      "answer": "Download the app, connect GitHub or GitLab, sign in to an agent, add a repository (local clone or URL) and create a workspace; agent and forge CLIs are bundled.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v0.46.0 (commit a76cda1, released 2026-07-24)",
+        "plan": "Open source (Apache-2.0)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "first_task_setup": {
+          "support": "supported",
+          "answer": "Install, onboarding (forge, agent, repository) then create workspace and prompt.",
+          "evidenceIds": [
+            "install"
+          ]
+        },
+        "no_git": {
+          "support": "supported",
+          "answer": "Chat workspaces are scratch directories with no git binding.",
+          "evidenceIds": [
+            "workspaces"
+          ]
+        },
+        "local_git_without_remote": {
+          "support": "partial",
+          "answer": "Local clone workspaces work; PR actions need a remote; remote handling is configurable.",
+          "evidenceIds": [
+            "workspaces",
+            "settings"
+          ]
+        },
+        "hosted_git": {
+          "support": "supported",
+          "answer": "GitHub and GitLab via bundled gh/glab.",
+          "evidenceIds": [
+            "review",
+            "faq"
+          ]
+        },
+        "prerequisite_guidance": {
+          "support": "supported",
+          "answer": "Install doc lists accounts and what is bundled.",
+          "evidenceIds": [
+            "install"
+          ]
+        },
+        "managed_cloud_setup": {
+          "support": "unsupported",
+          "answer": "No managed cloud.",
+          "evidenceIds": [
+            "srch-vendor"
+          ]
+        },
+        "byo_vps_onboarding": {
+          "support": "unsupported",
+          "answer": "No remote host onboarding; desktop and local only.",
+          "evidenceIds": [
+            "srch-vendor",
+            "srch-clients"
+          ]
+        }
+      },
+      "limitations": [
+        "Worktree workspaces need a Git repository; Chat mode works without Git."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "install",
+        "workspaces",
+        "settings",
+        "review",
+        "faq",
+        "srch-vendor",
+        "srch-clients"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch04",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "helmor:ACC-05",
+      "criterionId": "ACC-05",
+      "answer": "helmor CLI with repo/workspace/session/send/status/run-action commands and --json, plus a stdio MCP server with nine tools; no HTTP API, SDK or webhooks documented.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v0.46.0 (commit a76cda1, released 2026-07-24)",
+        "plan": "Open source (Apache-2.0)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "cli": {
+          "support": "supported",
+          "answer": "CLI works against the same local database even while the app runs.",
+          "evidenceIds": [
+            "cli-mcp",
+            "readme"
+          ]
+        },
+        "api": {
+          "support": "unsupported",
+          "answer": "No public HTTP API (the companion server is internal and experimental).",
+          "evidenceIds": [
+            "companion",
+            "cli-mcp"
+          ]
+        },
+        "sdk": {
+          "support": "unsupported",
+          "answer": "No SDK.",
+          "evidenceIds": [
+            "cli-mcp"
+          ]
+        },
+        "mcp_server": {
+          "support": "supported",
+          "answer": "`helmor mcp` stdio server exposes helmor_send, workspace and session tools.",
+          "evidenceIds": [
+            "cli-mcp"
+          ]
+        },
+        "webhooks": {
+          "support": "unsupported",
+          "answer": "No webhooks.",
+          "evidenceIds": [
+            "srch-sched"
+          ]
+        },
+        "operations": {
+          "support": "partial",
+          "answer": "MCP: list/show/create workspaces and sessions, send prompts; CLI adds status, push, sync, merge-pr and run-action; no stop/steer in MCP.",
+          "evidenceIds": [
+            "cli-mcp",
+            "args"
+          ]
+        },
+        "authentication": {
+          "support": "partial",
+          "answer": "Local database access under the user account; companion uses paired-device bearer tokens.",
+          "evidenceIds": [
+            "cli-mcp",
+            "companion"
+          ]
+        },
+        "stability": {
+          "support": "unknown",
+          "answer": "No stability or versioning promise for the CLI/MCP is stated.",
+          "evidenceIds": [
+            "cli-mcp"
+          ]
+        }
+      },
+      "limitations": [
+        "MCP tools cover creation and prompting; stop/review operations are CLI-only; no documented API stability."
+      ],
+      "unknownReason": "No documented CLI/MCP stability commitment exists to cite.",
+      "evidenceIds": [
+        "cli-mcp",
+        "readme",
+        "companion",
+        "srch-sched",
+        "args"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch04",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "helmor:ACC-06",
+      "criterionId": "ACC-06",
+      "answer": "Claude Code sessions load project and user MCP servers; skills from .agents/.claude/.cursor/.codex skill directories; Helmor itself is an MCP server; no Helmor plugin system.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v0.46.0 (commit a76cda1, released 2026-07-24)",
+        "plan": "Open source (Apache-2.0)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "mcp_client": {
+          "support": "partial",
+          "answer": "Claude Code sessions load configured MCP servers with in-chat forms for input requests.",
+          "evidenceIds": [
+            "agents-doc"
+          ]
+        },
+        "plugins": {
+          "support": "unsupported",
+          "answer": "No Helmor plugin API; skills and components are installable.",
+          "evidenceIds": [
+            "settings",
+            "srch-clients"
+          ]
+        },
+        "custom_tools": {
+          "support": "partial",
+          "answer": "Custom tools come via MCP servers and skills.",
+          "evidenceIds": [
+            "agents-doc"
+          ]
+        },
+        "instructions_import": {
+          "support": "supported",
+          "answer": "Skills discovered from .agents/skills, .claude/skills, .cursor/skills and .codex/skills; browse with /.",
+          "evidenceIds": [
+            "agents-doc"
+          ]
+        },
+        "authentication": {
+          "support": "partial",
+          "answer": "MCP authentication is handled by Claude Code configuration.",
+          "evidenceIds": [
+            "agents-doc"
+          ]
+        },
+        "permission_scope": {
+          "support": "partial",
+          "answer": "Per-session permission mode (plan/auto/yolo/default).",
+          "evidenceIds": [
+            "args",
+            "agents-doc"
+          ]
+        },
+        "integration_owner": {
+          "support": "supported",
+          "answer": "MCP connections are inherited from the underlying harness; Helmor provides its own MCP server.",
+          "evidenceIds": [
+            "agents-doc",
+            "cli-mcp"
+          ]
+        }
+      },
+      "limitations": [
+        "MCP client behaviour is inherited from Claude Code; Codex/Cursor/OpenCode MCP handling not documented."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "agents-doc",
+        "settings",
+        "srch-clients",
+        "args",
+        "cli-mcp"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch04",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "helmor:ACC-07",
+      "criterionId": "ACC-07",
+      "answer": "Desktop is Tauri v2 (Rust) with a React 19 webview; the companion reuses the same React frontend over HTTP; Bun sidecar hosts agent SDKs; no mobile app.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop",
+          "companion"
+        ],
+        "version": "v0.46.0 (commit a76cda1, released 2026-07-24)",
+        "plan": "Open source (Apache-2.0)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "desktop_implementation": {
+          "support": "supported",
+          "answer": "Tauri v2 + React 19 + Vite in a system webview.",
+          "evidenceIds": [
+            "agents-md",
+            "tauri"
+          ]
+        },
+        "mobile_implementation": {
+          "support": "partial",
+          "answer": "Responsive web frontend served by the companion server to a phone browser; no native app.",
+          "evidenceIds": [
+            "companion"
+          ]
+        },
+        "hybrids": {
+          "support": "supported",
+          "answer": "Hybrid: Rust host + webview UI + Bun sidecar process.",
+          "evidenceIds": [
+            "agents-md"
+          ]
+        },
+        "implementation_evidence": {
+          "support": "supported",
+          "answer": "AGENTS.md architecture and tauri.conf.json at the pinned commit.",
+          "evidenceIds": [
+            "agents-md",
+            "tauri"
+          ]
+        }
+      },
+      "limitations": [
+        "mobile_implementation: Responsive web frontend served by the companion server to a phone browser; no native app."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "agents-md",
+        "tauri",
+        "companion"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-05-15",
+      "researcher": "researcher-batch04",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "helmor:PLAN-01",
+      "criterionId": "PLAN-01",
+      "answer": "Work starts from a typed prompt, a quick panel prompt, CLI/MCP send, or GitHub/GitLab inbox items; workspaces keep status lanes; no two-way tracker sync.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v0.46.0 (commit a76cda1, released 2026-07-24)",
+        "plan": "Open source (Apache-2.0)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "local_creation": {
+          "support": "supported",
+          "answer": "Create workspaces and sessions locally (⌘N, quick panel, CLI).",
+          "evidenceIds": [
+            "parallel",
+            "cli-mcp"
+          ]
+        },
+        "prompt_intake": {
+          "support": "supported",
+          "answer": "Composer, quick panel, helmor send.",
+          "evidenceIds": [
+            "parallel",
+            "cli-mcp"
+          ]
+        },
+        "external_import": {
+          "support": "partial",
+          "answer": "Forge inbox surfaces GitHub/GitLab issues, PRs/MRs and discussions as starting points; Slack as context on macOS.",
+          "evidenceIds": [
+            "forge-inbox",
+            "slack"
+          ]
+        },
+        "chat_git_triggers": {
+          "support": "unsupported",
+          "answer": "No chat or Git event triggers.",
+          "evidenceIds": [
+            "srch-sched"
+          ]
+        },
+        "authoritative_tracker": {
+          "support": "partial",
+          "answer": "GitHub/GitLab remain authoritative for their items; Helmor stores workspaces locally.",
+          "evidenceIds": [
+            "forge-inbox"
+          ]
+        },
+        "stable_ids": {
+          "support": "partial",
+          "answer": "Workspace UUIDs and repo/name refs; forge item numbers.",
+          "evidenceIds": [
+            "cli-mcp",
+            "forge-inbox"
+          ]
+        },
+        "sync": {
+          "support": "unsupported",
+          "answer": "No sync back to trackers.",
+          "evidenceIds": [
+            "forge-inbox"
+          ]
+        },
+        "supported_edits": {
+          "support": "unsupported",
+          "answer": "No tracker edits.",
+          "evidenceIds": [
+            "forge-inbox"
+          ]
+        },
+        "external_roundtrips": {
+          "support": "supported",
+          "answer": "Commenting and issue management happen on GitHub/GitLab.",
+          "evidenceIds": [
+            "forge-inbox"
+          ]
+        }
+      },
+      "limitations": [
+        "No tracker sync or editing of tracker issues."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "parallel",
+        "cli-mcp",
+        "forge-inbox",
+        "slack",
+        "srch-sched"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch04",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "helmor:PLAN-02",
+      "criterionId": "PLAN-02",
+      "answer": "Plan mode lets the agent propose and the user approve before implementation; no editable plan document or revision history.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v0.46.0 (commit a76cda1, released 2026-07-24)",
+        "plan": "Open source (Apache-2.0)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "plans": {
+          "support": "partial",
+          "answer": "Plan mode (⇧Tab) produces a plan in the conversation for approval.",
+          "evidenceIds": [
+            "agents-doc",
+            "sessions"
+          ]
+        },
+        "acceptance_criteria": {
+          "support": "unsupported",
+          "answer": "No acceptance-criteria field.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "editors": {
+          "support": "unsupported",
+          "answer": "No plan editor.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "revisions": {
+          "support": "unsupported",
+          "answer": "No plan revisions beyond conversation history.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "implementation_links": {
+          "support": "unsupported",
+          "answer": "No plan-to-commit links.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "amendment": {
+          "support": "partial",
+          "answer": "Steering by messages while running.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "restart_persistence": {
+          "support": "supported",
+          "answer": "Sessions and history persist in SQLite and resume.",
+          "evidenceIds": [
+            "sessions",
+            "privacy"
+          ]
+        }
+      },
+      "limitations": [
+        "No plan editor, acceptance criteria or revision history."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "agents-doc",
+        "sessions",
+        "srch-issues",
+        "privacy"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch04",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "helmor:PLAN-03",
+      "criterionId": "PLAN-03",
+      "answer": "Stacked PR workspaces form a parent/child chain; status lanes organise workspaces; no epics, blockers or readiness engine.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v0.46.0 (commit a76cda1, released 2026-07-24)",
+        "plan": "Open source (Apache-2.0)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "epics": {
+          "support": "unsupported",
+          "answer": "No epics.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "hierarchy": {
+          "support": "partial",
+          "answer": "Workspaces link to a parent workspace forming a PR stack.",
+          "evidenceIds": [
+            "stacked",
+            "cli-mcp"
+          ]
+        },
+        "blockers": {
+          "support": "unsupported",
+          "answer": "No blockers.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "readiness": {
+          "support": "partial",
+          "answer": "Git/PR state drives suggested actions.",
+          "evidenceIds": [
+            "review"
+          ]
+        },
+        "enforcement": {
+          "support": "unsupported",
+          "answer": "No dependency enforcement; restack is a manual or agent action.",
+          "evidenceIds": [
+            "stacked"
+          ]
+        },
+        "state_propagation": {
+          "support": "partial",
+          "answer": "Restack re-syncs layers after a lower layer changes or merges.",
+          "evidenceIds": [
+            "stacked"
+          ]
+        },
+        "task_to_epic": {
+          "support": "unsupported",
+          "answer": "No task-to-epic growth.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "identity_retention": {
+          "support": "partial",
+          "answer": "Workspace identity persists through archive and restore.",
+          "evidenceIds": [
+            "workspaces"
+          ]
+        },
+        "workflow_constraints": {
+          "support": "supported",
+          "answer": "No mandatory workflow; the stack commands are optional.",
+          "evidenceIds": [
+            "stacked"
+          ]
+        }
+      },
+      "limitations": [
+        "Stack depth and dependencies are Git-branch based, not task dependencies."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "srch-issues",
+        "stacked",
+        "cli-mcp",
+        "review",
+        "workspaces"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch04",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "helmor:PLAN-04",
+      "criterionId": "PLAN-04",
+      "answer": "Skills, per-repository helmor.json scripts and each agent's own instruction files; no cross-session memory store.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v0.46.0 (commit a76cda1, released 2026-07-24)",
+        "plan": "Open source (Apache-2.0)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "instructions": {
+          "support": "partial",
+          "answer": "Agents read their own instruction files (CLAUDE.md/AGENTS.md); Helmor adds a system prompt for stacked layers.",
+          "evidenceIds": [
+            "sysprompt",
+            "agents-doc"
+          ]
+        },
+        "skills": {
+          "support": "supported",
+          "answer": "Skills installable and browsable with /.",
+          "evidenceIds": [
+            "agents-doc",
+            "readme"
+          ]
+        },
+        "project_docs": {
+          "support": "partial",
+          "answer": "helmor.json scripts; project docs are read by agents.",
+          "evidenceIds": [
+            "configure"
+          ]
+        },
+        "memory": {
+          "support": "unsupported",
+          "answer": "No cross-session memory feature found.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "scope": {
+          "support": "partial",
+          "answer": "Skills have project and user scope.",
+          "evidenceIds": [
+            "agents-doc"
+          ]
+        },
+        "provenance": {
+          "support": "unsupported",
+          "answer": "No provenance tracking.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "correction": {
+          "support": "unsupported",
+          "answer": "No memory to correct.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "deletion": {
+          "support": "partial",
+          "answer": "Deleting ~/helmor removes everything.",
+          "evidenceIds": [
+            "privacy"
+          ]
+        },
+        "freshness": {
+          "support": "unsupported",
+          "answer": "No stale-context controls beyond context usage ring.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "takeover_continuity": {
+          "support": "partial",
+          "answer": "Sessions resume by provider session; no colleague takeover.",
+          "evidenceIds": [
+            "sessions",
+            "srch-team"
+          ]
+        }
+      },
+      "limitations": [
+        "No managed memory."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "sysprompt",
+        "agents-doc",
+        "readme",
+        "configure",
+        "srch-issues",
+        "privacy",
+        "sessions",
+        "srch-team"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch04",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "helmor:PLAN-05",
+      "criterionId": "PLAN-05",
+      "answer": "Agents search code with their own tools; Helmor adds a Monaco editor, linked directories as context, GitHub/GitLab/Slack context and image paste; no index or citations.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v0.46.0 (commit a76cda1, released 2026-07-24)",
+        "plan": "Open source (Apache-2.0)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "code_search": {
+          "support": "partial",
+          "answer": "Delegated to agent tools; editor search.",
+          "evidenceIds": [
+            "agents-doc",
+            "review"
+          ]
+        },
+        "indexing": {
+          "support": "unsupported",
+          "answer": "No index.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "external_knowledge": {
+          "support": "partial",
+          "answer": "GitHub/GitLab inbox items and Slack as context sources.",
+          "evidenceIds": [
+            "forge-inbox",
+            "slack"
+          ]
+        },
+        "multimodal_inputs": {
+          "support": "partial",
+          "answer": "Pasted images are stored and sent with prompts.",
+          "evidenceIds": [
+            "agents-md",
+            "sidecar"
+          ]
+        },
+        "freshness": {
+          "support": "partial",
+          "answer": "Forge items refresh automatically.",
+          "evidenceIds": [
+            "review"
+          ]
+        },
+        "access_scope": {
+          "support": "partial",
+          "answer": "Linked directories extend an agent's workspace access.",
+          "evidenceIds": [
+            "args"
+          ]
+        },
+        "api_retrieval": {
+          "support": "unsupported",
+          "answer": "No retrieval API.",
+          "evidenceIds": [
+            "cli-mcp"
+          ]
+        },
+        "citations": {
+          "support": "unsupported",
+          "answer": "No citations.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "conflict_detection": {
+          "support": "unsupported",
+          "answer": "No architecture conflict detection.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "review_enforcement": {
+          "support": "unsupported",
+          "answer": "No review enforcement.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        }
+      },
+      "limitations": [
+        "No Helmor-owned code index, retrieval API or conflict checks."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "agents-doc",
+        "review",
+        "srch-issues",
+        "forge-inbox",
+        "slack",
+        "agents-md",
+        "sidecar",
+        "args",
+        "cli-mcp"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch04",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "helmor:PLAN-06",
+      "criterionId": "PLAN-06",
+      "answer": "No native issue entity; workspaces carry status lanes (In Progress, Review, Done, Backlog, Canceled), pins and unread marks; GitHub/GitLab items arrive via the inbox.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v0.46.0 (commit a76cda1, released 2026-07-24)",
+        "plan": "Open source (Apache-2.0)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "create": {
+          "support": "partial",
+          "answer": "Create workspaces (tasks) and sessions locally.",
+          "evidenceIds": [
+            "workspaces",
+            "cli-mcp"
+          ]
+        },
+        "edit": {
+          "support": "partial",
+          "answer": "Rename workspace and branch.",
+          "evidenceIds": [
+            "workspaces"
+          ]
+        },
+        "discuss": {
+          "support": "unsupported",
+          "answer": "No discussion thread beyond the agent conversation.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "prioritize": {
+          "support": "partial",
+          "answer": "Sidebar sort and pin; no priority field.",
+          "evidenceIds": [
+            "parallel"
+          ]
+        },
+        "label": {
+          "support": "partial",
+          "answer": "Status lanes act as a fixed label set.",
+          "evidenceIds": [
+            "workspaces"
+          ]
+        },
+        "assign": {
+          "support": "unsupported",
+          "answer": "No assignees.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "search": {
+          "support": "partial",
+          "answer": "Sidebar filter and sort (⌘⇧F).",
+          "evidenceIds": [
+            "parallel"
+          ]
+        },
+        "filter": {
+          "support": "supported",
+          "answer": "Filter and group by repository or status.",
+          "evidenceIds": [
+            "parallel"
+          ]
+        },
+        "archive": {
+          "support": "supported",
+          "answer": "Archive and restore workspaces.",
+          "evidenceIds": [
+            "workspaces"
+          ]
+        },
+        "reopen": {
+          "support": "supported",
+          "answer": "Restore archived workspaces.",
+          "evidenceIds": [
+            "workspaces"
+          ]
+        },
+        "project_epic_views": {
+          "support": "partial",
+          "answer": "Group by repository or status lanes (kanban-style); no epics.",
+          "evidenceIds": [
+            "parallel"
+          ]
+        },
+        "idea_parking": {
+          "support": "partial",
+          "answer": "Backlog status lane parks a workspace.",
+          "evidenceIds": [
+            "workspaces"
+          ]
+        },
+        "explicit_dispatch": {
+          "support": "supported",
+          "answer": "A workspace starts work only when a prompt is sent.",
+          "evidenceIds": [
+            "workspaces",
+            "cli-mcp"
+          ]
+        },
+        "task_session_separation": {
+          "support": "supported",
+          "answer": "A workspace holds one or more sessions.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "metadata": {
+          "support": "partial",
+          "answer": "Status, branch, target branch, parent, pin/unread.",
+          "evidenceIds": [
+            "workspaces",
+            "args"
+          ]
+        },
+        "durable_states": {
+          "support": "supported",
+          "answer": "Workspace lifecycle create/setup/ready/archived and status lanes persist.",
+          "evidenceIds": [
+            "workspaces"
+          ]
+        },
+        "external_tracker_requirement": {
+          "support": "partial",
+          "answer": "Issue tracking still lives on GitHub/GitLab/Slack.",
+          "evidenceIds": [
+            "forge-inbox"
+          ]
+        }
+      },
+      "limitations": [
+        "Workspaces are task containers but there are no discussions, labels, assignees or priority."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "workspaces",
+        "cli-mcp",
+        "srch-issues",
+        "parallel",
+        "srch-team",
+        "sessions",
+        "args",
+        "forge-inbox"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch04",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "helmor:PLAN-07",
+      "criterionId": "PLAN-07",
+      "answer": "Agents can create and prompt Helmor workspaces and sessions through the helmor CLI and MCP server, but there are no issue records.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v0.46.0 (commit a76cda1, released 2026-07-24)",
+        "plan": "Open source (Apache-2.0)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "shared_ids": {
+          "support": "supported",
+          "answer": "Workspace and session UUIDs/refs are shared between UI, CLI and MCP.",
+          "evidenceIds": [
+            "cli-mcp"
+          ]
+        },
+        "read": {
+          "support": "supported",
+          "answer": "workspace/session list and show via CLI/MCP.",
+          "evidenceIds": [
+            "cli-mcp"
+          ]
+        },
+        "create": {
+          "support": "supported",
+          "answer": "workspace new and session new via CLI/MCP.",
+          "evidenceIds": [
+            "cli-mcp"
+          ]
+        },
+        "update": {
+          "support": "partial",
+          "answer": "CLI can set status, pin, rename branch; MCP exposes fewer tools.",
+          "evidenceIds": [
+            "args",
+            "cli-mcp"
+          ]
+        },
+        "claim": {
+          "support": "unsupported",
+          "answer": "No claim primitive.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "assign": {
+          "support": "unsupported",
+          "answer": "No assignment.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "state_changes": {
+          "support": "partial",
+          "answer": "set-status via CLI.",
+          "evidenceIds": [
+            "args"
+          ]
+        },
+        "dependencies": {
+          "support": "partial",
+          "answer": "workspace new --parent sets a stack dependency.",
+          "evidenceIds": [
+            "cli-mcp"
+          ]
+        },
+        "children": {
+          "support": "supported",
+          "answer": "--parent creates child workspaces.",
+          "evidenceIds": [
+            "cli-mcp",
+            "stacked"
+          ]
+        },
+        "results": {
+          "support": "partial",
+          "answer": "workspace status shows git/PR state; send returns output.",
+          "evidenceIds": [
+            "args",
+            "cli-mcp"
+          ]
+        },
+        "human_visibility": {
+          "support": "supported",
+          "answer": "Agent-created workspaces appear in the sidebar since they share the database.",
+          "evidenceIds": [
+            "cli-mcp"
+          ]
+        },
+        "attribution": {
+          "support": "unsupported",
+          "answer": "No attribution of the creator.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "permissions": {
+          "support": "partial",
+          "answer": "Per-message --permission-mode.",
+          "evidenceIds": [
+            "args"
+          ]
+        },
+        "conflicts": {
+          "support": "unsupported",
+          "answer": "No conflict handling documented.",
+          "evidenceIds": [
+            "cli-mcp"
+          ]
+        }
+      },
+      "limitations": [
+        "No issue-record operations; agent-created workspaces appear like human ones with no attribution."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "cli-mcp",
+        "args",
+        "srch-issues",
+        "srch-team",
+        "stacked"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch04",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "helmor:PLAN-08",
+      "criterionId": "PLAN-08",
+      "answer": "No living specification feature.",
+      "support": "unsupported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v0.46.0 (commit a76cda1, released 2026-07-24)",
+        "plan": "Open source (Apache-2.0)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "persistent_requirements": {
+          "support": "unsupported",
+          "answer": "Bounded search finds no persistent specification feature.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "human_edits": {
+          "support": "unsupported",
+          "answer": "Bounded search finds no persistent specification feature.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "agent_edits": {
+          "support": "unsupported",
+          "answer": "Bounded search finds no persistent specification feature.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "revisions": {
+          "support": "unsupported",
+          "answer": "Bounded search finds no persistent specification feature.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "approvals": {
+          "support": "unsupported",
+          "answer": "Bounded search finds no persistent specification feature.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "implementation_links": {
+          "support": "unsupported",
+          "answer": "Bounded search finds no persistent specification feature.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "later_retrieval": {
+          "support": "unsupported",
+          "answer": "Bounded search finds no persistent specification feature.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "drift_detection": {
+          "support": "unsupported",
+          "answer": "Bounded search finds no persistent specification feature.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "review_integration": {
+          "support": "unsupported",
+          "answer": "Bounded search finds no persistent specification feature.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        }
+      },
+      "limitations": [
+        "None."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "srch-issues"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch04",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "helmor:COORD-01",
+      "criterionId": "COORD-01",
+      "answer": "Many workspaces and sessions run agents in parallel, each in its own worktree; sidebar shows Running, Needs input and Unread.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v0.46.0 (commit a76cda1, released 2026-07-24)",
+        "plan": "Open source (Apache-2.0)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "concurrent_sessions": {
+          "support": "supported",
+          "answer": "Parallel agents across workspaces; several sessions per workspace.",
+          "evidenceIds": [
+            "parallel",
+            "sessions"
+          ]
+        },
+        "concurrent_tasks": {
+          "support": "supported",
+          "answer": "Fan out a workspace per task.",
+          "evidenceIds": [
+            "parallel"
+          ]
+        },
+        "quotas": {
+          "support": "partial",
+          "answer": "Provider rate-limit displays; no Helmor quota.",
+          "evidenceIds": [
+            "rate"
+          ]
+        },
+        "observed_concurrency": {
+          "support": "unknown",
+          "answer": "No published concurrency measurements.",
+          "evidenceIds": [
+            "parallel"
+          ]
+        },
+        "status_visibility": {
+          "support": "supported",
+          "answer": "Sidebar states Running, Needs input, Unread; glow for active run scripts.",
+          "evidenceIds": [
+            "parallel"
+          ]
+        }
+      },
+      "limitations": [
+        "No documented concurrency cap; practical limit is review bandwidth and provider rate limits."
+      ],
+      "unknownReason": "Measured concurrency is a benchmark fact not in the repository; this catalog does not run products.",
+      "evidenceIds": [
+        "parallel",
+        "sessions",
+        "rate"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch04",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "helmor:COORD-02",
+      "criterionId": "COORD-02",
+      "answer": "Each workspace has its own branch; no assignment, claims or queues; sessions in one workspace share files.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v0.46.0 (commit a76cda1, released 2026-07-24)",
+        "plan": "Open source (Apache-2.0)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "human_assignment": {
+          "support": "unsupported",
+          "answer": "No assignment.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "agent_assignment": {
+          "support": "partial",
+          "answer": "A user or agent sends work to a chosen workspace.",
+          "evidenceIds": [
+            "cli-mcp"
+          ]
+        },
+        "claims": {
+          "support": "unsupported",
+          "answer": "No claims.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "queues": {
+          "support": "unsupported",
+          "answer": "No queue.",
+          "evidenceIds": [
+            "srch-sched"
+          ]
+        },
+        "routing": {
+          "support": "unsupported",
+          "answer": "No routing.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "duplicate_prevention": {
+          "support": "partial",
+          "answer": "Worktree isolation prevents file collisions between workspaces; sessions in one workspace do collide.",
+          "evidenceIds": [
+            "workspaces",
+            "sessions"
+          ]
+        },
+        "ownership_enforcement": {
+          "support": "partial",
+          "answer": "Separate worktrees enforce file separation.",
+          "evidenceIds": [
+            "workspaces"
+          ]
+        }
+      },
+      "limitations": [
+        "No claim or exclusive ownership beyond separate worktrees."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "srch-team",
+        "cli-mcp",
+        "srch-issues",
+        "srch-sched",
+        "workspaces",
+        "sessions"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch04",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "helmor:COORD-03",
+      "criterionId": "COORD-03",
+      "answer": "Stack commands (/helmor-cli stack, break, restack) instruct a Claude/Codex agent to create dependent child workspaces and dispatch work with the helmor CLI; Helmor's MCP server lets any agent do the same; no general coordinator role.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop",
+          "cli"
+        ],
+        "version": "v0.46.0 (commit a76cda1, released 2026-07-24)",
+        "plan": "Open source (Apache-2.0)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "roles": {
+          "support": "partial",
+          "answer": "Layer agent versus stack planner, defined by prompts.",
+          "evidenceIds": [
+            "sysprompt",
+            "stacked"
+          ]
+        },
+        "model_harness_effort": {
+          "support": "supported",
+          "answer": "Model, effort and agent are per session; helmor send picks workspace and permission mode.",
+          "evidenceIds": [
+            "agents-doc",
+            "args"
+          ]
+        },
+        "messages": {
+          "support": "partial",
+          "answer": "helmor send posts prompts to sessions; no peer chat between agents.",
+          "evidenceIds": [
+            "cli-mcp"
+          ]
+        },
+        "results_return": {
+          "support": "partial",
+          "answer": "workspace status and PR state are readable by the coordinating agent.",
+          "evidenceIds": [
+            "args",
+            "stacked"
+          ]
+        },
+        "cross_harness": {
+          "support": "supported",
+          "answer": "Sessions on different agents can be driven by the same CLI.",
+          "evidenceIds": [
+            "agents-doc",
+            "cli-mcp"
+          ]
+        },
+        "orchestration_owner": {
+          "support": "supported",
+          "answer": "Helmor ships the CLI, MCP server, skill and system prompt used for coordination.",
+          "evidenceIds": [
+            "sysprompt",
+            "cli-mcp",
+            "stacked"
+          ]
+        },
+        "activation": {
+          "support": "supported",
+          "answer": "Install the CLI; stack commands are available in the composer.",
+          "evidenceIds": [
+            "cli-mcp",
+            "stacked"
+          ]
+        },
+        "authentication": {
+          "support": "supported",
+          "answer": "Local database; no extra authentication.",
+          "evidenceIds": [
+            "cli-mcp"
+          ]
+        },
+        "live_progress": {
+          "support": "partial",
+          "answer": "Sidebar states and workspace panels show each child; no consolidated coordinator view.",
+          "evidenceIds": [
+            "parallel",
+            "stacked"
+          ]
+        },
+        "retained_results": {
+          "support": "supported",
+          "answer": "Child workspaces and sessions persist.",
+          "evidenceIds": [
+            "workspaces",
+            "sessions"
+          ]
+        },
+        "followup": {
+          "support": "supported",
+          "answer": "Send further prompts to existing sessions.",
+          "evidenceIds": [
+            "cli-mcp",
+            "sessions"
+          ]
+        },
+        "invocation": {
+          "support": "supported",
+          "answer": "User command /helmor-cli stack or agent calls CLI/MCP.",
+          "evidenceIds": [
+            "stacked",
+            "cli-mcp"
+          ]
+        }
+      },
+      "limitations": [
+        "The coordinator capability is a skill/prompt over the helmor CLI, centred on stacked PRs; README says agent-driven orchestration is still coming."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "sysprompt",
+        "stacked",
+        "agents-doc",
+        "args",
+        "cli-mcp",
+        "parallel",
+        "workspaces",
+        "sessions"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch04",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "helmor:COORD-04",
+      "criterionId": "COORD-04",
+      "answer": "No schedules, event triggers or recurring tasks.",
+      "support": "unsupported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v0.46.0 (commit a76cda1, released 2026-07-24)",
+        "plan": "Open source (Apache-2.0)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "schedules": {
+          "support": "unsupported",
+          "answer": "Bounded search finds no scheduler or trigger feature.",
+          "evidenceIds": [
+            "srch-sched"
+          ]
+        },
+        "events": {
+          "support": "unsupported",
+          "answer": "Bounded search finds no scheduler or trigger feature.",
+          "evidenceIds": [
+            "srch-sched"
+          ]
+        },
+        "recurring_tasks": {
+          "support": "unsupported",
+          "answer": "Bounded search finds no scheduler or trigger feature.",
+          "evidenceIds": [
+            "srch-sched"
+          ]
+        },
+        "completion_conditions": {
+          "support": "unsupported",
+          "answer": "Bounded search finds no scheduler or trigger feature.",
+          "evidenceIds": [
+            "srch-sched"
+          ]
+        },
+        "scheduler_location": {
+          "support": "unsupported",
+          "answer": "Bounded search finds no scheduler or trigger feature.",
+          "evidenceIds": [
+            "srch-sched"
+          ]
+        },
+        "overlaps": {
+          "support": "unsupported",
+          "answer": "Bounded search finds no scheduler or trigger feature.",
+          "evidenceIds": [
+            "srch-sched"
+          ]
+        },
+        "retries": {
+          "support": "unsupported",
+          "answer": "Bounded search finds no scheduler or trigger feature.",
+          "evidenceIds": [
+            "srch-sched"
+          ]
+        },
+        "client_independence": {
+          "support": "unsupported",
+          "answer": "Bounded search finds no scheduler or trigger feature.",
+          "evidenceIds": [
+            "srch-sched"
+          ]
+        }
+      },
+      "limitations": [
+        "None."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "srch-sched"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch04",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "helmor:COORD-05",
+      "criterionId": "COORD-05",
+      "answer": "Interactive questions, permission and plan approvals in-conversation, notifications, stop and steer in the composer, and session resume.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v0.46.0 (commit a76cda1, released 2026-07-24)",
+        "plan": "Open source (Apache-2.0)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "pause": {
+          "support": "unsupported",
+          "answer": "No pause distinct from stopping a turn.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "stop": {
+          "support": "supported",
+          "answer": "Stop a running turn (abort in the sidecar); history is kept.",
+          "evidenceIds": [
+            "sidecar",
+            "sessions"
+          ]
+        },
+        "resume": {
+          "support": "supported",
+          "answer": "Sessions survive restarts and resume the provider session.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "steer": {
+          "support": "supported",
+          "answer": "Send follow-up messages while running.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "notifications": {
+          "support": "supported",
+          "answer": "Desktop notifications and sounds.",
+          "evidenceIds": [
+            "parallel"
+          ]
+        },
+        "pending_decisions": {
+          "support": "supported",
+          "answer": "Questions, permissions and plan approvals as panels, with Needs input flag.",
+          "evidenceIds": [
+            "sessions",
+            "parallel"
+          ]
+        },
+        "escalation": {
+          "support": "unsupported",
+          "answer": "No escalation chain.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "visible_errors": {
+          "support": "partial",
+          "answer": "Errors appear in conversation and troubleshooting docs; no error dashboard.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "chat_terminal_parity": {
+          "support": "supported",
+          "answer": "Terminal Mode runs the agent's native TUI and a GUI chat can resume in the terminal.",
+          "evidenceIds": [
+            "readme",
+            "agents-doc"
+          ]
+        },
+        "retained_history": {
+          "support": "supported",
+          "answer": "Full history in SQLite.",
+          "evidenceIds": [
+            "privacy"
+          ]
+        }
+      },
+      "limitations": [
+        "No escalation beyond notifications."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "sessions",
+        "sidecar",
+        "parallel",
+        "srch-team",
+        "readme",
+        "agents-doc",
+        "privacy"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch04",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "helmor:COORD-06",
+      "criterionId": "COORD-06",
+      "answer": "Sidebar grouped by repository or status shows workspaces with Running/Needs input/Unread; kanban-style status lanes; no dependency or workload view beyond stack chains.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v0.46.0 (commit a76cda1, released 2026-07-24)",
+        "plan": "Open source (Apache-2.0)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "fleet_fixture": {
+          "support": "supported",
+          "answer": "Sidebar with status grouping and states.",
+          "evidenceIds": [
+            "parallel"
+          ]
+        },
+        "parent_child": {
+          "support": "partial",
+          "answer": "Stack workspaces grouped with connector lines.",
+          "evidenceIds": [
+            "stacked"
+          ]
+        },
+        "dependencies": {
+          "support": "partial",
+          "answer": "Only stack chains.",
+          "evidenceIds": [
+            "stacked"
+          ]
+        },
+        "attention": {
+          "support": "supported",
+          "answer": "Needs input and Unread flags.",
+          "evidenceIds": [
+            "parallel"
+          ]
+        },
+        "history": {
+          "support": "partial",
+          "answer": "Archived workspaces retained.",
+          "evidenceIds": [
+            "workspaces"
+          ]
+        },
+        "workload": {
+          "support": "unsupported",
+          "answer": "No workload view.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "navigation_errors": {
+          "support": "partial",
+          "answer": "Failures show in session; no error filter.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "fixture_mode": {
+          "support": "unsupported",
+          "answer": "Not applicable.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        }
+      },
+      "limitations": [
+        "No dependency graph, workload or blocked state."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "parallel",
+        "stacked",
+        "workspaces",
+        "srch-cost",
+        "sessions",
+        "srch-issues"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch04",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "helmor:COORD-07",
+      "criterionId": "COORD-07",
+      "answer": "Quick start with no preset; per-session model/effort/mode; stack commands optional; natural-language prompts drive everything; changes mid-run via steering.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v0.46.0 (commit a76cda1, released 2026-07-24)",
+        "plan": "Open source (Apache-2.0)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "quick_task": {
+          "support": "supported",
+          "answer": "Quick panel (⇧⌥Space) and chat workspaces.",
+          "evidenceIds": [
+            "readme",
+            "workspaces"
+          ]
+        },
+        "growing_epic": {
+          "support": "unsupported",
+          "answer": "No epic growth path.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "presets": {
+          "support": "partial",
+          "answer": "Optional stack commands and helmor.json scripts.",
+          "evidenceIds": [
+            "stacked",
+            "configure"
+          ]
+        },
+        "natural_language": {
+          "support": "supported",
+          "answer": "Prompts drive agents.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "agent_configuration": {
+          "support": "supported",
+          "answer": "Model, effort, fast and plan mode per session.",
+          "evidenceIds": [
+            "agents-doc"
+          ]
+        },
+        "in_run_changes": {
+          "support": "partial",
+          "answer": "Switch model between turns; steer during a turn.",
+          "evidenceIds": [
+            "agents-doc",
+            "sessions"
+          ]
+        },
+        "live_roles": {
+          "support": "partial",
+          "answer": "Per-workspace agent shown.",
+          "evidenceIds": [
+            "parallel"
+          ]
+        },
+        "retained_relationships": {
+          "support": "partial",
+          "answer": "Parent-child workspace links retained.",
+          "evidenceIds": [
+            "stacked"
+          ]
+        },
+        "discoverability": {
+          "support": "supported",
+          "answer": "Slash menu, docs and onboarding.",
+          "evidenceIds": [
+            "agents-doc"
+          ]
+        },
+        "auth_friction": {
+          "support": "supported",
+          "answer": "Existing logins picked up automatically.",
+          "evidenceIds": [
+            "agents-doc"
+          ]
+        }
+      },
+      "limitations": [
+        "growing_epic: No epic growth path.",
+        "presets: Optional stack commands and helmor.json scripts.",
+        "in_run_changes: Switch model between turns; steer during a turn."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "workspaces",
+        "srch-issues",
+        "stacked",
+        "configure",
+        "agents-doc",
+        "sessions",
+        "parallel"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch04",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "helmor:RUN-01",
+      "criterionId": "RUN-01",
+      "answer": "Local desktop execution only; the experimental companion lets a phone control the desktop but work still runs on that machine; no remote host or cloud.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v0.46.0 (commit a76cda1, released 2026-07-24)",
+        "plan": "Open source (Apache-2.0)",
+        "os": [],
+        "executionModes": [
+          "local"
+        ],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "local": {
+          "support": "supported",
+          "answer": "Agents run on the user machine.",
+          "evidenceIds": [
+            "privacy",
+            "readme"
+          ]
+        },
+        "byo_remote": {
+          "support": "unsupported",
+          "answer": "No remote host support.",
+          "evidenceIds": [
+            "srch-vendor",
+            "srch-clients"
+          ]
+        },
+        "self_hosted": {
+          "support": "unsupported",
+          "answer": "No self-hostable service; desktop app.",
+          "evidenceIds": [
+            "srch-vendor"
+          ]
+        },
+        "managed_cloud": {
+          "support": "unsupported",
+          "answer": "No Helmor cloud.",
+          "evidenceIds": [
+            "privacy"
+          ]
+        },
+        "hybrid": {
+          "support": "partial",
+          "answer": "Companion remote control of the local desktop.",
+          "evidenceIds": [
+            "companion"
+          ]
+        },
+        "provisioning": {
+          "support": "unsupported",
+          "answer": "No provisioning.",
+          "evidenceIds": [
+            "srch-vendor"
+          ]
+        },
+        "payer": {
+          "support": "supported",
+          "answer": "User pays providers; no compute fees.",
+          "evidenceIds": [
+            "faq"
+          ]
+        },
+        "resources": {
+          "support": "supported",
+          "answer": "User's own machine.",
+          "evidenceIds": [
+            "privacy"
+          ]
+        },
+        "region": {
+          "support": "unsupported",
+          "answer": "No hosted region.",
+          "evidenceIds": [
+            "srch-vendor"
+          ]
+        },
+        "expiry": {
+          "support": "unsupported",
+          "answer": "No expiry.",
+          "evidenceIds": [
+            "srch-vendor"
+          ]
+        },
+        "client_disconnect": {
+          "support": "partial",
+          "answer": "The companion client can disconnect while the desktop continues; closing the desktop app ends work.",
+          "evidenceIds": [
+            "companion"
+          ]
+        },
+        "other_device_continuation": {
+          "support": "partial",
+          "answer": "A phone browser can follow and start tasks while the desktop runs.",
+          "evidenceIds": [
+            "companion",
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Work stops if the desktop sleeps; no BYO remote or managed cloud."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "privacy",
+        "readme",
+        "srch-vendor",
+        "srch-clients",
+        "companion",
+        "faq"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch04",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "helmor:RUN-02",
+      "criterionId": "RUN-02",
+      "answer": "Git worktree plus branch per workspace by default, Local mode in the real clone, Chat scratch directories; no container, VM or OS sandbox from Helmor.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v0.46.0 (commit a76cda1, released 2026-07-24)",
+        "plan": "Open source (Apache-2.0)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "checkout": {
+          "support": "supported",
+          "answer": "Local mode uses the existing clone.",
+          "evidenceIds": [
+            "workspaces"
+          ]
+        },
+        "branch": {
+          "support": "supported",
+          "answer": "Branch per workspace with prefix.",
+          "evidenceIds": [
+            "workspaces"
+          ]
+        },
+        "worktree": {
+          "support": "supported",
+          "answer": "Default workspace mode.",
+          "evidenceIds": [
+            "workspaces"
+          ]
+        },
+        "container": {
+          "support": "unsupported",
+          "answer": "No container isolation.",
+          "evidenceIds": [
+            "srch-container"
+          ]
+        },
+        "vm": {
+          "support": "unsupported",
+          "answer": "No VM isolation.",
+          "evidenceIds": [
+            "srch-container"
+          ]
+        },
+        "os_sandbox": {
+          "support": "partial",
+          "answer": "Agent SDK sandboxing is the agent's; Helmor adds none.",
+          "evidenceIds": [
+            "srch-container"
+          ]
+        },
+        "filesystem": {
+          "support": "partial",
+          "answer": "Agents run with the user's permissions inside the worktree; linked directories extend access.",
+          "evidenceIds": [
+            "workspaces",
+            "args"
+          ]
+        },
+        "process": {
+          "support": "unsupported",
+          "answer": "No process isolation.",
+          "evidenceIds": [
+            "srch-container"
+          ]
+        },
+        "network": {
+          "support": "unsupported",
+          "answer": "No network policy; proxy settings only.",
+          "evidenceIds": [
+            "agents-doc"
+          ]
+        },
+        "secrets": {
+          "support": "partial",
+          "answer": "Env files copied by setup scripts; keys in local settings DB.",
+          "evidenceIds": [
+            "configure",
+            "privacy"
+          ]
+        },
+        "code_separation": {
+          "support": "supported",
+          "answer": "Worktrees keep agents from touching other workspaces or your checkout.",
+          "evidenceIds": [
+            "workspaces"
+          ]
+        },
+        "security_boundary": {
+          "support": "supported",
+          "answer": "Docs describe isolation as file separation for parallel safety, not a security boundary.",
+          "evidenceIds": [
+            "workspaces"
+          ]
+        }
+      },
+      "limitations": [
+        "Worktrees separate files, not processes or network; permission modes are agent-level."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "workspaces",
+        "srch-container",
+        "args",
+        "agents-doc",
+        "configure",
+        "privacy"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch04",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "helmor:RUN-03",
+      "criterionId": "RUN-03",
+      "answer": "Sessions survive restarts and resume the provider session; workspaces can be archived and restored from the recorded commit; no worker crash or expiry handling beyond that.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v0.46.0 (commit a76cda1, released 2026-07-24)",
+        "plan": "Open source (Apache-2.0)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "client_disconnect": {
+          "support": "partial",
+          "answer": "Companion clients may disconnect; desktop is the host.",
+          "evidenceIds": [
+            "companion"
+          ]
+        },
+        "worker_crash": {
+          "support": "partial",
+          "answer": "Sidecar supervised by the Rust host.",
+          "evidenceIds": [
+            "agents-md"
+          ]
+        },
+        "service_restart": {
+          "support": "supported",
+          "answer": "Sessions resume after app restart.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "expiry": {
+          "support": "unsupported",
+          "answer": "No expiry.",
+          "evidenceIds": [
+            "srch-vendor"
+          ]
+        },
+        "transcript_reload": {
+          "support": "supported",
+          "answer": "History persists in SQLite.",
+          "evidenceIds": [
+            "privacy"
+          ]
+        },
+        "process_reconnect": {
+          "support": "partial",
+          "answer": "Provider session resumed rather than replayed.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "task_resume": {
+          "support": "supported",
+          "answer": "Continue where things left off.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "state_reconstruction": {
+          "support": "supported",
+          "answer": "Restore recreates worktree from the recorded commit.",
+          "evidenceIds": [
+            "workspaces"
+          ]
+        },
+        "context_loss": {
+          "support": "partial",
+          "answer": "Context ring warns of window limits.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "duplicate_actions": {
+          "support": "unknown",
+          "answer": "Not documented.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "manual_repair": {
+          "support": "partial",
+          "answer": "Troubleshooting docs.",
+          "evidenceIds": [
+            "faq"
+          ]
+        },
+        "multi_day_continuity": {
+          "support": "supported",
+          "answer": "Archive/restore keeps history across days.",
+          "evidenceIds": [
+            "workspaces"
+          ]
+        }
+      },
+      "limitations": [
+        "No continuity if the desktop machine is off."
+      ],
+      "unknownReason": "Duplicate-action behaviour on resume is not documented and depends on provider session resume.",
+      "evidenceIds": [
+        "companion",
+        "agents-md",
+        "sessions",
+        "srch-vendor",
+        "privacy",
+        "workspaces",
+        "faq"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch04",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "helmor:RUN-04",
+      "criterionId": "RUN-04",
+      "answer": "Per-repository setup scripts install dependencies and copy env files; run scripts start dev servers/tests; no port allocation, caches or snapshots.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v0.46.0 (commit a76cda1, released 2026-07-24)",
+        "plan": "Open source (Apache-2.0)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "dependencies": {
+          "support": "supported",
+          "answer": "setup script in helmor.json runs on workspace creation.",
+          "evidenceIds": [
+            "configure"
+          ]
+        },
+        "caches": {
+          "support": "partial",
+          "answer": "Setup scripts can copy caches from the root clone.",
+          "evidenceIds": [
+            "configure"
+          ]
+        },
+        "snapshots": {
+          "support": "unsupported",
+          "answer": "No environment snapshots.",
+          "evidenceIds": [
+            "srch-container"
+          ]
+        },
+        "services": {
+          "support": "partial",
+          "answer": "run scripts start dev servers.",
+          "evidenceIds": [
+            "configure",
+            "review"
+          ]
+        },
+        "ports": {
+          "support": "partial",
+          "answer": "Run scripts may declare their own URL (0.46.0); no port allocation.",
+          "evidenceIds": [
+            "changelog",
+            "configure"
+          ]
+        },
+        "secrets": {
+          "support": "partial",
+          "answer": "Copy .env files with setup script.",
+          "evidenceIds": [
+            "configure"
+          ]
+        },
+        "duplicate_installs": {
+          "support": "unsupported",
+          "answer": "Each worktree installs separately.",
+          "evidenceIds": [
+            "configure"
+          ]
+        },
+        "collisions": {
+          "support": "unsupported",
+          "answer": "No collision avoidance.",
+          "evidenceIds": [
+            "configure"
+          ]
+        },
+        "remote_setup": {
+          "support": "unsupported",
+          "answer": "No remote.",
+          "evidenceIds": [
+            "srch-vendor"
+          ]
+        },
+        "automatic_repair": {
+          "support": "unsupported",
+          "answer": "No automatic repair.",
+          "evidenceIds": [
+            "configure"
+          ]
+        }
+      },
+      "limitations": [
+        "Users handle port collisions and duplicate installs themselves."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "configure",
+        "srch-container",
+        "review",
+        "changelog",
+        "srch-vendor"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch04",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "helmor:RUN-05",
+      "criterionId": "RUN-05",
+      "answer": "Context usage ring and provider rate-limit readouts; no time, turn, token or spend limits.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v0.46.0 (commit a76cda1, released 2026-07-24)",
+        "plan": "Open source (Apache-2.0)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "time_limits": {
+          "support": "unsupported",
+          "answer": "No time limits.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "turn_limits": {
+          "support": "unsupported",
+          "answer": "No turn limits.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "token_limits": {
+          "support": "partial",
+          "answer": "Context window usage is displayed, not limited.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "spend_limits": {
+          "support": "unsupported",
+          "answer": "No spend limits.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "timeouts": {
+          "support": "unsupported",
+          "answer": "No documented timeouts.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "retries": {
+          "support": "unsupported",
+          "answer": "No retry policy.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "provider_failures": {
+          "support": "partial",
+          "answer": "Rate-limit fetchers show account limits.",
+          "evidenceIds": [
+            "rate"
+          ]
+        },
+        "enforcement": {
+          "support": "unsupported",
+          "answer": "No enforcement.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        }
+      },
+      "limitations": [
+        "No enforced limits."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "srch-cost",
+        "sessions",
+        "rate"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch04",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "helmor:RUN-06",
+      "criterionId": "RUN-06",
+      "answer": "Logs under ~/helmor/logs, sidebar states, context ring and rate limits; no per-task statistics or usage exports.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v0.46.0 (commit a76cda1, released 2026-07-24)",
+        "plan": "Open source (Apache-2.0)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "logs": {
+          "support": "supported",
+          "answer": "JSONL application logs and session history.",
+          "evidenceIds": [
+            "privacy"
+          ]
+        },
+        "traces": {
+          "support": "unsupported",
+          "answer": "No traces.",
+          "evidenceIds": [
+            "srch-tele"
+          ]
+        },
+        "failure_reasons": {
+          "support": "partial",
+          "answer": "Shown in conversation.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "usage_export": {
+          "support": "unsupported",
+          "answer": "No usage export.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "task_stats": {
+          "support": "unsupported",
+          "answer": "No task stats.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "agent_stats": {
+          "support": "unsupported",
+          "answer": "No agent stats.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "project_stats": {
+          "support": "unsupported",
+          "answer": "No project stats.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "time_stats": {
+          "support": "unsupported",
+          "answer": "No time stats.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "failure_status": {
+          "support": "partial",
+          "answer": "Needs input and failures visible per session.",
+          "evidenceIds": [
+            "parallel"
+          ]
+        },
+        "approval_status": {
+          "support": "supported",
+          "answer": "Needs input flag for permissions.",
+          "evidenceIds": [
+            "parallel"
+          ]
+        },
+        "reconnect_consistency": {
+          "support": "partial",
+          "answer": "State comes from one SQLite database shared by app and CLI.",
+          "evidenceIds": [
+            "cli-mcp"
+          ]
+        },
+        "performance_method": {
+          "support": "unknown",
+          "answer": "No benchmark method; not listed on ADEMark.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "responsiveness": {
+          "support": "unknown",
+          "answer": "No measurements published.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "No statistics or exports."
+      ],
+      "unknownReason": "Performance and responsiveness are benchmark facts this catalog does not measure.",
+      "evidenceIds": [
+        "privacy",
+        "srch-tele",
+        "sessions",
+        "srch-cost",
+        "parallel",
+        "cli-mcp",
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch04",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "helmor:RUN-07",
+      "criterionId": "RUN-07",
+      "answer": "No cost visibility; context usage and provider rate-limit windows only.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v0.46.0 (commit a76cda1, released 2026-07-24)",
+        "plan": "Open source (Apache-2.0)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "task_cost": {
+          "support": "unsupported",
+          "answer": "Bounded search finds no cost implementation.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "session_cost": {
+          "support": "unsupported",
+          "answer": "Bounded search finds no cost implementation.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "child_cost": {
+          "support": "unsupported",
+          "answer": "Bounded search finds no cost implementation.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "epic_cost": {
+          "support": "unsupported",
+          "answer": "Bounded search finds no cost implementation.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "harness_aggregation": {
+          "support": "unsupported",
+          "answer": "Bounded search finds no cost implementation.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "billed_vs_estimated": {
+          "support": "unsupported",
+          "answer": "Bounded search finds no cost implementation.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "tokens": {
+          "support": "partial",
+          "answer": "Context-window usage breakdown on hover.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "subscription_allowance": {
+          "support": "partial",
+          "answer": "Claude and Codex account rate-limit windows are shown.",
+          "evidenceIds": [
+            "rate"
+          ]
+        },
+        "provider_reconciliation": {
+          "support": "unsupported",
+          "answer": "Bounded search finds no cost implementation.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "compute_cost": {
+          "support": "unsupported",
+          "answer": "Bounded search finds no cost implementation.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "refresh_delay": {
+          "support": "unsupported",
+          "answer": "Bounded search finds no cost implementation.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "alerts": {
+          "support": "unsupported",
+          "answer": "Bounded search finds no cost implementation.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "export": {
+          "support": "unsupported",
+          "answer": "Bounded search finds no cost implementation.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "drilldown": {
+          "support": "unsupported",
+          "answer": "Bounded search finds no cost implementation.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        }
+      },
+      "limitations": [
+        "No cost tracking."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "srch-cost",
+        "sessions",
+        "rate"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch04",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "helmor:RUN-08",
+      "criterionId": "RUN-08",
+      "answer": "No compute-aware scheduling; stdout coalescing for terminals only.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v0.46.0 (commit a76cda1, released 2026-07-24)",
+        "plan": "Open source (Apache-2.0)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "concurrency": {
+          "support": "unsupported",
+          "answer": "Bounded search finds no resource scheduling.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "queues": {
+          "support": "unsupported",
+          "answer": "Bounded search finds no resource scheduling.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "cpu_ram": {
+          "support": "unsupported",
+          "answer": "Bounded search finds no resource scheduling.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "backpressure": {
+          "support": "unsupported",
+          "answer": "Bounded search finds no resource scheduling.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "host_awareness": {
+          "support": "unsupported",
+          "answer": "Bounded search finds no resource scheduling.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "check_reuse": {
+          "support": "unsupported",
+          "answer": "Bounded search finds no resource scheduling.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "check_deduplication": {
+          "support": "unsupported",
+          "answer": "Bounded search finds no resource scheduling.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "bounded_tests": {
+          "support": "unsupported",
+          "answer": "Bounded search finds no resource scheduling.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "cancellation": {
+          "support": "supported",
+          "answer": "Stop turns and run scripts.",
+          "evidenceIds": [
+            "sidecar",
+            "review"
+          ]
+        },
+        "fairness": {
+          "support": "unsupported",
+          "answer": "Bounded search finds no resource scheduling.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "recovery": {
+          "support": "unsupported",
+          "answer": "Bounded search finds no resource scheduling.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "shared_limits": {
+          "support": "unsupported",
+          "answer": "Bounded search finds no resource scheduling.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        }
+      },
+      "limitations": [
+        "None."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "srch-cost",
+        "sidecar",
+        "review"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch04",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "helmor:TEAM-01",
+      "criterionId": "TEAM-01",
+      "answer": "Single-user local desktop; no shared visibility, comments, presence or co-prompting.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v0.46.0 (commit a76cda1, released 2026-07-24)",
+        "plan": "Open source (Apache-2.0)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "visibility": {
+          "support": "partial",
+          "answer": "Personal paired devices can view via the companion.",
+          "evidenceIds": [
+            "companion"
+          ]
+        },
+        "discussion": {
+          "support": "unsupported",
+          "answer": "Bounded search finds no multi-user feature.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "comments": {
+          "support": "unsupported",
+          "answer": "Bounded search finds no multi-user feature.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "presence": {
+          "support": "unsupported",
+          "answer": "Bounded search finds no multi-user feature.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "coprompting": {
+          "support": "unsupported",
+          "answer": "Bounded search finds no multi-user feature.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "ordering": {
+          "support": "unsupported",
+          "answer": "Bounded search finds no multi-user feature.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "conflicts": {
+          "support": "unsupported",
+          "answer": "Bounded search finds no multi-user feature.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "attribution": {
+          "support": "unsupported",
+          "answer": "Bounded search finds no multi-user feature.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "permissions": {
+          "support": "unsupported",
+          "answer": "Bounded search finds no multi-user feature.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "plan_restrictions": {
+          "support": "unsupported",
+          "answer": "Bounded search finds no multi-user feature.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "owner_online": {
+          "support": "supported",
+          "answer": "The desktop must stay on for the companion to work.",
+          "evidenceIds": [
+            "companion"
+          ]
+        }
+      },
+      "limitations": [
+        "None."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "companion",
+        "srch-team"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch04",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "helmor:TEAM-02",
+      "criterionId": "TEAM-02",
+      "answer": "No roles, SSO or provisioning; companion pairing issues per-device tokens.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v0.46.0 (commit a76cda1, released 2026-07-24)",
+        "plan": "Open source (Apache-2.0)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "organization_roles": {
+          "support": "unsupported",
+          "answer": "Bounded search finds no roles or SSO.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "project_roles": {
+          "support": "unsupported",
+          "answer": "Bounded search finds no roles or SSO.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "task_roles": {
+          "support": "unsupported",
+          "answer": "Bounded search finds no roles or SSO.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "membership": {
+          "support": "unsupported",
+          "answer": "Bounded search finds no roles or SSO.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "sso": {
+          "support": "unsupported",
+          "answer": "Bounded search finds no roles or SSO.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "provisioning": {
+          "support": "unsupported",
+          "answer": "Bounded search finds no roles or SSO.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "unauthorized_access": {
+          "support": "partial",
+          "answer": "Companion requires paired-device bearer tokens.",
+          "evidenceIds": [
+            "companion"
+          ]
+        },
+        "revocation": {
+          "support": "partial",
+          "answer": "Paired devices can be revoked.",
+          "evidenceIds": [
+            "companion"
+          ]
+        },
+        "plan_scope": {
+          "support": "unsupported",
+          "answer": "Bounded search finds no roles or SSO.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        }
+      },
+      "limitations": [
+        "None."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "srch-team",
+        "companion"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch04",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "helmor:TEAM-03",
+      "criterionId": "TEAM-03",
+      "answer": "Agent permission requests surface as in-conversation panels; per-session permission mode plan/auto/yolo/default; plan approval before implementation.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v0.46.0 (commit a76cda1, released 2026-07-24)",
+        "plan": "Open source (Apache-2.0)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "command": {
+          "support": "supported",
+          "answer": "Permission prompts for commands relayed to the user.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "tool": {
+          "support": "supported",
+          "answer": "Tool permission prompts.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "network": {
+          "support": "unsupported",
+          "answer": "No network approvals.",
+          "evidenceIds": [
+            "srch-container"
+          ]
+        },
+        "secret": {
+          "support": "unsupported",
+          "answer": "No secret approvals.",
+          "evidenceIds": [
+            "srch-container"
+          ]
+        },
+        "delivery": {
+          "support": "partial",
+          "answer": "PR actions are explicit buttons but not approval-gated beyond agent prompts.",
+          "evidenceIds": [
+            "review"
+          ]
+        },
+        "approver_identity": {
+          "support": "unsupported",
+          "answer": "Single user.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "lifetime": {
+          "support": "unknown",
+          "answer": "Grant lifetime depends on the agent SDK.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "allow": {
+          "support": "supported",
+          "answer": "Allow in panel.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "deny": {
+          "support": "supported",
+          "answer": "Deny in panel.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "revoke": {
+          "support": "unsupported",
+          "answer": "No revocation.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "tunnels": {
+          "support": "partial",
+          "answer": "Companion tunnel can be stopped; paired devices managed.",
+          "evidenceIds": [
+            "companion"
+          ]
+        },
+        "defaults": {
+          "support": "partial",
+          "answer": "Default permission behaviour configurable in Settings → General.",
+          "evidenceIds": [
+            "agents-doc"
+          ]
+        },
+        "safer_modes": {
+          "support": "supported",
+          "answer": "Plan mode and default permission mode.",
+          "evidenceIds": [
+            "agents-doc"
+          ]
+        },
+        "enforcement": {
+          "support": "partial",
+          "answer": "Enforcement is by the agent SDK permission modes.",
+          "evidenceIds": [
+            "agents-doc",
+            "args"
+          ]
+        }
+      },
+      "limitations": [
+        "Approvals come from the agent SDKs; Helmor adds no policy engine."
+      ],
+      "unknownReason": "Approval grant lifetime is determined inside each agent SDK, not Helmor.",
+      "evidenceIds": [
+        "sessions",
+        "srch-container",
+        "review",
+        "srch-team",
+        "companion",
+        "agents-doc",
+        "args"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch04",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "helmor:TEAM-04",
+      "criterionId": "TEAM-04",
+      "answer": "Full conversation history and logs are stored locally in SQLite; no audit model, export or integrity guarantees.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v0.46.0 (commit a76cda1, released 2026-07-24)",
+        "plan": "Open source (Apache-2.0)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "actions": {
+          "support": "partial",
+          "answer": "Tool calls shown in conversation.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "approvals": {
+          "support": "partial",
+          "answer": "Approvals within conversation.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "edits": {
+          "support": "supported",
+          "answer": "Diffs.",
+          "evidenceIds": [
+            "review"
+          ]
+        },
+        "discussion": {
+          "support": "partial",
+          "answer": "Chat history.",
+          "evidenceIds": [
+            "privacy"
+          ]
+        },
+        "decisions": {
+          "support": "unsupported",
+          "answer": "No decision log.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "cross_user_persistence": {
+          "support": "unsupported",
+          "answer": "Single user.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "cross_session_persistence": {
+          "support": "supported",
+          "answer": "History persists.",
+          "evidenceIds": [
+            "privacy"
+          ]
+        },
+        "export": {
+          "support": "partial",
+          "answer": "SQLite file and directories can be copied.",
+          "evidenceIds": [
+            "privacy"
+          ]
+        },
+        "mutability": {
+          "support": "unsupported",
+          "answer": "Local and mutable.",
+          "evidenceIds": [
+            "privacy"
+          ]
+        },
+        "retention": {
+          "support": "partial",
+          "answer": "Kept until deleted.",
+          "evidenceIds": [
+            "privacy"
+          ]
+        },
+        "integrity": {
+          "support": "unsupported",
+          "answer": "No integrity model.",
+          "evidenceIds": [
+            "privacy"
+          ]
+        }
+      },
+      "limitations": [
+        "Not an audit log."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "sessions",
+        "review",
+        "privacy",
+        "srch-issues",
+        "srch-team"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch04",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "helmor:TEAM-05",
+      "criterionId": "TEAM-05",
+      "answer": "Inspector with file tree, per-file diffs (side-by-side/unified), edit mode, terminals and suggested next action buttons; keyboard shortcuts documented; mobile companion for narrow screens.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v0.46.0 (commit a76cda1, released 2026-07-24)",
+        "plan": "Open source (Apache-2.0)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "pending_reviews": {
+          "support": "partial",
+          "answer": "Sidebar Review status lane and Unread flag.",
+          "evidenceIds": [
+            "parallel",
+            "workspaces"
+          ]
+        },
+        "change_understanding": {
+          "support": "supported",
+          "answer": "Changes tree with +/- counts and diffs.",
+          "evidenceIds": [
+            "review"
+          ]
+        },
+        "evidence_navigation": {
+          "support": "partial",
+          "answer": "Terminals and run scripts beside the diff.",
+          "evidenceIds": [
+            "review"
+          ]
+        },
+        "comments": {
+          "support": "unsupported",
+          "answer": "No inline review comments.",
+          "evidenceIds": [
+            "review",
+            "srch-team"
+          ]
+        },
+        "request_changes": {
+          "support": "unsupported",
+          "answer": "No request-changes flow.",
+          "evidenceIds": [
+            "review"
+          ]
+        },
+        "shipping_guidance": {
+          "support": "supported",
+          "answer": "Action area proposes the next step (commit, PR, merge, fix CI).",
+          "evidenceIds": [
+            "review"
+          ]
+        },
+        "effort": {
+          "support": "unknown",
+          "answer": "No effort metrics.",
+          "evidenceIds": [
+            "review"
+          ]
+        },
+        "missed_evidence": {
+          "support": "unsupported",
+          "answer": "No missed-evidence checks.",
+          "evidenceIds": [
+            "review"
+          ]
+        },
+        "keyboard": {
+          "support": "supported",
+          "answer": "Rebindable shortcuts for diff, terminal and actions.",
+          "evidenceIds": [
+            "settings",
+            "review"
+          ]
+        },
+        "narrow_screen": {
+          "support": "partial",
+          "answer": "Responsive frontend for phone through companion (experimental).",
+          "evidenceIds": [
+            "companion"
+          ]
+        },
+        "context_switching": {
+          "support": "supported",
+          "answer": "Quick-switch overlay and workspace shortcuts.",
+          "evidenceIds": [
+            "parallel"
+          ]
+        },
+        "roles": {
+          "support": "partial",
+          "answer": "Agent-dispatched Fix CI and Resolve Conflicts sessions.",
+          "evidenceIds": [
+            "review"
+          ]
+        },
+        "retained_context": {
+          "support": "supported",
+          "answer": "Archived workspaces keep history.",
+          "evidenceIds": [
+            "workspaces"
+          ]
+        }
+      },
+      "limitations": [
+        "No inline review comments or request-changes flow."
+      ],
+      "unknownReason": "Review effort is a usability measure not documented.",
+      "evidenceIds": [
+        "parallel",
+        "workspaces",
+        "review",
+        "srch-team",
+        "settings",
+        "companion"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch04",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "helmor:TEAM-06",
+      "criterionId": "TEAM-06",
+      "answer": "No colleague takeover; one user per local database.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v0.46.0 (commit a76cda1, released 2026-07-24)",
+        "plan": "Open source (Apache-2.0)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "ongoing_takeover": {
+          "support": "unsupported",
+          "answer": "No second-person takeover.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "same_task": {
+          "support": "partial",
+          "answer": "Same user from phone companion.",
+          "evidenceIds": [
+            "companion"
+          ]
+        },
+        "session_history": {
+          "support": "supported",
+          "answer": "History persists locally.",
+          "evidenceIds": [
+            "privacy"
+          ]
+        },
+        "decisions": {
+          "support": "partial",
+          "answer": "History includes approvals.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "artifacts": {
+          "support": "partial",
+          "answer": "Worktree files.",
+          "evidenceIds": [
+            "workspaces"
+          ]
+        },
+        "permissions": {
+          "support": "partial",
+          "answer": "Same permissions.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "runtime_context": {
+          "support": "partial",
+          "answer": "Desktop runtime required.",
+          "evidenceIds": [
+            "companion"
+          ]
+        },
+        "owner_disconnect": {
+          "support": "partial",
+          "answer": "Desktop must remain on.",
+          "evidenceIds": [
+            "companion"
+          ]
+        },
+        "ownership": {
+          "support": "unsupported",
+          "answer": "No ownership transfer.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "attribution": {
+          "support": "unsupported",
+          "answer": "No attribution.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "context_loss": {
+          "support": "partial",
+          "answer": "Provider session resumed.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "harness_transfer": {
+          "support": "partial",
+          "answer": "Models switchable per session; no cross-agent transfer.",
+          "evidenceIds": [
+            "agents-doc"
+          ]
+        }
+      },
+      "limitations": [
+        "None."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "srch-team",
+        "companion",
+        "privacy",
+        "sessions",
+        "workspaces",
+        "agents-doc"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch04",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "helmor:SHIP-01",
+      "criterionId": "SHIP-01",
+      "answer": "Diffs, terminals output, run-script output and session history are retained locally; no screenshots, recordings, previews or gallery.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v0.46.0 (commit a76cda1, released 2026-07-24)",
+        "plan": "Open source (Apache-2.0)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "diffs": {
+          "support": "supported",
+          "answer": "Per-file diffs.",
+          "evidenceIds": [
+            "review"
+          ]
+        },
+        "documents": {
+          "support": "partial",
+          "answer": "Editor and files in the worktree.",
+          "evidenceIds": [
+            "review"
+          ]
+        },
+        "screenshots": {
+          "support": "partial",
+          "answer": "Pasted images in chat.",
+          "evidenceIds": [
+            "agents-md"
+          ]
+        },
+        "recordings": {
+          "support": "unsupported",
+          "answer": "No recordings.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "previews": {
+          "support": "partial",
+          "answer": "Run scripts can declare a URL for a preview.",
+          "evidenceIds": [
+            "changelog"
+          ]
+        },
+        "test_outputs": {
+          "support": "supported",
+          "answer": "Run script output.",
+          "evidenceIds": [
+            "review"
+          ]
+        },
+        "reviewer_outputs": {
+          "support": "partial",
+          "answer": "Review sessions in the same workspace.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "gallery": {
+          "support": "unsupported",
+          "answer": "No gallery.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "task_links": {
+          "support": "supported",
+          "answer": "Workspace holds diffs and sessions.",
+          "evidenceIds": [
+            "workspaces"
+          ]
+        },
+        "revision_links": {
+          "support": "partial",
+          "answer": "Archive records the commit.",
+          "evidenceIds": [
+            "workspaces"
+          ]
+        },
+        "persistence": {
+          "support": "supported",
+          "answer": "SQLite.",
+          "evidenceIds": [
+            "privacy"
+          ]
+        },
+        "child_findings": {
+          "support": "partial",
+          "answer": "Child workspaces persist.",
+          "evidenceIds": [
+            "stacked"
+          ]
+        },
+        "prompt_leakage": {
+          "support": "unknown",
+          "answer": "Not documented.",
+          "evidenceIds": [
+            "privacy"
+          ]
+        }
+      },
+      "limitations": [
+        "No artifact gallery."
+      ],
+      "unknownReason": "Prompt leakage into artifacts is not addressed in the inspected sources.",
+      "evidenceIds": [
+        "review",
+        "agents-md",
+        "srch-issues",
+        "changelog",
+        "sessions",
+        "workspaces",
+        "privacy",
+        "stacked"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch04",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "helmor:SHIP-02",
+      "criterionId": "SHIP-02",
+      "answer": "Fix CI dispatches an agent at failing checks; run scripts can run tests; no required gates or lint/type integration; merge respects branch protection.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v0.46.0 (commit a76cda1, released 2026-07-24)",
+        "plan": "Open source (Apache-2.0)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "tests": {
+          "support": "partial",
+          "answer": "Run scripts.",
+          "evidenceIds": [
+            "configure",
+            "review"
+          ]
+        },
+        "lint": {
+          "support": "partial",
+          "answer": "Run scripts.",
+          "evidenceIds": [
+            "configure"
+          ]
+        },
+        "types": {
+          "support": "partial",
+          "answer": "Run scripts.",
+          "evidenceIds": [
+            "configure"
+          ]
+        },
+        "ci": {
+          "support": "supported",
+          "answer": "CI status and Fix CI action.",
+          "evidenceIds": [
+            "review"
+          ]
+        },
+        "independent_review": {
+          "support": "partial",
+          "answer": "A second session can review the diff.",
+          "evidenceIds": [
+            "sessions"
+          ]
+        },
+        "spec_checks": {
+          "support": "unsupported",
+          "answer": "No spec checks.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "required_checks": {
+          "support": "partial",
+          "answer": "Merge button reflects branch protection.",
+          "evidenceIds": [
+            "review"
+          ]
+        },
+        "failure_blocking": {
+          "support": "partial",
+          "answer": "Merge disabled while checks run or blocked.",
+          "evidenceIds": [
+            "review"
+          ]
+        },
+        "requirement_conflicts": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "configured_policy": {
+          "support": "partial",
+          "answer": "Repository-level branch protection on the forge.",
+          "evidenceIds": [
+            "review"
+          ]
+        },
+        "enforced_policy": {
+          "support": "partial",
+          "answer": "Enforcement by the forge.",
+          "evidenceIds": [
+            "review"
+          ]
+        }
+      },
+      "limitations": [
+        "Checks are optional and unenforced by Helmor (branch protection aside)."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "configure",
+        "review",
+        "sessions",
+        "srch-issues"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch04",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "helmor:SHIP-03",
+      "criterionId": "SHIP-03",
+      "answer": "Integrated worktree and branch per workspace with Commit & Push, Create PR/MR, Pull Latest, Merge, Fix CI and Resolve Conflicts for GitHub and GitLab, plus stacked PRs.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v0.46.0 (commit a76cda1, released 2026-07-24)",
+        "plan": "Open source (Apache-2.0)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "branches": {
+          "support": "supported",
+          "answer": "Branch per workspace with prefix and rename.",
+          "evidenceIds": [
+            "workspaces"
+          ]
+        },
+        "worktrees": {
+          "support": "supported",
+          "answer": "Default.",
+          "evidenceIds": [
+            "workspaces"
+          ]
+        },
+        "commits": {
+          "support": "supported",
+          "answer": "Commit & Push action.",
+          "evidenceIds": [
+            "review"
+          ]
+        },
+        "pull_requests": {
+          "support": "supported",
+          "answer": "Create PR/MR.",
+          "evidenceIds": [
+            "review"
+          ]
+        },
+        "comments": {
+          "support": "unsupported",
+          "answer": "No PR review-comment handling.",
+          "evidenceIds": [
+            "review"
+          ]
+        },
+        "ci_response": {
+          "support": "supported",
+          "answer": "Fix CI action dispatches an agent.",
+          "evidenceIds": [
+            "review"
+          ]
+        },
+        "rebase": {
+          "support": "partial",
+          "answer": "Restack re-syncs stacks; Pull Latest merges the target branch.",
+          "evidenceIds": [
+            "stacked",
+            "review"
+          ]
+        },
+        "conflicts": {
+          "support": "supported",
+          "answer": "Resolve Conflicts action.",
+          "evidenceIds": [
+            "review"
+          ]
+        },
+        "product_state": {
+          "support": "supported",
+          "answer": "Product tracks git/PR state per workspace.",
+          "evidenceIds": [
+            "review",
+            "workspaces"
+          ]
+        }
+      },
+      "limitations": [
+        "Rebase is via agent-dispatched restack rather than a dedicated command."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "workspaces",
+        "review",
+        "stacked"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch04",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "helmor:SHIP-04",
+      "criterionId": "SHIP-04",
+      "answer": "Create PR and Merge buttons (branch protection respected); no release or deploy.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v0.46.0 (commit a76cda1, released 2026-07-24)",
+        "plan": "Open source (Apache-2.0)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "approve": {
+          "support": "partial",
+          "answer": "Plan approval is the only approval; PR approval is on the forge.",
+          "evidenceIds": [
+            "sessions",
+            "review"
+          ]
+        },
+        "merge": {
+          "support": "supported",
+          "answer": "Merge button uses the repo's allowed merge method.",
+          "evidenceIds": [
+            "review"
+          ]
+        },
+        "release": {
+          "support": "unsupported",
+          "answer": "No release feature.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "deploy": {
+          "support": "unsupported",
+          "answer": "No deploy feature.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "exact_revision": {
+          "support": "unsupported",
+          "answer": "No exact-revision approval.",
+          "evidenceIds": [
+            "review"
+          ]
+        },
+        "authority_enforcement": {
+          "support": "partial",
+          "answer": "Forge branch protection.",
+          "evidenceIds": [
+            "review"
+          ]
+        }
+      },
+      "limitations": [
+        "No release or deploy."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "sessions",
+        "review",
+        "srch-issues"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch04",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "helmor:SHIP-05",
+      "criterionId": "SHIP-05",
+      "answer": "PR state and checks refresh automatically per workspace; archive keeps the commit; no rollback or deployment links.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v0.46.0 (commit a76cda1, released 2026-07-24)",
+        "plan": "Open source (Apache-2.0)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "commit_links": {
+          "support": "partial",
+          "answer": "Workspace commit recorded.",
+          "evidenceIds": [
+            "workspaces"
+          ]
+        },
+        "pr_links": {
+          "support": "supported",
+          "answer": "PR state shown and openable.",
+          "evidenceIds": [
+            "review"
+          ]
+        },
+        "build_links": {
+          "support": "partial",
+          "answer": "CI checks shown.",
+          "evidenceIds": [
+            "review"
+          ]
+        },
+        "deployment_links": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "delivery_status": {
+          "support": "supported",
+          "answer": "Open/merged/closed and archive on merge.",
+          "evidenceIds": [
+            "review",
+            "workspaces"
+          ]
+        },
+        "retained_evidence": {
+          "support": "partial",
+          "answer": "History and diffs.",
+          "evidenceIds": [
+            "privacy"
+          ]
+        },
+        "rollback": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "revert": {
+          "support": "unsupported",
+          "answer": "No revert action.",
+          "evidenceIds": [
+            "review"
+          ]
+        },
+        "stale_approval_invalidation": {
+          "support": "unsupported",
+          "answer": "Not applicable.",
+          "evidenceIds": [
+            "review"
+          ]
+        }
+      },
+      "limitations": [
+        "No rollback."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "workspaces",
+        "review",
+        "srch-issues",
+        "privacy"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch04",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "helmor:SHIP-06",
+      "criterionId": "SHIP-06",
+      "answer": "Sidebar status lanes and Review lane serve as a lightweight queue; no batch review or delivery queue.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v0.46.0 (commit a76cda1, released 2026-07-24)",
+        "plan": "Open source (Apache-2.0)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "review_queue": {
+          "support": "partial",
+          "answer": "Review status lane.",
+          "evidenceIds": [
+            "workspaces",
+            "parallel"
+          ]
+        },
+        "summaries": {
+          "support": "unsupported",
+          "answer": "Bounded search finds no batch review feature.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "grouping": {
+          "support": "supported",
+          "answer": "Group by repository or status.",
+          "evidenceIds": [
+            "parallel"
+          ]
+        },
+        "risk_size_filters": {
+          "support": "unsupported",
+          "answer": "Bounded search finds no batch review feature.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "findings": {
+          "support": "unsupported",
+          "answer": "Bounded search finds no batch review feature.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "artifacts": {
+          "support": "unsupported",
+          "answer": "Bounded search finds no batch review feature.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "request_changes": {
+          "support": "unsupported",
+          "answer": "Bounded search finds no batch review feature.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "exact_revision_approval": {
+          "support": "unsupported",
+          "answer": "Bounded search finds no batch review feature.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "dependency_queues": {
+          "support": "partial",
+          "answer": "Stacked PR chains.",
+          "evidenceIds": [
+            "stacked"
+          ]
+        },
+        "next_actions": {
+          "support": "supported",
+          "answer": "Next sensible step button per workspace.",
+          "evidenceIds": [
+            "review"
+          ]
+        },
+        "stale_approval_invalidation": {
+          "support": "unsupported",
+          "answer": "Bounded search finds no batch review feature.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "check_deduplication": {
+          "support": "unsupported",
+          "answer": "Bounded search finds no batch review feature.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        }
+      },
+      "limitations": [
+        "No batch features."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "workspaces",
+        "parallel",
+        "srch-issues",
+        "stacked",
+        "review"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch04",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "helmor:OWN-01",
+      "criterionId": "OWN-01",
+      "answer": "Apache-2.0 for the whole repository (Rust host, React UI, Bun sidecar); bundled agent CLIs keep their own licenses; no hosted extension.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v0.46.0 (commit a76cda1, released 2026-07-24)",
+        "plan": "Open source (Apache-2.0)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "client_license": {
+          "support": "supported",
+          "answer": "Apache-2.0.",
+          "evidenceIds": [
+            "license",
+            "readme"
+          ]
+        },
+        "server_license": {
+          "support": "supported",
+          "answer": "Local components in the same repository, Apache-2.0.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "hosted_extensions": {
+          "support": "partial",
+          "answer": "The companion's stable remote-*.helmor.ai tunnel URL is a vendor service component not in the repository.",
+          "evidenceIds": [
+            "companion"
+          ]
+        },
+        "source_visibility": {
+          "support": "supported",
+          "answer": "Public repository.",
+          "evidenceIds": [
+            "repoapi"
+          ]
+        },
+        "source_revision": {
+          "support": "supported",
+          "answer": "Release v0.46.0 at pinned commit.",
+          "evidenceIds": [
+            "release"
+          ]
+        },
+        "hosted_parity": {
+          "support": "unsupported",
+          "answer": "No hosted version.",
+          "evidenceIds": [
+            "srch-vendor"
+          ]
+        }
+      },
+      "limitations": [
+        "hosted_extensions: The companion's stable remote-*.helmor.ai tunnel URL is a vendor service component not in the repository.",
+        "hosted_parity: No hosted version."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "license",
+        "readme",
+        "companion",
+        "repoapi",
+        "release",
+        "srch-vendor"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-05-15",
+      "researcher": "researcher-batch04",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "helmor:OWN-02",
+      "criterionId": "OWN-02",
+      "answer": "Fully local; no required vendor service except optional companion tunnel; data in ~/helmor (SQLite) movable with HELMOR_DATA_DIR.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v0.46.0 (commit a76cda1, released 2026-07-24)",
+        "plan": "Open source (Apache-2.0)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "self_hosting": {
+          "support": "partial",
+          "answer": "Local desktop app, not a server.",
+          "evidenceIds": [
+            "privacy"
+          ]
+        },
+        "vendor_dependencies": {
+          "support": "supported",
+          "answer": "Only the chosen providers and forges; Cloudflare for the optional companion.",
+          "evidenceIds": [
+            "privacy",
+            "companion"
+          ]
+        },
+        "export": {
+          "support": "partial",
+          "answer": "Copy the SQLite database and directories.",
+          "evidenceIds": [
+            "privacy"
+          ]
+        },
+        "import": {
+          "support": "unsupported",
+          "answer": "No import of other tools.",
+          "evidenceIds": [
+            "srch-vendor"
+          ]
+        },
+        "formats": {
+          "support": "supported",
+          "answer": "SQLite and plain directories.",
+          "evidenceIds": [
+            "privacy"
+          ]
+        },
+        "cancellation": {
+          "support": "unsupported",
+          "answer": "No account.",
+          "evidenceIds": [
+            "srch-vendor"
+          ]
+        },
+        "account_independence": {
+          "support": "supported",
+          "answer": "No Helmor account.",
+          "evidenceIds": [
+            "privacy"
+          ]
+        },
+        "history_portability": {
+          "support": "supported",
+          "answer": "Move ~/helmor or set HELMOR_DATA_DIR.",
+          "evidenceIds": [
+            "privacy"
+          ]
+        }
+      },
+      "limitations": [
+        "self_hosting: Local desktop app, not a server.",
+        "export: Copy the SQLite database and directories.",
+        "import: No import of other tools."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "privacy",
+        "companion",
+        "srch-vendor"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-05-15",
+      "researcher": "researcher-batch04",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "helmor:OWN-03",
+      "criterionId": "OWN-03",
+      "answer": "Everything stays local except prompts the chosen providers receive, git/forge API calls, update checks and explicit feedback; documented no analytics pipeline; secrets stored locally.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v0.46.0 (commit a76cda1, released 2026-07-24)",
+        "plan": "Open source (Apache-2.0)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "code_data": {
+          "support": "supported",
+          "answer": "Agent traffic goes directly to the selected provider; Helmor does not proxy.",
+          "evidenceIds": [
+            "privacy"
+          ]
+        },
+        "prompts": {
+          "support": "supported",
+          "answer": "Same.",
+          "evidenceIds": [
+            "privacy"
+          ]
+        },
+        "credentials": {
+          "support": "supported",
+          "answer": "gh/glab and agent logins stay in those CLIs; typed keys in local settings DB.",
+          "evidenceIds": [
+            "privacy"
+          ]
+        },
+        "logs": {
+          "support": "supported",
+          "answer": "Local JSONL logs.",
+          "evidenceIds": [
+            "privacy"
+          ]
+        },
+        "artifacts": {
+          "support": "supported",
+          "answer": "Local.",
+          "evidenceIds": [
+            "privacy"
+          ]
+        },
+        "retention": {
+          "support": "supported",
+          "answer": "Kept until the user deletes.",
+          "evidenceIds": [
+            "privacy"
+          ]
+        },
+        "deletion": {
+          "support": "supported",
+          "answer": "Deleting ~/helmor removes everything.",
+          "evidenceIds": [
+            "privacy"
+          ]
+        },
+        "training": {
+          "support": "unknown",
+          "answer": "Provider policy.",
+          "evidenceIds": [
+            "privacy"
+          ]
+        },
+        "residency": {
+          "support": "unknown",
+          "answer": "Provider policy.",
+          "evidenceIds": [
+            "privacy"
+          ]
+        },
+        "subprocessors": {
+          "support": "unknown",
+          "answer": "None for Helmor; provider/Cloudflare terms apply.",
+          "evidenceIds": [
+            "privacy"
+          ]
+        },
+        "telemetry_disclosure": {
+          "support": "supported",
+          "answer": "Privacy doc states there is no analytics pipeline and lists outbound traffic.",
+          "evidenceIds": [
+            "privacy",
+            "srch-tele"
+          ]
+        },
+        "telemetry_defaults": {
+          "support": "supported",
+          "answer": "No analytics sent by default; update checks occur.",
+          "evidenceIds": [
+            "privacy"
+          ]
+        },
+        "telemetry_controls": {
+          "support": "unsupported",
+          "answer": "No telemetry toggle because none exists; update checks are not documented as optional.",
+          "evidenceIds": [
+            "privacy",
+            "srch-tele"
+          ]
+        },
+        "consent_prompt": {
+          "support": "unsupported",
+          "answer": "No consent prompt.",
+          "evidenceIds": [
+            "srch-tele"
+          ]
+        },
+        "provider_separation": {
+          "support": "supported",
+          "answer": "No orchestration vendor service; provider policies separate.",
+          "evidenceIds": [
+            "privacy"
+          ]
+        }
+      },
+      "limitations": [
+        "Provider policies apply to prompts."
+      ],
+      "unknownReason": "Training use, residency and subprocessors are provider policy facts outside the Helmor repository.",
+      "evidenceIds": [
+        "privacy",
+        "srch-tele"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch04",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "helmor:OWN-04",
+      "criterionId": "OWN-04",
+      "answer": "Free open-source app; model usage is paid to providers; no Helmor price.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v0.46.0 (commit a76cda1, released 2026-07-24)",
+        "plan": "Open source (Apache-2.0)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "currency": {
+          "support": "unsupported",
+          "answer": "No prices.",
+          "evidenceIds": [
+            "faq"
+          ]
+        },
+        "interval": {
+          "support": "unsupported",
+          "answer": "No billing.",
+          "evidenceIds": [
+            "faq"
+          ]
+        },
+        "seats": {
+          "support": "unsupported",
+          "answer": "No seats.",
+          "evidenceIds": [
+            "faq"
+          ]
+        },
+        "seat_minimum": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "faq"
+          ]
+        },
+        "workspace_fees": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "faq"
+          ]
+        },
+        "included_usage": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "faq"
+          ]
+        },
+        "credits": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "faq"
+          ]
+        },
+        "trial": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "faq"
+          ]
+        },
+        "overages": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "faq"
+          ]
+        },
+        "taxes": {
+          "support": "unsupported",
+          "answer": "Not applicable.",
+          "evidenceIds": [
+            "faq"
+          ]
+        },
+        "model_cost": {
+          "support": "supported",
+          "answer": "Paid to providers directly.",
+          "evidenceIds": [
+            "faq"
+          ]
+        },
+        "compute_cost": {
+          "support": "supported",
+          "answer": "User's own machine.",
+          "evidenceIds": [
+            "privacy"
+          ]
+        }
+      },
+      "limitations": [
+        "currency: No prices.",
+        "interval: No billing.",
+        "seats: No seats."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "license",
+        "faq",
+        "privacy"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-01-15",
+      "researcher": "researcher-batch04",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "helmor:OWN-05",
+      "criterionId": "OWN-05",
+      "answer": "Zero Helmor platform fee; provider cost not estimated.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v0.46.0 (commit a76cda1, released 2026-07-24)",
+        "plan": "Open source (Apache-2.0)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "one_person": {
+          "support": "partial",
+          "answer": "Platform fee zero.",
+          "evidenceIds": [
+            "faq"
+          ]
+        },
+        "two_people": {
+          "support": "partial",
+          "answer": "Platform fee zero; no collaboration features.",
+          "evidenceIds": [
+            "faq",
+            "srch-team"
+          ]
+        },
+        "five_people": {
+          "support": "partial",
+          "answer": "Platform fee zero.",
+          "evidenceIds": [
+            "faq"
+          ]
+        },
+        "task_assumptions": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "faq"
+          ]
+        },
+        "concurrency": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "faq"
+          ]
+        },
+        "tokens": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "faq"
+          ]
+        },
+        "compute_hours": {
+          "support": "unsupported",
+          "answer": "Local compute.",
+          "evidenceIds": [
+            "faq"
+          ]
+        },
+        "fixed_cost": {
+          "support": "supported",
+          "answer": "Zero.",
+          "evidenceIds": [
+            "faq"
+          ]
+        },
+        "variable_cost": {
+          "support": "partial",
+          "answer": "Provider usage.",
+          "evidenceIds": [
+            "faq"
+          ]
+        },
+        "included_cost": {
+          "support": "supported",
+          "answer": "Nothing included.",
+          "evidenceIds": [
+            "faq"
+          ]
+        },
+        "unknown_cost": {
+          "support": "partial",
+          "answer": "Provider cost.",
+          "evidenceIds": [
+            "faq"
+          ]
+        }
+      },
+      "limitations": [
+        "Provider costs depend on usage."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "faq",
+        "srch-team"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch04",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "helmor:OWN-06",
+      "criterionId": "OWN-06",
+      "answer": "Active open-source project by a small team: frequent minor releases (v0.46.0 on 2026-07-24), Discord and GitHub issues; no support commitments; last push 2026-08-22.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v0.46.0 (commit a76cda1, released 2026-07-24)",
+        "plan": "Open source (Apache-2.0)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "release_stage": {
+          "support": "partial",
+          "answer": "Pre-1.0 versioning (0.46.0); mobile companion experimental.",
+          "evidenceIds": [
+            "changelog",
+            "readme"
+          ]
+        },
+        "access_restrictions": {
+          "support": "supported",
+          "answer": "Public downloads.",
+          "evidenceIds": [
+            "release"
+          ]
+        },
+        "support": {
+          "support": "partial",
+          "answer": "Discord, GitHub issues and in-app feedback.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "response_commitments": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "release_activity": {
+          "support": "supported",
+          "answer": "Many releases in the changelog; latest v0.46.0.",
+          "evidenceIds": [
+            "changelog",
+            "repoapi"
+          ]
+        },
+        "status_history": {
+          "support": "unsupported",
+          "answer": "No status page.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "deprecation": {
+          "support": "unsupported",
+          "answer": "No policy.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "export_options": {
+          "support": "partial",
+          "answer": "Copy local data.",
+          "evidenceIds": [
+            "privacy"
+          ]
+        }
+      },
+      "limitations": [
+        "No support SLA; default branch activity slowed after August 2026."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "changelog",
+        "readme",
+        "release",
+        "repoapi",
+        "privacy"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch04",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "helmor:OWN-07",
+      "criterionId": "OWN-07",
+      "answer": "No ISO or SOC reports claimed.",
+      "support": "unknown",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v0.46.0 (commit a76cda1, released 2026-07-24)",
+        "plan": "Open source (Apache-2.0)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "iso_scope": {
+          "support": "unknown",
+          "answer": "No certification or audit is claimed in the repository; certification is a business fact outside the code.",
+          "evidenceIds": [
+            "privacy"
+          ]
+        },
+        "iso_issuer": {
+          "support": "unknown",
+          "answer": "No certification or audit is claimed in the repository; certification is a business fact outside the code.",
+          "evidenceIds": [
+            "privacy"
+          ]
+        },
+        "iso_validity": {
+          "support": "unknown",
+          "answer": "No certification or audit is claimed in the repository; certification is a business fact outside the code.",
+          "evidenceIds": [
+            "privacy"
+          ]
+        },
+        "soc2_type": {
+          "support": "unknown",
+          "answer": "No certification or audit is claimed in the repository; certification is a business fact outside the code.",
+          "evidenceIds": [
+            "privacy"
+          ]
+        },
+        "soc2_scope": {
+          "support": "unknown",
+          "answer": "No certification or audit is claimed in the repository; certification is a business fact outside the code.",
+          "evidenceIds": [
+            "privacy"
+          ]
+        },
+        "soc2_period": {
+          "support": "unknown",
+          "answer": "No certification or audit is claimed in the repository; certification is a business fact outside the code.",
+          "evidenceIds": [
+            "privacy"
+          ]
+        },
+        "report_access": {
+          "support": "unknown",
+          "answer": "No certification or audit is claimed in the repository; certification is a business fact outside the code.",
+          "evidenceIds": [
+            "privacy"
+          ]
+        },
+        "verification_date": {
+          "support": "unknown",
+          "answer": "No certification or audit is claimed in the repository; certification is a business fact outside the code.",
+          "evidenceIds": [
+            "privacy"
+          ]
+        },
+        "evidence_status": {
+          "support": "unknown",
+          "answer": "No certification or audit is claimed in the repository; certification is a business fact outside the code.",
+          "evidenceIds": [
+            "privacy"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": "Certification and audit are business facts not present in the open-source repository.",
+      "evidenceIds": [
+        "privacy"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch04",
+      "publication": "internal-only",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "helmor:OWN-08",
+      "criterionId": "OWN-08",
+      "answer": "Free and open source; no trial or paid tiers; providers charge separately.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v0.46.0 (commit a76cda1, released 2026-07-24)",
+        "plan": "Open source (Apache-2.0)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "ongoing_free": {
+          "support": "supported",
+          "answer": "Free app.",
+          "evidenceIds": [
+            "faq"
+          ]
+        },
+        "trial": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "faq"
+          ]
+        },
+        "credits_trial": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "faq"
+          ]
+        },
+        "self_host_cost": {
+          "support": "supported",
+          "answer": "Own machine and provider costs.",
+          "evidenceIds": [
+            "faq"
+          ]
+        },
+        "paid_only": {
+          "support": "unsupported",
+          "answer": "Not paid.",
+          "evidenceIds": [
+            "faq"
+          ]
+        },
+        "early_access": {
+          "support": "partial",
+          "answer": "Mobile companion is experimental.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "free_scenarios": {
+          "support": "partial",
+          "answer": "Local single-user scenarios work; collaboration and remote compute do not exist.",
+          "evidenceIds": [
+            "srch-team",
+            "srch-vendor"
+          ]
+        },
+        "card_required": {
+          "support": "supported",
+          "answer": "No.",
+          "evidenceIds": [
+            "faq"
+          ]
+        },
+        "usage_caps": {
+          "support": "unsupported",
+          "answer": "None from Helmor.",
+          "evidenceIds": [
+            "faq"
+          ]
+        },
+        "paid_evaluation": {
+          "support": "supported",
+          "answer": "Needs provider accounts only.",
+          "evidenceIds": [
+            "agents-doc"
+          ]
+        }
+      },
+      "limitations": [
+        "trial: None.",
+        "credits_trial: None.",
+        "paid_only: Not paid."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "faq",
+        "readme",
+        "srch-team",
+        "srch-vendor",
+        "agents-doc"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-01-15",
+      "researcher": "researcher-batch04",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "helmor:OWN-09",
+      "criterionId": "OWN-09",
+      "answer": "No pricing; free software.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v0.46.0 (commit a76cda1, released 2026-07-24)",
+        "plan": "Open source (Apache-2.0)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "units": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "faq"
+          ]
+        },
+        "included_limits": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "faq"
+          ]
+        },
+        "overages": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "faq"
+          ]
+        },
+        "compute_markup": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-vendor"
+          ]
+        },
+        "model_markup": {
+          "support": "supported",
+          "answer": "No markup; direct provider billing.",
+          "evidenceIds": [
+            "agents-doc"
+          ]
+        },
+        "minimum_commitment": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "faq"
+          ]
+        },
+        "cancellation": {
+          "support": "unsupported",
+          "answer": "No account.",
+          "evidenceIds": [
+            "srch-vendor"
+          ]
+        },
+        "sales_only_unknowns": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "faq"
+          ]
+        },
+        "transparency_classification": {
+          "support": "partial",
+          "answer": "No pricing exists.",
+          "evidenceIds": [
+            "faq"
+          ]
+        }
+      },
+      "limitations": [
+        "units: None.",
+        "included_limits: None.",
+        "overages: None."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "faq",
+        "srch-vendor",
+        "agents-doc"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch04",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    }
+  ],
+  "evidence": [
+    {
+      "id": "readme",
+      "kind": "documented",
+      "url": "https://github.com/dohooo/helmor/blob/a76cda1888265fb3e3208562d4b62616a4f0266a/README.md",
+      "title": "Helmor README",
+      "locator": "Features; How it works; Get started; CLI",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Local-first workbench running many coding agents in isolated git workspaces with diffs, editor, terminals and PR actions; Claude Code, Codex, Cursor, OpenCode, Kimi Code; macOS and Windows x64; CLI and MCP server; experimental mobile companion; Apache-2.0.",
+      "visibility": "public",
+      "commit": "a76cda1888265fb3e3208562d4b62616a4f0266a",
+      "path": "README.md"
+    },
+    {
+      "id": "agents-doc",
+      "kind": "documented",
+      "url": "https://github.com/dohooo/helmor/blob/a76cda1888265fb3e3208562d4b62616a4f0266a/docs/user/concepts/agents-and-models.md",
+      "title": "Agents and models",
+      "locator": "Supported agents; Modes; Local models",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Four documented agents with their sign-in routes (Claude subscription or key, Codex ChatGPT or key, Cursor API key, OpenCode providers), custom Claude-compatible providers, per-session model and effort, plan/fast/terminal modes, bundled llama.cpp for titles.",
+      "visibility": "public",
+      "commit": "a76cda1888265fb3e3208562d4b62616a4f0266a",
+      "path": "docs/user/concepts/agents-and-models.md"
+    },
+    {
+      "id": "privacy",
+      "kind": "documented",
+      "url": "https://github.com/dohooo/helmor/blob/a76cda1888265fb3e3208562d4b62616a4f0266a/docs/user/security/privacy.md",
+      "title": "Privacy",
+      "locator": "What stays on your machine; What leaves",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "No Helmor cloud or account; data in ~/helmor/ SQLite; only user-initiated traffic; update checks via GitHub releases; no analytics pipeline; feedback only when used.",
+      "visibility": "public",
+      "commit": "a76cda1888265fb3e3208562d4b62616a4f0266a",
+      "path": "docs/user/security/privacy.md"
+    },
+    {
+      "id": "faq",
+      "kind": "documented",
+      "url": "https://github.com/dohooo/helmor/blob/a76cda1888265fb3e3208562d4b62616a4f0266a/docs/user/troubleshooting/faq.md",
+      "title": "FAQ",
+      "locator": "Is Helmor free?; Which platforms are supported?; GitLab",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Open source and free; supported platforms macOS (Apple Silicon and Intel) and Windows (x64); GitHub and GitLab supported.",
+      "visibility": "public",
+      "commit": "a76cda1888265fb3e3208562d4b62616a4f0266a",
+      "path": "docs/user/troubleshooting/faq.md"
+    },
+    {
+      "id": "install",
+      "kind": "documented",
+      "url": "https://github.com/dohooo/helmor/blob/a76cda1888265fb3e3208562d4b62616a4f0266a/docs/user/get-started/install.md",
+      "title": "Install",
+      "locator": "Download; First launch; Where your data lives",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "DMG for Apple Silicon and Intel, Windows x64 setup; bundled agent CLIs and gh/glab; onboarding steps; data under ~/helmor.",
+      "visibility": "public",
+      "commit": "a76cda1888265fb3e3208562d4b62616a4f0266a",
+      "path": "docs/user/get-started/install.md"
+    },
+    {
+      "id": "workspaces",
+      "kind": "documented",
+      "url": "https://github.com/dohooo/helmor/blob/a76cda1888265fb3e3208562d4b62616a4f0266a/docs/user/concepts/workspaces.md",
+      "title": "Workspaces",
+      "locator": "Isolation through git worktrees; Workspace modes; Lifecycle",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "One git worktree and branch per workspace; Local and Chat modes; status lanes In Progress/Review/Done/Backlog/Canceled; archive and restore.",
+      "visibility": "public",
+      "commit": "a76cda1888265fb3e3208562d4b62616a4f0266a",
+      "path": "docs/user/concepts/workspaces.md"
+    },
+    {
+      "id": "parallel",
+      "kind": "documented",
+      "url": "https://github.com/dohooo/helmor/blob/a76cda1888265fb3e3208562d4b62616a4f0266a/docs/user/concepts/parallel-agents.md",
+      "title": "Parallel agents",
+      "locator": "Knowing where you are needed; Organizing the fleet",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Sidebar shows Running, Needs input, Unread; status lanes kanban-style grouping; notifications; quick panel; CLI dispatch.",
+      "visibility": "public",
+      "commit": "a76cda1888265fb3e3208562d4b62616a4f0266a",
+      "path": "docs/user/concepts/parallel-agents.md"
+    },
+    {
+      "id": "sessions",
+      "kind": "documented",
+      "url": "https://github.com/dohooo/helmor/blob/a76cda1888265fb3e3208562d4b62616a4f0266a/docs/user/concepts/sessions.md",
+      "title": "Sessions",
+      "locator": "Questions and permissions; Context usage; Resume",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Interactive panels for agent questions/permissions/plan approval; context ring; sessions survive restarts with provider session resume; several sessions share one workspace.",
+      "visibility": "public",
+      "commit": "a76cda1888265fb3e3208562d4b62616a4f0266a",
+      "path": "docs/user/concepts/sessions.md"
+    },
+    {
+      "id": "review",
+      "kind": "documented",
+      "url": "https://github.com/dohooo/helmor/blob/a76cda1888265fb3e3208562d4b62616a4f0266a/docs/user/reference/review-and-ship.md",
+      "title": "Review and ship",
+      "locator": "Changes; Actions; Terminals; Run scripts",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Inspector with diff tree, side-by-side/unified diffs, edit mode, actions Commit & Push, Create PR/MR, Pull Latest, Merge, Fix CI, Resolve Conflicts; agent-dispatched actions; GitHub and GitLab.",
+      "visibility": "public",
+      "commit": "a76cda1888265fb3e3208562d4b62616a4f0266a",
+      "path": "docs/user/reference/review-and-ship.md"
+    },
+    {
+      "id": "stacked",
+      "kind": "documented",
+      "url": "https://github.com/dohooo/helmor/blob/a76cda1888265fb3e3208562d4b62616a4f0266a/docs/user/concepts/stacked-prs.md",
+      "title": "Stacked PRs",
+      "locator": "whole page",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Stack workspaces with parent links; /helmor-cli stack, break, restack dispatch agents that create dependent workspaces.",
+      "visibility": "public",
+      "commit": "a76cda1888265fb3e3208562d4b62616a4f0266a",
+      "path": "docs/user/concepts/stacked-prs.md"
+    },
+    {
+      "id": "cli-mcp",
+      "kind": "documented",
+      "url": "https://github.com/dohooo/helmor/blob/a76cda1888265fb3e3208562d4b62616a4f0266a/docs/cli-and-mcp.md",
+      "title": "CLI and MCP server",
+      "locator": "Install; CLI Usage; MCP Server; Exposed Tools",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "helmor CLI (repo, workspace, session, send, status, run-action, json output) and a stdio MCP server with nine tools; macOS and Windows install paths.",
+      "visibility": "public",
+      "commit": "a76cda1888265fb3e3208562d4b62616a4f0266a",
+      "path": "docs/cli-and-mcp.md"
+    },
+    {
+      "id": "configure",
+      "kind": "documented",
+      "url": "https://github.com/dohooo/helmor/blob/a76cda1888265fb3e3208562d4b62616a4f0266a/docs/user/get-started/configure-your-project.md",
+      "title": "Configure your project",
+      "locator": "helmor.json",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "helmor.json setup/run/archive scripts per repository with env vars HELMOR_ROOT_PATH and HELMOR_WORKSPACE_PATH.",
+      "visibility": "public",
+      "commit": "a76cda1888265fb3e3208562d4b62616a4f0266a",
+      "path": "docs/user/get-started/configure-your-project.md"
+    },
+    {
+      "id": "settings",
+      "kind": "documented",
+      "url": "https://github.com/dohooo/helmor/blob/a76cda1888265fb3e3208562d4b62616a4f0266a/docs/user/reference/settings.md",
+      "title": "Settings",
+      "locator": "Models; Accounts; Mobile companion; Experimental",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Provider keys, custom Claude-compatible providers, GitHub/GitLab accounts via bundled CLIs, shortcuts, update status, local LLM, experimental companion and CLI.",
+      "visibility": "public",
+      "commit": "a76cda1888265fb3e3208562d4b62616a4f0266a",
+      "path": "docs/user/reference/settings.md"
+    },
+    {
+      "id": "agents-md",
+      "kind": "source-inspected",
+      "url": "https://github.com/dohooo/helmor/blob/a76cda1888265fb3e3208562d4b62616a4f0266a/AGENTS.md",
+      "title": "Repository guidance",
+      "locator": "What is Helmor; Architecture",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Tauri v2 Rust host + React 19 frontend + Bun sidecar wrapping Claude Agent SDK, Codex CLI and OpenCode SDK; SQLite storage.",
+      "visibility": "public",
+      "commit": "a76cda1888265fb3e3208562d4b62616a4f0266a",
+      "path": "AGENTS.md"
+    },
+    {
+      "id": "tauri",
+      "kind": "source-inspected",
+      "url": "https://github.com/dohooo/helmor/blob/a76cda1888265fb3e3208562d4b62616a4f0266a/src-tauri/tauri.conf.json",
+      "title": "Tauri configuration",
+      "locator": "bundle and updater",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Desktop bundle config for the Tauri app with updater pointing at release artifacts.",
+      "visibility": "public",
+      "commit": "a76cda1888265fb3e3208562d4b62616a4f0266a",
+      "path": "src-tauri/tauri.conf.json"
+    },
+    {
+      "id": "args",
+      "kind": "source-inspected",
+      "url": "https://github.com/dohooo/helmor/blob/a76cda1888265fb3e3208562d4b62616a4f0266a/src-tauri/src/cli/args.rs",
+      "title": "CLI argument definitions",
+      "locator": "Workspace, Session, Send, RunAction, MergePr subcommands",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "CLI subcommands include workspace new/list/show/stack/status/push/sync/run-action/set-status and send with --permission-mode plan|auto|yolo|default.",
+      "visibility": "public",
+      "commit": "a76cda1888265fb3e3208562d4b62616a4f0266a",
+      "path": "src-tauri/src/cli/args.rs"
+    },
+    {
+      "id": "sysprompt",
+      "kind": "source-inspected",
+      "url": "https://github.com/dohooo/helmor/blob/a76cda1888265fb3e3208562d4b62616a4f0266a/src-tauri/src/agents/system_prompt.rs",
+      "title": "Agent system prompt",
+      "locator": "stacked-layer prompt",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Product-authored prompt tells a layer agent to run `helmor workspace stack` and /helmor-cli restack; helmor-cli skill auto-loaded for agents.",
+      "visibility": "public",
+      "commit": "a76cda1888265fb3e3208562d4b62616a4f0266a",
+      "path": "src-tauri/src/agents/system_prompt.rs"
+    },
+    {
+      "id": "companion",
+      "kind": "source-inspected",
+      "url": "https://github.com/dohooo/helmor/blob/a76cda1888265fb3e3208562d4b62616a4f0266a/src-tauri/src/companion/mod.rs",
+      "title": "Mobile companion",
+      "locator": "module docs",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Localhost axum server mirroring IPC over HTTP/SSE for a phone browser through a Cloudflare tunnel with paired-device bearer tokens; gated behind HELMOR_COMPANION.",
+      "visibility": "public",
+      "commit": "a76cda1888265fb3e3208562d4b62616a4f0266a",
+      "path": "src-tauri/src/companion/mod.rs"
+    },
+    {
+      "id": "forge-inbox",
+      "kind": "source-inspected",
+      "url": "https://github.com/dohooo/helmor/blob/a76cda1888265fb3e3208562d4b62616a4f0266a/src-tauri/src/forge/inbox.rs",
+      "title": "Forge inbox",
+      "locator": "InboxToggles",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "GitHub and GitLab issues, PRs/MRs and discussions surfaced as inbox items for starting work.",
+      "visibility": "public",
+      "commit": "a76cda1888265fb3e3208562d4b62616a4f0266a",
+      "path": "src-tauri/src/forge/inbox.rs"
+    },
+    {
+      "id": "slack",
+      "kind": "source-inspected",
+      "url": "https://github.com/dohooo/helmor/blob/a76cda1888265fb3e3208562d4b62616a4f0266a/src-tauri/src/slack/mod.rs",
+      "title": "Slack context source",
+      "locator": "module docs",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Slack used as a context source by importing the desktop client session on macOS; no in-app sign-in.",
+      "visibility": "public",
+      "commit": "a76cda1888265fb3e3208562d4b62616a4f0266a",
+      "path": "src-tauri/src/slack/mod.rs"
+    },
+    {
+      "id": "rate",
+      "kind": "source-inspected",
+      "url": "https://github.com/dohooo/helmor/blob/a76cda1888265fb3e3208562d4b62616a4f0266a/src-tauri/src/rate_limits/mod.rs",
+      "title": "Rate-limit fetchers",
+      "locator": "module docs",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Per-provider account rate-limit fetchers for Claude and Codex shown in the UI.",
+      "visibility": "public",
+      "commit": "a76cda1888265fb3e3208562d4b62616a4f0266a",
+      "path": "src-tauri/src/rate_limits/mod.rs"
+    },
+    {
+      "id": "sidecar",
+      "kind": "source-inspected",
+      "url": "https://github.com/dohooo/helmor/blob/a76cda1888265fb3e3208562d4b62616a4f0266a/sidecar/src/session-manager.ts",
+      "title": "Sidecar session manager",
+      "locator": "module",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Sidecar supervises agent sessions for Claude, Codex, Cursor, Kimi and OpenCode with abort, turn registry and git access.",
+      "visibility": "public",
+      "commit": "a76cda1888265fb3e3208562d4b62616a4f0266a",
+      "path": "sidecar/src/session-manager.ts"
+    },
+    {
+      "id": "changelog",
+      "kind": "documented",
+      "url": "https://github.com/dohooo/helmor/blob/a76cda1888265fb3e3208562d4b62616a4f0266a/CHANGELOG.md",
+      "title": "Changelog",
+      "locator": "0.46.0",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Release 0.46.0 adds Claude Opus 5 model default and bundled agent updates; frequent minor releases; no dated roadmap.",
+      "visibility": "public",
+      "commit": "a76cda1888265fb3e3208562d4b62616a4f0266a",
+      "path": "CHANGELOG.md"
+    },
+    {
+      "id": "license",
+      "kind": "source-inspected",
+      "url": "https://github.com/dohooo/helmor/blob/a76cda1888265fb3e3208562d4b62616a4f0266a/LICENSE",
+      "title": "Apache License 2.0",
+      "locator": "header",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Apache License 2.0.",
+      "visibility": "public",
+      "commit": "a76cda1888265fb3e3208562d4b62616a4f0266a",
+      "path": "LICENSE"
+    },
+    {
+      "id": "repoapi",
+      "kind": "documented",
+      "url": "https://api.github.com/repos/dohooo/helmor",
+      "title": "GitHub repository metadata",
+      "locator": "stargazers_count, license, pushed_at",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "1306 stars, Apache-2.0, pushed 2026-08-22, homepage helmor.ai; latest release v0.46.0 (2026-07-24).",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "release",
+      "kind": "documented",
+      "url": "https://github.com/dohooo/helmor/releases/tag/v0.46.0",
+      "title": "Release v0.46.0 assets",
+      "locator": "release asset list",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Assets: Helmor_0.46.0_aarch64.dmg, Helmor_0.46.0_x64.dmg, Helmor_0.46.0_x64-setup.exe plus updater tarballs; no Linux or mobile artifacts.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "srch-clients",
+      "kind": "source-inspected",
+      "url": "https://github.com/dohooo/helmor/blob/a76cda1888265fb3e3208562d4b62616a4f0266a/src",
+      "title": "Bounded search: other clients",
+      "locator": "grep over src/, src-tauri/src, sidecar/src, apps for linux appimage, deb, rpm, ios app, android app, vsix, vscode extension, jetbrains",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "No Linux build, native mobile app or editor extension; companion is a browser client.",
+      "visibility": "public",
+      "commit": "a76cda1888265fb3e3208562d4b62616a4f0266a",
+      "path": "src"
+    },
+    {
+      "id": "srch-agents",
+      "kind": "source-inspected",
+      "url": "https://github.com/dohooo/helmor/blob/a76cda1888265fb3e3208562d4b62616a4f0266a/src",
+      "title": "Bounded search: other harnesses",
+      "locator": "grep for gemini, aider, antigravity, grok, goose, amp, copilot cli across sidecar/src and src-tauri/src/agents",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Agent adapters exist only for Claude, Codex, Cursor, Kimi and OpenCode; no generic adapter for arbitrary CLIs.",
+      "visibility": "public",
+      "commit": "a76cda1888265fb3e3208562d4b62616a4f0266a",
+      "path": "src"
+    },
+    {
+      "id": "srch-tele",
+      "kind": "source-inspected",
+      "url": "https://github.com/dohooo/helmor/blob/a76cda1888265fb3e3208562d4b62616a4f0266a/src",
+      "title": "Bounded search: telemetry",
+      "locator": "grep for sentry, posthog, analytics, telemetry, amplitude, umami across src, src-tauri/src, sidecar/src, Cargo.toml, package.json",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "No analytics or crash-reporting client found; only update checks and an explicit feedback feature.",
+      "visibility": "public",
+      "commit": "a76cda1888265fb3e3208562d4b62616a4f0266a",
+      "path": "src"
+    },
+    {
+      "id": "srch-team",
+      "kind": "source-inspected",
+      "url": "https://github.com/dohooo/helmor/blob/a76cda1888265fb3e3208562d4b62616a4f0266a/src",
+      "title": "Bounded search: collaboration and enterprise",
+      "locator": "grep for rbac, organization, team member, sso, saml, presence, co-prompt, share across src, src-tauri/src",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "No multi-user accounts, roles, SSO or shared prompting; companion pairs personal devices.",
+      "visibility": "public",
+      "commit": "a76cda1888265fb3e3208562d4b62616a4f0266a",
+      "path": "src"
+    },
+    {
+      "id": "srch-sched",
+      "kind": "source-inspected",
+      "url": "https://github.com/dohooo/helmor/blob/a76cda1888265fb3e3208562d4b62616a4f0266a/src",
+      "title": "Bounded search: unattended triggers",
+      "locator": "grep for cron, schedule, webhook, trigger across src-tauri/src and sidecar/src",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "No scheduled or event-triggered agent runs; matches are UI/test internals.",
+      "visibility": "public",
+      "commit": "a76cda1888265fb3e3208562d4b62616a4f0266a",
+      "path": "src"
+    },
+    {
+      "id": "srch-cost",
+      "kind": "source-inspected",
+      "url": "https://github.com/dohooo/helmor/blob/a76cda1888265fb3e3208562d4b62616a4f0266a/src",
+      "title": "Bounded search: cost tracking",
+      "locator": "grep for cost, usd, spend, budget across src and src-tauri/src",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Only context-window usage and provider rate-limit displays; no dollar cost, spend or budgets.",
+      "visibility": "public",
+      "commit": "a76cda1888265fb3e3208562d4b62616a4f0266a",
+      "path": "src"
+    },
+    {
+      "id": "srch-issues",
+      "kind": "source-inspected",
+      "url": "https://github.com/dohooo/helmor/blob/a76cda1888265fb3e3208562d4b62616a4f0266a/src",
+      "title": "Bounded search: native issue entity",
+      "locator": "grep for issue tracker, backlog entity, ticket across src-tauri/src/models and src/features",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "No native issue entity; status lanes label workspaces and the forge inbox reads GitHub/GitLab items.",
+      "visibility": "public",
+      "commit": "a76cda1888265fb3e3208562d4b62616a4f0266a",
+      "path": "src"
+    },
+    {
+      "id": "srch-container",
+      "kind": "source-inspected",
+      "url": "https://github.com/dohooo/helmor/blob/a76cda1888265fb3e3208562d4b62616a4f0266a/src",
+      "title": "Bounded search: container or VM isolation",
+      "locator": "grep for docker, container, sandbox, vm across src-tauri/src and sidecar/src",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "No container or VM isolation; sandbox mentions are agent-SDK and Slack-scrape internals.",
+      "visibility": "public",
+      "commit": "a76cda1888265fb3e3208562d4b62616a4f0266a",
+      "path": "src"
+    },
+    {
+      "id": "srch-vendor",
+      "kind": "source-inspected",
+      "url": "https://github.com/dohooo/helmor/blob/a76cda1888265fb3e3208562d4b62616a4f0266a/src",
+      "title": "Bounded search: hosted service and pricing",
+      "locator": "grep for pricing, subscription, billing, sign up, cloud across README, docs/user, src-tauri/src",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "No Helmor hosted service, account, pricing or billing; companion tunnel service uses Cloudflare.",
+      "visibility": "public",
+      "commit": "a76cda1888265fb3e3208562d4b62616a4f0266a",
+      "path": "src"
+    }
+  ],
+  "changes": [
+    {
+      "date": "2026-11-16",
+      "author": "researcher-batch04",
+      "type": "initial-research",
+      "summary": "Initial full-profile source pass over release v0.46.0: README, in-repo user docs, CLI/MCP docs, Rust host, sidecar and bounded code searches covering all 51 criteria.",
+      "claimIds": [
+        "helmor:ACC-01",
+        "helmor:ACC-02",
+        "helmor:ACC-03",
+        "helmor:ACC-04",
+        "helmor:ACC-05",
+        "helmor:ACC-06",
+        "helmor:ACC-07",
+        "helmor:PLAN-01",
+        "helmor:PLAN-02",
+        "helmor:PLAN-03",
+        "helmor:PLAN-04",
+        "helmor:PLAN-05",
+        "helmor:PLAN-06",
+        "helmor:PLAN-07",
+        "helmor:PLAN-08",
+        "helmor:COORD-01",
+        "helmor:COORD-02",
+        "helmor:COORD-03",
+        "helmor:COORD-04",
+        "helmor:COORD-05",
+        "helmor:COORD-06",
+        "helmor:COORD-07",
+        "helmor:RUN-01",
+        "helmor:RUN-02",
+        "helmor:RUN-03",
+        "helmor:RUN-04",
+        "helmor:RUN-05",
+        "helmor:RUN-06",
+        "helmor:RUN-07",
+        "helmor:RUN-08",
+        "helmor:TEAM-01",
+        "helmor:TEAM-02",
+        "helmor:TEAM-03",
+        "helmor:TEAM-04",
+        "helmor:TEAM-05",
+        "helmor:TEAM-06",
+        "helmor:SHIP-01",
+        "helmor:SHIP-02",
+        "helmor:SHIP-03",
+        "helmor:SHIP-04",
+        "helmor:SHIP-05",
+        "helmor:SHIP-06",
+        "helmor:OWN-01",
+        "helmor:OWN-02",
+        "helmor:OWN-03",
+        "helmor:OWN-04",
+        "helmor:OWN-05",
+        "helmor:OWN-06",
+        "helmor:OWN-07",
+        "helmor:OWN-08",
+        "helmor:OWN-09"
+      ],
+      "evidenceIds": [
+        "readme",
+        "agents-doc",
+        "privacy",
+        "faq",
+        "install",
+        "workspaces",
+        "parallel",
+        "sessions",
+        "review",
+        "stacked",
+        "cli-mcp",
+        "configure",
+        "settings",
+        "agents-md",
+        "tauri",
+        "args",
+        "sysprompt",
+        "companion",
+        "forge-inbox",
+        "slack",
+        "rate",
+        "sidecar",
+        "changelog",
+        "license",
+        "repoapi",
+        "release",
+        "srch-clients",
+        "srch-agents",
+        "srch-tele",
+        "srch-team",
+        "srch-sched",
+        "srch-cost",
+        "srch-issues",
+        "srch-container",
+        "srch-vendor"
+      ]
+    }
+  ],
+  "context": {
+    "roadmapReview": {
+      "checkedAt": "2026-11-16",
+      "locations": [
+        {
+          "url": "https://github.com/dohooo/helmor/releases",
+          "result": "v0.46.0 (2026-07-24) is the latest release; release notes list shipped changes only."
+        },
+        {
+          "url": "https://github.com/dohooo/helmor/blob/v0.46.0/CHANGELOG.md",
+          "result": "Changelog covers shipped changes per release; no dated future commitments."
+        },
+        {
+          "url": "https://github.com/dohooo/helmor/blob/v0.46.0/README.md",
+          "result": "Says plan mode, Slack and GitHub context and agent-driven orchestration are on the way, without dates; plan mode and GitHub/Slack context already exist in code, so the line is treated as non-binding."
+        },
+        {
+          "url": "https://github.com/dohooo/helmor/issues",
+          "result": "Public issues and discussions; no dated product announcements found."
+        }
+      ],
+      "announced": [],
+      "gaps": [
+        "docs.helmor.ai could not be reconciled with the in-repo docs/user pages; the in-repo pages at the pinned commit were used."
+      ]
+    },
+    "marketContext": {
+      "githubStars": {
+        "value": 1306,
+        "observedAt": "2026-11-16",
+        "evidenceIds": [
+          "repoapi"
+        ]
+      }
+    }
+  }
+}
