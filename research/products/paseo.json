@@ -4709,14 +4709,19 @@
           ]
         },
         "telemetry_controls": {
-          "support": "unknown",
-          "answer": "Telemetry controls: Searched Paseo public docs, changelog and repository at the pinned commit (v0.11.1) and the homepage/Hub pricing page; no statement answers this question. Unknown, not negative evidence.",
-          "evidenceIds": []
+          "support": "unsupported",
+          "answer": "No app telemetry exists so there is no disable control; the only analytics script is Plausible on the marketing website package.",
+          "evidenceIds": [
+            "d80-why",
+            "d80-negtree"
+          ]
         },
         "consent_prompt": {
-          "support": "unknown",
-          "answer": "Consent prompt: Searched Paseo public docs, changelog and repository at the pinned commit (v0.11.1) and the homepage/Hub pricing page; no statement answers this question. Unknown, not negative evidence.",
-          "evidenceIds": []
+          "support": "unsupported",
+          "answer": "No telemetry consent prompt exists because the app collects no telemetry.",
+          "evidenceIds": [
+            "d80-negtree"
+          ]
         },
         "provider_separation": {
           "support": "supported",
@@ -4729,7 +4734,7 @@
       "limitations": [
         "The no-telemetry statement is vendor documentation; network behavior was not independently tested. Providers' own data handling is separate."
       ],
-      "unknownReason": "Some atomic questions remain unestablished: Searched Paseo public docs, changelog and repository at the pinned commit (v0.11.1) and the homepage/Hub pricing page; no statement answers this question. Unknown, not negative evidence.",
+      "unknownReason": "Checked paseo v0.16.0 source and docs; the remaining atoms were not reached in this pass or depend on business terms.",
       "evidenceIds": [
         "doc-security",
         "website",
@@ -4739,17 +4744,15 @@
         "why-main",
         "paseo-custom-providers-tag",
         "paseo-voice-tag",
-        "why-tag-nov07"
+        "why-tag-nov07",
+        "d80-why",
+        "d80-negtree"
       ],
       "checkedAt": "2026-10-09",
       "nextReviewAt": "2026-11-08",
-      "researcher": "researcher-03",
-      "publication": "public-reviewed",
-      "review": {
-        "reviewer": "reviewer-05",
-        "date": "2026-11-10",
-        "contentHash": "b74dabc098b5bdc90e367360ebdfd8faed9bf0dc47a12062795bbc01fd017730"
-      },
+      "researcher": "researcher-ade80",
+      "publication": "public-candidate",
+      "review": null,
       "contradictions": []
     },
     {
@@ -6112,7 +6115,7 @@
       "kind": "documented",
       "url": "https://github.com/getpaseo/paseo/blob/ab10a6694ccf068959d1a6b67b6c915e21a9fe91/public-docs/claude-code.md",
       "title": "Paseo v0.11.1 Claude Code terminal access",
-      "locator": "Use Claude Code in the Paseo terminal, lines 25\u201329",
+      "locator": "Use Claude Code in the Paseo terminal, lines 25–29",
       "sourceDate": null,
       "retrievedAt": "2026-10-09",
       "finding": "The release-tag documentation describes terminal use from desktop, web or mobile while retaining workspace and Git-change access. This is a documented route, not a tested parity claim.",
@@ -7003,6 +7006,32 @@
       "visibility": "public",
       "commit": "61e51c56f8756e40c55a30982160ce000f2aa177",
       "path": "README.md"
+    },
+    {
+      "id": "d80-why",
+      "kind": "documented",
+      "url": "https://github.com/getpaseo/paseo/blob/c54bc39e7997c03a07402c09df2e825889432557/public-docs/why.md#L43-L44",
+      "title": "paseo public-docs/why.md",
+      "locator": "public-docs/why.md l43-l44; Why Paseo; v0.16.0 (c54bc39)",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Paseo is Apache-2.0 with no telemetry, tracking or required Paseo account.",
+      "visibility": "public",
+      "commit": "c54bc39e7997c03a07402c09df2e825889432557",
+      "path": "public-docs/why.md"
+    },
+    {
+      "id": "d80-negtree",
+      "kind": "source-inspected",
+      "url": "https://github.com/getpaseo/paseo/tree/c54bc39e7997c03a07402c09df2e825889432557/packages",
+      "title": "paseo packages",
+      "locator": "packages; case-insensitive searches for posthog, sentry, amplitude, mixpanel, segment, plausible, crashlytics and telemetry over packages (ts, tsx, json, kt, swift); v0.16.0 (c54bc39)",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "No analytics or crash-reporting code exists in the app, server or CLI packages; the only analytics script is Plausible on the marketing website package.",
+      "visibility": "public",
+      "commit": "c54bc39e7997c03a07402c09df2e825889432557",
+      "path": "packages"
     }
   ],
   "changes": [
@@ -12418,6 +12447,39 @@
           }
         }
       }
+    },
+    {
+      "date": "2026-11-16",
+      "author": "researcher-ade80",
+      "type": "research-correction",
+      "summary": "Partial open-source depth pass on paseo v0.16.0: resolve paid-from from the live Hub pricing page and telemetry-opt-out from the docs and a bounded source search.",
+      "claimIds": [
+        "paseo:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Stable v0.15.3 states no telemetry, tracking or required Paseo account for the local app. Code and daemon state remain on the host, relay traffic is end-to-end encrypted, and provider authentication/data handling are separate. Hosted Hub retention and a telemetry disable control remain unestablished.",
+        "checkedAt": "2026-10-09",
+        "nextReviewAt": "2026-11-08",
+        "subanswers": {
+          "telemetry_controls": "unknown",
+          "consent_prompt": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Stable v0.15.3 states no telemetry, tracking or required Paseo account for the local app. Code and daemon state remain on the host, relay traffic is end-to-end encrypted, and provider authentication/data handling are separate. Hosted Hub retention and a telemetry disable control remain unestablished.",
+        "checkedAt": "2026-10-09",
+        "nextReviewAt": "2026-11-08",
+        "subanswers": {
+          "telemetry_controls": "unsupported",
+          "consent_prompt": "unsupported"
+        }
+      },
+      "evidenceIds": [
+        "d80-why",
+        "d80-negtree"
+      ]
     }
   ],
   "context": {
