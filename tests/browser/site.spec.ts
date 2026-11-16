@@ -226,7 +226,9 @@ test('no JavaScript leaves the finder, product receipts and pair pages readable'
   await page.locator('#plain-listings summary').click()
   await expect(page.locator('li[data-index-row]').filter({ has: page.locator('a[href="/ade/openspec/"]') })).toBeVisible()
   await expect(page.locator('#plain-listings')).toContainText(/Browse all \d+ ADEs/)
-  await expect(page.locator('[data-group=fits] a[data-product-name][href="/ade/conductor/"]')).toBeVisible()
+  // Without JavaScript the first cards of each group are in the page and the rest are in the plain list of every ADE.
+  await expect(page.locator('[data-group=fits] a[data-product-name]')).not.toHaveCount(0)
+  await expect(page.locator('#plain-listings a[href="/ade/conductor/"]')).toBeVisible()
   await expect(page.locator('[data-group=shutting-down] a[data-product-name][href="/ade/conductor/"]')).toHaveCount(0)
   await page.goto(origin + '/ade/podium/')
   await page.locator('a[href="#receipt-parallel-runs"]').click()
@@ -375,5 +377,7 @@ test('the ADEMark badge carries the Benchmarked by ADEMark pick instead of the f
   await expect(page.locator('[data-product-id=orca] [data-fit]')).toBeHidden()
   await expect(page.locator('[data-product-id=lody] [data-bench-unknown]')).toHaveCount(0)
   await page.goto('/')
+  // Most cards are built when the Finder starts, which its first interaction does.
+  await page.locator('[data-more=fits]').click()
   await expect(page.locator('[data-product-id=orca] a.e-bench')).not.toHaveAttribute('data-pick', /.+/)
 })

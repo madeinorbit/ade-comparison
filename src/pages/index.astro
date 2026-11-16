@@ -3,23 +3,22 @@ import Layout from '../layouts/Layout.astro'
 import Prompt from '../components/Prompt.astro'
 import Entry from '../components/Entry.astro'
 import HeroBoard from '../components/HeroBoard.astro'
-import { clientPayload, finderIndex, finderRequirements, index, jsonScript, products, requirements, stats, sunsetIds } from '../lib/data'
-import { createFilter, emptyState, presets, shuffleSeed } from '../lib/filter'
+import { finderIndex, finderRequirements, index, products, stats, sunsetIds } from '../lib/data'
+import { createFilter, emptyState, presets } from '../lib/filter'
+import { finderPath, finderSeed as seed, finderShown as shown } from '../lib/finder-payload'
 import { groupLabel, groupLabels } from '../lib/view'
-import { wordGroups, wordTips, shortLabel } from '../lib/sheet'
+import { wordGroups, wordTips } from '../lib/sheet'
 import { submissionLinks } from '../lib/submissions'
-import { siteConfig } from '../../config.mjs'
-import '../styles/sheet.css'
+import '../styles/fit.css'
+// The ADE dialog's styles load when someone first points at an ADE, not with the page (src/scripts/sheet-dialog.ts).
+import sheetCss from '../styles/sheet.css?url'
 const state = emptyState()
-const seed = shuffleSeed()
 const filter = createFilter(finderIndex, finderRequirements, sunsetIds, {}, seed)
 const results = filter.run(state)
 const groups = Object.keys(groupLabels) as (keyof typeof groupLabels)[]
 const notes = { fits: 'Pick what you need above. Until then, every ADE fits.', 'kind-of': 'Has most of your must-haves.', 'shutting-down': 'Would fit, but has a published shutdown notice.' }
-const shown = 10
 const starred = products.filter(p => p.researchStatus === 'covered' && p.githubStars).length
 const suggest = submissionLinks({ pagePath: '/' })?.suggestMissingAde || '/method/#corrections'
-const shortLabels = Object.fromEntries(finderRequirements.map(r => [r.key, shortLabel(r.key)]))
 // A few names from the research queue, picked fresh with each nightly build so no ADE always gets the spotlight.
 const waiting = index.products.filter(p => p.researchStatus === 'not-researched')
 const rank = (id: string) => { let h = 2166136261; for (const c of `${seed}:${id}`) h = Math.imul(h ^ c.charCodeAt(0), 16777619); return h >>> 0 }
@@ -34,7 +33,7 @@ const teased = [...waiting].sort((a, b) => rank(a.id) - rank(b.id)).slice(0, 14)
     <HeroBoard />
   </section>
   <noscript><p class="in noscript-note">Every ADE is listed below. Sorting by your needs and comparing need JavaScript; every ADE page, receipt and pair comparison works without it.</p></noscript>
-  <div data-url-state>
+  <div data-url-state data-finder-src={finderPath} data-sheet-css={sheetCss}>
     <section class="need in" aria-labelledby="need-title" id="finder-controls">
       <div class="need-main">
         <div class="need-head">
@@ -80,7 +79,7 @@ const teased = [...waiting].sort((a, b) => rank(a.id) - rank(b.id)).slice(0, 14)
         return <section class={`f f-${group}`} aria-labelledby={`group-${group}`}>
           <h2 id={`group-${group}`}><b class="num" data-count={group}>{rows.length}</b> <span data-group-label={group}>{groupLabel(group)}</span></h2>
           <p class="f-note" data-note={group}>{notes[group]}</p>
-          <ul class="f-list" data-group={group} id={`list-${group}`}>{rows.map((r, i) => <Entry identity={r.product} row={r.index} eager={group === 'fits' && i < 4} />)}</ul>
+          <ul class="f-list" data-group={group} id={`list-${group}`}>{rows.slice(0, shown).map((r, i) => <Entry identity={r.product} eager={group === 'fits' && i < 4} />)}</ul>
           <p class="f-empty" data-empty={group} hidden={rows.length > 0}>{group === 'fits' ? 'No ADE has every must-have. Fits kind of has the closest.' : 'None for these picks.'}</p>
           <button type="button" class="more needs-js" data-more={group} aria-controls={`list-${group}`} aria-expanded="false" hidden={rows.length <= shown}>Show {Math.max(0, rows.length - shown)} more</button>
         </section>
@@ -106,7 +105,7 @@ const teased = [...waiting].sort((a, b) => rank(a.id) - rank(b.id)).slice(0, 14)
           <summary><span class="queue-sum">Browse all {index.products.length} ADEs by name</span><span class="queue-key" aria-hidden="true"><i></i> researched</span></summary>
           <ul class="listing-list queue-all">{index.products.map((product, row) => product.researchStatus === 'not-researched'
             ? <li data-index-row={row}><a data-product-name href={`/ade/${product.id}/`}>{product.name}</a></li>
-            : <li class="is-covered"><a href={`/ade/${product.id}/`}>{product.name}<span class="vh"> (researched)</span></a></li>)}</ul>
+            : <li data-index-row={row} class="is-covered"><a href={`/ade/${product.id}/`}>{product.name}<span class="vh"> (researched)</span></a></li>)}</ul>
         </details>
       </section>
     </div>
@@ -118,7 +117,6 @@ const teased = [...waiting].sort((a, b) => rank(a.id) - rank(b.id)).slice(0, 14)
       </div>
     </div>
   </div>
-  <script id="finder-data" type="application/json" set:html={jsonScript({ ...clientPayload, baseUrl: siteConfig.baseUrl, shortLabels, shown, seed })} />
   <script src="../scripts/finder.ts"></script>
   <script src="../scripts/sheet-dialog.ts"></script>
 </Layout>

@@ -1,7 +1,9 @@
 import { createFilter, emptyState, matchesProductQuery, parseProducts, parseState, presets, promptFor, serializeState } from '../lib/filter'
 import { groupLabel, groupLabels } from '../lib/view'
-import type { FilterRequirement, FinderState } from '../lib/filter'
+import type { FinderState } from '../lib/filter'
 import type { Index } from '../lib/types'
+import { loadFinderData } from '../lib/finder-data-client'
+import type { FinderData } from '../lib/finder-data-client'
 import { track, debounced } from '../lib/track'
 
 type Group = keyof typeof groupLabels
@@ -9,21 +11,36 @@ const MAX_COMPARE = 4
 const BENCH = 'ademark'
 const list = (a: string[]) => a.length < 2 ? a.join('') : `${a.slice(0, -1).join(', ')} and ${a.at(-1)}`
 
-function initializeFinder() {
-  const { index, requirements, sunsetIds, baseUrl, shortLabels, shown, seed } = JSON.parse(document.querySelector('#finder-data')!.textContent!) as {
-    index: Index; requirements: FilterRequirement[]; sunsetIds: string[]; baseUrl: string; shortLabels: Record<string, string>; shown: number; seed: string
-  }
-  // The identities are already in the server-rendered listings. Preserve bitset row order.
-  index.products = [...document.querySelectorAll<HTMLElement>('[data-index-row]')]
-    .sort((a, b) => Number(a.dataset.indexRow) - Number(b.dataset.indexRow))
-    .map(el => {
-      const link = el.querySelector<HTMLAnchorElement>('[data-product-name]')!
-      el.dataset.productId = link.getAttribute('href')!.split('/')[2]
-      return { id: el.dataset.productId!, name: link.textContent!.trim(), website: null,
-        ...(el.dataset.formerNames ? { formerNames: JSON.parse(el.dataset.formerNames) as string[] } : {}),
-        researchStatus: el.hasAttribute('data-researched') ? 'covered' as const : 'not-researched' as const }
-    })
-  const stars = Object.fromEntries([...document.querySelectorAll<HTMLElement>('.e[data-stars]')].map(el => [el.dataset.productId!, Number(el.dataset.stars)]))
+// The rows beyond the first few of each group are not in the page. They are built here from the fetched data,
+// in the same markup the server renders (src/components/Entry.astro).
+function node<K extends keyof HTMLElementTagNameMap>(tag: K, attrs: Record<string, string> = {}, ...kids: (Node | string)[]) {
+  const el = document.createElement(tag)
+  for (const [k, v] of Object.entries(attrs)) el.setAttribute(k, v)
+  el.append(...kids)
+  return el
+}
+const vh = (text: string) => node('span', { class: 'vh' }, text)
+function buildCard(p: FinderData['products'][number]) {
+  const c = p.card!, href = `/ade/${p.id}/`
+  const shot = node('a', { class: 'e-shot', href, tabindex: '-1', 'aria-hidden': 'true', 'data-open': '' },
+    c.shot ? node('img', { src: `/media/${c.shot[0]}`, width: String(c.shot[1]), height: String(c.shot[2]), loading: 'lazy', decoding: 'async', alt: '' }) : node('span', { class: 'e-noshot' }, p.name))
+  const text: Node[] = [node('h3', {}, node('a', { 'data-product-name': '', 'data-open': '', href }, p.name))]
+  if (c.when) text.push(node('p', { class: 'e-when' }, c.when), node('p', { class: 'e-sum' }, `${c.sum} `, node('a', { href: `${href}#lifecycle` }, 'Shutdown notice', vh(` for ${p.name}`))))
+  else text.push(node('p', { class: 'e-sum' }, c.sum))
+  if (c.stars || c.bench) text.push(node('p', { class: 'e-stars' },
+    ...(c.stars ? [`${c.stars[0].toLocaleString('en-GB')} GitHub stars `, node('span', {}, `on ${c.stars[1]}`)] : []),
+    ...(c.bench ? [node('a', { class: 'e-bench', href: `${href}#ademark` }, 'Benchmarked by ADEMark')] : [])))
+  text.push(node('ul', { class: 'fit', 'data-fit': '', 'aria-label': `What ${p.name} has from your list`, hidden: '' }),
+    node('button', { type: 'button', class: 'add needs-js', 'data-compare': p.id, 'aria-pressed': 'false' }, node('span', { class: 'add-box', 'aria-hidden': 'true' }), 'Compare', vh(` ${p.name}`)))
+  return node('li', { class: 'e', 'data-product-id': p.id, ...(c.stars ? { 'data-stars': String(c.stars[0]) } : {}) }, shot, node('div', { class: 'e-txt' }, ...text))
+}
+
+function initializeFinder(data: FinderData) {
+  const { requirements, sunsetIds, baseUrl, shortLabels, shown, seed } = data
+  // Row order is the bitset row order. The first rows of each group are already in the page; the rest are built now.
+  const index: Index = { ...data.index, products: data.products.map(p => ({ id: p.id, name: p.name, website: null,
+    ...(p.former ? { formerNames: p.former } : {}), researchStatus: p.card ? 'covered' as const : 'not-researched' as const })) }
+  const stars = Object.fromEntries(data.products.flatMap(p => p.card?.stars ? [[p.id, p.card.stars[0]]] : []))
   const filter = createFilter(index, requirements, sunsetIds, stars, seed)
   const label = (key: string) => shortLabels[key] || key
   const comparable = index.products.filter(p => p.researchStatus === 'covered')
@@ -33,7 +50,8 @@ function initializeFinder() {
   const all: Record<string, boolean> = {}
 
   const $ = <T extends Element = HTMLElement>(s: string) => document.querySelector<T>(s)!
-  const cards = new Map([...document.querySelectorAll<HTMLElement>('.e[data-product-id]')].map(el => [el.dataset.productId!, el]))
+  const present = new Map([...document.querySelectorAll<HTMLElement>('.e[data-product-id]')].map(el => [el.dataset.productId!, el]))
+  const cards = new Map(data.products.filter(p => p.card).map(p => [p.id, present.get(p.id) || buildCard(p)]))
   const lists = Object.fromEntries((Object.keys(groupLabels) as Group[]).map(k => [k, $(`[data-group=${k}]`)])) as Record<Group, HTMLElement>
   const pool = $('#entry-pool')
   const words = [...document.querySelectorAll<HTMLButtonElement>('[data-word]')]
@@ -292,21 +310,34 @@ function initializeFinder() {
     // including Back out of an ADE dialog where they were picked.
     render(); save()
   })
-  // The default first paint is already correct. Avoid reordering it on hydration.
-  if (location.search) render(false)
-  else updateCompare()
+  // Most of the rows are built just now, so place every card even when the first paint was already right.
+  render(false)
   delete document.documentElement.dataset.statePending
 }
 
-// The default results need no computation. Initialize on the first interaction,
-// before that event reaches its control; shared URLs initialize immediately.
-if (location.search) initializeFinder()
+// The data loads after the page does, so the first paint never waits for it. A shared URL needs it at once.
+// An interaction that arrives before the data is held, then replayed once the Finder is ready.
+const region = document.querySelector<HTMLElement>('[data-url-state]')!
+const events = ['focusin', 'pointerdown', 'keydown', 'click', 'input', 'change']
+let started = false
+function start(first?: Event) {
+  if (started) return
+  started = true
+  events.forEach(type => region.removeEventListener(type, onFirst, true))
+  const target = first?.target as HTMLElement | undefined
+  // A click is stopped and replayed. Typing and radio changes already took effect natively; they are re-sent.
+  if (first?.type === 'click') { first.preventDefault(); first.stopImmediatePropagation() }
+  loadFinderData().then(data => {
+    initializeFinder(data)
+    if (!first || !target?.isConnected) return
+    if (first.type === 'click') target.click()
+    else if (first.type === 'input' || first.type === 'change') target.dispatchEvent(new Event(first.type, { bubbles: true }))
+  }, () => { delete document.documentElement.dataset.statePending; started = false; events.forEach(type => region.addEventListener(type, onFirst, { capture: true })) })
+}
+function onFirst(e: Event) { start(e) }
+if (location.search) start()
 else {
-  const region = document.querySelector('[data-url-state]')!
-  const events = ['focusin', 'pointerdown', 'keydown', 'click', 'input', 'change']
-  const initialize = () => {
-    events.forEach(type => region.removeEventListener(type, initialize, true))
-    initializeFinder()
-  }
-  events.forEach(type => region.addEventListener(type, initialize, { capture: true }))
+  events.forEach(type => region.addEventListener(type, onFirst, { capture: true }))
+  // Fetch in idle time after load, so the controls are usually ready before the first press.
+  addEventListener('load', () => (window.requestIdleCallback || setTimeout)(() => loadFinderData().catch(() => {})), { once: true })
 }

@@ -1,4 +1,5 @@
 import { enhanceSheet } from '../lib/sheet-client'
+import { loadFinderData } from '../lib/finder-data-client'
 // An ADE opens over the Finder in a dialog with its own URL. Back closes it, reload and shared links get the
 // full page, and without JavaScript the same links simply navigate there.
 const cache = new Map<string, Promise<string>>()
@@ -9,7 +10,17 @@ const fragment = (id: string) => {
   return p
 }
 const idOf = (href: string) => new URL(href, location.href).pathname.match(/^\/ade\/([^/]+)\/$/)?.[1]
-const labels = () => (JSON.parse(document.querySelector('#finder-data')?.textContent || '{}').shortLabels || {}) as Record<string, string>
+const labels = () => loadFinderData().then(d => d.shortLabels, () => ({} as Record<string, string>))
+
+// The dialog's stylesheet is fetched on first intent, so the Finder's first paint does not carry it.
+let styles: Promise<void> | undefined
+const loadStyles = () => styles ||= new Promise<void>(resolve => {
+  const href = document.querySelector<HTMLElement>('[data-sheet-css]')?.dataset.sheetCss
+  if (!href) return resolve()
+  const link = Object.assign(document.createElement('link'), { rel: 'stylesheet', href })
+  link.onload = link.onerror = () => resolve()
+  document.head.append(link)
+})
 
 const dialog = document.createElement('dialog')
 dialog.className = 'ade-dialog'
@@ -23,14 +34,15 @@ let pushed = false
 
 async function open(id: string, url: string, push: boolean) {
   let html: string
-  try { html = await fragment(id) } catch { location.assign(url); return }
+  let names: Record<string, string>
+  try { [html, names] = await Promise.all([fragment(id), labels(), loadStyles()]) } catch { location.assign(url); return }
   body.innerHTML = html
   const sheet = body.querySelector<HTMLElement>('[data-sheet]')
   if (!sheet) { location.assign(url); return }
   full.href = `/ade/${id}/`
   const heading = sheet.querySelector<HTMLElement>('h1')!
   dialog.setAttribute('aria-labelledby', heading.id)
-  enhanceSheet(body, new URL(url, location.href).search, labels())
+  enhanceSheet(body, new URL(url, location.href).search, names)
   if (push) { history.pushState({ sheet: id }, '', url); pushed = true }
   document.title = `${sheet.dataset.name} | ${pageTitle.split(' | ').at(-1)}`
   document.dispatchEvent(new CustomEvent('sheet:open'))
@@ -71,7 +83,7 @@ document.addEventListener('click', e => {
 const warm = (e: Event) => {
   const link = (e.target as HTMLElement).closest?.<HTMLAnchorElement>('a[data-open]')
   const id = link && idOf(link.href)
-  if (id) fragment(id).catch(() => {})
+  if (id) { fragment(id).catch(() => {}); loadStyles() }
 }
 document.addEventListener('pointerover', warm, { passive: true })
 document.addEventListener('focusin', warm)

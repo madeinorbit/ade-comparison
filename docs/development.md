@@ -63,7 +63,9 @@ Receipt actions include known filters, lifecycle notices and status-event source
 
 ## Pages and state
 
-- `/` has requirements, nine presets and instant packed-bitset filtering. All results are rendered into HTML at build time.
+- `/` has requirements, nine presets and instant packed-bitset filtering. The first ten ADEs of each result group are rendered into the HTML at build time, and every ADE is linked from the name list. The Finder's data (bitsets, labels, and a card for every researched ADE) is not in the page: `/finder/<hash>.json` (`src/lib/finder-payload.ts`) is fetched after load, cached for a year under its content hash, and the browser builds the remaining cards from it. That keeps the home payload independent of how many ADEs are researched. The ADE dialog's stylesheet loads the first time someone points at an ADE.
+
+  The home page, its inline CSS and every script it loads must stay under 50,000 bytes gzip and Brotli (`tests/build.test.ts`). A second test fails earlier, at 6,000 bytes of headroom. Only the plain name list grows with the catalog, by about 14 bytes an ADE. Put any new per-product data in `finder-payload.ts`, not in the page.
 - `/matrix/` has sticky row and column headers and differences-only filtering for researched products. Unresearched names remain separate plain listings.
 - `/compare/` compares 2 to 4 products, including screenshots and source links. `/compare/<id>-vs-<id>/` pages are generated only when both sides have at least 20 public findings and at least 6 filters typed on both sides. Each holds only its two products; another selection loads `/compare/`.
 - `/ade/<id>/` exists for every identity. Covered products have filter and narrative receipts. Other names have no capability claims. A published shutdown notice comes directly under the heading. Plain listings without a notice are `noindex` and stay out of the sitemap.
@@ -75,7 +77,7 @@ Finder query parameters are `use`, `must`, `nice`, `q` and `products`. Requireme
 
 The phone preset accepts any phone client through the `any-phone-client` requirement. The Parallel local agents preset requires parallel runs and treats other workflow needs as preferences. No preset hides a product. Published shutdown products automatically use the third result group. There is no inclusion toggle. The directory search and ADE pages retain them and their dated notices. A first-party sourced notice is enough to publish before an independent cross-check; the badge is optional additional verification.
 
-Compare uses `products=id,id` and `diff=1`; Matrix accepts any researched product selection. Invalid and duplicate product IDs are ignored. Back and forward restore state. Static hosting cannot render arbitrary query states on the server: without JavaScript, all default Finder listings, ADE receipts, the Matrix and generated pair pages remain readable. The no-JavaScript notice explains that instant controls need JavaScript.
+Compare uses `products=id,id` and `diff=1`; Matrix accepts any researched product selection. Invalid and duplicate product IDs are ignored. Back and forward restore state. Static hosting cannot render arbitrary query states on the server: without JavaScript, the first ADEs of each Finder group, the full name list, ADE receipts, the Matrix and generated pair pages remain readable. The no-JavaScript notice explains that instant controls need JavaScript.
 
 ## Design replacement
 

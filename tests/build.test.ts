@@ -11,7 +11,7 @@ const dist = new URL('../dist/', import.meta.url)
 const text = (path: string) => readFileSync(new URL(path, dist), 'utf8')
 const home = text('index.html')
 const notices = JSON.parse(readFileSync(new URL('../data/lifecycle-notices.json', import.meta.url), 'utf8'))
-test('home HTML and every loaded CSS/JS chunk total under 50 KB compressed', () => {
+function homeBudget() {
   const files = new Set(['index.html'])
   function visit(path: string) {
     if (files.has(path)) return
@@ -25,10 +25,36 @@ test('home HTML and every loaded CSS/JS chunk total under 50 KB compressed', () 
   for (const m of home.matchAll(/(?:src|href)="(\/_astro\/[^"']+\.(?:js|css))"/g)) visit(m[1].slice(1))
   const gzip = [...files].reduce((n, f) => n + gzipSync(text(f)).length, 0)
   const brotli = [...files].reduce((n, f) => n + brotliCompressSync(text(f)).length, 0)
+  return { files, gzip, brotli }
+}
+test('home HTML and every loaded CSS/JS chunk total under 50 KB compressed', () => {
+  const { files, gzip, brotli } = homeBudget()
   assert.ok(files.size > 2, 'Must include emitted JS and CSS, not just HTML')
   assert.ok(gzip < 50_000, `Home budget ${gzip} gzip bytes`)
   assert.ok(brotli < 50_000, `Home budget ${brotli} Brotli bytes`)
   console.log(`Home: ${gzip} bytes gzip; ${brotli} bytes Brotli; ${files.size} files; images excluded.`)
+})
+// The 50 KB gate is a hard stop that blocks every push to main. This earlier tripwire fires while there is still room
+// to fix the cause. Per-product data belongs in the lazily fetched /finder/<hash>.json (src/lib/finder-payload.ts),
+// never in the home HTML or an entry chunk. Only the plain name list in the HTML grows with the catalog, by about 14 bytes an ADE.
+const HOME_HEADROOM_BYTES = 6_000
+test(`home payload keeps at least ${HOME_HEADROOM_BYTES} bytes of headroom under the 50 KB gate`, () => {
+  const { gzip, brotli } = homeBudget()
+  const worst = Math.max(gzip, brotli)
+  assert.ok(50_000 - worst >= HOME_HEADROOM_BYTES, `Home payload is ${worst} bytes compressed, only ${50_000 - worst} below the 50,000 byte gate (need ${HOME_HEADROOM_BYTES}). `
+    + 'Something that grows with the number of products, or a new script or style, has landed in the home page. Do not raise the limit: move per-product data into src/lib/finder-payload.ts, which the browser fetches after load, or shrink the new code.')
+})
+test('the Finder data is a lazily fetched, content-hashed file, not part of the home HTML', () => {
+  const path = home.match(/data-finder-src="(\/finder\/[0-9a-f]{12}\.json)"/)?.[1]
+  assert.ok(path, 'Home must point at the hashed Finder data file')
+  assert.doesNotMatch(home, /id="finder-data"/, 'Finder data must not be inlined')
+  const data = JSON.parse(text(path.slice(1)))
+  const index = JSON.parse(readFileSync(new URL('../data/index.json', import.meta.url), 'utf8'))
+  assert.deepEqual(data.products.map((p: { id: string }) => p.id), index.products.map((p: { id: string }) => p.id), 'Rows must keep bitset order')
+  assert.equal(data.products.filter((p: { card?: unknown }) => p.card).length, index.products.filter((p: { researchStatus: string }) => p.researchStatus === 'covered').length)
+  // The home ships only the first rows of each group; the browser builds the rest from the data file.
+  assert.ok((home.match(/<li class="e"/g) || []).length <= data.shown * 3, 'Home must not render every card')
+  assert.match(text('_headers'), /\/finder\/\*\n {2}Cache-Control: public, max-age=31536000, immutable/)
 })
 test('structured dataset, canonical URLs and sitemap use the configurable origin', () => {
   const tag = home.match(/<script type="application\/ld\+json">([\s\S]+?)<\/script>/)!
@@ -201,7 +227,7 @@ test('sharing cards are PNG, sized, and show text at the card positions', async 
   assert.equal((await sharp(new URL(`og/compare/${pair}.png`, dist).pathname).metadata()).width, 1200)
 })
 test('sourced values display normally and cross-checks are optional badges', () => {
-  const payload = JSON.parse(home.match(/<script id="finder-data"[^>]*>([\s\S]*?)<\/script>/)![1])
+  const payload = JSON.parse(text(home.match(/data-finder-src="\/(finder\/[0-9a-f]{12}\.json)"/)![1]))
   const index = JSON.parse(readFileSync(new URL('../data/index.json', import.meta.url), 'utf8'))
   const candidates = index.products.flatMap((p: { id: string }) => {
     const product = JSON.parse(readFileSync(new URL(`../data/products/${p.id}.json`, import.meta.url), 'utf8'))

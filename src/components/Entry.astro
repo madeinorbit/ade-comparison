@@ -3,8 +3,8 @@ import type { Identity } from '../lib/types'
 import { formatCount, productById, shortDate } from '../lib/data'
 import { benchApp } from '../lib/benchmarks'
 import { summary, shotFor, noticeFor, shutdownLine, firstSentence } from '../lib/sheet'
-interface Props { identity: Identity; row: number; eager?: boolean }
-const { identity, row, eager = false } = Astro.props
+interface Props { identity: Identity; eager?: boolean }
+const { identity, eager = false } = Astro.props
 const product = productById.get(identity.id)!
 const shot = shotFor(identity.id)
 const notice = noticeFor(identity.id)
@@ -12,7 +12,7 @@ const href = `/ade/${identity.id}/`
 const stars = product.githubStars
 const bench = benchApp(identity.id)
 ---
-<li class="e" data-index-row={row} data-researched="true" data-product-id={identity.id} data-former-names={identity.formerNames ? JSON.stringify(identity.formerNames) : undefined} data-stars={stars?.value}>
+<li class="e" data-product-id={identity.id} data-stars={stars?.value}>
   <a class="e-shot" href={href} tabindex="-1" aria-hidden="true" data-open>{shot
     ? <img src={`/media/${shot.path}`} width={shot.width} height={shot.height} loading={eager ? 'eager' : 'lazy'} decoding="async" alt="" />
     : <span class="e-noshot">{identity.name}</span>}</a>

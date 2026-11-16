@@ -58,6 +58,10 @@ export function headersFile(hashes) {
     '/_astro/*',
     '  Cache-Control: public, max-age=31536000, immutable',
     '',
+    // The Finder's data file is named by a hash of its content (src/lib/finder-payload.ts).
+    '/finder/*',
+    '  Cache-Control: public, max-age=31536000, immutable',
+    '',
     // ADE sheet fragments load inside the product dialog. robots.txt disallows them, but a
     // disallowed URL can still be indexed from links, so the header keeps it out of results.
     '/ade/:id/sheet/',
