@@ -1,0 +1,6005 @@
+{
+  "schemaVersion": 1,
+  "rubricVersion": "0.3",
+  "id": "tmux-ide",
+  "name": "tmux-ide",
+  "category": "A",
+  "researchTier": "full-profile",
+  "researchState": "documented",
+  "identity": {
+    "website": "https://tmux-ide.com",
+    "repository": "https://github.com/wavyrai/tmux-ide",
+    "aliases": [],
+    "company": "Prototyper"
+  },
+  "surfaces": [
+    {
+      "id": "tui",
+      "name": "tmux-ide terminal app (Home, Terminals) and background daemon (macOS arm64, Linux)",
+      "type": "cli"
+    },
+    {
+      "id": "native",
+      "name": "tmux-ide native macOS alpha app (separate public alpha channel)",
+      "type": "desktop"
+    },
+    {
+      "id": "cli",
+      "name": "tmux-ide CLI, stdio MCP server, SDK and control socket",
+      "type": "cli"
+    }
+  ],
+  "claims": [
+    {
+      "id": "tmux-ide:ACC-01",
+      "criterionId": "ACC-01",
+      "answer": "Terminal app and daemon for macOS (Apple Silicon) and glibc Linux, plus a native macOS alpha app, a CLI and a stdio MCP server; no Windows, Intel Mac binary, browser or phone client.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui",
+          "native",
+          "cli"
+        ],
+        "version": "v2.9.25 (commit 1460431, released 2026-11-16)",
+        "plan": "Open source (MIT), free",
+        "os": [
+          "macOS",
+          "Linux"
+        ],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "desktop_os": {
+          "support": "partial",
+          "answer": "Release v2.9.25 ships darwin-arm64, linux-arm64 and linux-x64; docs say native Windows is unsupported (use WSL) and Intel Macs are not supported; README lists macOS 15+ x64, which conflicts.",
+          "evidenceIds": [
+            "readme",
+            "start",
+            "release"
+          ]
+        },
+        "mobile_apps": {
+          "support": "unsupported",
+          "answer": "No iOS or Android app in the release or source.",
+          "evidenceIds": [
+            "release",
+            "srch-clients"
+          ]
+        },
+        "browser": {
+          "support": "unsupported",
+          "answer": "No browser client; a browser pane runs inside tmux.",
+          "evidenceIds": [
+            "srch-clients"
+          ]
+        },
+        "mobile_browser": {
+          "support": "unsupported",
+          "answer": "No mobile access beyond tmux over SSH.",
+          "evidenceIds": [
+            "srch-clients"
+          ]
+        },
+        "cli": {
+          "support": "supported",
+          "answer": "tmux-ide CLI with send, wait, events, team, restore, worktree, machines, automation and integration commands.",
+          "evidenceIds": [
+            "readme",
+            "commands"
+          ]
+        },
+        "editor_extensions": {
+          "support": "unsupported",
+          "answer": "No editor extension.",
+          "evidenceIds": [
+            "srch-clients"
+          ]
+        },
+        "task_actions": {
+          "support": "partial",
+          "answer": "Open, steer (send, panes), answer blocked agents by jumping to them, resume and restore from the app or CLI; no review or approval UI of its own.",
+          "evidenceIds": [
+            "readme",
+            "teams",
+            "restore"
+          ]
+        },
+        "notifications": {
+          "support": "supported",
+          "answer": "tmux toasts, macOS and terminal banners and sound when an agent is blocked or done.",
+          "evidenceIds": [
+            "notify"
+          ]
+        },
+        "cross_device_continuity": {
+          "support": "partial",
+          "answer": "Sessions live in tmux on each machine; another device attaching sees the same toasts and the app can open remote machines over SSH.",
+          "evidenceIds": [
+            "remote",
+            "notify"
+          ]
+        }
+      },
+      "limitations": [
+        "macOS 26+ on Apple Silicon only in the release assets (README also claims macOS 15+ x64 while the docs say Intel is unsupported); native Windows unsupported; the native app is an alpha."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "start",
+        "release",
+        "srch-clients",
+        "commands",
+        "teams",
+        "restore",
+        "notify",
+        "remote"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tmux-ide:ACC-02",
+      "criterionId": "ACC-02",
+      "answer": "Any command in a tmux pane runs; Claude Code and opencode have first-class integrations, Codex, Cursor and Copilot have resume and detection; other agents report status with one tmux option.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v2.9.25 (commit 1460431, released 2026-11-16)",
+        "plan": "Open source (MIT), free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "harnesses": {
+          "support": "supported",
+          "answer": "Claude Code, Codex, Cursor, opencode and Copilot are named for resume; any agent can join the status bus.",
+          "evidenceIds": [
+            "readme",
+            "commands",
+            "detect"
+          ]
+        },
+        "model_providers": {
+          "support": "unsupported",
+          "answer": "tmux-ide has no model layer; models are chosen in each agent.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "custom_adapters": {
+          "support": "supported",
+          "answer": "An agent self-reports through tmux set-option -p @agent_state or via the fallback detector.",
+          "evidenceIds": [
+            "detect",
+            "teams"
+          ]
+        },
+        "session_integration": {
+          "support": "supported",
+          "answer": "Agents run in plain tmux panes and tmux-ide observes them through hooks, pane options and screen manifests.",
+          "evidenceIds": [
+            "detect",
+            "readme"
+          ]
+        },
+        "mixed_harness_operation": {
+          "support": "supported",
+          "answer": "Claude Code, Codex and opencode panes sit together in one fleet view and team.",
+          "evidenceIds": [
+            "teams",
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Status is exact only for Claude Code hooks or self-reporting agents; other agents rely on screen manifests."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "detect",
+        "commands",
+        "restore",
+        "srch-cost",
+        "teams"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tmux-ide:ACC-03",
+      "criterionId": "ACC-03",
+      "answer": "tmux-ide never touches agent credentials: each agent runs in tmux with its own login or API key; there are no credits.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v2.9.25 (commit 1460431, released 2026-11-16)",
+        "plan": "Open source (MIT), free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "agent_subscriptions": {
+          "support": "supported",
+          "answer": "Agents are the tools the user already runs in tmux, with their own logins.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "api_accounts": {
+          "support": "supported",
+          "answer": "API keys are whatever the agent reads.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "vendor_credits": {
+          "support": "unsupported",
+          "answer": "No vendor credits.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "local_models": {
+          "support": "unsupported",
+          "answer": "No local-model routing; agents use their own settings.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "account_switching": {
+          "support": "unsupported",
+          "answer": "No account switcher.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "vendor_account_requirement": {
+          "support": "supported",
+          "answer": "No tmux-ide account is needed.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "provider_restrictions": {
+          "support": "unknown",
+          "answer": "Provider restrictions are in each provider's terms.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Credentials are entirely the agent's."
+      ],
+      "unknownReason": "Provider terms on subscription use are outside the repository.",
+      "evidenceIds": [
+        "readme",
+        "srch-cost"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tmux-ide:ACC-04",
+      "criterionId": "ACC-04",
+      "answer": "Install with one curl command or npm (bundled tmux and Node, no sudo), run tmux-ide app, and your existing tmux sessions appear; agents are started in tmux; Git is only needed for worktrees; remote machines need an installed daemon and SSH key auth.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v2.9.25 (commit 1460431, released 2026-11-16)",
+        "plan": "Open source (MIT), free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "first_task_setup": {
+          "support": "supported",
+          "answer": "curl install, tmux-ide app, then start an agent in a pane.",
+          "evidenceIds": [
+            "start",
+            "readme"
+          ]
+        },
+        "no_git": {
+          "support": "supported",
+          "answer": "Sessions work in any directory; git is used only by worktree commands.",
+          "evidenceIds": [
+            "worktrees",
+            "readme"
+          ]
+        },
+        "local_git_without_remote": {
+          "support": "supported",
+          "answer": "Worktrees need only a local repository.",
+          "evidenceIds": [
+            "worktrees"
+          ]
+        },
+        "hosted_git": {
+          "support": "partial",
+          "answer": "No hosted-Git integration; worktrees are plain git.",
+          "evidenceIds": [
+            "worktrees"
+          ]
+        },
+        "prerequisite_guidance": {
+          "support": "supported",
+          "answer": "Getting started lists requirements and tmux version rules.",
+          "evidenceIds": [
+            "start"
+          ]
+        },
+        "managed_cloud_setup": {
+          "support": "unsupported",
+          "answer": "There is no managed cloud.",
+          "evidenceIds": [
+            "srch-clients"
+          ]
+        },
+        "byo_vps_onboarding": {
+          "support": "partial",
+          "answer": "machines add and machines start register and start an installed remote daemon; the user installs it and sets up SSH.",
+          "evidenceIds": [
+            "remote",
+            "commands"
+          ]
+        }
+      },
+      "limitations": [
+        "Requires macOS 26+ arm64 or glibc Linux; remote hosts need tmux-ide installed first."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "start",
+        "readme",
+        "worktrees",
+        "srch-clients",
+        "remote",
+        "commands"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tmux-ide:ACC-05",
+      "criterionId": "ACC-05",
+      "answer": "A documented CLI with --json, a daemon HTTP and socket API used by the app, a stdio MCP server and an SDK sharing one scoped read and send operation API with reservation handles; no webhooks.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli",
+          "tui"
+        ],
+        "version": "v2.9.25 (commit 1460431, released 2026-11-16)",
+        "plan": "Open source (MIT), free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "cli": {
+          "support": "supported",
+          "answer": "tmux-ide commands with --json and the automation subcommands.",
+          "evidenceIds": [
+            "commands",
+            "automation"
+          ]
+        },
+        "api": {
+          "support": "partial",
+          "answer": "The daemon serves local control, event and stream sockets to the app; only automation read and send are documented for external callers.",
+          "evidenceIds": [
+            "control",
+            "automation"
+          ]
+        },
+        "sdk": {
+          "support": "supported",
+          "answer": "An SDK package exposes the automation operations.",
+          "evidenceIds": [
+            "sdk",
+            "automation"
+          ]
+        },
+        "mcp_server": {
+          "support": "supported",
+          "answer": "tmux-ide mcp is a stdio MCP server for scoped pane read and send.",
+          "evidenceIds": [
+            "mcp",
+            "mcpjson"
+          ]
+        },
+        "webhooks": {
+          "support": "unsupported",
+          "answer": "No webhooks.",
+          "evidenceIds": [
+            "srch-sched"
+          ]
+        },
+        "operations": {
+          "support": "partial",
+          "answer": "Read, send, status and wait on panes; no create, stop or review operations beyond ordinary CLI commands.",
+          "evidenceIds": [
+            "automation",
+            "commands"
+          ]
+        },
+        "authentication": {
+          "support": "supported",
+          "answer": "Owner-only local sockets and daemon-verified invoking-pane credentials; SSH BatchMode for remote.",
+          "evidenceIds": [
+            "automation",
+            "commands",
+            "remote"
+          ]
+        },
+        "stability": {
+          "support": "partial",
+          "answer": "Operations are versioned and handles retry-safe; the daemon and CLI must be the same version, with no stability policy.",
+          "evidenceIds": [
+            "automation"
+          ]
+        }
+      },
+      "limitations": [
+        "Automation can read and send to panes only; it cannot create sessions or approve through MCP; daemon version must match."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "automation",
+        "commands",
+        "mcp",
+        "control",
+        "sdk",
+        "mcpjson",
+        "srch-sched",
+        "remote"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tmux-ide:ACC-06",
+      "criterionId": "ACC-06",
+      "answer": "Lua plugins add commands to the palette with consent and resource limits, the Claude Code hook integration and bundled skill are installed on request, and MCP exposes pane read and send; MCP servers for agents are the agents' own.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v2.9.25 (commit 1460431, released 2026-11-16)",
+        "plan": "Open source (MIT), free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "mcp_client": {
+          "support": "unsupported",
+          "answer": "tmux-ide is not an MCP client.",
+          "evidenceIds": [
+            "srch-clients"
+          ]
+        },
+        "plugins": {
+          "support": "supported",
+          "answer": "Lua plugins from ~/.tmux-ide/plugins after plugin consent.",
+          "evidenceIds": [
+            "plugins"
+          ]
+        },
+        "custom_tools": {
+          "support": "supported",
+          "answer": "Plugins and tmux-ide action add commands that can run allowed programs and drive panes.",
+          "evidenceIds": [
+            "plugins"
+          ]
+        },
+        "instructions_import": {
+          "support": "partial",
+          "answer": "integration install claude refreshes a bundled Claude skill.",
+          "evidenceIds": [
+            "detect",
+            "commands"
+          ]
+        },
+        "authentication": {
+          "support": "partial",
+          "answer": "Plugins run only after consent.",
+          "evidenceIds": [
+            "plugins"
+          ]
+        },
+        "permission_scope": {
+          "support": "supported",
+          "answer": "Plugins run in the daemon host with time limits and a memory cap and programs you allow.",
+          "evidenceIds": [
+            "plugins"
+          ]
+        },
+        "integration_owner": {
+          "support": "supported",
+          "answer": "Agents own their MCP clients; tmux-ide owns its hooks and plugin host.",
+          "evidenceIds": [
+            "detect",
+            "plugins"
+          ]
+        }
+      },
+      "limitations": [
+        "No MCP client; plugin API is local Lua."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "plugins",
+        "detect",
+        "mcp",
+        "srch-clients",
+        "commands"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tmux-ide:ACC-07",
+      "criterionId": "ACC-07",
+      "answer": "The terminal app is a TypeScript and OpenTUI daemon and app over tmux; the macOS alpha is a Rust GPUI app bundling a Ghostty-based terminal and talking to the same daemon.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v2.9.25 (commit 1460431, released 2026-11-16)",
+        "plan": "Open source (MIT), free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "desktop_implementation": {
+          "support": "supported",
+          "answer": "Native alpha uses Rust GPUI and the terminal app uses OpenTUI over a TypeScript daemon.",
+          "evidenceIds": [
+            "native",
+            "control"
+          ]
+        },
+        "mobile_implementation": {
+          "support": "unsupported",
+          "answer": "No mobile client.",
+          "evidenceIds": [
+            "srch-clients"
+          ]
+        },
+        "hybrids": {
+          "support": "unsupported",
+          "answer": "No web-view or Electron hybrid.",
+          "evidenceIds": [
+            "srch-clients"
+          ]
+        },
+        "implementation_evidence": {
+          "support": "supported",
+          "answer": "docs/content/docs/native-alpha.mdx and the repository layout at the pinned commit.",
+          "evidenceIds": [
+            "native"
+          ]
+        }
+      },
+      "limitations": [
+        "Alpha native app."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "native",
+        "readme",
+        "control",
+        "srch-clients"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-05-15",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tmux-ide:PLAN-01",
+      "criterionId": "PLAN-01",
+      "answer": "No task or tracker intake; work starts when the user starts an agent in a pane; send hands a prompt to another agent.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v2.9.25 (commit 1460431, released 2026-11-16)",
+        "plan": "Open source (MIT), free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "local_creation": {
+          "support": "unsupported",
+          "answer": "No intake or tracker integration.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "prompt_intake": {
+          "support": "partial",
+          "answer": "send types a task into another agent's prompt.",
+          "evidenceIds": [
+            "teams"
+          ]
+        },
+        "external_import": {
+          "support": "unsupported",
+          "answer": "No intake or tracker integration.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "chat_git_triggers": {
+          "support": "unsupported",
+          "answer": "No intake or tracker integration.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "authoritative_tracker": {
+          "support": "unsupported",
+          "answer": "No intake or tracker integration.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "stable_ids": {
+          "support": "unsupported",
+          "answer": "No intake or tracker integration.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "sync": {
+          "support": "unsupported",
+          "answer": "No intake or tracker integration.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "supported_edits": {
+          "support": "unsupported",
+          "answer": "No intake or tracker integration.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "external_roundtrips": {
+          "support": "unsupported",
+          "answer": "No intake or tracker integration.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully supported: local_creation (unsupported), prompt_intake (partial), external_import (unsupported), chat_git_triggers (unsupported), authoritative_tracker (unsupported), stable_ids (unsupported), sync (unsupported), supported_edits (unsupported), external_roundtrips (unsupported)."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "teams",
+        "srch-issues"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tmux-ide:PLAN-02",
+      "criterionId": "PLAN-02",
+      "answer": "No plans or acceptance criteria; long handoff messages are written to .tasks/dispatch files.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v2.9.25 (commit 1460431, released 2026-11-16)",
+        "plan": "Open source (MIT), free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "plans": {
+          "support": "partial",
+          "answer": "Dispatch files carry long instructions.",
+          "evidenceIds": [
+            "teams"
+          ]
+        },
+        "acceptance_criteria": {
+          "support": "unsupported",
+          "answer": "No plan feature.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "editors": {
+          "support": "unsupported",
+          "answer": "No plan feature.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "revisions": {
+          "support": "unsupported",
+          "answer": "No plan feature.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "implementation_links": {
+          "support": "unsupported",
+          "answer": "No plan feature.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "amendment": {
+          "support": "unsupported",
+          "answer": "No plan feature.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "restart_persistence": {
+          "support": "unsupported",
+          "answer": "No plan feature.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully supported: plans (partial), acceptance_criteria (unsupported), editors (unsupported), revisions (unsupported), implementation_links (unsupported), amendment (unsupported), restart_persistence (unsupported)."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "teams",
+        "srch-issues"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tmux-ide:PLAN-03",
+      "criterionId": "PLAN-03",
+      "answer": "No epics, dependencies or blockers; panes can be grouped into named teams.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v2.9.25 (commit 1460431, released 2026-11-16)",
+        "plan": "Open source (MIT), free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "epics": {
+          "support": "unsupported",
+          "answer": "No dependency model.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "hierarchy": {
+          "support": "partial",
+          "answer": "Claude Code agent teams and manual team assign group panes.",
+          "evidenceIds": [
+            "teams",
+            "readme"
+          ]
+        },
+        "blockers": {
+          "support": "unsupported",
+          "answer": "No dependency model.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "readiness": {
+          "support": "unsupported",
+          "answer": "No dependency model.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "enforcement": {
+          "support": "unsupported",
+          "answer": "No dependency model.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "state_propagation": {
+          "support": "unsupported",
+          "answer": "No dependency model.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "task_to_epic": {
+          "support": "unsupported",
+          "answer": "No dependency model.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "identity_retention": {
+          "support": "unsupported",
+          "answer": "No dependency model.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "workflow_constraints": {
+          "support": "unsupported",
+          "answer": "No dependency model.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully supported: epics (unsupported), hierarchy (partial), blockers (unsupported), readiness (unsupported), enforcement (unsupported), state_propagation (unsupported), task_to_epic (unsupported), identity_retention (unsupported), workflow_constraints (unsupported)."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "teams",
+        "srch-issues",
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tmux-ide:PLAN-04",
+      "criterionId": "PLAN-04",
+      "answer": "No instruction, memory or project-doc layer; sessions, layouts and resumable conversation ids persist through snapshots.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v2.9.25 (commit 1460431, released 2026-11-16)",
+        "plan": "Open source (MIT), free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "instructions": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "skills": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "project_docs": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "memory": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "scope": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "provenance": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "correction": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "deletion": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "freshness": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "takeover_continuity": {
+          "support": "partial",
+          "answer": "Restore rebuilds windows and resumes agent conversations after a crash.",
+          "evidenceIds": [
+            "restore"
+          ]
+        }
+      },
+      "limitations": [
+        "Snapshot restore only."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "restore",
+        "srch-issues"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tmux-ide:PLAN-05",
+      "criterionId": "PLAN-05",
+      "answer": "No code index; a Markdown reader and browser pane show files and pages beside agents; kitty graphics images display in panes.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v2.9.25 (commit 1460431, released 2026-11-16)",
+        "plan": "Open source (MIT), free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "code_search": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "indexing": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "external_knowledge": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "multimodal_inputs": {
+          "support": "partial",
+          "answer": "Images that programs send with the kitty graphics protocol display in the native app.",
+          "evidenceIds": [
+            "native"
+          ]
+        },
+        "freshness": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "access_scope": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "api_retrieval": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "citations": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "conflict_detection": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "review_enforcement": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        }
+      },
+      "limitations": [
+        "No retrieval layer."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "native",
+        "srch-review"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tmux-ide:PLAN-06",
+      "criterionId": "PLAN-06",
+      "answer": "No native issue management; the worktree-tasks plugin example treats git worktrees as tasks.",
+      "support": "unsupported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v2.9.25 (commit 1460431, released 2026-11-16)",
+        "plan": "Open source (MIT), free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "create": {
+          "support": "unsupported",
+          "answer": "No issue entity.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "edit": {
+          "support": "unsupported",
+          "answer": "No issue entity.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "discuss": {
+          "support": "unsupported",
+          "answer": "No issue entity.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "prioritize": {
+          "support": "unsupported",
+          "answer": "No issue entity.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "label": {
+          "support": "unsupported",
+          "answer": "No issue entity.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "assign": {
+          "support": "unsupported",
+          "answer": "No issue entity.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "search": {
+          "support": "unsupported",
+          "answer": "No issue entity.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "filter": {
+          "support": "unsupported",
+          "answer": "No issue entity.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "archive": {
+          "support": "unsupported",
+          "answer": "No issue entity.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "reopen": {
+          "support": "unsupported",
+          "answer": "No issue entity.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "project_epic_views": {
+          "support": "unsupported",
+          "answer": "No issue entity.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "idea_parking": {
+          "support": "unsupported",
+          "answer": "No backlog.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "explicit_dispatch": {
+          "support": "unsupported",
+          "answer": "No issue entity.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "task_session_separation": {
+          "support": "unsupported",
+          "answer": "No issue entity.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "metadata": {
+          "support": "unsupported",
+          "answer": "No issue entity.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "durable_states": {
+          "support": "unsupported",
+          "answer": "No issue entity.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "external_tracker_requirement": {
+          "support": "unsupported",
+          "answer": "No issue entity.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "plugins",
+        "srch-issues"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tmux-ide:PLAN-07",
+      "criterionId": "PLAN-07",
+      "answer": "No issue records for agents to operate.",
+      "support": "unsupported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v2.9.25 (commit 1460431, released 2026-11-16)",
+        "plan": "Open source (MIT), free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "shared_ids": {
+          "support": "unsupported",
+          "answer": "No shared issue records.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "read": {
+          "support": "unsupported",
+          "answer": "No shared issue records.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "create": {
+          "support": "unsupported",
+          "answer": "No shared issue records.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "update": {
+          "support": "unsupported",
+          "answer": "No shared issue records.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "claim": {
+          "support": "unsupported",
+          "answer": "No shared issue records.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "assign": {
+          "support": "unsupported",
+          "answer": "No shared issue records.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "state_changes": {
+          "support": "unsupported",
+          "answer": "No shared issue records.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "dependencies": {
+          "support": "unsupported",
+          "answer": "No shared issue records.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "children": {
+          "support": "unsupported",
+          "answer": "No shared issue records.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "results": {
+          "support": "unsupported",
+          "answer": "No shared issue records.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "human_visibility": {
+          "support": "unsupported",
+          "answer": "No shared issue records.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "attribution": {
+          "support": "unsupported",
+          "answer": "No shared issue records.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "permissions": {
+          "support": "unsupported",
+          "answer": "No shared issue records.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "conflicts": {
+          "support": "unsupported",
+          "answer": "No shared issue records.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "srch-issues"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tmux-ide:PLAN-08",
+      "criterionId": "PLAN-08",
+      "answer": "No persistent product specification feature.",
+      "support": "unsupported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v2.9.25 (commit 1460431, released 2026-11-16)",
+        "plan": "Open source (MIT), free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "persistent_requirements": {
+          "support": "unsupported",
+          "answer": "No living-spec feature.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "human_edits": {
+          "support": "unsupported",
+          "answer": "No living-spec feature.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "agent_edits": {
+          "support": "unsupported",
+          "answer": "No living-spec feature.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "revisions": {
+          "support": "unsupported",
+          "answer": "No living-spec feature.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "approvals": {
+          "support": "unsupported",
+          "answer": "No living-spec feature.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "implementation_links": {
+          "support": "unsupported",
+          "answer": "No living-spec feature.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "later_retrieval": {
+          "support": "unsupported",
+          "answer": "No living-spec feature.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "drift_detection": {
+          "support": "unsupported",
+          "answer": "No living-spec feature.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "review_integration": {
+          "support": "unsupported",
+          "answer": "No living-spec feature.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "srch-issues"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tmux-ide:COORD-01",
+      "criterionId": "COORD-01",
+      "answer": "Any number of agents run in parallel as tmux panes across sessions, windows and machines, shown on Home with Working, Needs attention and All filters.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v2.9.25 (commit 1460431, released 2026-11-16)",
+        "plan": "Open source (MIT), free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "concurrent_sessions": {
+          "support": "supported",
+          "answer": "Each agent is a separate tmux pane process.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "concurrent_tasks": {
+          "support": "partial",
+          "answer": "Panes work independently; no task entity.",
+          "evidenceIds": [
+            "teams"
+          ]
+        },
+        "quotas": {
+          "support": "unsupported",
+          "answer": "No quota found.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "observed_concurrency": {
+          "support": "unknown",
+          "answer": "No published concurrency measurements; not listed on ADEMark.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "status_visibility": {
+          "support": "supported",
+          "answer": "Working, blocked, done, idle and unknown states on Home, sidebar and pane headers.",
+          "evidenceIds": [
+            "detect",
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "No documented quotas; concurrency measurements are not published."
+      ],
+      "unknownReason": "Measured concurrency is a benchmark fact not in the repository; this catalog does not run products.",
+      "evidenceIds": [
+        "readme",
+        "detect",
+        "teams",
+        "srch-cost"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tmux-ide:COORD-02",
+      "criterionId": "COORD-02",
+      "answer": "No assignment, claims or queues; teams group panes and send hands prompts between agents.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v2.9.25 (commit 1460431, released 2026-11-16)",
+        "plan": "Open source (MIT), free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "human_assignment": {
+          "support": "unsupported",
+          "answer": "No ownership or dispatch features.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "agent_assignment": {
+          "support": "partial",
+          "answer": "send gives a task to another agent.",
+          "evidenceIds": [
+            "teams"
+          ]
+        },
+        "claims": {
+          "support": "unsupported",
+          "answer": "No ownership or dispatch features.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "queues": {
+          "support": "unsupported",
+          "answer": "No ownership or dispatch features.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "routing": {
+          "support": "partial",
+          "answer": "send targets by pane id, title, role or name.",
+          "evidenceIds": [
+            "teams"
+          ]
+        },
+        "duplicate_prevention": {
+          "support": "unsupported",
+          "answer": "No ownership or dispatch features.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "ownership_enforcement": {
+          "support": "unsupported",
+          "answer": "No ownership or dispatch features.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        }
+      },
+      "limitations": [
+        "Manual coordination only."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "teams",
+        "srch-issues"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tmux-ide:COORD-03",
+      "criterionId": "COORD-03",
+      "answer": "send, wait, events and team --json plus MCP and SDK let any agent message, watch and wait for others across harnesses; tmux-ide states it shows and connects agents and does not orchestrate them, and Claude Code agent teams are Claude's own feature that it displays.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli",
+          "tui"
+        ],
+        "version": "v2.9.25 (commit 1460431, released 2026-11-16)",
+        "plan": "Open source (MIT), free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "roles": {
+          "support": "partial",
+          "answer": "Panes can carry role names and team assignments; no orchestration roles.",
+          "evidenceIds": [
+            "teams"
+          ]
+        },
+        "model_harness_effort": {
+          "support": "unsupported",
+          "answer": "Model and effort are chosen in each agent.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "messages": {
+          "support": "supported",
+          "answer": "send types into another agent's prompt.",
+          "evidenceIds": [
+            "teams"
+          ]
+        },
+        "results_return": {
+          "support": "partial",
+          "answer": "wait on output or status and read panes; no structured result.",
+          "evidenceIds": [
+            "teams",
+            "automation"
+          ]
+        },
+        "cross_harness": {
+          "support": "supported",
+          "answer": "Claude Code, Codex and opencode panes can message each other.",
+          "evidenceIds": [
+            "teams"
+          ]
+        },
+        "orchestration_owner": {
+          "support": "unsupported",
+          "answer": "The README says tmux-ide does not orchestrate agents.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "activation": {
+          "support": "supported",
+          "answer": "Commands are always available once installed.",
+          "evidenceIds": [
+            "commands"
+          ]
+        },
+        "authentication": {
+          "support": "supported",
+          "answer": "Owner-only sockets and invoking-pane credentials.",
+          "evidenceIds": [
+            "automation"
+          ]
+        },
+        "live_progress": {
+          "support": "supported",
+          "answer": "events --follow and team --json show live status.",
+          "evidenceIds": [
+            "teams"
+          ]
+        },
+        "retained_results": {
+          "support": "partial",
+          "answer": "Dispatch files and tmux scrollback.",
+          "evidenceIds": [
+            "teams"
+          ]
+        },
+        "followup": {
+          "support": "supported",
+          "answer": "send to the same pane.",
+          "evidenceIds": [
+            "teams"
+          ]
+        },
+        "invocation": {
+          "support": "supported",
+          "answer": "CLI, MCP and SDK.",
+          "evidenceIds": [
+            "automation",
+            "mcp"
+          ]
+        }
+      },
+      "limitations": [
+        "No product coordinator role; delegation is built from the generic commands by the user or an agent."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "teams",
+        "automation",
+        "srch-cost",
+        "commands",
+        "mcp"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tmux-ide:COORD-04",
+      "criterionId": "COORD-04",
+      "answer": "No scheduler or triggers; notifications and events fire when agents change state; the daemon keeps snapshots every 30 seconds.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v2.9.25 (commit 1460431, released 2026-11-16)",
+        "plan": "Open source (MIT), free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "schedules": {
+          "support": "unsupported",
+          "answer": "No scheduler or trigger.",
+          "evidenceIds": [
+            "srch-sched"
+          ]
+        },
+        "events": {
+          "support": "partial",
+          "answer": "Agent-status transitions notify and stream; they trigger nothing.",
+          "evidenceIds": [
+            "notify"
+          ]
+        },
+        "recurring_tasks": {
+          "support": "unsupported",
+          "answer": "No scheduler or trigger.",
+          "evidenceIds": [
+            "srch-sched"
+          ]
+        },
+        "completion_conditions": {
+          "support": "unsupported",
+          "answer": "No scheduler or trigger.",
+          "evidenceIds": [
+            "srch-sched"
+          ]
+        },
+        "scheduler_location": {
+          "support": "unsupported",
+          "answer": "No scheduler or trigger.",
+          "evidenceIds": [
+            "srch-sched"
+          ]
+        },
+        "overlaps": {
+          "support": "unsupported",
+          "answer": "No scheduler or trigger.",
+          "evidenceIds": [
+            "srch-sched"
+          ]
+        },
+        "retries": {
+          "support": "unsupported",
+          "answer": "No scheduler or trigger.",
+          "evidenceIds": [
+            "srch-sched"
+          ]
+        },
+        "client_independence": {
+          "support": "partial",
+          "answer": "The daemon and tmux keep running without the app.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Reactive events only."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "notify",
+        "srch-sched",
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tmux-ide:COORD-05",
+      "criterionId": "COORD-05",
+      "answer": "Steer by typing in panes or send, close panes, restore after crashes, and get notifications when agents are blocked or done with a jump to the one that needs you; no pause or approval routing.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v2.9.25 (commit 1460431, released 2026-11-16)",
+        "plan": "Open source (MIT), free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "pause": {
+          "support": "unsupported",
+          "answer": "No pause control.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "stop": {
+          "support": "supported",
+          "answer": "Panes and sessions close with tmux or stop and restart commands.",
+          "evidenceIds": [
+            "commands"
+          ]
+        },
+        "resume": {
+          "support": "supported",
+          "answer": "restore and --resume-agents reopen conversations.",
+          "evidenceIds": [
+            "restore"
+          ]
+        },
+        "steer": {
+          "support": "supported",
+          "answer": "Type into panes or send.",
+          "evidenceIds": [
+            "teams",
+            "readme"
+          ]
+        },
+        "notifications": {
+          "support": "supported",
+          "answer": "Toasts, banners and sound.",
+          "evidenceIds": [
+            "notify"
+          ]
+        },
+        "pending_decisions": {
+          "support": "supported",
+          "answer": "Blocked state and the Attention view list agents that need you.",
+          "evidenceIds": [
+            "readme",
+            "detect"
+          ]
+        },
+        "escalation": {
+          "support": "unsupported",
+          "answer": "No escalation routing.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "visible_errors": {
+          "support": "partial",
+          "answer": "Blocked and unknown states; no error classification beyond screen manifests.",
+          "evidenceIds": [
+            "detect"
+          ]
+        },
+        "chat_terminal_parity": {
+          "support": "supported",
+          "answer": "The terminal is the only surface.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "retained_history": {
+          "support": "partial",
+          "answer": "tmux scrollback and snapshots.",
+          "evidenceIds": [
+            "restore"
+          ]
+        }
+      },
+      "limitations": [
+        "No pause control; escalation is limited to notifications."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "notify",
+        "restore",
+        "srch-cost",
+        "commands",
+        "teams",
+        "detect",
+        "srch-team"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tmux-ide:COORD-06",
+      "criterionId": "COORD-06",
+      "answer": "Home lists every agent across local and SSH machines with search and status filters and an Attention view; sessions and teams group panes; no epics or dependency view.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v2.9.25 (commit 1460431, released 2026-11-16)",
+        "plan": "Open source (MIT), free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "fleet_fixture": {
+          "support": "supported",
+          "answer": "Home groups agents by machine and team with state.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "parent_child": {
+          "support": "partial",
+          "answer": "Teams group panes under a lead.",
+          "evidenceIds": [
+            "teams"
+          ]
+        },
+        "dependencies": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "attention": {
+          "support": "supported",
+          "answer": "Needs attention filter and Attention (F7).",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "history": {
+          "support": "partial",
+          "answer": "events keeps recent transitions.",
+          "evidenceIds": [
+            "notify"
+          ]
+        },
+        "workload": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "navigation_errors": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "fixture_mode": {
+          "support": "unsupported",
+          "answer": "Not applicable.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        }
+      },
+      "limitations": [
+        "No epics or dependency view."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "detect",
+        "teams",
+        "srch-issues",
+        "notify"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tmux-ide:COORD-07",
+      "criterionId": "COORD-07",
+      "answer": "Agents start in plain tmux panes; an optional workspace.yml describes repeatable layouts and templates; no natural-language setup.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v2.9.25 (commit 1460431, released 2026-11-16)",
+        "plan": "Open source (MIT), free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "quick_task": {
+          "support": "supported",
+          "answer": "Start an agent in any pane.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "growing_epic": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "presets": {
+          "support": "supported",
+          "answer": "workspace.yml layouts and templates.",
+          "evidenceIds": [
+            "config"
+          ]
+        },
+        "natural_language": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "agent_configuration": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "in_run_changes": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "live_roles": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "retained_relationships": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "discoverability": {
+          "support": "supported",
+          "answer": "Palette, F-key shortcuts and docs.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "auth_friction": {
+          "support": "supported",
+          "answer": "No login.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "No presets for agent orchestration."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "config",
+        "srch-issues"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tmux-ide:RUN-01",
+      "criterionId": "RUN-01",
+      "answer": "Agents run in tmux on the local machine or on remote machines where a tmux-ide daemon runs next to tmux and the app connects through SSH; agents keep running when the app or connection closes; no vendor cloud.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v2.9.25 (commit 1460431, released 2026-11-16)",
+        "plan": "Open source (MIT), free",
+        "os": [],
+        "executionModes": [
+          "local",
+          "own-server"
+        ],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "local": {
+          "support": "supported",
+          "answer": "Local tmux sessions.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "byo_remote": {
+          "support": "supported",
+          "answer": "Saved SSH machines with a remote daemon.",
+          "evidenceIds": [
+            "remote",
+            "commands"
+          ]
+        },
+        "self_hosted": {
+          "support": "partial",
+          "answer": "The daemon runs headless on a remote machine for the app to reach through SSH; there is no hosted control plane.",
+          "evidenceIds": [
+            "remote"
+          ]
+        },
+        "managed_cloud": {
+          "support": "unsupported",
+          "answer": "There is no managed cloud.",
+          "evidenceIds": [
+            "srch-clients"
+          ]
+        },
+        "hybrid": {
+          "support": "supported",
+          "answer": "Local and SSH machines appear side by side.",
+          "evidenceIds": [
+            "readme",
+            "remote"
+          ]
+        },
+        "provisioning": {
+          "support": "unsupported",
+          "answer": "machines start only starts an installed daemon; it does not provision.",
+          "evidenceIds": [
+            "commands"
+          ]
+        },
+        "payer": {
+          "support": "supported",
+          "answer": "The user's machines; tmux-ide is free.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "resources": {
+          "support": "unsupported",
+          "answer": "No compute settings.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "region": {
+          "support": "unsupported",
+          "answer": "No regions.",
+          "evidenceIds": [
+            "srch-clients"
+          ]
+        },
+        "expiry": {
+          "support": "unsupported",
+          "answer": "No lifetime limits.",
+          "evidenceIds": [
+            "remote"
+          ]
+        },
+        "client_disconnect": {
+          "support": "supported",
+          "answer": "Agents keep running on the remote machine when the app or connection closes.",
+          "evidenceIds": [
+            "remote"
+          ]
+        },
+        "other_device_continuation": {
+          "support": "supported",
+          "answer": "Another tmux client or app can attach to the same sessions.",
+          "evidenceIds": [
+            "notify",
+            "remote"
+          ]
+        }
+      },
+      "limitations": [
+        "Remote machines must be installed and reachable over SSH key auth."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "remote",
+        "readme",
+        "commands",
+        "srch-clients",
+        "srch-cost",
+        "notify"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tmux-ide:RUN-02",
+      "criterionId": "RUN-02",
+      "answer": "tmux windows and panes share one checkout by default; tmux-ide worktree creates a git worktree and branch with an adopted session; no container, VM or sandbox.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v2.9.25 (commit 1460431, released 2026-11-16)",
+        "plan": "Open source (MIT), free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "checkout": {
+          "support": "supported",
+          "answer": "Sessions run in the chosen directory.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "branch": {
+          "support": "supported",
+          "answer": "worktree create makes a branch.",
+          "evidenceIds": [
+            "worktrees"
+          ]
+        },
+        "worktree": {
+          "support": "supported",
+          "answer": "worktree create, open, list and remove.",
+          "evidenceIds": [
+            "worktrees"
+          ]
+        },
+        "container": {
+          "support": "unsupported",
+          "answer": "No container isolation.",
+          "evidenceIds": [
+            "srch-container"
+          ]
+        },
+        "vm": {
+          "support": "unsupported",
+          "answer": "No VM isolation.",
+          "evidenceIds": [
+            "srch-container"
+          ]
+        },
+        "os_sandbox": {
+          "support": "unsupported",
+          "answer": "No sandbox.",
+          "evidenceIds": [
+            "srch-container"
+          ]
+        },
+        "filesystem": {
+          "support": "unsupported",
+          "answer": "No filesystem boundary.",
+          "evidenceIds": [
+            "srch-container"
+          ]
+        },
+        "process": {
+          "support": "unsupported",
+          "answer": "Agents are ordinary processes in tmux panes.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "network": {
+          "support": "unsupported",
+          "answer": "No network boundary.",
+          "evidenceIds": [
+            "srch-container"
+          ]
+        },
+        "secrets": {
+          "support": "unsupported",
+          "answer": "No secret handling.",
+          "evidenceIds": [
+            "srch-container"
+          ]
+        },
+        "code_separation": {
+          "support": "partial",
+          "answer": "Worktrees separate branches on disk.",
+          "evidenceIds": [
+            "worktrees"
+          ]
+        },
+        "security_boundary": {
+          "support": "unsupported",
+          "answer": "None claimed.",
+          "evidenceIds": [
+            "srch-container"
+          ]
+        }
+      },
+      "limitations": [
+        "No process, network or secret isolation."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "worktrees",
+        "srch-container",
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tmux-ide:RUN-03",
+      "criterionId": "RUN-03",
+      "answer": "tmux owns every process so closing tmux-ide never stops an agent; a 30 second snapshot rebuilds sessions after a tmux crash or reboot and can resume Claude Code, Codex, Cursor and opencode conversations; the daemon reconnects with bounded retries.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v2.9.25 (commit 1460431, released 2026-11-16)",
+        "plan": "Open source (MIT), free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "client_disconnect": {
+          "support": "supported",
+          "answer": "Agents keep running; the app reconnects.",
+          "evidenceIds": [
+            "readme",
+            "remote"
+          ]
+        },
+        "worker_crash": {
+          "support": "supported",
+          "answer": "restore rebuilds sessions after tmux dies.",
+          "evidenceIds": [
+            "restore"
+          ]
+        },
+        "service_restart": {
+          "support": "supported",
+          "answer": "A restarted daemon restores streams and keeps tmux sessions.",
+          "evidenceIds": [
+            "changelog"
+          ]
+        },
+        "expiry": {
+          "support": "unsupported",
+          "answer": "No sandbox expiry.",
+          "evidenceIds": [
+            "srch-container"
+          ]
+        },
+        "transcript_reload": {
+          "support": "partial",
+          "answer": "tmux scrollback is the history.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "process_reconnect": {
+          "support": "supported",
+          "answer": "The app reattaches to live tmux panes.",
+          "evidenceIds": [
+            "readme",
+            "remote"
+          ]
+        },
+        "task_resume": {
+          "support": "supported",
+          "answer": "--resume-agents uses captured conversation ids.",
+          "evidenceIds": [
+            "restore"
+          ]
+        },
+        "state_reconstruction": {
+          "support": "supported",
+          "answer": "Windows, layouts, cwd and titles are rebuilt.",
+          "evidenceIds": [
+            "restore"
+          ]
+        },
+        "context_loss": {
+          "support": "partial",
+          "answer": "Agent processes die with the server; only conversations resume.",
+          "evidenceIds": [
+            "restore"
+          ]
+        },
+        "duplicate_actions": {
+          "support": "partial",
+          "answer": "Restore never overwrites a live session and does not replay commands by default.",
+          "evidenceIds": [
+            "restore"
+          ]
+        },
+        "manual_repair": {
+          "support": "partial",
+          "answer": "tmux-ide doctor reports snapshot age and server state.",
+          "evidenceIds": [
+            "changelog",
+            "restore"
+          ]
+        },
+        "multi_day_continuity": {
+          "support": "supported",
+          "answer": "Sessions persist in tmux and resume across days.",
+          "evidenceIds": [
+            "readme",
+            "restore"
+          ]
+        }
+      },
+      "limitations": [
+        "Recorded commands are not replayed by default; a snapshot exists only if the updater ran before the crash."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "restore",
+        "changelog",
+        "remote",
+        "srch-container"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tmux-ide:RUN-04",
+      "criterionId": "RUN-04",
+      "answer": "No dependency, service or port management; workspace.yml launches commands in panes; the browser pane shows a dev server.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v2.9.25 (commit 1460431, released 2026-11-16)",
+        "plan": "Open source (MIT), free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "dependencies": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-container"
+          ]
+        },
+        "caches": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-container"
+          ]
+        },
+        "snapshots": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-container"
+          ]
+        },
+        "services": {
+          "support": "partial",
+          "answer": "workspace.yml starts commands per pane.",
+          "evidenceIds": [
+            "config"
+          ]
+        },
+        "ports": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-container"
+          ]
+        },
+        "secrets": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-container"
+          ]
+        },
+        "duplicate_installs": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-container"
+          ]
+        },
+        "collisions": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-container"
+          ]
+        },
+        "remote_setup": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-container"
+          ]
+        },
+        "automatic_repair": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-container"
+          ]
+        }
+      },
+      "limitations": [
+        "Environment setup is the project's."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "config",
+        "readme",
+        "srch-container"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tmux-ide:RUN-05",
+      "criterionId": "RUN-05",
+      "answer": "No agent time, turn, token or spend limits; the daemon bounds its own tmux calls and retries.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v2.9.25 (commit 1460431, released 2026-11-16)",
+        "plan": "Open source (MIT), free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "time_limits": {
+          "support": "unsupported",
+          "answer": "No agent limit.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "turn_limits": {
+          "support": "unsupported",
+          "answer": "No agent limit.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "token_limits": {
+          "support": "unsupported",
+          "answer": "No agent limit.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "spend_limits": {
+          "support": "unsupported",
+          "answer": "No agent limit.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "timeouts": {
+          "support": "partial",
+          "answer": "Daemon tmux calls are limited to 5 seconds and wait commands take timeouts.",
+          "evidenceIds": [
+            "changelog",
+            "commands"
+          ]
+        },
+        "retries": {
+          "support": "unsupported",
+          "answer": "No agent limit.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "provider_failures": {
+          "support": "unsupported",
+          "answer": "No agent limit.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "enforcement": {
+          "support": "unsupported",
+          "answer": "No agent limit.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully supported: time_limits (unsupported), turn_limits (unsupported), token_limits (unsupported), spend_limits (unsupported), timeouts (partial), retries (unsupported), provider_failures (unsupported), enforcement (unsupported)."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "changelog",
+        "srch-cost",
+        "commands"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tmux-ide:RUN-06",
+      "criterionId": "RUN-06",
+      "answer": "agent explain shows why a state was assigned, events stream transitions, doctor reports daemon, tmux server and snapshot health, and daemon logs record close causes; no usage statistics or exports.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v2.9.25 (commit 1460431, released 2026-11-16)",
+        "plan": "Open source (MIT), free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "logs": {
+          "support": "partial",
+          "answer": "Daemon logs with causes; tmux scrollback.",
+          "evidenceIds": [
+            "changelog"
+          ]
+        },
+        "traces": {
+          "support": "partial",
+          "answer": "agent explain gives the classification path.",
+          "evidenceIds": [
+            "detect"
+          ]
+        },
+        "failure_reasons": {
+          "support": "partial",
+          "answer": "Daemon close causes and tmux-unavailable errors.",
+          "evidenceIds": [
+            "changelog"
+          ]
+        },
+        "usage_export": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "task_stats": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "agent_stats": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "project_stats": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "time_stats": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "failure_status": {
+          "support": "partial",
+          "answer": "Blocked and unknown states.",
+          "evidenceIds": [
+            "detect"
+          ]
+        },
+        "approval_status": {
+          "support": "supported",
+          "answer": "Blocked marks agents waiting on input or permission.",
+          "evidenceIds": [
+            "detect"
+          ]
+        },
+        "reconnect_consistency": {
+          "support": "supported",
+          "answer": "Clients re-read inventories with bounded retries and the daemon announces readiness.",
+          "evidenceIds": [
+            "changelog"
+          ]
+        },
+        "performance_method": {
+          "support": "unknown",
+          "answer": "No benchmark method; not listed on ADEMark though changelog cites internal measurements.",
+          "evidenceIds": [
+            "changelog"
+          ]
+        },
+        "responsiveness": {
+          "support": "unknown",
+          "answer": "No independent responsiveness measurements.",
+          "evidenceIds": [
+            "changelog"
+          ]
+        }
+      },
+      "limitations": [
+        "No statistics or exports."
+      ],
+      "unknownReason": "Performance and responsiveness are benchmark facts the catalog does not measure.",
+      "evidenceIds": [
+        "detect",
+        "notify",
+        "changelog",
+        "srch-cost"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tmux-ide:RUN-07",
+      "criterionId": "RUN-07",
+      "answer": "No cost, token or spend tracking.",
+      "support": "unsupported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v2.9.25 (commit 1460431, released 2026-11-16)",
+        "plan": "Open source (MIT), free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "task_cost": {
+          "support": "unsupported",
+          "answer": "No cost tracking found.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "session_cost": {
+          "support": "unsupported",
+          "answer": "No cost tracking found.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "child_cost": {
+          "support": "unsupported",
+          "answer": "No cost tracking found.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "epic_cost": {
+          "support": "unsupported",
+          "answer": "No cost tracking found.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "harness_aggregation": {
+          "support": "unsupported",
+          "answer": "No cost tracking found.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "billed_vs_estimated": {
+          "support": "unsupported",
+          "answer": "No cost tracking found.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "tokens": {
+          "support": "unsupported",
+          "answer": "No cost tracking found.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "subscription_allowance": {
+          "support": "unsupported",
+          "answer": "No cost tracking found.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "provider_reconciliation": {
+          "support": "unsupported",
+          "answer": "No cost tracking found.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "compute_cost": {
+          "support": "unsupported",
+          "answer": "No cost tracking found.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "refresh_delay": {
+          "support": "unsupported",
+          "answer": "No cost tracking found.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "alerts": {
+          "support": "unsupported",
+          "answer": "No cost tracking found.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "export": {
+          "support": "unsupported",
+          "answer": "No cost tracking found.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "drilldown": {
+          "support": "unsupported",
+          "answer": "No cost tracking found.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "srch-cost"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tmux-ide:RUN-08",
+      "criterionId": "RUN-08",
+      "answer": "No compute-aware scheduling; the daemon parks unwatched panes and slows its polling to save tmux work.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v2.9.25 (commit 1460431, released 2026-11-16)",
+        "plan": "Open source (MIT), free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "concurrency": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "queues": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "cpu_ram": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "backpressure": {
+          "support": "partial",
+          "answer": "Output flow control and parked panes protect tmux.",
+          "evidenceIds": [
+            "changelog"
+          ]
+        },
+        "host_awareness": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "check_reuse": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "check_deduplication": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "bounded_tests": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "cancellation": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "fairness": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "recovery": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "shared_limits": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        }
+      },
+      "limitations": [
+        "Self-protection only."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "changelog",
+        "srch-cost"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tmux-ide:TEAM-01",
+      "criterionId": "TEAM-01",
+      "answer": "Single-user tool; several tmux clients can attach to one session and see the same toasts, but there is no sharing, comments or co-prompting model.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v2.9.25 (commit 1460431, released 2026-11-16)",
+        "plan": "Open source (MIT), free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "visibility": {
+          "support": "partial",
+          "answer": "Toasts reach every tmux client attached to a session.",
+          "evidenceIds": [
+            "notify"
+          ]
+        },
+        "discussion": {
+          "support": "unsupported",
+          "answer": "No multi-user feature.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "comments": {
+          "support": "unsupported",
+          "answer": "No multi-user feature.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "presence": {
+          "support": "unsupported",
+          "answer": "No multi-user feature.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "coprompting": {
+          "support": "unsupported",
+          "answer": "No multi-user feature.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "ordering": {
+          "support": "unsupported",
+          "answer": "No multi-user feature.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "conflicts": {
+          "support": "unsupported",
+          "answer": "No multi-user feature.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "attribution": {
+          "support": "unsupported",
+          "answer": "No multi-user feature.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "permissions": {
+          "support": "unsupported",
+          "answer": "No multi-user feature.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "plan_restrictions": {
+          "support": "unsupported",
+          "answer": "No multi-user feature.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "owner_online": {
+          "support": "unsupported",
+          "answer": "No multi-user feature.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        }
+      },
+      "limitations": [
+        "Shared tmux attach is plain tmux."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "notify",
+        "srch-team"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tmux-ide:TEAM-02",
+      "criterionId": "TEAM-02",
+      "answer": "No accounts, roles or SSO.",
+      "support": "unsupported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v2.9.25 (commit 1460431, released 2026-11-16)",
+        "plan": "Open source (MIT), free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "organization_roles": {
+          "support": "unsupported",
+          "answer": "No roles or SSO.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "project_roles": {
+          "support": "unsupported",
+          "answer": "No roles or SSO.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "task_roles": {
+          "support": "unsupported",
+          "answer": "No roles or SSO.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "membership": {
+          "support": "unsupported",
+          "answer": "No roles or SSO.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "sso": {
+          "support": "unsupported",
+          "answer": "No roles or SSO.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "provisioning": {
+          "support": "unsupported",
+          "answer": "No roles or SSO.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "unauthorized_access": {
+          "support": "unsupported",
+          "answer": "No roles or SSO.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "revocation": {
+          "support": "unsupported",
+          "answer": "No roles or SSO.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "plan_scope": {
+          "support": "unsupported",
+          "answer": "No roles or SSO.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "srch-team"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tmux-ide:TEAM-03",
+      "criterionId": "TEAM-03",
+      "answer": "Approvals stay in each agent; tmux-ide marks agents blocked on permission prompts and jumps to them; automation sends are attributed and scoped.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v2.9.25 (commit 1460431, released 2026-11-16)",
+        "plan": "Open source (MIT), free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "command": {
+          "support": "partial",
+          "answer": "Blocked marks a pending approval; the agent enforces it.",
+          "evidenceIds": [
+            "detect"
+          ]
+        },
+        "tool": {
+          "support": "unsupported",
+          "answer": "No product policy.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "network": {
+          "support": "unsupported",
+          "answer": "No product policy.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "secret": {
+          "support": "unsupported",
+          "answer": "No product policy.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "delivery": {
+          "support": "unsupported",
+          "answer": "No product policy.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "approver_identity": {
+          "support": "partial",
+          "answer": "Automation attributes the sending pane.",
+          "evidenceIds": [
+            "automation"
+          ]
+        },
+        "lifetime": {
+          "support": "unsupported",
+          "answer": "No product policy.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "allow": {
+          "support": "partial",
+          "answer": "Answer in the agent's pane.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "deny": {
+          "support": "partial",
+          "answer": "Answer in the agent's pane.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "revoke": {
+          "support": "unsupported",
+          "answer": "No product policy.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "tunnels": {
+          "support": "unsupported",
+          "answer": "No product policy.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "defaults": {
+          "support": "unsupported",
+          "answer": "No product policy.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "safer_modes": {
+          "support": "unsupported",
+          "answer": "No product policy.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "enforcement": {
+          "support": "partial",
+          "answer": "Scoped automation reads and sends are enforced by the daemon.",
+          "evidenceIds": [
+            "automation"
+          ]
+        }
+      },
+      "limitations": [
+        "No product-enforced policy."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "detect",
+        "automation",
+        "srch-team",
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tmux-ide:TEAM-04",
+      "criterionId": "TEAM-04",
+      "answer": "Automation operations carry sender attribution and retry-safe handles; events record agent-state transitions; no audit retention or integrity model.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v2.9.25 (commit 1460431, released 2026-11-16)",
+        "plan": "Open source (MIT), free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "actions": {
+          "support": "partial",
+          "answer": "Operation handles identify sender and target.",
+          "evidenceIds": [
+            "automation"
+          ]
+        },
+        "approvals": {
+          "support": "unsupported",
+          "answer": "No audit feature.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "edits": {
+          "support": "unsupported",
+          "answer": "No audit feature.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "discussion": {
+          "support": "unsupported",
+          "answer": "No audit feature.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "decisions": {
+          "support": "unsupported",
+          "answer": "No audit feature.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "cross_user_persistence": {
+          "support": "unsupported",
+          "answer": "No audit feature.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "cross_session_persistence": {
+          "support": "partial",
+          "answer": "Snapshots persist session layout.",
+          "evidenceIds": [
+            "restore"
+          ]
+        },
+        "export": {
+          "support": "unsupported",
+          "answer": "No audit feature.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "mutability": {
+          "support": "unsupported",
+          "answer": "No audit feature.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "retention": {
+          "support": "unsupported",
+          "answer": "No audit feature.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "integrity": {
+          "support": "unsupported",
+          "answer": "No audit feature.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        }
+      },
+      "limitations": [
+        "No audit model."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "automation",
+        "notify",
+        "srch-team",
+        "restore"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tmux-ide:TEAM-05",
+      "criterionId": "TEAM-05",
+      "answer": "No review experience; a Markdown reader and browser pane open files and pages beside agents.",
+      "support": "unsupported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v2.9.25 (commit 1460431, released 2026-11-16)",
+        "plan": "Open source (MIT), free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "pending_reviews": {
+          "support": "unsupported",
+          "answer": "No review UI.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "change_understanding": {
+          "support": "unsupported",
+          "answer": "No review UI.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "evidence_navigation": {
+          "support": "unsupported",
+          "answer": "No review UI.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "comments": {
+          "support": "unsupported",
+          "answer": "No review UI.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "request_changes": {
+          "support": "unsupported",
+          "answer": "No review UI.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "shipping_guidance": {
+          "support": "unsupported",
+          "answer": "No review UI.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "effort": {
+          "support": "unsupported",
+          "answer": "No review UI.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "missed_evidence": {
+          "support": "unsupported",
+          "answer": "No review UI.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "keyboard": {
+          "support": "unsupported",
+          "answer": "No review UI.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "narrow_screen": {
+          "support": "unsupported",
+          "answer": "No review UI.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "context_switching": {
+          "support": "unsupported",
+          "answer": "No review UI.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "roles": {
+          "support": "unsupported",
+          "answer": "No review UI.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "retained_context": {
+          "support": "unsupported",
+          "answer": "No review UI.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "srch-review"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tmux-ide:TEAM-06",
+      "criterionId": "TEAM-06",
+      "answer": "No colleague takeover; another tmux client can attach to the same session.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v2.9.25 (commit 1460431, released 2026-11-16)",
+        "plan": "Open source (MIT), free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "ongoing_takeover": {
+          "support": "partial",
+          "answer": "A second tmux client can attach to a running session; no ownership transfer.",
+          "evidenceIds": [
+            "notify"
+          ]
+        },
+        "same_task": {
+          "support": "unsupported",
+          "answer": "No takeover feature.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "session_history": {
+          "support": "unsupported",
+          "answer": "No takeover feature.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "decisions": {
+          "support": "unsupported",
+          "answer": "No takeover feature.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "artifacts": {
+          "support": "unsupported",
+          "answer": "No takeover feature.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "permissions": {
+          "support": "unsupported",
+          "answer": "No takeover feature.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "runtime_context": {
+          "support": "unsupported",
+          "answer": "No takeover feature.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "owner_disconnect": {
+          "support": "unsupported",
+          "answer": "No takeover feature.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "ownership": {
+          "support": "unsupported",
+          "answer": "No takeover feature.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "attribution": {
+          "support": "unsupported",
+          "answer": "No takeover feature.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "context_loss": {
+          "support": "unsupported",
+          "answer": "No takeover feature.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "harness_transfer": {
+          "support": "unsupported",
+          "answer": "No takeover feature.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully supported: ongoing_takeover (partial), same_task (unsupported), session_history (unsupported), decisions (unsupported), artifacts (unsupported), permissions (unsupported), runtime_context (unsupported), owner_disconnect (unsupported), ownership (unsupported), attribution (unsupported), context_loss (unsupported), harness_transfer (unsupported)."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "notify",
+        "srch-team"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tmux-ide:SHIP-01",
+      "criterionId": "SHIP-01",
+      "answer": "No artifact store; a Markdown reader and browser pane open documents and previews beside agents.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v2.9.25 (commit 1460431, released 2026-11-16)",
+        "plan": "Open source (MIT), free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "diffs": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "documents": {
+          "support": "partial",
+          "answer": "Markdown reader pane.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "screenshots": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "recordings": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "previews": {
+          "support": "partial",
+          "answer": "Browser pane for dev servers.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "test_outputs": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "reviewer_outputs": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "gallery": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "task_links": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "revision_links": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "persistence": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "child_findings": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "prompt_leakage": {
+          "support": "unknown",
+          "answer": "Not documented.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully supported: diffs (unsupported), documents (partial), screenshots (unsupported), recordings (unsupported), previews (partial), test_outputs (unsupported), reviewer_outputs (unsupported), gallery (unsupported), task_links (unsupported), revision_links (unsupported), persistence (unsupported), child_findings (unsupported), prompt_leakage (unknown)."
+      ],
+      "unknownReason": "Prompt leakage into artifacts is not addressed in the inspected sources.",
+      "evidenceIds": [
+        "readme",
+        "srch-review"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tmux-ide:SHIP-02",
+      "criterionId": "SHIP-02",
+      "answer": "No verification gates in the product.",
+      "support": "unsupported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v2.9.25 (commit 1460431, released 2026-11-16)",
+        "plan": "Open source (MIT), free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "tests": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "lint": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "types": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "ci": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "independent_review": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "spec_checks": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "required_checks": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "failure_blocking": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "requirement_conflicts": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "configured_policy": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "enforced_policy": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "srch-review"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tmux-ide:SHIP-03",
+      "criterionId": "SHIP-03",
+      "answer": "tmux-ide worktree creates, opens, lists and removes git worktrees on new branches with sessions; no commit, PR, rebase or conflict features.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v2.9.25 (commit 1460431, released 2026-11-16)",
+        "plan": "Open source (MIT), free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "branches": {
+          "support": "supported",
+          "answer": "A worktree gets a new branch from a chosen ref.",
+          "evidenceIds": [
+            "worktrees"
+          ]
+        },
+        "worktrees": {
+          "support": "supported",
+          "answer": "create, open, list, remove with dirty-worktree protection.",
+          "evidenceIds": [
+            "worktrees"
+          ]
+        },
+        "commits": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "pull_requests": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "comments": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "ci_response": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "rebase": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "conflicts": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "product_state": {
+          "support": "partial",
+          "answer": "worktree list joins worktrees with session status.",
+          "evidenceIds": [
+            "worktrees"
+          ]
+        }
+      },
+      "limitations": [
+        "Git beyond worktrees is left to the agent."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "worktrees",
+        "srch-review"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tmux-ide:SHIP-04",
+      "criterionId": "SHIP-04",
+      "answer": "No approval, merge, release or deploy features.",
+      "support": "unsupported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v2.9.25 (commit 1460431, released 2026-11-16)",
+        "plan": "Open source (MIT), free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "approve": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "merge": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "release": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "deploy": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "exact_revision": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "authority_enforcement": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "srch-review"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tmux-ide:SHIP-05",
+      "criterionId": "SHIP-05",
+      "answer": "No delivery tracking or rollback.",
+      "support": "unsupported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v2.9.25 (commit 1460431, released 2026-11-16)",
+        "plan": "Open source (MIT), free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "commit_links": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "pr_links": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "build_links": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "deployment_links": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "delivery_status": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "retained_evidence": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "rollback": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "revert": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "stale_approval_invalidation": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "srch-review"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tmux-ide:SHIP-06",
+      "criterionId": "SHIP-06",
+      "answer": "No batch review or delivery queue.",
+      "support": "unsupported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v2.9.25 (commit 1460431, released 2026-11-16)",
+        "plan": "Open source (MIT), free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "review_queue": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "summaries": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "grouping": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "risk_size_filters": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "findings": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "artifacts": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "request_changes": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "exact_revision_approval": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "dependency_queues": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "next_actions": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "stale_approval_invalidation": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        },
+        "check_deduplication": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-review"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "srch-review"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tmux-ide:OWN-01",
+      "criterionId": "OWN-01",
+      "answer": "MIT application in one public monorepo (daemon, TUI, SDK, native alpha).",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v2.9.25 (commit 1460431, released 2026-11-16)",
+        "plan": "Open source (MIT), free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "client_license": {
+          "support": "supported",
+          "answer": "MIT; copyright Thijs Verreck.",
+          "evidenceIds": [
+            "license",
+            "readme"
+          ]
+        },
+        "server_license": {
+          "support": "supported",
+          "answer": "The daemon is in the same MIT repository.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "hosted_extensions": {
+          "support": "unsupported",
+          "answer": "No hosted or server component.",
+          "evidenceIds": [
+            "srch-clients"
+          ]
+        },
+        "source_visibility": {
+          "support": "supported",
+          "answer": "Public GitHub repository.",
+          "evidenceIds": [
+            "readme",
+            "repoapi"
+          ]
+        },
+        "source_revision": {
+          "support": "supported",
+          "answer": "Pinned to v2.9.25, commit 1460431.",
+          "evidenceIds": [
+            "release",
+            "npm"
+          ]
+        },
+        "hosted_parity": {
+          "support": "unsupported",
+          "answer": "No hosted or server component.",
+          "evidenceIds": [
+            "srch-clients"
+          ]
+        }
+      },
+      "limitations": [
+        "Bundled tmux and Ghostty components keep their own licenses."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "license",
+        "readme",
+        "npm",
+        "srch-clients",
+        "repoapi",
+        "release"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-05-15",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tmux-ide:OWN-02",
+      "criterionId": "OWN-02",
+      "answer": "Everything runs on the user's machines with no required vendor service; sessions stay ordinary tmux; machine profiles export as JSON; snapshots are JSON files.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v2.9.25 (commit 1460431, released 2026-11-16)",
+        "plan": "Open source (MIT), free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "self_hosting": {
+          "support": "supported",
+          "answer": "All components run locally or on the user's remote machines.",
+          "evidenceIds": [
+            "readme",
+            "remote"
+          ]
+        },
+        "vendor_dependencies": {
+          "support": "supported",
+          "answer": "None required; npm registry for update checks.",
+          "evidenceIds": [
+            "updatecheck"
+          ]
+        },
+        "export": {
+          "support": "supported",
+          "answer": "machines export and snapshots.",
+          "evidenceIds": [
+            "commands",
+            "restore"
+          ]
+        },
+        "import": {
+          "support": "supported",
+          "answer": "machines import previews an add-only import.",
+          "evidenceIds": [
+            "commands"
+          ]
+        },
+        "formats": {
+          "support": "supported",
+          "answer": "JSON files and ordinary tmux sessions.",
+          "evidenceIds": [
+            "commands",
+            "readme"
+          ]
+        },
+        "cancellation": {
+          "support": "unsupported",
+          "answer": "No account exists.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "account_independence": {
+          "support": "supported",
+          "answer": "No account is needed.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "history_portability": {
+          "support": "partial",
+          "answer": "Conversation ids resume in each agent.",
+          "evidenceIds": [
+            "restore"
+          ]
+        }
+      },
+      "limitations": [
+        "Update and installer downloads use tmux-ide.com and npm."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "commands",
+        "updatecheck",
+        "remote",
+        "restore",
+        "srch-team"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-05-15",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tmux-ide:OWN-03",
+      "criterionId": "OWN-03",
+      "answer": "No analytics or crash reporting exists; the update check reads the npm registry and installers download from tmux-ide.com; code and prompts stay in tmux and go only to the agents' providers; remote machines talk over the user's SSH.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v2.9.25 (commit 1460431, released 2026-11-16)",
+        "plan": "Open source (MIT), free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "code_data": {
+          "support": "supported",
+          "answer": "Code stays on the user's machines except where agents send it.",
+          "evidenceIds": [
+            "srch-tele",
+            "remote"
+          ]
+        },
+        "prompts": {
+          "support": "supported",
+          "answer": "Prompts go from the agent to its provider.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "credentials": {
+          "support": "supported",
+          "answer": "tmux-ide holds no credentials and never copies SSH keys.",
+          "evidenceIds": [
+            "remote",
+            "commands"
+          ]
+        },
+        "logs": {
+          "support": "partial",
+          "answer": "Local daemon logs.",
+          "evidenceIds": [
+            "changelog"
+          ]
+        },
+        "artifacts": {
+          "support": "supported",
+          "answer": "Local snapshot and dispatch files.",
+          "evidenceIds": [
+            "restore",
+            "teams"
+          ]
+        },
+        "retention": {
+          "support": "partial",
+          "answer": "Local until deleted.",
+          "evidenceIds": [
+            "restore"
+          ]
+        },
+        "deletion": {
+          "support": "partial",
+          "answer": "Files are removed by the user.",
+          "evidenceIds": [
+            "restore"
+          ]
+        },
+        "training": {
+          "support": "unknown",
+          "answer": "tmux-ide has no model.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "residency": {
+          "support": "unknown",
+          "answer": "Provider-specific.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "subprocessors": {
+          "support": "unknown",
+          "answer": "No vendor service; provider subprocessors are outside the repository.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "telemetry_disclosure": {
+          "support": "supported",
+          "answer": "Bounded search found no analytics client and the update check is a registry request.",
+          "evidenceIds": [
+            "srch-tele",
+            "updatecheck"
+          ]
+        },
+        "telemetry_defaults": {
+          "support": "supported",
+          "answer": "No telemetry exists.",
+          "evidenceIds": [
+            "srch-tele"
+          ]
+        },
+        "telemetry_controls": {
+          "support": "unsupported",
+          "answer": "No control exists because nothing is collected.",
+          "evidenceIds": [
+            "srch-tele"
+          ]
+        },
+        "consent_prompt": {
+          "support": "unsupported",
+          "answer": "No prompt needed.",
+          "evidenceIds": [
+            "srch-tele"
+          ]
+        },
+        "provider_separation": {
+          "support": "supported",
+          "answer": "The product never calls model providers.",
+          "evidenceIds": [
+            "srch-tele"
+          ]
+        }
+      },
+      "limitations": [
+        "Provider data handling is each agent vendor's policy."
+      ],
+      "unknownReason": "Agent providers' retention, training, residency and subprocessor policies are third-party facts outside the repository.",
+      "evidenceIds": [
+        "updatecheck",
+        "srch-tele",
+        "remote",
+        "readme",
+        "commands",
+        "changelog",
+        "restore",
+        "teams"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tmux-ide:OWN-04",
+      "criterionId": "OWN-04",
+      "answer": "Free open-source software with no price, tiers or seats; agent usage is paid to providers.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v2.9.25 (commit 1460431, released 2026-11-16)",
+        "plan": "Open source (MIT), free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "currency": {
+          "support": "unsupported",
+          "answer": "No prices exist.",
+          "evidenceIds": [
+            "readme",
+            "srch-cost"
+          ]
+        },
+        "interval": {
+          "support": "unsupported",
+          "answer": "No prices exist.",
+          "evidenceIds": [
+            "readme",
+            "srch-cost"
+          ]
+        },
+        "seats": {
+          "support": "unsupported",
+          "answer": "No prices exist.",
+          "evidenceIds": [
+            "readme",
+            "srch-cost"
+          ]
+        },
+        "seat_minimum": {
+          "support": "unsupported",
+          "answer": "No prices exist.",
+          "evidenceIds": [
+            "readme",
+            "srch-cost"
+          ]
+        },
+        "workspace_fees": {
+          "support": "unsupported",
+          "answer": "No prices exist.",
+          "evidenceIds": [
+            "readme",
+            "srch-cost"
+          ]
+        },
+        "included_usage": {
+          "support": "unsupported",
+          "answer": "No prices exist.",
+          "evidenceIds": [
+            "readme",
+            "srch-cost"
+          ]
+        },
+        "credits": {
+          "support": "unsupported",
+          "answer": "No prices exist.",
+          "evidenceIds": [
+            "readme",
+            "srch-cost"
+          ]
+        },
+        "trial": {
+          "support": "unsupported",
+          "answer": "No prices exist.",
+          "evidenceIds": [
+            "readme",
+            "srch-cost"
+          ]
+        },
+        "overages": {
+          "support": "unsupported",
+          "answer": "No prices exist.",
+          "evidenceIds": [
+            "readme",
+            "srch-cost"
+          ]
+        },
+        "taxes": {
+          "support": "unsupported",
+          "answer": "No prices exist.",
+          "evidenceIds": [
+            "readme",
+            "srch-cost"
+          ]
+        },
+        "model_cost": {
+          "support": "partial",
+          "answer": "Paid to agent providers.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "compute_cost": {
+          "support": "partial",
+          "answer": "Own machines.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Provider costs outside."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "license",
+        "srch-cost"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-01-15",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tmux-ide:OWN-05",
+      "criterionId": "OWN-05",
+      "answer": "Tool cost is zero for any team size; agent costs are not estimated.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v2.9.25 (commit 1460431, released 2026-11-16)",
+        "plan": "Open source (MIT), free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "one_person": {
+          "support": "partial",
+          "answer": "Tool fee zero.",
+          "evidenceIds": [
+            "readme",
+            "license"
+          ]
+        },
+        "two_people": {
+          "support": "partial",
+          "answer": "Tool fee zero.",
+          "evidenceIds": [
+            "readme",
+            "license"
+          ]
+        },
+        "five_people": {
+          "support": "partial",
+          "answer": "Tool fee zero.",
+          "evidenceIds": [
+            "readme",
+            "license"
+          ]
+        },
+        "task_assumptions": {
+          "support": "unsupported",
+          "answer": "No scenario costing; no fee exists.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "concurrency": {
+          "support": "unsupported",
+          "answer": "No scenario costing; no fee exists.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "tokens": {
+          "support": "unsupported",
+          "answer": "No scenario costing; no fee exists.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "compute_hours": {
+          "support": "unsupported",
+          "answer": "No scenario costing; no fee exists.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "fixed_cost": {
+          "support": "supported",
+          "answer": "No fixed cost.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "variable_cost": {
+          "support": "unsupported",
+          "answer": "No scenario costing; no fee exists.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "included_cost": {
+          "support": "supported",
+          "answer": "No included usage.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "unknown_cost": {
+          "support": "supported",
+          "answer": "Agent costs sit outside the product.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Agent costs unknown."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "license"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tmux-ide:OWN-06",
+      "criterionId": "OWN-06",
+      "answer": "Generally available open-source releases every few days (v2.9.25 on 2026-11-16) and a public native alpha with its own releases; support through GitHub issues; no response commitments.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v2.9.25 (commit 1460431, released 2026-11-16)",
+        "plan": "Open source (MIT), free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "release_stage": {
+          "support": "partial",
+          "answer": "Stable 2.9.x with a separate native alpha.",
+          "evidenceIds": [
+            "release",
+            "native"
+          ]
+        },
+        "access_restrictions": {
+          "support": "supported",
+          "answer": "Free download.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "support": {
+          "support": "partial",
+          "answer": "GitHub issues and CONTRIBUTING.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "response_commitments": {
+          "support": "unknown",
+          "answer": "None published.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "release_activity": {
+          "support": "supported",
+          "answer": "Several releases per week through 2026-11-16.",
+          "evidenceIds": [
+            "release",
+            "changelog"
+          ]
+        },
+        "status_history": {
+          "support": "unknown",
+          "answer": "No status page.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "deprecation": {
+          "support": "partial",
+          "answer": "Intel Mac support was dropped in 2.9.6 per the docs.",
+          "evidenceIds": [
+            "start"
+          ]
+        },
+        "export_options": {
+          "support": "partial",
+          "answer": "machines export and snapshots.",
+          "evidenceIds": [
+            "commands"
+          ]
+        }
+      },
+      "limitations": [
+        "No stated response commitment."
+      ],
+      "unknownReason": "There is no status page or response commitment published.",
+      "evidenceIds": [
+        "release",
+        "changelog",
+        "npm",
+        "native",
+        "readme",
+        "start",
+        "commands"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tmux-ide:OWN-07",
+      "criterionId": "OWN-07",
+      "answer": "No ISO or SOC assurance is claimed.",
+      "support": "unknown",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v2.9.25 (commit 1460431, released 2026-11-16)",
+        "plan": "Open source (MIT), free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "iso_scope": {
+          "support": "unknown",
+          "answer": "No certification or audit is claimed in the repository; this is a business fact outside the code.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "iso_issuer": {
+          "support": "unknown",
+          "answer": "No certification or audit is claimed in the repository; this is a business fact outside the code.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "iso_validity": {
+          "support": "unknown",
+          "answer": "No certification or audit is claimed in the repository; this is a business fact outside the code.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "soc2_type": {
+          "support": "unknown",
+          "answer": "No certification or audit is claimed in the repository; this is a business fact outside the code.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "soc2_scope": {
+          "support": "unknown",
+          "answer": "No certification or audit is claimed in the repository; this is a business fact outside the code.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "soc2_period": {
+          "support": "unknown",
+          "answer": "No certification or audit is claimed in the repository; this is a business fact outside the code.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "report_access": {
+          "support": "unknown",
+          "answer": "No certification or audit is claimed in the repository; this is a business fact outside the code.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "verification_date": {
+          "support": "unknown",
+          "answer": "No certification or audit is claimed in the repository; this is a business fact outside the code.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "evidence_status": {
+          "support": "unknown",
+          "answer": "No certification or audit is claimed in the repository; this is a business fact outside the code.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": "Certification and audit are business facts not present in the open-source repository.",
+      "evidenceIds": [
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch08",
+      "publication": "internal-only",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tmux-ide:OWN-08",
+      "criterionId": "OWN-08",
+      "answer": "Free to download and use, open source under MIT, with no trial, card or cap; agents are paid separately.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v2.9.25 (commit 1460431, released 2026-11-16)",
+        "plan": "Open source (MIT), free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "ongoing_free": {
+          "support": "supported",
+          "answer": "Free with no paid tier.",
+          "evidenceIds": [
+            "readme",
+            "license"
+          ]
+        },
+        "trial": {
+          "support": "unsupported",
+          "answer": "No trial exists because nothing is paid.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "credits_trial": {
+          "support": "unsupported",
+          "answer": "No credits.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "self_host_cost": {
+          "support": "supported",
+          "answer": "Own machines; no fee.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "paid_only": {
+          "support": "unsupported",
+          "answer": "Not paid-only.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "early_access": {
+          "support": "partial",
+          "answer": "The native macOS app is a public alpha.",
+          "evidenceIds": [
+            "native"
+          ]
+        },
+        "free_scenarios": {
+          "support": "partial",
+          "answer": "Local and remote multi-agent monitoring, BYO subscriptions and restore work free; collaboration, mobile and issues are absent.",
+          "evidenceIds": [
+            "readme",
+            "remote"
+          ]
+        },
+        "card_required": {
+          "support": "supported",
+          "answer": "No card or account.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "usage_caps": {
+          "support": "unsupported",
+          "answer": "No caps.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "paid_evaluation": {
+          "support": "unsupported",
+          "answer": "No payment needed.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Agent subscriptions are separate."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "license",
+        "native",
+        "remote"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-01-15",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tmux-ide:OWN-09",
+      "criterionId": "OWN-09",
+      "answer": "No pricing exists; the tool is free.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v2.9.25 (commit 1460431, released 2026-11-16)",
+        "plan": "Open source (MIT), free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "units": {
+          "support": "unsupported",
+          "answer": "No prices, limits or overages to disclose.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "included_limits": {
+          "support": "unsupported",
+          "answer": "No prices, limits or overages to disclose.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "overages": {
+          "support": "unsupported",
+          "answer": "No prices, limits or overages to disclose.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "compute_markup": {
+          "support": "unsupported",
+          "answer": "No prices, limits or overages to disclose.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "model_markup": {
+          "support": "unsupported",
+          "answer": "No prices, limits or overages to disclose.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "minimum_commitment": {
+          "support": "unsupported",
+          "answer": "No prices, limits or overages to disclose.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "cancellation": {
+          "support": "unsupported",
+          "answer": "No prices, limits or overages to disclose.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "sales_only_unknowns": {
+          "support": "unsupported",
+          "answer": "No prices, limits or overages to disclose.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "transparency_classification": {
+          "support": "supported",
+          "answer": "Transparent: free MIT software.",
+          "evidenceIds": [
+            "readme",
+            "license"
+          ]
+        }
+      },
+      "limitations": [
+        "Agent costs sit outside."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "license"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-01-15",
+      "researcher": "researcher-batch08",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    }
+  ],
+  "evidence": [
+    {
+      "id": "readme",
+      "kind": "documented",
+      "url": "https://github.com/wavyrai/tmux-ide/blob/1460431276a3e9f8ee3f66dea93716e4cf564ff5/README.md",
+      "title": "tmux-ide README",
+      "locator": "Install; What you get; Agent teams; Keys; How it works",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Terminal app and daemon over tmux showing every agent across local and SSH machines with status, notifications, restore, send and wait; tmux owns processes so closing tmux-ide never stops an agent; it shows and connects agents but does not orchestrate them; MIT.",
+      "visibility": "public",
+      "commit": "1460431276a3e9f8ee3f66dea93716e4cf564ff5",
+      "path": "README.md"
+    },
+    {
+      "id": "changelog",
+      "kind": "documented",
+      "url": "https://github.com/wavyrai/tmux-ide/blob/1460431276a3e9f8ee3f66dea93716e4cf564ff5/CHANGELOG.md",
+      "title": "Changelog",
+      "locator": "2.9.23 to 2.9.25",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Daemon and terminal-stream reliability fixes; releases every few days.",
+      "visibility": "public",
+      "commit": "1460431276a3e9f8ee3f66dea93716e4cf564ff5",
+      "path": "CHANGELOG.md"
+    },
+    {
+      "id": "license",
+      "kind": "source-inspected",
+      "url": "https://github.com/wavyrai/tmux-ide/blob/1460431276a3e9f8ee3f66dea93716e4cf564ff5/LICENSE",
+      "title": "MIT License",
+      "locator": "header",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "MIT License, copyright Thijs Verreck.",
+      "visibility": "public",
+      "commit": "1460431276a3e9f8ee3f66dea93716e4cf564ff5",
+      "path": "LICENSE"
+    },
+    {
+      "id": "repoapi",
+      "kind": "documented",
+      "url": "https://api.github.com/repos/wavyrai/tmux-ide",
+      "title": "GitHub repository metadata",
+      "locator": "stargazers_count, license, pushed_at, homepage",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "569 stars, MIT, pushed 2026-11-16, created 2026-03-11, homepage tmux-ide.com.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "npm",
+      "kind": "documented",
+      "url": "https://www.npmjs.com/package/tmux-ide",
+      "title": "npm tmux-ide",
+      "locator": "version",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Latest 2.9.25 modified 2026-11-16.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "release",
+      "kind": "documented",
+      "url": "https://github.com/wavyrai/tmux-ide/releases/tag/v2.9.25",
+      "title": "tmux-ide v2.9.25 release",
+      "locator": "release assets",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Assets: tmux-ide-tui for darwin-arm64, linux-arm64 and linux-x64 (gz with sha256); no Intel macOS or Windows build.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "start",
+      "kind": "documented",
+      "url": "https://github.com/wavyrai/tmux-ide/blob/1460431276a3e9f8ee3f66dea93716e4cf564ff5/docs/content/docs/getting-started.mdx",
+      "title": "Getting started",
+      "locator": "Requirements; Install",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "macOS 26+ on Apple Silicon or glibc Linux arm64/x64; Intel Macs not supported as of 2.9.6; Alpine and native Windows not supported (use WSL); bundles tmux 3.7c and Node; existing tmux servers must be 3.7+.",
+      "visibility": "public",
+      "commit": "1460431276a3e9f8ee3f66dea93716e4cf564ff5",
+      "path": "docs/content/docs/getting-started.mdx"
+    },
+    {
+      "id": "detect",
+      "kind": "documented",
+      "url": "https://github.com/wavyrai/tmux-ide/blob/1460431276a3e9f8ee3f66dea93716e4cf564ff5/docs/content/docs/agent-detection.mdx",
+      "title": "Agent detection",
+      "locator": "How detection works; Claude Code integration",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Four states blocked, working, done, idle from agent self-report (Claude Code hooks, @agent_state pane option) or process and screen manifests; agent explain shows the reason.",
+      "visibility": "public",
+      "commit": "1460431276a3e9f8ee3f66dea93716e4cf564ff5",
+      "path": "docs/content/docs/agent-detection.mdx"
+    },
+    {
+      "id": "teams",
+      "kind": "documented",
+      "url": "https://github.com/wavyrai/tmux-ide/blob/1460431276a3e9f8ee3f66dea93716e4cf564ff5/docs/content/docs/multi-agent-teams.mdx",
+      "title": "Multi-agent teams",
+      "locator": "coordination primitives",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Shared status bus via team --json and events; send types into another agent's prompt; wait blocks on status or output; long messages go to .tasks/dispatch files.",
+      "visibility": "public",
+      "commit": "1460431276a3e9f8ee3f66dea93716e4cf564ff5",
+      "path": "docs/content/docs/multi-agent-teams.mdx"
+    },
+    {
+      "id": "automation",
+      "kind": "documented",
+      "url": "https://github.com/wavyrai/tmux-ide/blob/1460431276a3e9f8ee3f66dea93716e4cf564ff5/docs/content/docs/automation.mdx",
+      "title": "Agent automation",
+      "locator": "Read and send; Reserve, execute and recover",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Scoped, auditable read and send of tmux panes through CLI, MCP or SDK with endpoints, reservations and retry-safe handles.",
+      "visibility": "public",
+      "commit": "1460431276a3e9f8ee3f66dea93716e4cf564ff5",
+      "path": "docs/content/docs/automation.mdx"
+    },
+    {
+      "id": "remote",
+      "kind": "documented",
+      "url": "https://github.com/wavyrai/tmux-ide/blob/1460431276a3e9f8ee3f66dea93716e4cf564ff5/docs/content/docs/remote-machines.mdx",
+      "title": "Remote machines",
+      "locator": "whole page",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Each remote machine runs its own daemon next to tmux; the app connects through an SSH tunnel with BatchMode; agents keep running when the app or connection closes.",
+      "visibility": "public",
+      "commit": "1460431276a3e9f8ee3f66dea93716e4cf564ff5",
+      "path": "docs/content/docs/remote-machines.mdx"
+    },
+    {
+      "id": "restore",
+      "kind": "documented",
+      "url": "https://github.com/wavyrai/tmux-ide/blob/1460431276a3e9f8ee3f66dea93716e4cf564ff5/docs/content/docs/restore-resume.mdx",
+      "title": "Restore and resume",
+      "locator": "whole page",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "tmux-ide restore rebuilds windows, layouts, cwd and titles from a 30 second snapshot; --resume-agents reopens Claude Code, Codex, Cursor and opencode conversations; commands are not replayed by default.",
+      "visibility": "public",
+      "commit": "1460431276a3e9f8ee3f66dea93716e4cf564ff5",
+      "path": "docs/content/docs/restore-resume.mdx"
+    },
+    {
+      "id": "notify",
+      "kind": "documented",
+      "url": "https://github.com/wavyrai/tmux-ide/blob/1460431276a3e9f8ee3f66dea93716e4cf564ff5/docs/content/docs/notifications-events.mdx",
+      "title": "Notifications and events",
+      "locator": "whole page",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Toasts on every attached tmux client, macOS and terminal banners and sound when an agent goes blocked or done; events stream and wait commands.",
+      "visibility": "public",
+      "commit": "1460431276a3e9f8ee3f66dea93716e4cf564ff5",
+      "path": "docs/content/docs/notifications-events.mdx"
+    },
+    {
+      "id": "worktrees",
+      "kind": "documented",
+      "url": "https://github.com/wavyrai/tmux-ide/blob/1460431276a3e9f8ee3f66dea93716e4cf564ff5/docs/content/docs/worktrees.mdx",
+      "title": "Worktrees",
+      "locator": "whole page",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "tmux-ide worktree create/open/list/remove makes a git worktree on a new branch with an adopted session.",
+      "visibility": "public",
+      "commit": "1460431276a3e9f8ee3f66dea93716e4cf564ff5",
+      "path": "docs/content/docs/worktrees.mdx"
+    },
+    {
+      "id": "plugins",
+      "kind": "documented",
+      "url": "https://github.com/wavyrai/tmux-ide/blob/1460431276a3e9f8ee3f66dea93716e4cf564ff5/docs/content/docs/plugins.mdx",
+      "title": "Plugins",
+      "locator": "whole page",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Lua plugins add palette commands and tmux-ide action, with consent, time limits and memory caps; a worktree-tasks example.",
+      "visibility": "public",
+      "commit": "1460431276a3e9f8ee3f66dea93716e4cf564ff5",
+      "path": "docs/content/docs/plugins.mdx"
+    },
+    {
+      "id": "native",
+      "kind": "documented",
+      "url": "https://github.com/wavyrai/tmux-ide/blob/1460431276a3e9f8ee3f66dea93716e4cf564ff5/docs/content/docs/native-alpha.mdx",
+      "title": "Native alpha",
+      "locator": "whole page",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Public alpha native macOS app with Home, Terminals and Commands connecting to the same daemon; Developer ID signed and notarized; alpha bugs expected.",
+      "visibility": "public",
+      "commit": "1460431276a3e9f8ee3f66dea93716e4cf564ff5",
+      "path": "docs/content/docs/native-alpha.mdx"
+    },
+    {
+      "id": "commands",
+      "kind": "documented",
+      "url": "https://github.com/wavyrai/tmux-ide/blob/1460431276a3e9f8ee3f66dea93716e4cf564ff5/docs/content/docs/commands.mdx",
+      "title": "CLI reference",
+      "locator": "Agent status and messaging; Saved SSH machines; Sessions and recovery",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Command reference including integration, send, wait, events, team, automation, restore, machines, worktree, serve.",
+      "visibility": "public",
+      "commit": "1460431276a3e9f8ee3f66dea93716e4cf564ff5",
+      "path": "docs/content/docs/commands.mdx"
+    },
+    {
+      "id": "config",
+      "kind": "documented",
+      "url": "https://github.com/wavyrai/tmux-ide/blob/1460431276a3e9f8ee3f66dea93716e4cf564ff5/docs/content/docs/configuration.mdx",
+      "title": "Configuration",
+      "locator": "whole page",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Optional .tmux-ide/workspace.yml layout and config.json settings.",
+      "visibility": "public",
+      "commit": "1460431276a3e9f8ee3f66dea93716e4cf564ff5",
+      "path": "docs/content/docs/configuration.mdx"
+    },
+    {
+      "id": "mcp",
+      "kind": "source-inspected",
+      "url": "https://github.com/wavyrai/tmux-ide/blob/1460431276a3e9f8ee3f66dea93716e4cf564ff5/packages/daemon/src/mcp.ts#L40-L110",
+      "title": "MCP server",
+      "locator": "registerTool",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Stdio MCP server tmux-ide-automation exposing scoped pane read and send operations.",
+      "visibility": "public",
+      "commit": "1460431276a3e9f8ee3f66dea93716e4cf564ff5",
+      "path": "packages/daemon/src/mcp.ts"
+    },
+    {
+      "id": "mcpjson",
+      "kind": "source-inspected",
+      "url": "https://github.com/wavyrai/tmux-ide/blob/1460431276a3e9f8ee3f66dea93716e4cf564ff5/mcp.json",
+      "title": "MCP manifest",
+      "locator": "mcpServers",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Plugin manifest registering the stdio MCP server command tmux-ide mcp.",
+      "visibility": "public",
+      "commit": "1460431276a3e9f8ee3f66dea93716e4cf564ff5",
+      "path": "mcp.json"
+    },
+    {
+      "id": "sdk",
+      "kind": "source-inspected",
+      "url": "https://github.com/wavyrai/tmux-ide/blob/1460431276a3e9f8ee3f66dea93716e4cf564ff5/packages/sdk",
+      "title": "SDK package",
+      "locator": "package",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "TypeScript SDK package sharing the automation operation API.",
+      "visibility": "public",
+      "commit": "1460431276a3e9f8ee3f66dea93716e4cf564ff5",
+      "path": "packages/sdk"
+    },
+    {
+      "id": "updatecheck",
+      "kind": "source-inspected",
+      "url": "https://github.com/wavyrai/tmux-ide/blob/1460431276a3e9f8ee3f66dea93716e4cf564ff5/packages/daemon/src/lib/update-check.ts#L170-L185",
+      "title": "Update check",
+      "locator": "fetch registry.npmjs.org",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Update check asks the npm registry for the dist-tag; the only outbound request found besides installer downloads and SSH.",
+      "visibility": "public",
+      "commit": "1460431276a3e9f8ee3f66dea93716e4cf564ff5",
+      "path": "packages/daemon/src/lib/update-check.ts"
+    },
+    {
+      "id": "control",
+      "kind": "source-inspected",
+      "url": "https://github.com/wavyrai/tmux-ide/blob/1460431276a3e9f8ee3f66dea93716e4cf564ff5/packages/daemon/src/server/pty-bridge.ts",
+      "title": "Daemon terminal bridge",
+      "locator": "server",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Daemon streams tmux panes to clients over local sockets with owner-only access.",
+      "visibility": "public",
+      "commit": "1460431276a3e9f8ee3f66dea93716e4cf564ff5",
+      "path": "packages/daemon/src/server/pty-bridge.ts"
+    },
+    {
+      "id": "srch-clients",
+      "kind": "source-inspected",
+      "url": "https://github.com/wavyrai/tmux-ide/blob/1460431276a3e9f8ee3f66dea93716e4cf564ff5/packages",
+      "title": "Bounded search: web and phone clients",
+      "locator": "grep over packages, apps, src for webview, react-native, ios, android, pwa, http server for browser clients",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "No browser, phone or Windows client; docs site and OG assets only.",
+      "visibility": "public",
+      "commit": "1460431276a3e9f8ee3f66dea93716e4cf564ff5",
+      "path": "packages"
+    },
+    {
+      "id": "srch-tele",
+      "kind": "source-inspected",
+      "url": "https://github.com/wavyrai/tmux-ide/blob/1460431276a3e9f8ee3f66dea93716e4cf564ff5/packages",
+      "title": "Bounded search: telemetry",
+      "locator": "grep -wi for posthog, sentry, plausible, mixpanel, amplitude over packages, src, native, apps, docs/content",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "No analytics or crash-reporting client; matches were the word plausible in comments.",
+      "visibility": "public",
+      "commit": "1460431276a3e9f8ee3f66dea93716e4cf564ff5",
+      "path": "packages"
+    },
+    {
+      "id": "srch-team",
+      "kind": "source-inspected",
+      "url": "https://github.com/wavyrai/tmux-ide/blob/1460431276a3e9f8ee3f66dea93716e4cf564ff5/packages",
+      "title": "Bounded search: accounts, roles, SSO",
+      "locator": "grep -w for sso, saml, rbac, multi-user, invite, roles over packages",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "No accounts, roles or SSO; matches are visual tokens and test names.",
+      "visibility": "public",
+      "commit": "1460431276a3e9f8ee3f66dea93716e4cf564ff5",
+      "path": "packages"
+    },
+    {
+      "id": "srch-issues",
+      "kind": "source-inspected",
+      "url": "https://github.com/wavyrai/tmux-ide/blob/1460431276a3e9f8ee3f66dea93716e4cf564ff5/packages",
+      "title": "Bounded search: issue or task entity",
+      "locator": "grep for issue tracker, backlog, kanban, jira, linear, epic over packages and docs commands",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "No issue or task entity; .tasks/dispatch holds message files and the worktree-tasks plugin example treats worktrees as tasks.",
+      "visibility": "public",
+      "commit": "1460431276a3e9f8ee3f66dea93716e4cf564ff5",
+      "path": "packages"
+    },
+    {
+      "id": "srch-sched",
+      "kind": "source-inspected",
+      "url": "https://github.com/wavyrai/tmux-ide/blob/1460431276a3e9f8ee3f66dea93716e4cf564ff5/packages",
+      "title": "Bounded search: schedules and triggers",
+      "locator": "grep -w for cron, schedule, webhook over packages",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "No scheduler or webhook trigger; the daemon only reacts to tmux events.",
+      "visibility": "public",
+      "commit": "1460431276a3e9f8ee3f66dea93716e4cf564ff5",
+      "path": "packages"
+    },
+    {
+      "id": "srch-container",
+      "kind": "source-inspected",
+      "url": "https://github.com/wavyrai/tmux-ide/blob/1460431276a3e9f8ee3f66dea93716e4cf564ff5/packages",
+      "title": "Bounded search: container or VM isolation",
+      "locator": "grep -w for docker, podman, sandbox, bwrap over packages and docs commands",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "No container or sandbox feature for agents; docker mentions are the development environment.",
+      "visibility": "public",
+      "commit": "1460431276a3e9f8ee3f66dea93716e4cf564ff5",
+      "path": "packages"
+    },
+    {
+      "id": "srch-cost",
+      "kind": "source-inspected",
+      "url": "https://github.com/wavyrai/tmux-ide/blob/1460431276a3e9f8ee3f66dea93716e4cf564ff5/packages",
+      "title": "Bounded search: cost and usage",
+      "locator": "grep -w for cost, usd, spend, budget, token over packages",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "No cost, spend or budget tracking.",
+      "visibility": "public",
+      "commit": "1460431276a3e9f8ee3f66dea93716e4cf564ff5",
+      "path": "packages"
+    },
+    {
+      "id": "srch-review",
+      "kind": "source-inspected",
+      "url": "https://github.com/wavyrai/tmux-ide/blob/1460431276a3e9f8ee3f66dea93716e4cf564ff5/packages",
+      "title": "Bounded search: diff or PR features",
+      "locator": "grep for pull request, gh pr, diff viewer over packages and commands",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "No diff viewer or PR feature; a Markdown reader and browser pane exist.",
+      "visibility": "public",
+      "commit": "1460431276a3e9f8ee3f66dea93716e4cf564ff5",
+      "path": "packages"
+    }
+  ],
+  "changes": [
+    {
+      "date": "2026-11-16",
+      "author": "researcher-batch08",
+      "type": "initial-research",
+      "summary": "Initial full-profile source pass over release v2.9.25 (commit 1460431): README, CHANGELOG, the docs source in docs/content/docs, daemon, SDK and MCP packages, native alpha docs, and bounded code searches covering all 51 criteria.",
+      "claimIds": [
+        "tmux-ide:ACC-01",
+        "tmux-ide:ACC-02",
+        "tmux-ide:ACC-03",
+        "tmux-ide:ACC-04",
+        "tmux-ide:ACC-05",
+        "tmux-ide:ACC-06",
+        "tmux-ide:ACC-07",
+        "tmux-ide:PLAN-01",
+        "tmux-ide:PLAN-02",
+        "tmux-ide:PLAN-03",
+        "tmux-ide:PLAN-04",
+        "tmux-ide:PLAN-05",
+        "tmux-ide:PLAN-06",
+        "tmux-ide:PLAN-07",
+        "tmux-ide:PLAN-08",
+        "tmux-ide:COORD-01",
+        "tmux-ide:COORD-02",
+        "tmux-ide:COORD-03",
+        "tmux-ide:COORD-04",
+        "tmux-ide:COORD-05",
+        "tmux-ide:COORD-06",
+        "tmux-ide:COORD-07",
+        "tmux-ide:RUN-01",
+        "tmux-ide:RUN-02",
+        "tmux-ide:RUN-03",
+        "tmux-ide:RUN-04",
+        "tmux-ide:RUN-05",
+        "tmux-ide:RUN-06",
+        "tmux-ide:RUN-07",
+        "tmux-ide:RUN-08",
+        "tmux-ide:TEAM-01",
+        "tmux-ide:TEAM-02",
+        "tmux-ide:TEAM-03",
+        "tmux-ide:TEAM-04",
+        "tmux-ide:TEAM-05",
+        "tmux-ide:TEAM-06",
+        "tmux-ide:SHIP-01",
+        "tmux-ide:SHIP-02",
+        "tmux-ide:SHIP-03",
+        "tmux-ide:SHIP-04",
+        "tmux-ide:SHIP-05",
+        "tmux-ide:SHIP-06",
+        "tmux-ide:OWN-01",
+        "tmux-ide:OWN-02",
+        "tmux-ide:OWN-03",
+        "tmux-ide:OWN-04",
+        "tmux-ide:OWN-05",
+        "tmux-ide:OWN-06",
+        "tmux-ide:OWN-07",
+        "tmux-ide:OWN-08",
+        "tmux-ide:OWN-09"
+      ],
+      "evidenceIds": [
+        "readme",
+        "changelog",
+        "license",
+        "repoapi",
+        "npm",
+        "release",
+        "start",
+        "detect",
+        "teams",
+        "automation",
+        "remote",
+        "restore",
+        "notify",
+        "worktrees",
+        "plugins",
+        "native",
+        "commands",
+        "config",
+        "mcp",
+        "mcpjson",
+        "sdk",
+        "updatecheck",
+        "control",
+        "srch-clients",
+        "srch-tele",
+        "srch-team",
+        "srch-issues",
+        "srch-sched",
+        "srch-container",
+        "srch-cost",
+        "srch-review"
+      ]
+    }
+  ],
+  "context": {
+    "roadmapReview": {
+      "checkedAt": "2026-11-16",
+      "locations": [
+        {
+          "url": "https://github.com/wavyrai/tmux-ide/releases",
+          "result": "v2.9.25 (2026-11-16) is latest; releases land every few days; a native-alpha series (0.1.18, 2026-11-16) ships beside it."
+        },
+        {
+          "url": "https://github.com/wavyrai/tmux-ide/blob/1460431276a3e9f8ee3f66dea93716e4cf564ff5/CHANGELOG.md",
+          "result": "Per-release changelog 2.9.x through 2.9.25; shipped changes only."
+        },
+        {
+          "url": "https://tmux-ide.com/docs/native-alpha",
+          "result": "Native alpha page lists version 0.1.17 and its limits as an alpha; no dated roadmap."
+        },
+        {
+          "url": "https://github.com/wavyrai/tmux-ide/issues",
+          "result": "Public issues referenced by changelog entries; no dated product announcements read."
+        }
+      ],
+      "announced": [],
+      "gaps": [
+        "No official roadmap exists in the repository or on the docs site.",
+        "README says macOS 15+ x64 while the docs say Intel Macs are not supported and the v2.9.25 release ships only darwin-arm64 and linux binaries; the conflict is recorded in ACC-01."
+      ]
+    },
+    "marketContext": {
+      "githubStars": {
+        "value": 569,
+        "observedAt": "2026-11-16",
+        "evidenceIds": [
+          "repoapi"
+        ]
+      }
+    }
+  }
+}
