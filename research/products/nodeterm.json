@@ -55,8 +55,12 @@
    "subanswers": {
     "desktop_os": {
      "support": "supported",
-     "answer": "macOS 12 Monterey+ dmg arm64+x64 (auto-update, Homebrew cask), Linux x64 AppImage/.deb/.rpm, Windows x64 beta exe/zip (unsigned SmartScreen prompt, manual updates).",
+     "answer": "macOS 12+ dmg (arm64 and x64) and Linux x64 AppImage, deb and rpm ship; Windows x64 ships as an unsigned beta installer and zip with manual updates through the release workflow, while the FAQ says Windows is not supported yet, which reads as official-support wording lagging the beta.",
      "evidenceIds": [
+      "d80-winworkflow",
+      "d80-winpkg",
+      "d80-winreadme",
+      "d80-faq",
       "readme",
       "releases-page"
      ]
@@ -134,9 +138,9 @@
     }
    },
    "limitations": [
-    "Only the cited atomic findings are established. Windows is beta (unsigned, manual updates, continuity landing). The live FAQ denial vs shipped beta installers is an unresolved vendor contradiction that blocks a definitive Windows support claim."
+    "Windows x64 is an unsigned beta with manual updates and session continuity landing; the FAQ line \"Windows isn't supported yet\" was re-read 2026-11-16 and is treated as official-support wording, with the shipped beta installers recorded in this claim rather than as an unresolved contradiction."
    ],
-   "unknownReason": "Checked pinned README, releases page, installation/overview/server/mobile/status docs. FAQ page still says Windows unsupported, contradicting the pinned v0.5.1 Windows beta builds.",
+   "unknownReason": null,
    "evidenceIds": [
     "readme",
     "releases-page",
@@ -145,16 +149,18 @@
     "docs-server",
     "docs-mobile",
     "docs-status",
-    "notch-doc"
+    "notch-doc",
+    "d80-winworkflow",
+    "d80-winpkg",
+    "d80-winreadme",
+    "d80-faq"
    ],
    "checkedAt": "2026-11-12",
    "nextReviewAt": "2027-05-11",
-   "researcher": "researcher-16",
+   "researcher": "researcher-ade80",
    "publication": "public-candidate",
    "review": null,
-   "contradictions": [
-    "First-party contradiction verified live 2026-11-13, unresolved: docs FAQ (Is there a Windows or Linux version?) says 'Windows isn’t supported yet', while pinned README v0.5.1 and the releases page ship Windows x64 beta installers (unsigned exe/zip, manual updates). Neither source is stale; the vendor has not reconciled them."
-   ]
+   "contradictions": []
   },
   {
    "id": "nodeterm:ACC-02",
@@ -4744,8 +4750,9 @@
     },
     "pull_requests": {
      "support": "partial",
-     "answer": "Agent lane reads PRs; humans use gh/terminal; no product PR create/review flow established.",
+     "answer": "Agents read pull requests and humans create them with gh in a terminal; a bounded search of src, site, docs and scripts found no product pull-request creation.",
      "evidenceIds": [
+      "d80-ghpr",
       "canvas-control",
       "docs-source"
      ]
@@ -4791,21 +4798,18 @@
    "limitations": [
     "Only the cited atomic findings are established. Product PR creation/review, CI response and rebase were not established."
    ],
-   "unknownReason": "Checked source-control, worktrees and canvas-control sources. PR creation/comments, CI response and rebase were not established.",
+   "unknownReason": null,
    "evidenceIds": [
     "docs-source",
     "docs-worktrees",
-    "canvas-control"
+    "canvas-control",
+    "d80-ghpr"
    ],
    "checkedAt": "2026-11-12",
    "nextReviewAt": "2027-03-12",
-   "researcher": "researcher-16",
-   "publication": "public-reviewed",
-   "review": {
-    "reviewer": "reviewer-nodeterm",
-    "date": "2026-11-13",
-    "contentHash": "c80b9976751f3c7723a37c1a6e494c201894386cafa3d32b09dcf1bb14ff3d91"
-   },
+   "researcher": "researcher-ade80",
+   "publication": "public-candidate",
+   "review": null,
    "contradictions": []
   },
   {
@@ -6867,6 +6871,71 @@
    "visibility": "public",
    "commit": null,
    "path": null
+  },
+  {
+   "id": "d80-winworkflow",
+   "kind": "source-inspected",
+   "url": "https://github.com/eneskirca/nodeterm/blob/6749cd0b171872d3ced720a27c1339f6eb7f44bf/.github/workflows/win-package-smoke.yml#L10-L13",
+   "title": "nodeterm .github/workflows/win-package-smoke.yml",
+   "locator": ".github/workflows/win-package-smoke.yml l10-l13; header comment; v0.5.1 (6749cd0)",
+   "sourceDate": null,
+   "retrievedAt": "2026-11-16",
+   "finding": "The workflow header says release.yml release-win job ships the Windows build as an unsigned beta on every version tag through dist:win:release.",
+   "visibility": "public",
+   "commit": "6749cd0b171872d3ced720a27c1339f6eb7f44bf",
+   "path": ".github/workflows/win-package-smoke.yml"
+  },
+  {
+   "id": "d80-winpkg",
+   "kind": "source-inspected",
+   "url": "https://github.com/eneskirca/nodeterm/blob/6749cd0b171872d3ced720a27c1339f6eb7f44bf/package.json#L35-L36",
+   "title": "nodeterm package.json",
+   "locator": "package.json l35-l36; scripts; v0.5.1 (6749cd0)",
+   "sourceDate": null,
+   "retrievedAt": "2026-11-16",
+   "finding": "dist:win:release builds the Windows x64 installer with manual updates through electron-builder.",
+   "visibility": "public",
+   "commit": "6749cd0b171872d3ced720a27c1339f6eb7f44bf",
+   "path": "package.json"
+  },
+  {
+   "id": "d80-winreadme",
+   "kind": "documented",
+   "url": "https://github.com/eneskirca/nodeterm/blob/6749cd0b171872d3ced720a27c1339f6eb7f44bf/README.md#L218-L224",
+   "title": "nodeterm README.md",
+   "locator": "README.md l218-l224; Install: Windows beta; v0.5.1 (6749cd0)",
+   "sourceDate": null,
+   "retrievedAt": "2026-11-16",
+   "finding": "The README publishes a Windows x64 beta installer and portable zip, unsigned with manual updates and session continuity still landing.",
+   "visibility": "public",
+   "commit": "6749cd0b171872d3ced720a27c1339f6eb7f44bf",
+   "path": "README.md"
+  },
+  {
+   "id": "d80-faq",
+   "kind": "documented",
+   "url": "https://nodeterm.dev/docs/reference/faq/",
+   "title": "nodeterm FAQ",
+   "locator": "Is there a Windows or Linux version?",
+   "sourceDate": null,
+   "retrievedAt": "2026-11-16",
+   "finding": "The FAQ, re-read 2026-11-16, still says Windows is not supported yet while the same site releases page lists an unsigned Windows beta.",
+   "visibility": "public",
+   "commit": null,
+   "path": null
+  },
+  {
+   "id": "d80-ghpr",
+   "kind": "source-inspected",
+   "url": "https://github.com/eneskirca/nodeterm/blob/6749cd0b171872d3ced720a27c1339f6eb7f44bf/src/renderer/state/githubIssues.ts#L178-L180",
+   "title": "nodeterm src/renderer/state/githubIssues.ts",
+   "locator": "src/renderer/state/githubIssues.ts l178-l180; comment on the pull-request flow; v0.5.1 (6749cd0)",
+   "sourceDate": null,
+   "retrievedAt": "2026-11-16",
+   "finding": "The source describes the flow as running gh pr create in a terminal and then opening an agent; no product pull-request creation exists.",
+   "visibility": "public",
+   "commit": "6749cd0b171872d3ced720a27c1339f6eb7f44bf",
+   "path": "src/renderer/state/githubIssues.ts"
   }
  ],
  "changes": [
@@ -6929,6 +6998,73 @@
     "nodeterm:OWN-09"
    ],
    "evidenceIds": []
+  },
+  {
+   "date": "2026-11-16",
+   "author": "researcher-ade80",
+   "type": "research-correction",
+   "summary": "Open-source depth pass on nodeterm v0.5.1: reconcile the Windows contradiction using the release workflow, package scripts and README, then map the filter cells it blocked plus pr-workflow and the two unmapped pricing models.",
+   "claimIds": [
+    "nodeterm:ACC-01"
+   ],
+   "before": {
+    "support": "partial",
+    "answer": "Desktop Electron app on macOS 12+ (Apple Silicon/Intel, auto-update + Homebrew), Linux x64 (AppImage self-updating, .deb/.rpm manual), Windows x64 beta (unsigned exe/zip, manual updates, session continuity landing). Server Edition runs the same canvas in any browser. iOS App Store + Android Play companions attach to live sessions (no canvas on phone). In-app palette + ⌘K creates/starts/steers; OS + push notifications; phone continues desktop sessions. Unresolved contradiction (checked 2026-11-13): the live FAQ denies Windows support while README v0.5.1 and the releases page ship Windows x64 beta installers.",
+    "checkedAt": "2026-11-12",
+    "nextReviewAt": "2027-05-11",
+    "subanswers": {
+     "desktop_os": "supported"
+    }
+   },
+   "after": {
+    "support": "partial",
+    "answer": "Desktop Electron app on macOS 12+ (Apple Silicon/Intel, auto-update + Homebrew), Linux x64 (AppImage self-updating, .deb/.rpm manual), Windows x64 beta (unsigned exe/zip, manual updates, session continuity landing). Server Edition runs the same canvas in any browser. iOS App Store + Android Play companions attach to live sessions (no canvas on phone). In-app palette + ⌘K creates/starts/steers; OS + push notifications; phone continues desktop sessions. Unresolved contradiction (checked 2026-11-13): the live FAQ denies Windows support while README v0.5.1 and the releases page ship Windows x64 beta installers.",
+    "checkedAt": "2026-11-12",
+    "nextReviewAt": "2027-05-11",
+    "subanswers": {
+     "desktop_os": "supported"
+    }
+   },
+   "evidenceIds": [
+    "d80-winworkflow",
+    "d80-winpkg",
+    "d80-winreadme",
+    "d80-faq",
+    "readme",
+    "releases-page"
+   ]
+  },
+  {
+   "date": "2026-11-16",
+   "author": "researcher-ade80",
+   "type": "research-correction",
+   "summary": "Open-source depth pass on nodeterm v0.5.1: reconcile the Windows contradiction using the release workflow, package scripts and README, then map the filter cells it blocked plus pr-workflow and the two unmapped pricing models.",
+   "claimIds": [
+    "nodeterm:SHIP-03"
+   ],
+   "before": {
+    "support": "partial",
+    "answer": "Git-native delivery via panel + worktrees: branch switch/create, worktree-per-group, stage/commit/push/sync/publish, gh sign-in, merge-back with confirm. PRs are read-only for agents and terminal-driven for humans; no product PR creation, CI response, or rebase.",
+    "checkedAt": "2026-11-12",
+    "nextReviewAt": "2027-03-12",
+    "subanswers": {
+     "pull_requests": "partial"
+    }
+   },
+   "after": {
+    "support": "partial",
+    "answer": "Git-native delivery via panel + worktrees: branch switch/create, worktree-per-group, stage/commit/push/sync/publish, gh sign-in, merge-back with confirm. PRs are read-only for agents and terminal-driven for humans; no product PR creation, CI response, or rebase.",
+    "checkedAt": "2026-11-12",
+    "nextReviewAt": "2027-03-12",
+    "subanswers": {
+     "pull_requests": "partial"
+    }
+   },
+   "evidenceIds": [
+    "d80-ghpr",
+    "canvas-control",
+    "docs-source"
+   ]
   }
  ],
  "context": {
