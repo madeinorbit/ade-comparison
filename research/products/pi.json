@@ -287,7 +287,7 @@
         },
         "provider_restrictions": {
           "support": "unknown",
-          "answer": "Provider-side subscription terms for third-party clients are outside the repository.",
+          "answer": "Business fact: provider-side terms for third-party clients using subscription logins are set by each provider, outside the repository.",
           "evidenceIds": []
         }
       },
@@ -1609,7 +1609,7 @@
         },
         "observed_concurrency": {
           "support": "unknown",
-          "answer": "Not measured; no catalog measurement.",
+          "answer": "Not applicable to a source pass: the catalog measures no concurrency; only documented limits are recorded (none in core).",
           "evidenceIds": []
         },
         "status_visibility": {
@@ -1801,19 +1801,26 @@
           ]
         },
         "live_progress": {
-          "support": "unknown",
-          "answer": "Not established from docs; example code not exercised.",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "Example extension streams partial results from each subagent process through onUpdate, including parallel tasks.",
+          "evidenceIds": [
+            "subagentsrc",
+            "subagentreadme"
+          ]
         },
         "retained_results": {
-          "support": "unknown",
-          "answer": "Not established.",
-          "evidenceIds": []
+          "support": "partial",
+          "answer": "Full output is preserved in tool details while the model sees truncated output; the child runs with --no-session so no child transcript is kept.",
+          "evidenceIds": [
+            "subagentsrc"
+          ]
         },
         "followup": {
-          "support": "unknown",
-          "answer": "Not established.",
-          "evidenceIds": []
+          "support": "unsupported",
+          "answer": "Each subagent is a one-shot pi process started with --mode json -p --no-session; no follow-up channel exists in the example code.",
+          "evidenceIds": [
+            "subagentsrc"
+          ]
         },
         "invocation": {
           "support": "partial",
@@ -1826,12 +1833,14 @@
       "limitations": [
         "Delegation exists only as an optional example extension or experimental runtime."
       ],
-      "unknownReason": "See unknown atomic answers for the closed-component, hosted-service or business-fact gaps.",
+      "unknownReason": null,
       "evidenceIds": [
         "extensions",
         "nogo",
         "readme",
-        "packages"
+        "packages",
+        "subagentsrc",
+        "subagentreadme"
       ],
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
@@ -2588,9 +2597,12 @@
           ]
         },
         "duplicate_actions": {
-          "support": "unknown",
-          "answer": "Durable runtime claims replay semantics; core behavior not tested.",
-          "evidenceIds": []
+          "support": "partial",
+          "answer": "Durable runtime reruns an interrupted tool only if declared replay: safe and otherwise returns an interrupted error; the default CLI has no replay and loses the in-flight turn instead.",
+          "evidenceIds": [
+            "durablesrc",
+            "usage"
+          ]
         },
         "manual_repair": {
           "support": "partial",
@@ -2610,14 +2622,15 @@
       "limitations": [
         "Core CLI loses the in-flight turn if the process dies; durable runtime is experimental."
       ],
-      "unknownReason": "See unknown atomic answers for the closed-component, hosted-service or business-fact gaps.",
+      "unknownReason": null,
       "evidenceIds": [
         "sessions",
         "durable",
         "nogo",
         "usage",
         "sessionsrc",
-        "compaction"
+        "compaction",
+        "durablesrc"
       ],
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
@@ -4029,24 +4042,31 @@
           ]
         },
         "child_findings": {
-          "support": "unknown",
-          "answer": "Subagent example not exercised.",
-          "evidenceIds": []
+          "support": "partial",
+          "answer": "Example subagent results live in tool details of the parent session; the child session itself is not retained (--no-session).",
+          "evidenceIds": [
+            "subagentsrc"
+          ]
         },
         "prompt_leakage": {
-          "support": "unknown",
-          "answer": "Not established.",
-          "evidenceIds": []
+          "support": "partial",
+          "answer": "Subagent example loads only user-level agents by default and prompts before running project-local agent prompts in untrusted projects; no general prompt-leakage control in core.",
+          "evidenceIds": [
+            "subagentreadme",
+            "subagentsrc"
+          ]
         }
       },
       "limitations": [
         "No artifact gallery or retained reviewer outputs."
       ],
-      "unknownReason": "See unknown atomic answers for the closed-component, hosted-service or business-fact gaps.",
+      "unknownReason": null,
       "evidenceIds": [
         "usage",
         "nogo",
-        "sessions"
+        "sessions",
+        "subagentsrc",
+        "subagentreadme"
       ],
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
@@ -5166,13 +5186,15 @@
         },
         "status_history": {
           "support": "unknown",
-          "answer": "No status page checked.",
+          "answer": "Business fact or hosted service: Pi has no operated service status page; release history is in the changelog only.",
           "evidenceIds": []
         },
         "deprecation": {
-          "support": "unknown",
-          "answer": "No deprecation notices recorded in this pass.",
-          "evidenceIds": []
+          "support": "partial",
+          "answer": "Changelog records removals of deprecated APIs and model IDs per release; no end-of-life notice for Pi itself was found in README, pi.dev or releases.",
+          "evidenceIds": [
+            "changelog"
+          ]
         },
         "export_options": {
           "support": "supported",
@@ -5192,6 +5214,7 @@
         "readme",
         "pidev",
         "repo",
+        "changelog",
         "sessions"
       ],
       "checkedAt": "2026-11-16",
@@ -5933,6 +5956,58 @@
       "path": "packages/coding-agent/src"
     },
     {
+      "id": "subagentsrc",
+      "kind": "source-inspected",
+      "url": "https://github.com/earendil-works/pi/blob/v1.5.0/packages/coding-agent/examples/extensions/subagent/index.ts",
+      "title": "Subagent example extension source",
+      "locator": "index.ts lines 46-66 (usage stats), 263-320 (onUpdate streaming, spawn args --mode json -p --no-session), 453-465 (agentScope, confirmProjectAgents)",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Example extension spawns separate pi processes with --mode json -p --no-session, streams partial results through onUpdate, reports per-agent turns, tokens, cost and context, preserves full output in tool details, and asks confirmation before running project-local agents.",
+      "visibility": "public",
+      "commit": "f9a26365568127461c47a07a37dcb42c140a3ac5",
+      "path": "packages/coding-agent/examples/extensions/subagent/index.ts"
+    },
+    {
+      "id": "subagentreadme",
+      "kind": "documented",
+      "url": "https://github.com/earendil-works/pi/blob/v1.5.0/packages/coding-agent/examples/extensions/subagent/README.md",
+      "title": "Subagent example README",
+      "locator": "Features; Security Model",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Each subagent runs in a separate pi process with streaming output, parallel streaming, usage tracking and abort propagation; project-local agents are off by default and need confirmation in untrusted projects.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "changelog",
+      "kind": "documented",
+      "url": "https://github.com/earendil-works/pi/blob/v1.5.0/packages/coding-agent/CHANGELOG.md",
+      "title": "coding-agent CHANGELOG",
+      "locator": "Release headings 1.5.0 (2026-11-02), 1.4.0 (2026-10-21), 1.3.0 (2026-10-15); removal entries",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Per-release changelog records removals of deprecated APIs and model IDs (for example deprecated minimax model IDs) and release dates; no product-level deprecation or end-of-life notice for Pi itself.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "durablesrc",
+      "kind": "documented",
+      "url": "https://github.com/earendil-works/pi/blob/v1.5.0/packages/durable/README.md",
+      "title": "pi-durable README (replay semantics)",
+      "locator": "Tools section: replay safe, interrupted, restart_limit",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "In the durable runtime a tool call interrupted by a crash reruns on reopen only when declared replay: safe; otherwise the model receives an interrupted error result with output committed so far; repeated restarts end in restart_limit.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
       "id": "ssh",
       "kind": "source-inspected",
       "url": "https://github.com/earendil-works/pi/blob/v1.5.0/packages/coding-agent/examples/extensions/ssh.ts",
@@ -5953,6 +6028,20 @@
       "type": "initial-research",
       "summary": "Initial full-profile source pass over Pi v1.5.0 (docs in the repository, pinned monorepo source for coding-agent, agent, ai, durable packages, org repositories pi-chat and gondolin, pi.dev) covering all 51 criteria; subagents and plan mode are extension examples, not shipped features; durable runtime is experimental.",
       "claimIds": []
+    },
+    {
+      "date": "2026-11-16",
+      "author": "researcher-pi",
+      "type": "research-correction",
+      "summary": "Second source pass over the pinned release after coordinator guidance: searched code, in-repo docs and sibling repositories for the remaining unknown atomic answers and added evidence for those the code or docs answer.",
+      "claimIds": [],
+      "evidenceIds": [],
+      "before": {
+        "note": "Several atomic answers on this open-source product were unknown after the first pass."
+      },
+      "after": {
+        "note": "Second source pass answered code- and docs-answerable atoms from pinned code with added evidence; remaining unknowns name closed, hosted or business-fact reasons."
+      }
     }
   ],
   "context": {
