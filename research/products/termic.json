@@ -1,0 +1,6207 @@
+{
+  "schemaVersion": 1,
+  "rubricVersion": "0.3",
+  "id": "termic",
+  "name": "Termic",
+  "category": "A",
+  "researchTier": "full-profile",
+  "researchState": "documented",
+  "identity": {
+    "website": "https://termic.dev/",
+    "repository": "https://github.com/simion/termic",
+    "aliases": [],
+    "company": null
+  },
+  "surfaces": [
+    {
+      "id": "desktop",
+      "name": "Termic desktop app (macOS, Linux AppImage, Windows experimental)",
+      "type": "desktop"
+    },
+    {
+      "id": "cli",
+      "name": "termic CLI (local control plane)",
+      "type": "cli"
+    },
+    {
+      "id": "mcp",
+      "name": "Termic MCP server endpoint",
+      "type": "mcp"
+    }
+  ],
+  "claims": [
+    {
+      "id": "termic:ACC-01",
+      "criterionId": "ACC-01",
+      "answer": "Desktop app: macOS 12+ (universal), Linux x86_64 AppImage, Windows 11 x64 (experimental). The termic CLI and an MCP endpoint drive the running app; a phone companion is planned only. No browser client and no editor extension.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop",
+          "cli",
+          "mcp"
+        ],
+        "version": "v1.23.0 (commit 31f55a4, released 2026-11-13)",
+        "plan": "Free and open source (AGPL-3.0-or-later)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "desktop_os": {
+          "support": "supported",
+          "answer": "macOS 12+ first-class, signed Linux AppImage and Windows 11 installer (experimental, unsigned).",
+          "evidenceIds": [
+            "readme",
+            "windows"
+          ]
+        },
+        "mobile_apps": {
+          "support": "unsupported",
+          "answer": "No phone app today; the mobile app is a planned item (issue 165).",
+          "evidenceIds": [
+            "readme",
+            "srch-cloud"
+          ]
+        },
+        "browser": {
+          "support": "unsupported",
+          "answer": "No browser client; the UI is a Tauri desktop webview.",
+          "evidenceIds": [
+            "srch-cloud",
+            "cargo"
+          ]
+        },
+        "mobile_browser": {
+          "support": "unsupported",
+          "answer": "No web UI to open on a phone.",
+          "evidenceIds": [
+            "srch-cloud"
+          ]
+        },
+        "cli": {
+          "support": "supported",
+          "answer": "termic CLI controls the running app from any shell.",
+          "evidenceIds": [
+            "cli",
+            "cli-instr"
+          ]
+        },
+        "editor_extensions": {
+          "support": "unsupported",
+          "answer": "No editor extension; it opens tasks in the user's editor.",
+          "evidenceIds": [
+            "readme",
+            "srch-cloud"
+          ]
+        },
+        "task_actions": {
+          "support": "supported",
+          "answer": "Start, queue, broadcast, answer, review, archive and open PRs in the app; CLI and MCP offer new, send, wait, result, review.",
+          "evidenceIds": [
+            "readme",
+            "mcp"
+          ]
+        },
+        "notifications": {
+          "support": "supported",
+          "answer": "Desktop notifications and a bell when a turn ends or an agent needs the user.",
+          "evidenceIds": [
+            "states",
+            "readme"
+          ]
+        },
+        "cross_device_continuity": {
+          "support": "partial",
+          "answer": "LAN pairing lets agents drive tasks on another computer; MCP can be reachable from another device when allowed; no synced task session.",
+          "evidenceIds": [
+            "peers",
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "See atomic answers for the unmet or unknown parts."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "site",
+        "windows",
+        "srch-cloud",
+        "cargo",
+        "cli",
+        "cli-instr",
+        "mcp",
+        "states",
+        "peers"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch12",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "termic:ACC-02",
+      "criterionId": "ACC-02",
+      "answer": "Spawns the real agent CLIs in PTYs: claude, codex, antigravity (agy), copilot, grok, opencode, pi, omp, Muse Code, Devin and Cursor CLI built in, with an editable registry for aider, local models or scripts; models and effort selectable per tab. No embedded harness or SDK.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v1.23.0 (commit 31f55a4, released 2026-11-13)",
+        "plan": "Free and open source (AGPL-3.0-or-later)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "harnesses": {
+          "support": "supported",
+          "answer": "Eleven built-in agent CLIs plus custom registry entries.",
+          "evidenceIds": [
+            "readme",
+            "adding-agent"
+          ]
+        },
+        "model_providers": {
+          "support": "partial",
+          "answer": "Provider choice belongs to each agent CLI; Termic hosts no models; a model and effort can be picked per tab.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "custom_adapters": {
+          "support": "supported",
+          "answer": "Settings, Agents is an editable registry for any PTY command.",
+          "evidenceIds": [
+            "readme",
+            "adding-agent"
+          ]
+        },
+        "session_integration": {
+          "support": "partial",
+          "answer": "Launches each CLI in a real PTY with hooks and title classification; no SDK or embedded harness.",
+          "evidenceIds": [
+            "readme",
+            "hooks"
+          ]
+        },
+        "mixed_harness_operation": {
+          "support": "supported",
+          "answer": "Different agents run side by side in one task and in agent races.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "See atomic answers for the unmet or unknown parts."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "adding-agent",
+        "hooks"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch12",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "termic:ACC-03",
+      "criterionId": "ACC-03",
+      "answer": "Agents run on the user's own Claude Pro/Max, Codex or other CLI login; several logins per agent can be switched per task; Termic never sees credentials, adds no markup, and has no account. API keys and local models depend on the agent CLI.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v1.23.0 (commit 31f55a4, released 2026-11-13)",
+        "plan": "Free and open source (AGPL-3.0-or-later)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "agent_subscriptions": {
+          "support": "supported",
+          "answer": "Spawns the interactive CLIs so inference uses the existing plan limits.",
+          "evidenceIds": [
+            "readme",
+            "site"
+          ]
+        },
+        "api_accounts": {
+          "support": "partial",
+          "answer": "API keys work through each CLI's own configuration; not managed by Termic.",
+          "evidenceIds": [
+            "readme",
+            "accounts"
+          ]
+        },
+        "vendor_credits": {
+          "support": "unsupported",
+          "answer": "No vendor credits; the product is free.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "local_models": {
+          "support": "partial",
+          "answer": "Registry entries such as ollama run can be added.",
+          "evidenceIds": [
+            "readme",
+            "adding-agent"
+          ]
+        },
+        "account_switching": {
+          "support": "supported",
+          "answer": "Several Claude or Codex logins in separate folders; switch mid-conversation; optional move at 95 percent usage.",
+          "evidenceIds": [
+            "accounts",
+            "readme"
+          ]
+        },
+        "vendor_account_requirement": {
+          "support": "supported",
+          "answer": "No Termic account or backend.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "provider_restrictions": {
+          "support": "partial",
+          "answer": "Site notes the June 2026 Agent SDK credit change keeps the interactive CLI on regular plan limits; provider terms otherwise apply.",
+          "evidenceIds": [
+            "site"
+          ]
+        }
+      },
+      "limitations": [
+        "See atomic answers for the unmet or unknown parts."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "accounts",
+        "site",
+        "adding-agent"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch12",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "termic:ACC-04",
+      "criterionId": "ACC-04",
+      "answer": "Install by Homebrew cask, DMG, AppImage script or Windows installer, add a project (pick a folder, clone a URL, or turn a plain folder into a repo), press Cmd+N and choose an agent. Works with local repos without a remote, plain folders (converted to git) and GitHub, GitLab and Azure DevOps repos. No managed cloud and no VPS installer.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v1.23.0 (commit 31f55a4, released 2026-11-13)",
+        "plan": "Free and open source (AGPL-3.0-or-later)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "first_task_setup": {
+          "support": "supported",
+          "answer": "Install, add project, New Task with a guided tour on first launch.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "no_git": {
+          "support": "partial",
+          "answer": "A plain folder can be turned into a repo; worktree tasks need git, and tasks can attach to the repo root.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "local_git_without_remote": {
+          "support": "supported",
+          "answer": "Worktrees and branches are local; PR features need a forge.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "hosted_git": {
+          "support": "supported",
+          "answer": "GitHub PRs, GitLab MRs and Azure DevOps PRs with issue and PR import.",
+          "evidenceIds": [
+            "readme",
+            "forge"
+          ]
+        },
+        "prerequisite_guidance": {
+          "support": "supported",
+          "answer": "README lists macOS 12+, WebKitGTK packages, Git for Windows, gh/glab sign-ins and Docker for Docker mode.",
+          "evidenceIds": [
+            "readme",
+            "windows"
+          ]
+        },
+        "managed_cloud_setup": {
+          "support": "unsupported",
+          "answer": "No managed cloud exists; it runs locally with no backend.",
+          "evidenceIds": [
+            "site",
+            "srch-cloud"
+          ]
+        },
+        "byo_vps_onboarding": {
+          "support": "unsupported",
+          "answer": "No headless server or VPS installer; headless boxes are an idea only.",
+          "evidenceIds": [
+            "srch-cloud"
+          ]
+        }
+      },
+      "limitations": [
+        "See atomic answers for the unmet or unknown parts."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "site",
+        "forge",
+        "windows",
+        "srch-cloud"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch12",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "termic:ACC-05",
+      "criterionId": "ACC-05",
+      "answer": "termic CLI (new, tab, send, status, wait, result, review and more, JSON/NDJSON output and exit codes) and an MCP server with matching tools and bearer-token auth, reachable from another device when allowed; no public HTTP API, SDK or webhooks.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli",
+          "mcp"
+        ],
+        "version": "v1.23.0 (commit 31f55a4, released 2026-11-13)",
+        "plan": "Free and open source (AGPL-3.0-or-later)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "cli": {
+          "support": "supported",
+          "answer": "Documented CLI with help --json.",
+          "evidenceIds": [
+            "cli",
+            "cli-instr"
+          ]
+        },
+        "api": {
+          "support": "unsupported",
+          "answer": "No public REST API found.",
+          "evidenceIds": [
+            "cli-server",
+            "srch-cloud"
+          ]
+        },
+        "sdk": {
+          "support": "unsupported",
+          "answer": "No SDK in the repository.",
+          "evidenceIds": [
+            "srch-cloud"
+          ]
+        },
+        "mcp_server": {
+          "support": "supported",
+          "answer": "Stateless MCP endpoint with task, scratchpad, project, schedule and peer tools; one-click client setup.",
+          "evidenceIds": [
+            "mcp",
+            "readme"
+          ]
+        },
+        "webhooks": {
+          "support": "unsupported",
+          "answer": "No webhooks found.",
+          "evidenceIds": [
+            "srch-cloud"
+          ]
+        },
+        "operations": {
+          "support": "supported",
+          "answer": "Create, inspect (status, log, diff, result), steer (send, tab), wait, archive and review through CLI and MCP.",
+          "evidenceIds": [
+            "mcp",
+            "cli"
+          ]
+        },
+        "authentication": {
+          "support": "supported",
+          "answer": "Local socket for the CLI and bearer token with Host and Origin checks for MCP; peers use sealed pair keys.",
+          "evidenceIds": [
+            "mcp",
+            "peers"
+          ]
+        },
+        "stability": {
+          "support": "partial",
+          "answer": "Exit codes and cli_agent_state work_state are called published contracts; per-task scoped tokens are still an idea.",
+          "evidenceIds": [
+            "states",
+            "ideas-mcp"
+          ]
+        }
+      },
+      "limitations": [
+        "See atomic answers for the unmet or unknown parts."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "cli",
+        "mcp",
+        "cli-instr",
+        "cli-server",
+        "srch-cloud",
+        "readme",
+        "peers",
+        "states",
+        "ideas-mcp"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch12",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "termic:ACC-06",
+      "criterionId": "ACC-06",
+      "answer": "No MCP client of its own: the agents bring MCP; Termic keeps skills, MCP servers and personas once per profile and adds them to claude, codex and .agents-reading agents. Own MCP endpoint is an inbound server. Secrets roles let caged agents use credentials without holding them.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v1.23.0 (commit 31f55a4, released 2026-11-13)",
+        "plan": "Free and open source (AGPL-3.0-or-later)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "mcp_client": {
+          "support": "partial",
+          "answer": "Agents use MCP; Termic distributes configured MCP servers to tasks through customizations.",
+          "evidenceIds": [
+            "customizations"
+          ]
+        },
+        "plugins": {
+          "support": "unsupported",
+          "answer": "No plugin API found; customizations and .termic.yaml only.",
+          "evidenceIds": [
+            "customizations",
+            "srch-cloud"
+          ]
+        },
+        "custom_tools": {
+          "support": "partial",
+          "answer": "Run scripts and preview URLs from .termic.yaml; custom agents via registry.",
+          "evidenceIds": [
+            "repo-config"
+          ]
+        },
+        "instructions_import": {
+          "support": "supported",
+          "answer": "Skills and personas kept per profile and shared with tasks; shared CLAUDE.md for multi-repo tasks.",
+          "evidenceIds": [
+            "customizations",
+            "readme"
+          ]
+        },
+        "authentication": {
+          "support": "partial",
+          "answer": "Secrets (experimental) swap placeholders for real credentials on allowed hosts; agent logins stay in the agent CLI.",
+          "evidenceIds": [
+            "secrets"
+          ]
+        },
+        "permission_scope": {
+          "support": "partial",
+          "answer": "Per-project opt-out and secrets roles; sandbox allowlists.",
+          "evidenceIds": [
+            "customizations",
+            "secrets"
+          ]
+        },
+        "integration_owner": {
+          "support": "supported",
+          "answer": "Each agent CLI owns its MCP connections; Termic owns distribution.",
+          "evidenceIds": [
+            "customizations"
+          ]
+        }
+      },
+      "limitations": [
+        "See atomic answers for the unmet or unknown parts."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "customizations",
+        "readme",
+        "secrets",
+        "srch-cloud",
+        "repo-config"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch12",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "termic:ACC-07",
+      "criterionId": "ACC-07",
+      "answer": "Tauri 2 desktop shell (Rust, native webview) with a React and xterm.js (WebGL) UI; no mobile client yet.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v1.23.0 (commit 31f55a4, released 2026-11-13)",
+        "plan": "Free and open source (AGPL-3.0-or-later)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "desktop_implementation": {
+          "support": "supported",
+          "answer": "Tauri 2 with React frontend and xterm.js terminals.",
+          "evidenceIds": [
+            "cargo",
+            "pkg"
+          ]
+        },
+        "mobile_implementation": {
+          "support": "unsupported",
+          "answer": "No mobile client; a companion app is planned.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "hybrids": {
+          "support": "supported",
+          "answer": "Hybrid: Rust backend with web UI in the platform webview.",
+          "evidenceIds": [
+            "cargo"
+          ]
+        },
+        "implementation_evidence": {
+          "support": "supported",
+          "answer": "Pinned Cargo.toml and package.json at the release commit.",
+          "evidenceIds": [
+            "cargo",
+            "pkg"
+          ]
+        }
+      },
+      "limitations": [
+        "See atomic answers for the unmet or unknown parts."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "cargo",
+        "pkg",
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-05-15",
+      "researcher": "researcher-batch12",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "termic:PLAN-01",
+      "criterionId": "PLAN-01",
+      "answer": "Tasks are created locally from a fresh or existing branch, an issue, a pull request or an existing worktree; GitHub and GitLab issues and PRs arrive as a composed prompt the user reads first; Todos lists issues and PRs across projects. Linear is planned. The forge stays authoritative for issues.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop",
+          "cli"
+        ],
+        "version": "v1.23.0 (commit 31f55a4, released 2026-11-13)",
+        "plan": "Free and open source (AGPL-3.0-or-later)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "local_creation": {
+          "support": "supported",
+          "answer": "New Task from Cmd+N, CLI and MCP.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "prompt_intake": {
+          "support": "supported",
+          "answer": "Prompts, queued messages, broadcast and termic:// links.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "external_import": {
+          "support": "supported",
+          "answer": "Start from a GitHub or GitLab issue or PR; Azure DevOps PRs.",
+          "evidenceIds": [
+            "readme",
+            "forge"
+          ]
+        },
+        "chat_git_triggers": {
+          "support": "partial",
+          "answer": "Schedules and PR review tasks; no chat triggers.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "authoritative_tracker": {
+          "support": "partial",
+          "answer": "The forge owns issues; Termic tasks are worktree records.",
+          "evidenceIds": [
+            "readme",
+            "srch-issues"
+          ]
+        },
+        "stable_ids": {
+          "support": "partial",
+          "answer": "Tasks have ids and PR numbers are shown; no mirrored issue IDs.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "sync": {
+          "support": "partial",
+          "answer": "PR and check state polled from the forge; no issue field sync.",
+          "evidenceIds": [
+            "forge",
+            "changelog"
+          ]
+        },
+        "supported_edits": {
+          "support": "partial",
+          "answer": "Open PRs and watch checks; issue edits happen on the forge.",
+          "evidenceIds": [
+            "readme",
+            "forge"
+          ]
+        },
+        "external_roundtrips": {
+          "support": "partial",
+          "answer": "Issue triage and labels need the forge; Linear is planned only.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "See atomic answers for the unmet or unknown parts."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "forge",
+        "srch-issues",
+        "changelog"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch12",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "termic:PLAN-02",
+      "criterionId": "PLAN-02",
+      "answer": "No structured plans: Markdown plan files render as a reader/review surface with inline comments, scratchpads hold agent plans and reports, and the agent's own plan mode applies. Review comments batch into one message to the agent.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v1.23.0 (commit 31f55a4, released 2026-11-13)",
+        "plan": "Free and open source (AGPL-3.0-or-later)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "plans": {
+          "support": "partial",
+          "answer": "Markdown plans in the repo or scratchpads, reviewed in the reader preview.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "acceptance_criteria": {
+          "support": "unsupported",
+          "answer": "No acceptance-criteria field found.",
+          "evidenceIds": [
+            "srch-spec"
+          ]
+        },
+        "editors": {
+          "support": "supported",
+          "answer": "Blocks editable in the Markdown preview and CodeMirror editor.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "revisions": {
+          "support": "partial",
+          "answer": "Git history for repo files; scratchpads are outside git.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "implementation_links": {
+          "support": "partial",
+          "answer": "Tasks start from a plan file prompt; no link model.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "amendment": {
+          "support": "supported",
+          "answer": "Queue or send messages to a running agent.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "restart_persistence": {
+          "support": "supported",
+          "answer": "Every agent tab resumes its conversation after relaunch where the agent supports it.",
+          "evidenceIds": [
+            "readme",
+            "data-model"
+          ]
+        }
+      },
+      "limitations": [
+        "See atomic answers for the unmet or unknown parts."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "srch-spec",
+        "data-model"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch12",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "termic:PLAN-03",
+      "criterionId": "PLAN-03",
+      "answer": "Tasks started by an agent gather under it as a named coloured group; schedules produce grouped runs; multi-repo tasks group several repos under one task; no epics, blockers, readiness or dependency enforcement.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop",
+          "cli"
+        ],
+        "version": "v1.23.0 (commit 31f55a4, released 2026-11-13)",
+        "plan": "Free and open source (AGPL-3.0-or-later)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "epics": {
+          "support": "unsupported",
+          "answer": "No epic object; groups are task groupings.",
+          "evidenceIds": [
+            "srch-issues",
+            "mcp"
+          ]
+        },
+        "hierarchy": {
+          "support": "partial",
+          "answer": "A task group with a parent task that spawned the others; multi-repo members.",
+          "evidenceIds": [
+            "readme",
+            "mcp"
+          ]
+        },
+        "blockers": {
+          "support": "unsupported",
+          "answer": "No blocker field; termic new --wait chains by script.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "readiness": {
+          "support": "unsupported",
+          "answer": "No readiness state.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "enforcement": {
+          "support": "unsupported",
+          "answer": "No dependency enforcement.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "state_propagation": {
+          "support": "partial",
+          "answer": "Delegated-work state keeps the parent working until children report.",
+          "evidenceIds": [
+            "states"
+          ]
+        },
+        "task_to_epic": {
+          "support": "unsupported",
+          "answer": "No epic.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "identity_retention": {
+          "support": "partial",
+          "answer": "Tasks keep worktree, tabs and history; groups can be dissolved or renamed.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "workflow_constraints": {
+          "support": "supported",
+          "answer": "No mandatory workflow; the board columns derive from terminal state.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "See atomic answers for the unmet or unknown parts."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "mcp",
+        "srch-issues",
+        "states"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch12",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "termic:PLAN-04",
+      "criterionId": "PLAN-04",
+      "answer": "Per-profile skills, MCP servers and personas applied to tasks, .termic.yaml config as code, scratchpads shared per task, project, profile or global, a prompt library and the agents' own memory. Archived tasks keep history searchable by PR number.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v1.23.0 (commit 31f55a4, released 2026-11-13)",
+        "plan": "Free and open source (AGPL-3.0-or-later)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "instructions": {
+          "support": "supported",
+          "answer": "Personas, shared CLAUDE.md for multi-repo tasks and prompt library.",
+          "evidenceIds": [
+            "readme",
+            "customizations"
+          ]
+        },
+        "skills": {
+          "support": "supported",
+          "answer": "Skills kept once per profile and added to tasks.",
+          "evidenceIds": [
+            "customizations"
+          ]
+        },
+        "project_docs": {
+          "support": "supported",
+          "answer": "Repo docs plus scratchpads and .termic.yaml.",
+          "evidenceIds": [
+            "readme",
+            "repo-config"
+          ]
+        },
+        "memory": {
+          "support": "partial",
+          "answer": "Scratchpads store agent findings; the agents own long-term memory.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "scope": {
+          "support": "supported",
+          "answer": "Task, project, profile and global scopes.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "provenance": {
+          "support": "unsupported",
+          "answer": "No provenance or citation model.",
+          "evidenceIds": [
+            "srch-spec"
+          ]
+        },
+        "correction": {
+          "support": "supported",
+          "answer": "Scratchpads and prompts are editable files.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "deletion": {
+          "support": "supported",
+          "answer": "Scratchpads can be removed or cleared via MCP and UI.",
+          "evidenceIds": [
+            "mcp"
+          ]
+        },
+        "freshness": {
+          "support": "unsupported",
+          "answer": "No stale-context controls.",
+          "evidenceIds": [
+            "srch-spec"
+          ]
+        },
+        "takeover_continuity": {
+          "support": "partial",
+          "answer": "Scratchpads and history persist locally; single user.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "See atomic answers for the unmet or unknown parts."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "customizations",
+        "readme",
+        "repo-config",
+        "srch-spec",
+        "mcp"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch12",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "termic:PLAN-05",
+      "criterionId": "PLAN-05",
+      "answer": "Fuzzy file finder, find-in-files over ripgrep or git grep, CodeMirror with language servers for eight toolchains and inline git blame; no repository index or external knowledge connectors; images render inline in terminals.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v1.23.0 (commit 31f55a4, released 2026-11-13)",
+        "plan": "Free and open source (AGPL-3.0-or-later)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "code_search": {
+          "support": "supported",
+          "answer": "Find-in-files with ripgrep or git grep and a file finder across multi-repo tasks.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "indexing": {
+          "support": "partial",
+          "answer": "Real language servers per checkout when switched on; no product index.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "external_knowledge": {
+          "support": "unsupported",
+          "answer": "No connectors.",
+          "evidenceIds": [
+            "srch-spec"
+          ]
+        },
+        "multimodal_inputs": {
+          "support": "partial",
+          "answer": "Inline terminal images and drag-and-drop paths.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "freshness": {
+          "support": "unknown",
+          "answer": "No product index to age.",
+          "evidenceIds": [
+            "srch-spec"
+          ]
+        },
+        "access_scope": {
+          "support": "partial",
+          "answer": "Sandbox allowlists limit file and network scope when caged.",
+          "evidenceIds": [
+            "sandbox"
+          ]
+        },
+        "api_retrieval": {
+          "support": "unsupported",
+          "answer": "No retrieval API beyond task_diff and task_log tools.",
+          "evidenceIds": [
+            "mcp"
+          ]
+        },
+        "citations": {
+          "support": "unsupported",
+          "answer": "No citation model.",
+          "evidenceIds": [
+            "srch-spec"
+          ]
+        },
+        "conflict_detection": {
+          "support": "unsupported",
+          "answer": "No architecture conflict detection.",
+          "evidenceIds": [
+            "srch-spec"
+          ]
+        },
+        "review_enforcement": {
+          "support": "unsupported",
+          "answer": "No architecture check at review.",
+          "evidenceIds": [
+            "srch-spec"
+          ]
+        }
+      },
+      "limitations": [
+        "See atomic answers for the unmet or unknown parts."
+      ],
+      "unknownReason": "Index freshness is not applicable because no index exists.",
+      "evidenceIds": [
+        "readme",
+        "srch-spec",
+        "sandbox",
+        "mcp"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch12",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "termic:PLAN-06",
+      "criterionId": "PLAN-06",
+      "answer": "Tasks are persistent worktree records with name, branch, agent tabs, PR, group, archive and history; the sidebar filters by project, agent, status and PR; a Kanban board derives columns from live terminal state. No priority, labels or assignment; idea backlog not provided; Todos list external issues and PRs.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v1.23.0 (commit 31f55a4, released 2026-11-13)",
+        "plan": "Free and open source (AGPL-3.0-or-later)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "create": {
+          "support": "supported",
+          "answer": "New Task from many sources.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "edit": {
+          "support": "partial",
+          "answer": "Rename, regroup and change properties via task_prop.",
+          "evidenceIds": [
+            "mcp"
+          ]
+        },
+        "discuss": {
+          "support": "unsupported",
+          "answer": "No multi-person discussion.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "prioritize": {
+          "support": "unsupported",
+          "answer": "No priority field.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "label": {
+          "support": "unsupported",
+          "answer": "No labels.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "assign": {
+          "support": "partial",
+          "answer": "Agents are chosen per task; no human assignment.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "search": {
+          "support": "supported",
+          "answer": "Task finder and sidebar filter bar with project:, agent:, status:, pr: terms.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "filter": {
+          "support": "supported",
+          "answer": "Status chips and filter syntax.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "archive": {
+          "support": "supported",
+          "answer": "Archive and History with restore.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "reopen": {
+          "support": "supported",
+          "answer": "Restore archived tasks.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "project_epic_views": {
+          "support": "partial",
+          "answer": "Per-project sidebar and board; no epic views.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "idea_parking": {
+          "support": "unsupported",
+          "answer": "Todos mirror external issues; no internal idea parking.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "explicit_dispatch": {
+          "support": "partial",
+          "answer": "Tasks start when created; queued messages and schedules defer prompts.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "task_session_separation": {
+          "support": "supported",
+          "answer": "A task holds several agent tabs.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "metadata": {
+          "support": "partial",
+          "answer": "Agent, branch, PR, checks, change size and group; no priority or labels.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "durable_states": {
+          "support": "partial",
+          "answer": "Board states derive from terminal activity, not stored statuses.",
+          "evidenceIds": [
+            "readme",
+            "states"
+          ]
+        },
+        "external_tracker_requirement": {
+          "support": "partial",
+          "answer": "Issue planning needs GitHub or GitLab; Linear planned.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "See atomic answers for the unmet or unknown parts."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "srch-issues",
+        "mcp",
+        "srch-team",
+        "states"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch12",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "termic:PLAN-07",
+      "criterionId": "PLAN-07",
+      "answer": "Agents operate on tasks through the termic CLI or MCP: create tasks, prompt peers, wait and read results, review, archive, rename and group; shared task IDs and group membership are visible in the UI. No issue fields or dependencies exist to write.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli",
+          "mcp"
+        ],
+        "version": "v1.23.0 (commit 31f55a4, released 2026-11-13)",
+        "plan": "Free and open source (AGPL-3.0-or-later)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "shared_ids": {
+          "support": "supported",
+          "answer": "Task IDs shared by app, CLI and MCP.",
+          "evidenceIds": [
+            "mcp"
+          ]
+        },
+        "read": {
+          "support": "supported",
+          "answer": "task_list, status, log, diff, result.",
+          "evidenceIds": [
+            "mcp"
+          ]
+        },
+        "create": {
+          "support": "supported",
+          "answer": "task_new from agents, joining the creator's group.",
+          "evidenceIds": [
+            "mcp",
+            "readme"
+          ]
+        },
+        "update": {
+          "support": "partial",
+          "answer": "task_rename, task_prop, task_group and archive; no field-rich issue updates.",
+          "evidenceIds": [
+            "mcp"
+          ]
+        },
+        "claim": {
+          "support": "unsupported",
+          "answer": "No claim primitive.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "assign": {
+          "support": "partial",
+          "answer": "Choose agent per tab.",
+          "evidenceIds": [
+            "mcp"
+          ]
+        },
+        "state_changes": {
+          "support": "partial",
+          "answer": "Archive and apply; state is derived from terminals.",
+          "evidenceIds": [
+            "mcp",
+            "states"
+          ]
+        },
+        "dependencies": {
+          "support": "unsupported",
+          "answer": "No dependency objects; scripted --wait.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "children": {
+          "support": "supported",
+          "answer": "Spawned tasks gather under their parent in a group.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "results": {
+          "support": "supported",
+          "answer": "task_wait and task_result return outputs.",
+          "evidenceIds": [
+            "mcp"
+          ]
+        },
+        "human_visibility": {
+          "support": "supported",
+          "answer": "Sidebar groups, signed inter-agent messages and states are visible.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "attribution": {
+          "support": "supported",
+          "answer": "Messages between agents are signed.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "permissions": {
+          "support": "partial",
+          "answer": "Caged agents are refused the control plane; MCP has a bearer token.",
+          "evidenceIds": [
+            "cli-instr",
+            "mcp"
+          ]
+        },
+        "conflicts": {
+          "support": "partial",
+          "answer": "Message queue serialises prompts per agent.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "See atomic answers for the unmet or unknown parts."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "mcp",
+        "cli-instr",
+        "readme",
+        "srch-issues",
+        "states"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch12",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "termic:PLAN-08",
+      "criterionId": "PLAN-08",
+      "answer": "No living product specification: docs/plans and docs/ideas are Termic's own repository docs, not a feature; no requirements, revisions, drift detection or review integration.",
+      "support": "unsupported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v1.23.0 (commit 31f55a4, released 2026-11-13)",
+        "plan": "Free and open source (AGPL-3.0-or-later)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "persistent_requirements": {
+          "support": "unsupported",
+          "answer": "No persistent requirements, approvals, drift detection or review integration found.",
+          "evidenceIds": [
+            "srch-spec"
+          ]
+        },
+        "human_edits": {
+          "support": "unsupported",
+          "answer": "No persistent requirements, approvals, drift detection or review integration found.",
+          "evidenceIds": [
+            "srch-spec"
+          ]
+        },
+        "agent_edits": {
+          "support": "unsupported",
+          "answer": "No persistent requirements, approvals, drift detection or review integration found.",
+          "evidenceIds": [
+            "srch-spec"
+          ]
+        },
+        "revisions": {
+          "support": "unsupported",
+          "answer": "No persistent requirements, approvals, drift detection or review integration found.",
+          "evidenceIds": [
+            "srch-spec"
+          ]
+        },
+        "approvals": {
+          "support": "unsupported",
+          "answer": "No persistent requirements, approvals, drift detection or review integration found.",
+          "evidenceIds": [
+            "srch-spec"
+          ]
+        },
+        "implementation_links": {
+          "support": "unsupported",
+          "answer": "No persistent requirements, approvals, drift detection or review integration found.",
+          "evidenceIds": [
+            "srch-spec"
+          ]
+        },
+        "later_retrieval": {
+          "support": "unsupported",
+          "answer": "No persistent requirements, approvals, drift detection or review integration found.",
+          "evidenceIds": [
+            "srch-spec"
+          ]
+        },
+        "drift_detection": {
+          "support": "unsupported",
+          "answer": "No persistent requirements, approvals, drift detection or review integration found.",
+          "evidenceIds": [
+            "srch-spec"
+          ]
+        },
+        "review_integration": {
+          "support": "unsupported",
+          "answer": "No persistent requirements, approvals, drift detection or review integration found.",
+          "evidenceIds": [
+            "srch-spec"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "srch-spec",
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch12",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "termic:COORD-01",
+      "criterionId": "COORD-01",
+      "answer": "Many agents run in parallel, each task in its own worktree with several tabs; the sidebar and Kanban board show working, needs-you, in-review and settled counts; the Activity view lists CPU and memory per agent. No documented concurrency quota.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v1.23.0 (commit 31f55a4, released 2026-11-13)",
+        "plan": "Free and open source (AGPL-3.0-or-later)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "concurrent_sessions": {
+          "support": "supported",
+          "answer": "Parallel worktrees and tabs.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "concurrent_tasks": {
+          "support": "supported",
+          "answer": "N agents on the same branch or separate worktrees; agent races.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "quotas": {
+          "support": "unsupported",
+          "answer": "No concurrency quota found.",
+          "evidenceIds": [
+            "srch-limits"
+          ]
+        },
+        "observed_concurrency": {
+          "support": "unknown",
+          "answer": "Measured concurrency is a benchmark fact; no ADEMark entry exists.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "status_visibility": {
+          "support": "supported",
+          "answer": "Status chips, sidebar and board show working, needs you, in review and settled.",
+          "evidenceIds": [
+            "readme",
+            "states"
+          ]
+        }
+      },
+      "limitations": [
+        "See atomic answers for the unmet or unknown parts."
+      ],
+      "unknownReason": "Measured concurrency needs a benchmark this catalog does not run.",
+      "evidenceIds": [
+        "readme",
+        "procmon",
+        "srch-limits",
+        "states"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch12",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "termic:COORD-02",
+      "criterionId": "COORD-02",
+      "answer": "A task belongs to one worktree with one or more agent tabs; spawned tasks are grouped under their creator; no queues, claims or routing, and duplicate work is not prevented beyond separate worktrees.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop",
+          "cli"
+        ],
+        "version": "v1.23.0 (commit 31f55a4, released 2026-11-13)",
+        "plan": "Free and open source (AGPL-3.0-or-later)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "human_assignment": {
+          "support": "unsupported",
+          "answer": "Single-user app.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "agent_assignment": {
+          "support": "supported",
+          "answer": "Pick agent and model per tab; agents can spawn tasks with chosen agents.",
+          "evidenceIds": [
+            "readme",
+            "cli-instr"
+          ]
+        },
+        "claims": {
+          "support": "unsupported",
+          "answer": "No claim mechanism.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "queues": {
+          "support": "partial",
+          "answer": "A per-agent message queue releases one message per finished turn.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "routing": {
+          "support": "unsupported",
+          "answer": "No routing rules.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "duplicate_prevention": {
+          "support": "partial",
+          "answer": "Separate worktrees avoid file collisions.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "ownership_enforcement": {
+          "support": "partial",
+          "answer": "Worktree separation is the only exclusivity.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "See atomic answers for the unmet or unknown parts."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "mcp",
+        "srch-team",
+        "cli-instr",
+        "srch-issues"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch12",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "termic:COORD-03",
+      "criterionId": "COORD-03",
+      "answer": "The CLI and MCP let an agent inside a task create other tasks (joining its group), send prompts, wait, read results and diffs; inter-agent messages are signed; the agent chooses agent, model and reasoning arguments. Dedicated coordinator roles and orchestration shapes are an idea, not shipped.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli",
+          "mcp"
+        ],
+        "version": "v1.23.0 (commit 31f55a4, released 2026-11-13)",
+        "plan": "Free and open source (AGPL-3.0-or-later)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "roles": {
+          "support": "partial",
+          "answer": "Group parent and children; no named coordinator role (agent-driven orchestration is an idea).",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "model_harness_effort": {
+          "support": "supported",
+          "answer": "termic tab --agent --model --arg per tab.",
+          "evidenceIds": [
+            "cli-instr"
+          ]
+        },
+        "messages": {
+          "support": "supported",
+          "answer": "task_send and signed messages with delivery.",
+          "evidenceIds": [
+            "mcp",
+            "readme"
+          ]
+        },
+        "results_return": {
+          "support": "supported",
+          "answer": "task_wait and task_result.",
+          "evidenceIds": [
+            "mcp"
+          ]
+        },
+        "cross_harness": {
+          "support": "supported",
+          "answer": "Any registry agent can be spawned by any other.",
+          "evidenceIds": [
+            "cli-instr"
+          ]
+        },
+        "orchestration_owner": {
+          "support": "partial",
+          "answer": "Product ships the CLI, MCP tools and instruction block; the coordinating loop is the user's agent.",
+          "evidenceIds": [
+            "cli-instr"
+          ]
+        },
+        "activation": {
+          "support": "supported",
+          "answer": "TERMIC_CLI is present in spawned PTYs when the control plane is on; caged tasks are refused.",
+          "evidenceIds": [
+            "cli-instr"
+          ]
+        },
+        "authentication": {
+          "support": "supported",
+          "answer": "Local socket and MCP bearer token; peers use pair keys.",
+          "evidenceIds": [
+            "mcp",
+            "peers"
+          ]
+        },
+        "live_progress": {
+          "support": "supported",
+          "answer": "Sidebar states and task_status/task_log reads.",
+          "evidenceIds": [
+            "mcp"
+          ]
+        },
+        "retained_results": {
+          "support": "supported",
+          "answer": "Archived tasks keep history and result.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "followup": {
+          "support": "supported",
+          "answer": "Send further prompts to finished tasks and resume sessions.",
+          "evidenceIds": [
+            "readme",
+            "mcp"
+          ]
+        },
+        "invocation": {
+          "support": "supported",
+          "answer": "Agents are taught via the instructions block or the briefing.",
+          "evidenceIds": [
+            "cli-instr"
+          ]
+        }
+      },
+      "limitations": [
+        "See atomic answers for the unmet or unknown parts."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "cli-instr",
+        "mcp",
+        "readme",
+        "peers"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch12",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "termic:COORD-04",
+      "criterionId": "COORD-04",
+      "answer": "Scheduled tasks run daily, on weekdays, weekly or once with a report per run and catch-up for missed slots; manageable from CLI and MCP. They run inside the desktop app, so a closed or sleeping computer misses them (keep-awake can help).",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop",
+          "cli"
+        ],
+        "version": "v1.23.0 (commit 31f55a4, released 2026-11-13)",
+        "plan": "Free and open source (AGPL-3.0-or-later)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "schedules": {
+          "support": "supported",
+          "answer": "Daily, weekday, weekly and one-off schedules.",
+          "evidenceIds": [
+            "readme",
+            "schedules"
+          ]
+        },
+        "events": {
+          "support": "unsupported",
+          "answer": "No event triggers found.",
+          "evidenceIds": [
+            "srch-limits"
+          ]
+        },
+        "recurring_tasks": {
+          "support": "supported",
+          "answer": "Recurring runs create a new task per run in a group.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "completion_conditions": {
+          "support": "partial",
+          "answer": "Each run writes a report; no completion conditions.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "scheduler_location": {
+          "support": "supported",
+          "answer": "Runs inside the Termic app.",
+          "evidenceIds": [
+            "schedules"
+          ]
+        },
+        "overlaps": {
+          "support": "partial",
+          "answer": "Each run is a new task; overlap policy not specified.",
+          "evidenceIds": [
+            "schedules"
+          ]
+        },
+        "retries": {
+          "support": "partial",
+          "answer": "Missed slots can run once on launch or wake via catch_up.",
+          "evidenceIds": [
+            "schedules"
+          ]
+        },
+        "client_independence": {
+          "support": "unsupported",
+          "answer": "The app must be running; keep-awake mug keeps the computer awake.",
+          "evidenceIds": [
+            "readme",
+            "schedules"
+          ]
+        }
+      },
+      "limitations": [
+        "See atomic answers for the unmet or unknown parts."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "schedules",
+        "srch-limits"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch12",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "termic:COORD-05",
+      "criterionId": "COORD-05",
+      "answer": "Interrupt (Escape/Ctrl-C), queue, send now or later, broadcast, answer permission prompts in the terminal; bell notifications when an agent needs you or ends a turn; attention tracked until answered; Escape-interrupt tracked; chat and terminal are the same PTY.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v1.23.0 (commit 31f55a4, released 2026-11-13)",
+        "plan": "Free and open source (AGPL-3.0-or-later)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "pause": {
+          "support": "partial",
+          "answer": "Interrupt via key; no pause-and-hold control.",
+          "evidenceIds": [
+            "states"
+          ]
+        },
+        "stop": {
+          "support": "supported",
+          "answer": "Close tab or interrupt; archive keeps history.",
+          "evidenceIds": [
+            "states",
+            "readme"
+          ]
+        },
+        "resume": {
+          "support": "supported",
+          "answer": "Every agent tab resumes its conversation on relaunch.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "steer": {
+          "support": "supported",
+          "answer": "Type into the terminal, queue messages or send ahead.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "notifications": {
+          "support": "supported",
+          "answer": "Bell and desktop notifications once after the last background job reports.",
+          "evidenceIds": [
+            "states",
+            "readme"
+          ]
+        },
+        "pending_decisions": {
+          "support": "supported",
+          "answer": "Attention state until answered.",
+          "evidenceIds": [
+            "states"
+          ]
+        },
+        "escalation": {
+          "support": "partial",
+          "answer": "Bell and sidebar chip; no escalation chain.",
+          "evidenceIds": [
+            "states"
+          ]
+        },
+        "visible_errors": {
+          "support": "supported",
+          "answer": "Usage-limit state and failed starts are visible.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "chat_terminal_parity": {
+          "support": "supported",
+          "answer": "The PTY is the agent chat.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "retained_history": {
+          "support": "supported",
+          "answer": "History view retains archived tasks.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "See atomic answers for the unmet or unknown parts."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "states",
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch12",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "termic:COORD-06",
+      "criterionId": "COORD-06",
+      "answer": "Sidebar groups projects and tasks with status chips and filters, a Kanban board of columns derived from terminal activity, a Todos view across projects, PR/check badges, and Activity with CPU, memory and output rate. No epics, dependencies or workload graph.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v1.23.0 (commit 31f55a4, released 2026-11-13)",
+        "plan": "Free and open source (AGPL-3.0-or-later)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "fleet_fixture": {
+          "support": "supported",
+          "answer": "Board and sidebar across projects (documented screenshots).",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "parent_child": {
+          "support": "partial",
+          "answer": "Group membership under the parent that spawned tasks.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "dependencies": {
+          "support": "unsupported",
+          "answer": "No dependencies.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "attention": {
+          "support": "supported",
+          "answer": "Needs-you chips, bell and board column.",
+          "evidenceIds": [
+            "readme",
+            "states"
+          ]
+        },
+        "history": {
+          "support": "supported",
+          "answer": "History view and PR search.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "workload": {
+          "support": "supported",
+          "answer": "Activity process monitor per agent.",
+          "evidenceIds": [
+            "procmon",
+            "readme"
+          ]
+        },
+        "navigation_errors": {
+          "support": "partial",
+          "answer": "Usage-limit and errored states appear on rows.",
+          "evidenceIds": [
+            "states"
+          ]
+        },
+        "fixture_mode": {
+          "support": "unknown",
+          "answer": "Fixture-based verification is not run by this catalog.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "See atomic answers for the unmet or unknown parts."
+      ],
+      "unknownReason": "Fixture-based verification is not performed by this catalog.",
+      "evidenceIds": [
+        "readme",
+        "srch-issues",
+        "states",
+        "procmon"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch12",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "termic:COORD-07",
+      "criterionId": "COORD-07",
+      "answer": "No mandatory workflow: any agent, model and effort per tab, broadcast and agent races, prompt library, task-scoped scheduling; agents can message and group peers; the sidebar shows groups and delegated-work states; discoverability through guided tour and tips.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v1.23.0 (commit 31f55a4, released 2026-11-13)",
+        "plan": "Free and open source (AGPL-3.0-or-later)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "quick_task": {
+          "support": "supported",
+          "answer": "Cmd+N starts a task in seconds.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "growing_epic": {
+          "support": "unsupported",
+          "answer": "No epic to grow into.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "presets": {
+          "support": "supported",
+          "answer": "Optional prompts and agent presets.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "natural_language": {
+          "support": "partial",
+          "answer": "Prompts and skills are text; no builder.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "agent_configuration": {
+          "support": "supported",
+          "answer": "Agent, model and reasoning per tab.",
+          "evidenceIds": [
+            "cli-instr",
+            "readme"
+          ]
+        },
+        "in_run_changes": {
+          "support": "supported",
+          "answer": "Add tabs, queue messages and switch login mid-conversation.",
+          "evidenceIds": [
+            "readme",
+            "accounts"
+          ]
+        },
+        "live_roles": {
+          "support": "partial",
+          "answer": "Groups and delegated-work states show parent and children.",
+          "evidenceIds": [
+            "states"
+          ]
+        },
+        "retained_relationships": {
+          "support": "partial",
+          "answer": "Groups persist until dissolved.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "discoverability": {
+          "support": "supported",
+          "answer": "Guided tour, tips and command palette.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "auth_friction": {
+          "support": "supported",
+          "answer": "No account; agent CLIs need their own login.",
+          "evidenceIds": [
+            "site"
+          ]
+        }
+      },
+      "limitations": [
+        "See atomic answers for the unmet or unknown parts."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "states",
+        "srch-issues",
+        "cli-instr",
+        "accounts",
+        "site"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch12",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "termic:RUN-01",
+      "criterionId": "RUN-01",
+      "answer": "Agents run on the machine where Termic runs, in a local worktree and PTY, optionally inside a Docker container. There is no vendor cloud, no headless server (planned idea) and no remote execution mode; LAN pairing lets agents drive another computer's Termic.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v1.23.0 (commit 31f55a4, released 2026-11-13)",
+        "plan": "Free and open source (AGPL-3.0-or-later)",
+        "os": [],
+        "executionModes": [
+          "local"
+        ],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "local": {
+          "support": "supported",
+          "answer": "Local worktrees, PTYs and optional Seatbelt or Docker cage.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "byo_remote": {
+          "support": "unsupported",
+          "answer": "No remote execution mode; headless boxes are an idea.",
+          "evidenceIds": [
+            "srch-cloud"
+          ]
+        },
+        "self_hosted": {
+          "support": "unsupported",
+          "answer": "No server component to self-host separately.",
+          "evidenceIds": [
+            "srch-cloud"
+          ]
+        },
+        "managed_cloud": {
+          "support": "unsupported",
+          "answer": "No vendor cloud.",
+          "evidenceIds": [
+            "site",
+            "srch-cloud"
+          ]
+        },
+        "hybrid": {
+          "support": "partial",
+          "answer": "Pairing computers lets an agent start tasks on another Termic.",
+          "evidenceIds": [
+            "peers"
+          ]
+        },
+        "provisioning": {
+          "support": "partial",
+          "answer": "User installs on each machine.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "payer": {
+          "support": "supported",
+          "answer": "User pays agent providers; the app is free.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "resources": {
+          "support": "supported",
+          "answer": "Host machine resources; Activity view shows per-agent usage.",
+          "evidenceIds": [
+            "procmon"
+          ]
+        },
+        "region": {
+          "support": "unknown",
+          "answer": "Local machine.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "expiry": {
+          "support": "unsupported",
+          "answer": "No managed sandbox expiry.",
+          "evidenceIds": [
+            "srch-cloud"
+          ]
+        },
+        "client_disconnect": {
+          "support": "partial",
+          "answer": "Agents run in the app's PTYs; if the app quits the PTYs end, then resume on relaunch.",
+          "evidenceIds": [
+            "readme",
+            "states"
+          ]
+        },
+        "other_device_continuation": {
+          "support": "partial",
+          "answer": "Paired computers or the MCP endpoint from another device when allowed; a phone app is planned.",
+          "evidenceIds": [
+            "peers",
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "See atomic answers for the unmet or unknown parts."
+      ],
+      "unknownReason": "Region is the user's own machine location.",
+      "evidenceIds": [
+        "readme",
+        "site",
+        "peers",
+        "srch-cloud",
+        "procmon",
+        "states"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch12",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "termic:RUN-02",
+      "criterionId": "RUN-02",
+      "answer": "Each task is a git worktree (or attached to the repo root) with its own PTY tabs. Optional per-task macOS Seatbelt cage restricts writes and network through an allowlist proxy; Docker mode runs the agent in a container as the host user with capabilities dropped (experimental, egress not restricted); Secrets let a caged agent use credentials without holding them. Cages are off by default.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v1.23.0 (commit 31f55a4, released 2026-11-13)",
+        "plan": "Free and open source (AGPL-3.0-or-later)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "checkout": {
+          "support": "supported",
+          "answer": "Tasks can attach to the repo root without a worktree.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "branch": {
+          "support": "supported",
+          "answer": "Fresh or existing branch per task.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "worktree": {
+          "support": "supported",
+          "answer": "Worktrees under ~/termic/tasks/<project>/<name>/.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "container": {
+          "support": "partial",
+          "answer": "Docker mode (experimental): capabilities dropped and PID cap, egress unrestricted.",
+          "evidenceIds": [
+            "sandbox",
+            "docker-src"
+          ]
+        },
+        "vm": {
+          "support": "unsupported",
+          "answer": "No VM option; Apple Containers backend is planned.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "os_sandbox": {
+          "support": "supported",
+          "answer": "macOS Seatbelt profile, macOS only.",
+          "evidenceIds": [
+            "sandbox",
+            "sandbox-src"
+          ]
+        },
+        "filesystem": {
+          "support": "supported",
+          "answer": "Writes limited to worktree and agent dirs; credential dirs denied.",
+          "evidenceIds": [
+            "sandbox",
+            "readme"
+          ]
+        },
+        "process": {
+          "support": "partial",
+          "answer": "Docker caps PIDs; Seatbelt limits file and network, not process counts.",
+          "evidenceIds": [
+            "docker-src",
+            "sandbox"
+          ]
+        },
+        "network": {
+          "support": "partial",
+          "answer": "Seatbelt uses a hostname allowlist proxy; Docker egress is unrestricted.",
+          "evidenceIds": [
+            "sandbox"
+          ]
+        },
+        "secrets": {
+          "support": "partial",
+          "answer": "Secrets (experimental) swap placeholders on egress; requires Seatbelt with Keychain blocked.",
+          "evidenceIds": [
+            "secrets",
+            "sandbox"
+          ]
+        },
+        "code_separation": {
+          "support": "supported",
+          "answer": "Worktree per task.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "security_boundary": {
+          "support": "partial",
+          "answer": "The Seatbelt profile is described as the security boundary where enabled; sandbox is optional and macOS-only.",
+          "evidenceIds": [
+            "sandbox"
+          ]
+        }
+      },
+      "limitations": [
+        "See atomic answers for the unmet or unknown parts."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "sandbox",
+        "readme",
+        "sandbox-src",
+        "docker-src",
+        "secrets"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch12",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "termic:RUN-03",
+      "criterionId": "RUN-03",
+      "answer": "Relaunch resumes every agent tab on its own conversation (agents that can resume), hooks track states, tasks and panic logs persist locally, crash logs are easy to send; closing Termic ends PTYs. No managed recovery or worker replacement.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v1.23.0 (commit 31f55a4, released 2026-11-13)",
+        "plan": "Free and open source (AGPL-3.0-or-later)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "client_disconnect": {
+          "support": "unsupported",
+          "answer": "Agents run in the app PTYs; quitting ends them.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "worker_crash": {
+          "support": "partial",
+          "answer": "Panic log is written and tabs resume on relaunch; no automatic relaunch.",
+          "evidenceIds": [
+            "data-model",
+            "readme"
+          ]
+        },
+        "service_restart": {
+          "support": "supported",
+          "answer": "Relaunch resumes conversations where agents support it.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "expiry": {
+          "support": "unsupported",
+          "answer": "No sandbox expiry exists.",
+          "evidenceIds": [
+            "srch-cloud"
+          ]
+        },
+        "transcript_reload": {
+          "support": "supported",
+          "answer": "Agent resume reloads transcripts.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "process_reconnect": {
+          "support": "partial",
+          "answer": "New PTY resumes the conversation; the old process is not reattached.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "task_resume": {
+          "support": "supported",
+          "answer": "Resume per tab with --resume SESSION_ID or automatically.",
+          "evidenceIds": [
+            "cli-instr",
+            "readme"
+          ]
+        },
+        "state_reconstruction": {
+          "support": "partial",
+          "answer": "Task state is stored; tab state is derived again from the agent.",
+          "evidenceIds": [
+            "states",
+            "data-model"
+          ]
+        },
+        "context_loss": {
+          "support": "partial",
+          "answer": "Agents that cannot resume start fresh.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "duplicate_actions": {
+          "support": "partial",
+          "answer": "Not guaranteed; agent-dependent.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "manual_repair": {
+          "support": "supported",
+          "answer": "Archived tasks restore; crash log selection helper; config sync.",
+          "evidenceIds": [
+            "changelog",
+            "readme"
+          ]
+        },
+        "multi_day_continuity": {
+          "support": "supported",
+          "answer": "Tasks and worktrees persist; conversations resume.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "See atomic answers for the unmet or unknown parts."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "data-model",
+        "changelog",
+        "srch-cloud",
+        "cli-instr",
+        "states"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch12",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "termic:RUN-04",
+      "criterionId": "RUN-04",
+      "answer": "Per-project setup and run scripts, preview URLs and sandbox allowlists in a committed .termic.yaml; per-member dev-server ports for multi-repo tasks; Spotlight mirrors a worktree into the repo root; no dependency caching or snapshots, and a worktree does not clone node_modules.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v1.23.0 (commit 31f55a4, released 2026-11-13)",
+        "plan": "Free and open source (AGPL-3.0-or-later)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "dependencies": {
+          "support": "supported",
+          "answer": "Setup scripts run per worktree (for example npm install).",
+          "evidenceIds": [
+            "repo-config"
+          ]
+        },
+        "caches": {
+          "support": "unsupported",
+          "answer": "No dependency cache sharing found.",
+          "evidenceIds": [
+            "srch-limits"
+          ]
+        },
+        "snapshots": {
+          "support": "unsupported",
+          "answer": "No snapshots.",
+          "evidenceIds": [
+            "srch-cloud"
+          ]
+        },
+        "services": {
+          "support": "supported",
+          "answer": "Run commands per task with preview URLs.",
+          "evidenceIds": [
+            "repo-config",
+            "readme"
+          ]
+        },
+        "ports": {
+          "support": "partial",
+          "answer": "Per-member dev-server ports for multi-repo tasks.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "secrets": {
+          "support": "partial",
+          "answer": "Secrets roles for caged tasks (experimental).",
+          "evidenceIds": [
+            "secrets"
+          ]
+        },
+        "duplicate_installs": {
+          "support": "unsupported",
+          "answer": "Each worktree installs separately.",
+          "evidenceIds": [
+            "srch-limits"
+          ]
+        },
+        "collisions": {
+          "support": "partial",
+          "answer": "Per-member ports reduce collisions in multi-repo tasks; no global port pool described.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "remote_setup": {
+          "support": "unsupported",
+          "answer": "No remote setup.",
+          "evidenceIds": [
+            "srch-cloud"
+          ]
+        },
+        "automatic_repair": {
+          "support": "partial",
+          "answer": "Worktree registration self-heal on add.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "See atomic answers for the unmet or unknown parts."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "repo-config",
+        "srch-limits",
+        "srch-cloud",
+        "secrets"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch12",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "termic:RUN-05",
+      "criterionId": "RUN-05",
+      "answer": "No time, turn, token or spend limits in Termic. Plan usage windows and context fill are shown; the user can move a task to another login past 95 percent; agents' own limits apply and a hit usage limit is a visible state.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v1.23.0 (commit 31f55a4, released 2026-11-13)",
+        "plan": "Free and open source (AGPL-3.0-or-later)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "time_limits": {
+          "support": "unsupported",
+          "answer": "None found.",
+          "evidenceIds": [
+            "srch-limits"
+          ]
+        },
+        "turn_limits": {
+          "support": "unsupported",
+          "answer": "None found.",
+          "evidenceIds": [
+            "srch-limits"
+          ]
+        },
+        "token_limits": {
+          "support": "unsupported",
+          "answer": "None found.",
+          "evidenceIds": [
+            "srch-limits"
+          ]
+        },
+        "spend_limits": {
+          "support": "unsupported",
+          "answer": "None found.",
+          "evidenceIds": [
+            "srch-limits"
+          ]
+        },
+        "timeouts": {
+          "support": "unsupported",
+          "answer": "No product timeouts found for agent turns.",
+          "evidenceIds": [
+            "srch-limits"
+          ]
+        },
+        "retries": {
+          "support": "unsupported",
+          "answer": "No retry behaviour found.",
+          "evidenceIds": [
+            "srch-limits"
+          ]
+        },
+        "provider_failures": {
+          "support": "partial",
+          "answer": "Usage-limit state shown; optional account move at 95 percent.",
+          "evidenceIds": [
+            "states",
+            "usage"
+          ]
+        },
+        "enforcement": {
+          "support": "unsupported",
+          "answer": "Informational only.",
+          "evidenceIds": [
+            "usage"
+          ]
+        }
+      },
+      "limitations": [
+        "See atomic answers for the unmet or unknown parts."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "usage",
+        "srch-limits",
+        "states"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch12",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "termic:RUN-06",
+      "criterionId": "RUN-06",
+      "answer": "Agent state from hooks and PTY signals, local panic and diagnostic logs, plan usage windows and context fill in the footer, Activity process monitor, PR checks; no usage export, per-task cost or analytics. Speed and memory figures come only from ADEMark, which has no Termic entry.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v1.23.0 (commit 31f55a4, released 2026-11-13)",
+        "plan": "Free and open source (AGPL-3.0-or-later)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "logs": {
+          "support": "partial",
+          "answer": "Terminal scrollback, panic log and crash log helper.",
+          "evidenceIds": [
+            "data-model",
+            "changelog"
+          ]
+        },
+        "traces": {
+          "support": "unsupported",
+          "answer": "No traces.",
+          "evidenceIds": [
+            "srch-limits"
+          ]
+        },
+        "failure_reasons": {
+          "support": "partial",
+          "answer": "Usage-limit and attention states.",
+          "evidenceIds": [
+            "states"
+          ]
+        },
+        "usage_export": {
+          "support": "unsupported",
+          "answer": "No export found.",
+          "evidenceIds": [
+            "srch-limits"
+          ]
+        },
+        "task_stats": {
+          "support": "unsupported",
+          "answer": "No per-task statistics found.",
+          "evidenceIds": [
+            "srch-limits"
+          ]
+        },
+        "agent_stats": {
+          "support": "partial",
+          "answer": "Footer plan usage per provider window.",
+          "evidenceIds": [
+            "usage"
+          ]
+        },
+        "project_stats": {
+          "support": "unsupported",
+          "answer": "No project statistics.",
+          "evidenceIds": [
+            "srch-limits"
+          ]
+        },
+        "time_stats": {
+          "support": "unsupported",
+          "answer": "No time statistics.",
+          "evidenceIds": [
+            "srch-limits"
+          ]
+        },
+        "failure_status": {
+          "support": "supported",
+          "answer": "Usage-limit hit and attention states.",
+          "evidenceIds": [
+            "states"
+          ]
+        },
+        "approval_status": {
+          "support": "supported",
+          "answer": "Attention state for permission prompts.",
+          "evidenceIds": [
+            "states"
+          ]
+        },
+        "reconnect_consistency": {
+          "support": "partial",
+          "answer": "States re-derived after relaunch from hooks and PTY signals.",
+          "evidenceIds": [
+            "states"
+          ]
+        },
+        "performance_method": {
+          "support": "unknown",
+          "answer": "Speed and memory belong to ADEMark; Termic is not listed.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "responsiveness": {
+          "support": "unknown",
+          "answer": "Responsiveness is a benchmark fact outside this catalog.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "See atomic answers for the unmet or unknown parts."
+      ],
+      "unknownReason": "Performance and responsiveness are benchmark facts; ADEMark has no Termic entry.",
+      "evidenceIds": [
+        "states",
+        "usage",
+        "procmon",
+        "readme",
+        "data-model",
+        "changelog",
+        "srch-limits"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch12",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "termic:RUN-07",
+      "criterionId": "RUN-07",
+      "answer": "No dollar or per-task cost: the footer shows provider plan usage windows (session and weekly, daily and weekly for Devin, monthly for copilot) and context fill; no budget alerts or export.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v1.23.0 (commit 31f55a4, released 2026-11-13)",
+        "plan": "Free and open source (AGPL-3.0-or-later)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "task_cost": {
+          "support": "unsupported",
+          "answer": "No per-task cost.",
+          "evidenceIds": [
+            "srch-limits"
+          ]
+        },
+        "session_cost": {
+          "support": "unsupported",
+          "answer": "No session cost.",
+          "evidenceIds": [
+            "srch-limits"
+          ]
+        },
+        "child_cost": {
+          "support": "unsupported",
+          "answer": "No child cost.",
+          "evidenceIds": [
+            "srch-limits"
+          ]
+        },
+        "epic_cost": {
+          "support": "unsupported",
+          "answer": "No epic cost.",
+          "evidenceIds": [
+            "srch-limits"
+          ]
+        },
+        "harness_aggregation": {
+          "support": "unsupported",
+          "answer": "No cross-harness cost aggregation.",
+          "evidenceIds": [
+            "srch-limits"
+          ]
+        },
+        "billed_vs_estimated": {
+          "support": "unsupported",
+          "answer": "No amounts shown.",
+          "evidenceIds": [
+            "srch-limits"
+          ]
+        },
+        "tokens": {
+          "support": "partial",
+          "answer": "Context fill percentage only.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "subscription_allowance": {
+          "support": "supported",
+          "answer": "Plan windows per provider in the footer.",
+          "evidenceIds": [
+            "readme",
+            "usage"
+          ]
+        },
+        "provider_reconciliation": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-limits"
+          ]
+        },
+        "compute_cost": {
+          "support": "unsupported",
+          "answer": "Compute is the user's machine.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "refresh_delay": {
+          "support": "unknown",
+          "answer": "Refresh interval is not documented.",
+          "evidenceIds": [
+            "usage"
+          ]
+        },
+        "alerts": {
+          "support": "unsupported",
+          "answer": "No alerts besides optional switch at 95 percent.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "export": {
+          "support": "unsupported",
+          "answer": "No export.",
+          "evidenceIds": [
+            "srch-limits"
+          ]
+        },
+        "drilldown": {
+          "support": "unsupported",
+          "answer": "No drill-down.",
+          "evidenceIds": [
+            "srch-limits"
+          ]
+        }
+      },
+      "limitations": [
+        "See atomic answers for the unmet or unknown parts."
+      ],
+      "unknownReason": "Usage refresh interval is not documented.",
+      "evidenceIds": [
+        "readme",
+        "usage",
+        "srch-limits",
+        "site"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch12",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "termic:RUN-08",
+      "criterionId": "RUN-08",
+      "answer": "An Activity process monitor shows CPU, memory, output rate and uptime per agent, shell and run script; Docker caps PIDs; no queues, CPU/RAM limits, backpressure or check deduplication; a message queue serialises prompts per agent.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v1.23.0 (commit 31f55a4, released 2026-11-13)",
+        "plan": "Free and open source (AGPL-3.0-or-later)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "concurrency": {
+          "support": "unsupported",
+          "answer": "No concurrency limit.",
+          "evidenceIds": [
+            "srch-limits"
+          ]
+        },
+        "queues": {
+          "support": "partial",
+          "answer": "Per-agent message queue only.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "cpu_ram": {
+          "support": "partial",
+          "answer": "Monitored but not limited (Docker PID cap only).",
+          "evidenceIds": [
+            "procmon",
+            "docker-src"
+          ]
+        },
+        "backpressure": {
+          "support": "unsupported",
+          "answer": "No backpressure.",
+          "evidenceIds": [
+            "srch-limits"
+          ]
+        },
+        "host_awareness": {
+          "support": "supported",
+          "answer": "Activity view reports per-process CPU and memory.",
+          "evidenceIds": [
+            "procmon"
+          ]
+        },
+        "check_reuse": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-limits"
+          ]
+        },
+        "check_deduplication": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-limits"
+          ]
+        },
+        "bounded_tests": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-limits"
+          ]
+        },
+        "cancellation": {
+          "support": "supported",
+          "answer": "Interrupt or close a tab; archive a task.",
+          "evidenceIds": [
+            "states"
+          ]
+        },
+        "fairness": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-limits"
+          ]
+        },
+        "recovery": {
+          "support": "partial",
+          "answer": "Resume on relaunch.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "shared_limits": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-limits"
+          ]
+        }
+      },
+      "limitations": [
+        "See atomic answers for the unmet or unknown parts."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "procmon",
+        "readme",
+        "srch-limits",
+        "docker-src",
+        "states"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch12",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "termic:TEAM-01",
+      "criterionId": "TEAM-01",
+      "answer": "Single-user local app: no sharing, comments, presence or co-prompting; LAN pairing links one person's computers and sealed messages between agents are signed, not human collaboration. Config can sync through a private git repo.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v1.23.0 (commit 31f55a4, released 2026-11-13)",
+        "plan": "Free and open source (AGPL-3.0-or-later)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "visibility": {
+          "support": "unsupported",
+          "answer": "No shared visibility of tasks.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "discussion": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "comments": {
+          "support": "partial",
+          "answer": "Review comments go to the agent, not to colleagues.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "presence": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "coprompting": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "ordering": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "conflicts": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "attribution": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "permissions": {
+          "support": "partial",
+          "answer": "Pairing grants (what a peer may do) are the only permission model.",
+          "evidenceIds": [
+            "peers"
+          ]
+        },
+        "plan_restrictions": {
+          "support": "supported",
+          "answer": "One free edition.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "owner_online": {
+          "support": "partial",
+          "answer": "The owner's computer must run Termic.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "See atomic answers for the unmet or unknown parts."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "srch-team",
+        "peers",
+        "readme",
+        "site"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch12",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "termic:TEAM-02",
+      "criterionId": "TEAM-02",
+      "answer": "No organization, project or task roles, SSO or provisioning; pairing grants and profiles separate work and personal instances on one machine.",
+      "support": "unsupported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v1.23.0 (commit 31f55a4, released 2026-11-13)",
+        "plan": "Free and open source (AGPL-3.0-or-later)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "organization_roles": {
+          "support": "unsupported",
+          "answer": "Bounded search found no roles, SSO or provisioning; the only access model is pairing grants and separate profiles.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "project_roles": {
+          "support": "unsupported",
+          "answer": "Bounded search found no roles, SSO or provisioning; the only access model is pairing grants and separate profiles.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "task_roles": {
+          "support": "unsupported",
+          "answer": "Bounded search found no roles, SSO or provisioning; the only access model is pairing grants and separate profiles.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "membership": {
+          "support": "unsupported",
+          "answer": "Bounded search found no roles, SSO or provisioning; the only access model is pairing grants and separate profiles.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "sso": {
+          "support": "unsupported",
+          "answer": "Bounded search found no roles, SSO or provisioning; the only access model is pairing grants and separate profiles.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "provisioning": {
+          "support": "unsupported",
+          "answer": "Bounded search found no roles, SSO or provisioning; the only access model is pairing grants and separate profiles.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "unauthorized_access": {
+          "support": "unsupported",
+          "answer": "Bounded search found no roles, SSO or provisioning; the only access model is pairing grants and separate profiles.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "revocation": {
+          "support": "unsupported",
+          "answer": "Bounded search found no roles, SSO or provisioning; the only access model is pairing grants and separate profiles.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "plan_scope": {
+          "support": "unsupported",
+          "answer": "Bounded search found no roles, SSO or provisioning; the only access model is pairing grants and separate profiles.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "srch-team",
+        "peers"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch12",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "termic:TEAM-03",
+      "criterionId": "TEAM-03",
+      "answer": "Agents ask permission in their own terminal; Termic can auto-enable YOLO only inside a cage and shows a red lightning icon when YOLO is on without a sandbox; Seatbelt and Docker enforce file and network policy (network only for Seatbelt); no Termic-level approval queue or ledger; pairing grants are scoped per machine.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v1.23.0 (commit 31f55a4, released 2026-11-13)",
+        "plan": "Free and open source (AGPL-3.0-or-later)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "command": {
+          "support": "partial",
+          "answer": "Agent permission prompts appear in the terminal; Termic marks attention; no Termic command policy.",
+          "evidenceIds": [
+            "states",
+            "sandbox"
+          ]
+        },
+        "tool": {
+          "support": "partial",
+          "answer": "Agent-owned permission prompts.",
+          "evidenceIds": [
+            "states"
+          ]
+        },
+        "network": {
+          "support": "partial",
+          "answer": "Seatbelt hostname allowlist proxy (macOS only); Docker egress unrestricted.",
+          "evidenceIds": [
+            "sandbox"
+          ]
+        },
+        "secret": {
+          "support": "partial",
+          "answer": "Secrets roles (experimental) limit hosts and API calls.",
+          "evidenceIds": [
+            "secrets"
+          ]
+        },
+        "delivery": {
+          "support": "partial",
+          "answer": "PRs are opened by the user from the app or agent; no approval gate.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "approver_identity": {
+          "support": "unsupported",
+          "answer": "Single user.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "lifetime": {
+          "support": "partial",
+          "answer": "Cage settings pinned per task and editable later; pairing grants persist until revoked.",
+          "evidenceIds": [
+            "sandbox",
+            "peers"
+          ]
+        },
+        "allow": {
+          "support": "supported",
+          "answer": "Per-project network allowlist additions and shield settings.",
+          "evidenceIds": [
+            "sandbox"
+          ]
+        },
+        "deny": {
+          "support": "supported",
+          "answer": "Credential directories always denied by the cage.",
+          "evidenceIds": [
+            "sandbox"
+          ]
+        },
+        "revoke": {
+          "support": "supported",
+          "answer": "Pairing can be unpaired or revoked; shield can be edited.",
+          "evidenceIds": [
+            "peers",
+            "sandbox"
+          ]
+        },
+        "tunnels": {
+          "support": "partial",
+          "answer": "LAN sharing is off by default and turning it off unbinds the listener.",
+          "evidenceIds": [
+            "peers"
+          ]
+        },
+        "defaults": {
+          "support": "partial",
+          "answer": "Cage is optional; without it agents run with the user's rights.",
+          "evidenceIds": [
+            "sandbox",
+            "readme"
+          ]
+        },
+        "safer_modes": {
+          "support": "supported",
+          "answer": "Seatbelt and Docker modes.",
+          "evidenceIds": [
+            "sandbox"
+          ]
+        },
+        "enforcement": {
+          "support": "supported",
+          "answer": "Seatbelt profile and proxy are enforced by the OS and app.",
+          "evidenceIds": [
+            "sandbox",
+            "sandbox-src"
+          ]
+        }
+      },
+      "limitations": [
+        "See atomic answers for the unmet or unknown parts."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "sandbox",
+        "readme",
+        "peers",
+        "states",
+        "secrets",
+        "srch-team",
+        "sandbox-src"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch12",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "termic:TEAM-04",
+      "criterionId": "TEAM-04",
+      "answer": "Local-only history: archived tasks with branch and PR, terminal transcripts in each agent, signed inter-agent messages, crash and panic logs, scratchpads; config can sync to a private git repo; no audit retention or integrity model.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v1.23.0 (commit 31f55a4, released 2026-11-13)",
+        "plan": "Free and open source (AGPL-3.0-or-later)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "actions": {
+          "support": "partial",
+          "answer": "Agent transcripts and terminal scrollback; no action log.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "approvals": {
+          "support": "unsupported",
+          "answer": "No approval history.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "edits": {
+          "support": "supported",
+          "answer": "Git history and diffs.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "discussion": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "decisions": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-spec"
+          ]
+        },
+        "cross_user_persistence": {
+          "support": "unsupported",
+          "answer": "Single user.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "cross_session_persistence": {
+          "support": "supported",
+          "answer": "Tasks persist with conversations.",
+          "evidenceIds": [
+            "data-model"
+          ]
+        },
+        "export": {
+          "support": "partial",
+          "answer": "JSON state files and config sync to a git repo.",
+          "evidenceIds": [
+            "data-model",
+            "readme"
+          ]
+        },
+        "mutability": {
+          "support": "supported",
+          "answer": "User state files are editable.",
+          "evidenceIds": [
+            "data-model"
+          ]
+        },
+        "retention": {
+          "support": "unknown",
+          "answer": "No retention policy documented.",
+          "evidenceIds": [
+            "data-model"
+          ]
+        },
+        "integrity": {
+          "support": "unsupported",
+          "answer": "No integrity model.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        }
+      },
+      "limitations": [
+        "See atomic answers for the unmet or unknown parts."
+      ],
+      "unknownReason": "Retention is not documented.",
+      "evidenceIds": [
+        "readme",
+        "data-model",
+        "srch-team",
+        "srch-spec"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch12",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "termic:TEAM-05",
+      "criterionId": "TEAM-05",
+      "answer": "Side-by-side or unified diffs with syntax highlighting, inline GitHub-style comments on diffs, files and rendered Markdown that batch into one message to the agent, a deep review of eight focused reviewers, PR review tasks, PR and checks in the panel, keyboard-first navigation, Git panel with stage, commit, push.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v1.23.0 (commit 31f55a4, released 2026-11-13)",
+        "plan": "Free and open source (AGPL-3.0-or-later)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "pending_reviews": {
+          "support": "supported",
+          "answer": "In review status chip and board column; Todos list PRs needing review.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "change_understanding": {
+          "support": "supported",
+          "answer": "Diff view and Git panel with change size.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "evidence_navigation": {
+          "support": "supported",
+          "answer": "Files, diffs and blame in one window.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "comments": {
+          "support": "supported",
+          "answer": "Inline comments on diffs, files and Markdown previews.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "request_changes": {
+          "support": "supported",
+          "answer": "Comments batch into one message to the agent.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "shipping_guidance": {
+          "support": "supported",
+          "answer": "Commit, push, open PR and PR checks in the right panel.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "effort": {
+          "support": "unknown",
+          "answer": "Review effort is a usability measure outside source inspection.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "missed_evidence": {
+          "support": "partial",
+          "answer": "Deep review filters false positives; no unread tracking.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "keyboard": {
+          "support": "supported",
+          "answer": "Keyboard-first with rebindable shortcuts.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "narrow_screen": {
+          "support": "unsupported",
+          "answer": "Desktop app only.",
+          "evidenceIds": [
+            "srch-cloud"
+          ]
+        },
+        "context_switching": {
+          "support": "supported",
+          "answer": "Task finder and project quick switch.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "roles": {
+          "support": "supported",
+          "answer": "Review prompts with eight focused reviewers.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "retained_context": {
+          "support": "partial",
+          "answer": "Archived tasks keep their PR; comments are sent to the agent.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "See atomic answers for the unmet or unknown parts."
+      ],
+      "unknownReason": "Review effort is a usability measurement this catalog does not make.",
+      "evidenceIds": [
+        "readme",
+        "srch-cloud"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch12",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "termic:TEAM-06",
+      "criterionId": "TEAM-06",
+      "answer": "Single-user: no colleague takeover. LAN pairing lets an agent or the same person drive tasks on another computer; conversations can move to another login mid-conversation; hand-off to another agent is a built-in prompt.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v1.23.0 (commit 31f55a4, released 2026-11-13)",
+        "plan": "Free and open source (AGPL-3.0-or-later)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "ongoing_takeover": {
+          "support": "unsupported",
+          "answer": "No second-person takeover.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "same_task": {
+          "support": "partial",
+          "answer": "A paired computer can read and prompt a task.",
+          "evidenceIds": [
+            "peers"
+          ]
+        },
+        "session_history": {
+          "support": "partial",
+          "answer": "A paired peer reads task history through grants.",
+          "evidenceIds": [
+            "peers"
+          ]
+        },
+        "decisions": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "artifacts": {
+          "support": "partial",
+          "answer": "Scratchpads local.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "permissions": {
+          "support": "partial",
+          "answer": "Pair grants.",
+          "evidenceIds": [
+            "peers"
+          ]
+        },
+        "runtime_context": {
+          "support": "unsupported",
+          "answer": "Runtime stays on the host.",
+          "evidenceIds": [
+            "peers"
+          ]
+        },
+        "owner_disconnect": {
+          "support": "unsupported",
+          "answer": "Host must run Termic.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "ownership": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "attribution": {
+          "support": "partial",
+          "answer": "Messages are signed by origin.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "context_loss": {
+          "support": "partial",
+          "answer": "Agent conversation context only follows through resume.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "harness_transfer": {
+          "support": "supported",
+          "answer": "The Hand off to another agent prompt and per-tab agent choice.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "See atomic answers for the unmet or unknown parts."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "peers",
+        "accounts",
+        "readme",
+        "srch-team"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch12",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "termic:SHIP-01",
+      "criterionId": "SHIP-01",
+      "answer": "Diffs, Markdown and HTML/SVG previews (sandboxed), scratchpads where agents write findings, plans and reports, scheduled-run reports, terminal scrollback; no screenshots, recordings or gallery of its own; retained with the task.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v1.23.0 (commit 31f55a4, released 2026-11-13)",
+        "plan": "Free and open source (AGPL-3.0-or-later)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "diffs": {
+          "support": "supported",
+          "answer": "Built-in diff view.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "documents": {
+          "support": "supported",
+          "answer": "Scratchpads and Markdown reader.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "screenshots": {
+          "support": "unsupported",
+          "answer": "No screenshot capture or gallery.",
+          "evidenceIds": [
+            "srch-spec"
+          ]
+        },
+        "recordings": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-spec"
+          ]
+        },
+        "previews": {
+          "support": "partial",
+          "answer": "Preview URLs from config and HTML/SVG preview.",
+          "evidenceIds": [
+            "repo-config",
+            "readme"
+          ]
+        },
+        "test_outputs": {
+          "support": "partial",
+          "answer": "Terminal scrollback and run script output.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "reviewer_outputs": {
+          "support": "partial",
+          "answer": "Deep-review output in the agent terminal.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "gallery": {
+          "support": "unsupported",
+          "answer": "No gallery.",
+          "evidenceIds": [
+            "srch-spec"
+          ]
+        },
+        "task_links": {
+          "support": "supported",
+          "answer": "Scratchpads and reports belong to tasks or projects.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "revision_links": {
+          "support": "partial",
+          "answer": "Diffs relate to the branch tip.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "persistence": {
+          "support": "supported",
+          "answer": "Scratchpads and tasks persist.",
+          "evidenceIds": [
+            "data-model"
+          ]
+        },
+        "child_findings": {
+          "support": "partial",
+          "answer": "Child task results via task_result.",
+          "evidenceIds": [
+            "mcp"
+          ]
+        },
+        "prompt_leakage": {
+          "support": "unknown",
+          "answer": "Agent-written reports; leakage is runtime behaviour.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "See atomic answers for the unmet or unknown parts."
+      ],
+      "unknownReason": "Prompt leakage in agent-written reports is runtime behaviour.",
+      "evidenceIds": [
+        "readme",
+        "srch-spec",
+        "repo-config",
+        "data-model",
+        "mcp"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch12",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "termic:SHIP-02",
+      "criterionId": "SHIP-02",
+      "answer": "Termic itself runs no tests or CI; agents and setup scripts do; PR checks and reviews are shown; Review and Deep review prompts run independent agents; no required checks or gates.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v1.23.0 (commit 31f55a4, released 2026-11-13)",
+        "plan": "Free and open source (AGPL-3.0-or-later)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "tests": {
+          "support": "partial",
+          "answer": "Run scripts and agent-run tests; no gate.",
+          "evidenceIds": [
+            "repo-config",
+            "readme"
+          ]
+        },
+        "lint": {
+          "support": "partial",
+          "answer": "Agent-run only.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "types": {
+          "support": "partial",
+          "answer": "Agent-run only.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "ci": {
+          "support": "supported",
+          "answer": "PR check status shown in the panel.",
+          "evidenceIds": [
+            "readme",
+            "forge"
+          ]
+        },
+        "independent_review": {
+          "support": "supported",
+          "answer": "Review and Deep review prompts with eight reviewers.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "spec_checks": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-spec"
+          ]
+        },
+        "required_checks": {
+          "support": "unsupported",
+          "answer": "None enforced.",
+          "evidenceIds": [
+            "srch-limits"
+          ]
+        },
+        "failure_blocking": {
+          "support": "unsupported",
+          "answer": "Termic does not block delivery.",
+          "evidenceIds": [
+            "srch-limits"
+          ]
+        },
+        "requirement_conflicts": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-spec"
+          ]
+        },
+        "configured_policy": {
+          "support": "partial",
+          "answer": ".termic.yaml scripts only.",
+          "evidenceIds": [
+            "repo-config"
+          ]
+        },
+        "enforced_policy": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-limits"
+          ]
+        }
+      },
+      "limitations": [
+        "See atomic answers for the unmet or unknown parts."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "forge",
+        "repo-config",
+        "srch-spec",
+        "srch-limits"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch12",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "termic:SHIP-03",
+      "criterionId": "SHIP-03",
+      "answer": "Integrated Git: branches and worktrees, Git panel with stage, commit and push, GitHub PR, GitLab MR and Azure DevOps PR creation, checks and reviews watched in the right panel, PR review tasks fetch the PR into a worktree, Send to main, duplicate worktree for parallel attempts; conflict handling is by the agent.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v1.23.0 (commit 31f55a4, released 2026-11-13)",
+        "plan": "Free and open source (AGPL-3.0-or-later)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "branches": {
+          "support": "supported",
+          "answer": "Fresh, existing and remote-only branches.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "worktrees": {
+          "support": "supported",
+          "answer": "Worktree per task.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "commits": {
+          "support": "supported",
+          "answer": "Commit UI and agent commits.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "pull_requests": {
+          "support": "supported",
+          "answer": "GitHub PR, GitLab MR and Azure DevOps PR.",
+          "evidenceIds": [
+            "readme",
+            "forge"
+          ]
+        },
+        "comments": {
+          "support": "partial",
+          "answer": "Reviews and checks shown; review comments go to the agent.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "ci_response": {
+          "support": "partial",
+          "answer": "Checks are shown; response by agent prompt.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "rebase": {
+          "support": "partial",
+          "answer": "Agent-driven.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "conflicts": {
+          "support": "partial",
+          "answer": "Agent-driven.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "product_state": {
+          "support": "supported",
+          "answer": "Task rows carry PR number, state and approval tick.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "See atomic answers for the unmet or unknown parts."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "forge"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch12",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "termic:SHIP-04",
+      "criterionId": "SHIP-04",
+      "answer": "The user opens PRs from the app or via agents; merge, release and deployment are done on the forge or by agents; Send to main applies a task to the main branch; no authority enforcement beyond forge permissions.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v1.23.0 (commit 31f55a4, released 2026-11-13)",
+        "plan": "Free and open source (AGPL-3.0-or-later)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "approve": {
+          "support": "partial",
+          "answer": "PR approvals are visible; approval happens on the forge.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "merge": {
+          "support": "partial",
+          "answer": "Send to main and agent merges; merging on the forge.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "release": {
+          "support": "unsupported",
+          "answer": "No release feature.",
+          "evidenceIds": [
+            "srch-spec"
+          ]
+        },
+        "deploy": {
+          "support": "unsupported",
+          "answer": "No deployment feature.",
+          "evidenceIds": [
+            "srch-cloud"
+          ]
+        },
+        "exact_revision": {
+          "support": "unsupported",
+          "answer": "No SHA-bound approvals.",
+          "evidenceIds": [
+            "srch-spec"
+          ]
+        },
+        "authority_enforcement": {
+          "support": "partial",
+          "answer": "Forge permissions apply.",
+          "evidenceIds": [
+            "forge"
+          ]
+        }
+      },
+      "limitations": [
+        "See atomic answers for the unmet or unknown parts."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "forge",
+        "srch-spec",
+        "srch-cloud"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch12",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "termic:SHIP-05",
+      "criterionId": "SHIP-05",
+      "answer": "Task rows link branch and PR with status and a tick when approved; history restores tasks by PR number; no build or deployment links, rollback or stale-approval invalidation.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v1.23.0 (commit 31f55a4, released 2026-11-13)",
+        "plan": "Free and open source (AGPL-3.0-or-later)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "commit_links": {
+          "support": "partial",
+          "answer": "Branch and PR on each task.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "pr_links": {
+          "support": "supported",
+          "answer": "PR number colour-coded by state; search #123.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "build_links": {
+          "support": "partial",
+          "answer": "Checks shown.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "deployment_links": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-cloud"
+          ]
+        },
+        "delivery_status": {
+          "support": "partial",
+          "answer": "PR state and approval tick.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "retained_evidence": {
+          "support": "partial",
+          "answer": "History keeps branch and PR.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "rollback": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-spec"
+          ]
+        },
+        "revert": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-spec"
+          ]
+        },
+        "stale_approval_invalidation": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-spec"
+          ]
+        }
+      },
+      "limitations": [
+        "See atomic answers for the unmet or unknown parts."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "srch-cloud",
+        "srch-spec"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch12",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "termic:SHIP-06",
+      "criterionId": "SHIP-06",
+      "answer": "Kanban and sidebar group tasks by state with PR badges and change size, a Todos view for PRs needing review, Deep review for bulk checking; no risk filters, merge queues or approval invalidation.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v1.23.0 (commit 31f55a4, released 2026-11-13)",
+        "plan": "Free and open source (AGPL-3.0-or-later)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "review_queue": {
+          "support": "partial",
+          "answer": "In review column and Todos filter.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "summaries": {
+          "support": "partial",
+          "answer": "Change size and PR badges, no summaries.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "grouping": {
+          "support": "supported",
+          "answer": "Projects, groups and board columns.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "risk_size_filters": {
+          "support": "partial",
+          "answer": "Change size shown; filter syntax covers project, agent, status, pr.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "findings": {
+          "support": "partial",
+          "answer": "Review output in terminal.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "artifacts": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-spec"
+          ]
+        },
+        "request_changes": {
+          "support": "supported",
+          "answer": "Comments batch to the agent.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "exact_revision_approval": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-spec"
+          ]
+        },
+        "dependency_queues": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-issues"
+          ]
+        },
+        "next_actions": {
+          "support": "partial",
+          "answer": "Row badges show PR and checks state.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "stale_approval_invalidation": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-spec"
+          ]
+        },
+        "check_deduplication": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-limits"
+          ]
+        }
+      },
+      "limitations": [
+        "See atomic answers for the unmet or unknown parts."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "srch-spec",
+        "srch-issues",
+        "srch-limits"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch12",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "termic:OWN-01",
+      "criterionId": "OWN-01",
+      "answer": "GNU AGPL-3.0-or-later for the desktop app, CLI and backend in one public repository; no closed component, derivatives must stay AGPL. Pinned v1.23.0.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v1.23.0 (commit 31f55a4, released 2026-11-13)",
+        "plan": "Free and open source (AGPL-3.0-or-later)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "client_license": {
+          "support": "supported",
+          "answer": "AGPL-3.0-or-later (package.json and LICENSE).",
+          "evidenceIds": [
+            "license",
+            "pkg"
+          ]
+        },
+        "server_license": {
+          "support": "supported",
+          "answer": "AGPL-3.0-or-later for the Rust backend, CLI control plane and MCP server.",
+          "evidenceIds": [
+            "license",
+            "cargo"
+          ]
+        },
+        "hosted_extensions": {
+          "support": "unsupported",
+          "answer": "No hosted component.",
+          "evidenceIds": [
+            "site",
+            "srch-cloud"
+          ]
+        },
+        "source_visibility": {
+          "support": "supported",
+          "answer": "Public repository simion/termic.",
+          "evidenceIds": [
+            "repoapi"
+          ]
+        },
+        "source_revision": {
+          "support": "supported",
+          "answer": "v1.23.0 at commit 31f55a4.",
+          "evidenceIds": [
+            "releases"
+          ]
+        },
+        "hosted_parity": {
+          "support": "unsupported",
+          "answer": "No hosted service exists.",
+          "evidenceIds": [
+            "srch-cloud"
+          ]
+        }
+      },
+      "limitations": [
+        "See atomic answers for the unmet or unknown parts."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "license",
+        "repoapi",
+        "releases",
+        "pkg",
+        "cargo",
+        "site",
+        "srch-cloud"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-05-15",
+      "researcher": "researcher-batch12",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "termic:OWN-02",
+      "criterionId": "OWN-02",
+      "answer": "Local-first: state in the app data directory (projects.json, tasks, settings), optional config sync to a private git repo, no account or backend, open-source so everything stays usable. Exports are the JSON files and git history.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v1.23.0 (commit 31f55a4, released 2026-11-13)",
+        "plan": "Free and open source (AGPL-3.0-or-later)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "self_hosting": {
+          "support": "supported",
+          "answer": "Runs entirely on user infrastructure with no vendor service.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "vendor_dependencies": {
+          "support": "partial",
+          "answer": "Optional GitHub/GitLab APIs and agent providers; none is Termic-operated; the updater fetches releases from GitHub.",
+          "evidenceIds": [
+            "readme",
+            "changelog"
+          ]
+        },
+        "export": {
+          "support": "partial",
+          "answer": "JSON state and config sync to a git repo.",
+          "evidenceIds": [
+            "data-model",
+            "readme"
+          ]
+        },
+        "import": {
+          "support": "partial",
+          "answer": "Config sync restores settings; import existing worktrees and branches.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "formats": {
+          "support": "supported",
+          "answer": "JSON and git.",
+          "evidenceIds": [
+            "data-model"
+          ]
+        },
+        "cancellation": {
+          "support": "unsupported",
+          "answer": "No account to cancel.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "account_independence": {
+          "support": "supported",
+          "answer": "No account.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "history_portability": {
+          "support": "partial",
+          "answer": "Task history is local JSON; archived tasks restore on the same machine.",
+          "evidenceIds": [
+            "data-model"
+          ]
+        }
+      },
+      "limitations": [
+        "See atomic answers for the unmet or unknown parts."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "data-model",
+        "site",
+        "readme",
+        "changelog"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-05-15",
+      "researcher": "researcher-batch12",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "termic:OWN-03",
+      "criterionId": "OWN-03",
+      "answer": "Code, prompts and artifacts stay on the machine except what the chosen agent CLIs send to their providers; no Termic backend. No telemetry is collected today: opt-in anonymous usage telemetry and crash reports are a planned item, off by default; crash logs are local and the user attaches them to bug reports.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v1.23.0 (commit 31f55a4, released 2026-11-13)",
+        "plan": "Free and open source (AGPL-3.0-or-later)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "code_data": {
+          "support": "supported",
+          "answer": "Local worktrees only.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "prompts": {
+          "support": "supported",
+          "answer": "Go to the agent's provider only.",
+          "evidenceIds": [
+            "site",
+            "readme"
+          ]
+        },
+        "credentials": {
+          "support": "supported",
+          "answer": "Termic never sees agent credentials; secrets roles hold values locally.",
+          "evidenceIds": [
+            "accounts",
+            "secrets"
+          ]
+        },
+        "logs": {
+          "support": "supported",
+          "answer": "Local panic log and crash logs.",
+          "evidenceIds": [
+            "data-model",
+            "changelog"
+          ]
+        },
+        "artifacts": {
+          "support": "supported",
+          "answer": "Local.",
+          "evidenceIds": [
+            "data-model"
+          ]
+        },
+        "retention": {
+          "support": "unknown",
+          "answer": "No retention policy documented.",
+          "evidenceIds": [
+            "data-model"
+          ]
+        },
+        "deletion": {
+          "support": "supported",
+          "answer": "Delete tasks and scratchpads locally.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "training": {
+          "support": "unknown",
+          "answer": "Training use belongs to the agent providers.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "residency": {
+          "support": "unknown",
+          "answer": "Local; provider residency belongs to agent vendors.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "subprocessors": {
+          "support": "unsupported",
+          "answer": "No Termic subprocessors; GitHub API and agent providers are the user's accounts.",
+          "evidenceIds": [
+            "site",
+            "srch-tele"
+          ]
+        },
+        "telemetry_disclosure": {
+          "support": "supported",
+          "answer": "README states opt-in telemetry is only planned.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "telemetry_defaults": {
+          "support": "supported",
+          "answer": "None sent today; the planned telemetry is off by default.",
+          "evidenceIds": [
+            "srch-tele",
+            "readme"
+          ]
+        },
+        "telemetry_controls": {
+          "support": "unsupported",
+          "answer": "No telemetry exists so no toggle exists yet.",
+          "evidenceIds": [
+            "srch-tele"
+          ]
+        },
+        "consent_prompt": {
+          "support": "unsupported",
+          "answer": "No consent prompt because nothing is collected.",
+          "evidenceIds": [
+            "srch-tele"
+          ]
+        },
+        "provider_separation": {
+          "support": "supported",
+          "answer": "Site separates plan-limit and Termic behaviour.",
+          "evidenceIds": [
+            "site"
+          ]
+        }
+      },
+      "limitations": [
+        "See atomic answers for the unmet or unknown parts."
+      ],
+      "unknownReason": "Training and residency belong to the agent providers.",
+      "evidenceIds": [
+        "readme",
+        "site",
+        "srch-tele",
+        "changelog",
+        "accounts",
+        "secrets",
+        "data-model"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch12",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "termic:OWN-04",
+      "criterionId": "OWN-04",
+      "answer": "Free and open source (AGPL-3.0) with no paid tier; sponsorship is optional; agent costs are paid to providers through their plans.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v1.23.0 (commit 31f55a4, released 2026-11-13)",
+        "plan": "Free (AGPL-3.0-or-later)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "currency": {
+          "support": "unsupported",
+          "answer": "No prices.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "interval": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "seats": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "seat_minimum": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "workspace_fees": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "included_usage": {
+          "support": "unsupported",
+          "answer": "None; agents use the user's own plans.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "credits": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "trial": {
+          "support": "unsupported",
+          "answer": "No trial needed.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "overages": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "taxes": {
+          "support": "unsupported",
+          "answer": "No charges.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "model_cost": {
+          "support": "supported",
+          "answer": "Paid to providers; no markup.",
+          "evidenceIds": [
+            "site",
+            "readme"
+          ]
+        },
+        "compute_cost": {
+          "support": "supported",
+          "answer": "User's own machine.",
+          "evidenceIds": [
+            "site"
+          ]
+        }
+      },
+      "limitations": [
+        "See atomic answers for the unmet or unknown parts."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "site",
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-01-15",
+      "researcher": "researcher-batch12",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "termic:OWN-05",
+      "criterionId": "OWN-05",
+      "answer": "Platform cost is $0 for one, two or five developers (each runs their own install); agent plans and hardware are the user's and not published.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v1.23.0 (commit 31f55a4, released 2026-11-13)",
+        "plan": "Free and open source (AGPL-3.0-or-later)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "one_person": {
+          "support": "supported",
+          "answer": "$0.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "two_people": {
+          "support": "supported",
+          "answer": "$0; no sharing features.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "five_people": {
+          "support": "supported",
+          "answer": "$0.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "task_assumptions": {
+          "support": "unknown",
+          "answer": "No scenarios published; none invented.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "concurrency": {
+          "support": "unknown",
+          "answer": "None published.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "tokens": {
+          "support": "unknown",
+          "answer": "Agent plan costs vary.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "compute_hours": {
+          "support": "unknown",
+          "answer": "Own hardware.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "fixed_cost": {
+          "support": "supported",
+          "answer": "None.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "variable_cost": {
+          "support": "supported",
+          "answer": "Agent usage and hardware.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "included_cost": {
+          "support": "unsupported",
+          "answer": "Nothing included.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "unknown_cost": {
+          "support": "unknown",
+          "answer": "Agent plan prices vary.",
+          "evidenceIds": [
+            "site"
+          ]
+        }
+      },
+      "limitations": [
+        "See atomic answers for the unmet or unknown parts."
+      ],
+      "unknownReason": "Workload costs belong to chosen agent plans and hardware.",
+      "evidenceIds": [
+        "site"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch12",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "termic:OWN-06",
+      "criterionId": "OWN-06",
+      "answer": "Generally available open-source desktop software: five releases between 2026-10-28 and 2026-11-13, GitHub issues, optional sponsorship; Windows and Docker mode are experimental; planned items listed; no support SLA or status page.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v1.23.0 (commit 31f55a4, released 2026-11-13)",
+        "plan": "Free and open source (AGPL-3.0-or-later)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "release_stage": {
+          "support": "supported",
+          "answer": "macOS first-class; Linux signed AppImage; Windows and Docker mode experimental.",
+          "evidenceIds": [
+            "readme",
+            "windows"
+          ]
+        },
+        "access_restrictions": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "support": {
+          "support": "partial",
+          "answer": "GitHub issues and contributing guide; no support channel stated.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "response_commitments": {
+          "support": "unsupported",
+          "answer": "None documented.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "release_activity": {
+          "support": "supported",
+          "answer": "Five releases in about two weeks.",
+          "evidenceIds": [
+            "releases"
+          ]
+        },
+        "status_history": {
+          "support": "unknown",
+          "answer": "No status page; none applies to a local app.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "deprecation": {
+          "support": "partial",
+          "answer": "Changelog documents changes; no deprecation policy.",
+          "evidenceIds": [
+            "changelog"
+          ]
+        },
+        "export_options": {
+          "support": "partial",
+          "answer": "Config sync and JSON files.",
+          "evidenceIds": [
+            "readme",
+            "data-model"
+          ]
+        }
+      },
+      "limitations": [
+        "See atomic answers for the unmet or unknown parts."
+      ],
+      "unknownReason": "No status page exists to review.",
+      "evidenceIds": [
+        "releases",
+        "readme",
+        "changelog",
+        "windows",
+        "site",
+        "data-model"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch12",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "termic:OWN-07",
+      "criterionId": "OWN-07",
+      "answer": "No ISO or SOC 2 claims in README, docs or website.",
+      "support": "unknown",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v1.23.0 (commit 31f55a4, released 2026-11-13)",
+        "plan": "Free and open source (AGPL-3.0-or-later)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "iso_scope": {
+          "support": "unknown",
+          "answer": "No certification or audit is claimed in checked sources; certification is a business fact outside the repository.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "iso_issuer": {
+          "support": "unknown",
+          "answer": "No certification or audit is claimed in checked sources; certification is a business fact outside the repository.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "iso_validity": {
+          "support": "unknown",
+          "answer": "No certification or audit is claimed in checked sources; certification is a business fact outside the repository.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "soc2_type": {
+          "support": "unknown",
+          "answer": "No certification or audit is claimed in checked sources; certification is a business fact outside the repository.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "soc2_scope": {
+          "support": "unknown",
+          "answer": "No certification or audit is claimed in checked sources; certification is a business fact outside the repository.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "soc2_period": {
+          "support": "unknown",
+          "answer": "No certification or audit is claimed in checked sources; certification is a business fact outside the repository.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "report_access": {
+          "support": "unknown",
+          "answer": "No certification or audit is claimed in checked sources; certification is a business fact outside the repository.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "verification_date": {
+          "support": "unknown",
+          "answer": "No certification or audit is claimed in checked sources; certification is a business fact outside the repository.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "evidence_status": {
+          "support": "unknown",
+          "answer": "No certification or audit is claimed in checked sources; certification is a business fact outside the repository.",
+          "evidenceIds": [
+            "site"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": "Certification and audit are business facts not stated in the public sources.",
+      "evidenceIds": [
+        "site"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch12",
+      "publication": "internal-only",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "termic:OWN-08",
+      "criterionId": "OWN-08",
+      "answer": "Fully free: whole app free with no trial, card, seat or cap; users pay agent subscriptions and hardware. BYO subscriptions and review work; two-person collaboration, remote compute and phone clients do not exist.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v1.23.0 (commit 31f55a4, released 2026-11-13)",
+        "plan": "Free and open source (AGPL-3.0-or-later)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "ongoing_free": {
+          "support": "supported",
+          "answer": "Free and open source.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "trial": {
+          "support": "unsupported",
+          "answer": "No trial needed.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "credits_trial": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "self_host_cost": {
+          "support": "supported",
+          "answer": "Own hardware only.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "paid_only": {
+          "support": "unsupported",
+          "answer": "Not paid.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "early_access": {
+          "support": "partial",
+          "answer": "Windows and Docker mode are experimental but downloadable.",
+          "evidenceIds": [
+            "readme",
+            "windows"
+          ]
+        },
+        "free_scenarios": {
+          "support": "supported",
+          "answer": "BYO subscriptions, review and issue-to-task work are free; collaboration, remote compute and phone clients are not provided.",
+          "evidenceIds": [
+            "site",
+            "readme"
+          ]
+        },
+        "card_required": {
+          "support": "unsupported",
+          "answer": "No payment.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "usage_caps": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "paid_evaluation": {
+          "support": "partial",
+          "answer": "Agent plans may be needed to evaluate.",
+          "evidenceIds": [
+            "site"
+          ]
+        }
+      },
+      "limitations": [
+        "See atomic answers for the unmet or unknown parts."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "site",
+        "readme",
+        "windows"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-01-15",
+      "researcher": "researcher-batch12",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "termic:OWN-09",
+      "criterionId": "OWN-09",
+      "answer": "Transparent: free with no tiers or markup; agent usage is billed by the user's own plans; no commitment, overage or cancellation terms apply.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "v1.23.0 (commit 31f55a4, released 2026-11-13)",
+        "plan": "Free and open source (AGPL-3.0-or-later)",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "units": {
+          "support": "unsupported",
+          "answer": "No charged units.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "included_limits": {
+          "support": "unsupported",
+          "answer": "No limits.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "overages": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "compute_markup": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "model_markup": {
+          "support": "unsupported",
+          "answer": "No markup; real CLIs on the user's own plan.",
+          "evidenceIds": [
+            "site",
+            "readme"
+          ]
+        },
+        "minimum_commitment": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "cancellation": {
+          "support": "unsupported",
+          "answer": "No account.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "sales_only_unknowns": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "transparency_classification": {
+          "support": "supported",
+          "answer": "Transparent: free, no paid tier.",
+          "evidenceIds": [
+            "site"
+          ]
+        }
+      },
+      "limitations": [
+        "See atomic answers for the unmet or unknown parts."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "site",
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch12",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    }
+  ],
+  "evidence": [
+    {
+      "id": "site",
+      "kind": "documented",
+      "url": "https://termic.dev/",
+      "title": "termic.dev",
+      "locator": "hero, install, pricing statement",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Free and open source (AGPL-3.0), runs locally with no account or backend; spawns real agent CLIs in PTYs; downloads for macOS, Linux AppImage and Windows 11 x64 (experimental).",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "repoapi",
+      "kind": "documented",
+      "url": "https://api.github.com/repos/simion/termic",
+      "title": "GitHub repository metadata",
+      "locator": "stargazers_count, license, homepage, pushed_at",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "335 stars, license reported as AGPL-3.0, homepage termic.dev, not archived, pushed 2026-11-16.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "releases",
+      "kind": "documented",
+      "url": "https://github.com/simion/termic/releases",
+      "title": "GitHub releases",
+      "locator": "v1.23.0 and earlier",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "v1.23.0 published 2026-11-13 (commit 31f55a4); v1.22.1 and v1.22.0 on 2026-11-11, v1.21.0 on 2026-11-05, v1.20.0 on 2026-10-28.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "readme",
+      "kind": "documented",
+      "url": "https://github.com/simion/termic/blob/31f55a468f308cfc486c18a96d83e75eb9904ffa/README.md",
+      "title": "Termic README",
+      "locator": "headline; Install; What it does; Sandbox; Status; Roadmap; License",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Desktop app running real claude, codex, agy, copilot, grok, opencode, pi, omp, Muse, Devin and Cursor CLIs in separate git worktrees with optional macOS Seatbelt or Docker sandbox, Kanban board, diff review, PRs, CLI and MCP server, schedules, LAN pairing; macOS 12+, Linux AppImage, Windows experimental; AGPL-3.0-or-later; roadmap lists mobile app, Apple Containers, Linear and opt-in telemetry as planned.",
+      "visibility": "public",
+      "commit": "31f55a468f308cfc486c18a96d83e75eb9904ffa",
+      "path": "README.md"
+    },
+    {
+      "id": "license",
+      "kind": "source-inspected",
+      "url": "https://github.com/simion/termic/blob/31f55a468f308cfc486c18a96d83e75eb9904ffa/LICENSE",
+      "title": "GNU AGPL v3",
+      "locator": "header; Cargo.toml and package.json license fields",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "GNU Affero General Public License v3 text; package.json, src-tauri/Cargo.toml and termic-cli/Cargo.toml declare AGPL-3.0-or-later.",
+      "visibility": "public",
+      "commit": "31f55a468f308cfc486c18a96d83e75eb9904ffa",
+      "path": "LICENSE"
+    },
+    {
+      "id": "pkg",
+      "kind": "source-inspected",
+      "url": "https://github.com/simion/termic/blob/31f55a468f308cfc486c18a96d83e75eb9904ffa/package.json",
+      "title": "Package manifest",
+      "locator": "license, @tauri-apps/api 2.11, xterm addons",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Frontend on React with xterm.js terminals and Tauri 2 API; license AGPL-3.0-or-later.",
+      "visibility": "public",
+      "commit": "31f55a468f308cfc486c18a96d83e75eb9904ffa",
+      "path": "package.json"
+    },
+    {
+      "id": "cargo",
+      "kind": "source-inspected",
+      "url": "https://github.com/simion/termic/blob/31f55a468f308cfc486c18a96d83e75eb9904ffa/src-tauri/Cargo.toml",
+      "title": "Tauri backend manifest",
+      "locator": "tauri 2 with tray-icon, notification, dialog plugins; license",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Rust backend on Tauri 2 (native webview) with notification and dialog plugins; license AGPL-3.0-or-later.",
+      "visibility": "public",
+      "commit": "31f55a468f308cfc486c18a96d83e75eb9904ffa",
+      "path": "src-tauri/Cargo.toml"
+    },
+    {
+      "id": "changelog",
+      "kind": "documented",
+      "url": "https://github.com/simion/termic/blob/31f55a468f308cfc486c18a96d83e75eb9904ffa/CHANGELOG.md",
+      "title": "Changelog",
+      "locator": "[1.23.0] - 2026-11-13",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Dated shipped changes per release; 1.23.0 adds agent-driven pairing, batched PR status polling and crash log helpers.",
+      "visibility": "public",
+      "commit": "31f55a468f308cfc486c18a96d83e75eb9904ffa",
+      "path": "CHANGELOG.md"
+    },
+    {
+      "id": "sandbox",
+      "kind": "documented",
+      "url": "https://github.com/simion/termic/blob/31f55a468f308cfc486c18a96d83e75eb9904ffa/docs/sandbox.md",
+      "title": "Sandbox design",
+      "locator": "Seatbelt; Docker mode; YOLO interaction; Settled",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Per-task macOS Seatbelt cage with network allowlist proxy; Docker mode container cage (experimental, egress not restricted); YOLO auto-on inside cages; Secrets roles.",
+      "visibility": "public",
+      "commit": "31f55a468f308cfc486c18a96d83e75eb9904ffa",
+      "path": "docs/sandbox.md"
+    },
+    {
+      "id": "states",
+      "kind": "documented",
+      "url": "https://github.com/simion/termic/blob/31f55a468f308cfc486c18a96d83e75eb9904ffa/docs/agent-states.md",
+      "title": "Every state an agent tab can be in",
+      "locator": "The states table",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Agent states working, working with delegated work, done, attention, interrupted derived from hooks and PTY signals; bell on done and attention.",
+      "visibility": "public",
+      "commit": "31f55a468f308cfc486c18a96d83e75eb9904ffa",
+      "path": "docs/agent-states.md"
+    },
+    {
+      "id": "windows",
+      "kind": "documented",
+      "url": "https://github.com/simion/termic/blob/31f55a468f308cfc486c18a96d83e75eb9904ffa/docs/windows.md",
+      "title": "Windows",
+      "locator": "status and Not on Windows yet",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Windows 11 x64 experimental: NSIS installer, not Authenticode-signed, Docker mode is the sandbox, some features missing.",
+      "visibility": "public",
+      "commit": "31f55a468f308cfc486c18a96d83e75eb9904ffa",
+      "path": "docs/windows.md"
+    },
+    {
+      "id": "peers",
+      "kind": "documented",
+      "url": "https://github.com/simion/termic/blob/31f55a468f308cfc486c18a96d83e75eb9904ffa/docs/peers.md",
+      "title": "LAN pairing",
+      "locator": "The shape; Off by default",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Experimental pairing of computers on one network with a four-digit code; agents can drive tasks on the peer; off by default.",
+      "visibility": "public",
+      "commit": "31f55a468f308cfc486c18a96d83e75eb9904ffa",
+      "path": "docs/peers.md"
+    },
+    {
+      "id": "accounts",
+      "kind": "documented",
+      "url": "https://github.com/simion/termic/blob/31f55a468f308cfc486c18a96d83e75eb9904ffa/docs/agent-accounts.md",
+      "title": "Agent accounts",
+      "locator": "whole page",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Several logins per agent in separate folders; switch a task mid-conversation; Termic never sees credentials.",
+      "visibility": "public",
+      "commit": "31f55a468f308cfc486c18a96d83e75eb9904ffa",
+      "path": "docs/agent-accounts.md"
+    },
+    {
+      "id": "adding-agent",
+      "kind": "documented",
+      "url": "https://github.com/simion/termic/blob/31f55a468f308cfc486c18a96d83e75eb9904ffa/docs/adding-an-agent.md",
+      "title": "Adding an agent",
+      "locator": "registry and built-ins",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Editable agent registry for custom PTY agents beyond the built-ins.",
+      "visibility": "public",
+      "commit": "31f55a468f308cfc486c18a96d83e75eb9904ffa",
+      "path": "docs/adding-an-agent.md"
+    },
+    {
+      "id": "cli-instr",
+      "kind": "documented",
+      "url": "https://github.com/simion/termic/blob/31f55a468f308cfc486c18a96d83e75eb9904ffa/docs/cli-agent-instructions.md",
+      "title": "Driving Termic from an agent",
+      "locator": "instructions block; TERMIC_CLI and TERMIC_CLI_HELP",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Instructions block and runtime discovery for agents to use the termic CLI; caged agents are excluded; termic help --json lists every command.",
+      "visibility": "public",
+      "commit": "31f55a468f308cfc486c18a96d83e75eb9904ffa",
+      "path": "docs/cli-agent-instructions.md"
+    },
+    {
+      "id": "data-model",
+      "kind": "documented",
+      "url": "https://github.com/simion/termic/blob/31f55a468f308cfc486c18a96d83e75eb9904ffa/docs/data-model.md",
+      "title": "Data model",
+      "locator": "Directories",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Local JSON state (projects.json, tasks/, settings.json) in the app data directory and global peers.json written 0600.",
+      "visibility": "public",
+      "commit": "31f55a468f308cfc486c18a96d83e75eb9904ffa",
+      "path": "docs/data-model.md"
+    },
+    {
+      "id": "customizations",
+      "kind": "documented",
+      "url": "https://github.com/simion/termic/blob/31f55a468f308cfc486c18a96d83e75eb9904ffa/docs/customizations.md",
+      "title": "Agent customizations",
+      "locator": "skills, MCP servers and personas per profile",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Skills, MCP servers and personas kept per profile and added to tasks for claude, codex and agents reading .agents/.",
+      "visibility": "public",
+      "commit": "31f55a468f308cfc486c18a96d83e75eb9904ffa",
+      "path": "docs/customizations.md"
+    },
+    {
+      "id": "ideas-mcp",
+      "kind": "documented",
+      "url": "https://github.com/simion/termic/blob/31f55a468f308cfc486c18a96d83e75eb9904ffa/docs/ideas/mcp.md",
+      "title": "MCP idea notes",
+      "locator": "phases A, B1, B2",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Phase A MCP endpoint shipped in 1.0.0; scoped per-task tokens are an undecided idea.",
+      "visibility": "public",
+      "commit": "31f55a468f308cfc486c18a96d83e75eb9904ffa",
+      "path": "docs/ideas/mcp.md"
+    },
+    {
+      "id": "mcp",
+      "kind": "source-inspected",
+      "url": "https://github.com/simion/termic/blob/31f55a468f308cfc486c18a96d83e75eb9904ffa/src-tauri/src/mcp_server.rs",
+      "title": "MCP server",
+      "locator": "tools_list; task_new, task_send, task_wait, task_result, task_review, schedule_*, peer_*",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "MCP tools mirror the CLI verbs: task_list/status/new/review/send/wait/result/log/diff/archive, scratchpad_*, project_*, schedule_*, peer_*; bearer-token authentication and Host/Origin checks.",
+      "visibility": "public",
+      "commit": "31f55a468f308cfc486c18a96d83e75eb9904ffa",
+      "path": "src-tauri/src/mcp_server.rs"
+    },
+    {
+      "id": "cli-server",
+      "kind": "source-inspected",
+      "url": "https://github.com/simion/termic/blob/31f55a468f308cfc486c18a96d83e75eb9904ffa/src-tauri/src/cli_server.rs",
+      "title": "CLI control plane",
+      "locator": "local socket server for the termic CLI",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Control-plane server behind the termic CLI: new, tab, send, status, wait and more over a local socket.",
+      "visibility": "public",
+      "commit": "31f55a468f308cfc486c18a96d83e75eb9904ffa",
+      "path": "src-tauri/src/cli_server.rs"
+    },
+    {
+      "id": "cli",
+      "kind": "source-inspected",
+      "url": "https://github.com/simion/termic/blob/31f55a468f308cfc486c18a96d83e75eb9904ffa/termic-cli/src/lib.rs",
+      "title": "termic CLI",
+      "locator": "clap definitions; help --json; exit codes",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "termic CLI with documented verbs, JSON and stream-json output, exit codes and attach/detach.",
+      "visibility": "public",
+      "commit": "31f55a468f308cfc486c18a96d83e75eb9904ffa",
+      "path": "termic-cli/src/lib.rs"
+    },
+    {
+      "id": "schedules",
+      "kind": "source-inspected",
+      "url": "https://github.com/simion/termic/blob/31f55a468f308cfc486c18a96d83e75eb9904ffa/src-tauri/src/schedules.rs",
+      "title": "Schedules",
+      "locator": "catch_up, Missed streak",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Recurring and one-off scheduled runs with catch-up for missed slots; each run is a new task.",
+      "visibility": "public",
+      "commit": "31f55a468f308cfc486c18a96d83e75eb9904ffa",
+      "path": "src-tauri/src/schedules.rs"
+    },
+    {
+      "id": "forge",
+      "kind": "source-inspected",
+      "url": "https://github.com/simion/termic/blob/31f55a468f308cfc486c18a96d83e75eb9904ffa/src-tauri/src/forge.rs",
+      "title": "Forge integration",
+      "locator": "GitHub, GitLab, Azure DevOps hosts",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "PR/MR status and creation for GitHub, GitLab and Azure DevOps through each forge CLI sign-in.",
+      "visibility": "public",
+      "commit": "31f55a468f308cfc486c18a96d83e75eb9904ffa",
+      "path": "src-tauri/src/forge.rs"
+    },
+    {
+      "id": "sandbox-src",
+      "kind": "source-inspected",
+      "url": "https://github.com/simion/termic/blob/31f55a468f308cfc486c18a96d83e75eb9904ffa/src-tauri/src/sandbox.rs",
+      "title": "Seatbelt sandbox implementation",
+      "locator": "seatbelt profile, proxy allowlist",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Generates Seatbelt profiles and runs the hostname-allowlist CONNECT proxy; macOS only.",
+      "visibility": "public",
+      "commit": "31f55a468f308cfc486c18a96d83e75eb9904ffa",
+      "path": "src-tauri/src/sandbox.rs"
+    },
+    {
+      "id": "docker-src",
+      "kind": "source-inspected",
+      "url": "https://github.com/simion/termic/blob/31f55a468f308cfc486c18a96d83e75eb9904ffa/src-tauri/src/docker.rs",
+      "title": "Docker sandbox implementation",
+      "locator": "container run options",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Runs agents in a container as the host user with capabilities dropped and a PID cap.",
+      "visibility": "public",
+      "commit": "31f55a468f308cfc486c18a96d83e75eb9904ffa",
+      "path": "src-tauri/src/docker.rs"
+    },
+    {
+      "id": "procmon",
+      "kind": "source-inspected",
+      "url": "https://github.com/simion/termic/blob/31f55a468f308cfc486c18a96d83e75eb9904ffa/src-tauri/src/procmon.rs",
+      "title": "Process monitor",
+      "locator": "per task CPU, memory, output rate",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Activity view data: CPU, memory, output rate and uptime for each agent, shell and run script.",
+      "visibility": "public",
+      "commit": "31f55a468f308cfc486c18a96d83e75eb9904ffa",
+      "path": "src-tauri/src/procmon.rs"
+    },
+    {
+      "id": "usage",
+      "kind": "source-inspected",
+      "url": "https://github.com/simion/termic/blob/31f55a468f308cfc486c18a96d83e75eb9904ffa/src-tauri/src/agent_usage.rs",
+      "title": "Agent usage windows",
+      "locator": "plan windows per provider",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Reads provider plan usage windows for the footer and optional account switch at 95 percent.",
+      "visibility": "public",
+      "commit": "31f55a468f308cfc486c18a96d83e75eb9904ffa",
+      "path": "src-tauri/src/agent_usage.rs"
+    },
+    {
+      "id": "secrets",
+      "kind": "source-inspected",
+      "url": "https://github.com/simion/termic/blob/31f55a468f308cfc486c18a96d83e75eb9904ffa/src-tauri/src/secrets.rs",
+      "title": "Secrets roles",
+      "locator": "placeholder swap on egress",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Experimental secrets: agent holds a placeholder and Termic swaps the real credential for allowed hosts and API calls.",
+      "visibility": "public",
+      "commit": "31f55a468f308cfc486c18a96d83e75eb9904ffa",
+      "path": "src-tauri/src/secrets.rs"
+    },
+    {
+      "id": "hooks",
+      "kind": "source-inspected",
+      "url": "https://github.com/simion/termic/blob/31f55a468f308cfc486c18a96d83e75eb9904ffa/src-tauri/src/agent_hooks.rs",
+      "title": "Agent hooks",
+      "locator": "installed hooks per agent",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Installs small hooks into agent configs so tab states come from the agent.",
+      "visibility": "public",
+      "commit": "31f55a468f308cfc486c18a96d83e75eb9904ffa",
+      "path": "src-tauri/src/agent_hooks.rs"
+    },
+    {
+      "id": "repo-config",
+      "kind": "source-inspected",
+      "url": "https://github.com/simion/termic/blob/31f55a468f308cfc486c18a96d83e75eb9904ffa/src-tauri/src/repo_config.rs",
+      "title": "Repository config",
+      "locator": ".termic.yaml scripts and sandbox allowlists",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Setup, run scripts, preview URLs and sandbox allowlists loaded from a committed .termic.yaml.",
+      "visibility": "public",
+      "commit": "31f55a468f308cfc486c18a96d83e75eb9904ffa",
+      "path": "src-tauri/src/repo_config.rs"
+    },
+    {
+      "id": "srch-team",
+      "kind": "source-inspected",
+      "url": "https://github.com/simion/termic/tree/31f55a468f308cfc486c18a96d83e75eb9904ffa/src-tauri/src",
+      "title": "Bounded search: users, roles and SSO",
+      "locator": "grep -Eni saml|oidc|rbac|sso|multi-user over src, src-tauri/src, docs, README",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "No accounts, roles, SSO or multi-user collaboration; the only multi-machine feature is the pairing of one person's computers.",
+      "visibility": "public",
+      "commit": "31f55a468f308cfc486c18a96d83e75eb9904ffa",
+      "path": "src-tauri/src"
+    },
+    {
+      "id": "srch-cloud",
+      "kind": "source-inspected",
+      "url": "https://github.com/simion/termic/tree/31f55a468f308cfc486c18a96d83e75eb9904ffa/src-tauri/src",
+      "title": "Bounded search: vendor cloud, mobile and headless",
+      "locator": "grep -Eni hosted|vendor cloud|ios app|android app|headless over src-tauri/src, README, docs/ideas",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "No vendor cloud and no headless server; the mobile app (#165) and headless boxes (#82) are planned or idea-stage only.",
+      "visibility": "public",
+      "commit": "31f55a468f308cfc486c18a96d83e75eb9904ffa",
+      "path": "src-tauri/src"
+    },
+    {
+      "id": "srch-tele",
+      "kind": "source-inspected",
+      "url": "https://github.com/simion/termic/tree/31f55a468f308cfc486c18a96d83e75eb9904ffa/src-tauri/src",
+      "title": "Bounded search: telemetry",
+      "locator": "grep -Eni telemetry|analytics|posthog|sentry|plausible over src, src-tauri/src, README",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "No telemetry sender exists; README lists opt-in usage telemetry as a planned item, off by default; only local crash logs exist.",
+      "visibility": "public",
+      "commit": "31f55a468f308cfc486c18a96d83e75eb9904ffa",
+      "path": "src-tauri/src"
+    },
+    {
+      "id": "srch-issues",
+      "kind": "source-inspected",
+      "url": "https://github.com/simion/termic/tree/31f55a468f308cfc486c18a96d83e75eb9904ffa/src",
+      "title": "Bounded search: native issue tracker",
+      "locator": "grep -Eni issue tracker|backlog|priority|labels over src, src-tauri/src",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "No native issue entity with priority or labels; tasks are worktree tasks and Todos lists GitHub/GitLab issues and PRs.",
+      "visibility": "public",
+      "commit": "31f55a468f308cfc486c18a96d83e75eb9904ffa",
+      "path": "src"
+    },
+    {
+      "id": "srch-spec",
+      "kind": "source-inspected",
+      "url": "https://github.com/simion/termic/tree/31f55a468f308cfc486c18a96d83e75eb9904ffa/docs",
+      "title": "Bounded search: living specifications",
+      "locator": "grep -Eni living spec|requirements|drift over README, docs, src",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "No persistent requirements or drift detection; docs/plans and docs/ideas are repository docs for Termic itself.",
+      "visibility": "public",
+      "commit": "31f55a468f308cfc486c18a96d83e75eb9904ffa",
+      "path": "docs"
+    },
+    {
+      "id": "srch-limits",
+      "kind": "source-inspected",
+      "url": "https://github.com/simion/termic/tree/31f55a468f308cfc486c18a96d83e75eb9904ffa/src-tauri/src",
+      "title": "Bounded search: spend, token and time limits",
+      "locator": "grep -Eni max budget|spend limit|token limit|timeout over src-tauri/src, docs",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "No product spend, token or time cap; plan usage windows are informational with an optional switch to another login at 95 percent.",
+      "visibility": "public",
+      "commit": "31f55a468f308cfc486c18a96d83e75eb9904ffa",
+      "path": "src-tauri/src"
+    }
+  ],
+  "changes": [
+    {
+      "date": "2026-11-16",
+      "author": "researcher-batch12",
+      "type": "initial-research",
+      "summary": "Initial full-profile source pass over release v1.23.0: README, website, docs (sandbox, states, windows, peers, accounts, CLI instructions), MCP/CLI/schedule/forge sources, licence files and bounded code searches covering all 51 criteria.",
+      "claimIds": [
+        "termic:ACC-01",
+        "termic:ACC-02",
+        "termic:ACC-03",
+        "termic:ACC-04",
+        "termic:ACC-05",
+        "termic:ACC-06",
+        "termic:ACC-07",
+        "termic:PLAN-01",
+        "termic:PLAN-02",
+        "termic:PLAN-03",
+        "termic:PLAN-04",
+        "termic:PLAN-05",
+        "termic:PLAN-06",
+        "termic:PLAN-07",
+        "termic:PLAN-08",
+        "termic:COORD-01",
+        "termic:COORD-02",
+        "termic:COORD-03",
+        "termic:COORD-04",
+        "termic:COORD-05",
+        "termic:COORD-06",
+        "termic:COORD-07",
+        "termic:RUN-01",
+        "termic:RUN-02",
+        "termic:RUN-03",
+        "termic:RUN-04",
+        "termic:RUN-05",
+        "termic:RUN-06",
+        "termic:RUN-07",
+        "termic:RUN-08",
+        "termic:TEAM-01",
+        "termic:TEAM-02",
+        "termic:TEAM-03",
+        "termic:TEAM-04",
+        "termic:TEAM-05",
+        "termic:TEAM-06",
+        "termic:SHIP-01",
+        "termic:SHIP-02",
+        "termic:SHIP-03",
+        "termic:SHIP-04",
+        "termic:SHIP-05",
+        "termic:SHIP-06",
+        "termic:OWN-01",
+        "termic:OWN-02",
+        "termic:OWN-03",
+        "termic:OWN-04",
+        "termic:OWN-05",
+        "termic:OWN-06",
+        "termic:OWN-07",
+        "termic:OWN-08",
+        "termic:OWN-09"
+      ],
+      "evidenceIds": [
+        "site",
+        "repoapi",
+        "releases",
+        "readme",
+        "license",
+        "pkg",
+        "cargo",
+        "changelog",
+        "sandbox",
+        "states",
+        "windows",
+        "peers",
+        "accounts",
+        "adding-agent",
+        "cli-instr",
+        "data-model",
+        "customizations",
+        "ideas-mcp",
+        "mcp",
+        "cli-server",
+        "cli",
+        "schedules",
+        "forge",
+        "sandbox-src",
+        "docker-src",
+        "procmon",
+        "usage",
+        "secrets",
+        "hooks",
+        "repo-config",
+        "srch-team",
+        "srch-cloud",
+        "srch-tele",
+        "srch-issues",
+        "srch-spec",
+        "srch-limits"
+      ]
+    }
+  ],
+  "context": {
+    "roadmapReview": {
+      "checkedAt": "2026-11-16",
+      "locations": [
+        {
+          "url": "https://github.com/simion/termic/releases",
+          "result": "v1.23.0 (2026-11-13) latest; notes describe shipped changes."
+        },
+        {
+          "url": "https://github.com/simion/termic/blob/31f55a468f308cfc486c18a96d83e75eb9904ffa/CHANGELOG.md",
+          "result": "Dated per-release entries; shipped changes only."
+        },
+        {
+          "url": "https://github.com/simion/termic/blob/31f55a468f308cfc486c18a96d83e75eb9904ffa/README.md",
+          "result": "Roadmap section lists Planned items (mobile app #165, Apple Containers backend #296, Linear integration, ARM Linux and Flathub, opt-in telemetry, official Homebrew cask) and undated Ideas."
+        },
+        {
+          "url": "https://github.com/simion/termic/issues?q=is%3Aissue+label%3Aplanned",
+          "result": "Planned issues carry progress; no dated target releases were recorded."
+        },
+        {
+          "url": "https://termic.dev/",
+          "result": "Website lists no separate roadmap page."
+        }
+      ],
+      "announced": [
+        {
+          "criterionId": "ACC-01",
+          "summary": "Planned companion mobile app (issue #165) for checking on and steering tasks away from the Mac.",
+          "sourceDate": null,
+          "targetDate": null,
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        {
+          "criterionId": "RUN-02",
+          "summary": "Planned Apple Containers sandbox backend (issue #296) beside Seatbelt and Docker mode.",
+          "sourceDate": null,
+          "targetDate": null,
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        {
+          "criterionId": "PLAN-01",
+          "summary": "Planned Linear integration (GitHub and GitLab already ship).",
+          "sourceDate": null,
+          "targetDate": null,
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        {
+          "criterionId": "OWN-03",
+          "summary": "Planned opt-in anonymous usage telemetry and crash reports, off by default with one toggle.",
+          "sourceDate": null,
+          "targetDate": null,
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      ],
+      "gaps": [
+        "No dated roadmap or target releases are published; planned issues were not individually opened for dates."
+      ]
+    },
+    "marketContext": {
+      "githubStars": {
+        "value": 335,
+        "observedAt": "2026-11-16",
+        "evidenceIds": [
+          "repoapi"
+        ]
+      }
+    }
+  }
+}
