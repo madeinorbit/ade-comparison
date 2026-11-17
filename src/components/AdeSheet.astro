@@ -5,6 +5,7 @@ import Screenshot from './Screenshot.astro'
 import Lifecycle from './Lifecycle.astro'
 import Checked from './Checked.astro'
 import Benchmark from './Benchmark.astro'
+import ProductLinks from './ProductLinks.astro'
 import { benchApp } from '../lib/benchmarks'
 import { cellFor, claimAnchor, formatCount, requirements, stats } from '../lib/data'
 import { facts, summary, shotFor, noticeFor, hostname, shutdownLine } from '../lib/sheet'
@@ -48,7 +49,6 @@ const claimText = (id: string) => product.claims!.find(c => c.claimId === id)!.a
 const hosts = [...new Set((product.sources || []).map(s => hostname(s.url)))]
 const crossChecked = (product.claims || []).filter(c => c.verificationStatus === 'agent-cross-checked').length
 const links = submissionLinks({ product, pagePath: page })
-const site = product.website ? hostname(product.website) : null
 const stars = product.githubStars
 const starSource = stars && product.sources?.find(s => s.id === stars.evidenceIds[0])
 ---
@@ -59,7 +59,7 @@ const starSource = stars && product.sources?.find(s => s.id === stars.evidenceId
     {researched && <p class="sheet-lead">{summary(product)}</p>}
     <div class="sheet-fit" data-sheet-fit hidden><p class="sheet-verdict" data-verdict></p><ul class="fit" data-fit></ul></div>
     <p class="sheet-act">
-      {product.website && <a class="btn-ink" href={product.website} rel="noopener noreferrer">Product website<span class="sheet-host">{site}</span></a>}
+      <ProductLinks product={product} />
       {researched && (mode === 'dialog'
         ? <button type="button" class="btn-line add" data-compare={product.id} aria-pressed="false"><span class="add-box" aria-hidden="true"></span>Compare<span class="vh"> {product.name}</span></button>
         : <a class="btn-line" href={`/compare/?products=${product.id}`} data-compare-link>Compare with others</a>)}

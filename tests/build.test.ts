@@ -121,7 +121,7 @@ test('a shutdown notice comes first on its ADE page and in the agent files', () 
   assert.ok(notices.length >= 2)
   for (const notice of notices) {
     const html = text(`ade/${notice.productId}/index.html`), body = html.slice(html.indexOf('<main'))
-    for (const before of ['Product website', '<figure', 'current public findings', 'Not researched yet']) {
+    for (const before of ['data-link="repository"', 'data-link="homepage"', '<figure', 'current public findings', 'Not researched yet']) {
       const at = body.indexOf(before)
       assert.ok(at === -1 || body.indexOf('id="lifecycle"') < at, `${notice.productId}: notice must precede ${before}`)
     }

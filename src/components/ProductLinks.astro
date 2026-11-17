@@ -1,0 +1,11 @@
+---
+// The GitHub repository and homepage links for a product. Each address appears once.
+import type { Product } from '../lib/types'
+import { hostname } from '../lib/sheet'
+import { productLinks, repositoryName } from '../lib/links'
+interface Props { product: Product }
+const { product } = Astro.props
+const { repository, homepage } = productLinks(product)
+---
+{repository && <a class="btn-ink" href={repository} rel="noopener noreferrer" data-link="repository">GitHub<span class="vh"> repository for {product.name}</span><span class="sheet-host">{repositoryName(repository)}</span></a>}
+{homepage && <a class={repository ? 'btn-line' : 'btn-ink'} href={homepage} rel="noopener noreferrer" data-link="homepage">Homepage<span class="vh"> of {product.name}</span><span class="sheet-host">{hostname(homepage)}</span></a>}
