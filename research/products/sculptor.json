@@ -36,7 +36,7 @@
     {
       "id": "sculptor:ACC-01",
       "criterionId": "ACC-01",
-      "answer": "Electron desktop app for macOS (Apple Silicon only) and Linux (x64 and arm64) with a local backend; the `sculpt` CLI for agents and scripts; no Windows, Intel Mac, browser, mobile or editor-extension client. Security policy says to run it locally only.",
+      "answer": "Electron desktop app for macOS (Apple Silicon only) and Linux (x64 and arm64) with a local backend; the `sculpt` CLI for agents and scripts; no Windows, Intel Mac or editor-extension client. The user docs and SECURITY.md describe local use only, but the repository also ships a web build (installable PWA) that the backend serves in an OpenHost self-hosted deployment; the two first-party sources are not reconciled.",
       "support": "partial",
       "availability": "generally-available",
       "delivery": "native",
@@ -69,17 +69,21 @@
           ]
         },
         "browser": {
-          "support": "unsupported",
-          "answer": "SECURITY.md says it is designed to run locally and not be exposed to a network; no supported browser client.",
+          "support": "partial",
+          "answer": "No browser client in the README downloads or help pages, and SECURITY.md says it is for local use and not network exposure; the repository nevertheless ships a web build and an OpenHost deployment (openhost.toml, openhost.Dockerfile) in which the backend serves the bundled web UI behind OpenHost's owner login.",
           "evidenceIds": [
-            "security"
+            "security",
+            "rev-openhost",
+            "rev-web-build"
           ]
         },
         "mobile_browser": {
-          "support": "unsupported",
-          "answer": "Not supported for the same reason.",
+          "support": "partial",
+          "answer": "Not in the user docs; the repository has a responsive mobile UI spec and mocks, a PWA manifest and a phone live-preview front for the OpenHost deployment, so a phone browser is an intended but undocumented client.",
           "evidenceIds": [
-            "security"
+            "security",
+            "rev-web-build",
+            "rev-mobile-ui"
           ]
         },
         "cli": {
@@ -114,11 +118,12 @@
           ]
         },
         "cross_device_continuity": {
-          "support": "unsupported",
-          "answer": "State is local to the machine (~/.sculptor); no cross-device sync.",
+          "support": "partial",
+          "answer": "Desktop state is local to the machine (~/.sculptor) with no sync; in the OpenHost deployment the database and workspaces live in a persistent app-data directory on the host, which any browser session can reach.",
           "evidenceIds": [
             "h-ws",
-            "security"
+            "security",
+            "rev-openhost"
           ]
         }
       },
@@ -142,7 +147,10 @@
         "h-changes",
         "h-pr",
         "h-harness",
-        "h-ws"
+        "h-ws",
+        "rev-openhost",
+        "rev-web-build",
+        "rev-mobile-ui"
       ],
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
@@ -227,8 +235,12 @@
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
       "researcher": "researcher-batch13",
-      "publication": "public-candidate",
-      "review": null,
+      "publication": "public-reviewed",
+      "review": {
+        "reviewer": "agent:ADE-96",
+        "date": "2026-11-17",
+        "contentHash": "b6d0f127dbe39512dcf31d8e23b8e26257821317fa486ebff0da2c57fe628ee2"
+      },
       "contradictions": []
     },
     {
@@ -319,8 +331,12 @@
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
       "researcher": "researcher-batch13",
-      "publication": "public-candidate",
-      "review": null,
+      "publication": "public-reviewed",
+      "review": {
+        "reviewer": "agent:ADE-96",
+        "date": "2026-11-17",
+        "contentHash": "b9203ab8926325071c714818c6d9122bd3a86bdafd86a59cda90e9b13b1b4199"
+      },
       "contradictions": []
     },
     {
@@ -388,9 +404,10 @@
         },
         "byo_vps_onboarding": {
           "support": "partial",
-          "answer": "Experimental custom backend command with a Docker/SSH recipe and onboarding quirks; not an installer.",
+          "answer": "An experimental custom backend command with a Docker/SSH recipe, and an OpenHost app manifest and Dockerfile (`oh app deploy <repo>@<branch>`) for a self-hosted deployment; neither is an installer and the user docs do not cover OpenHost.",
           "evidenceIds": [
-            "h-container"
+            "h-container",
+            "rev-openhost"
           ]
         }
       },
@@ -405,7 +422,8 @@
         "h-ws",
         "h-pr",
         "h-container",
-        "security"
+        "security",
+        "rev-openhost"
       ],
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
@@ -514,8 +532,12 @@
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
       "researcher": "researcher-batch13",
-      "publication": "public-candidate",
-      "review": null,
+      "publication": "public-reviewed",
+      "review": {
+        "reviewer": "agent:ADE-96",
+        "date": "2026-11-17",
+        "contentHash": "0f85a0b6f49f98f9c567d4055da53f5e39bff8ab23c26e68b0769cd9d664b38c"
+      },
       "contradictions": []
     },
     {
@@ -609,8 +631,12 @@
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
       "researcher": "researcher-batch13",
-      "publication": "public-candidate",
-      "review": null,
+      "publication": "public-reviewed",
+      "review": {
+        "reviewer": "agent:ADE-96",
+        "date": "2026-11-17",
+        "contentHash": "293df3e1267b30ff5af831e89f9f65718d3afca813fff6fac28164cf9de20282"
+      },
       "contradictions": []
     },
     {
@@ -673,8 +699,12 @@
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-05-15",
       "researcher": "researcher-batch13",
-      "publication": "public-candidate",
-      "review": null,
+      "publication": "public-reviewed",
+      "review": {
+        "reviewer": "agent:ADE-96",
+        "date": "2026-11-17",
+        "contentHash": "d7f2e40786d948fe38dc181927873f93ad9074c22296ecc8cc559a4b32dad7df"
+      },
       "contradictions": []
     },
     {
@@ -781,8 +811,12 @@
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
       "researcher": "researcher-batch13",
-      "publication": "public-candidate",
-      "review": null,
+      "publication": "public-reviewed",
+      "review": {
+        "reviewer": "agent:ADE-96",
+        "date": "2026-11-17",
+        "contentHash": "d70bd9021aa802864cfd853cbf17fe42c4c2d0d33863deec1a195fa3fdc48490"
+      },
       "contradictions": []
     },
     {
@@ -871,8 +905,12 @@
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
       "researcher": "researcher-batch13",
-      "publication": "public-candidate",
-      "review": null,
+      "publication": "public-reviewed",
+      "review": {
+        "reviewer": "agent:ADE-96",
+        "date": "2026-11-17",
+        "contentHash": "50b3c525eaaa9e56761f51fe390962b78c43e8278f5d62b9ec44043f6dfdde70"
+      },
       "contradictions": []
     },
     {
@@ -979,8 +1017,12 @@
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
       "researcher": "researcher-batch13",
-      "publication": "public-candidate",
-      "review": null,
+      "publication": "public-reviewed",
+      "review": {
+        "reviewer": "agent:ADE-96",
+        "date": "2026-11-17",
+        "contentHash": "af4034956ce66387995d50d883588c497df5d1d31e35eec40d55789a07bd58a6"
+      },
       "contradictions": []
     },
     {
@@ -1091,8 +1133,12 @@
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
       "researcher": "researcher-batch13",
-      "publication": "public-candidate",
-      "review": null,
+      "publication": "public-reviewed",
+      "review": {
+        "reviewer": "agent:ADE-96",
+        "date": "2026-11-17",
+        "contentHash": "edb683023d1fcfd029330c52b02873dc5a33408ed9bfc7feac437d653d92f178"
+      },
       "contradictions": []
     },
     {
@@ -1126,14 +1172,16 @@
           "support": "unsupported",
           "answer": "No repository index.",
           "evidenceIds": [
-            "h-chat"
+            "h-chat",
+            "rev-srch-index"
           ]
         },
         "external_knowledge": {
           "support": "unsupported",
           "answer": "No external knowledge sources.",
           "evidenceIds": [
-            "h-chat"
+            "h-chat",
+            "rev-srch-index"
           ]
         },
         "multimodal_inputs": {
@@ -1161,21 +1209,24 @@
           "support": "unsupported",
           "answer": "No retrieval API.",
           "evidenceIds": [
-            "h-chat"
+            "h-chat",
+            "rev-srch-index"
           ]
         },
         "citations": {
           "support": "unsupported",
           "answer": "No citations.",
           "evidenceIds": [
-            "h-chat"
+            "h-chat",
+            "rev-srch-index"
           ]
         },
         "conflict_detection": {
           "support": "unsupported",
           "answer": "No architecture conflict detection.",
           "evidenceIds": [
-            "h-chat"
+            "h-chat",
+            "rev-srch-index"
           ]
         },
         "review_enforcement": {
@@ -1200,7 +1251,8 @@
       "evidenceIds": [
         "h-chat",
         "h-changes",
-        "h-skills"
+        "h-skills",
+        "rev-srch-index"
       ],
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
@@ -1372,8 +1424,12 @@
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
       "researcher": "researcher-batch13",
-      "publication": "public-candidate",
-      "review": null,
+      "publication": "public-reviewed",
+      "review": {
+        "reviewer": "agent:ADE-96",
+        "date": "2026-11-17",
+        "contentHash": "472c0c7d38387f3c43626f2cfe52b9b2bd14fadf9f13d55e8b15457548e2aca2"
+      },
       "contradictions": []
     },
     {
@@ -1518,8 +1574,12 @@
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
       "researcher": "researcher-batch13",
-      "publication": "public-candidate",
-      "review": null,
+      "publication": "public-reviewed",
+      "review": {
+        "reviewer": "agent:ADE-96",
+        "date": "2026-11-17",
+        "contentHash": "594881f02cfe70585c254f75bcaaecdf7f677582334aacf4b532e9ef74c4dbe5"
+      },
       "contradictions": []
     },
     {
@@ -1621,8 +1681,12 @@
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
       "researcher": "researcher-batch13",
-      "publication": "public-candidate",
-      "review": null,
+      "publication": "public-reviewed",
+      "review": {
+        "reviewer": "agent:ADE-96",
+        "date": "2026-11-17",
+        "contentHash": "ef4ba8332b1448d5db88293aa41fe06c799e0530be8199bd4e239d1dc0fe8cea"
+      },
       "contradictions": []
     },
     {
@@ -1659,10 +1723,11 @@
           ]
         },
         "quotas": {
-          "support": "unknown",
-          "answer": "No limit is documented in the help pages or source files read.",
+          "support": "unsupported",
+          "answer": "No concurrency limit is documented, and a bounded search of the backend source found no agent or workspace concurrency cap.",
           "evidenceIds": [
-            "h-agents"
+            "h-agents",
+            "rev-srch-limits"
           ]
         },
         "observed_concurrency": {
@@ -1691,7 +1756,8 @@
         "h-agents",
         "h-ws",
         "readme",
-        "h-chat"
+        "h-chat",
+        "rev-srch-limits"
       ],
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
@@ -1788,8 +1854,12 @@
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
       "researcher": "researcher-batch13",
-      "publication": "public-candidate",
-      "review": null,
+      "publication": "public-reviewed",
+      "review": {
+        "reviewer": "agent:ADE-96",
+        "date": "2026-11-17",
+        "contentHash": "de175fca3bd3b2e2403fd0d9e6f78933414bf719f5383b23667948e171e1dc0d"
+      },
       "contradictions": []
     },
     {
@@ -1921,8 +1991,12 @@
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
       "researcher": "researcher-batch13",
-      "publication": "public-candidate",
-      "review": null,
+      "publication": "public-reviewed",
+      "review": {
+        "reviewer": "agent:ADE-96",
+        "date": "2026-11-17",
+        "contentHash": "fb69c190828b20d8e1b5e9026788a82766bead35575248f57996d04e7090d465"
+      },
       "contradictions": []
     },
     {
@@ -2021,8 +2095,12 @@
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
       "researcher": "researcher-batch13",
-      "publication": "public-candidate",
-      "review": null,
+      "publication": "public-reviewed",
+      "review": {
+        "reviewer": "agent:ADE-96",
+        "date": "2026-11-17",
+        "contentHash": "37b68dc6c142c7ca0101c1fc56702654d749ed80d3d9814d4bd34681013964fa"
+      },
       "contradictions": []
     },
     {
@@ -2133,8 +2211,12 @@
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
       "researcher": "researcher-batch13",
-      "publication": "public-candidate",
-      "review": null,
+      "publication": "public-reviewed",
+      "review": {
+        "reviewer": "agent:ADE-96",
+        "date": "2026-11-17",
+        "contentHash": "1e38b5923379815f49cbd9318e0b6f026abade53bd0e4dba292080540d7a1671"
+      },
       "contradictions": []
     },
     {
@@ -2237,8 +2319,12 @@
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
       "researcher": "researcher-batch13",
-      "publication": "public-candidate",
-      "review": null,
+      "publication": "public-reviewed",
+      "review": {
+        "reviewer": "agent:ADE-96",
+        "date": "2026-11-17",
+        "contentHash": "f194456530c264ef18c31c6a26aee99ed42155984db5cd201a2b85fbd9256aaa"
+      },
       "contradictions": []
     },
     {
@@ -2355,14 +2441,18 @@
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
       "researcher": "researcher-batch13",
-      "publication": "public-candidate",
-      "review": null,
+      "publication": "public-reviewed",
+      "review": {
+        "reviewer": "agent:ADE-96",
+        "date": "2026-11-17",
+        "contentHash": "a763c605bdcc2bea29e3622337364267d27402295fcd64ec3512abfc7a02665b"
+      },
       "contradictions": []
     },
     {
       "id": "sculptor:RUN-01",
       "criterionId": "RUN-01",
-      "answer": "Agents execute on the user's machine; the only remote option is an experimental custom backend command (Docker, VM or SSH recipe). SECURITY.md says Sculptor is for local use and not for network exposure. No managed cloud.",
+      "answer": "Agents execute on the user's machine by default; remote options are an experimental custom backend command (Docker, VM or SSH recipe) and an OpenHost self-hosted deployment in the repository that runs the backend and agents in a container behind a web UI. SECURITY.md says Sculptor is for local use and not for network exposure or hosted use, which conflicts with the OpenHost files. No managed cloud.",
       "support": "partial",
       "availability": "generally-available",
       "delivery": "native",
@@ -2389,16 +2479,18 @@
         },
         "byo_remote": {
           "support": "partial",
-          "answer": "Experimental custom backend command can point at a container or remote host with a recipe and manual auth forwarding.",
+          "answer": "Experimental custom backend command can point at a container or remote host with a recipe and manual auth forwarding; the OpenHost manifest deploys the backend and agents to an OpenHost compute space.",
           "evidenceIds": [
-            "h-container"
+            "h-container",
+            "rev-openhost"
           ]
         },
         "self_hosted": {
-          "support": "unsupported",
-          "answer": "\"Not exposed to a network or run as a shared or hosted service.\"",
+          "support": "partial",
+          "answer": "SECURITY.md: \"Not exposed to a network or run as a shared or hosted service\"; the repository also ships an OpenHost self-hosted app (openhost.toml, openhost.Dockerfile). The sources conflict and the deployment has no user documentation.",
           "evidenceIds": [
-            "security"
+            "security",
+            "rev-openhost"
           ]
         },
         "managed_cloud": {
@@ -2459,10 +2551,12 @@
           ]
         },
         "other_device_continuation": {
-          "support": "unsupported",
-          "answer": "No second-device client.",
+          "support": "partial",
+          "answer": "No second-device desktop client; the OpenHost deployment serves the web UI to other browsers behind the owner login, with a phone live-preview front.",
           "evidenceIds": [
-            "security"
+            "security",
+            "rev-openhost",
+            "rev-mobile-ui"
           ]
         }
       },
@@ -2483,7 +2577,9 @@
         "h-ws",
         "srch-sandbox",
         "readme",
-        "h-harness"
+        "h-harness",
+        "rev-openhost",
+        "rev-mobile-ui"
       ],
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
@@ -2626,8 +2722,12 @@
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
       "researcher": "researcher-batch13",
-      "publication": "public-candidate",
-      "review": null,
+      "publication": "public-reviewed",
+      "review": {
+        "reviewer": "agent:ADE-96",
+        "date": "2026-11-17",
+        "contentHash": "3a40f2cc47621b5efbe5878315abcba8768eb31c19278314fb2d1578b39ed8c1"
+      },
       "contradictions": []
     },
     {
@@ -2754,8 +2854,12 @@
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
       "researcher": "researcher-batch13",
-      "publication": "public-candidate",
-      "review": null,
+      "publication": "public-reviewed",
+      "review": {
+        "reviewer": "agent:ADE-96",
+        "date": "2026-11-17",
+        "contentHash": "a8a56c8c07d41aa9622fd23b7108c2263df55c4cb32963a795191cfa2bcbfbdb"
+      },
       "contradictions": []
     },
     {
@@ -2869,8 +2973,12 @@
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
       "researcher": "researcher-batch13",
-      "publication": "public-candidate",
-      "review": null,
+      "publication": "public-reviewed",
+      "review": {
+        "reviewer": "agent:ADE-96",
+        "date": "2026-11-17",
+        "contentHash": "d3dc3ba6b0463492fdbe0465a20dc9bec3da637b9c9bfb84c0ad1c914930ff78"
+      },
       "contradictions": []
     },
     {
@@ -2969,8 +3077,12 @@
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
       "researcher": "researcher-batch13",
-      "publication": "public-candidate",
-      "review": null,
+      "publication": "public-reviewed",
+      "review": {
+        "reviewer": "agent:ADE-96",
+        "date": "2026-11-17",
+        "contentHash": "1c861bb91fa6b92ae78ec6048b1033af702e320879e5cc2b99ada0d175f790c3"
+      },
       "contradictions": []
     },
     {
@@ -3108,8 +3220,12 @@
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
       "researcher": "researcher-batch13",
-      "publication": "public-candidate",
-      "review": null,
+      "publication": "public-reviewed",
+      "review": {
+        "reviewer": "agent:ADE-96",
+        "date": "2026-11-17",
+        "contentHash": "2d6f1757319a3d18ffb7e14d925211fa40ceed2014a87c349ffc0901222ca1c3"
+      },
       "contradictions": []
     },
     {
@@ -3250,8 +3366,12 @@
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
       "researcher": "researcher-batch13",
-      "publication": "public-candidate",
-      "review": null,
+      "publication": "public-reviewed",
+      "review": {
+        "reviewer": "agent:ADE-96",
+        "date": "2026-11-17",
+        "contentHash": "c4e27b5ce527d4285d83445d0590912a300f243def7cf1de20d3f58c851cea38"
+      },
       "contradictions": []
     },
     {
@@ -3277,7 +3397,8 @@
           "support": "unsupported",
           "answer": "No concurrency limits.",
           "evidenceIds": [
-            "h-agents"
+            "h-agents",
+            "rev-srch-limits"
           ]
         },
         "queues": {
@@ -3291,7 +3412,8 @@
           "support": "unsupported",
           "answer": "No CPU/RAM limits.",
           "evidenceIds": [
-            "srch-sandbox"
+            "srch-sandbox",
+            "rev-srch-resource"
           ]
         },
         "backpressure": {
@@ -3305,7 +3427,8 @@
           "support": "unsupported",
           "answer": "No host resource awareness.",
           "evidenceIds": [
-            "srch-sandbox"
+            "srch-sandbox",
+            "rev-srch-resource"
           ]
         },
         "check_reuse": {
@@ -3374,7 +3497,9 @@
         "h-harness",
         "h-agents",
         "srch-sandbox",
-        "sculpt-agent"
+        "sculpt-agent",
+        "rev-srch-limits",
+        "rev-srch-resource"
       ],
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
@@ -3500,8 +3625,12 @@
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
       "researcher": "researcher-batch13",
-      "publication": "public-candidate",
-      "review": null,
+      "publication": "public-reviewed",
+      "review": {
+        "reviewer": "agent:ADE-96",
+        "date": "2026-11-17",
+        "contentHash": "c743000448e02340a539cd13b89a37f037c1f8f06b1dfdcfab02c09e4174be9f"
+      },
       "contradictions": []
     },
     {
@@ -3608,8 +3737,12 @@
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
       "researcher": "researcher-batch13",
-      "publication": "public-candidate",
-      "review": null,
+      "publication": "public-reviewed",
+      "review": {
+        "reviewer": "agent:ADE-96",
+        "date": "2026-11-17",
+        "contentHash": "3a0d51a663aa6cb5f7eb3ed65da7d6058cf5a0a3747b2c2035fb796f96dfd5fd"
+      },
       "contradictions": []
     },
     {
@@ -3758,8 +3891,12 @@
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
       "researcher": "researcher-batch13",
-      "publication": "public-candidate",
-      "review": null,
+      "publication": "public-reviewed",
+      "review": {
+        "reviewer": "agent:ADE-96",
+        "date": "2026-11-17",
+        "contentHash": "6997cfe0629967b80b7745e0d37073bdedb5139dd6eb98b3a67bd4a32c694592"
+      },
       "contradictions": []
     },
     {
@@ -3881,8 +4018,12 @@
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
       "researcher": "researcher-batch13",
-      "publication": "public-candidate",
-      "review": null,
+      "publication": "public-reviewed",
+      "review": {
+        "reviewer": "agent:ADE-96",
+        "date": "2026-11-17",
+        "contentHash": "8529ff41167338f161f7192f4bbe7147a7d8b449f6a6a182d29944447ff7e6c6"
+      },
       "contradictions": []
     },
     {
@@ -4022,8 +4163,12 @@
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
       "researcher": "researcher-batch13",
-      "publication": "public-candidate",
-      "review": null,
+      "publication": "public-reviewed",
+      "review": {
+        "reviewer": "agent:ADE-96",
+        "date": "2026-11-17",
+        "contentHash": "8b8c62f4148563acd8c18bbc812c6ae93303d369acbc1b42a4ff3e9c8c158983"
+      },
       "contradictions": []
     },
     {
@@ -4151,8 +4296,12 @@
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
       "researcher": "researcher-batch13",
-      "publication": "public-candidate",
-      "review": null,
+      "publication": "public-reviewed",
+      "review": {
+        "reviewer": "agent:ADE-96",
+        "date": "2026-11-17",
+        "contentHash": "7641f65415db3c621e72dfcd6b672d67dafb4310e1ac2a8d963a07e652145ecd"
+      },
       "contradictions": []
     },
     {
@@ -4293,8 +4442,12 @@
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
       "researcher": "researcher-batch13",
-      "publication": "public-candidate",
-      "review": null,
+      "publication": "public-reviewed",
+      "review": {
+        "reviewer": "agent:ADE-96",
+        "date": "2026-11-17",
+        "contentHash": "19aabc3c25b8a7392293f36d082f03768ef0fdc89932c0c0d0688b3c2af095a9"
+      },
       "contradictions": []
     },
     {
@@ -4327,14 +4480,16 @@
           "support": "unsupported",
           "answer": "No lint integration.",
           "evidenceIds": [
-            "srch-merge"
+            "srch-merge",
+            "rev-srch-verify"
           ]
         },
         "types": {
           "support": "unsupported",
           "answer": "No type-check integration.",
           "evidenceIds": [
-            "srch-merge"
+            "srch-merge",
+            "rev-srch-verify"
           ]
         },
         "ci": {
@@ -4364,7 +4519,8 @@
           "support": "unsupported",
           "answer": "None enforced.",
           "evidenceIds": [
-            "srch-merge"
+            "srch-merge",
+            "rev-srch-verify"
           ]
         },
         "failure_blocking": {
@@ -4392,7 +4548,8 @@
           "support": "unsupported",
           "answer": "No enforced delivery gates.",
           "evidenceIds": [
-            "srch-merge"
+            "srch-merge",
+            "rev-srch-verify"
           ]
         }
       },
@@ -4412,7 +4569,8 @@
         "h-ci",
         "h-pr",
         "srch-merge",
-        "h-agents"
+        "h-agents",
+        "rev-srch-verify"
       ],
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
@@ -4525,8 +4683,12 @@
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
       "researcher": "researcher-batch13",
-      "publication": "public-candidate",
-      "review": null,
+      "publication": "public-reviewed",
+      "review": {
+        "reviewer": "agent:ADE-96",
+        "date": "2026-11-17",
+        "contentHash": "45b8fcbe91bfec29f2ccc8374aa6600376d767faf9651ebba2a2b3fa9a85a4d1"
+      },
       "contradictions": []
     },
     {
@@ -4609,8 +4771,12 @@
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
       "researcher": "researcher-batch13",
-      "publication": "public-candidate",
-      "review": null,
+      "publication": "public-reviewed",
+      "review": {
+        "reviewer": "agent:ADE-96",
+        "date": "2026-11-17",
+        "contentHash": "0646c5d2c8c1e01a9b81052a8777b1b410c98af55d391e498692e62efd28f9a6"
+      },
       "contradictions": []
     },
     {
@@ -4715,8 +4881,12 @@
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
       "researcher": "researcher-batch13",
-      "publication": "public-candidate",
-      "review": null,
+      "publication": "public-reviewed",
+      "review": {
+        "reviewer": "agent:ADE-96",
+        "date": "2026-11-17",
+        "contentHash": "cee6f90a8de9d83d77d609848d235cdf21ebb600123aa3b83e2e5e6f04119cad"
+      },
       "contradictions": []
     },
     {
@@ -4844,8 +5014,12 @@
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
       "researcher": "researcher-batch13",
-      "publication": "public-candidate",
-      "review": null,
+      "publication": "public-reviewed",
+      "review": {
+        "reviewer": "agent:ADE-96",
+        "date": "2026-11-17",
+        "contentHash": "f3723178e4e95df571013a90db64f8f0c2890ca3a4c344da6aabd4e19083fcd2"
+      },
       "contradictions": []
     },
     {
@@ -4923,8 +5097,12 @@
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-05-15",
       "researcher": "researcher-batch13",
-      "publication": "public-candidate",
-      "review": null,
+      "publication": "public-reviewed",
+      "review": {
+        "reviewer": "agent:ADE-96",
+        "date": "2026-11-17",
+        "contentHash": "ea859bdc952c209b94dac774c80fe975f7780d22606b142d2fca5e892ef43df0"
+      },
       "contradictions": []
     },
     {
@@ -5026,8 +5204,12 @@
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-05-15",
       "researcher": "researcher-batch13",
-      "publication": "public-candidate",
-      "review": null,
+      "publication": "public-reviewed",
+      "review": {
+        "reviewer": "agent:ADE-96",
+        "date": "2026-11-17",
+        "contentHash": "433d8706721347683b7f4f0b531d04291b03ba92a999f46c40ea26f6163e1834"
+      },
       "contradictions": []
     },
     {
@@ -5184,8 +5366,12 @@
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
       "researcher": "researcher-batch13",
-      "publication": "public-candidate",
-      "review": null,
+      "publication": "public-reviewed",
+      "review": {
+        "reviewer": "agent:ADE-96",
+        "date": "2026-11-17",
+        "contentHash": "6e1f89f7e5b346d7baebb3034d14eb796ee1f69cd840a87fea579f433e05807d"
+      },
       "contradictions": []
     },
     {
@@ -5307,8 +5493,12 @@
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-01-15",
       "researcher": "researcher-batch13",
-      "publication": "public-candidate",
-      "review": null,
+      "publication": "public-reviewed",
+      "review": {
+        "reviewer": "agent:ADE-96",
+        "date": "2026-11-17",
+        "contentHash": "d8cfa0acb385247cce4905ba4b90fb150f949379a59c41516e2f2217bfc4ecdb"
+      },
       "contradictions": []
     },
     {
@@ -5426,8 +5616,12 @@
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
       "researcher": "researcher-batch13",
-      "publication": "public-candidate",
-      "review": null,
+      "publication": "public-reviewed",
+      "review": {
+        "reviewer": "agent:ADE-96",
+        "date": "2026-11-17",
+        "contentHash": "5f949040fda6392c388ea3ce142f29ee2b3777b7d34d460153742a65eb077dfc"
+      },
       "contradictions": []
     },
     {
@@ -5526,8 +5720,12 @@
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-01-15",
       "researcher": "researcher-batch13",
-      "publication": "public-candidate",
-      "review": null,
+      "publication": "public-reviewed",
+      "review": {
+        "reviewer": "agent:ADE-96",
+        "date": "2026-11-17",
+        "contentHash": "8463dbe8504b2a9ded47cc95a6e57a5491325dbd8d0e0f915ee9def9a79fba65"
+      },
       "contradictions": []
     },
     {
@@ -5744,8 +5942,12 @@
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-01-15",
       "researcher": "researcher-batch13",
-      "publication": "public-candidate",
-      "review": null,
+      "publication": "public-reviewed",
+      "review": {
+        "reviewer": "agent:ADE-96",
+        "date": "2026-11-17",
+        "contentHash": "fead314a565da313d4676cd74f99c69cc5e050da42e65c6900f83a5f7ee37de9"
+      },
       "contradictions": []
     },
     {
@@ -5839,8 +6041,12 @@
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-01-15",
       "researcher": "researcher-batch13",
-      "publication": "public-candidate",
-      "review": null,
+      "publication": "public-reviewed",
+      "review": {
+        "reviewer": "agent:ADE-96",
+        "date": "2026-11-17",
+        "contentHash": "e2286f6e49c57f2441056f1bb416e9c811e50b046703cc0dc4076f4862da8063"
+      },
       "contradictions": []
     }
   ],
@@ -6312,6 +6518,97 @@
       "visibility": "public",
       "commit": "c081562eecc3d19a5a5ad8cd2bf4cf2a69747132",
       "path": "sculptor/sculptor"
+    },
+    {
+      "id": "rev-openhost",
+      "kind": "source-inspected",
+      "url": "https://github.com/imbue-ai/sculptor/blob/c081562eecc3d19a5a5ad8cd2bf4cf2a69747132/openhost.toml",
+      "title": "OpenHost self-hosted deployment of Sculptor",
+      "locator": "header comment lines 1-20, [runtime.container] and [resources] (memory_mb 4096, cpu_cores 4.0), [data] app_data; openhost.Dockerfile header lines 1-10",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "The repository ships an OpenHost app manifest and Dockerfile that build the backend and the web UI from source and run the backend, serving the bundled UI itself with no Electron shell, in a rootless podman container reverse-proxied over HTTPS behind OpenHost's owner login; Claude Code agents run as subprocesses inside the container and the database, workspaces and Claude/gh auth persist in the app data directory.",
+      "visibility": "public",
+      "commit": "c081562eecc3d19a5a5ad8cd2bf4cf2a69747132",
+      "path": "openhost.toml"
+    },
+    {
+      "id": "rev-web-build",
+      "kind": "source-inspected",
+      "url": "https://github.com/imbue-ai/sculptor/blob/c081562eecc3d19a5a5ad8cd2bf4cf2a69747132/sculptor/frontend/vite.web.config.ts",
+      "title": "Web build with PWA manifest",
+      "locator": "header comment lines 1-8 and the VitePWA block lines 37-75",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "A separate web build of the frontend, served by the backend it talks to (same-origin API), carries a PWA manifest so the web UI is installable on a home screen; the Electron renderer build never registers the service worker.",
+      "visibility": "public",
+      "commit": "c081562eecc3d19a5a5ad8cd2bf4cf2a69747132",
+      "path": "sculptor/frontend/vite.web.config.ts"
+    },
+    {
+      "id": "rev-mobile-ui",
+      "kind": "source-inspected",
+      "url": "https://github.com/imbue-ai/sculptor/blob/c081562eecc3d19a5a5ad8cd2bf4cf2a69747132/sculptor/frontend/launch-preview.sh",
+      "title": "Mobile web UI and phone live preview",
+      "locator": "header comment lines 1-20; agent_docs/responsive-mobile-ui/spec.md",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "The preview script serves a dev preview reachable from a phone through the OpenHost nginx proxy behind the owner session, and agent_docs/responsive-mobile-ui holds a spec, plan and mocks for a responsive mobile UI; none of this appears in docs/help.",
+      "visibility": "public",
+      "commit": "c081562eecc3d19a5a5ad8cd2bf4cf2a69747132",
+      "path": "sculptor/frontend/launch-preview.sh"
+    },
+    {
+      "id": "rev-srch-limits",
+      "kind": "source-inspected",
+      "url": "https://github.com/imbue-ai/sculptor/tree/c081562eecc3d19a5a5ad8cd2bf4cf2a69747132",
+      "title": "Reviewer search: concurrency limits",
+      "locator": "grep -rIlE -i 'max_agents|max_concurrent|max_workspaces|concurrency_limit|Semaphore\\(' sculptor/sculptor (tests, fixtures and lockfiles excluded) --include=*.py",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "Reviewer bounded search at pinned commit: no hits.",
+      "visibility": "public",
+      "commit": "c081562eecc3d19a5a5ad8cd2bf4cf2a69747132",
+      "path": "sculptor/sculptor"
+    },
+    {
+      "id": "rev-srch-index",
+      "kind": "source-inspected",
+      "url": "https://github.com/imbue-ai/sculptor/tree/c081562eecc3d19a5a5ad8cd2bf4cf2a69747132",
+      "title": "Reviewer search: code index and retrieval",
+      "locator": "grep -rIlE -i 'embedding|vector store|semantic search|code index|knowledge base|tree-sitter' sculptor/sculptor sculptor/frontend/src tools (tests, fixtures and lockfiles excluded) --include=*.py --include=*.ts --include=*.tsx",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "Reviewer bounded search at pinned commit: 7 file hit(s), reviewed: sculptor/sculptor/testing/elements/base.py, sculptor/frontend/src/pages/workspace/panels/fileBrowser/TreeRow.tsx, sculptor/frontend/src/pages/workspace/panels/fileBrowser/FlatListRow.tsx, sculptor/frontend/src/pages/workspace/diffPanel/DeletedFileBanner.tsx, sculptor/frontend/src/pages/workspace/diffPanel/pierreShadowStyles.ts, sculptor/frontend/src/pages/workspace/diffViewer/DiffViewer.tsx, sculptor/frontend/src/pages/workspace/layout/types/section.ts. All hits are the word \"embedding\" in comments about embedding panels or escaping strings for JavaScript; none is a code index or retrieval feature.",
+      "visibility": "public",
+      "commit": "c081562eecc3d19a5a5ad8cd2bf4cf2a69747132",
+      "path": "sculptor/sculptor"
+    },
+    {
+      "id": "rev-srch-resource",
+      "kind": "source-inspected",
+      "url": "https://github.com/imbue-ai/sculptor/tree/c081562eecc3d19a5a5ad8cd2bf4cf2a69747132",
+      "title": "Reviewer search: host resource limits",
+      "locator": "grep -rIlE -i 'cpu_percent|psutil|memory_limit|rlimit|cgroup|loadavg' sculptor/sculptor (tests, fixtures and lockfiles excluded) --include=*.py",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "Reviewer bounded search at pinned commit: 5 file hit(s), reviewed: sculptor/sculptor/tasks/handlers/run_terminal_agent/terminal_session_test.py, sculptor/sculptor/tasks/handlers/run_terminal_agent/terminal_session.py, sculptor/sculptor/services/workspace_service/environment_manager/environments/local_terminal_manager_test.py, sculptor/sculptor/testing/sculptor_instance.py, sculptor/sculptor/web/app.py. The hits use psutil to check or terminate process ids and their children (terminal_session.py, test harness), for a development-only heap report of the backend's own RSS and for a free-disk-bytes check on the database path (web/app.py); none schedules or limits agents by host CPU, memory or load.",
+      "visibility": "public",
+      "commit": "c081562eecc3d19a5a5ad8cd2bf4cf2a69747132",
+      "path": "sculptor/sculptor"
+    },
+    {
+      "id": "rev-srch-verify",
+      "kind": "source-inspected",
+      "url": "https://github.com/imbue-ai/sculptor/tree/c081562eecc3d19a5a5ad8cd2bf4cf2a69747132",
+      "title": "Reviewer search: configured project checks",
+      "locator": "grep -rIlE -i 'test_command|lint_command|typecheck_command|check_command|required_checks|run_lint' sculptor/sculptor sculptor/frontend/src tools (tests, fixtures and lockfiles excluded) --include=*.py --include=*.ts --include=*.tsx",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "Reviewer bounded search at pinned commit: 2 file hit(s), reviewed: sculptor/sculptor/web/app_extension_commands_test.py, tools/sculpt/sculpt/commands/extension.py. The one hit is the helper function name _check_command_status in tools/sculpt/sculpt/commands/extension.py, which checks an extension command response and runs no project check.",
+      "visibility": "public",
+      "commit": "c081562eecc3d19a5a5ad8cd2bf4cf2a69747132",
+      "path": "sculptor/sculptor"
     }
   ],
   "changes": [
@@ -6381,6 +6678,32 @@
         "h-start",
         "h-ws"
       ]
+    },
+    {
+      "date": "2026-11-17",
+      "author": "agent:ADE-96",
+      "type": "research-correction",
+      "summary": "Reviewer correction: the profile missed a shipped deployment mode. The repository contains an OpenHost app manifest and Dockerfile that run the backend with a bundled web UI (installable PWA, responsive mobile UI work, phone live-preview front) in a container behind the host's owner login, so ACC-01 browser, mobile browser and cross-device continuity, ACC-04 BYO host onboarding and RUN-01 BYO remote, self-hosted and other-device continuation were wrong or too absolute; SECURITY.md (local use only) conflicts and the conflict is stated in the answers. COORD-01 quotas was unknown and is now unsupported after a bounded search. Unsupported RUN-08 and PLAN-05 subanswers that cited unrelated searches now cite on-topic reviewer searches. All touched claims are left at candidate for another reviewer.",
+      "claimIds": [
+        "sculptor:ACC-01",
+        "sculptor:ACC-04",
+        "sculptor:RUN-01",
+        "sculptor:COORD-01",
+        "sculptor:RUN-08",
+        "sculptor:PLAN-05",
+        "sculptor:SHIP-02"
+      ],
+      "evidenceIds": [
+        "rev-openhost",
+        "rev-web-build",
+        "rev-mobile-ui",
+        "rev-srch-limits",
+        "rev-srch-index",
+        "rev-srch-resource",
+        "rev-srch-verify"
+      ],
+      "before": "ACC-01 browser/mobile browser unsupported; RUN-01 self_hosted unsupported; COORD-01 quotas unknown",
+      "after": "ACC-01 browser/mobile browser partial; RUN-01 self_hosted and byo_remote partial with the SECURITY.md conflict stated; COORD-01 quotas unsupported (bounded search)"
     }
   ],
   "context": {
