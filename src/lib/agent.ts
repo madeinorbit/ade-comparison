@@ -1,9 +1,13 @@
 import type { Product } from './types.ts'
 import { absolute } from '../../config.mjs'
 import { methodology, notices } from './data.ts'
+import { productLinks } from './links.ts'
 import { ademarkMeasured, ademarkSetup, ademarkSource, benchApp, benchCell, benchTests, ordinal } from './benchmarks.ts'
 export function productMarkdown(product: Product): string {
-  const intro = `# ${product.name}\n\n${methodology.publisher.disclosure}\n\nPage: ${absolute(`/ade/${product.id}/`)}\nWebsite: ${product.website || 'Not supplied'}\nResearch: ${product.researchStatus}\n`
+  const { repository, homepage } = productLinks(product)
+  // Each address once: a website that is the repository is listed as the repository.
+  const outside = `${repository ? `Repository: ${repository}\n` : ''}${homepage || !repository ? `Website: ${homepage || 'Not supplied'}\n` : ''}`
+  const intro = `# ${product.name}\n\n${methodology.publisher.disclosure}\n\nPage: ${absolute(`/ade/${product.id}/`)}\n${outside}Research: ${product.researchStatus}\n`
   const notice = notices.find(n => n.productId === product.id)
   const lifecycle = notice ? `\n## Published lifecycle notice\n\n${notice.note}\n\nScope: ${notice.scope}\nAnnouncement date: ${notice.announcementDate || 'Not specified'}\nService end date: ${notice.serviceEndDate || 'Not specified'}\nContinuation: ${notice.continuation || 'Not specified'}\nChecked: ${notice.checkedAt}\n\n${notice.sources.map(s => `Source: ${s.url}\nLocator: ${s.locator}\nFinding: ${s.finding}\nRetrieved: ${s.retrievedAt}`).join('\n\n')}\n` : ''
   const app = benchApp(product.id)

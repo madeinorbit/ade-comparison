@@ -6,9 +6,11 @@ import Receipt from '../../components/Receipt.astro'
 import Screenshot from '../../components/Screenshot.astro'
 import SubmissionActions from '../../components/SubmissionActions.astro'
 import Checked from '../../components/Checked.astro'
+import ProductLinks from '../../components/ProductLinks.astro'
 import { benchApp } from '../../lib/benchmarks'
 import { answerLabel, cellFor, claimAnchor, facetAnchor, hasPage, jsonScript, products, requirements, notices, screenshots } from '../../lib/data'
 import { shortLabel } from '../../lib/sheet'
+import { productLinks } from '../../lib/links'
 export function getStaticPaths() { return products.map(product => ({ params: { id: product.id }, props: { product } })) }
 const { product } = Astro.props
 const researched = product.researchStatus === 'covered'
@@ -18,7 +20,8 @@ const description = notice
   ? `${product.name} has a published shutdown notice. Read its dates, scope and sources${researched ? ', plus public findings' : ''}.`
   : researched ? `Public findings for ${product.name}, with source links, plans, surfaces and check dates.` : `${product.name} is listed in the adecomparison.com directory. Visit its product website.`
 const title = notice ? `${product.name} shutdown notice${researched ? ' and findings' : ''}` : researched ? `${product.name} findings with sources` : product.name
-const about = product.website ? { '@type': 'SoftwareApplication', name: product.name, url: product.website } : undefined
+const { repository, homepage } = productLinks(product)
+const about = product.website || repository ? { '@type': 'SoftwareApplication', name: product.name, ...(homepage || product.website ? { url: homepage || product.website } : {}), ...(repository ? { codeRepository: repository } : {}) } : undefined
 const known = requirements.filter(r => cellFor(product, r).value !== 'unknown')
 const labels = Object.fromEntries(requirements.map(r => [r.key, shortLabel(r.key)]))
 ---
@@ -27,7 +30,7 @@ const labels = Object.fromEntries(requirements.map(r => [r.key, shortLabel(r.key
     <a class="back" href="/" data-back>Back to the Finder</a>
     {researched || notice || hasScreenshot || benchApp(product.id) ? <AdeSheet product={product} mode="page" /> : <div class="sheet sheet-page"><header class="sheet-head"><h1>{product.name}</h1>
       <p class="sheet-lead">Listed in the directory. No findings are published for it yet.</p>
-      {product.website && <p class="sheet-act"><a class="btn-ink" href={product.website} rel="noopener noreferrer">Product website</a></p>}</header></div>}
+      <p class="sheet-act"><ProductLinks product={product} /></p></header></div>}
     <section class="agent-files" aria-label="For agents and corrections">
       <p class="actions"><a href={`/products/${product.id}.json`}>JSON for agents</a><a href={`/products/${product.id}.md`}>Markdown for agents</a></p>
       <SubmissionActions product={product} />
