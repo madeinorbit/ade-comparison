@@ -5,7 +5,7 @@ import statusData from '../../data/status-log.json'
 import methodData from '../../data/methodology.json'
 import type { Cell, Facet, Index, LifecycleNotice, Product, Requirement, Screenshot, StatusEvent } from './types.ts'
 import { requirementsFrom } from './filter.ts'
-import { pairCutoff } from './pairs.ts'
+import { selectPairs } from './pairs.ts'
 import { siteConfig } from '../../config.mjs'
 import { benchmarkedIds } from './benchmarks.ts'
 const productFiles = import.meta.glob<Product>('../../data/products/*.json', { eager: true, import: 'default' })
@@ -69,9 +69,10 @@ export const typedCoverage = { min: middle[0] || 0, max: middle.at(-1) || 0, med
 export const enoughEvidence = (product: Product) => product.researchStatus === 'covered' && (product.sourcedClaimCount || 0) >= siteConfig.minimumPairFindings && typedCount(product) > 0
 export const pairProducts = products.filter(enoughEvidence)
 // Twenty findings per side do not make a comparison. Most rows must not be one-sided or empty.
-const candidatePairs = pairProducts.flatMap((a, i) => pairProducts.slice(i + 1).map(b => ({ slug: [a.id, b.id].sort().join('-vs-'), products: [a, b], ...sharedTyped(a, b) }))).filter(pair => pair.shared >= siteConfig.minimumPairSharedValues)
-export const pairSharedCutoff = pairCutoff(candidatePairs.map(p => p.shared), siteConfig.maximumStaticPairs, siteConfig.minimumPairSharedValues)
-export const pairs = candidatePairs.filter(pair => pair.shared >= pairSharedCutoff).sort((a, b) => b.shared - a.shared || a.slug.localeCompare(b.slug))
+const candidatePairs = pairProducts.flatMap((a, i) => pairProducts.slice(i + 1).map(b => ({ slug: [a.id, b.id].sort().join('-vs-'), products: [a, b], total: typedCount(a) + typedCount(b), ...sharedTyped(a, b) }))).filter(pair => pair.shared >= siteConfig.minimumPairSharedValues)
+export const pairs = selectPairs(candidatePairs, siteConfig.maximumStaticPairs, siteConfig.minimumPairSharedValues)
+// The lowest shared count among the kept pairs; the last group may be only partly kept.
+export const pairSharedCutoff = pairs.length ? Math.min(...pairs.map(p => p.shared)) : Infinity
 export const pairSlugs = new Set(pairs.map(p => p.slug))
 // "Benchmarked by ADEMark" is a Finder word, not a typed facet: yes when ADEMark measured the ADE, unknown otherwise.
 // It never sets a no, so an ADE ADEMark has not tested is never treated as failing it.

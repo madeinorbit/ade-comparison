@@ -3,7 +3,7 @@ import assert from 'node:assert/strict'
 import { readFileSync, readdirSync, existsSync } from 'node:fs'
 import { gzipSync, brotliCompressSync } from 'node:zlib'
 import { requirementsFrom } from '../src/lib/filter.ts'
-import { pairCutoff } from '../src/lib/pairs.ts'
+import { selectPairs } from '../src/lib/pairs.ts'
 import { siteConfig } from '../config.mjs'
 import { planStatus, statusPageSize } from '../src/lib/status.ts'
 import type { StatusEvent } from '../src/lib/types.ts'
@@ -88,9 +88,8 @@ test('generated pairs require enough evidence on both sides and match sitemap en
   const answers = (p: any) => Object.fromEntries(Object.entries(p.facets).filter(([key]) => key !== 'lifecycle-status').flatMap(([key, v]: [string, any]) => 'value' in v ? [[key, v.value]] : Object.entries(v).map(([o, c]: [string, any]) => [`${key}:${o}`, c.value])).filter(([, value]) => value !== 'unknown'))
   const enough = products.filter(p => p.researchStatus === 'covered' && p.sourcedClaimCount >= 20 && Object.keys(answers(p)).length > 0)
   const shared = (a: any, b: any) => Object.keys(answers(a)).filter(key => key in answers(b)).length
-  const candidates = enough.flatMap((a, i) => enough.slice(i + 1).map(b => ({ slug: [a.id, b.id].sort().join('-vs-'), shared: shared(a, b) }))).filter(p => p.shared >= 6)
-  const cutoff = pairCutoff(candidates.map(p => p.shared), siteConfig.maximumStaticPairs, siteConfig.minimumPairSharedValues)
-  const expected = new Set(candidates.filter(p => p.shared >= cutoff).map(p => p.slug))
+  const candidates = enough.flatMap((a, i) => enough.slice(i + 1).map(b => ({ slug: [a.id, b.id].sort().join('-vs-'), shared: shared(a, b), total: Object.keys(answers(a)).length + Object.keys(answers(b)).length }))).filter(p => p.shared >= 6)
+  const expected = new Set(selectPairs(candidates, siteConfig.maximumStaticPairs, siteConfig.minimumPairSharedValues).map(p => p.slug))
   const actual = readdirSync(new URL('compare/', dist), { withFileTypes: true }).filter(e => e.isDirectory() && e.name.includes('-vs-')).map(e => e.name)
   assert.deepEqual(new Set(actual), expected)
   // Static pages stay bounded however large the catalog grows; the rest open in Compare.

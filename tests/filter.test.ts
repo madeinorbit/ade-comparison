@@ -221,3 +221,26 @@ test('static pair cutoff keeps whole ties and respects the cap and the minimum',
   assert.equal(pairCutoff([9, 9, 9], 2, 6), Infinity)
   assert.equal(pairCutoff([], 300, 6), Infinity)
 })
+test('static pair selection fills the cap from the next tie group by combined answers, then slug', async () => {
+  const { selectPairs } = await import('../src/lib/pairs.ts')
+  const pair = (slug: string, shared: number, total: number) => ({ slug, shared, total })
+  const input = [pair('e-vs-f', 8, 30), pair('a-vs-b', 9, 20), pair('c-vs-d', 9, 25), pair('g-vs-h', 8, 40), pair('i-vs-j', 8, 40), pair('k-vs-l', 8, 10), pair('m-vs-n', 7, 99), pair('o-vs-p', 5, 99)]
+  const slugs = (maximum: number, minimum: number, list = input) => selectPairs(list, maximum, minimum).map(p => p.slug)
+  // Whole groups that fit stay whole; the group that does not fit is filled by total, then slug.
+  assert.deepEqual(slugs(4, 6), ['c-vs-d', 'a-vs-b', 'g-vs-h', 'i-vs-j'])
+  assert.deepEqual(slugs(3, 6), ['c-vs-d', 'a-vs-b', 'g-vs-h'])
+  assert.deepEqual(slugs(2, 6), ['c-vs-d', 'a-vs-b'])
+  assert.deepEqual(slugs(1, 6), ['c-vs-d'])
+  assert.deepEqual(slugs(6, 6), ['c-vs-d', 'a-vs-b', 'g-vs-h', 'i-vs-j', 'e-vs-f', 'k-vs-l'])
+  // Slots left after a group never reach past the next group, and the minimum always holds.
+  assert.deepEqual(slugs(100, 6), ['c-vs-d', 'a-vs-b', 'g-vs-h', 'i-vs-j', 'e-vs-f', 'k-vs-l', 'm-vs-n'])
+  assert.deepEqual(slugs(100, 9), ['c-vs-d', 'a-vs-b'])
+  assert.deepEqual(slugs(100, 10), [])
+  assert.deepEqual(slugs(0, 6), [])
+  // The first group alone is larger than the cap: it is filled the same way.
+  assert.deepEqual(slugs(3, 6, [pair('a', 9, 1), pair('b', 9, 3), pair('c', 9, 2), pair('d', 9, 3)]), ['b', 'd', 'c'])
+  // Input order and names do not change the result.
+  const shuffled = [...input].reverse()
+  for (const maximum of [1, 2, 3, 4, 5, 6, 7]) assert.deepEqual(slugs(maximum, 6, shuffled), slugs(maximum, 6))
+  assert.ok(slugs(5, 6).length <= 5)
+})
