@@ -1,0 +1,5927 @@
+{
+  "schemaVersion": 1,
+  "rubricVersion": "0.3",
+  "id": "sortie",
+  "name": "Sortie",
+  "category": "A",
+  "researchTier": "full-profile",
+  "researchState": "documented",
+  "identity": {
+    "website": "https://sortie-ai.com",
+    "repository": "https://github.com/sortie-ai/sortie",
+    "aliases": [],
+    "company": null
+  },
+  "surfaces": [
+    {
+      "id": "cli",
+      "name": "sortie binary (daemon, validate, stats, mcp-server) for macOS, Linux and Windows",
+      "type": "cli"
+    },
+    {
+      "id": "dashboard",
+      "name": "Embedded browser dashboard, JSON API and metrics on one port (default 127.0.0.1:7678)",
+      "type": "web"
+    }
+  ],
+  "claims": [
+    {
+      "id": "sortie:ACC-01",
+      "criterionId": "ACC-01",
+      "answer": "A single binary for macOS, Linux and Windows (amd64, arm64) that runs a daemon with an embedded browser dashboard (default 127.0.0.1:7678), JSON API and Prometheus metrics. No desktop app, native mobile app or editor extension; phone use is whatever the browser dashboard allows.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli",
+          "dashboard"
+        ],
+        "version": "v1.32.0 (commit 0e2e1cd, released 2026-11-10); docs repository commit 61aec36",
+        "plan": "Open source (Apache-2.0), self-run binary or container",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "desktop_os": {
+          "support": "unsupported",
+          "answer": "No desktop client; release assets are CLI binaries only.",
+          "evidenceIds": [
+            "releases",
+            "readme"
+          ]
+        },
+        "mobile_apps": {
+          "support": "unsupported",
+          "answer": "None documented.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "browser": {
+          "support": "supported",
+          "answer": "Dashboard served by the binary.",
+          "evidenceIds": [
+            "dash"
+          ]
+        },
+        "mobile_browser": {
+          "support": "partial",
+          "answer": "Dashboard documents Narrow screens layout; no phone-specific claim.",
+          "evidenceIds": [
+            "dash"
+          ]
+        },
+        "cli": {
+          "support": "supported",
+          "answer": "sortie, sortie validate, stats, mcp-server.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "editor_extensions": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "task_actions": {
+          "support": "partial",
+          "answer": "Dashboard offers Acknowledge, Retry now and Check now; start is by tracker label/state; steering by issue comments; review on the PR; no approval prompts.",
+          "evidenceIds": [
+            "dash",
+            "steer"
+          ]
+        },
+        "notifications": {
+          "support": "supported",
+          "answer": "Slack, Discord, Telegram, webhook and tracker-comment notifiers.",
+          "evidenceIds": [
+            "wf-cfg",
+            "notify"
+          ]
+        },
+        "cross_device_continuity": {
+          "support": "partial",
+          "answer": "Run history in SQLite and dashboard from any browser that reaches the port; no accounts.",
+          "evidenceIds": [
+            "persist",
+            "dash"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly established: desktop_os unsupported; mobile_apps unsupported; mobile_browser partial; editor_extensions unsupported; task_actions partial; cross_device_continuity partial."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "releases",
+        "dash",
+        "cli",
+        "steer",
+        "wf-cfg",
+        "notify",
+        "persist"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch14",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "sortie:ACC-02",
+      "criterionId": "ACC-02",
+      "answer": "Agent adapters for Claude Code, GitHub Copilot CLI, OpenCode, Codex, Kiro and Gemini (via the Agent Client Protocol), plus a file/mock adapter and a custom-adapter guide. Sortie launches each agent CLI and reads its output; model choice follows the agent.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v1.32.0 (commit 0e2e1cd, released 2026-11-10); docs repository commit 61aec36",
+        "plan": "Open source (Apache-2.0), self-run binary or container",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "harnesses": {
+          "support": "supported",
+          "answer": "Six named agents.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "model_providers": {
+          "support": "partial",
+          "answer": "Models and providers are the agent's; dispatch rules can set a model per rule.",
+          "evidenceIds": [
+            "wf-cfg",
+            "ready"
+          ]
+        },
+        "custom_adapters": {
+          "support": "supported",
+          "answer": "Write-custom-agent-adapter guide and agent-client-protocol adapter.",
+          "evidenceIds": [
+            "wf-cfg"
+          ]
+        },
+        "session_integration": {
+          "support": "supported",
+          "answer": "Claude Code stream JSON, Codex app-server, ACP over stdio for Copilot, Gemini, Kiro and OpenCode.",
+          "evidenceIds": [
+            "readme",
+            "spend"
+          ]
+        },
+        "mixed_harness_operation": {
+          "support": "supported",
+          "answer": "Dispatch rules can choose agent per rule or stage.",
+          "evidenceIds": [
+            "wf-cfg",
+            "stages"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly established: model_providers partial."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "wf-cfg",
+        "ready",
+        "spend",
+        "stages"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch14",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "sortie:ACC-03",
+      "criterionId": "ACC-03",
+      "answer": "Sortie uses each agent CLI's own authentication (subscription login or API key in the agent's environment); it never asks a provider for a bill and sells no credits. Usage-limit windows of Claude Code and Codex are shown in the dashboard.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli",
+          "dashboard"
+        ],
+        "version": "v1.32.0 (commit 0e2e1cd, released 2026-11-10); docs repository commit 61aec36",
+        "plan": "Open source (Apache-2.0), self-run binary or container",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "agent_subscriptions": {
+          "support": "supported",
+          "answer": "Agent CLIs use their own logins; dashboard shows Claude Code session/week and Codex 5h/weekly limits.",
+          "evidenceIds": [
+            "dash"
+          ]
+        },
+        "api_accounts": {
+          "support": "supported",
+          "answer": "Environment variables for agent keys and adapter extensions.",
+          "evidenceIds": [
+            "wf-cfg"
+          ]
+        },
+        "vendor_credits": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "local_models": {
+          "support": "partial",
+          "answer": "Possible through agents such as OpenCode; not documented by Sortie.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "account_switching": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "vendor_account_requirement": {
+          "support": "supported",
+          "answer": "No Sortie account; tracker token and agent are required.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "provider_restrictions": {
+          "support": "unknown",
+          "answer": "Provider terms for automated use are the providers' own.",
+          "evidenceIds": []
+        }
+      },
+      "limitations": [
+        "Partly established: vendor_credits unsupported; local_models partial; account_switching unsupported; provider_restrictions unknown."
+      ],
+      "unknownReason": "Unknown atomic parts (provider_restrictions): Provider terms for automated use are the providers' own.",
+      "evidenceIds": [
+        "dash",
+        "spend",
+        "wf-cfg",
+        "readme"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch14",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "sortie:ACC-04",
+      "criterionId": "ACC-04",
+      "answer": "Install with a script, Homebrew cask or container, write a WORKFLOW.md with tracker and agent settings and export a tracker token; a local demo with a simulated agent needs no external service. Workspaces are plain directories populated by hooks, so git is optional. Kubernetes and Docker guides exist.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v1.32.0 (commit 0e2e1cd, released 2026-11-10); docs repository commit 61aec36",
+        "plan": "Open source (Apache-2.0), self-run binary or container",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "first_task_setup": {
+          "support": "supported",
+          "answer": "Quick start with local demo; end-to-end guides per tracker and agent.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "no_git": {
+          "support": "supported",
+          "answer": "Core creates an empty directory and never assumes git.",
+          "evidenceIds": [
+            "isolation"
+          ]
+        },
+        "local_git_without_remote": {
+          "support": "partial",
+          "answer": "Hooks can clone local repositories; PR-based reactions need a forge.",
+          "evidenceIds": [
+            "isolation",
+            "ci"
+          ]
+        },
+        "hosted_git": {
+          "support": "supported",
+          "answer": "GitHub, GitLab and Gitea trackers and SCM adapters.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "prerequisite_guidance": {
+          "support": "supported",
+          "answer": "sortie validate checks the workflow file; dry-run mode.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "managed_cloud_setup": {
+          "support": "unsupported",
+          "answer": "No managed cloud.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "byo_vps_onboarding": {
+          "support": "partial",
+          "answer": "Runs on a VM or Kubernetes; no dedicated installer beyond the install script and container image.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly established: local_git_without_remote partial; managed_cloud_setup unsupported; byo_vps_onboarding partial."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "isolation",
+        "ci",
+        "cli"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch14",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "sortie:ACC-05",
+      "criterionId": "ACC-05",
+      "answer": "CLI (daemon flags, validate, stats, mcp-server), a JSON API under /api/v1 with an events stream, health probes and Prometheus metrics, and an MCP server for agents. Dashboard actions use POST endpoints. No SDK or inbound webhooks; the API has no authentication.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli",
+          "dashboard"
+        ],
+        "version": "v1.32.0 (commit 0e2e1cd, released 2026-11-10); docs repository commit 61aec36",
+        "plan": "Open source (Apache-2.0), self-run binary or container",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "cli": {
+          "support": "supported",
+          "answer": "Documented flags and subcommands.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "api": {
+          "support": "supported",
+          "answer": "State, runs, stats, prices, issue detail, events, reactions.",
+          "evidenceIds": [
+            "http"
+          ]
+        },
+        "sdk": {
+          "support": "unsupported",
+          "answer": "No SDK; Go packages are internal.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "mcp_server": {
+          "support": "supported",
+          "answer": "sortie mcp-server exposes Sortie tools to agents (status, budget, history, tracker).",
+          "evidenceIds": [
+            "cli",
+            "tools"
+          ]
+        },
+        "webhooks": {
+          "support": "partial",
+          "answer": "Outbound webhook notifier only; no inbound receiver (trackers are polled).",
+          "evidenceIds": [
+            "notify"
+          ]
+        },
+        "operations": {
+          "support": "partial",
+          "answer": "Inspect state and runs, retry now, acknowledge, check reaction; stop and steer are via tracker state and comments.",
+          "evidenceIds": [
+            "dash",
+            "http"
+          ]
+        },
+        "authentication": {
+          "support": "unsupported",
+          "answer": "The HTTP server has no authentication; bind to loopback or use a proxy.",
+          "evidenceIds": [
+            "http",
+            "dash"
+          ]
+        },
+        "stability": {
+          "support": "partial",
+          "answer": "Versioned /api/v1 and an api.schema.json; v1.x semver.",
+          "evidenceIds": [
+            "http"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly established: sdk unsupported; webhooks partial; operations partial; authentication unsupported; stability partial."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "http",
+        "cli",
+        "readme",
+        "tools",
+        "notify",
+        "dash"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch14",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "sortie:ACC-06",
+      "criterionId": "ACC-06",
+      "answer": "Agents get Sortie's MCP tools (status, cost budget, run history, tracker API scoped to the project) and agent-specific extensions; sub-agent definition files in the repository are discovered by the agent. Sortie itself is not an MCP client.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v1.32.0 (commit 0e2e1cd, released 2026-11-10); docs repository commit 61aec36",
+        "plan": "Open source (Apache-2.0), self-run binary or container",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "mcp_client": {
+          "support": "unsupported",
+          "answer": "Sortie does not consume MCP servers; the agent runtime does.",
+          "evidenceIds": [
+            "tools"
+          ]
+        },
+        "plugins": {
+          "support": "supported",
+          "answer": "Adapters and custom agent tools can be written.",
+          "evidenceIds": [
+            "wf-cfg"
+          ]
+        },
+        "custom_tools": {
+          "support": "supported",
+          "answer": "Write-custom-agent-tool guide.",
+          "evidenceIds": [
+            "tools"
+          ]
+        },
+        "instructions_import": {
+          "support": "supported",
+          "answer": "Prompt templates with partials and dispatch rules; repository instruction files reach the agent via the workspace.",
+          "evidenceIds": [
+            "wf-cfg",
+            "subag"
+          ]
+        },
+        "authentication": {
+          "support": "partial",
+          "answer": "Tracker token held by Sortie; agents hold their own credentials.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "permission_scope": {
+          "support": "partial",
+          "answer": "tracker_api is scoped to the configured project; agent sandboxes are passed through.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "integration_owner": {
+          "support": "supported",
+          "answer": "Sortie provides tools; MCP clients belong to the agent.",
+          "evidenceIds": [
+            "tools"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly established: mcp_client unsupported; authentication partial; permission_scope partial."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "tools",
+        "subag",
+        "wf-cfg",
+        "security"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch14",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "sortie:ACC-07",
+      "criterionId": "ACC-07",
+      "answer": "Go single binary with an embedded web dashboard (TypeScript/Vite source in web/); no desktop or mobile client.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli",
+          "dashboard"
+        ],
+        "version": "v1.32.0 (commit 0e2e1cd, released 2026-11-10); docs repository commit 61aec36",
+        "plan": "Open source (Apache-2.0), self-run binary or container",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "desktop_implementation": {
+          "support": "unsupported",
+          "answer": "No desktop client.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "mobile_implementation": {
+          "support": "unsupported",
+          "answer": "No mobile client.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "hybrids": {
+          "support": "supported",
+          "answer": "Go binary embedding a browser dashboard.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "implementation_evidence": {
+          "support": "supported",
+          "answer": "cmd/, internal/ and web/ at the pinned commit; architecture page.",
+          "evidenceIds": [
+            "arch"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly established: desktop_implementation unsupported; mobile_implementation unsupported."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "arch",
+        "readme"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-05-16",
+      "researcher": "researcher-batch14",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "sortie:PLAN-01",
+      "criterionId": "PLAN-01",
+      "answer": "Intake is a tracker issue: GitHub, GitLab, Gitea, Linear or Jira (or a file tracker for tests), filtered by label/query and state; the tracker is authoritative. Sortie polls, claims and updates tracker state and comments.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v1.32.0 (commit 0e2e1cd, released 2026-11-10); docs repository commit 61aec36",
+        "plan": "Open source (Apache-2.0), self-run binary or container",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "local_creation": {
+          "support": "partial",
+          "answer": "A file-based tracker adapter exists for local use and testing.",
+          "evidenceIds": [
+            "wf-cfg"
+          ]
+        },
+        "prompt_intake": {
+          "support": "unsupported",
+          "answer": "No free-prompt intake; the prompt is a template over issue fields.",
+          "evidenceIds": [
+            "wf-cfg"
+          ]
+        },
+        "external_import": {
+          "support": "supported",
+          "answer": "Five tracker adapters poll candidates.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "chat_git_triggers": {
+          "support": "partial",
+          "answer": "PR label commands sortie:review and sortie:fix; no chat triggers.",
+          "evidenceIds": [
+            "labels"
+          ]
+        },
+        "authoritative_tracker": {
+          "support": "supported",
+          "answer": "The configured tracker.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "stable_ids": {
+          "support": "supported",
+          "answer": "Tracker identifiers (e.g. BP-668, owner/repo#N).",
+          "evidenceIds": [
+            "dash"
+          ]
+        },
+        "sync": {
+          "support": "supported",
+          "answer": "State transitions, handoff state, comments and labels are written back.",
+          "evidenceIds": [
+            "wf-cfg"
+          ]
+        },
+        "supported_edits": {
+          "support": "partial",
+          "answer": "State, labels, comments; issue text is edited in the tracker.",
+          "evidenceIds": [
+            "wf-cfg"
+          ]
+        },
+        "external_roundtrips": {
+          "support": "partial",
+          "answer": "Triage and planning happen in the tracker.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly established: local_creation partial; prompt_intake unsupported; chat_git_triggers partial; supported_edits partial; external_roundtrips partial."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "wf-cfg",
+        "labels",
+        "dash"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch14",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "sortie:PLAN-02",
+      "criterionId": "PLAN-02",
+      "answer": "No durable plan object: stage chains let a first agent write a specification and plan that later stages use; acceptance criteria are the issue text; an issue-readiness stage can park unready issues.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v1.32.0 (commit 0e2e1cd, released 2026-11-10); docs repository commit 61aec36",
+        "plan": "Open source (Apache-2.0), self-run binary or container",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "plans": {
+          "support": "partial",
+          "answer": "Specify stage produces a plan as agent output or repository file.",
+          "evidenceIds": [
+            "stages"
+          ]
+        },
+        "acceptance_criteria": {
+          "support": "partial",
+          "answer": "Readiness stage checks issue sufficiency.",
+          "evidenceIds": [
+            "ready"
+          ]
+        },
+        "editors": {
+          "support": "unsupported",
+          "answer": "No plan editor.",
+          "evidenceIds": [
+            "srch-pr"
+          ]
+        },
+        "revisions": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-pr"
+          ]
+        },
+        "implementation_links": {
+          "support": "partial",
+          "answer": "Run history per issue, scm.json PR link.",
+          "evidenceIds": [
+            "dash"
+          ]
+        },
+        "amendment": {
+          "support": "partial",
+          "answer": "Issue comments reach the next turn.",
+          "evidenceIds": [
+            "steer"
+          ]
+        },
+        "restart_persistence": {
+          "support": "supported",
+          "answer": "SQLite run history.",
+          "evidenceIds": [
+            "persist"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly established: plans partial; acceptance_criteria partial; editors unsupported; revisions unsupported; implementation_links partial; amendment partial."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "stages",
+        "ready",
+        "srch-pr",
+        "dash",
+        "steer",
+        "persist"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch14",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "sortie:PLAN-03",
+      "criterionId": "PLAN-03",
+      "answer": "Tracker dependency/blocked relations are honored (blockers package) and dispatch rules can be chained into stages; no epics or hierarchy of its own.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v1.32.0 (commit 0e2e1cd, released 2026-11-10); docs repository commit 61aec36",
+        "plan": "Open source (Apache-2.0), self-run binary or container",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "epics": {
+          "support": "unsupported",
+          "answer": "None of its own; tracker epics can drive query filters.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "hierarchy": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "wf-cfg"
+          ]
+        },
+        "blockers": {
+          "support": "supported",
+          "answer": "Blocker checks defer dispatch of blocked issues (internal/blockers); dashboard shows issues waiting.",
+          "evidenceIds": [
+            "dash"
+          ]
+        },
+        "readiness": {
+          "support": "supported",
+          "answer": "Dispatch eligibility, readiness stage and held issues in the dashboard.",
+          "evidenceIds": [
+            "dash",
+            "ready"
+          ]
+        },
+        "enforcement": {
+          "support": "supported",
+          "answer": "Blocked issues are not dispatched.",
+          "evidenceIds": [
+            "dash"
+          ]
+        },
+        "state_propagation": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "wf-cfg"
+          ]
+        },
+        "task_to_epic": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "wf-cfg"
+          ]
+        },
+        "identity_retention": {
+          "support": "partial",
+          "answer": "Same issue moves through stages keeping identity.",
+          "evidenceIds": [
+            "stages"
+          ]
+        },
+        "workflow_constraints": {
+          "support": "partial",
+          "answer": "Tracker states must map to active, handoff and terminal states.",
+          "evidenceIds": [
+            "wf-cfg"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly established: epics unsupported; hierarchy unsupported; state_propagation unsupported; task_to_epic unsupported; identity_retention partial; workflow_constraints partial."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "stages",
+        "wf-cfg",
+        "security",
+        "dash",
+        "ready"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch14",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "sortie:PLAN-04",
+      "criterionId": "PLAN-04",
+      "answer": "Context is the WORKFLOW.md prompt with issue fields, partials, issue comment feed, run history and repository files in the workspace; no cross-session memory store beyond run history tools.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v1.32.0 (commit 0e2e1cd, released 2026-11-10); docs repository commit 61aec36",
+        "plan": "Open source (Apache-2.0), self-run binary or container",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "instructions": {
+          "support": "supported",
+          "answer": "Prompt templates and partials.",
+          "evidenceIds": [
+            "wf-cfg"
+          ]
+        },
+        "skills": {
+          "support": "partial",
+          "answer": "Agent-native skills if the repository holds them.",
+          "evidenceIds": [
+            "subag"
+          ]
+        },
+        "project_docs": {
+          "support": "partial",
+          "answer": "Whatever the workspace clone contains.",
+          "evidenceIds": [
+            "subag"
+          ]
+        },
+        "memory": {
+          "support": "partial",
+          "answer": "Agent can read prior run history through a tool.",
+          "evidenceIds": [
+            "tools"
+          ]
+        },
+        "scope": {
+          "support": "partial",
+          "answer": "Per workflow and per dispatch rule.",
+          "evidenceIds": [
+            "wf-cfg"
+          ]
+        },
+        "provenance": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-pr"
+          ]
+        },
+        "correction": {
+          "support": "partial",
+          "answer": "Edit WORKFLOW.md; hot reload.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "deletion": {
+          "support": "partial",
+          "answer": "Workspace retention settings.",
+          "evidenceIds": [
+            "wf-cfg"
+          ]
+        },
+        "freshness": {
+          "support": "supported",
+          "answer": "WORKFLOW.md changes are picked up without restart; comment feed updates each turn.",
+          "evidenceIds": [
+            "readme",
+            "steer"
+          ]
+        },
+        "takeover_continuity": {
+          "support": "supported",
+          "answer": "Run history persists across restarts.",
+          "evidenceIds": [
+            "persist"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly established: skills partial; project_docs partial; memory partial; scope partial; provenance unsupported; correction partial; deletion partial."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "wf-cfg",
+        "tools",
+        "steer",
+        "subag",
+        "srch-pr",
+        "readme",
+        "persist"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch14",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "sortie:PLAN-05",
+      "criterionId": "PLAN-05",
+      "answer": "No code indexing or retrieval of its own; agents search the cloned workspace. Tracker passthrough tool scoped to the project.",
+      "support": "unsupported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v1.32.0 (commit 0e2e1cd, released 2026-11-10); docs repository commit 61aec36",
+        "plan": "Open source (Apache-2.0), self-run binary or container",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "code_search": {
+          "support": "unsupported",
+          "answer": "Not provided by Sortie; handled by the agent runtime.",
+          "evidenceIds": [
+            "tools"
+          ]
+        },
+        "indexing": {
+          "support": "unsupported",
+          "answer": "Not provided by Sortie; handled by the agent runtime.",
+          "evidenceIds": [
+            "tools"
+          ]
+        },
+        "external_knowledge": {
+          "support": "unsupported",
+          "answer": "Not provided by Sortie; handled by the agent runtime.",
+          "evidenceIds": [
+            "tools"
+          ]
+        },
+        "multimodal_inputs": {
+          "support": "unsupported",
+          "answer": "Not provided by Sortie; handled by the agent runtime.",
+          "evidenceIds": [
+            "tools"
+          ]
+        },
+        "freshness": {
+          "support": "unsupported",
+          "answer": "Not provided by Sortie; handled by the agent runtime.",
+          "evidenceIds": [
+            "tools"
+          ]
+        },
+        "access_scope": {
+          "support": "unsupported",
+          "answer": "Not provided by Sortie; handled by the agent runtime.",
+          "evidenceIds": [
+            "tools"
+          ]
+        },
+        "api_retrieval": {
+          "support": "unsupported",
+          "answer": "Not provided by Sortie; handled by the agent runtime.",
+          "evidenceIds": [
+            "tools"
+          ]
+        },
+        "citations": {
+          "support": "unsupported",
+          "answer": "Not provided by Sortie; handled by the agent runtime.",
+          "evidenceIds": [
+            "tools"
+          ]
+        },
+        "conflict_detection": {
+          "support": "unsupported",
+          "answer": "Not provided by Sortie; handled by the agent runtime.",
+          "evidenceIds": [
+            "tools"
+          ]
+        },
+        "review_enforcement": {
+          "support": "unsupported",
+          "answer": "Not provided by Sortie; handled by the agent runtime.",
+          "evidenceIds": [
+            "tools"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "tools"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch14",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "sortie:PLAN-06",
+      "criterionId": "PLAN-06",
+      "answer": "No native issue store: issues live in the tracker. The dashboard lists active issues by phase and rule, history by issue and issue pages with attention items.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "dashboard"
+        ],
+        "version": "v1.32.0 (commit 0e2e1cd, released 2026-11-10); docs repository commit 61aec36",
+        "plan": "Open source (Apache-2.0), self-run binary or container",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "create": {
+          "support": "unsupported",
+          "answer": "Not provided (file tracker aside).",
+          "evidenceIds": [
+            "wf-cfg"
+          ]
+        },
+        "edit": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "wf-cfg"
+          ]
+        },
+        "discuss": {
+          "support": "partial",
+          "answer": "Comments flow to the agent from the tracker.",
+          "evidenceIds": [
+            "steer"
+          ]
+        },
+        "prioritize": {
+          "support": "partial",
+          "answer": "Priority matching in dispatch rules.",
+          "evidenceIds": [
+            "wf-cfg"
+          ]
+        },
+        "label": {
+          "support": "partial",
+          "answer": "Labels used for stages and commands.",
+          "evidenceIds": [
+            "wf-cfg"
+          ]
+        },
+        "assign": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "wf-cfg"
+          ]
+        },
+        "search": {
+          "support": "partial",
+          "answer": "Filter and command palette in the dashboard.",
+          "evidenceIds": [
+            "dash"
+          ]
+        },
+        "filter": {
+          "support": "supported",
+          "answer": "Phase and rule filters.",
+          "evidenceIds": [
+            "dash"
+          ]
+        },
+        "archive": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "dash"
+          ]
+        },
+        "reopen": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "dash"
+          ]
+        },
+        "project_epic_views": {
+          "support": "supported",
+          "answer": "Pipeline view.",
+          "evidenceIds": [
+            "dash"
+          ]
+        },
+        "idea_parking": {
+          "support": "partial",
+          "answer": "Parked issues under needs-human label.",
+          "evidenceIds": [
+            "dash"
+          ]
+        },
+        "explicit_dispatch": {
+          "support": "partial",
+          "answer": "Dispatch by tracker state and query filter.",
+          "evidenceIds": [
+            "wf-cfg"
+          ]
+        },
+        "task_session_separation": {
+          "support": "supported",
+          "answer": "Issue to dispatch to session records.",
+          "evidenceIds": [
+            "http"
+          ]
+        },
+        "metadata": {
+          "support": "partial",
+          "answer": "Run, stage, cost, outcome metadata per issue.",
+          "evidenceIds": [
+            "dash"
+          ]
+        },
+        "durable_states": {
+          "support": "supported",
+          "answer": "Phases such as running, retrying, waiting on PR, attention.",
+          "evidenceIds": [
+            "dash"
+          ]
+        },
+        "external_tracker_requirement": {
+          "support": "supported",
+          "answer": "A tracker is required.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly established: create unsupported; edit unsupported; discuss partial; prioritize partial; label partial; assign unsupported; search partial; archive unsupported; reopen unsupported; idea_parking partial; explicit_dispatch partial; metadata partial."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "dash",
+        "wf-cfg",
+        "steer",
+        "http",
+        "readme"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch14",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "sortie:PLAN-07",
+      "criterionId": "PLAN-07",
+      "answer": "Agents can read and update the same tracker issues through the project-scoped tracker_api and notifier tools; Sortie transitions state, adds labels and comments. Dashboard shows them; the tracker records attribution.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v1.32.0 (commit 0e2e1cd, released 2026-11-10); docs repository commit 61aec36",
+        "plan": "Open source (Apache-2.0), self-run binary or container",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "shared_ids": {
+          "support": "supported",
+          "answer": "Tracker issue IDs.",
+          "evidenceIds": [
+            "dash"
+          ]
+        },
+        "read": {
+          "support": "supported",
+          "answer": "tracker_api tool.",
+          "evidenceIds": [
+            "tools"
+          ]
+        },
+        "create": {
+          "support": "partial",
+          "answer": "Through tracker_api passthrough within the project.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "update": {
+          "support": "supported",
+          "answer": "State, labels, comments.",
+          "evidenceIds": [
+            "wf-cfg"
+          ]
+        },
+        "claim": {
+          "support": "supported",
+          "answer": "Sortie claims issues by state transition and tracks dispatch.",
+          "evidenceIds": [
+            "wf-cfg"
+          ]
+        },
+        "assign": {
+          "support": "unknown",
+          "answer": "Assignee handling per adapter was not inspected.",
+          "evidenceIds": []
+        },
+        "state_changes": {
+          "support": "supported",
+          "answer": "Handoff and terminal states.",
+          "evidenceIds": [
+            "wf-cfg"
+          ]
+        },
+        "dependencies": {
+          "support": "partial",
+          "answer": "Reads blockers; creation via tracker_api.",
+          "evidenceIds": [
+            "dash"
+          ]
+        },
+        "children": {
+          "support": "unknown",
+          "answer": "Not documented.",
+          "evidenceIds": []
+        },
+        "results": {
+          "support": "supported",
+          "answer": "Comments and notifications.",
+          "evidenceIds": [
+            "wf-cfg"
+          ]
+        },
+        "human_visibility": {
+          "support": "supported",
+          "answer": "All changes are in the tracker.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "attribution": {
+          "support": "partial",
+          "answer": "Tracker token identity; comments tagged as Sortie posted.",
+          "evidenceIds": [
+            "steer"
+          ]
+        },
+        "permissions": {
+          "support": "partial",
+          "answer": "Tracker token scopes; tracker_api scoped to the project.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "conflicts": {
+          "support": "unknown",
+          "answer": "Conflict handling not documented.",
+          "evidenceIds": []
+        }
+      },
+      "limitations": [
+        "Partly established: create partial; assign unknown; dependencies partial; children unknown; attribution partial; permissions partial; conflicts unknown."
+      ],
+      "unknownReason": "Unknown atomic parts (assign, children, conflicts): Assignee handling per adapter was not inspected. Not documented. Conflict handling not documented.",
+      "evidenceIds": [
+        "tools",
+        "wf-cfg",
+        "dash",
+        "security",
+        "readme",
+        "steer"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch14",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "sortie:PLAN-08",
+      "criterionId": "PLAN-08",
+      "answer": "No living product specification feature.",
+      "support": "unsupported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v1.32.0 (commit 0e2e1cd, released 2026-11-10); docs repository commit 61aec36",
+        "plan": "Open source (Apache-2.0), self-run binary or container",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "persistent_requirements": {
+          "support": "unsupported",
+          "answer": "None found in docs or source; specify stage output is per issue.",
+          "evidenceIds": [
+            "stages"
+          ]
+        },
+        "human_edits": {
+          "support": "unsupported",
+          "answer": "None found in docs or source; specify stage output is per issue.",
+          "evidenceIds": [
+            "stages"
+          ]
+        },
+        "agent_edits": {
+          "support": "unsupported",
+          "answer": "None found in docs or source; specify stage output is per issue.",
+          "evidenceIds": [
+            "stages"
+          ]
+        },
+        "revisions": {
+          "support": "unsupported",
+          "answer": "None found in docs or source; specify stage output is per issue.",
+          "evidenceIds": [
+            "stages"
+          ]
+        },
+        "approvals": {
+          "support": "unsupported",
+          "answer": "None found in docs or source; specify stage output is per issue.",
+          "evidenceIds": [
+            "stages"
+          ]
+        },
+        "implementation_links": {
+          "support": "unsupported",
+          "answer": "None found in docs or source; specify stage output is per issue.",
+          "evidenceIds": [
+            "stages"
+          ]
+        },
+        "later_retrieval": {
+          "support": "unsupported",
+          "answer": "None found in docs or source; specify stage output is per issue.",
+          "evidenceIds": [
+            "stages"
+          ]
+        },
+        "drift_detection": {
+          "support": "unsupported",
+          "answer": "None found in docs or source; specify stage output is per issue.",
+          "evidenceIds": [
+            "stages"
+          ]
+        },
+        "review_integration": {
+          "support": "unsupported",
+          "answer": "None found in docs or source; specify stage output is per issue.",
+          "evidenceIds": [
+            "stages"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "stages"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch14",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "sortie:COORD-01",
+      "criterionId": "COORD-01",
+      "answer": "Concurrent agents up to agent.max_concurrent_agents (plus per-state caps, example 4); each issue has its own workspace; dashboard shows running, waiting on PR, retrying, between stages and held.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli",
+          "dashboard"
+        ],
+        "version": "v1.32.0 (commit 0e2e1cd, released 2026-11-10); docs repository commit 61aec36",
+        "plan": "Open source (Apache-2.0), self-run binary or container",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "concurrent_sessions": {
+          "support": "supported",
+          "answer": "Parallel agent sessions.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "concurrent_tasks": {
+          "support": "supported",
+          "answer": "One issue per workspace.",
+          "evidenceIds": [
+            "isolation"
+          ]
+        },
+        "quotas": {
+          "support": "supported",
+          "answer": "Global and per-state concurrency caps.",
+          "evidenceIds": [
+            "wf-cfg"
+          ]
+        },
+        "observed_concurrency": {
+          "support": "unknown",
+          "answer": "Not measured by the catalog.",
+          "evidenceIds": []
+        },
+        "status_visibility": {
+          "support": "supported",
+          "answer": "Overview counts and Pipeline.",
+          "evidenceIds": [
+            "dash"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly established: observed_concurrency unknown."
+      ],
+      "unknownReason": "Unknown atomic parts (observed_concurrency): Not measured by the catalog.",
+      "evidenceIds": [
+        "wf-cfg",
+        "dash",
+        "readme",
+        "isolation"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch14",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "sortie:COORD-02",
+      "criterionId": "COORD-02",
+      "answer": "Sortie claims eligible tracker issues by state transition and tracker query, ordered by dispatch rules; blocked and held issues are skipped; budgets and caps gate dispatch.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v1.32.0 (commit 0e2e1cd, released 2026-11-10); docs repository commit 61aec36",
+        "plan": "Open source (Apache-2.0), self-run binary or container",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "human_assignment": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "wf-cfg"
+          ]
+        },
+        "agent_assignment": {
+          "support": "supported",
+          "answer": "Dispatch rules choose agent, model and template.",
+          "evidenceIds": [
+            "wf-cfg"
+          ]
+        },
+        "claims": {
+          "support": "supported",
+          "answer": "Claim and handoff states.",
+          "evidenceIds": [
+            "wf-cfg"
+          ]
+        },
+        "queues": {
+          "support": "supported",
+          "answer": "Dispatch order list in Overview.",
+          "evidenceIds": [
+            "dash"
+          ]
+        },
+        "routing": {
+          "support": "supported",
+          "answer": "Rules by label, priority; stage labels.",
+          "evidenceIds": [
+            "wf-cfg"
+          ]
+        },
+        "duplicate_prevention": {
+          "support": "supported",
+          "answer": "One workspace and claim per issue; SQLite state.",
+          "evidenceIds": [
+            "persist"
+          ]
+        },
+        "ownership_enforcement": {
+          "support": "partial",
+          "answer": "Per instance; multiple instances against one project need separate filters.",
+          "evidenceIds": [
+            "wf-cfg"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly established: human_assignment unsupported; ownership_enforcement partial."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "wf-cfg",
+        "dash",
+        "persist"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch14",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "sortie:COORD-03",
+      "criterionId": "COORD-03",
+      "answer": "No model-led coordinator: Sortie's orchestrator dispatches single agents per issue, with stage chains, optional self-review turns, review and CI reaction sessions, and agent-runtime sub-agents that Sortie does not route.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v1.32.0 (commit 0e2e1cd, released 2026-11-10); docs repository commit 61aec36",
+        "plan": "Open source (Apache-2.0), self-run binary or container",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "roles": {
+          "support": "partial",
+          "answer": "Stages, self-review and reaction sessions.",
+          "evidenceIds": [
+            "stages",
+            "wf-cfg"
+          ]
+        },
+        "model_harness_effort": {
+          "support": "supported",
+          "answer": "Agent, template and model per dispatch rule.",
+          "evidenceIds": [
+            "wf-cfg"
+          ]
+        },
+        "messages": {
+          "support": "partial",
+          "answer": "Issue comments and tools; no agent-to-agent messaging.",
+          "evidenceIds": [
+            "steer"
+          ]
+        },
+        "results_return": {
+          "support": "partial",
+          "answer": "Stage outputs via workspace/state files.",
+          "evidenceIds": [
+            "stages"
+          ]
+        },
+        "cross_harness": {
+          "support": "supported",
+          "answer": "Different agents per rule/stage.",
+          "evidenceIds": [
+            "stages"
+          ]
+        },
+        "orchestration_owner": {
+          "support": "supported",
+          "answer": "Sortie orchestrator code.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "activation": {
+          "support": "supported",
+          "answer": "Configured in WORKFLOW.md.",
+          "evidenceIds": [
+            "wf-cfg"
+          ]
+        },
+        "authentication": {
+          "support": "supported",
+          "answer": "Per agent.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "live_progress": {
+          "support": "supported",
+          "answer": "Session view and agent events.",
+          "evidenceIds": [
+            "dash"
+          ]
+        },
+        "retained_results": {
+          "support": "supported",
+          "answer": "Run history and events retained.",
+          "evidenceIds": [
+            "http"
+          ]
+        },
+        "followup": {
+          "support": "partial",
+          "answer": "Continuation turns and reactions.",
+          "evidenceIds": [
+            "review"
+          ]
+        },
+        "invocation": {
+          "support": "supported",
+          "answer": "By tracker state.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly established: roles partial; messages partial; results_return partial; followup partial."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "stages",
+        "subag",
+        "wf-cfg",
+        "steer",
+        "arch",
+        "readme",
+        "dash",
+        "http",
+        "review"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch14",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "sortie:COORD-04",
+      "criterionId": "COORD-04",
+      "answer": "Work starts from tracker polling, not a clock: there is no internal scheduler; recurring work is created as tracker issues by the tracker or CI scheduler. Reactions poll PR CI and reviews; label commands trigger sessions.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v1.32.0 (commit 0e2e1cd, released 2026-11-10); docs repository commit 61aec36",
+        "plan": "Open source (Apache-2.0), self-run binary or container",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "schedules": {
+          "support": "unsupported",
+          "answer": "No internal scheduler; documented pattern uses tracker schedulers.",
+          "evidenceIds": [
+            "sched"
+          ]
+        },
+        "events": {
+          "support": "partial",
+          "answer": "Polled tracker states, PR reactions and label commands; no inbound webhooks.",
+          "evidenceIds": [
+            "readme",
+            "labels"
+          ]
+        },
+        "recurring_tasks": {
+          "support": "partial",
+          "answer": "Via tracker-created issues.",
+          "evidenceIds": [
+            "sched"
+          ]
+        },
+        "completion_conditions": {
+          "support": "supported",
+          "answer": "Handoff and terminal states, budgets, max turns/sessions.",
+          "evidenceIds": [
+            "wf-cfg"
+          ]
+        },
+        "scheduler_location": {
+          "support": "supported",
+          "answer": "Orchestrator process; polling interval configurable.",
+          "evidenceIds": [
+            "wf-cfg"
+          ]
+        },
+        "overlaps": {
+          "support": "supported",
+          "answer": "One run per issue; concurrency caps.",
+          "evidenceIds": [
+            "wf-cfg"
+          ]
+        },
+        "retries": {
+          "support": "supported",
+          "answer": "Exponential backoff to max_retry_backoff_ms with persisted due times.",
+          "evidenceIds": [
+            "persist",
+            "wf-cfg"
+          ]
+        },
+        "client_independence": {
+          "support": "supported",
+          "answer": "Daemon needs no client.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly established: schedules unsupported; events partial; recurring_tasks partial."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "sched",
+        "readme",
+        "labels",
+        "wf-cfg",
+        "persist"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch14",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "sortie:COORD-05",
+      "criterionId": "COORD-05",
+      "answer": "Retry now and Acknowledge in the dashboard, issue-comment steering at the next turn, escalation labels such as needs-human, attention items with reasons, and Slack/Discord/Telegram notifications. There is no pause or stop-session control in the dashboard actions; stopping is by tracker state, and shutdown drains cleanly.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "dashboard",
+          "cli"
+        ],
+        "version": "v1.32.0 (commit 0e2e1cd, released 2026-11-10); docs repository commit 61aec36",
+        "plan": "Open source (Apache-2.0), self-run binary or container",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "pause": {
+          "support": "unsupported",
+          "answer": "No pause action listed.",
+          "evidenceIds": [
+            "dash"
+          ]
+        },
+        "stop": {
+          "support": "partial",
+          "answer": "Move the issue out of active states; process signals drain agents.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "resume": {
+          "support": "supported",
+          "answer": "Retry now and automatic retries.",
+          "evidenceIds": [
+            "dash"
+          ]
+        },
+        "steer": {
+          "support": "supported",
+          "answer": "Issue comments reach the agent at the next turn.",
+          "evidenceIds": [
+            "steer"
+          ]
+        },
+        "notifications": {
+          "support": "supported",
+          "answer": "Notifier backends.",
+          "evidenceIds": [
+            "wf-cfg"
+          ]
+        },
+        "pending_decisions": {
+          "support": "supported",
+          "answer": "Attention items and parked issues with needs-human.",
+          "evidenceIds": [
+            "dash"
+          ]
+        },
+        "escalation": {
+          "support": "supported",
+          "answer": "CI escalation after retries, budget reached, parked.",
+          "evidenceIds": [
+            "dash"
+          ]
+        },
+        "visible_errors": {
+          "support": "supported",
+          "answer": "Outcome words and errors in history.",
+          "evidenceIds": [
+            "dash"
+          ]
+        },
+        "chat_terminal_parity": {
+          "support": "unsupported",
+          "answer": "No interactive chat; agent questions park the issue.",
+          "evidenceIds": [
+            "dash"
+          ]
+        },
+        "retained_history": {
+          "support": "supported",
+          "answer": "Run history and events.",
+          "evidenceIds": [
+            "persist"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly established: pause unsupported; stop partial; chat_terminal_parity unsupported."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "dash",
+        "steer",
+        "cli",
+        "wf-cfg",
+        "persist"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch14",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "sortie:COORD-06",
+      "criterionId": "COORD-06",
+      "answer": "Dashboard Overview shows items needing attention, usage, active issues with phase filters and a Pipeline view of each issue moving toward a merged PR, History and Analytics; dependencies appear as waiting states.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "dashboard"
+        ],
+        "version": "v1.32.0 (commit 0e2e1cd, released 2026-11-10); docs repository commit 61aec36",
+        "plan": "Open source (Apache-2.0), self-run binary or container",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "fleet_fixture": {
+          "support": "supported",
+          "answer": "Overview with counts and 8 active issues in the doc screenshot.",
+          "evidenceIds": [
+            "dash"
+          ]
+        },
+        "parent_child": {
+          "support": "unsupported",
+          "answer": "No hierarchy.",
+          "evidenceIds": [
+            "wf-cfg"
+          ]
+        },
+        "dependencies": {
+          "support": "partial",
+          "answer": "Waiting states.",
+          "evidenceIds": [
+            "dash"
+          ]
+        },
+        "attention": {
+          "support": "supported",
+          "answer": "Needs attention list, critical first.",
+          "evidenceIds": [
+            "dash"
+          ]
+        },
+        "history": {
+          "support": "supported",
+          "answer": "History screen.",
+          "evidenceIds": [
+            "dash"
+          ]
+        },
+        "workload": {
+          "support": "supported",
+          "answer": "Agents running, budget and limit bars.",
+          "evidenceIds": [
+            "dash"
+          ]
+        },
+        "navigation_errors": {
+          "support": "supported",
+          "answer": "Loading and failure states are documented.",
+          "evidenceIds": [
+            "dash"
+          ]
+        },
+        "fixture_mode": {
+          "support": "partial",
+          "answer": "Docs screenshots use a sample BP project.",
+          "evidenceIds": [
+            "dash"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly established: parent_child unsupported; dependencies partial; fixture_mode partial."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "dash",
+        "wf-cfg"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch14",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "sortie:COORD-07",
+      "criterionId": "COORD-07",
+      "answer": "Workflow is configured in one WORKFLOW.md (tracker, agent, dispatch rules, stages, reactions, self-review, notifications) with hot reload; no natural-language builder.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v1.32.0 (commit 0e2e1cd, released 2026-11-10); docs repository commit 61aec36",
+        "plan": "Open source (Apache-2.0), self-run binary or container",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "quick_task": {
+          "support": "supported",
+          "answer": "One labelled issue.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "growing_epic": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "wf-cfg"
+          ]
+        },
+        "presets": {
+          "support": "partial",
+          "answer": "Example workflows and quick start.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "natural_language": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "wf-cfg"
+          ]
+        },
+        "agent_configuration": {
+          "support": "supported",
+          "answer": "Agent, model and template per rule.",
+          "evidenceIds": [
+            "wf-cfg"
+          ]
+        },
+        "in_run_changes": {
+          "support": "partial",
+          "answer": "Hot reload affects new dispatches; comments steer.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "live_roles": {
+          "support": "supported",
+          "answer": "Dashboard rule and stage per issue.",
+          "evidenceIds": [
+            "dash"
+          ]
+        },
+        "retained_relationships": {
+          "support": "supported",
+          "answer": "Run history.",
+          "evidenceIds": [
+            "http"
+          ]
+        },
+        "discoverability": {
+          "support": "supported",
+          "answer": "Docs and validate command.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "auth_friction": {
+          "support": "partial",
+          "answer": "Tracker token and agent login.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly established: growing_epic unsupported; presets partial; natural_language unsupported; in_run_changes partial; auth_friction partial."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "wf-cfg",
+        "readme",
+        "dash",
+        "http",
+        "cli"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch14",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "sortie:RUN-01",
+      "criterionId": "RUN-01",
+      "answer": "Runs on a laptop, VM or Kubernetes; agent sessions can be distributed to a pool of remote POSIX hosts over SSH. No managed cloud. A daemon run is independent of any client.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v1.32.0 (commit 0e2e1cd, released 2026-11-10); docs repository commit 61aec36",
+        "plan": "Open source (Apache-2.0), self-run binary or container",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "local": {
+          "support": "supported",
+          "answer": "Primary.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "byo_remote": {
+          "support": "supported",
+          "answer": "SSH worker hosts.",
+          "evidenceIds": [
+            "ssh"
+          ]
+        },
+        "self_hosted": {
+          "support": "supported",
+          "answer": "The binary is the whole system; container image.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "managed_cloud": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "hybrid": {
+          "support": "supported",
+          "answer": "Orchestrator local with SSH workers.",
+          "evidenceIds": [
+            "ssh"
+          ]
+        },
+        "provisioning": {
+          "support": "partial",
+          "answer": "Manual; Kubernetes guide.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "payer": {
+          "support": "supported",
+          "answer": "You.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "resources": {
+          "support": "unsupported",
+          "answer": "Not applicable.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "region": {
+          "support": "unsupported",
+          "answer": "Not applicable.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "expiry": {
+          "support": "unsupported",
+          "answer": "None; workspace retention settings only.",
+          "evidenceIds": [
+            "wf-cfg"
+          ]
+        },
+        "client_disconnect": {
+          "support": "supported",
+          "answer": "No client needed.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "other_device_continuation": {
+          "support": "supported",
+          "answer": "Dashboard from any browser that can reach the port.",
+          "evidenceIds": [
+            "dash"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly established: managed_cloud unsupported; provisioning partial; resources unsupported; region unsupported; expiry unsupported."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "ssh",
+        "wf-cfg",
+        "dash"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch14",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "sortie:RUN-02",
+      "criterionId": "RUN-02",
+      "answer": "Each issue gets a flat per-issue workspace directory with enforced path containment, name sanitization and symlink rejection; git clone/branch isolation is built by hooks. Sandboxing is left to each agent (passthrough) or to Docker/Kubernetes; Sortie does not provide a container or VM per task.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v1.32.0 (commit 0e2e1cd, released 2026-11-10); docs repository commit 61aec36",
+        "plan": "Open source (Apache-2.0), self-run binary or container",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "checkout": {
+          "support": "partial",
+          "answer": "Workspace is empty until hooks clone.",
+          "evidenceIds": [
+            "isolation"
+          ]
+        },
+        "branch": {
+          "support": "partial",
+          "answer": "Branch per issue is a hook pattern.",
+          "evidenceIds": [
+            "wf-cfg"
+          ]
+        },
+        "worktree": {
+          "support": "partial",
+          "answer": "Hooks may use worktrees; not built in.",
+          "evidenceIds": [
+            "isolation"
+          ]
+        },
+        "container": {
+          "support": "unsupported",
+          "answer": "Sortie does not run tasks in containers itself (a container image runs Sortie).",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "vm": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "os_sandbox": {
+          "support": "partial",
+          "answer": "Agent sandbox/approval settings are passed through.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "filesystem": {
+          "support": "supported",
+          "answer": "Per-issue directory with enforced invariants; absolute-path writes are not prevented.",
+          "evidenceIds": [
+            "isolation",
+            "security"
+          ]
+        },
+        "process": {
+          "support": "partial",
+          "answer": "One agent subprocess per session.",
+          "evidenceIds": [
+            "isolation"
+          ]
+        },
+        "network": {
+          "support": "partial",
+          "answer": "Restricted-networks guide; no enforcement.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "secrets": {
+          "support": "partial",
+          "answer": "Environment variables delivered to SSH agents via dd; redact package for logs.",
+          "evidenceIds": [
+            "ssh"
+          ]
+        },
+        "code_separation": {
+          "support": "supported",
+          "answer": "Flat workspaces.",
+          "evidenceIds": [
+            "isolation"
+          ]
+        },
+        "security_boundary": {
+          "support": "partial",
+          "answer": "Docs state the three invariants do not stop an agent that deliberately writes elsewhere.",
+          "evidenceIds": [
+            "isolation",
+            "security"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly established: checkout partial; branch partial; worktree partial; container unsupported; vm unsupported; os_sandbox partial; process partial; network partial; secrets partial; security_boundary partial."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "isolation",
+        "security",
+        "wf-cfg",
+        "ssh"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch14",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "sortie:RUN-03",
+      "criterionId": "RUN-03",
+      "answer": "Warm start from SQLite: retry entries with absolute due times, run history, counters and budgets survive restarts; stall detection kills quiet agents; orphan workspaces are swept; graceful shutdown drains agents.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v1.32.0 (commit 0e2e1cd, released 2026-11-10); docs repository commit 61aec36",
+        "plan": "Open source (Apache-2.0), self-run binary or container",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "client_disconnect": {
+          "support": "supported",
+          "answer": "No client.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "worker_crash": {
+          "support": "supported",
+          "answer": "Retry with backoff after a failed run; stall timeout.",
+          "evidenceIds": [
+            "wf-cfg"
+          ]
+        },
+        "service_restart": {
+          "support": "supported",
+          "answer": "Warm start from SQLite.",
+          "evidenceIds": [
+            "persist"
+          ]
+        },
+        "expiry": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "wf-cfg"
+          ]
+        },
+        "transcript_reload": {
+          "support": "supported",
+          "answer": "Agent events retained per run.",
+          "evidenceIds": [
+            "http"
+          ]
+        },
+        "process_reconnect": {
+          "support": "unsupported",
+          "answer": "A dead agent process is not reattached.",
+          "evidenceIds": [
+            "persist"
+          ]
+        },
+        "task_resume": {
+          "support": "supported",
+          "answer": "Continuation turns and retries.",
+          "evidenceIds": [
+            "wf-cfg"
+          ]
+        },
+        "state_reconstruction": {
+          "support": "supported",
+          "answer": "From SQLite and tracker.",
+          "evidenceIds": [
+            "persist"
+          ]
+        },
+        "context_loss": {
+          "support": "unknown",
+          "answer": "Agent session resume depends on the agent.",
+          "evidenceIds": []
+        },
+        "duplicate_actions": {
+          "support": "partial",
+          "answer": "Handoff state and claims limit repeats; max_sessions bound.",
+          "evidenceIds": [
+            "wf-cfg"
+          ]
+        },
+        "manual_repair": {
+          "support": "partial",
+          "answer": "Parked issues require a person.",
+          "evidenceIds": [
+            "dash"
+          ]
+        },
+        "multi_day_continuity": {
+          "support": "supported",
+          "answer": "SQLite state and retry caps.",
+          "evidenceIds": [
+            "persist"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly established: expiry unsupported; process_reconnect unsupported; context_loss unknown; duplicate_actions partial; manual_repair partial."
+      ],
+      "unknownReason": "Unknown atomic parts (context_loss): Agent session resume depends on the agent.",
+      "evidenceIds": [
+        "persist",
+        "wf-cfg",
+        "readme",
+        "http",
+        "dash"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch14",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "sortie:RUN-04",
+      "criterionId": "RUN-04",
+      "answer": "Dependency setup is hook-driven: after_create, before_run, after_run and before_remove hooks run in each workspace with a timeout; no caches, snapshots, services or port management.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v1.32.0 (commit 0e2e1cd, released 2026-11-10); docs repository commit 61aec36",
+        "plan": "Open source (Apache-2.0), self-run binary or container",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "dependencies": {
+          "support": "supported",
+          "answer": "Workspace hooks.",
+          "evidenceIds": [
+            "wf-cfg"
+          ]
+        },
+        "caches": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "wf-cfg"
+          ]
+        },
+        "snapshots": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "wf-cfg"
+          ]
+        },
+        "services": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "wf-cfg"
+          ]
+        },
+        "ports": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "wf-cfg"
+          ]
+        },
+        "secrets": {
+          "support": "partial",
+          "answer": "Environment inheritance and env-file; remote delivery via dd.",
+          "evidenceIds": [
+            "ssh"
+          ]
+        },
+        "duplicate_installs": {
+          "support": "unsupported",
+          "answer": "Per workspace.",
+          "evidenceIds": [
+            "wf-cfg"
+          ]
+        },
+        "collisions": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "wf-cfg"
+          ]
+        },
+        "remote_setup": {
+          "support": "partial",
+          "answer": "Remote hosts need agent binaries and sleep/dd.",
+          "evidenceIds": [
+            "ssh"
+          ]
+        },
+        "automatic_repair": {
+          "support": "partial",
+          "answer": "Periodic sweep of terminal workspaces.",
+          "evidenceIds": [
+            "wf-cfg"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly established: caches unsupported; snapshots unsupported; services unsupported; ports unsupported; secrets partial; duplicate_installs unsupported; collisions unsupported; remote_setup partial; automatic_repair partial."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "wf-cfg",
+        "ssh"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch14",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "sortie:RUN-05",
+      "criterionId": "RUN-05",
+      "answer": "Per-issue limits on turns, sessions, tokens and dollars, instance daily/weekly/monthly dollar caps, turn, read and stall timeouts, stop grace, retry backoff caps; enforced by the orchestrator; only claude-code has a per-turn money cap.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v1.32.0 (commit 0e2e1cd, released 2026-11-10); docs repository commit 61aec36",
+        "plan": "Open source (Apache-2.0), self-run binary or container",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "time_limits": {
+          "support": "supported",
+          "answer": "turn_timeout_ms 30 min, stall_timeout_ms.",
+          "evidenceIds": [
+            "wf-cfg"
+          ]
+        },
+        "turn_limits": {
+          "support": "supported",
+          "answer": "max_turns.",
+          "evidenceIds": [
+            "wf-cfg"
+          ]
+        },
+        "token_limits": {
+          "support": "supported",
+          "answer": "max_tokens per issue.",
+          "evidenceIds": [
+            "wf-cfg"
+          ]
+        },
+        "spend_limits": {
+          "support": "supported",
+          "answer": "Per issue and daily/weekly/monthly USD estimated caps.",
+          "evidenceIds": [
+            "wf-cfg",
+            "costs"
+          ]
+        },
+        "timeouts": {
+          "support": "supported",
+          "answer": "Startup, turn, stall, hooks.",
+          "evidenceIds": [
+            "wf-cfg"
+          ]
+        },
+        "retries": {
+          "support": "supported",
+          "answer": "Backoff with caps.",
+          "evidenceIds": [
+            "wf-cfg"
+          ]
+        },
+        "provider_failures": {
+          "support": "partial",
+          "answer": "Usage-limit windows displayed; retries.",
+          "evidenceIds": [
+            "dash"
+          ]
+        },
+        "enforcement": {
+          "support": "supported",
+          "answer": "Hard stops parked as budget reached.",
+          "evidenceIds": [
+            "dash",
+            "costs"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly established: provider_failures partial."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "wf-cfg",
+        "costs",
+        "dash"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch14",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "sortie:RUN-06",
+      "criterionId": "RUN-06",
+      "answer": "Structured logs, run history in SQLite, agent events per run, Analytics/History/Health screens, a stats CLI and Prometheus metrics; outcomes distinguish running, waiting, retrying, parked and finished. Figures are marked complete or lower bound.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli",
+          "dashboard"
+        ],
+        "version": "v1.32.0 (commit 0e2e1cd, released 2026-11-10); docs repository commit 61aec36",
+        "plan": "Open source (Apache-2.0), self-run binary or container",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "logs": {
+          "support": "supported",
+          "answer": "Log levels/format flags and event retention.",
+          "evidenceIds": [
+            "cli",
+            "http"
+          ]
+        },
+        "traces": {
+          "support": "partial",
+          "answer": "Run events per dispatch.",
+          "evidenceIds": [
+            "http"
+          ]
+        },
+        "failure_reasons": {
+          "support": "supported",
+          "answer": "Outcome words and errors.",
+          "evidenceIds": [
+            "dash"
+          ]
+        },
+        "usage_export": {
+          "support": "supported",
+          "answer": "JSON API and sortie stats.",
+          "evidenceIds": [
+            "http",
+            "cli"
+          ]
+        },
+        "task_stats": {
+          "support": "supported",
+          "answer": "Per issue tokens, cost, turns.",
+          "evidenceIds": [
+            "dash"
+          ]
+        },
+        "agent_stats": {
+          "support": "supported",
+          "answer": "Analytics by agent kind.",
+          "evidenceIds": [
+            "dash"
+          ]
+        },
+        "project_stats": {
+          "support": "supported",
+          "answer": "Analytics.",
+          "evidenceIds": [
+            "dash"
+          ]
+        },
+        "time_stats": {
+          "support": "supported",
+          "answer": "Span and period stats.",
+          "evidenceIds": [
+            "http"
+          ]
+        },
+        "failure_status": {
+          "support": "supported",
+          "answer": "Outcome words.",
+          "evidenceIds": [
+            "dash"
+          ]
+        },
+        "approval_status": {
+          "support": "partial",
+          "answer": "Attention items; reactions status.",
+          "evidenceIds": [
+            "dash"
+          ]
+        },
+        "reconnect_consistency": {
+          "support": "supported",
+          "answer": "Change stream plus rereads; warm start.",
+          "evidenceIds": [
+            "dash",
+            "persist"
+          ]
+        },
+        "performance_method": {
+          "support": "unknown",
+          "answer": "The catalog measures none.",
+          "evidenceIds": []
+        },
+        "responsiveness": {
+          "support": "unknown",
+          "answer": "Not measured.",
+          "evidenceIds": []
+        }
+      },
+      "limitations": [
+        "Partly established: traces partial; approval_status partial; performance_method unknown; responsiveness unknown."
+      ],
+      "unknownReason": "Unknown atomic parts (performance_method, responsiveness): The catalog measures none. Not measured.",
+      "evidenceIds": [
+        "dash",
+        "http",
+        "spend",
+        "cli",
+        "persist"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch14",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "sortie:RUN-07",
+      "criterionId": "RUN-07",
+      "answer": "Per-issue and per-session tokens and estimated dollar cost at API prices (price table in dashboard), marked complete or lower_bound; budget bars for day, week and month; usage-limit windows for Claude Code and Codex. Subscription marginal cost is not modeled as dollars of billing.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "dashboard"
+        ],
+        "version": "v1.32.0 (commit 0e2e1cd, released 2026-11-10); docs repository commit 61aec36",
+        "plan": "Open source (Apache-2.0), self-run binary or container",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "task_cost": {
+          "support": "supported",
+          "answer": "Per issue estimated cost.",
+          "evidenceIds": [
+            "dash"
+          ]
+        },
+        "session_cost": {
+          "support": "supported",
+          "answer": "Per session ledger.",
+          "evidenceIds": [
+            "spend"
+          ]
+        },
+        "child_cost": {
+          "support": "partial",
+          "answer": "Sub-agent usage inside a session is counted in the session ledger.",
+          "evidenceIds": [
+            "spend"
+          ]
+        },
+        "epic_cost": {
+          "support": "unsupported",
+          "answer": "No epics.",
+          "evidenceIds": [
+            "wf-cfg"
+          ]
+        },
+        "harness_aggregation": {
+          "support": "supported",
+          "answer": "Aggregates across agent kinds in Analytics.",
+          "evidenceIds": [
+            "dash"
+          ]
+        },
+        "billed_vs_estimated": {
+          "support": "supported",
+          "answer": "Estimates at API prices, never billed amounts; completeness labels.",
+          "evidenceIds": [
+            "spend"
+          ]
+        },
+        "tokens": {
+          "support": "supported",
+          "answer": "Input, output, cache.",
+          "evidenceIds": [
+            "http"
+          ]
+        },
+        "subscription_allowance": {
+          "support": "supported",
+          "answer": "Claude Code and Codex limit windows.",
+          "evidenceIds": [
+            "dash"
+          ]
+        },
+        "provider_reconciliation": {
+          "support": "unsupported",
+          "answer": "Sortie never asks the provider for a bill.",
+          "evidenceIds": [
+            "spend"
+          ]
+        },
+        "compute_cost": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "spend"
+          ]
+        },
+        "refresh_delay": {
+          "support": "partial",
+          "answer": "Dashboard rereads on change signals, History at most every 5 seconds.",
+          "evidenceIds": [
+            "dash"
+          ]
+        },
+        "alerts": {
+          "support": "supported",
+          "answer": "Budget reached attention items and limit bars.",
+          "evidenceIds": [
+            "dash"
+          ]
+        },
+        "export": {
+          "support": "supported",
+          "answer": "JSON API and sortie stats.",
+          "evidenceIds": [
+            "http"
+          ]
+        },
+        "drilldown": {
+          "support": "supported",
+          "answer": "Summary to issue to session to span.",
+          "evidenceIds": [
+            "http"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly established: child_cost partial; epic_cost unsupported; provider_reconciliation unsupported; compute_cost unsupported; refresh_delay partial."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "spend",
+        "dash",
+        "costs",
+        "wf-cfg",
+        "http"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch14",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "sortie:RUN-08",
+      "criterionId": "RUN-08",
+      "answer": "Global and per-state concurrency caps, queues in dispatch order, retry backoff and budget gates; no CPU/RAM awareness; SSH worker pool spreads load; no shared check cache.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v1.32.0 (commit 0e2e1cd, released 2026-11-10); docs repository commit 61aec36",
+        "plan": "Open source (Apache-2.0), self-run binary or container",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "concurrency": {
+          "support": "supported",
+          "answer": "max_concurrent_agents and by state.",
+          "evidenceIds": [
+            "wf-cfg"
+          ]
+        },
+        "queues": {
+          "support": "supported",
+          "answer": "Dispatch order and retry queue.",
+          "evidenceIds": [
+            "dash"
+          ]
+        },
+        "cpu_ram": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "wf-cfg"
+          ]
+        },
+        "backpressure": {
+          "support": "partial",
+          "answer": "Caps and budget stops; tracker rate-limit handling by adapters.",
+          "evidenceIds": [
+            "wf-cfg"
+          ]
+        },
+        "host_awareness": {
+          "support": "partial",
+          "answer": "Per SSH host settings.",
+          "evidenceIds": [
+            "ssh"
+          ]
+        },
+        "check_reuse": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-pr"
+          ]
+        },
+        "check_deduplication": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-pr"
+          ]
+        },
+        "bounded_tests": {
+          "support": "partial",
+          "answer": "Self-review verification commands with timeouts.",
+          "evidenceIds": [
+            "wf-cfg"
+          ]
+        },
+        "cancellation": {
+          "support": "partial",
+          "answer": "Tracker state change; signals.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "fairness": {
+          "support": "partial",
+          "answer": "Dispatch order.",
+          "evidenceIds": [
+            "dash"
+          ]
+        },
+        "recovery": {
+          "support": "supported",
+          "answer": "Warm start.",
+          "evidenceIds": [
+            "persist"
+          ]
+        },
+        "shared_limits": {
+          "support": "supported",
+          "answer": "Instance-wide cost and concurrency caps.",
+          "evidenceIds": [
+            "wf-cfg"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly established: cpu_ram unsupported; backpressure partial; host_awareness partial; check_reuse unsupported; check_deduplication unsupported; bounded_tests partial; cancellation partial; fairness partial."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "wf-cfg",
+        "ssh",
+        "dash",
+        "srch-pr",
+        "cli",
+        "persist"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch14",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "sortie:TEAM-01",
+      "criterionId": "TEAM-01",
+      "answer": "Collaboration is via the tracker: comments from write-access authors reach the agent; the dashboard is shared by anyone who can reach the port (no authentication, no presence).",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "dashboard"
+        ],
+        "version": "v1.32.0 (commit 0e2e1cd, released 2026-11-10); docs repository commit 61aec36",
+        "plan": "Open source (Apache-2.0), self-run binary or container",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "visibility": {
+          "support": "partial",
+          "answer": "Dashboard to anyone who reaches the port.",
+          "evidenceIds": [
+            "dash"
+          ]
+        },
+        "discussion": {
+          "support": "supported",
+          "answer": "Tracker comments reach the agent.",
+          "evidenceIds": [
+            "steer"
+          ]
+        },
+        "comments": {
+          "support": "supported",
+          "answer": "Comment feed.",
+          "evidenceIds": [
+            "steer"
+          ]
+        },
+        "presence": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "coprompting": {
+          "support": "partial",
+          "answer": "Any permitted commenter steers asynchronously at turn boundaries.",
+          "evidenceIds": [
+            "steer"
+          ]
+        },
+        "ordering": {
+          "support": "partial",
+          "answer": "Comments delivered once per conversation in order.",
+          "evidenceIds": [
+            "steer"
+          ]
+        },
+        "conflicts": {
+          "support": "unknown",
+          "answer": "Conflicting comments are left to the agent.",
+          "evidenceIds": []
+        },
+        "attribution": {
+          "support": "partial",
+          "answer": "Tracker authorship.",
+          "evidenceIds": [
+            "steer"
+          ]
+        },
+        "permissions": {
+          "support": "supported",
+          "answer": "Default is authors with write access on GitHub, GitLab and Gitea.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "plan_restrictions": {
+          "support": "supported",
+          "answer": "None; open source.",
+          "evidenceIds": [
+            "license-file"
+          ]
+        },
+        "owner_online": {
+          "support": "unsupported",
+          "answer": "The daemon must run.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly established: visibility partial; presence unsupported; coprompting partial; ordering partial; conflicts unknown; attribution partial; owner_online unsupported."
+      ],
+      "unknownReason": "Unknown atomic parts (conflicts): Conflicting comments are left to the agent.",
+      "evidenceIds": [
+        "steer",
+        "dash",
+        "srch-team",
+        "security",
+        "license-file",
+        "readme"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch14",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "sortie:TEAM-02",
+      "criterionId": "TEAM-02",
+      "answer": "No roles, SSO or provisioning: the dashboard has no authentication and access follows network reachability; PR label commands require the forge triage role.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "dashboard"
+        ],
+        "version": "v1.32.0 (commit 0e2e1cd, released 2026-11-10); docs repository commit 61aec36",
+        "plan": "Open source (Apache-2.0), self-run binary or container",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "organization_roles": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "project_roles": {
+          "support": "partial",
+          "answer": "Tracker permissions determine who can steer or label.",
+          "evidenceIds": [
+            "labels"
+          ]
+        },
+        "task_roles": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "membership": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "sso": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "provisioning": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "unauthorized_access": {
+          "support": "partial",
+          "answer": "Cross-origin check for dashboard actions; otherwise rely on reverse proxy or VPN.",
+          "evidenceIds": [
+            "dash"
+          ]
+        },
+        "revocation": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "plan_scope": {
+          "support": "supported",
+          "answer": "No plans.",
+          "evidenceIds": [
+            "license-file"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly established: organization_roles unsupported; project_roles partial; task_roles unsupported; membership unsupported; sso unsupported; provisioning unsupported; unauthorized_access partial; revocation unsupported."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "dash",
+        "labels",
+        "srch-team",
+        "license-file"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch14",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "sortie:TEAM-03",
+      "criterionId": "TEAM-03",
+      "answer": "Agent approvals and sandboxes are passed through to each agent; Sortie offers budget caps, query filters, comment-author filters and the optional self-review step, but no product approval prompts or per-command approvals.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v1.32.0 (commit 0e2e1cd, released 2026-11-10); docs repository commit 61aec36",
+        "plan": "Open source (Apache-2.0), self-run binary or container",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "command": {
+          "support": "partial",
+          "answer": "Agent-level approval settings passed through.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "tool": {
+          "support": "partial",
+          "answer": "Agent-level (Claude allowedTools, Codex sandbox policy).",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "network": {
+          "support": "partial",
+          "answer": "Restricted-network guide only.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "secret": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "delivery": {
+          "support": "partial",
+          "answer": "Handoff state requires a human to merge.",
+          "evidenceIds": [
+            "wf-cfg"
+          ]
+        },
+        "approver_identity": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "lifetime": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "allow": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "deny": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "revoke": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "tunnels": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-tele"
+          ]
+        },
+        "defaults": {
+          "support": "partial",
+          "answer": "Agent defaults; query_filter recommended.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "safer_modes": {
+          "support": "partial",
+          "answer": "Agent sandbox passthrough.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "enforcement": {
+          "support": "partial",
+          "answer": "Workspace invariants enforced; the rest is passed through.",
+          "evidenceIds": [
+            "security"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly established: command partial; tool partial; network partial; secret unsupported; delivery partial; approver_identity unsupported; lifetime unsupported; allow unsupported; deny unsupported; revoke unsupported; tunnels unsupported; defaults partial; safer_modes partial; enforcement partial."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "security",
+        "wf-cfg",
+        "srch-team",
+        "srch-tele"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch14",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "sortie:TEAM-04",
+      "criterionId": "TEAM-04",
+      "answer": "Run history, agent events, attention acknowledgements and tracker comments are persisted in SQLite and the tracker; no audit model with integrity.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "dashboard"
+        ],
+        "version": "v1.32.0 (commit 0e2e1cd, released 2026-11-10); docs repository commit 61aec36",
+        "plan": "Open source (Apache-2.0), self-run binary or container",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "actions": {
+          "support": "supported",
+          "answer": "Run events and notifications.",
+          "evidenceIds": [
+            "http"
+          ]
+        },
+        "approvals": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        },
+        "edits": {
+          "support": "partial",
+          "answer": "Agent diffs in git history.",
+          "evidenceIds": [
+            "wf-cfg"
+          ]
+        },
+        "discussion": {
+          "support": "supported",
+          "answer": "Tracker comments.",
+          "evidenceIds": [
+            "steer"
+          ]
+        },
+        "decisions": {
+          "support": "partial",
+          "answer": "Handoff outcomes.",
+          "evidenceIds": [
+            "dash"
+          ]
+        },
+        "cross_user_persistence": {
+          "support": "partial",
+          "answer": "Per instance database.",
+          "evidenceIds": [
+            "persist"
+          ]
+        },
+        "cross_session_persistence": {
+          "support": "supported",
+          "answer": "SQLite.",
+          "evidenceIds": [
+            "persist"
+          ]
+        },
+        "export": {
+          "support": "supported",
+          "answer": "JSON API.",
+          "evidenceIds": [
+            "http"
+          ]
+        },
+        "mutability": {
+          "support": "unknown",
+          "answer": "Database is local and editable.",
+          "evidenceIds": []
+        },
+        "retention": {
+          "support": "partial",
+          "answer": "Event retention settings documented.",
+          "evidenceIds": [
+            "http"
+          ]
+        },
+        "integrity": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-team"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly established: approvals unsupported; edits partial; decisions partial; cross_user_persistence partial; mutability unknown; retention partial; integrity unsupported."
+      ],
+      "unknownReason": "Unknown atomic parts (mutability): Database is local and editable.",
+      "evidenceIds": [
+        "persist",
+        "http",
+        "srch-team",
+        "wf-cfg",
+        "steer",
+        "dash"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch14",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "sortie:TEAM-05",
+      "criterionId": "TEAM-05",
+      "answer": "Review happens on the forge PR; Sortie routes request-changes reviews and CI failures back to the agent, offers label commands for a read-only review or a fix, and an optional self-review loop; dashboard shows PR waiting states.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "dashboard"
+        ],
+        "version": "v1.32.0 (commit 0e2e1cd, released 2026-11-10); docs repository commit 61aec36",
+        "plan": "Open source (Apache-2.0), self-run binary or container",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "pending_reviews": {
+          "support": "partial",
+          "answer": "Waiting-on-PR phase in dashboard.",
+          "evidenceIds": [
+            "dash"
+          ]
+        },
+        "change_understanding": {
+          "support": "unsupported",
+          "answer": "Not provided beyond the PR.",
+          "evidenceIds": [
+            "srch-pr"
+          ]
+        },
+        "evidence_navigation": {
+          "support": "partial",
+          "answer": "Links to PR and CI.",
+          "evidenceIds": [
+            "dash"
+          ]
+        },
+        "comments": {
+          "support": "supported",
+          "answer": "Review comments are routed to the agent.",
+          "evidenceIds": [
+            "review"
+          ]
+        },
+        "request_changes": {
+          "support": "supported",
+          "answer": "Request-changes verdict triggers continuation.",
+          "evidenceIds": [
+            "review"
+          ]
+        },
+        "shipping_guidance": {
+          "support": "partial",
+          "answer": "Handoff state tells a person to review.",
+          "evidenceIds": [
+            "wf-cfg"
+          ]
+        },
+        "effort": {
+          "support": "unknown",
+          "answer": "Not documented.",
+          "evidenceIds": []
+        },
+        "missed_evidence": {
+          "support": "unknown",
+          "answer": "Not documented.",
+          "evidenceIds": []
+        },
+        "keyboard": {
+          "support": "supported",
+          "answer": "Keyboard shortcuts and command palette in the dashboard.",
+          "evidenceIds": [
+            "dash"
+          ]
+        },
+        "narrow_screen": {
+          "support": "supported",
+          "answer": "Narrow-screen layout documented.",
+          "evidenceIds": [
+            "dash"
+          ]
+        },
+        "context_switching": {
+          "support": "partial",
+          "answer": "Open PR links.",
+          "evidenceIds": [
+            "dash"
+          ]
+        },
+        "roles": {
+          "support": "partial",
+          "answer": "Same-model self-review.",
+          "evidenceIds": [
+            "wf-cfg"
+          ]
+        },
+        "retained_context": {
+          "support": "supported",
+          "answer": "Run history.",
+          "evidenceIds": [
+            "persist"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly established: pending_reviews partial; change_understanding unsupported; evidence_navigation partial; shipping_guidance partial; effort unknown; missed_evidence unknown; context_switching partial; roles partial."
+      ],
+      "unknownReason": "Unknown atomic parts (effort, missed_evidence): Not documented. Not documented.",
+      "evidenceIds": [
+        "review",
+        "labels",
+        "ci",
+        "dash",
+        "srch-pr",
+        "wf-cfg",
+        "persist"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch14",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "sortie:TEAM-06",
+      "criterionId": "TEAM-06",
+      "answer": "No takeover mechanism: a person can continue on the branch/PR in the forge; run history stays in the instance.",
+      "support": "unsupported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v1.32.0 (commit 0e2e1cd, released 2026-11-10); docs repository commit 61aec36",
+        "plan": "Open source (Apache-2.0), self-run binary or container",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "ongoing_takeover": {
+          "support": "unsupported",
+          "answer": "No takeover feature; work state is tracker and git.",
+          "evidenceIds": [
+            "persist"
+          ]
+        },
+        "same_task": {
+          "support": "unsupported",
+          "answer": "No takeover feature; work state is tracker and git.",
+          "evidenceIds": [
+            "persist"
+          ]
+        },
+        "session_history": {
+          "support": "unsupported",
+          "answer": "No takeover feature; work state is tracker and git.",
+          "evidenceIds": [
+            "persist"
+          ]
+        },
+        "decisions": {
+          "support": "unsupported",
+          "answer": "No takeover feature; work state is tracker and git.",
+          "evidenceIds": [
+            "persist"
+          ]
+        },
+        "artifacts": {
+          "support": "unsupported",
+          "answer": "No takeover feature; work state is tracker and git.",
+          "evidenceIds": [
+            "persist"
+          ]
+        },
+        "permissions": {
+          "support": "unsupported",
+          "answer": "No takeover feature; work state is tracker and git.",
+          "evidenceIds": [
+            "persist"
+          ]
+        },
+        "runtime_context": {
+          "support": "unsupported",
+          "answer": "No takeover feature; work state is tracker and git.",
+          "evidenceIds": [
+            "persist"
+          ]
+        },
+        "owner_disconnect": {
+          "support": "unsupported",
+          "answer": "No takeover feature; work state is tracker and git.",
+          "evidenceIds": [
+            "persist"
+          ]
+        },
+        "ownership": {
+          "support": "unsupported",
+          "answer": "No takeover feature; work state is tracker and git.",
+          "evidenceIds": [
+            "persist"
+          ]
+        },
+        "attribution": {
+          "support": "unsupported",
+          "answer": "No takeover feature; work state is tracker and git.",
+          "evidenceIds": [
+            "persist"
+          ]
+        },
+        "context_loss": {
+          "support": "unsupported",
+          "answer": "No takeover feature; work state is tracker and git.",
+          "evidenceIds": [
+            "persist"
+          ]
+        },
+        "harness_transfer": {
+          "support": "unsupported",
+          "answer": "No takeover feature; work state is tracker and git.",
+          "evidenceIds": [
+            "persist"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "persist"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch14",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "sortie:SHIP-01",
+      "criterionId": "SHIP-01",
+      "answer": "Branches/PRs in the forge, agent events and run history in SQLite, session view in the dashboard; no artifact gallery, screenshots or recordings.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "dashboard"
+        ],
+        "version": "v1.32.0 (commit 0e2e1cd, released 2026-11-10); docs repository commit 61aec36",
+        "plan": "Open source (Apache-2.0), self-run binary or container",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "diffs": {
+          "support": "partial",
+          "answer": "Via PR link.",
+          "evidenceIds": [
+            "dash"
+          ]
+        },
+        "documents": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-pr"
+          ]
+        },
+        "screenshots": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-pr"
+          ]
+        },
+        "recordings": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-pr"
+          ]
+        },
+        "previews": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-pr"
+          ]
+        },
+        "test_outputs": {
+          "support": "partial",
+          "answer": "Self-review verification output; CI log excerpts fed back.",
+          "evidenceIds": [
+            "wf-cfg",
+            "ci"
+          ]
+        },
+        "reviewer_outputs": {
+          "support": "partial",
+          "answer": "Review session events.",
+          "evidenceIds": [
+            "labels"
+          ]
+        },
+        "gallery": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-pr"
+          ]
+        },
+        "task_links": {
+          "support": "supported",
+          "answer": "Issue to PR links.",
+          "evidenceIds": [
+            "dash"
+          ]
+        },
+        "revision_links": {
+          "support": "partial",
+          "answer": "PR number via scm.json.",
+          "evidenceIds": [
+            "ci"
+          ]
+        },
+        "persistence": {
+          "support": "supported",
+          "answer": "SQLite and workspaces retention.",
+          "evidenceIds": [
+            "persist"
+          ]
+        },
+        "child_findings": {
+          "support": "partial",
+          "answer": "Run events.",
+          "evidenceIds": [
+            "http"
+          ]
+        },
+        "prompt_leakage": {
+          "support": "unknown",
+          "answer": "Not documented.",
+          "evidenceIds": []
+        }
+      },
+      "limitations": [
+        "Partly established: diffs partial; documents unsupported; screenshots unsupported; recordings unsupported; previews unsupported; test_outputs partial; reviewer_outputs partial; gallery unsupported; revision_links partial; child_findings partial; prompt_leakage unknown."
+      ],
+      "unknownReason": "Unknown atomic parts (prompt_leakage): Not documented.",
+      "evidenceIds": [
+        "dash",
+        "http",
+        "srch-pr",
+        "wf-cfg",
+        "ci",
+        "labels",
+        "persist"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch14",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "sortie:SHIP-02",
+      "criterionId": "SHIP-02",
+      "answer": "Optional self-review with verification commands (go test etc.), CI-failure reaction that feeds failing checks back to the agent with retry limits and escalation, and review-comment routing; handoff to a human for merge. No spec gates.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v1.32.0 (commit 0e2e1cd, released 2026-11-10); docs repository commit 61aec36",
+        "plan": "Open source (Apache-2.0), self-run binary or container",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "tests": {
+          "support": "supported",
+          "answer": "Self-review verification commands.",
+          "evidenceIds": [
+            "wf-cfg"
+          ]
+        },
+        "lint": {
+          "support": "supported",
+          "answer": "Any verification command.",
+          "evidenceIds": [
+            "wf-cfg"
+          ]
+        },
+        "types": {
+          "support": "supported",
+          "answer": "Any verification command.",
+          "evidenceIds": [
+            "wf-cfg"
+          ]
+        },
+        "ci": {
+          "support": "supported",
+          "answer": "CI feedback reaction via forge status.",
+          "evidenceIds": [
+            "ci"
+          ]
+        },
+        "independent_review": {
+          "support": "partial",
+          "answer": "Same-model self-review; label-triggered review session.",
+          "evidenceIds": [
+            "wf-cfg",
+            "labels"
+          ]
+        },
+        "spec_checks": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-pr"
+          ]
+        },
+        "required_checks": {
+          "support": "partial",
+          "answer": "Opt-in per workflow.",
+          "evidenceIds": [
+            "wf-cfg"
+          ]
+        },
+        "failure_blocking": {
+          "support": "partial",
+          "answer": "Failed CI triggers fixes then escalates; merge is not blocked by Sortie.",
+          "evidenceIds": [
+            "ci"
+          ]
+        },
+        "requirement_conflicts": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-pr"
+          ]
+        },
+        "configured_policy": {
+          "support": "supported",
+          "answer": "reactions and self_review blocks.",
+          "evidenceIds": [
+            "wf-cfg"
+          ]
+        },
+        "enforced_policy": {
+          "support": "partial",
+          "answer": "Enforced up to handoff; merge is the forge's.",
+          "evidenceIds": [
+            "ci"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly established: independent_review partial; spec_checks unsupported; required_checks partial; failure_blocking partial; requirement_conflicts unsupported; enforced_policy partial."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "wf-cfg",
+        "ci",
+        "review",
+        "labels",
+        "srch-pr"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch14",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "sortie:SHIP-03",
+      "criterionId": "SHIP-03",
+      "answer": "Branch-per-issue and commit/push/PR creation are hook or agent actions; Sortie reads PR status, CI and reviews through GitHub, Gitea and GitLab adapters and feeds them back. It does not create or merge PRs itself.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v1.32.0 (commit 0e2e1cd, released 2026-11-10); docs repository commit 61aec36",
+        "plan": "Open source (Apache-2.0), self-run binary or container",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "branches": {
+          "support": "partial",
+          "answer": "Hook pattern (sortie/<issue>).",
+          "evidenceIds": [
+            "wf-cfg"
+          ]
+        },
+        "worktrees": {
+          "support": "partial",
+          "answer": "Optional via hooks.",
+          "evidenceIds": [
+            "isolation"
+          ]
+        },
+        "commits": {
+          "support": "partial",
+          "answer": "after_run hook commits.",
+          "evidenceIds": [
+            "wf-cfg"
+          ]
+        },
+        "pull_requests": {
+          "support": "partial",
+          "answer": "Agent or hook opens PR; Sortie records pr_number and watches it.",
+          "evidenceIds": [
+            "srch-pr",
+            "ci"
+          ]
+        },
+        "comments": {
+          "support": "supported",
+          "answer": "Review comments routed to the agent.",
+          "evidenceIds": [
+            "review"
+          ]
+        },
+        "ci_response": {
+          "support": "supported",
+          "answer": "CI failure feedback loop.",
+          "evidenceIds": [
+            "ci"
+          ]
+        },
+        "rebase": {
+          "support": "unknown",
+          "answer": "Not documented.",
+          "evidenceIds": []
+        },
+        "conflicts": {
+          "support": "unknown",
+          "answer": "Not documented.",
+          "evidenceIds": []
+        },
+        "product_state": {
+          "support": "supported",
+          "answer": "Waiting-on-PR phase and reaction state.",
+          "evidenceIds": [
+            "dash"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly established: branches partial; worktrees partial; commits partial; pull_requests partial; rebase unknown; conflicts unknown."
+      ],
+      "unknownReason": "Unknown atomic parts (rebase, conflicts): Not documented. Not documented.",
+      "evidenceIds": [
+        "ci",
+        "review",
+        "wf-cfg",
+        "srch-pr",
+        "isolation",
+        "dash"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch14",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "sortie:SHIP-04",
+      "criterionId": "SHIP-04",
+      "answer": "Merge, release and deploy stay with people and the forge: Sortie hands the issue off for review; label commands only request reviews or fixes.",
+      "support": "unsupported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v1.32.0 (commit 0e2e1cd, released 2026-11-10); docs repository commit 61aec36",
+        "plan": "Open source (Apache-2.0), self-run binary or container",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "approve": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-pr"
+          ]
+        },
+        "merge": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-pr"
+          ]
+        },
+        "release": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-pr"
+          ]
+        },
+        "deploy": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-pr"
+          ]
+        },
+        "exact_revision": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-pr"
+          ]
+        },
+        "authority_enforcement": {
+          "support": "unsupported",
+          "answer": "Not provided.",
+          "evidenceIds": [
+            "srch-pr"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "wf-cfg",
+        "srch-pr"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch14",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "sortie:SHIP-05",
+      "criterionId": "SHIP-05",
+      "answer": "Run history links issue, dispatch, session cost and PR; outcomes record merged/closed/handoff; no rollback or revert features.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "dashboard"
+        ],
+        "version": "v1.32.0 (commit 0e2e1cd, released 2026-11-10); docs repository commit 61aec36",
+        "plan": "Open source (Apache-2.0), self-run binary or container",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "commit_links": {
+          "support": "unknown",
+          "answer": "Commit links per run not documented.",
+          "evidenceIds": []
+        },
+        "pr_links": {
+          "support": "supported",
+          "answer": "PR link on issue page.",
+          "evidenceIds": [
+            "dash"
+          ]
+        },
+        "build_links": {
+          "support": "partial",
+          "answer": "CI status for the PR.",
+          "evidenceIds": [
+            "ci"
+          ]
+        },
+        "deployment_links": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-pr"
+          ]
+        },
+        "delivery_status": {
+          "support": "supported",
+          "answer": "Issue outcome words.",
+          "evidenceIds": [
+            "dash"
+          ]
+        },
+        "retained_evidence": {
+          "support": "supported",
+          "answer": "Run history and events.",
+          "evidenceIds": [
+            "http"
+          ]
+        },
+        "rollback": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-pr"
+          ]
+        },
+        "revert": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-pr"
+          ]
+        },
+        "stale_approval_invalidation": {
+          "support": "unsupported",
+          "answer": "No approvals.",
+          "evidenceIds": [
+            "srch-pr"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly established: commit_links unknown; build_links partial; deployment_links unsupported; rollback unsupported; revert unsupported; stale_approval_invalidation unsupported."
+      ],
+      "unknownReason": "Unknown atomic parts (commit_links): Commit links per run not documented.",
+      "evidenceIds": [
+        "dash",
+        "http",
+        "ci",
+        "srch-pr"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch14",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "sortie:SHIP-06",
+      "criterionId": "SHIP-06",
+      "answer": "No batch review queue; the dashboard pipeline shows issues waiting on PRs and attention items, and each PR is reviewed in the forge.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "dashboard"
+        ],
+        "version": "v1.32.0 (commit 0e2e1cd, released 2026-11-10); docs repository commit 61aec36",
+        "plan": "Open source (Apache-2.0), self-run binary or container",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "review_queue": {
+          "support": "partial",
+          "answer": "Waiting on PR filter.",
+          "evidenceIds": [
+            "dash"
+          ]
+        },
+        "summaries": {
+          "support": "partial",
+          "answer": "Status words and outcomes.",
+          "evidenceIds": [
+            "dash"
+          ]
+        },
+        "grouping": {
+          "support": "partial",
+          "answer": "By phase and rule.",
+          "evidenceIds": [
+            "dash"
+          ]
+        },
+        "risk_size_filters": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-pr"
+          ]
+        },
+        "findings": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-pr"
+          ]
+        },
+        "artifacts": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-pr"
+          ]
+        },
+        "request_changes": {
+          "support": "supported",
+          "answer": "Routed to the agent.",
+          "evidenceIds": [
+            "review"
+          ]
+        },
+        "exact_revision_approval": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-pr"
+          ]
+        },
+        "dependency_queues": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-pr"
+          ]
+        },
+        "next_actions": {
+          "support": "supported",
+          "answer": "Attention items state the next action.",
+          "evidenceIds": [
+            "dash"
+          ]
+        },
+        "stale_approval_invalidation": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-pr"
+          ]
+        },
+        "check_deduplication": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-pr"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly established: review_queue partial; summaries partial; grouping partial; risk_size_filters unsupported; findings unsupported; artifacts unsupported; exact_revision_approval unsupported; dependency_queues unsupported; stale_approval_invalidation unsupported; check_deduplication unsupported."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "dash",
+        "srch-pr",
+        "review"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch14",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "sortie:OWN-01",
+      "criterionId": "OWN-01",
+      "answer": "Apache-2.0 for the whole repository (daemon, adapters, dashboard); docs and website in separate public repositories; no hosted component.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli",
+          "dashboard"
+        ],
+        "version": "v1.32.0 (commit 0e2e1cd, released 2026-11-10); docs repository commit 61aec36",
+        "plan": "Open source (Apache-2.0), self-run binary or container",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "client_license": {
+          "support": "supported",
+          "answer": "Apache-2.0.",
+          "evidenceIds": [
+            "license-file"
+          ]
+        },
+        "server_license": {
+          "support": "supported",
+          "answer": "Daemon and dashboard server under Apache-2.0.",
+          "evidenceIds": [
+            "license-file"
+          ]
+        },
+        "hosted_extensions": {
+          "support": "unsupported",
+          "answer": "No hosted service found.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "source_visibility": {
+          "support": "supported",
+          "answer": "Public.",
+          "evidenceIds": [
+            "repoapi"
+          ]
+        },
+        "source_revision": {
+          "support": "supported",
+          "answer": "Tag v1.32.0 at commit 0e2e1cd.",
+          "evidenceIds": [
+            "releases"
+          ]
+        },
+        "hosted_parity": {
+          "support": "unsupported",
+          "answer": "No hosted offering.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly established: hosted_extensions unsupported; hosted_parity unsupported."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "license-file",
+        "repoapi",
+        "readme",
+        "releases"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-05-16",
+      "researcher": "researcher-batch14",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "sortie:OWN-02",
+      "criterionId": "OWN-02",
+      "answer": "Self-run single binary with SQLite state; depends only on your tracker, agents and (optionally) forge; run history is exportable through the API.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v1.32.0 (commit 0e2e1cd, released 2026-11-10); docs repository commit 61aec36",
+        "plan": "Open source (Apache-2.0), self-run binary or container",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "self_hosting": {
+          "support": "supported",
+          "answer": "Binary or container, Kubernetes guide.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "vendor_dependencies": {
+          "support": "supported",
+          "answer": "None beyond tracker and agent providers.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "export": {
+          "support": "supported",
+          "answer": "JSON API and stats.",
+          "evidenceIds": [
+            "http"
+          ]
+        },
+        "import": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "wf-cfg"
+          ]
+        },
+        "formats": {
+          "support": "supported",
+          "answer": "SQLite, JSON, Markdown workflow.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "cancellation": {
+          "support": "unsupported",
+          "answer": "No account.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "account_independence": {
+          "support": "supported",
+          "answer": "No account.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "history_portability": {
+          "support": "partial",
+          "answer": "SQLite file and JSON API.",
+          "evidenceIds": [
+            "persist"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly established: import unsupported; cancellation unsupported; history_portability partial."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "arch",
+        "http",
+        "wf-cfg",
+        "persist"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-05-16",
+      "researcher": "researcher-batch14",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "sortie:OWN-03",
+      "criterionId": "OWN-03",
+      "answer": "Sortie sends no telemetry (README, confirmed by a bounded search); code and prompts go to your tracker and agent providers; tokens held in the environment; redaction in logs; releases carry SBOMs and are code-signed per a published policy.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v1.32.0 (commit 0e2e1cd, released 2026-11-10); docs repository commit 61aec36",
+        "plan": "Open source (Apache-2.0), self-run binary or container",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "code_data": {
+          "support": "supported",
+          "answer": "Stays on your host except via the agent and tracker.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "prompts": {
+          "support": "supported",
+          "answer": "Sent to the agent provider and tracker comments.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "credentials": {
+          "support": "partial",
+          "answer": "Environment variables and env-file; redact package.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "logs": {
+          "support": "supported",
+          "answer": "Local logs and SQLite.",
+          "evidenceIds": [
+            "cli"
+          ]
+        },
+        "artifacts": {
+          "support": "supported",
+          "answer": "Local workspaces.",
+          "evidenceIds": [
+            "isolation"
+          ]
+        },
+        "retention": {
+          "support": "partial",
+          "answer": "Workspace and event retention settings.",
+          "evidenceIds": [
+            "wf-cfg"
+          ]
+        },
+        "deletion": {
+          "support": "partial",
+          "answer": "Remove workspaces/database.",
+          "evidenceIds": [
+            "wf-cfg"
+          ]
+        },
+        "training": {
+          "support": "unknown",
+          "answer": "Provider policy.",
+          "evidenceIds": []
+        },
+        "residency": {
+          "support": "unknown",
+          "answer": "Provider-dependent.",
+          "evidenceIds": []
+        },
+        "subprocessors": {
+          "support": "unknown",
+          "answer": "No vendor.",
+          "evidenceIds": []
+        },
+        "telemetry_disclosure": {
+          "support": "supported",
+          "answer": "README states no telemetry.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "telemetry_defaults": {
+          "support": "supported",
+          "answer": "Nothing sent.",
+          "evidenceIds": [
+            "srch-tele"
+          ]
+        },
+        "telemetry_controls": {
+          "support": "unsupported",
+          "answer": "None needed or provided.",
+          "evidenceIds": [
+            "srch-tele"
+          ]
+        },
+        "consent_prompt": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-tele"
+          ]
+        },
+        "provider_separation": {
+          "support": "supported",
+          "answer": "Provider policies are separate.",
+          "evidenceIds": [
+            "security"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly established: credentials partial; retention partial; deletion partial; training unknown; residency unknown; subprocessors unknown; telemetry_controls unsupported; consent_prompt unsupported."
+      ],
+      "unknownReason": "Unknown atomic parts (training, residency, subprocessors): Provider policy. Provider-dependent. No vendor.",
+      "evidenceIds": [
+        "readme",
+        "srch-tele",
+        "security",
+        "cli",
+        "isolation",
+        "wf-cfg"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch14",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "sortie:OWN-04",
+      "criterionId": "OWN-04",
+      "answer": "Free open-source software; no paid plan, seats or credits in the repository or documentation. Agent and tracker costs are separate.",
+      "support": "supported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v1.32.0 (commit 0e2e1cd, released 2026-11-10); docs repository commit 61aec36",
+        "plan": "Open source (Apache-2.0), self-run binary or container",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "currency": {
+          "support": "unsupported",
+          "answer": "No price: free Apache-2.0 software; agent and compute costs are the user's.",
+          "evidenceIds": [
+            "license-file",
+            "readme"
+          ]
+        },
+        "interval": {
+          "support": "unsupported",
+          "answer": "No price: free Apache-2.0 software; agent and compute costs are the user's.",
+          "evidenceIds": [
+            "license-file",
+            "readme"
+          ]
+        },
+        "seats": {
+          "support": "unsupported",
+          "answer": "No price: free Apache-2.0 software; agent and compute costs are the user's.",
+          "evidenceIds": [
+            "license-file",
+            "readme"
+          ]
+        },
+        "seat_minimum": {
+          "support": "unsupported",
+          "answer": "No price: free Apache-2.0 software; agent and compute costs are the user's.",
+          "evidenceIds": [
+            "license-file",
+            "readme"
+          ]
+        },
+        "workspace_fees": {
+          "support": "unsupported",
+          "answer": "No price: free Apache-2.0 software; agent and compute costs are the user's.",
+          "evidenceIds": [
+            "license-file",
+            "readme"
+          ]
+        },
+        "included_usage": {
+          "support": "unsupported",
+          "answer": "No price: free Apache-2.0 software; agent and compute costs are the user's.",
+          "evidenceIds": [
+            "license-file",
+            "readme"
+          ]
+        },
+        "credits": {
+          "support": "unsupported",
+          "answer": "No price: free Apache-2.0 software; agent and compute costs are the user's.",
+          "evidenceIds": [
+            "license-file",
+            "readme"
+          ]
+        },
+        "trial": {
+          "support": "unsupported",
+          "answer": "No price: free Apache-2.0 software; agent and compute costs are the user's.",
+          "evidenceIds": [
+            "license-file",
+            "readme"
+          ]
+        },
+        "overages": {
+          "support": "unsupported",
+          "answer": "No price: free Apache-2.0 software; agent and compute costs are the user's.",
+          "evidenceIds": [
+            "license-file",
+            "readme"
+          ]
+        },
+        "taxes": {
+          "support": "unsupported",
+          "answer": "No price: free Apache-2.0 software; agent and compute costs are the user's.",
+          "evidenceIds": [
+            "license-file",
+            "readme"
+          ]
+        },
+        "model_cost": {
+          "support": "unsupported",
+          "answer": "No price: free Apache-2.0 software; agent and compute costs are the user's.",
+          "evidenceIds": [
+            "license-file",
+            "readme"
+          ]
+        },
+        "compute_cost": {
+          "support": "unsupported",
+          "answer": "No price: free Apache-2.0 software; agent and compute costs are the user's.",
+          "evidenceIds": [
+            "license-file",
+            "readme"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "license-file",
+        "readme"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-01-16",
+      "researcher": "researcher-batch14",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "sortie:OWN-05",
+      "criterionId": "OWN-05",
+      "answer": "No product charge in any scenario; costs are agents, trackers and hosts.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v1.32.0 (commit 0e2e1cd, released 2026-11-10); docs repository commit 61aec36",
+        "plan": "Open source (Apache-2.0), self-run binary or container",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "one_person": {
+          "support": "supported",
+          "answer": "Free.",
+          "evidenceIds": [
+            "license-file"
+          ]
+        },
+        "two_people": {
+          "support": "supported",
+          "answer": "Free.",
+          "evidenceIds": [
+            "license-file"
+          ]
+        },
+        "five_people": {
+          "support": "supported",
+          "answer": "Free.",
+          "evidenceIds": [
+            "license-file"
+          ]
+        },
+        "task_assumptions": {
+          "support": "unknown",
+          "answer": "None invented.",
+          "evidenceIds": []
+        },
+        "concurrency": {
+          "support": "unknown",
+          "answer": "None.",
+          "evidenceIds": []
+        },
+        "tokens": {
+          "support": "unknown",
+          "answer": "Agent-dependent.",
+          "evidenceIds": []
+        },
+        "compute_hours": {
+          "support": "unknown",
+          "answer": "Host-dependent.",
+          "evidenceIds": []
+        },
+        "fixed_cost": {
+          "support": "supported",
+          "answer": "None.",
+          "evidenceIds": [
+            "license-file"
+          ]
+        },
+        "variable_cost": {
+          "support": "partial",
+          "answer": "Agent costs estimated in the dashboard.",
+          "evidenceIds": [
+            "spend"
+          ]
+        },
+        "included_cost": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "license-file"
+          ]
+        },
+        "unknown_cost": {
+          "support": "partial",
+          "answer": "Provider costs.",
+          "evidenceIds": [
+            "spend"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly established: task_assumptions unknown; concurrency unknown; tokens unknown; compute_hours unknown; variable_cost partial; included_cost unsupported; unknown_cost partial."
+      ],
+      "unknownReason": "Unknown atomic parts (task_assumptions, concurrency, tokens, compute_hours): None invented. None. Agent-dependent. Host-dependent.",
+      "evidenceIds": [
+        "license-file",
+        "spend"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch14",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "sortie:OWN-06",
+      "criterionId": "OWN-06",
+      "answer": "Actively maintained open-source project with weekly releases (v1.30.0 on 2026-10-23, v1.31.0 on 2026-10-31, v1.32.0 on 2026-11-10), signed release assets with SBOMs, Discord and GitHub support; no response commitments found.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v1.32.0 (commit 0e2e1cd, released 2026-11-10); docs repository commit 61aec36",
+        "plan": "Open source (Apache-2.0), self-run binary or container",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "release_stage": {
+          "support": "supported",
+          "answer": "v1.x GA.",
+          "evidenceIds": [
+            "releases"
+          ]
+        },
+        "access_restrictions": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "license-file"
+          ]
+        },
+        "support": {
+          "support": "partial",
+          "answer": "GitHub issues and Discord.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "response_commitments": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "release_activity": {
+          "support": "supported",
+          "answer": "Weekly releases.",
+          "evidenceIds": [
+            "releases"
+          ]
+        },
+        "status_history": {
+          "support": "unsupported",
+          "answer": "No status page.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "deprecation": {
+          "support": "unknown",
+          "answer": "None stated.",
+          "evidenceIds": []
+        },
+        "export_options": {
+          "support": "supported",
+          "answer": "JSON API and SQLite.",
+          "evidenceIds": [
+            "http"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly established: access_restrictions unsupported; support partial; response_commitments unsupported; status_history unsupported; deprecation unknown."
+      ],
+      "unknownReason": "Unknown atomic parts (deprecation): None stated.",
+      "evidenceIds": [
+        "releases",
+        "repoapi",
+        "license-file",
+        "readme",
+        "http"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch14",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "sortie:OWN-07",
+      "criterionId": "OWN-07",
+      "answer": "No ISO or SOC 2 assurance applies to a self-run open-source tool; none is claimed (a code-signing policy and SBOMs exist, which are not certifications).",
+      "support": "unknown",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v1.32.0 (commit 0e2e1cd, released 2026-11-10); docs repository commit 61aec36",
+        "plan": "Open source (Apache-2.0), self-run binary or container",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "iso_scope": {
+          "support": "unknown",
+          "answer": "No such assurance is referenced.",
+          "evidenceIds": []
+        },
+        "iso_issuer": {
+          "support": "unknown",
+          "answer": "No such assurance is referenced.",
+          "evidenceIds": []
+        },
+        "iso_validity": {
+          "support": "unknown",
+          "answer": "No such assurance is referenced.",
+          "evidenceIds": []
+        },
+        "soc2_type": {
+          "support": "unknown",
+          "answer": "No such assurance is referenced.",
+          "evidenceIds": []
+        },
+        "soc2_scope": {
+          "support": "unknown",
+          "answer": "No such assurance is referenced.",
+          "evidenceIds": []
+        },
+        "soc2_period": {
+          "support": "unknown",
+          "answer": "No such assurance is referenced.",
+          "evidenceIds": []
+        },
+        "report_access": {
+          "support": "unknown",
+          "answer": "No such assurance is referenced.",
+          "evidenceIds": []
+        },
+        "verification_date": {
+          "support": "unknown",
+          "answer": "No such assurance is referenced.",
+          "evidenceIds": []
+        },
+        "evidence_status": {
+          "support": "unknown",
+          "answer": "No such assurance is referenced.",
+          "evidenceIds": []
+        }
+      },
+      "limitations": [],
+      "unknownReason": "Certifications are business facts; none are claimed for this open-source project.",
+      "evidenceIds": [
+        "releases"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch14",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "sortie:OWN-08",
+      "criterionId": "OWN-08",
+      "answer": "Free open-source software; self-hosting costs only; no card, caps or paid evaluation.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v1.32.0 (commit 0e2e1cd, released 2026-11-10); docs repository commit 61aec36",
+        "plan": "Open source (Apache-2.0), self-run binary or container",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "ongoing_free": {
+          "support": "supported",
+          "answer": "Free.",
+          "evidenceIds": [
+            "license-file"
+          ]
+        },
+        "trial": {
+          "support": "unsupported",
+          "answer": "Not applicable.",
+          "evidenceIds": [
+            "license-file"
+          ]
+        },
+        "credits_trial": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "license-file"
+          ]
+        },
+        "self_host_cost": {
+          "support": "supported",
+          "answer": "Own host plus agent and tracker costs.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "paid_only": {
+          "support": "unsupported",
+          "answer": "No.",
+          "evidenceIds": [
+            "license-file"
+          ]
+        },
+        "early_access": {
+          "support": "unsupported",
+          "answer": "No.",
+          "evidenceIds": [
+            "license-file"
+          ]
+        },
+        "free_scenarios": {
+          "support": "partial",
+          "answer": "Free covers BYO agents and remote SSH workers; no managed cloud, mobile or collaboration features.",
+          "evidenceIds": [
+            "ssh",
+            "readme"
+          ]
+        },
+        "card_required": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "license-file"
+          ]
+        },
+        "usage_caps": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "license-file"
+          ]
+        },
+        "paid_evaluation": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "license-file"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly established: trial unsupported; credits_trial unsupported; paid_only unsupported; early_access unsupported; free_scenarios partial; card_required unsupported; usage_caps unsupported; paid_evaluation unsupported."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "license-file",
+        "readme",
+        "ssh"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-01-16",
+      "researcher": "researcher-batch14",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "sortie:OWN-09",
+      "criterionId": "OWN-09",
+      "answer": "No pricing exists for the software.",
+      "support": "unsupported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "v1.32.0 (commit 0e2e1cd, released 2026-11-10); docs repository commit 61aec36",
+        "plan": "Open source (Apache-2.0), self-run binary or container",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "units": {
+          "support": "unsupported",
+          "answer": "No pricing exists for the software itself.",
+          "evidenceIds": [
+            "license-file"
+          ]
+        },
+        "included_limits": {
+          "support": "unsupported",
+          "answer": "No pricing exists for the software itself.",
+          "evidenceIds": [
+            "license-file"
+          ]
+        },
+        "overages": {
+          "support": "unsupported",
+          "answer": "No pricing exists for the software itself.",
+          "evidenceIds": [
+            "license-file"
+          ]
+        },
+        "compute_markup": {
+          "support": "unsupported",
+          "answer": "No pricing exists for the software itself.",
+          "evidenceIds": [
+            "license-file"
+          ]
+        },
+        "model_markup": {
+          "support": "unsupported",
+          "answer": "No pricing exists for the software itself.",
+          "evidenceIds": [
+            "license-file"
+          ]
+        },
+        "minimum_commitment": {
+          "support": "unsupported",
+          "answer": "No pricing exists for the software itself.",
+          "evidenceIds": [
+            "license-file"
+          ]
+        },
+        "cancellation": {
+          "support": "unsupported",
+          "answer": "No pricing exists for the software itself.",
+          "evidenceIds": [
+            "license-file"
+          ]
+        },
+        "sales_only_unknowns": {
+          "support": "unsupported",
+          "answer": "No pricing exists for the software itself.",
+          "evidenceIds": [
+            "license-file"
+          ]
+        },
+        "transparency_classification": {
+          "support": "unsupported",
+          "answer": "No pricing exists for the software itself.",
+          "evidenceIds": [
+            "license-file"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "license-file"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-01-16",
+      "researcher": "researcher-batch14",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    }
+  ],
+  "evidence": [
+    {
+      "id": "readme",
+      "kind": "documented",
+      "url": "https://github.com/sortie-ai/sortie/blob/0e2e1cde4f04a82e0786cc287a0f8ec25a78ec8b/README.md",
+      "title": "Sortie README",
+      "locator": "The Problem; Works With; Install; How It Works",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "Open-source orchestrator that runs Claude Code, Copilot, OpenCode, Codex, Kiro and Gemini on GitHub, GitLab, Gitea, Linear and Jira issues in parallel on your own machine or server; WORKFLOW.md config; CI and review feedback; dashboard, JSON API, Prometheus; single binary, no database to deploy, no telemetry.",
+      "visibility": "public",
+      "commit": null,
+      "path": "README.md"
+    },
+    {
+      "id": "wf-cfg",
+      "kind": "documented",
+      "url": "https://github.com/sortie-ai/docs/blob/61aec367b649fe487a15270e79c08ed5b8a15ca1/content/reference/workflow-config.md",
+      "title": "WORKFLOW.md reference",
+      "locator": "Agent; dispatch; reactions; self_review; notifications",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "Limits (max_concurrent_agents, max_turns, max_sessions, max_tokens, max_cost_usd, daily/weekly/monthly cost), timeouts, retry backoff, dispatch rules and stage chains, reactions, self-review, notifications.",
+      "visibility": "public",
+      "commit": "61aec367b649fe487a15270e79c08ed5b8a15ca1",
+      "path": "content/reference/workflow-config.md"
+    },
+    {
+      "id": "dash",
+      "kind": "documented",
+      "url": "https://github.com/sortie-ai/docs/blob/61aec367b649fe487a15270e79c08ed5b8a15ca1/content/reference/dashboard.md",
+      "title": "Dashboard reference",
+      "locator": "Security; Overview; Pipeline; Actions; Attention items",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "Browser dashboard with Overview, Pipeline, History, Analytics, Health, Workflow, Prices; attention items, Acknowledge, Retry now and Check now actions; no authentication; default loopback bind.",
+      "visibility": "public",
+      "commit": "61aec367b649fe487a15270e79c08ed5b8a15ca1",
+      "path": "content/reference/dashboard.md"
+    },
+    {
+      "id": "http",
+      "kind": "documented",
+      "url": "https://github.com/sortie-ai/docs/blob/61aec367b649fe487a15270e79c08ed5b8a15ca1/content/reference/http-api.md",
+      "title": "HTTP API reference",
+      "locator": "Endpoints; Cross-origin requests",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "JSON API (state, runs, stats, prices, issue detail, events stream, reactions), health probes and Prometheus metrics on one port without authentication.",
+      "visibility": "public",
+      "commit": "61aec367b649fe487a15270e79c08ed5b8a15ca1",
+      "path": "content/reference/http-api.md"
+    },
+    {
+      "id": "cli",
+      "kind": "documented",
+      "url": "https://github.com/sortie-ai/docs/blob/61aec367b649fe487a15270e79c08ed5b8a15ca1/content/reference/cli.md",
+      "title": "CLI reference",
+      "locator": "Synopsis; Subcommands; Signals",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "sortie daemon with --once, --dry-run, --port, --host; subcommands validate, stats and mcp-server.",
+      "visibility": "public",
+      "commit": "61aec367b649fe487a15270e79c08ed5b8a15ca1",
+      "path": "content/reference/cli.md"
+    },
+    {
+      "id": "arch",
+      "kind": "documented",
+      "url": "https://github.com/sortie-ai/docs/blob/61aec367b649fe487a15270e79c08ed5b8a15ca1/content/concepts/architecture.md",
+      "title": "Architecture",
+      "locator": "One binary, no runtime dependencies",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "Single static Go binary; SQLite (pure Go) as the only storage; no Postgres, Redis or queue.",
+      "visibility": "public",
+      "commit": "61aec367b649fe487a15270e79c08ed5b8a15ca1",
+      "path": "content/concepts/architecture.md"
+    },
+    {
+      "id": "isolation",
+      "kind": "documented",
+      "url": "https://github.com/sortie-ai/docs/blob/61aec367b649fe487a15270e79c08ed5b8a15ca1/content/concepts/isolation.md",
+      "title": "Isolation",
+      "locator": "What Sortie guarantees",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "Per-issue workspace directory, empty by default with lifecycle hooks; path containment, name sanitization and symlink rejection are enforced; git is operator-provided via hooks.",
+      "visibility": "public",
+      "commit": "61aec367b649fe487a15270e79c08ed5b8a15ca1",
+      "path": "content/concepts/isolation.md"
+    },
+    {
+      "id": "security",
+      "kind": "documented",
+      "url": "https://github.com/sortie-ai/docs/blob/61aec367b649fe487a15270e79c08ed5b8a15ca1/content/concepts/security.md",
+      "title": "Security model",
+      "locator": "Workspace isolation; prompt injection surface; comments",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "Sortie owns workspace invariants; agent sandboxes are passed through to each agent; no prompt filtering; query_filter restricts what reaches the agent; comment feed defaults to write-access authors.",
+      "visibility": "public",
+      "commit": "61aec367b649fe487a15270e79c08ed5b8a15ca1",
+      "path": "content/concepts/security.md"
+    },
+    {
+      "id": "persist",
+      "kind": "documented",
+      "url": "https://github.com/sortie-ai/docs/blob/61aec367b649fe487a15270e79c08ed5b8a15ca1/content/concepts/persistence.md",
+      "title": "Persistence",
+      "locator": "Warm start vs cold start",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "SQLite stores retry entries with due_at, run history and counters, so restarts resume state.",
+      "visibility": "public",
+      "commit": "61aec367b649fe487a15270e79c08ed5b8a15ca1",
+      "path": "content/concepts/persistence.md"
+    },
+    {
+      "id": "spend",
+      "kind": "documented",
+      "url": "https://github.com/sortie-ai/docs/blob/61aec367b649fe487a15270e79c08ed5b8a15ca1/content/concepts/spend-measurement.md",
+      "title": "Spend measurement",
+      "locator": "Where a figure comes from; completeness",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "Costs are built from what each agent reports locally (live and records sources), recorded as complete or lower_bound, estimated at API prices; Sortie never asks the provider for a bill.",
+      "visibility": "public",
+      "commit": "61aec367b649fe487a15270e79c08ed5b8a15ca1",
+      "path": "content/concepts/spend-measurement.md"
+    },
+    {
+      "id": "tools",
+      "kind": "documented",
+      "url": "https://github.com/sortie-ai/docs/blob/61aec367b649fe487a15270e79c08ed5b8a15ca1/content/concepts/agent-tools.md",
+      "title": "Agent tools",
+      "locator": "The tier model",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "Agents get Sortie MCP tools: sortie_status, cost_budget, run history and tracker passthrough scoped to the configured project.",
+      "visibility": "public",
+      "commit": "61aec367b649fe487a15270e79c08ed5b8a15ca1",
+      "path": "content/concepts/agent-tools.md"
+    },
+    {
+      "id": "stages",
+      "kind": "documented",
+      "url": "https://github.com/sortie-ai/docs/blob/61aec367b649fe487a15270e79c08ed5b8a15ca1/content/concepts/stage-chains.md",
+      "title": "Stage chains",
+      "locator": "A stage is a dispatch rule",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "Dispatch rules can be chained with next and stage labels so an issue moves from step to step automatically.",
+      "visibility": "public",
+      "commit": "61aec367b649fe487a15270e79c08ed5b8a15ca1",
+      "path": "content/concepts/stage-chains.md"
+    },
+    {
+      "id": "costs",
+      "kind": "documented",
+      "url": "https://github.com/sortie-ai/docs/blob/61aec367b649fe487a15270e79c08ed5b8a15ca1/content/guides/control-costs.md",
+      "title": "Control costs",
+      "locator": "The cost levers",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "Per-issue session, token and dollar limits, instance daily/weekly/monthly dollar limits, turn and concurrency limits; only claude-code has a per-turn money cap.",
+      "visibility": "public",
+      "commit": "61aec367b649fe487a15270e79c08ed5b8a15ca1",
+      "path": "content/guides/control-costs.md"
+    },
+    {
+      "id": "sched",
+      "kind": "documented",
+      "url": "https://github.com/sortie-ai/docs/blob/61aec367b649fe487a15270e79c08ed5b8a15ca1/content/guides/schedule-agent-work.md",
+      "title": "Schedule agent work",
+      "locator": "Intro",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "Sortie has no internal scheduler; recurring work is done by creating tracker issues from the tracker or CI scheduler.",
+      "visibility": "public",
+      "commit": "61aec367b649fe487a15270e79c08ed5b8a15ca1",
+      "path": "content/guides/schedule-agent-work.md"
+    },
+    {
+      "id": "ssh",
+      "kind": "documented",
+      "url": "https://github.com/sortie-ai/docs/blob/61aec367b649fe487a15270e79c08ed5b8a15ca1/content/guides/scale-agents-with-ssh.md",
+      "title": "Scale agents with SSH",
+      "locator": "Prerequisites",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "Agent sessions can run on a pool of remote POSIX hosts over SSH; the orchestrator can run on any platform including Windows.",
+      "visibility": "public",
+      "commit": "61aec367b649fe487a15270e79c08ed5b8a15ca1",
+      "path": "content/guides/scale-agents-with-ssh.md"
+    },
+    {
+      "id": "ci",
+      "kind": "documented",
+      "url": "https://github.com/sortie-ai/docs/blob/61aec367b649fe487a15270e79c08ed5b8a15ca1/content/guides/configure-ci-feedback.md",
+      "title": "Configure CI feedback",
+      "locator": "Activate CI feedback",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "Off by default; failed CI on an agent branch is fed back to the agent via GitHub, Gitea or GitLab status; escalation after max retries.",
+      "visibility": "public",
+      "commit": "61aec367b649fe487a15270e79c08ed5b8a15ca1",
+      "path": "content/guides/configure-ci-feedback.md"
+    },
+    {
+      "id": "review",
+      "kind": "documented",
+      "url": "https://github.com/sortie-ai/docs/blob/61aec367b649fe487a15270e79c08ed5b8a15ca1/content/guides/configure-review-feedback.md",
+      "title": "Configure review feedback",
+      "locator": "Activate review feedback",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "Request-changes reviews and inline comments on a Sortie PR are routed back to the agent; off by default.",
+      "visibility": "public",
+      "commit": "61aec367b649fe487a15270e79c08ed5b8a15ca1",
+      "path": "content/guides/configure-review-feedback.md"
+    },
+    {
+      "id": "steer",
+      "kind": "documented",
+      "url": "https://github.com/sortie-ai/docs/blob/61aec367b649fe487a15270e79c08ed5b8a15ca1/content/guides/steer-agents-with-issue-comments.md",
+      "title": "Steer agents with issue comments",
+      "locator": "Comment on the issue",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "Issue comments reach the agent at the start of its next turn; no interruption of a running turn.",
+      "visibility": "public",
+      "commit": "61aec367b649fe487a15270e79c08ed5b8a15ca1",
+      "path": "content/guides/steer-agents-with-issue-comments.md"
+    },
+    {
+      "id": "labels",
+      "kind": "documented",
+      "url": "https://github.com/sortie-ai/docs/blob/61aec367b649fe487a15270e79c08ed5b8a15ca1/content/guides/use-label-commands.md",
+      "title": "Use label commands",
+      "locator": "Prerequisites",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "Labels sortie:review and sortie:fix on a PR dispatch a read-only review or a fix session.",
+      "visibility": "public",
+      "commit": "61aec367b649fe487a15270e79c08ed5b8a15ca1",
+      "path": "content/guides/use-label-commands.md"
+    },
+    {
+      "id": "ready",
+      "kind": "documented",
+      "url": "https://github.com/sortie-ai/docs/blob/61aec367b649fe487a15270e79c08ed5b8a15ca1/content/guides/check-issue-readiness.md",
+      "title": "Check issue readiness",
+      "locator": "Link a readiness rule",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "A cheap first-stage rule can park unready issues before the main run.",
+      "visibility": "public",
+      "commit": "61aec367b649fe487a15270e79c08ed5b8a15ca1",
+      "path": "content/guides/check-issue-readiness.md"
+    },
+    {
+      "id": "subag",
+      "kind": "documented",
+      "url": "https://github.com/sortie-ai/docs/blob/61aec367b649fe487a15270e79c08ed5b8a15ca1/content/guides/use-subagents-with-sortie.md",
+      "title": "Use subagents",
+      "locator": "How it works",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "Sub-agent definition files in the repository are discovered by the agent runtime; Sortie does not route them.",
+      "visibility": "public",
+      "commit": "61aec367b649fe487a15270e79c08ed5b8a15ca1",
+      "path": "content/guides/use-subagents-with-sortie.md"
+    },
+    {
+      "id": "license-file",
+      "kind": "source-inspected",
+      "url": "https://github.com/sortie-ai/sortie/blob/0e2e1cde4f04a82e0786cc287a0f8ec25a78ec8b/LICENSE",
+      "title": "Apache License 2.0 (LICENSE)",
+      "locator": "LICENSE header",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "Repository LICENSE is Apache-2.0.",
+      "visibility": "public",
+      "commit": "0e2e1cde4f04a82e0786cc287a0f8ec25a78ec8b",
+      "path": "LICENSE"
+    },
+    {
+      "id": "repoapi",
+      "kind": "documented",
+      "url": "https://api.github.com/repos/sortie-ai/sortie",
+      "title": "GitHub API for sortie-ai/sortie",
+      "locator": "stargazers_count; license; pushed_at",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "Repository has 224 stars, license Apache-2.0, homepage sortie-ai.com, last push 2026-11-16.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "releases",
+      "kind": "documented",
+      "url": "https://github.com/sortie-ai/sortie/releases/tag/v1.32.0",
+      "title": "Sortie v1.32.0 release",
+      "locator": "Assets",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "v1.32.0 (2026-11-10) has 13 assets: macOS and Linux tarballs for amd64 and arm64, Windows zips for amd64 and arm64, SBOMs and checksums; v1.30.0, v1.31.0 and v1.32.0 shipped weekly.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "orchestrator",
+      "kind": "source-inspected",
+      "url": "https://github.com/sortie-ai/sortie/blob/0e2e1cde4f04a82e0786cc287a0f8ec25a78ec8b/internal/orchestrator",
+      "title": "Orchestrator package",
+      "locator": "dispatch, retry, reactions",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "Go orchestrator loop that polls trackers, dispatches agents under concurrency and budget limits, retries with backoff and reconciles state.",
+      "visibility": "public",
+      "commit": "0e2e1cde4f04a82e0786cc287a0f8ec25a78ec8b",
+      "path": "internal/orchestrator"
+    },
+    {
+      "id": "notify",
+      "kind": "source-inspected",
+      "url": "https://github.com/sortie-ai/sortie/blob/0e2e1cde4f04a82e0786cc287a0f8ec25a78ec8b/internal/notify",
+      "title": "Notification backends",
+      "locator": "slack, discord, webhook, telegram",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "Outbound notifier backends for Slack, Discord, generic webhooks and Telegram; no inbound webhook receiver found.",
+      "visibility": "public",
+      "commit": "0e2e1cde4f04a82e0786cc287a0f8ec25a78ec8b",
+      "path": "internal/notify"
+    },
+    {
+      "id": "srch-tele",
+      "kind": "source-inspected",
+      "url": "https://github.com/sortie-ai/sortie/blob/0e2e1cde4f04a82e0786cc287a0f8ec25a78ec8b/internal",
+      "title": "Bounded search: telemetry",
+      "locator": "rg -il \"telemetry|posthog|sentry|analytics\" internal cmd",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "No telemetry client; matches are a Windows process-capture comment, a Copilot parser and a fake model fixture. README states Sortie itself sends no telemetry.",
+      "visibility": "public",
+      "commit": "0e2e1cde4f04a82e0786cc287a0f8ec25a78ec8b",
+      "path": "internal"
+    },
+    {
+      "id": "srch-team",
+      "kind": "source-inspected",
+      "url": "https://github.com/sortie-ai/sortie/blob/0e2e1cde4f04a82e0786cc287a0f8ec25a78ec8b/internal",
+      "title": "Bounded search: users, roles, SSO",
+      "locator": "rg -il \"sso|saml|oidc|rbac|presence\" internal cmd",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "No users, roles, SSO or presence; the HTTP server has no authentication.",
+      "visibility": "public",
+      "commit": "0e2e1cde4f04a82e0786cc287a0f8ec25a78ec8b",
+      "path": "internal"
+    },
+    {
+      "id": "srch-pr",
+      "kind": "source-inspected",
+      "url": "https://github.com/sortie-ai/sortie/blob/0e2e1cde4f04a82e0786cc287a0f8ec25a78ec8b/internal/scm",
+      "title": "Bounded search: PR creation and merge",
+      "locator": "rg -i \"create.*pull|merge.*pull|CreatePR|MergePR\" internal/scm internal/orchestrator",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "The scm packages read PR status, checks and reviews; PRs are opened by the agent or an after_run hook and merging is not implemented by Sortie.",
+      "visibility": "public",
+      "commit": "0e2e1cde4f04a82e0786cc287a0f8ec25a78ec8b",
+      "path": "internal/scm"
+    }
+  ],
+  "changes": [
+    {
+      "date": "2026-11-17",
+      "author": "researcher-batch14",
+      "type": "initial-research",
+      "summary": "Initial full-profile source pass over v1.32.0: README, docs repository, Go source with bounded searches. ADEMark does not list it.",
+      "claimIds": [
+        "sortie:ACC-01",
+        "sortie:ACC-02",
+        "sortie:ACC-03",
+        "sortie:ACC-04",
+        "sortie:ACC-05",
+        "sortie:ACC-06",
+        "sortie:ACC-07",
+        "sortie:PLAN-01",
+        "sortie:PLAN-02",
+        "sortie:PLAN-03",
+        "sortie:PLAN-04",
+        "sortie:PLAN-05",
+        "sortie:PLAN-06",
+        "sortie:PLAN-07",
+        "sortie:PLAN-08",
+        "sortie:COORD-01",
+        "sortie:COORD-02",
+        "sortie:COORD-03",
+        "sortie:COORD-04",
+        "sortie:COORD-05",
+        "sortie:COORD-06",
+        "sortie:COORD-07",
+        "sortie:RUN-01",
+        "sortie:RUN-02",
+        "sortie:RUN-03",
+        "sortie:RUN-04",
+        "sortie:RUN-05",
+        "sortie:RUN-06",
+        "sortie:RUN-07",
+        "sortie:RUN-08",
+        "sortie:TEAM-01",
+        "sortie:TEAM-02",
+        "sortie:TEAM-03",
+        "sortie:TEAM-04",
+        "sortie:TEAM-05",
+        "sortie:TEAM-06",
+        "sortie:SHIP-01",
+        "sortie:SHIP-02",
+        "sortie:SHIP-03",
+        "sortie:SHIP-04",
+        "sortie:SHIP-05",
+        "sortie:SHIP-06",
+        "sortie:OWN-01",
+        "sortie:OWN-02",
+        "sortie:OWN-03",
+        "sortie:OWN-04",
+        "sortie:OWN-05",
+        "sortie:OWN-06",
+        "sortie:OWN-07",
+        "sortie:OWN-08",
+        "sortie:OWN-09"
+      ],
+      "evidenceIds": [
+        "readme",
+        "wf-cfg",
+        "dash",
+        "http",
+        "cli",
+        "arch",
+        "isolation",
+        "security",
+        "persist",
+        "spend",
+        "tools",
+        "stages",
+        "costs",
+        "sched",
+        "ssh",
+        "ci",
+        "review",
+        "steer",
+        "labels",
+        "ready",
+        "subag",
+        "license-file",
+        "repoapi",
+        "releases",
+        "orchestrator",
+        "notify",
+        "srch-tele",
+        "srch-team",
+        "srch-pr"
+      ]
+    }
+  ],
+  "context": {
+    "roadmapReview": {
+      "checkedAt": "2026-11-17",
+      "locations": [
+        {
+          "url": "https://github.com/sortie-ai/sortie/releases",
+          "result": "v1.32.0 (2026-11-10) latest; weekly releases list shipped changes."
+        },
+        {
+          "url": "https://github.com/orgs/sortie-ai/projects/1",
+          "result": "Public roadmap project linked from the README; it was not opened in this pass."
+        },
+        {
+          "url": "https://docs.sortie-ai.com/changelog/",
+          "result": "Changelog of shipped changes only."
+        },
+        {
+          "url": "https://github.com/sortie-ai/sortie/issues",
+          "result": "Public issues; no dated announcements recorded."
+        }
+      ],
+      "announced": [],
+      "gaps": [
+        "The GitHub roadmap project board was not opened in this pass, so planned work is not recorded."
+      ]
+    },
+    "marketContext": {
+      "githubStars": {
+        "value": 224,
+        "observedAt": "2026-11-17",
+        "evidenceIds": [
+          "repoapi"
+        ]
+      }
+    }
+  }
+}
