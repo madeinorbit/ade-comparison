@@ -1,0 +1,5946 @@
+{
+  "schemaVersion": 1,
+  "rubricVersion": "0.3",
+  "id": "tlbx",
+  "name": "tlbx",
+  "category": "A",
+  "researchTier": "full-profile",
+  "researchState": "documented",
+  "identity": {
+    "website": "https://tlbx.ai",
+    "repository": "https://github.com/tlbx-ai/tlbx",
+    "aliases": [
+      "MidTerm",
+      "tlbx.ai"
+    ],
+    "company": "tlbx-ai"
+  },
+  "surfaces": [
+    {
+      "id": "host",
+      "name": "tlbx host (mt, mthost, mtagenthost; Windows, macOS, Linux)",
+      "type": "server"
+    },
+    {
+      "id": "browser",
+      "name": "Browser UI and installable PWA (desktop, tablet, phone)",
+      "type": "web"
+    },
+    {
+      "id": "mobile",
+      "name": "tlbx mobile connection app (iOS and Android WebView manager)",
+      "type": "mobile"
+    },
+    {
+      "id": "mcp",
+      "name": "Native tlbx MCP server and generated mt helpers",
+      "type": "api"
+    }
+  ],
+  "claims": [
+    {
+      "id": "tlbx:ACC-01",
+      "criterionId": "ACC-01",
+      "answer": "Self-hosted host on Windows (x64/x86), macOS (x64/arm64) and Linux (x64/arm64) with a browser UI for desktop, tablet and phone (installable PWA); a native iOS/Android connection-manager app; no native desktop client or editor extension.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "host",
+          "browser",
+          "mobile"
+        ],
+        "version": "v11.1.8 stable (commit 1e448c4, released 2026-11-13); dev channel v11.2.x not scoped",
+        "plan": "Open source (AGPL-3.0, commercial licence offered); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "desktop_os": {
+          "support": "supported",
+          "answer": "Release builds target Windows x64/x86, macOS x64/arm64 and Linux x64/arm64; the product is a host service used through a browser, not a native desktop UI.",
+          "evidenceIds": [
+            "features",
+            "readme"
+          ]
+        },
+        "mobile_apps": {
+          "support": "partial",
+          "answer": "`ai.tlbx.app` is a native-wrapper connection manager (WebView) for iOS/iPadOS 16+ and Android 8+; the workspace itself is the web UI; store publication was a manual handoff.",
+          "evidenceIds": [
+            "connstore"
+          ]
+        },
+        "browser": {
+          "support": "supported",
+          "answer": "Full workspace in any browser: sessions, files, Git, previews, History.",
+          "evidenceIds": [
+            "readme",
+            "features"
+          ]
+        },
+        "mobile_browser": {
+          "support": "supported",
+          "answer": "Responsive phone/tablet UI, installable PWA, on-screen-keyboard handling and touch special keys.",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "cli": {
+          "support": "partial",
+          "answer": "Generated `mt` helpers and `mt mcp --stdio`; the Bash/PowerShell helpers are deprecated in favour of MCP; `mt` also launches the host.",
+          "evidenceIds": [
+            "mcpdoc",
+            "features"
+          ]
+        },
+        "editor_extensions": {
+          "support": "unsupported",
+          "answer": "No editor extension in a bounded search; a Chrome Mobile Device Bridge extension exists for device emulation only.",
+          "evidenceIds": [
+            "features",
+            "mobilebridge"
+          ]
+        },
+        "task_actions": {
+          "support": "supported",
+          "answer": "Start sessions, send prompts and keys, queue follow-ups, approve agent requests (Allow), interrupt, upload files, review Git diffs and resume from another browser.",
+          "evidenceIds": [
+            "features",
+            "locales"
+          ]
+        },
+        "notifications": {
+          "support": "partial",
+          "answer": "Attention requests and exact browser notifications from control-plane events; no push service documented for stable.",
+          "evidenceIds": [
+            "arch",
+            "features"
+          ]
+        },
+        "cross_device_continuity": {
+          "support": "supported",
+          "answer": "Reconnect to the same sessions from another browser; several authorized browsers can observe and control one host.",
+          "evidenceIds": [
+            "readme",
+            "features"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established or not supported: mobile_apps, cli, editor_extensions, notifications; see atomic answers."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "features",
+        "readme",
+        "connstore",
+        "mcpdoc",
+        "mobilebridge",
+        "locales",
+        "arch"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tlbx:ACC-02",
+      "criterionId": "ACC-02",
+      "answer": "Terminal sessions run any CLI agent in a real PTY; Agent Controller sessions drive Codex (app-server), OpenCode, Grok Build and other ACP agents through structured protocols; Claude Code uses the Claude Agent SDK.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "host",
+          "mcp"
+        ],
+        "version": "v11.1.8 stable (commit 1e448c4, released 2026-11-13); dev channel v11.2.x not scoped",
+        "plan": "Open source (AGPL-3.0, commercial licence offered); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "harnesses": {
+          "support": "supported",
+          "answer": "Codex, Claude Code, Grok Build, OpenCode, Google Antigravity, Gemini CLI and GitHub Copilot CLI have built-in launch options; any terminal tool runs in a PTY.",
+          "evidenceIds": [
+            "readme",
+            "features"
+          ]
+        },
+        "model_providers": {
+          "support": "partial",
+          "answer": "Models are chosen inside each agent; Agent Controller sessions expose model and effort controls where the runtime supports them.",
+          "evidenceIds": [
+            "features",
+            "arch"
+          ]
+        },
+        "custom_adapters": {
+          "support": "supported",
+          "answer": "Compatible ACP agents can be added via `acp-agents.json`.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "session_integration": {
+          "support": "supported",
+          "answer": "Terminal: PTY owned by mthost; Agent Controller: structured runtime owned by mtagenthost (Codex app-server, ACP, OpenCode HTTP/SSE, Claude Agent SDK).",
+          "evidenceIds": [
+            "features",
+            "readme"
+          ]
+        },
+        "mixed_harness_operation": {
+          "support": "supported",
+          "answer": "Codex, Claude Code and OpenCode sessions run side by side in one sidebar and agents can dispatch to explicit sessions.",
+          "evidenceIds": [
+            "img-opencode",
+            "arch"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established or not supported: model_providers; see atomic answers."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "features",
+        "arch",
+        "img-opencode"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tlbx:ACC-03",
+      "criterionId": "ACC-03",
+      "answer": "Agents use their own logins and API keys on the host; tlbx adds no accounts, credits or billing.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "host"
+        ],
+        "version": "v11.1.8 stable (commit 1e448c4, released 2026-11-13); dev channel v11.2.x not scoped",
+        "plan": "Open source (AGPL-3.0, commercial licence offered); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "agent_subscriptions": {
+          "support": "supported",
+          "answer": "Terminal and controller sessions use whatever login the agent CLI has on the host; \"Your agent provider usual charges still apply\".",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "api_accounts": {
+          "support": "supported",
+          "answer": "Same: provider keys live in the agent environment on the host.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "vendor_credits": {
+          "support": "unsupported",
+          "answer": "No tlbx credits or paid plans.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "local_models": {
+          "support": "partial",
+          "answer": "Only through agents that support local models; tlbx adds none.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "account_switching": {
+          "support": "unsupported",
+          "answer": "No account-switching feature found.",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "vendor_account_requirement": {
+          "support": "supported",
+          "answer": "No tlbx account is required to use the host; an installation password protects it.",
+          "evidenceIds": [
+            "readme",
+            "arch"
+          ]
+        },
+        "provider_restrictions": {
+          "support": "unknown",
+          "answer": "Provider terms are not documented in the repository.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established or not supported: vendor_credits, local_models, account_switching, provider_restrictions; see atomic answers."
+      ],
+      "unknownReason": "Provider terms are external policies.",
+      "evidenceIds": [
+        "readme",
+        "features",
+        "arch"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tlbx:ACC-04",
+      "criterionId": "ACC-04",
+      "answer": "One-line installer prints an HTTPS address; set an installation password; open Spaces, start a session; service or user mode; Spaces handle Git repos and worktrees; BYO server by installing on it; no managed cloud.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "host",
+          "browser"
+        ],
+        "version": "v11.1.8 stable (commit 1e448c4, released 2026-11-13); dev channel v11.2.x not scoped",
+        "plan": "Open source (AGPL-3.0, commercial licence offered); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "first_task_setup": {
+          "support": "supported",
+          "answer": "README Install: run installer, open printed address, choose service/user mode, then New Session.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "no_git": {
+          "support": "supported",
+          "answer": "Spaces keep any working directory; Git features appear only for repositories.",
+          "evidenceIds": [
+            "locales"
+          ]
+        },
+        "local_git_without_remote": {
+          "support": "supported",
+          "answer": "Git view and worktrees are local operations.",
+          "evidenceIds": [
+            "spacesvc",
+            "features"
+          ]
+        },
+        "hosted_git": {
+          "support": "partial",
+          "answer": "No hosting-provider integration; Git remotes work through the user git and credentials in a terminal.",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "prerequisite_guidance": {
+          "support": "supported",
+          "answer": "README states .NET 11 CPU baseline (SSE4.2/POPCNT) for x86/x64 and Codex/OpenCode CLI version needs.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "managed_cloud_setup": {
+          "support": "unsupported",
+          "answer": "tlbx is not a hosted service; no vendor cloud.",
+          "evidenceIds": [
+            "features",
+            "srch-cloud"
+          ]
+        },
+        "byo_vps_onboarding": {
+          "support": "supported",
+          "answer": "Install on a server with the same installer in service mode; connect through VPN, Cloudflare Tunnel, proxy or tlbx Link (dev).",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established or not supported: hosted_git, managed_cloud_setup; see atomic answers."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "arch",
+        "locales",
+        "spacesvc",
+        "features",
+        "srch-cloud"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tlbx:ACC-05",
+      "criterionId": "ACC-05",
+      "answer": "Authenticated REST API (OpenAPI), native MCP server and generated `mt` helpers cover create, inspect, steer, stop and review; API keys; no SDK or outbound webhooks.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "host",
+          "mcp"
+        ],
+        "version": "v11.1.8 stable (commit 1e448c4, released 2026-11-13); dev channel v11.2.x not scoped",
+        "plan": "Open source (AGPL-3.0, commercial licence offered); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "cli": {
+          "support": "supported",
+          "answer": "`mt` helpers and `mt mcp`.",
+          "evidenceIds": [
+            "mcpdoc"
+          ]
+        },
+        "api": {
+          "support": "supported",
+          "answer": "REST under /api (sessions, input, files, git, share, update, webpreview, browser).",
+          "evidenceIds": [
+            "openapi"
+          ]
+        },
+        "sdk": {
+          "support": "unsupported",
+          "answer": "No SDK package; OpenAPI is published.",
+          "evidenceIds": [
+            "openapi"
+          ]
+        },
+        "mcp_server": {
+          "support": "supported",
+          "answer": "`POST /api/mcp` Streamable HTTP and stdio adapter; tools for sessions, queues, work items, repos, boards and browser.",
+          "evidenceIds": [
+            "mcpdoc"
+          ]
+        },
+        "webhooks": {
+          "support": "unsupported",
+          "answer": "No webhooks.",
+          "evidenceIds": [
+            "srch-hook"
+          ]
+        },
+        "operations": {
+          "support": "supported",
+          "answer": "Create sessions, send input/prompts/keys, read buffers, interrupt, upload, review.",
+          "evidenceIds": [
+            "openapi",
+            "mcpdoc"
+          ]
+        },
+        "authentication": {
+          "support": "supported",
+          "answer": "Password-based signed sessions, API keys and per-thread MCP credentials in owner-only files.",
+          "evidenceIds": [
+            "arch",
+            "mcpdoc"
+          ]
+        },
+        "stability": {
+          "support": "partial",
+          "answer": "OpenAPI-generated clients; the fallback CLI is deprecated and MCP tool catalog is \"under implementation\".",
+          "evidenceIds": [
+            "mcpdoc"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established or not supported: sdk, webhooks, stability; see atomic answers."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "mcpdoc",
+        "openapi",
+        "srch-hook",
+        "arch"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tlbx:ACC-06",
+      "criterionId": "ACC-06",
+      "answer": "MCP server for agents; project install scripts register it with Codex and Claude; no MCP client of its own; agent-native plugins stay with each agent.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "mcp"
+        ],
+        "version": "v11.1.8 stable (commit 1e448c4, released 2026-11-13); dev channel v11.2.x not scoped",
+        "plan": "Open source (AGPL-3.0, commercial licence offered); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "mcp_client": {
+          "support": "unsupported",
+          "answer": "tlbx exposes MCP but does not act as an MCP client; each agent brings its own.",
+          "evidenceIds": [
+            "mcpdoc"
+          ]
+        },
+        "plugins": {
+          "support": "unsupported",
+          "answer": "No plugin system.",
+          "evidenceIds": [
+            "srch-spec"
+          ]
+        },
+        "custom_tools": {
+          "support": "partial",
+          "answer": "Saved commands run in backing sessions; ACP agent config.",
+          "evidenceIds": [
+            "features",
+            "readme"
+          ]
+        },
+        "instructions_import": {
+          "support": "partial",
+          "answer": "Generated `.tlbx` instruction/guide files for agents and inject-guidance endpoint.",
+          "evidenceIds": [
+            "openapi",
+            "mcpdoc"
+          ]
+        },
+        "authentication": {
+          "support": "supported",
+          "answer": "Per-thread credentials in owner-only files; no tokens in repository.",
+          "evidenceIds": [
+            "mcpdoc"
+          ]
+        },
+        "permission_scope": {
+          "support": "supported",
+          "answer": "Runtime proof binds the caller; explicit owner mode needs targetSessionId.",
+          "evidenceIds": [
+            "mcpdoc"
+          ]
+        },
+        "integration_owner": {
+          "support": "supported",
+          "answer": "tlbx generates the config for Codex/Claude (`mt mcp install`).",
+          "evidenceIds": [
+            "mcpdoc"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established or not supported: mcp_client, plugins, custom_tools, instructions_import; see atomic answers."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "mcpdoc",
+        "srch-spec",
+        "features",
+        "readme",
+        "openapi"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tlbx:ACC-07",
+      "criterionId": "ACC-07",
+      "answer": ".NET 11 Native AOT host with a TypeScript/xterm.js browser frontend; mobile app is a native shell around a WebView; no Electron.",
+      "support": "supported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "host",
+          "browser",
+          "mobile"
+        ],
+        "version": "v11.1.8 stable (commit 1e448c4, released 2026-11-13); dev channel v11.2.x not scoped",
+        "plan": "Open source (AGPL-3.0, commercial licence offered); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "desktop_implementation": {
+          "support": "supported",
+          "answer": "Web/PWA served by a Native AOT .NET host; no native desktop UI.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "mobile_implementation": {
+          "support": "supported",
+          "answer": "Native Android/iOS WebView wrapper (connectors/android, connectors/ios) plus responsive PWA.",
+          "evidenceIds": [
+            "connstore"
+          ]
+        },
+        "hybrids": {
+          "support": "supported",
+          "answer": "Browser UI + native host + native mobile wrapper.",
+          "evidenceIds": [
+            "connstore"
+          ]
+        },
+        "implementation_evidence": {
+          "support": "supported",
+          "answer": "README architecture statement and source projects (Ai.Tlbx.MidTerm, connectors).",
+          "evidenceIds": [
+            "readme",
+            "connstore"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "arch",
+        "connstore"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-05-16",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tlbx:PLAN-01",
+      "criterionId": "PLAN-01",
+      "answer": "Work enters through prompts, queues and control-plane work items (todos, mail, coding tasks) that agents publish; boards launch sessions; no tracker import.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "host",
+          "mcp"
+        ],
+        "version": "v11.1.8 stable (commit 1e448c4, released 2026-11-13); dev channel v11.2.x not scoped",
+        "plan": "Open source (AGPL-3.0, commercial licence offered); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "local_creation": {
+          "support": "supported",
+          "answer": "Work items via API/MCP, board entries and queued prompts.",
+          "evidenceIds": [
+            "arch",
+            "boards"
+          ]
+        },
+        "prompt_intake": {
+          "support": "supported",
+          "answer": "Multiline prompts, drafts, attachments, voice, queue and API prompt submission.",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "external_import": {
+          "support": "unsupported",
+          "answer": "No tracker import.",
+          "evidenceIds": [
+            "srch-spec"
+          ]
+        },
+        "chat_git_triggers": {
+          "support": "unsupported",
+          "answer": "No chat/Git triggers.",
+          "evidenceIds": [
+            "srch-hook"
+          ]
+        },
+        "authoritative_tracker": {
+          "support": "supported",
+          "answer": "The host control plane is authoritative; no external tracker.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "stable_ids": {
+          "support": "supported",
+          "answer": "Work items and sessions have ids.",
+          "evidenceIds": [
+            "arch",
+            "openapi"
+          ]
+        },
+        "sync": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-spec"
+          ]
+        },
+        "supported_edits": {
+          "support": "supported",
+          "answer": "work_update, board patch with ExpectedRevision.",
+          "evidenceIds": [
+            "mcpdoc",
+            "boards"
+          ]
+        },
+        "external_roundtrips": {
+          "support": "unsupported",
+          "answer": "No tracker.",
+          "evidenceIds": [
+            "srch-spec"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established or not supported: external_import, chat_git_triggers, sync, external_roundtrips; see atomic answers."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "arch",
+        "boards",
+        "features",
+        "srch-spec",
+        "srch-hook",
+        "openapi",
+        "mcpdoc"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tlbx:PLAN-02",
+      "criterionId": "PLAN-02",
+      "answer": "Agent Controller plan mode toggle (Plan awareness) and checkpoints; control-plane work items with state; no acceptance-criteria editor or plan history.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "host"
+        ],
+        "version": "v11.1.8 stable (commit 1e448c4, released 2026-11-13); dev channel v11.2.x not scoped",
+        "plan": "Open source (AGPL-3.0, commercial licence offered); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "plans": {
+          "support": "partial",
+          "answer": "Agent Controller status rail shows Plan on/off; plans belong to the agent.",
+          "evidenceIds": [
+            "arch",
+            "img-opencode"
+          ]
+        },
+        "acceptance_criteria": {
+          "support": "unsupported",
+          "answer": "No field.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "editors": {
+          "support": "partial",
+          "answer": "Board notes and work items editable.",
+          "evidenceIds": [
+            "boards"
+          ]
+        },
+        "revisions": {
+          "support": "partial",
+          "answer": "Board items carry revisions; checkpoints append-only.",
+          "evidenceIds": [
+            "boards",
+            "arch"
+          ]
+        },
+        "implementation_links": {
+          "support": "partial",
+          "answer": "Checkpoints carry session, project, repository.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "amendment": {
+          "support": "supported",
+          "answer": "Prompts and work updates can be sent to running sessions.",
+          "evidenceIds": [
+            "features",
+            "mcpdoc"
+          ]
+        },
+        "restart_persistence": {
+          "support": "supported",
+          "answer": "Sessions and queues persist across browser disconnects and web-only updates.",
+          "evidenceIds": [
+            "features",
+            "arch"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established or not supported: plans, acceptance_criteria, editors, revisions, implementation_links; see atomic answers."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "arch",
+        "mcpdoc",
+        "img-opencode",
+        "boards",
+        "features"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tlbx:PLAN-03",
+      "criterionId": "PLAN-03",
+      "answer": "Work items have states and assignment to sessions; Spaces group sessions by directory/worktree; no epics or enforced dependencies.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "host",
+          "mcp"
+        ],
+        "version": "v11.1.8 stable (commit 1e448c4, released 2026-11-13); dev channel v11.2.x not scoped",
+        "plan": "Open source (AGPL-3.0, commercial licence offered); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "epics": {
+          "support": "unsupported",
+          "answer": "No epic type; work-item kinds are advisory.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "hierarchy": {
+          "support": "partial",
+          "answer": "Spaces > worktrees > sessions in the sidebar.",
+          "evidenceIds": [
+            "locales"
+          ]
+        },
+        "blockers": {
+          "support": "partial",
+          "answer": "Waiting/blocked states exist on work items; no dependency edges.",
+          "evidenceIds": [
+            "mcpdoc"
+          ]
+        },
+        "readiness": {
+          "support": "unsupported",
+          "answer": "No readiness computation (tlbx does not infer priorities).",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "enforcement": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "state_propagation": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "task_to_epic": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "identity_retention": {
+          "support": "supported",
+          "answer": "Work items retain id and attributions.",
+          "evidenceIds": [
+            "mcpdoc"
+          ]
+        },
+        "workflow_constraints": {
+          "support": "supported",
+          "answer": "No mandatory workflow.",
+          "evidenceIds": [
+            "features"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established or not supported: epics, hierarchy, blockers, readiness, enforcement, state_propagation, task_to_epic; see atomic answers."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "arch",
+        "mcpdoc",
+        "locales",
+        "features"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tlbx:PLAN-04",
+      "criterionId": "PLAN-04",
+      "answer": "Per-session notes, boards, History and generated .tlbx guidance files; no managed cross-session memory.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "host"
+        ],
+        "version": "v11.1.8 stable (commit 1e448c4, released 2026-11-13); dev channel v11.2.x not scoped",
+        "plan": "Open source (AGPL-3.0, commercial licence offered); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "instructions": {
+          "support": "partial",
+          "answer": "inject-guidance endpoint and generated `.tlbx` files; agents read their own repo instructions.",
+          "evidenceIds": [
+            "openapi",
+            "mcpdoc"
+          ]
+        },
+        "skills": {
+          "support": "unsupported",
+          "answer": "No skill management.",
+          "evidenceIds": [
+            "srch-spec"
+          ]
+        },
+        "project_docs": {
+          "support": "partial",
+          "answer": "Session notes and boards.",
+          "evidenceIds": [
+            "openapi",
+            "boards"
+          ]
+        },
+        "memory": {
+          "support": "unsupported",
+          "answer": "No memory store.",
+          "evidenceIds": [
+            "srch-spec"
+          ]
+        },
+        "scope": {
+          "support": "supported",
+          "answer": "Notes per session; boards per working directory.",
+          "evidenceIds": [
+            "openapi",
+            "boards"
+          ]
+        },
+        "provenance": {
+          "support": "partial",
+          "answer": "History entries are timestamped with origin surface.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "correction": {
+          "support": "supported",
+          "answer": "Notes and boards editable.",
+          "evidenceIds": [
+            "boards"
+          ]
+        },
+        "deletion": {
+          "support": "supported",
+          "answer": "History and notes can be removed.",
+          "evidenceIds": [
+            "openapi"
+          ]
+        },
+        "freshness": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-spec"
+          ]
+        },
+        "takeover_continuity": {
+          "support": "supported",
+          "answer": "Notes, history and queues live on the host for any authorized browser.",
+          "evidenceIds": [
+            "features",
+            "arch"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established or not supported: instructions, skills, project_docs, memory, provenance, freshness; see atomic answers."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "features",
+        "arch",
+        "openapi",
+        "mcpdoc",
+        "srch-spec",
+        "boards"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tlbx:PLAN-05",
+      "criterionId": "PLAN-05",
+      "answer": "File tree and File Radar with session-scoped allowlist, Git views, Dev Browser proof; no code index or architecture retrieval.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "host"
+        ],
+        "version": "v11.1.8 stable (commit 1e448c4, released 2026-11-13); dev channel v11.2.x not scoped",
+        "plan": "Open source (AGPL-3.0, commercial licence offered); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "code_search": {
+          "support": "partial",
+          "answer": "Session/command/settings search palette; files view; no repository code search.",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "indexing": {
+          "support": "unsupported",
+          "answer": "No repository index.",
+          "evidenceIds": [
+            "srch-spec"
+          ]
+        },
+        "external_knowledge": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-spec"
+          ]
+        },
+        "multimodal_inputs": {
+          "support": "supported",
+          "answer": "Clipboard images, camera captures, file drops, voice input.",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "freshness": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-spec"
+          ]
+        },
+        "access_scope": {
+          "support": "supported",
+          "answer": "Session-scoped file allowlist.",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "api_retrieval": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-spec"
+          ]
+        },
+        "citations": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-spec"
+          ]
+        },
+        "conflict_detection": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-spec"
+          ]
+        },
+        "review_enforcement": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-spec"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established or not supported: code_search, indexing, external_knowledge, freshness, api_retrieval, citations, conflict_detection, review_enforcement; see atomic answers."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "features",
+        "srch-spec"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tlbx:PLAN-06",
+      "criterionId": "PLAN-06",
+      "answer": "Control-plane work items (todos, mail, coding tasks, decisions, next actions) with status and assignment to sessions, boards with to-dos and launches; no human issue UI (Operator sidebar withdrawn).",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "host",
+          "mcp"
+        ],
+        "version": "v11.1.8 stable (commit 1e448c4, released 2026-11-13); dev channel v11.2.x not scoped",
+        "plan": "Open source (AGPL-3.0, commercial licence offered); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "create": {
+          "support": "partial",
+          "answer": "API/MCP and boards; the Operator sidebar UI was withdrawn.",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "edit": {
+          "support": "partial",
+          "answer": "work_update and board edit.",
+          "evidenceIds": [
+            "mcpdoc",
+            "boards"
+          ]
+        },
+        "discuss": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "prioritize": {
+          "support": "unsupported",
+          "answer": "tlbx does not invent priorities; no priority field documented.",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "label": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "assign": {
+          "support": "supported",
+          "answer": "work_update(sessionId) assigns to a session; assignments released on session close.",
+          "evidenceIds": [
+            "mcpdoc"
+          ]
+        },
+        "search": {
+          "support": "partial",
+          "answer": "Session/command search; no work-item search UI.",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "filter": {
+          "support": "partial",
+          "answer": "Queries via API/MCP.",
+          "evidenceIds": [
+            "mcpdoc"
+          ]
+        },
+        "archive": {
+          "support": "partial",
+          "answer": "Completed work retains attribution; done state.",
+          "evidenceIds": [
+            "mcpdoc"
+          ]
+        },
+        "reopen": {
+          "support": "supported",
+          "answer": "Active work returns to open on session close.",
+          "evidenceIds": [
+            "mcpdoc"
+          ]
+        },
+        "project_epic_views": {
+          "support": "partial",
+          "answer": "Boards and Spaces.",
+          "evidenceIds": [
+            "boards"
+          ]
+        },
+        "idea_parking": {
+          "support": "supported",
+          "answer": "Board notes and open work items park ideas.",
+          "evidenceIds": [
+            "boards",
+            "arch"
+          ]
+        },
+        "explicit_dispatch": {
+          "support": "supported",
+          "answer": "`mt_dispatch` to explicit session ids; board launches.",
+          "evidenceIds": [
+            "arch",
+            "boards"
+          ]
+        },
+        "task_session_separation": {
+          "support": "supported",
+          "answer": "Work items are separate from sessions.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "metadata": {
+          "support": "partial",
+          "answer": "Source, session, project, repository, timestamps, revision.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "durable_states": {
+          "support": "supported",
+          "answer": "Explicit states with validation, bounded sequence log.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "external_tracker_requirement": {
+          "support": "partial",
+          "answer": "An external tracker is still needed for human issue workflows.",
+          "evidenceIds": [
+            "features"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established or not supported: create, edit, discuss, prioritize, label, search, filter, archive, project_epic_views, metadata, external_tracker_requirement; see atomic answers."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "features",
+        "arch",
+        "boards",
+        "mcpdoc"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tlbx:PLAN-07",
+      "criterionId": "PLAN-07",
+      "answer": "Agents read and write the same work items, status and checkpoints through MCP and mt helpers; human UI for them was withdrawn so visibility is API/CLI and notifications.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "mcp"
+        ],
+        "version": "v11.1.8 stable (commit 1e448c4, released 2026-11-13); dev channel v11.2.x not scoped",
+        "plan": "Open source (AGPL-3.0, commercial licence offered); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "shared_ids": {
+          "support": "supported",
+          "answer": "Same ids across API, MCP and helpers.",
+          "evidenceIds": [
+            "arch",
+            "mcpdoc"
+          ]
+        },
+        "read": {
+          "support": "supported",
+          "answer": "Work, status, checkpoints, events.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "create": {
+          "support": "supported",
+          "answer": "Create work items and checkpoints.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "update": {
+          "support": "supported",
+          "answer": "work_update with revisions.",
+          "evidenceIds": [
+            "mcpdoc"
+          ]
+        },
+        "claim": {
+          "support": "supported",
+          "answer": "Assign work to own session.",
+          "evidenceIds": [
+            "mcpdoc"
+          ]
+        },
+        "assign": {
+          "support": "supported",
+          "answer": "Assign to another session id.",
+          "evidenceIds": [
+            "mcpdoc"
+          ]
+        },
+        "state_changes": {
+          "support": "supported",
+          "answer": "Mark done/waiting/blocked; session status.",
+          "evidenceIds": [
+            "mcpdoc",
+            "arch"
+          ]
+        },
+        "dependencies": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "children": {
+          "support": "unsupported",
+          "answer": "No child items documented.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "results": {
+          "support": "supported",
+          "answer": "Checkpoints record verification facts.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "human_visibility": {
+          "support": "partial",
+          "answer": "Operator sidebar withdrawn; API/CLI and notifications remain.",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "attribution": {
+          "support": "supported",
+          "answer": "Records carry source and session.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "permissions": {
+          "support": "supported",
+          "answer": "Per-thread credentials; `self` binding via runtime proof.",
+          "evidenceIds": [
+            "mcpdoc"
+          ]
+        },
+        "conflicts": {
+          "support": "partial",
+          "answer": "Revision numbers; lost responses reported as unknown outcomes.",
+          "evidenceIds": [
+            "arch",
+            "mcpdoc"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established or not supported: dependencies, children, human_visibility, conflicts; see atomic answers."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "arch",
+        "mcpdoc",
+        "features"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tlbx:PLAN-08",
+      "criterionId": "PLAN-08",
+      "answer": "No living product specifications.",
+      "support": "unsupported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "host"
+        ],
+        "version": "v11.1.8 stable (commit 1e448c4, released 2026-11-13); dev channel v11.2.x not scoped",
+        "plan": "Open source (AGPL-3.0, commercial licence offered); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "persistent_requirements": {
+          "support": "unsupported",
+          "answer": "No requirements/spec store in a bounded search.",
+          "evidenceIds": [
+            "srch-spec"
+          ]
+        },
+        "human_edits": {
+          "support": "unsupported",
+          "answer": "No requirements/spec store in a bounded search.",
+          "evidenceIds": [
+            "srch-spec"
+          ]
+        },
+        "agent_edits": {
+          "support": "unsupported",
+          "answer": "No requirements/spec store in a bounded search.",
+          "evidenceIds": [
+            "srch-spec"
+          ]
+        },
+        "revisions": {
+          "support": "unsupported",
+          "answer": "No requirements/spec store in a bounded search.",
+          "evidenceIds": [
+            "srch-spec"
+          ]
+        },
+        "approvals": {
+          "support": "unsupported",
+          "answer": "No requirements/spec store in a bounded search.",
+          "evidenceIds": [
+            "srch-spec"
+          ]
+        },
+        "implementation_links": {
+          "support": "unsupported",
+          "answer": "No requirements/spec store in a bounded search.",
+          "evidenceIds": [
+            "srch-spec"
+          ]
+        },
+        "later_retrieval": {
+          "support": "unsupported",
+          "answer": "No requirements/spec store in a bounded search.",
+          "evidenceIds": [
+            "srch-spec"
+          ]
+        },
+        "drift_detection": {
+          "support": "unsupported",
+          "answer": "No requirements/spec store in a bounded search.",
+          "evidenceIds": [
+            "srch-spec"
+          ]
+        },
+        "review_integration": {
+          "support": "unsupported",
+          "answer": "No requirements/spec store in a bounded search.",
+          "evidenceIds": [
+            "srch-spec"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "srch-spec"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tlbx:COORD-01",
+      "criterionId": "COORD-01",
+      "answer": "Independent sessions (terminal and agent) run concurrently on one host; sessions are split, reordered and visible together; no documented quota.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "host",
+          "browser"
+        ],
+        "version": "v11.1.8 stable (commit 1e448c4, released 2026-11-13); dev channel v11.2.x not scoped",
+        "plan": "Open source (AGPL-3.0, commercial licence offered); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "concurrent_sessions": {
+          "support": "supported",
+          "answer": "Keep several agents, shells and servers running and visible.",
+          "evidenceIds": [
+            "readme",
+            "features"
+          ]
+        },
+        "concurrent_tasks": {
+          "support": "supported",
+          "answer": "Sessions are independent; dispatch to several targets.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "quotas": {
+          "support": "unsupported",
+          "answer": "No quota documented.",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "observed_concurrency": {
+          "support": "unknown",
+          "answer": "No benchmark here; ADEMark lists no result; repo has latency analysis docs.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "status_visibility": {
+          "support": "supported",
+          "answer": "Sidebar shows activity, attention requests, supervision state and Git delta per session.",
+          "evidenceIds": [
+            "features",
+            "img-opencode"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established or not supported: quotas, observed_concurrency; see atomic answers."
+      ],
+      "unknownReason": "Observed concurrency needs benchmarks; ADEMark has no entry for tlbx.",
+      "evidenceIds": [
+        "features",
+        "readme",
+        "arch",
+        "img-opencode"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tlbx:COORD-02",
+      "criterionId": "COORD-02",
+      "answer": "Humans open sessions per task; agents dispatch to explicit session ids and assign work items; no queues, routing or exclusivity.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "host",
+          "mcp"
+        ],
+        "version": "v11.1.8 stable (commit 1e448c4, released 2026-11-13); dev channel v11.2.x not scoped",
+        "plan": "Open source (AGPL-3.0, commercial licence offered); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "human_assignment": {
+          "support": "supported",
+          "answer": "User chooses session type, agent and directory.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "agent_assignment": {
+          "support": "supported",
+          "answer": "`mt_dispatch` to explicit sessions; work assignment.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "claims": {
+          "support": "partial",
+          "answer": "Work assignment to a session is advisory.",
+          "evidenceIds": [
+            "mcpdoc"
+          ]
+        },
+        "queues": {
+          "support": "supported",
+          "answer": "Backend-owned Command Bay queue persists per session.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "routing": {
+          "support": "unsupported",
+          "answer": "tlbx does not choose dispatch targets.",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "duplicate_prevention": {
+          "support": "partial",
+          "answer": "A repository watch is not an exclusive checkout lock.",
+          "evidenceIds": [
+            "mcpdoc"
+          ]
+        },
+        "ownership_enforcement": {
+          "support": "unsupported",
+          "answer": "Advisory only.",
+          "evidenceIds": [
+            "mcpdoc"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established or not supported: claims, routing, duplicate_prevention, ownership_enforcement; see atomic answers."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "arch",
+        "mcpdoc",
+        "readme",
+        "features"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tlbx:COORD-03",
+      "criterionId": "COORD-03",
+      "answer": "Agents can dispatch prompts to explicit sessions, read other terminals and publish status through MCP; no parent/child roles or tool-owned coordinator.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "mcp"
+        ],
+        "version": "v11.1.8 stable (commit 1e448c4, released 2026-11-13); dev channel v11.2.x not scoped",
+        "plan": "Open source (AGPL-3.0, commercial licence offered); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "roles": {
+          "support": "unsupported",
+          "answer": "No role model.",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "model_harness_effort": {
+          "support": "partial",
+          "answer": "Agent Controller sessions expose model/effort controls; chosen by user.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "messages": {
+          "support": "supported",
+          "answer": "Send prompts and read terminal output of other sessions via helpers/MCP.",
+          "evidenceIds": [
+            "readme",
+            "mcpdoc"
+          ]
+        },
+        "results_return": {
+          "support": "partial",
+          "answer": "Checkpoints and read buffers; no structured child result.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "cross_harness": {
+          "support": "supported",
+          "answer": "Dispatch targets may be any session.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "orchestration_owner": {
+          "support": "partial",
+          "answer": "\"The control plane is an outlet for agents, not another agent.\"",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "activation": {
+          "support": "supported",
+          "answer": "Install scripts register the MCP server per project.",
+          "evidenceIds": [
+            "mcpdoc"
+          ]
+        },
+        "authentication": {
+          "support": "supported",
+          "answer": "Per-thread credentials.",
+          "evidenceIds": [
+            "mcpdoc"
+          ]
+        },
+        "live_progress": {
+          "support": "supported",
+          "answer": "Status and event feed.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "retained_results": {
+          "support": "supported",
+          "answer": "Append-only checkpoints.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "followup": {
+          "support": "supported",
+          "answer": "Dispatch again to a session.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "invocation": {
+          "support": "supported",
+          "answer": "Agents call MCP tools.",
+          "evidenceIds": [
+            "mcpdoc"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established or not supported: roles, model_harness_effort, results_return, orchestration_owner; see atomic answers."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "arch",
+        "mcpdoc",
+        "readme",
+        "features"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tlbx:COORD-04",
+      "criterionId": "COORD-04",
+      "answer": "Queued immediate or scheduled follow-up prompts per session; no recurring schedules, event triggers or webhooks.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "host"
+        ],
+        "version": "v11.1.8 stable (commit 1e448c4, released 2026-11-13); dev channel v11.2.x not scoped",
+        "plan": "Open source (AGPL-3.0, commercial licence offered); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "schedules": {
+          "support": "partial",
+          "answer": "One-off scheduled follow-ups.",
+          "evidenceIds": [
+            "features",
+            "srch-sched"
+          ]
+        },
+        "events": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-hook"
+          ]
+        },
+        "recurring_tasks": {
+          "support": "unsupported",
+          "answer": "No recurrence.",
+          "evidenceIds": [
+            "srch-sched"
+          ]
+        },
+        "completion_conditions": {
+          "support": "partial",
+          "answer": "Agent Controller queue drains after the turn settles; terminal queue is heat-gated.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "scheduler_location": {
+          "support": "supported",
+          "answer": "Backend-owned queue on the host.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "overlaps": {
+          "support": "partial",
+          "answer": "One item dispatched at a time per session.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "retries": {
+          "support": "unsupported",
+          "answer": "None documented.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "client_independence": {
+          "support": "supported",
+          "answer": "Queue survives browser disconnects.",
+          "evidenceIds": [
+            "arch"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established or not supported: schedules, events, recurring_tasks, completion_conditions, overlaps, retries; see atomic answers."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "features",
+        "arch",
+        "srch-sched",
+        "srch-hook"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tlbx:COORD-05",
+      "criterionId": "COORD-05",
+      "answer": "Interrupt, approvals (Allow), questions, attention flags, notifications, queue and History; terminal and controller parity depends on session surface.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "host",
+          "browser"
+        ],
+        "version": "v11.1.8 stable (commit 1e448c4, released 2026-11-13); dev channel v11.2.x not scoped",
+        "plan": "Open source (AGPL-3.0, commercial licence offered); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "pause": {
+          "support": "partial",
+          "answer": "Interrupt agent turn; queue gating.",
+          "evidenceIds": [
+            "features",
+            "arch"
+          ]
+        },
+        "stop": {
+          "support": "supported",
+          "answer": "Interrupt/close sessions; closing releases assignments.",
+          "evidenceIds": [
+            "features",
+            "mcpdoc"
+          ]
+        },
+        "resume": {
+          "support": "supported",
+          "answer": "Reattach and resume sessions; history replay.",
+          "evidenceIds": [
+            "features",
+            "arch"
+          ]
+        },
+        "steer": {
+          "support": "supported",
+          "answer": "Command Bay and terminal input.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "notifications": {
+          "support": "supported",
+          "answer": "Attention requests and browser notifications.",
+          "evidenceIds": [
+            "features",
+            "arch"
+          ]
+        },
+        "pending_decisions": {
+          "support": "supported",
+          "answer": "Approval required/Pending approval cards and questions.",
+          "evidenceIds": [
+            "locales",
+            "features"
+          ]
+        },
+        "escalation": {
+          "support": "partial",
+          "answer": "Session attention state; no escalation chain.",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "visible_errors": {
+          "support": "supported",
+          "answer": "Unattached runtime failures exposed rather than hidden.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "chat_terminal_parity": {
+          "support": "partial",
+          "answer": "Two explicit surfaces; Claude Code is terminal-native only.",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "retained_history": {
+          "support": "supported",
+          "answer": "History persisted on host.",
+          "evidenceIds": [
+            "features"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established or not supported: pause, escalation, chat_terminal_parity; see atomic answers."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "features",
+        "arch",
+        "locales",
+        "mcpdoc"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tlbx:COORD-06",
+      "criterionId": "COORD-06",
+      "answer": "Sidebar of sessions with attention, activity and Git status, Spaces trees and boards; no epic or dependency fleet board.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "browser"
+        ],
+        "version": "v11.1.8 stable (commit 1e448c4, released 2026-11-13); dev channel v11.2.x not scoped",
+        "plan": "Open source (AGPL-3.0, commercial licence offered); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "fleet_fixture": {
+          "support": "unknown",
+          "answer": "No fixture defined.",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "parent_child": {
+          "support": "partial",
+          "answer": "Spaces > worktrees > sessions.",
+          "evidenceIds": [
+            "locales"
+          ]
+        },
+        "dependencies": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "attention": {
+          "support": "supported",
+          "answer": "Attention requests and supervision state.",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "history": {
+          "support": "supported",
+          "answer": "Per-session History.",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "workload": {
+          "support": "partial",
+          "answer": "Session list with +/- lines per session.",
+          "evidenceIds": [
+            "img-opencode"
+          ]
+        },
+        "navigation_errors": {
+          "support": "partial",
+          "answer": "Errors surfaced per session.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "fixture_mode": {
+          "support": "unknown",
+          "answer": "Not applicable to a source pass.",
+          "evidenceIds": [
+            "features"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established or not supported: fleet_fixture, parent_child, dependencies, workload, navigation_errors, fixture_mode; see atomic answers."
+      ],
+      "unknownReason": "Fixture questions need hands-on tests, which this catalog does not run.",
+      "evidenceIds": [
+        "features",
+        "img-opencode",
+        "locales",
+        "arch"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tlbx:COORD-07",
+      "criterionId": "COORD-07",
+      "answer": "No mandatory preset; session type and agent chosen at launch; model/effort controls in Agent Controller; boards launch sessions with prompt and profile.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "host"
+        ],
+        "version": "v11.1.8 stable (commit 1e448c4, released 2026-11-13); dev channel v11.2.x not scoped",
+        "plan": "Open source (AGPL-3.0, commercial licence offered); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "quick_task": {
+          "support": "supported",
+          "answer": "New Session launcher.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "growing_epic": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "presets": {
+          "support": "partial",
+          "answer": "Session profiles and saved commands.",
+          "evidenceIds": [
+            "boards",
+            "features"
+          ]
+        },
+        "natural_language": {
+          "support": "partial",
+          "answer": "Agents manage the workspace through MCP.",
+          "evidenceIds": [
+            "mcpdoc"
+          ]
+        },
+        "agent_configuration": {
+          "support": "supported",
+          "answer": "Model, effort, plan and permission controls.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "in_run_changes": {
+          "support": "supported",
+          "answer": "Change controls between turns.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "live_roles": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "retained_relationships": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "discoverability": {
+          "support": "supported",
+          "answer": "Search palette and docs.",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "auth_friction": {
+          "support": "supported",
+          "answer": "Installation password only.",
+          "evidenceIds": [
+            "arch"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established or not supported: growing_epic, presets, natural_language, live_roles, retained_relationships; see atomic answers."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "features",
+        "boards",
+        "readme",
+        "arch",
+        "mcpdoc"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tlbx:RUN-01",
+      "criterionId": "RUN-01",
+      "answer": "Everything runs on the host machine you install tlbx on (workstation, VPS or server); browsers are clients; sessions survive browser disconnects while the host stays awake; no vendor cloud.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "host"
+        ],
+        "version": "v11.1.8 stable (commit 1e448c4, released 2026-11-13); dev channel v11.2.x not scoped",
+        "plan": "Open source (AGPL-3.0, commercial licence offered); free",
+        "os": [],
+        "executionModes": [
+          "local",
+          "own-server"
+        ],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "local": {
+          "support": "supported",
+          "answer": "Install on your workstation.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "byo_remote": {
+          "support": "supported",
+          "answer": "Install on any server; connect via VPN, tunnel or proxy.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "self_hosted": {
+          "support": "supported",
+          "answer": "tlbx itself is the self-hosted control plane.",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "managed_cloud": {
+          "support": "unsupported",
+          "answer": "\"tlbx is not a VPN, hosted relay, repository cloud, or SSH tunnel\" (stable); Link relay is dev-channel only.",
+          "evidenceIds": [
+            "features",
+            "srch-cloud"
+          ]
+        },
+        "hybrid": {
+          "support": "supported",
+          "answer": "Several hosts via Hub or tabs.",
+          "evidenceIds": [
+            "readme",
+            "arch"
+          ]
+        },
+        "provisioning": {
+          "support": "supported",
+          "answer": "User installs.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "payer": {
+          "support": "supported",
+          "answer": "User machines.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "resources": {
+          "support": "partial",
+          "answer": "Host resources; .NET baseline requirements.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "region": {
+          "support": "unsupported",
+          "answer": "Wherever hosted.",
+          "evidenceIds": [
+            "srch-cloud"
+          ]
+        },
+        "expiry": {
+          "support": "supported",
+          "answer": "No expiry; shutting down host stops processes.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "client_disconnect": {
+          "support": "supported",
+          "answer": "Sessions keep running when the browser disconnects.",
+          "evidenceIds": [
+            "readme",
+            "features"
+          ]
+        },
+        "other_device_continuation": {
+          "support": "supported",
+          "answer": "Open from another browser, tablet or phone.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established or not supported: managed_cloud, resources, region; see atomic answers."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "features",
+        "srch-cloud",
+        "arch"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tlbx:RUN-02",
+      "criterionId": "RUN-02",
+      "answer": "Sessions are host processes with PTYs; Spaces can create Git worktrees; no container, VM or sandbox; share grants limit the web UI only.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "host"
+        ],
+        "version": "v11.1.8 stable (commit 1e448c4, released 2026-11-13); dev channel v11.2.x not scoped",
+        "plan": "Open source (AGPL-3.0, commercial licence offered); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "checkout": {
+          "support": "supported",
+          "answer": "Sessions run in a chosen working directory.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "branch": {
+          "support": "partial",
+          "answer": "Git view shows branch; branch switching via terminal.",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "worktree": {
+          "support": "supported",
+          "answer": "Spaces create/discover worktrees (`git worktree add`).",
+          "evidenceIds": [
+            "spacesvc",
+            "locales"
+          ]
+        },
+        "container": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-cloud"
+          ]
+        },
+        "vm": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-cloud"
+          ]
+        },
+        "os_sandbox": {
+          "support": "unsupported",
+          "answer": "None; run-as-user for service installs only.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "filesystem": {
+          "support": "partial",
+          "answer": "Session-scoped file allowlist for the UI; agents have host access.",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "process": {
+          "support": "partial",
+          "answer": "Separate PTY host per terminal session.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "network": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-cloud"
+          ]
+        },
+        "secrets": {
+          "support": "partial",
+          "answer": "DPAPI/Keychain/file storage for tlbx secrets.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "code_separation": {
+          "support": "partial",
+          "answer": "Worktrees only.",
+          "evidenceIds": [
+            "spacesvc"
+          ]
+        },
+        "security_boundary": {
+          "support": "unsupported",
+          "answer": "\"anyone who reaches the UI could gain shell access\".",
+          "evidenceIds": [
+            "arch"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established or not supported: branch, container, vm, os_sandbox, filesystem, process, network, secrets, code_separation, security_boundary; see atomic answers."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "spacesvc",
+        "features",
+        "srch-cloud",
+        "readme",
+        "locales",
+        "arch"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tlbx:RUN-03",
+      "criterionId": "RUN-03",
+      "answer": "PTY hosts outlive the web server and browser; reconnect with bounded recovery; web-only updates preserve sessions; startup releases assignments of dead sessions.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "host"
+        ],
+        "version": "v11.1.8 stable (commit 1e448c4, released 2026-11-13); dev channel v11.2.x not scoped",
+        "plan": "Open source (AGPL-3.0, commercial licence offered); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "client_disconnect": {
+          "support": "supported",
+          "answer": "Sessions persist.",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "worker_crash": {
+          "support": "partial",
+          "answer": "Host reconnect contract; unattached agent runtimes exposed.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "service_restart": {
+          "support": "supported",
+          "answer": "Web-only updates keep PTYs; full runtime update path separate.",
+          "evidenceIds": [
+            "features",
+            "arch"
+          ]
+        },
+        "expiry": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "transcript_reload": {
+          "support": "supported",
+          "answer": "Buffers, History and agent history persisted.",
+          "evidenceIds": [
+            "features",
+            "arch"
+          ]
+        },
+        "process_reconnect": {
+          "support": "supported",
+          "answer": "Mux channel reconnect with replay.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "task_resume": {
+          "support": "partial",
+          "answer": "Agent Controller sessions resume provider history.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "state_reconstruction": {
+          "support": "supported",
+          "answer": "Terminal recovery contract.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "context_loss": {
+          "support": "partial",
+          "answer": "Provider-dependent.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "duplicate_actions": {
+          "support": "partial",
+          "answer": "Lost responses reported as unknown outcomes; no auto-retry.",
+          "evidenceIds": [
+            "mcpdoc"
+          ]
+        },
+        "manual_repair": {
+          "support": "partial",
+          "answer": "Update scripts and rollback-oriented updater.",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "multi_day_continuity": {
+          "support": "supported",
+          "answer": "Host keeps sessions as long as it stays awake.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established or not supported: worker_crash, expiry, task_resume, context_loss, duplicate_actions, manual_repair; see atomic answers."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "features",
+        "arch",
+        "mcpdoc",
+        "readme"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tlbx:RUN-04",
+      "criterionId": "RUN-04",
+      "answer": "Dev Browser previews and reverse proxy beside sessions; no dependency/cache/snapshot/port management.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "host"
+        ],
+        "version": "v11.1.8 stable (commit 1e448c4, released 2026-11-13); dev channel v11.2.x not scoped",
+        "plan": "Open source (AGPL-3.0, commercial licence offered); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "dependencies": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-cloud"
+          ]
+        },
+        "caches": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-cloud"
+          ]
+        },
+        "snapshots": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-cloud"
+          ]
+        },
+        "services": {
+          "support": "partial",
+          "answer": "Saved commands run dev servers in sessions.",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "ports": {
+          "support": "partial",
+          "answer": "Preview proxy targets a port; no allocation.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "secrets": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-cloud"
+          ]
+        },
+        "duplicate_installs": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-cloud"
+          ]
+        },
+        "collisions": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-cloud"
+          ]
+        },
+        "remote_setup": {
+          "support": "supported",
+          "answer": "Installer sets up host service and certificate.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "automatic_repair": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-cloud"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established or not supported: dependencies, caches, snapshots, services, ports, secrets, duplicate_installs, collisions, automatic_repair; see atomic answers."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "features",
+        "arch",
+        "srch-cloud",
+        "readme"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tlbx:RUN-05",
+      "criterionId": "RUN-05",
+      "answer": "No time, token or spend limits; update and queue gating only.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "host"
+        ],
+        "version": "v11.1.8 stable (commit 1e448c4, released 2026-11-13); dev channel v11.2.x not scoped",
+        "plan": "Open source (AGPL-3.0, commercial licence offered); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "time_limits": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "turn_limits": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "token_limits": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "spend_limits": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "timeouts": {
+          "support": "partial",
+          "answer": "MCP tool timeouts (660 s for Codex setup).",
+          "evidenceIds": [
+            "mcpdoc"
+          ]
+        },
+        "retries": {
+          "support": "unsupported",
+          "answer": "No automatic retries by design.",
+          "evidenceIds": [
+            "mcpdoc"
+          ]
+        },
+        "provider_failures": {
+          "support": "partial",
+          "answer": "Failures exposed for unattached controller sessions.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "enforcement": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "arch"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established or not supported: time_limits, turn_limits, token_limits, spend_limits, timeouts, retries, provider_failures, enforcement; see atomic answers."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "arch",
+        "srch-cloud",
+        "mcpdoc"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tlbx:RUN-06",
+      "criterionId": "RUN-06",
+      "answer": "Session activity/telemetry snapshots, logs endpoints, session cost and context-usage counters in Agent Controller; no export or per-project statistics.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "host",
+          "browser"
+        ],
+        "version": "v11.1.8 stable (commit 1e448c4, released 2026-11-13); dev channel v11.2.x not scoped",
+        "plan": "Open source (AGPL-3.0, commercial licence offered); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "logs": {
+          "support": "supported",
+          "answer": "/api/logs files, read and tail.",
+          "evidenceIds": [
+            "openapi"
+          ]
+        },
+        "traces": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "failure_reasons": {
+          "support": "partial",
+          "answer": "Errors surfaced per session.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "usage_export": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "openapi"
+          ]
+        },
+        "task_stats": {
+          "support": "partial",
+          "answer": "Agent Controller usage counter per session.",
+          "evidenceIds": [
+            "locales",
+            "img-opencode"
+          ]
+        },
+        "agent_stats": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "project_stats": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "time_stats": {
+          "support": "partial",
+          "answer": "Heat and activity timing per session.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "failure_status": {
+          "support": "partial",
+          "answer": "Exit code and running state distinct.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "approval_status": {
+          "support": "supported",
+          "answer": "Pending approval state.",
+          "evidenceIds": [
+            "locales"
+          ]
+        },
+        "reconnect_consistency": {
+          "support": "supported",
+          "answer": "Mux v3 init-frame ordering and recovery contract.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "performance_method": {
+          "support": "unknown",
+          "answer": "Latency analyses exist in docs/ but no ADEMark entry.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "responsiveness": {
+          "support": "partial",
+          "answer": "Repo contains terminal latency analysis documents; not validated here.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established or not supported: traces, failure_reasons, usage_export, task_stats, agent_stats, project_stats, time_stats, failure_status, performance_method, responsiveness; see atomic answers."
+      ],
+      "unknownReason": "Speed claims need benchmarks; ADEMark lists no result for tlbx.",
+      "evidenceIds": [
+        "arch",
+        "locales",
+        "openapi",
+        "img-opencode",
+        "readme"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tlbx:RUN-07",
+      "criterionId": "RUN-07",
+      "answer": "Agent Controller sessions show session cost and token/context counters from the provider; no aggregation across sessions or budgets.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "browser"
+        ],
+        "version": "v11.1.8 stable (commit 1e448c4, released 2026-11-13); dev channel v11.2.x not scoped",
+        "plan": "Open source (AGPL-3.0, commercial licence offered); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "task_cost": {
+          "support": "partial",
+          "answer": "\"Session cost\" shown (e.g. $0.07) where the runtime reports it.",
+          "evidenceIds": [
+            "locales",
+            "img-opencode"
+          ]
+        },
+        "session_cost": {
+          "support": "partial",
+          "answer": "Same counter per Agent Controller session.",
+          "evidenceIds": [
+            "locales"
+          ]
+        },
+        "child_cost": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "epic_cost": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "harness_aggregation": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "billed_vs_estimated": {
+          "support": "unknown",
+          "answer": "Counter source (billed vs estimated) not documented.",
+          "evidenceIds": [
+            "locales"
+          ]
+        },
+        "tokens": {
+          "support": "supported",
+          "answer": "Token and context-window counters (e.g. 15,578, 2%).",
+          "evidenceIds": [
+            "img-opencode"
+          ]
+        },
+        "subscription_allowance": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "provider_reconciliation": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "compute_cost": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "refresh_delay": {
+          "support": "unknown",
+          "answer": "Not documented.",
+          "evidenceIds": [
+            "locales"
+          ]
+        },
+        "alerts": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "export": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "openapi"
+          ]
+        },
+        "drilldown": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "arch"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established or not supported: task_cost, session_cost, child_cost, epic_cost, harness_aggregation, billed_vs_estimated, subscription_allowance, provider_reconciliation, compute_cost, refresh_delay, alerts, export, drilldown; see atomic answers."
+      ],
+      "unknownReason": "Cost source semantics and refresh timing are runtime behaviours not stated in docs.",
+      "evidenceIds": [
+        "locales",
+        "img-opencode",
+        "arch",
+        "openapi"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tlbx:RUN-08",
+      "criterionId": "RUN-08",
+      "answer": "Terminal queue is heat-gated, controller queue turn-gated; no CPU/RAM scheduler or check reuse.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "host"
+        ],
+        "version": "v11.1.8 stable (commit 1e448c4, released 2026-11-13); dev channel v11.2.x not scoped",
+        "plan": "Open source (AGPL-3.0, commercial licence offered); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "concurrency": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "queues": {
+          "support": "supported",
+          "answer": "Per-session backend queue.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "cpu_ram": {
+          "support": "unsupported",
+          "answer": "Windows process priority job only.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "backpressure": {
+          "support": "partial",
+          "answer": "Queue drain gating; bounded recovery.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "host_awareness": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "check_reuse": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "check_deduplication": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "bounded_tests": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "cancellation": {
+          "support": "supported",
+          "answer": "Stop/clear queue items.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "fairness": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "recovery": {
+          "support": "supported",
+          "answer": "Queues persist across reconnects.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "shared_limits": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "arch"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established or not supported: concurrency, cpu_ram, backpressure, host_awareness, check_reuse, check_deduplication, bounded_tests, fairness, shared_limits; see atomic answers."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "arch"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tlbx:TEAM-01",
+      "criterionId": "TEAM-01",
+      "answer": "Several authorized browsers observe and control one host; expiring share grants (ViewOnly or FullControl) for a single session; no presence, comments or attribution.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "host",
+          "browser"
+        ],
+        "version": "v11.1.8 stable (commit 1e448c4, released 2026-11-13); dev channel v11.2.x not scoped",
+        "plan": "Open source (AGPL-3.0, commercial licence offered); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "visibility": {
+          "support": "supported",
+          "answer": "Share grants and multi-browser access.",
+          "evidenceIds": [
+            "features",
+            "share"
+          ]
+        },
+        "discussion": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-sso"
+          ]
+        },
+        "comments": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-sso"
+          ]
+        },
+        "presence": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-sso"
+          ]
+        },
+        "coprompting": {
+          "support": "partial",
+          "answer": "FullControl share lets the recipient drive the session; ownership of terminal size is explicit.",
+          "evidenceIds": [
+            "share",
+            "features"
+          ]
+        },
+        "ordering": {
+          "support": "unsupported",
+          "answer": "Not documented.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "conflicts": {
+          "support": "partial",
+          "answer": "One leading-browser owner decides terminal size.",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "attribution": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "permissions": {
+          "support": "supported",
+          "answer": "ViewOnly/FullControl, expiry.",
+          "evidenceIds": [
+            "share"
+          ]
+        },
+        "plan_restrictions": {
+          "support": "unsupported",
+          "answer": "No plans.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "owner_online": {
+          "support": "supported",
+          "answer": "Host must be running.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established or not supported: discussion, comments, presence, coprompting, ordering, conflicts, attribution, plan_restrictions; see atomic answers."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "features",
+        "share",
+        "arch",
+        "srch-sso",
+        "readme"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tlbx:TEAM-02",
+      "criterionId": "TEAM-02",
+      "answer": "One installation password, API keys and single-session share grants; no organizations, roles or SSO.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "host"
+        ],
+        "version": "v11.1.8 stable (commit 1e448c4, released 2026-11-13); dev channel v11.2.x not scoped",
+        "plan": "Open source (AGPL-3.0, commercial licence offered); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "organization_roles": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-sso"
+          ]
+        },
+        "project_roles": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-sso"
+          ]
+        },
+        "task_roles": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-sso"
+          ]
+        },
+        "membership": {
+          "support": "partial",
+          "answer": "Share grants expire; API keys manageable.",
+          "evidenceIds": [
+            "share",
+            "arch"
+          ]
+        },
+        "sso": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-sso"
+          ]
+        },
+        "provisioning": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-sso"
+          ]
+        },
+        "unauthorized_access": {
+          "support": "supported",
+          "answer": "Rate limits, signed sessions, path allowlists.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "revocation": {
+          "support": "supported",
+          "answer": "Delete API keys/grants; password change invalidates sessions.",
+          "evidenceIds": [
+            "arch",
+            "openapi"
+          ]
+        },
+        "plan_scope": {
+          "support": "unsupported",
+          "answer": "No plans.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established or not supported: organization_roles, project_roles, task_roles, membership, sso, provisioning, plan_scope; see atomic answers."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "srch-sso",
+        "arch",
+        "share",
+        "openapi",
+        "readme"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tlbx:TEAM-03",
+      "criterionId": "TEAM-03",
+      "answer": "Agent Controller sessions show Allow/approval cards; terminal agents prompt in their TTY; tlbx adds no policy engine; share grants cap UI access.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "host",
+          "browser"
+        ],
+        "version": "v11.1.8 stable (commit 1e448c4, released 2026-11-13); dev channel v11.2.x not scoped",
+        "plan": "Open source (AGPL-3.0, commercial licence offered); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "command": {
+          "support": "supported",
+          "answer": "Approval required cards for supported runtimes.",
+          "evidenceIds": [
+            "locales",
+            "features"
+          ]
+        },
+        "tool": {
+          "support": "supported",
+          "answer": "Same.",
+          "evidenceIds": [
+            "locales"
+          ]
+        },
+        "network": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-cloud"
+          ]
+        },
+        "secret": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "delivery": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "approver_identity": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "lifetime": {
+          "support": "partial",
+          "answer": "Share grants expire.",
+          "evidenceIds": [
+            "share"
+          ]
+        },
+        "allow": {
+          "support": "supported",
+          "answer": "Allow once.",
+          "evidenceIds": [
+            "locales"
+          ]
+        },
+        "deny": {
+          "support": "supported",
+          "answer": "Deny/dismiss in provider flow.",
+          "evidenceIds": [
+            "locales"
+          ]
+        },
+        "revoke": {
+          "support": "supported",
+          "answer": "Revoke share grants.",
+          "evidenceIds": [
+            "openapi"
+          ]
+        },
+        "tunnels": {
+          "support": "partial",
+          "answer": "Preview proxy; tlbx Link in dev.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "defaults": {
+          "support": "partial",
+          "answer": "Defaults follow agent; mode shown (Permissions Auto).",
+          "evidenceIds": [
+            "img-opencode"
+          ]
+        },
+        "safer_modes": {
+          "support": "supported",
+          "answer": "Permission mode controls in Agent Controller.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "enforcement": {
+          "support": "partial",
+          "answer": "Enforced by agent runtimes.",
+          "evidenceIds": [
+            "features"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established or not supported: network, secret, delivery, approver_identity, lifetime, tunnels, defaults, enforcement; see atomic answers."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "locales",
+        "features",
+        "srch-cloud",
+        "arch",
+        "share",
+        "openapi",
+        "readme",
+        "img-opencode"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tlbx:TEAM-04",
+      "criterionId": "TEAM-04",
+      "answer": "Persisted per-session input History and control-plane records with sources and revisions; no user-level audit or integrity model.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "host"
+        ],
+        "version": "v11.1.8 stable (commit 1e448c4, released 2026-11-13); dev channel v11.2.x not scoped",
+        "plan": "Open source (AGPL-3.0, commercial licence offered); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "actions": {
+          "support": "partial",
+          "answer": "History records input at explicit boundaries.",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "approvals": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "edits": {
+          "support": "partial",
+          "answer": "Board revisions.",
+          "evidenceIds": [
+            "boards"
+          ]
+        },
+        "discussion": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "decisions": {
+          "support": "partial",
+          "answer": "Decision work items.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "cross_user_persistence": {
+          "support": "unsupported",
+          "answer": "Single installation.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "cross_session_persistence": {
+          "support": "supported",
+          "answer": "History file persists.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "export": {
+          "support": "partial",
+          "answer": "API access.",
+          "evidenceIds": [
+            "openapi"
+          ]
+        },
+        "mutability": {
+          "support": "partial",
+          "answer": "JSON file on host.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "retention": {
+          "support": "partial",
+          "answer": "Bounded by count and size.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "integrity": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "arch"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established or not supported: actions, approvals, edits, discussion, decisions, cross_user_persistence, export, mutability, retention, integrity; see atomic answers."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "arch",
+        "features",
+        "boards",
+        "openapi"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tlbx:TEAM-05",
+      "criterionId": "TEAM-05",
+      "answer": "Session Git view with branch, staged/unstaged, diffs and recent commits, file/commit review, conflict handling; write commands via terminal; no PR or review-queue flow.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "browser"
+        ],
+        "version": "v11.1.8 stable (commit 1e448c4, released 2026-11-13); dev channel v11.2.x not scoped",
+        "plan": "Open source (AGPL-3.0, commercial licence offered); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "pending_reviews": {
+          "support": "partial",
+          "answer": "Git summary per session.",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "change_understanding": {
+          "support": "supported",
+          "answer": "Diff and commit inspection with new-file review.",
+          "evidenceIds": [
+            "features",
+            "locales"
+          ]
+        },
+        "evidence_navigation": {
+          "support": "supported",
+          "answer": "Files, Git, previews, logs beside session.",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "comments": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "locales"
+          ]
+        },
+        "request_changes": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "locales"
+          ]
+        },
+        "shipping_guidance": {
+          "support": "partial",
+          "answer": "Commit staged, finish/abort merge actions.",
+          "evidenceIds": [
+            "locales"
+          ]
+        },
+        "effort": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "locales"
+          ]
+        },
+        "missed_evidence": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "locales"
+          ]
+        },
+        "keyboard": {
+          "support": "supported",
+          "answer": "Configurable shortcuts.",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "narrow_screen": {
+          "support": "supported",
+          "answer": "Responsive layout.",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "context_switching": {
+          "support": "supported",
+          "answer": "Review beside session.",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "roles": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "locales"
+          ]
+        },
+        "retained_context": {
+          "support": "partial",
+          "answer": "Git history.",
+          "evidenceIds": [
+            "features"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established or not supported: pending_reviews, comments, request_changes, shipping_guidance, effort, missed_evidence, roles, retained_context; see atomic answers."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "features",
+        "locales"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tlbx:TEAM-06",
+      "criterionId": "TEAM-06",
+      "answer": "Another authorized browser can take over the same sessions; ownership of terminal size is explicit; no formal handoff or attribution.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "host",
+          "browser"
+        ],
+        "version": "v11.1.8 stable (commit 1e448c4, released 2026-11-13); dev channel v11.2.x not scoped",
+        "plan": "Open source (AGPL-3.0, commercial licence offered); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "ongoing_takeover": {
+          "support": "supported",
+          "answer": "Reconnect from another browser.",
+          "evidenceIds": [
+            "readme",
+            "features"
+          ]
+        },
+        "same_task": {
+          "support": "supported",
+          "answer": "Same session.",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "session_history": {
+          "support": "supported",
+          "answer": "Retained output and history.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "decisions": {
+          "support": "partial",
+          "answer": "Work items.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "artifacts": {
+          "support": "supported",
+          "answer": "Files on host.",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "permissions": {
+          "support": "partial",
+          "answer": "Single password or share grant.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "runtime_context": {
+          "support": "supported",
+          "answer": "Runtime on host.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "owner_disconnect": {
+          "support": "supported",
+          "answer": "Sessions continue.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "ownership": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "attribution": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "context_loss": {
+          "support": "partial",
+          "answer": "Provider-dependent.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "harness_transfer": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "arch"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established or not supported: decisions, permissions, ownership, attribution, context_loss, harness_transfer; see atomic answers."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "features",
+        "readme",
+        "arch"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tlbx:SHIP-01",
+      "criterionId": "SHIP-01",
+      "answer": "Per-session files, Git diffs, retained terminal output, Dev Browser screenshots and proxy logs, uploads; no cross-task gallery.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "host",
+          "browser"
+        ],
+        "version": "v11.1.8 stable (commit 1e448c4, released 2026-11-13); dev channel v11.2.x not scoped",
+        "plan": "Open source (AGPL-3.0, commercial licence offered); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "diffs": {
+          "support": "supported",
+          "answer": "Git diff and commit inspection.",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "documents": {
+          "support": "supported",
+          "answer": "File previews for Markdown, text, binaries.",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "screenshots": {
+          "support": "supported",
+          "answer": "Browser screenshots and responsive frames.",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "recordings": {
+          "support": "unsupported",
+          "answer": "Video preview of files only; no recordings.",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "previews": {
+          "support": "supported",
+          "answer": "Session-scoped Dev Browser previews.",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "test_outputs": {
+          "support": "partial",
+          "answer": "Retained terminal output.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "reviewer_outputs": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "gallery": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "task_links": {
+          "support": "supported",
+          "answer": "Belong to the session.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "revision_links": {
+          "support": "partial",
+          "answer": "Git state at inspection.",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "persistence": {
+          "support": "supported",
+          "answer": "On host.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "child_findings": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "prompt_leakage": {
+          "support": "unknown",
+          "answer": "Not assessed.",
+          "evidenceIds": [
+            "features"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established or not supported: recordings, test_outputs, reviewer_outputs, gallery, revision_links, child_findings, prompt_leakage; see atomic answers."
+      ],
+      "unknownReason": "Prompt leakage is a security property not testable without running the product.",
+      "evidenceIds": [
+        "features",
+        "readme"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tlbx:SHIP-02",
+      "criterionId": "SHIP-02",
+      "answer": "No built-in gates; agents run checks; saved commands run in sessions with streamed output.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "host"
+        ],
+        "version": "v11.1.8 stable (commit 1e448c4, released 2026-11-13); dev channel v11.2.x not scoped",
+        "plan": "Open source (AGPL-3.0, commercial licence offered); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "tests": {
+          "support": "partial",
+          "answer": "Saved commands can run tests.",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "lint": {
+          "support": "partial",
+          "answer": "Same.",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "types": {
+          "support": "partial",
+          "answer": "Same.",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "ci": {
+          "support": "unsupported",
+          "answer": "No CI integration.",
+          "evidenceIds": [
+            "srch-hook"
+          ]
+        },
+        "independent_review": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "spec_checks": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-spec"
+          ]
+        },
+        "required_checks": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "failure_blocking": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "requirement_conflicts": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-spec"
+          ]
+        },
+        "configured_policy": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "enforced_policy": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "features"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established or not supported: tests, lint, types, ci, independent_review, spec_checks, required_checks, failure_blocking, requirement_conflicts, configured_policy, enforced_policy; see atomic answers."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "features",
+        "srch-hook",
+        "srch-spec"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tlbx:SHIP-03",
+      "criterionId": "SHIP-03",
+      "answer": "Git status/diff/commit/merge-conflict views and worktree creation; commits staged changes from the UI; PRs, pushes and rebases go through the terminal.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "browser",
+          "host"
+        ],
+        "version": "v11.1.8 stable (commit 1e448c4, released 2026-11-13); dev channel v11.2.x not scoped",
+        "plan": "Open source (AGPL-3.0, commercial licence offered); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "branches": {
+          "support": "partial",
+          "answer": "Branch shown; operations via terminal.",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "worktrees": {
+          "support": "supported",
+          "answer": "Spaces create worktrees.",
+          "evidenceIds": [
+            "spacesvc"
+          ]
+        },
+        "commits": {
+          "support": "supported",
+          "answer": "Commit staged changes with message.",
+          "evidenceIds": [
+            "locales"
+          ]
+        },
+        "pull_requests": {
+          "support": "unsupported",
+          "answer": "No PR creation.",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "comments": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "ci_response": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "rebase": {
+          "support": "unsupported",
+          "answer": "Write commands are handed to a real terminal.",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "conflicts": {
+          "support": "supported",
+          "answer": "Conflict resolution helpers, abort/finish merge.",
+          "evidenceIds": [
+            "locales"
+          ]
+        },
+        "product_state": {
+          "support": "partial",
+          "answer": "Git state tracked per session.",
+          "evidenceIds": [
+            "features"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established or not supported: branches, pull_requests, comments, ci_response, rebase, product_state; see atomic answers."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "features",
+        "locales",
+        "spacesvc"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tlbx:SHIP-04",
+      "criterionId": "SHIP-04",
+      "answer": "Merge branch UI exists; no PR approval, release or deploy.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "browser"
+        ],
+        "version": "v11.1.8 stable (commit 1e448c4, released 2026-11-13); dev channel v11.2.x not scoped",
+        "plan": "Open source (AGPL-3.0, commercial licence offered); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "approve": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "merge": {
+          "support": "partial",
+          "answer": "Merge branch and finish merge in the Git view.",
+          "evidenceIds": [
+            "locales"
+          ]
+        },
+        "release": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "deploy": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "exact_revision": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "authority_enforcement": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "features"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established or not supported: approve, merge, release, deploy, exact_revision, authority_enforcement; see atomic answers."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "locales",
+        "features"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tlbx:SHIP-05",
+      "criterionId": "SHIP-05",
+      "answer": "Git commit history per session; no delivery links or rollback features.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "browser"
+        ],
+        "version": "v11.1.8 stable (commit 1e448c4, released 2026-11-13); dev channel v11.2.x not scoped",
+        "plan": "Open source (AGPL-3.0, commercial licence offered); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "commit_links": {
+          "support": "partial",
+          "answer": "Recent commits listed.",
+          "evidenceIds": [
+            "locales"
+          ]
+        },
+        "pr_links": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "build_links": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "deployment_links": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "delivery_status": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "retained_evidence": {
+          "support": "partial",
+          "answer": "Checkpoints.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "rollback": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "revert": {
+          "support": "partial",
+          "answer": "Git operations via terminal.",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "stale_approval_invalidation": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "features"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established or not supported: commit_links, pr_links, build_links, deployment_links, delivery_status, retained_evidence, rollback, revert, stale_approval_invalidation; see atomic answers."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "features",
+        "locales",
+        "arch"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tlbx:SHIP-06",
+      "criterionId": "SHIP-06",
+      "answer": "No batch review or delivery queue.",
+      "support": "unsupported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "browser"
+        ],
+        "version": "v11.1.8 stable (commit 1e448c4, released 2026-11-13); dev channel v11.2.x not scoped",
+        "plan": "Open source (AGPL-3.0, commercial licence offered); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "review_queue": {
+          "support": "unsupported",
+          "answer": "No review queue, grouping or merge queue in a bounded search.",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "summaries": {
+          "support": "unsupported",
+          "answer": "No review queue, grouping or merge queue in a bounded search.",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "grouping": {
+          "support": "unsupported",
+          "answer": "No review queue, grouping or merge queue in a bounded search.",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "risk_size_filters": {
+          "support": "unsupported",
+          "answer": "No review queue, grouping or merge queue in a bounded search.",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "findings": {
+          "support": "unsupported",
+          "answer": "No review queue, grouping or merge queue in a bounded search.",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "artifacts": {
+          "support": "unsupported",
+          "answer": "No review queue, grouping or merge queue in a bounded search.",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "request_changes": {
+          "support": "unsupported",
+          "answer": "No review queue, grouping or merge queue in a bounded search.",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "exact_revision_approval": {
+          "support": "unsupported",
+          "answer": "No review queue, grouping or merge queue in a bounded search.",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "dependency_queues": {
+          "support": "unsupported",
+          "answer": "No review queue, grouping or merge queue in a bounded search.",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "next_actions": {
+          "support": "unsupported",
+          "answer": "No review queue, grouping or merge queue in a bounded search.",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "stale_approval_invalidation": {
+          "support": "unsupported",
+          "answer": "No review queue, grouping or merge queue in a bounded search.",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "check_deduplication": {
+          "support": "unsupported",
+          "answer": "No review queue, grouping or merge queue in a bounded search.",
+          "evidenceIds": [
+            "features"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "features"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tlbx:OWN-01",
+      "criterionId": "OWN-01",
+      "answer": "AGPL-3.0 for the whole repository (host, UI, mobile shells, installers); commercial licence offered by the maintainers; tlbx Link relay hosted service is separate.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "host",
+          "mobile"
+        ],
+        "version": "v11.1.8 stable (commit 1e448c4, released 2026-11-13); dev channel v11.2.x not scoped",
+        "plan": "Open source (AGPL-3.0, commercial licence offered); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "client_license": {
+          "support": "supported",
+          "answer": "AGPL v3 LICENSE; README states GNU AGPL v3.",
+          "evidenceIds": [
+            "license",
+            "readme",
+            "repoapi"
+          ]
+        },
+        "server_license": {
+          "support": "supported",
+          "answer": "Same repository.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "hosted_extensions": {
+          "support": "unknown",
+          "answer": "Link (lnk.tlbx.ai) hosted relay is not in the inspected scope.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "source_visibility": {
+          "support": "supported",
+          "answer": "Public monorepo.",
+          "evidenceIds": [
+            "repoapi"
+          ]
+        },
+        "source_revision": {
+          "support": "supported",
+          "answer": "Pinned v11.1.8 at 1e448c4.",
+          "evidenceIds": [
+            "release"
+          ]
+        },
+        "hosted_parity": {
+          "support": "unknown",
+          "answer": "Hosted Link not inspectable.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established or not supported: hosted_extensions, hosted_parity; see atomic answers."
+      ],
+      "unknownReason": "The hosted Link service is a hosted component outside the inspected repository scope.",
+      "evidenceIds": [
+        "license",
+        "readme",
+        "repoapi",
+        "release"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-05-16",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tlbx:OWN-02",
+      "criterionId": "OWN-02",
+      "answer": "Self-hosted by design; no account; data under the tlbx directory; updates from GitHub releases.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "host"
+        ],
+        "version": "v11.1.8 stable (commit 1e448c4, released 2026-11-13); dev channel v11.2.x not scoped",
+        "plan": "Open source (AGPL-3.0, commercial licence offered); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "self_hosting": {
+          "support": "supported",
+          "answer": "Install anywhere.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "vendor_dependencies": {
+          "support": "partial",
+          "answer": "GitHub release checks and optional Link.",
+          "evidenceIds": [
+            "arch",
+            "readme"
+          ]
+        },
+        "export": {
+          "support": "partial",
+          "answer": "Files and API.",
+          "evidenceIds": [
+            "openapi"
+          ]
+        },
+        "import": {
+          "support": "partial",
+          "answer": "Spaces adopt existing directories.",
+          "evidenceIds": [
+            "locales"
+          ]
+        },
+        "formats": {
+          "support": "partial",
+          "answer": "JSON files and standard Git.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "cancellation": {
+          "support": "unsupported",
+          "answer": "No account.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "account_independence": {
+          "support": "supported",
+          "answer": "No account.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "history_portability": {
+          "support": "partial",
+          "answer": "History file.",
+          "evidenceIds": [
+            "arch"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established or not supported: vendor_dependencies, export, import, formats, cancellation, history_portability; see atomic answers."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "arch",
+        "openapi",
+        "locales"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-05-16",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tlbx:OWN-03",
+      "criterionId": "OWN-03",
+      "answer": "Repositories, credentials and processes stay on the host; no analytics SDK found; update checks reach GitHub; coding agents send data to providers; Link relay carries encrypted traffic (dev).",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "host",
+          "mobile"
+        ],
+        "version": "v11.1.8 stable (commit 1e448c4, released 2026-11-13); dev channel v11.2.x not scoped",
+        "plan": "Open source (AGPL-3.0, commercial licence offered); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "code_data": {
+          "support": "supported",
+          "answer": "Stays on host.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "prompts": {
+          "support": "supported",
+          "answer": "Go to chosen agent providers.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "credentials": {
+          "support": "supported",
+          "answer": "DPAPI/Keychain/restricted files.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "logs": {
+          "support": "supported",
+          "answer": "Host-local.",
+          "evidenceIds": [
+            "openapi"
+          ]
+        },
+        "artifacts": {
+          "support": "supported",
+          "answer": "Host-local.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "retention": {
+          "support": "partial",
+          "answer": "Bounded history.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "deletion": {
+          "support": "supported",
+          "answer": "User deletes files.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "training": {
+          "support": "unsupported",
+          "answer": "No data reaches tlbx.",
+          "evidenceIds": [
+            "srch-tele"
+          ]
+        },
+        "residency": {
+          "support": "unsupported",
+          "answer": "Local.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "subprocessors": {
+          "support": "unknown",
+          "answer": "Link relay operator not documented for processors.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "telemetry_disclosure": {
+          "support": "supported",
+          "answer": "Store notes state no analytics for the app.",
+          "evidenceIds": [
+            "connstore"
+          ]
+        },
+        "telemetry_defaults": {
+          "support": "supported",
+          "answer": "No analytics SDK found; update checks query GitHub.",
+          "evidenceIds": [
+            "srch-tele",
+            "arch"
+          ]
+        },
+        "telemetry_controls": {
+          "support": "unknown",
+          "answer": "Update-check control not identified.",
+          "evidenceIds": [
+            "arch"
+          ]
+        },
+        "consent_prompt": {
+          "support": "unsupported",
+          "answer": "None found.",
+          "evidenceIds": [
+            "srch-tele"
+          ]
+        },
+        "provider_separation": {
+          "support": "supported",
+          "answer": "README separates provider data flow.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established or not supported: retention, training, residency, subprocessors, telemetry_controls, consent_prompt; see atomic answers."
+      ],
+      "unknownReason": "Link relay processors and update-check controls are hosted-service or undocumented facts.",
+      "evidenceIds": [
+        "readme",
+        "srch-tele",
+        "arch",
+        "openapi",
+        "connstore"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tlbx:OWN-04",
+      "criterionId": "OWN-04",
+      "answer": "Free open source; no paid plan stated; commercial licensing available on request.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "host"
+        ],
+        "version": "v11.1.8 stable (commit 1e448c4, released 2026-11-13); dev channel v11.2.x not scoped",
+        "plan": "Open source (AGPL-3.0, commercial licence offered); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "currency": {
+          "support": "unsupported",
+          "answer": "No price.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "interval": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "seats": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "seat_minimum": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "workspace_fees": {
+          "support": "supported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "included_usage": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "credits": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "trial": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "overages": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "taxes": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "model_cost": {
+          "support": "supported",
+          "answer": "Provider charges apply.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "compute_cost": {
+          "support": "supported",
+          "answer": "Own machines.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established or not supported: currency, interval, seats, seat_minimum, included_usage, credits, trial, overages, taxes; see atomic answers."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-01-16",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tlbx:OWN-05",
+      "criterionId": "OWN-05",
+      "answer": "Platform cost is zero for any team size (AGPL); provider and compute costs are not priced here.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "host"
+        ],
+        "version": "v11.1.8 stable (commit 1e448c4, released 2026-11-13); dev channel v11.2.x not scoped",
+        "plan": "Open source (AGPL-3.0, commercial licence offered); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "one_person": {
+          "support": "supported",
+          "answer": "Zero platform fee.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "two_people": {
+          "support": "supported",
+          "answer": "Zero.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "five_people": {
+          "support": "supported",
+          "answer": "Zero.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "task_assumptions": {
+          "support": "unknown",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "concurrency": {
+          "support": "unknown",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "tokens": {
+          "support": "unknown",
+          "answer": "Provider-priced.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "compute_hours": {
+          "support": "unknown",
+          "answer": "Own machines.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "fixed_cost": {
+          "support": "supported",
+          "answer": "Zero.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "variable_cost": {
+          "support": "unknown",
+          "answer": "Provider-defined.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "included_cost": {
+          "support": "unknown",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "unknown_cost": {
+          "support": "unknown",
+          "answer": "Provider-defined.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established or not supported: task_assumptions, concurrency, tokens, compute_hours, variable_cost, included_cost, unknown_cost; see atomic answers."
+      ],
+      "unknownReason": "Provider token and compute costs depend on users plans.",
+      "evidenceIds": [
+        "readme"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tlbx:OWN-06",
+      "criterionId": "OWN-06",
+      "answer": "Active open-source project with stable and dev channels; many dev releases per day; SECURITY.md and SUPPORT.md; no response SLAs.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "host"
+        ],
+        "version": "v11.1.8 stable (commit 1e448c4, released 2026-11-13); dev channel v11.2.x not scoped",
+        "plan": "Open source (AGPL-3.0, commercial licence offered); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "release_stage": {
+          "support": "supported",
+          "answer": "Stable v11.1.8; Link in dev channel.",
+          "evidenceIds": [
+            "release",
+            "readme"
+          ]
+        },
+        "access_restrictions": {
+          "support": "supported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "support": {
+          "support": "supported",
+          "answer": "GitHub issues, SUPPORT.md, private vulnerability reporting.",
+          "evidenceIds": [
+            "security",
+            "readme"
+          ]
+        },
+        "response_commitments": {
+          "support": "partial",
+          "answer": "Security reports: 3 business-day acknowledgement target.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "release_activity": {
+          "support": "supported",
+          "answer": "Releases daily.",
+          "evidenceIds": [
+            "release"
+          ]
+        },
+        "status_history": {
+          "support": "unknown",
+          "answer": "No status page.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "deprecation": {
+          "support": "partial",
+          "answer": "Generated CLI deprecated for MCP.",
+          "evidenceIds": [
+            "mcpdoc"
+          ]
+        },
+        "export_options": {
+          "support": "supported",
+          "answer": "Files and Git.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established or not supported: response_commitments, status_history, deprecation; see atomic answers."
+      ],
+      "unknownReason": "Status history is a vendor business fact.",
+      "evidenceIds": [
+        "release",
+        "security",
+        "readme",
+        "mcpdoc"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tlbx:OWN-07",
+      "criterionId": "OWN-07",
+      "answer": "No ISO or SOC reports claimed; release integrity (SBOM, provenance, signed manifest) is documented separately.",
+      "support": "unknown",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "host"
+        ],
+        "version": "v11.1.8 stable (commit 1e448c4, released 2026-11-13); dev channel v11.2.x not scoped",
+        "plan": "Open source (AGPL-3.0, commercial licence offered); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "iso_scope": {
+          "support": "unknown",
+          "answer": "No ISO or SOC certification claimed in the repository; release integrity attestations are not audits; certification is a business fact outside the code.",
+          "evidenceIds": [
+            "integrity"
+          ]
+        },
+        "iso_issuer": {
+          "support": "unknown",
+          "answer": "No ISO or SOC certification claimed in the repository; release integrity attestations are not audits; certification is a business fact outside the code.",
+          "evidenceIds": [
+            "integrity"
+          ]
+        },
+        "iso_validity": {
+          "support": "unknown",
+          "answer": "No ISO or SOC certification claimed in the repository; release integrity attestations are not audits; certification is a business fact outside the code.",
+          "evidenceIds": [
+            "integrity"
+          ]
+        },
+        "soc2_type": {
+          "support": "unknown",
+          "answer": "No ISO or SOC certification claimed in the repository; release integrity attestations are not audits; certification is a business fact outside the code.",
+          "evidenceIds": [
+            "integrity"
+          ]
+        },
+        "soc2_scope": {
+          "support": "unknown",
+          "answer": "No ISO or SOC certification claimed in the repository; release integrity attestations are not audits; certification is a business fact outside the code.",
+          "evidenceIds": [
+            "integrity"
+          ]
+        },
+        "soc2_period": {
+          "support": "unknown",
+          "answer": "No ISO or SOC certification claimed in the repository; release integrity attestations are not audits; certification is a business fact outside the code.",
+          "evidenceIds": [
+            "integrity"
+          ]
+        },
+        "report_access": {
+          "support": "unknown",
+          "answer": "No ISO or SOC certification claimed in the repository; release integrity attestations are not audits; certification is a business fact outside the code.",
+          "evidenceIds": [
+            "integrity"
+          ]
+        },
+        "verification_date": {
+          "support": "unknown",
+          "answer": "No ISO or SOC certification claimed in the repository; release integrity attestations are not audits; certification is a business fact outside the code.",
+          "evidenceIds": [
+            "integrity"
+          ]
+        },
+        "evidence_status": {
+          "support": "unknown",
+          "answer": "No ISO or SOC certification claimed in the repository; release integrity attestations are not audits; certification is a business fact outside the code.",
+          "evidenceIds": [
+            "integrity"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": "Certification and audit are business facts not present in the repository.",
+      "evidenceIds": [
+        "integrity"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch20",
+      "publication": "internal-only",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tlbx:OWN-08",
+      "criterionId": "OWN-08",
+      "answer": "Free open source; no trial, card or paid tier required.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "host"
+        ],
+        "version": "v11.1.8 stable (commit 1e448c4, released 2026-11-13); dev channel v11.2.x not scoped",
+        "plan": "Open source (AGPL-3.0, commercial licence offered); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "ongoing_free": {
+          "support": "supported",
+          "answer": "Free and open source.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "trial": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "credits_trial": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "self_host_cost": {
+          "support": "supported",
+          "answer": "Own machines.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "paid_only": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "early_access": {
+          "support": "partial",
+          "answer": "Link relay is dev-channel only.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "free_scenarios": {
+          "support": "partial",
+          "answer": "Remote browser access, BYO subscriptions and mobile browser are free; collaboration is limited to shares; no hosted compute.",
+          "evidenceIds": [
+            "readme",
+            "features"
+          ]
+        },
+        "card_required": {
+          "support": "supported",
+          "answer": "No.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "usage_caps": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "paid_evaluation": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established or not supported: trial, credits_trial, paid_only, early_access, free_scenarios, usage_caps, paid_evaluation; see atomic answers."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "features"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-01-16",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "tlbx:OWN-09",
+      "criterionId": "OWN-09",
+      "answer": "Transparent: no price.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "host"
+        ],
+        "version": "v11.1.8 stable (commit 1e448c4, released 2026-11-13); dev channel v11.2.x not scoped",
+        "plan": "Open source (AGPL-3.0, commercial licence offered); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "units": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "included_limits": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "overages": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "compute_markup": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "model_markup": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "minimum_commitment": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "cancellation": {
+          "support": "unsupported",
+          "answer": "No account.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "sales_only_unknowns": {
+          "support": "partial",
+          "answer": "Commercial licensing terms are by request.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "transparency_classification": {
+          "support": "supported",
+          "answer": "Free with commercial licence on request.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established or not supported: units, included_limits, overages, compute_markup, model_markup, minimum_commitment, cancellation, sales_only_unknowns; see atomic answers."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-01-16",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    }
+  ],
+  "evidence": [
+    {
+      "id": "repoapi",
+      "kind": "documented",
+      "url": "https://api.github.com/repos/tlbx-ai/tlbx",
+      "title": "GitHub repository metadata",
+      "locator": "stargazers_count, license, homepage",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "119 stars, AGPL-3.0, homepage tlbx.ai, C#, pushed 2026-11-17.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "release",
+      "kind": "documented",
+      "url": "https://github.com/tlbx-ai/tlbx/releases/tag/v11.1.8",
+      "title": "Release v11.1.8",
+      "locator": "release page",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "Latest stable release v11.1.8 published 2026-11-13; the dev channel carries v11.2.x pre-releases.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "readme",
+      "kind": "documented",
+      "url": "https://github.com/tlbx-ai/tlbx/blob/1e448c4ec724e78e1ca29db9d193210e97a8ca02/README.md",
+      "title": "README",
+      "locator": "intro; Two session types; Working with agents; Install; Private remote access; Where things run",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "Free open-source ADE for Windows/macOS/Linux; browser UI; Terminal and Agent Controller sessions; installers; tlbx Link (dev channel); sessions keep running when the browser closes while the host stays awake; AGPL-3.0 with commercial licensing.",
+      "visibility": "public",
+      "commit": "1e448c4ec724e78e1ca29db9d193210e97a8ca02",
+      "path": "README.md"
+    },
+    {
+      "id": "features",
+      "kind": "documented",
+      "url": "https://github.com/tlbx-ai/tlbx/blob/1e448c4ec724e78e1ca29db9d193210e97a8ca02/docs/FEATURES.md",
+      "title": "FEATURES.md",
+      "locator": "sections: Agent work from any browser; Two session surfaces; Agent-visible control plane; Files, Git; Mobile; Remote access",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "Current product boundary: real PTYs, Agent Controller sessions for Codex app-server and ACP agents, control plane work items, Git read views, Dev Browser, several browsers on one host, passwords and share grants; not a VPN or hosted relay.",
+      "visibility": "public",
+      "commit": "1e448c4ec724e78e1ca29db9d193210e97a8ca02",
+      "path": "docs/FEATURES.md"
+    },
+    {
+      "id": "arch",
+      "kind": "documented",
+      "url": "https://github.com/tlbx-ai/tlbx/blob/1e448c4ec724e78e1ca29db9d193210e97a8ca02/docs/ARCHITECTURE.md",
+      "title": "ARCHITECTURE.md",
+      "locator": "Runtime model; Command Bay; Agent control plane; Security; Install and update pipeline",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "mt, mthost (PTYs) and mtagenthost (structured agents); persistent backend-owned queues; control plane records; PBKDF2 auth, keychain/DPAPI secrets, share grants; update service checks GitHub releases.",
+      "visibility": "public",
+      "commit": "1e448c4ec724e78e1ca29db9d193210e97a8ca02",
+      "path": "docs/ARCHITECTURE.md"
+    },
+    {
+      "id": "mcpdoc",
+      "kind": "documented",
+      "url": "https://github.com/tlbx-ai/tlbx/blob/1e448c4ec724e78e1ca29db9d193210e97a8ca02/docs/TLBX-MCP.md",
+      "title": "TLBX-MCP.md",
+      "locator": "Transports; Terminal TUI configuration; Tools; Short calls and parallel workflows",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "Native MCP server at POST /api/mcp and `mt mcp --stdio`; per-thread credentials; tools for sessions, queues, work items, dispatch, structured agents, repos, boards, browser; workflow_run chains up to 64 calls.",
+      "visibility": "public",
+      "commit": "1e448c4ec724e78e1ca29db9d193210e97a8ca02",
+      "path": "docs/TLBX-MCP.md"
+    },
+    {
+      "id": "openapi",
+      "kind": "source-inspected",
+      "url": "https://github.com/tlbx-ai/tlbx/blob/1e448c4ec724e78e1ca29db9d193210e97a8ca02/src/Ai.Tlbx.MidTerm/openapi/openapi.json",
+      "title": "OpenAPI document",
+      "locator": "/api/sessions, /api/auth, /api/security/api-keys, /api/share, /api/update, /api/webpreview",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "REST surface for sessions, input, buffers, notes, files, share grants, API keys, updates, web preview and browser control.",
+      "visibility": "public",
+      "commit": "1e448c4ec724e78e1ca29db9d193210e97a8ca02",
+      "path": "src/Ai.Tlbx.MidTerm/openapi/openapi.json"
+    },
+    {
+      "id": "locales",
+      "kind": "source-inspected",
+      "url": "https://github.com/tlbx-ai/tlbx/blob/1e448c4ec724e78e1ca29db9d193210e97a8ca02/src/Ai.Tlbx.MidTerm/src/static/locales/en.json",
+      "title": "English UI strings",
+      "locator": "appServerControl.usage.cost, request.approveOnce, spaces.*, git.*",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "UI offers session cost, Allow/approval for agent requests, Spaces with worktree creation, Git commit/merge/abort-merge flows.",
+      "visibility": "public",
+      "commit": "1e448c4ec724e78e1ca29db9d193210e97a8ca02",
+      "path": "src/Ai.Tlbx.MidTerm/src/static/locales/en.json"
+    },
+    {
+      "id": "spacesvc",
+      "kind": "source-inspected",
+      "url": "https://github.com/tlbx-ai/tlbx/blob/1e448c4ec724e78e1ca29db9d193210e97a8ca02/src/Ai.Tlbx.MidTerm/Services/Spaces/SpaceService.cs",
+      "title": "Space service",
+      "locator": "git worktree add",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "Spaces create Git worktrees for the sidebar via `git worktree add`.",
+      "visibility": "public",
+      "commit": "1e448c4ec724e78e1ca29db9d193210e97a8ca02",
+      "path": "src/Ai.Tlbx.MidTerm/Services/Spaces/SpaceService.cs"
+    },
+    {
+      "id": "boards",
+      "kind": "source-inspected",
+      "url": "https://github.com/tlbx-ai/tlbx/blob/1e448c4ec724e78e1ca29db9d193210e97a8ca02/src/Ai.Tlbx.MidTerm/Services/Boards/BoardModels.cs",
+      "title": "Board models",
+      "locator": "BoardDocument, BoardItem, BoardPatch.ExpectedRevision",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "Freeform boards of notes, to-do entries, URLs and launches with revisions; items can launch sessions with a prompt and working directory.",
+      "visibility": "public",
+      "commit": "1e448c4ec724e78e1ca29db9d193210e97a8ca02",
+      "path": "src/Ai.Tlbx.MidTerm/Services/Boards/BoardModels.cs"
+    },
+    {
+      "id": "share",
+      "kind": "source-inspected",
+      "url": "https://github.com/tlbx-ai/tlbx/blob/1e448c4ec724e78e1ca29db9d193210e97a8ca02/src/Ai.Tlbx.MidTerm/Models/Share/ShareAccessMode.cs",
+      "title": "Share access modes",
+      "locator": "ShareAccessMode",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "Share grants are ViewOnly or FullControl and expire.",
+      "visibility": "public",
+      "commit": "1e448c4ec724e78e1ca29db9d193210e97a8ca02",
+      "path": "src/Ai.Tlbx.MidTerm/Models/Share/ShareAccessMode.cs"
+    },
+    {
+      "id": "connstore",
+      "kind": "documented",
+      "url": "https://github.com/tlbx-ai/tlbx/blob/1e448c4ec724e78e1ca29db9d193210e97a8ca02/src/connectors/STORE_SETUP.md",
+      "title": "Mobile app store handoff",
+      "locator": "What the app does natively",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "ai.tlbx.app is a connection manager for multiple tlbx instances (WebView), iOS/iPadOS 16 and Android 8 minimum, collects no analytics.",
+      "visibility": "public",
+      "commit": "1e448c4ec724e78e1ca29db9d193210e97a8ca02",
+      "path": "src/connectors/STORE_SETUP.md"
+    },
+    {
+      "id": "security",
+      "kind": "documented",
+      "url": "https://github.com/tlbx-ai/tlbx/blob/1e448c4ec724e78e1ca29db9d193210e97a8ca02/SECURITY.md",
+      "title": "Security policy",
+      "locator": "report; response targets",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "Private vulnerability reporting; 3 business-day acknowledgement target.",
+      "visibility": "public",
+      "commit": "1e448c4ec724e78e1ca29db9d193210e97a8ca02",
+      "path": "SECURITY.md"
+    },
+    {
+      "id": "integrity",
+      "kind": "documented",
+      "url": "https://github.com/tlbx-ai/tlbx/blob/1e448c4ec724e78e1ca29db9d193210e97a8ca02/docs/RELEASE-INTEGRITY.md",
+      "title": "Release integrity",
+      "locator": "SBOM, provenance, signed manifest",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "Release archives have SPDX SBOMs, build provenance attestations and a signed manifest verified by installers and updater.",
+      "visibility": "public",
+      "commit": "1e448c4ec724e78e1ca29db9d193210e97a8ca02",
+      "path": "docs/RELEASE-INTEGRITY.md"
+    },
+    {
+      "id": "license",
+      "kind": "documented",
+      "url": "https://github.com/tlbx-ai/tlbx/blob/1e448c4ec724e78e1ca29db9d193210e97a8ca02/LICENSE",
+      "title": "LICENSE",
+      "locator": "AGPL v3 text",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "GNU Affero General Public License version 3; no project-specific or-later grant stated.",
+      "visibility": "public",
+      "commit": "1e448c4ec724e78e1ca29db9d193210e97a8ca02",
+      "path": "LICENSE"
+    },
+    {
+      "id": "mobilebridge",
+      "kind": "documented",
+      "url": "https://github.com/tlbx-ai/tlbx/blob/1e448c4ec724e78e1ca29db9d193210e97a8ca02/docs/MOBILE_DEVICE_BRIDGE_PRIVACY.md",
+      "title": "Mobile device bridge privacy",
+      "locator": "what is sent",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "Optional local Chrome Mobile Device Bridge; privacy notes for device emulation.",
+      "visibility": "public",
+      "commit": "1e448c4ec724e78e1ca29db9d193210e97a8ca02",
+      "path": "docs/MOBILE_DEVICE_BRIDGE_PRIVACY.md"
+    },
+    {
+      "id": "img-opencode",
+      "kind": "documented",
+      "url": "https://github.com/tlbx-ai/tlbx/blob/1e448c4ec724e78e1ca29db9d193210e97a8ca02/docs/marketing/readme/opencode-session.webp",
+      "title": "README screenshot opencode-session.webp",
+      "locator": "README product screenshots",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "Real tlbx window: nine sidebar sessions (Codex, Claude, OpenCode, pulse dev server, tests), OpenCode transcript adding GET /api/status and tests, session cost counter.",
+      "visibility": "public",
+      "commit": "1e448c4ec724e78e1ca29db9d193210e97a8ca02",
+      "path": "docs/marketing/readme/opencode-session.webp"
+    },
+    {
+      "id": "srch-sso",
+      "kind": "source-inspected",
+      "url": "https://github.com/tlbx-ai/tlbx/blob/1e448c4ec724e78e1ca29db9d193210e97a8ca02/src",
+      "title": "Bounded search: SSO and orgs",
+      "locator": "grep saml|oidc|scim|okta over src/, docs/",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "Matches are GitHub OIDC for the build server and a trust helper; no SSO, organization or role model in the product (single installation password, API keys, share grants).",
+      "visibility": "public",
+      "commit": "1e448c4ec724e78e1ca29db9d193210e97a8ca02",
+      "path": "src"
+    },
+    {
+      "id": "srch-hook",
+      "kind": "source-inspected",
+      "url": "https://github.com/tlbx-ai/tlbx/blob/1e448c4ec724e78e1ca29db9d193210e97a8ca02/src",
+      "title": "Bounded search: webhooks and event triggers",
+      "locator": "grep webhook over src/",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "Only generated API typings and a package-lock mention; no webhook endpoints.",
+      "visibility": "public",
+      "commit": "1e448c4ec724e78e1ca29db9d193210e97a8ca02",
+      "path": "src"
+    },
+    {
+      "id": "srch-cloud",
+      "kind": "source-inspected",
+      "url": "https://github.com/tlbx-ai/tlbx/blob/1e448c4ec724e78e1ca29db9d193210e97a8ca02/src",
+      "title": "Bounded search: managed cloud, containers",
+      "locator": "grep docker|sandbox|container over src/",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "No vendor cloud runtime or container isolation; hits are test fakes and a proxy header.",
+      "visibility": "public",
+      "commit": "1e448c4ec724e78e1ca29db9d193210e97a8ca02",
+      "path": "src"
+    },
+    {
+      "id": "srch-tele",
+      "kind": "source-inspected",
+      "url": "https://github.com/tlbx-ai/tlbx/blob/1e448c4ec724e78e1ca29db9d193210e97a8ca02/src",
+      "title": "Bounded search: telemetry SDKs",
+      "locator": "grep posthog|sentry|appinsights|analytics over src/ and docs/",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "No analytics SDK found; mobile app store notes say no analytics; update service queries GitHub releases.",
+      "visibility": "public",
+      "commit": "1e448c4ec724e78e1ca29db9d193210e97a8ca02",
+      "path": "src"
+    },
+    {
+      "id": "srch-sched",
+      "kind": "source-inspected",
+      "url": "https://github.com/tlbx-ai/tlbx/blob/1e448c4ec724e78e1ca29db9d193210e97a8ca02/docs/FEATURES.md",
+      "title": "Bounded search: schedules",
+      "locator": "grep -w cron over src/ and docs/; FEATURES.md follow-ups",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "No cron or recurring scheduler matches; FEATURES.md documents immediate or scheduled follow-ups queued per session (backend-owned Command Bay queue); DelayedActionScheduler is a generic in-process timer helper.",
+      "visibility": "public",
+      "commit": "1e448c4ec724e78e1ca29db9d193210e97a8ca02",
+      "path": "docs/FEATURES.md"
+    },
+    {
+      "id": "srch-spec",
+      "kind": "source-inspected",
+      "url": "https://github.com/tlbx-ai/tlbx/blob/1e448c4ec724e78e1ca29db9d193210e97a8ca02/src",
+      "title": "Bounded search: specs and memory",
+      "locator": "grep spec-driven|living spec over src/ and docs/",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "No requirements/spec store; boards and notes are free-form.",
+      "visibility": "public",
+      "commit": "1e448c4ec724e78e1ca29db9d193210e97a8ca02",
+      "path": "src"
+    }
+  ],
+  "changes": [
+    {
+      "date": "2026-11-17",
+      "author": "researcher-batch20",
+      "type": "initial-research",
+      "summary": "Initial full-profile source pass over stable release v11.1.8 (commit 1e448c4): README, docs/ (features, architecture, MCP, security, release integrity), openapi.json, C# services, locales, connectors and installers, with bounded code searches covering all 51 criteria. The dev channel (v11.2.x, tlbx Link) was not profiled.",
+      "claimIds": [
+        "tlbx:ACC-01",
+        "tlbx:ACC-02",
+        "tlbx:ACC-03",
+        "tlbx:ACC-04",
+        "tlbx:ACC-05",
+        "tlbx:ACC-06",
+        "tlbx:ACC-07",
+        "tlbx:PLAN-01",
+        "tlbx:PLAN-02",
+        "tlbx:PLAN-03",
+        "tlbx:PLAN-04",
+        "tlbx:PLAN-05",
+        "tlbx:PLAN-06",
+        "tlbx:PLAN-07",
+        "tlbx:PLAN-08",
+        "tlbx:COORD-01",
+        "tlbx:COORD-02",
+        "tlbx:COORD-03",
+        "tlbx:COORD-04",
+        "tlbx:COORD-05",
+        "tlbx:COORD-06",
+        "tlbx:COORD-07",
+        "tlbx:RUN-01",
+        "tlbx:RUN-02",
+        "tlbx:RUN-03",
+        "tlbx:RUN-04",
+        "tlbx:RUN-05",
+        "tlbx:RUN-06",
+        "tlbx:RUN-07",
+        "tlbx:RUN-08",
+        "tlbx:TEAM-01",
+        "tlbx:TEAM-02",
+        "tlbx:TEAM-03",
+        "tlbx:TEAM-04",
+        "tlbx:TEAM-05",
+        "tlbx:TEAM-06",
+        "tlbx:SHIP-01",
+        "tlbx:SHIP-02",
+        "tlbx:SHIP-03",
+        "tlbx:SHIP-04",
+        "tlbx:SHIP-05",
+        "tlbx:SHIP-06",
+        "tlbx:OWN-01",
+        "tlbx:OWN-02",
+        "tlbx:OWN-03",
+        "tlbx:OWN-04",
+        "tlbx:OWN-05",
+        "tlbx:OWN-06",
+        "tlbx:OWN-07",
+        "tlbx:OWN-08",
+        "tlbx:OWN-09"
+      ],
+      "evidenceIds": [
+        "repoapi",
+        "release",
+        "readme",
+        "features",
+        "arch",
+        "mcpdoc",
+        "openapi",
+        "locales",
+        "spacesvc",
+        "boards",
+        "share",
+        "connstore",
+        "security",
+        "integrity",
+        "license",
+        "mobilebridge",
+        "img-opencode",
+        "srch-sso",
+        "srch-hook",
+        "srch-cloud",
+        "srch-tele",
+        "srch-sched",
+        "srch-spec"
+      ]
+    }
+  ],
+  "context": {
+    "roadmapReview": {
+      "checkedAt": "2026-11-17",
+      "locations": [
+        {
+          "url": "https://github.com/tlbx-ai/tlbx/releases",
+          "result": "Stable v11.1.8 (2026-11-13); dev pre-releases v11.2.x through 2026-11-17 (e.g. chat history files, commit diff choice, compact MCP tools)."
+        },
+        {
+          "url": "https://github.com/tlbx-ai/tlbx/tree/v11.1.8/docs/roadmap",
+          "result": "Engineering notes (analyzer campaign, file/git TODO, Rust rewrite analysis, voice plan); none is a dated public product commitment."
+        },
+        {
+          "url": "https://github.com/tlbx-ai/tlbx/blob/v11.1.8/docs/FEATURES.md",
+          "result": "Says the Operator sidebar UI was withdrawn and the API remains; describes the product boundary."
+        },
+        {
+          "url": "https://github.com/tlbx-ai/tlbx/blob/v11.1.8/README.md",
+          "result": "tlbx Link is described as available in the dev channel; stable installs default to stable."
+        },
+        {
+          "url": "https://github.com/tlbx-ai/tlbx/issues",
+          "result": "Public issues; no dated announcements recorded."
+        }
+      ],
+      "announced": [],
+      "gaps": [
+        "tlbx Link (hosted relay) is dev-channel only and was not evaluated as a stable capability.",
+        "Generated Bash/PowerShell mt CLI is described as deprecated in favour of MCP, with no removal date."
+      ]
+    },
+    "marketContext": {
+      "githubStars": {
+        "value": 119,
+        "observedAt": "2026-11-17",
+        "evidenceIds": [
+          "repoapi"
+        ]
+      }
+    }
+  }
+}
