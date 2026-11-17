@@ -1,0 +1,5876 @@
+{
+  "schemaVersion": 1,
+  "rubricVersion": "0.3",
+  "id": "agentglass",
+  "name": "agentglass",
+  "category": "A",
+  "researchTier": "full-profile",
+  "researchState": "documented",
+  "identity": {
+    "website": "https://sirallap.github.io/agentglass/",
+    "repository": "https://github.com/SirAllap/agentglass",
+    "aliases": [],
+    "company": null
+  },
+  "surfaces": [
+    {
+      "id": "desktop",
+      "name": "agentglass desktop app (Electron around a Bun/SQLite server and React UI; Linux, macOS, Windows)",
+      "type": "desktop"
+    },
+    {
+      "id": "android",
+      "name": "agentglass Android companion app (React Native, signed APK)",
+      "type": "mobile"
+    },
+    {
+      "id": "cli",
+      "name": "agentglass-ui, agentglass-agent and agentglass-cleanup CLIs and HTTP API",
+      "type": "cli"
+    }
+  ],
+  "claims": [
+    {
+      "id": "agentglass:ACC-01",
+      "criterionId": "ACC-01",
+      "answer": "Electron desktop app for Linux (AppImage, deb), macOS (unsigned dmg, Apple silicon and Intel) and Windows (exe, built in CI but not verified on hardware), plus a signed Android companion APK; agentglass-ui, agentglass-agent and agentglass-cleanup CLIs; no iOS app, phone browser client or editor extension.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop",
+          "android",
+          "cli"
+        ],
+        "version": "release v1.0.0 (2026-11-03, commit 1b878f8); plugin repositories at default-branch heads checked 2026-11-16",
+        "plan": "Open source (MIT) desktop app, free download; no paid plan",
+        "os": [
+          "Linux",
+          "macOS",
+          "Windows",
+          "Android"
+        ],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "desktop_os": {
+          "support": "supported",
+          "answer": "Release v1.0.0 ships AppImage and deb, arm64 and x64 dmg and an exe; the README table marks Linux working, macOS working but unsigned and Windows not verified on real metal.",
+          "evidenceIds": [
+            "readme",
+            "release",
+            "pkg"
+          ]
+        },
+        "mobile_apps": {
+          "support": "partial",
+          "answer": "A native Android companion paired by a scanned code; no iOS app is offered.",
+          "evidenceIds": [
+            "readme",
+            "workspace"
+          ]
+        },
+        "browser": {
+          "support": "partial",
+          "answer": "The same UI runs at localhost:4000 when started from source and a live demo runs in a browser on sample data; the packaged app has no browser port.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "mobile_browser": {
+          "support": "unsupported",
+          "answer": "The phone web app was replaced by the Android app because WebCrypto needs a secure context for pairing over plain HTTP.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "cli": {
+          "support": "supported",
+          "answer": "agentglass-ui, agentglass-agent (start, prompt, wait, read, send-keys, list, stop, schedule) and agentglass-cleanup.",
+          "evidenceIds": [
+            "workspace",
+            "extending"
+          ]
+        },
+        "editor_extensions": {
+          "support": "unsupported",
+          "answer": "No editor extension; plugins are separate processes.",
+          "evidenceIds": [
+            "plugins"
+          ]
+        },
+        "task_actions": {
+          "support": "supported",
+          "answer": "Start agents in worktrees from tasks or issues, steer in terminals, allow or deny gated tool calls, review pull requests and diffs from the desktop; the phone answers approvals and reads terminals, PRs and changes at the granted scope.",
+          "evidenceIds": [
+            "readme",
+            "workspace"
+          ]
+        },
+        "notifications": {
+          "support": "supported",
+          "answer": "Bell and cards in the app, desktop notifications, phone alerts at a scope, and an opt-in Slack or Discord webhook.",
+          "evidenceIds": [
+            "workspace",
+            "security"
+          ]
+        },
+        "cross_device_continuity": {
+          "support": "supported",
+          "answer": "The phone reads the same server over your own network or tailnet, so approvals and terminals are shared with the desk.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        }
+      },
+      "limitations": [
+        "macOS builds are unsigned (an xattr step is required), Windows is not verified on real hardware, and the Android app is distributed only as an APK outside any store."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "release",
+        "pkg",
+        "workspace",
+        "extending",
+        "plugins",
+        "security"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentglass:ACC-02",
+      "criterionId": "ACC-02",
+      "answer": "Attaches to and starts Claude Code, Codex, Gemini CLI and OpenCode in tmux or panes; Kimi Code CLI via hooks and any agent through ingest or OTLP; Claude Code can be pointed at Kimi, OpenAI, Gemini or Bedrock; it never proxies the agents.",
+      "support": "supported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "release v1.0.0 (2026-11-03, commit 1b878f8); plugin repositories at default-branch heads checked 2026-11-16",
+        "plan": "Open source (MIT) desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": "Claude Code, Codex, Gemini CLI, OpenCode (terminal CLIs), others via ingest/OTLP"
+      },
+      "subanswers": {
+        "harnesses": {
+          "support": "supported",
+          "answer": "README names Claude Code, Codex, Gemini CLI and OpenCode; INSTALL adds Kimi Code CLI via hooks and OpenCode via a plugin.",
+          "evidenceIds": [
+            "readme",
+            "install"
+          ]
+        },
+        "model_providers": {
+          "support": "supported",
+          "answer": "For Claude Code: Kimi, OpenAI, Gemini and Bedrock routing documented in INSTALL.",
+          "evidenceIds": [
+            "install"
+          ]
+        },
+        "custom_adapters": {
+          "support": "supported",
+          "answer": "Any agent can report through /ingest or OTLP, and EXTENDING shows how to make an engine usable by an orchestrator.",
+          "evidenceIds": [
+            "extending",
+            "install"
+          ]
+        },
+        "session_integration": {
+          "support": "supported",
+          "answer": "Runs the same CLI on your machine with your login in tmux or a pane; closing agentglass leaves tmux agents running.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "mixed_harness_operation": {
+          "support": "supported",
+          "answer": "Orchestrator seat engine and worker engines per role are configured separately, so workers can run on a different engine than the chair.",
+          "evidenceIds": [
+            "readme",
+            "config"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "install",
+        "extending",
+        "config"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentglass:ACC-03",
+      "criterionId": "ACC-03",
+      "answer": "Agent CLIs use their own logins; an accounts plugin keeps several Claude logins side by side; provider routing for Claude Code to Kimi, OpenAI, Gemini or Bedrock; no vendor credits or account.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "release v1.0.0 (2026-11-03, commit 1b878f8); plugin repositories at default-branch heads checked 2026-11-16",
+        "plan": "Open source (MIT) desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "agent_subscriptions": {
+          "support": "supported",
+          "answer": "Agents run with your existing CLI login; plan meters show Anthropic 5-hour and weekly usage.",
+          "evidenceIds": [
+            "readme",
+            "workspace"
+          ]
+        },
+        "api_accounts": {
+          "support": "partial",
+          "answer": "Provider routing sends Claude Code to Kimi, OpenAI, Gemini or Bedrock keys.",
+          "evidenceIds": [
+            "install"
+          ]
+        },
+        "vendor_credits": {
+          "support": "unsupported",
+          "answer": "No vendor credits or service.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "local_models": {
+          "support": "unsupported",
+          "answer": "No local model feature is documented.",
+          "evidenceIds": [
+            "install"
+          ]
+        },
+        "account_switching": {
+          "support": "partial",
+          "answer": "The agentglass-accounts plugin keeps several Claude logins and switches from the usage popover.",
+          "evidenceIds": [
+            "accountsrepo"
+          ]
+        },
+        "vendor_account_requirement": {
+          "support": "supported",
+          "answer": "No account needed.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "provider_restrictions": {
+          "support": "partial",
+          "answer": "Explain sends hunks to a model via the claude CLI or Anthropic API only when pressed; a custom ANTHROPIC_BASE_URL is refused unless allowed.",
+          "evidenceIds": [
+            "security"
+          ]
+        }
+      },
+      "limitations": [
+        "Local model support is not documented; account switching is provided by a plugin, not the core."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "install",
+        "accountsrepo",
+        "workspace",
+        "site",
+        "security"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentglass:ACC-04",
+      "criterionId": "ACC-04",
+      "answer": "Download the desktop build (a server is inside the app), launch it, and hooks are installed from Settings or a script; requires git, Claude Code CLI and Python 3, with tmux, gh and Docker optional; works on a local repository with or without a remote; no cloud or VPS installer.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "release v1.0.0 (2026-11-03, commit 1b878f8); plugin repositories at default-branch heads checked 2026-11-16",
+        "plan": "Open source (MIT) desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "first_task_setup": {
+          "support": "supported",
+          "answer": "Install the build, launch, install hooks, then start an agent from a task, issue or terminal.",
+          "evidenceIds": [
+            "readme",
+            "install"
+          ]
+        },
+        "no_git": {
+          "support": "partial",
+          "answer": "Git is a required tool; terminals work anywhere but project views are repository based.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "local_git_without_remote": {
+          "support": "supported",
+          "answer": "Worktrees, commits, branches and stashes are local operations.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "hosted_git": {
+          "support": "supported",
+          "answer": "GitHub through the gh CLI (pull requests, issues, checks), ClickUp and Jira for tasks.",
+          "evidenceIds": [
+            "workspace",
+            "security"
+          ]
+        },
+        "prerequisite_guidance": {
+          "support": "supported",
+          "answer": "Settings > Requirements checks git, Claude Code, Python, tmux, gh and Docker and says what stands down without each.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "managed_cloud_setup": {
+          "support": "unsupported",
+          "answer": "No managed cloud.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "byo_vps_onboarding": {
+          "support": "unsupported",
+          "answer": "No VPS installer; Remote switch binds the server for LAN or tailnet access to the same machine.",
+          "evidenceIds": [
+            "security"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: no_git, managed_cloud_setup, byo_vps_onboarding; see each atomic answer for the limitation."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "install",
+        "workspace",
+        "security"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentglass:ACC-05",
+      "criterionId": "ACC-05",
+      "answer": "Documented HTTP API with token auth, /ingest and OTLP intake, POST /control, three CLIs, a browser MCP server and cockpit over MCP, outbound alert webhook; no SDK.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "release v1.0.0 (2026-11-03, commit 1b878f8); plugin repositories at default-branch heads checked 2026-11-16",
+        "plan": "Open source (MIT) desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "cli": {
+          "support": "supported",
+          "answer": "agentglass-ui, agentglass-agent and agentglass-cleanup.",
+          "evidenceIds": [
+            "workspace",
+            "extending"
+          ]
+        },
+        "api": {
+          "support": "supported",
+          "answer": "CONFIG documents the whole HTTP API; POST /control drives the UI.",
+          "evidenceIds": [
+            "config",
+            "extending"
+          ]
+        },
+        "sdk": {
+          "support": "unsupported",
+          "answer": "No SDK package.",
+          "evidenceIds": [
+            "extending"
+          ]
+        },
+        "mcp_server": {
+          "support": "supported",
+          "answer": "A browser panel agents drive over a CLI and an MCP server, and a cockpit over MCP.",
+          "evidenceIds": [
+            "readme",
+            "security"
+          ]
+        },
+        "webhooks": {
+          "support": "partial",
+          "answer": "Outbound AGENTGLASS_WEBHOOK for alerts and PR nudges; inbound OTLP and /ingest.",
+          "evidenceIds": [
+            "security",
+            "extending"
+          ]
+        },
+        "operations": {
+          "support": "supported",
+          "answer": "Start, prompt, read, send keys, stop and schedule agents; allow or deny gates; open views.",
+          "evidenceIds": [
+            "workspace",
+            "extending"
+          ]
+        },
+        "authentication": {
+          "support": "supported",
+          "answer": "AGENTGLASS_TOKEN, device pairing at read, answer or full levels, Origin and Host gates.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "stability": {
+          "support": "partial",
+          "answer": "v1.0.0 with only the latest main supported and no API stability statement.",
+          "evidenceIds": [
+            "security",
+            "release"
+          ]
+        }
+      },
+      "limitations": [
+        "API is documented in CONFIG but no stability promise exists; only the latest main is supported."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "config",
+        "extending",
+        "security",
+        "workspace",
+        "readme",
+        "release"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentglass:ACC-06",
+      "criterionId": "ACC-06",
+      "answer": "Plugins as separate processes with scoped revocable tokens installed from an in-app catalogue; skills in the repository; agent CLIs own MCP clients; ClickUp, Jira and GitHub credentials stored locally.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "release v1.0.0 (2026-11-03, commit 1b878f8); plugin repositories at default-branch heads checked 2026-11-16",
+        "plan": "Open source (MIT) desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "mcp_client": {
+          "support": "partial",
+          "answer": "Provided by the agent CLIs; agentglass exposes MCP servers rather than consuming them.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "plugins": {
+          "support": "supported",
+          "answer": "Catalogue, manifest, scopes in reviewer language and install, review, enable flow.",
+          "evidenceIds": [
+            "plugins"
+          ]
+        },
+        "custom_tools": {
+          "support": "supported",
+          "answer": "Plugins draw views and expose routes; EXTENDING documents a custom view.",
+          "evidenceIds": [
+            "plugins",
+            "extending"
+          ]
+        },
+        "instructions_import": {
+          "support": "partial",
+          "answer": "A skills directory ships with the repository; orchestrator policy is its own.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "authentication": {
+          "support": "supported",
+          "answer": "Integration tokens in credentials.json 0600; plugin secrets only to the declaring plugin.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "permission_scope": {
+          "support": "supported",
+          "answer": "Plugin scopes are reviewed before enabling and tokens are revocable.",
+          "evidenceIds": [
+            "plugins"
+          ]
+        },
+        "integration_owner": {
+          "support": "supported",
+          "answer": "agentglass owns the integration credentials; plugins own their processes.",
+          "evidenceIds": [
+            "security",
+            "plugins"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: mcp_client, instructions_import; see each atomic answer for the limitation."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "plugins",
+        "security",
+        "extending",
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentglass:ACC-07",
+      "criterionId": "ACC-07",
+      "answer": "Electron shell around a Bun server with SQLite and a React/Vite UI; React Native Android app on Hermes; stdlib-only Python hook forwarder.",
+      "support": "supported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop",
+          "android"
+        ],
+        "version": "release v1.0.0 (2026-11-03, commit 1b878f8); plugin repositories at default-branch heads checked 2026-11-16",
+        "plan": "Open source (MIT) desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "desktop_implementation": {
+          "support": "supported",
+          "answer": "Electron with an embedded Bun server and React UI.",
+          "evidenceIds": [
+            "readme",
+            "pkg"
+          ]
+        },
+        "mobile_implementation": {
+          "support": "supported",
+          "answer": "React Native app that brings its own P-256 crypto for pairing.",
+          "evidenceIds": [
+            "workspace",
+            "readme"
+          ]
+        },
+        "hybrids": {
+          "support": "supported",
+          "answer": "Electron webview panels, including a driven browser, inside the shell.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "implementation_evidence": {
+          "support": "supported",
+          "answer": "README contributing section, package.json build targets and WORKSPACE phone app text at the pinned tag.",
+          "evidenceIds": [
+            "readme",
+            "pkg",
+            "workspace"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "pkg",
+        "workspace"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-05-15",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentglass:PLAN-01",
+      "criterionId": "PLAN-01",
+      "answer": "Tasks panel combines GitHub issues, a local to-do list and ClickUp (and Jira cards); Start cuts a worktree and starts an agent; hooks and CLIs send PRs, issues or cards to agents; external trackers stay authoritative.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "release v1.0.0 (2026-11-03, commit 1b878f8); plugin repositories at default-branch heads checked 2026-11-16",
+        "plan": "Open source (MIT) desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "local_creation": {
+          "support": "supported",
+          "answer": "A local to-do list in the Tasks panel and prompts in terminals.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "prompt_intake": {
+          "support": "supported",
+          "answer": "Terminals, agent CLIs, schedules and tasks.",
+          "evidenceIds": [
+            "workspace",
+            "schedule"
+          ]
+        },
+        "external_import": {
+          "support": "supported",
+          "answer": "GitHub issues, ClickUp boards and Jira cards appear in Tasks.",
+          "evidenceIds": [
+            "workspace",
+            "security"
+          ]
+        },
+        "chat_git_triggers": {
+          "support": "partial",
+          "answer": "Buttons send a PR, issue or card to an agent; no chat triggers.",
+          "evidenceIds": [
+            "ticket"
+          ]
+        },
+        "authoritative_tracker": {
+          "support": "supported",
+          "answer": "GitHub, ClickUp and Jira remain authoritative.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "stable_ids": {
+          "support": "supported",
+          "answer": "Issue and card IDs are used to cut worktrees and link PRs.",
+          "evidenceIds": [
+            "workspace",
+            "ticket"
+          ]
+        },
+        "sync": {
+          "support": "partial",
+          "answer": "Reads with cached ages; writes to somebody else's board are separately gated.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "supported_edits": {
+          "support": "partial",
+          "answer": "ClickUp and Jira writes exist behind explicit gates.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "external_roundtrips": {
+          "support": "partial",
+          "answer": "Issue authoring and triage stay in the tracker.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        }
+      },
+      "limitations": [
+        "ClickUp, Jira and GitHub stay the systems of record; writes to them are gated and explicit."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "workspace",
+        "ticket",
+        "security",
+        "schedule"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentglass:PLAN-02",
+      "criterionId": "PLAN-02",
+      "answer": "No durable task plans; the Manifest records tested or failed verdicts per commit; orchestrator rounds are logged.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "release v1.0.0 (2026-11-03, commit 1b878f8); plugin repositories at default-branch heads checked 2026-11-16",
+        "plan": "Open source (MIT) desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "plans": {
+          "support": "unsupported",
+          "answer": "No plan objects.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "acceptance_criteria": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "editors": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "revisions": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "implementation_links": {
+          "support": "partial",
+          "answer": "Manifest verdicts attach to project commits.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "amendment": {
+          "support": "partial",
+          "answer": "Prompts to running agents.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "restart_persistence": {
+          "support": "supported",
+          "answer": "Agent state and queues persist in SQLite; gate queue survives crashes.",
+          "evidenceIds": [
+            "security",
+            "install"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: plans, acceptance_criteria, editors, revisions, implementation_links, amendment; see each atomic answer for the limitation."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "security",
+        "workspace",
+        "install"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentglass:PLAN-03",
+      "criterionId": "PLAN-03",
+      "answer": "Orchestrator seat per project with workers owned by the seat, limits on workers and turns; no epics, blockers or dependency enforcement.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "release v1.0.0 (2026-11-03, commit 1b878f8); plugin repositories at default-branch heads checked 2026-11-16",
+        "plan": "Open source (MIT) desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "epics": {
+          "support": "unsupported",
+          "answer": "No epic concept.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "hierarchy": {
+          "support": "partial",
+          "answer": "Seat to worker ownership; worktrees per task.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "blockers": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "readiness": {
+          "support": "partial",
+          "answer": "Polaris classifies pull requests as ready or blocked.",
+          "evidenceIds": [
+            "polaris"
+          ]
+        },
+        "enforcement": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "state_propagation": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "task_to_epic": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "identity_retention": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "workflow_constraints": {
+          "support": "supported",
+          "answer": "No fixed workflow.",
+          "evidenceIds": [
+            "config"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: epics, hierarchy, blockers, readiness, enforcement, state_propagation, task_to_epic, identity_retention; see each atomic answer for the limitation."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "security",
+        "config",
+        "workspace",
+        "polaris"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentglass:PLAN-04",
+      "criterionId": "PLAN-04",
+      "answer": "Per-project settings, .worktreeinclude for ignored files, the Clone learning how you decide, saved replies and agent rules learned per project; AGENTS.md and CLAUDE.md are read by the agent CLIs.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "release v1.0.0 (2026-11-03, commit 1b878f8); plugin repositories at default-branch heads checked 2026-11-16",
+        "plan": "Open source (MIT) desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "instructions": {
+          "support": "partial",
+          "answer": "Agent CLIs read their own; agentglass keeps rules agents learned per project.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "skills": {
+          "support": "partial",
+          "answer": "A skills directory ships with the repository.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "project_docs": {
+          "support": "unsupported",
+          "answer": "No document indexing.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "memory": {
+          "support": "supported",
+          "answer": "Clone records how you decide and answers what you decided before; agent rules and saved replies persist.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "scope": {
+          "support": "supported",
+          "answer": "Per project and global.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "provenance": {
+          "support": "partial",
+          "answer": "Rules are listed newest first with suggestions.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "correction": {
+          "support": "supported",
+          "answer": "Rules and Knowledge are editable and have settings.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "deletion": {
+          "support": "supported",
+          "answer": "Erase local history behind a typed confirmation.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "freshness": {
+          "support": "partial",
+          "answer": "The last week of rules is marked and old material folded.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "takeover_continuity": {
+          "support": "partial",
+          "answer": "State persists in the local database for the one user.",
+          "evidenceIds": [
+            "security"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: instructions, skills, project_docs, provenance, freshness, takeover_continuity; see each atomic answer for the limitation."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "workspace",
+        "security"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentglass:PLAN-05",
+      "criterionId": "PLAN-05",
+      "answer": "Explain walkthroughs of diffs, a file browser and source control; agents search code through their own tools; no index.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "release v1.0.0 (2026-11-03, commit 1b878f8); plugin repositories at default-branch heads checked 2026-11-16",
+        "plan": "Open source (MIT) desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "code_search": {
+          "support": "partial",
+          "answer": "File browser and agent CLIs.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "indexing": {
+          "support": "unsupported",
+          "answer": "No code index.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "external_knowledge": {
+          "support": "partial",
+          "answer": "Driven browser for agents; ClickUp and Jira reads.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "multimodal_inputs": {
+          "support": "unsupported",
+          "answer": "None documented.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "freshness": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "access_scope": {
+          "support": "supported",
+          "answer": "Scoped to the open project with a reading-outside-project policy.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "api_retrieval": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "citations": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "conflict_detection": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "review_enforcement": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: code_search, indexing, external_knowledge, multimodal_inputs, freshness, api_retrieval, citations, conflict_detection, review_enforcement; see each atomic answer for the limitation."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "workspace",
+        "security",
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentglass:PLAN-06",
+      "criterionId": "PLAN-06",
+      "answer": "A Tasks panel with GitHub issues, a local to-do list and ClickUp; no labels, priorities or discussion of its own beyond the tracker's fields.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "release v1.0.0 (2026-11-03, commit 1b878f8); plugin repositories at default-branch heads checked 2026-11-16",
+        "plan": "Open source (MIT) desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "create": {
+          "support": "partial",
+          "answer": "Local to-do items.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "edit": {
+          "support": "partial",
+          "answer": "To-dos only.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "discuss": {
+          "support": "partial",
+          "answer": "Issue conversation is read in the detail column.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "prioritize": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "label": {
+          "support": "partial",
+          "answer": "Issue labels are shown.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "assign": {
+          "support": "partial",
+          "answer": "Shows assignees.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "search": {
+          "support": "partial",
+          "answer": "Query and facet filters for PRs; tasks list views.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "filter": {
+          "support": "supported",
+          "answer": "Saved views and facet menus for pull requests.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "archive": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "reopen": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "project_epic_views": {
+          "support": "partial",
+          "answer": "Per-repository panels.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "idea_parking": {
+          "support": "supported",
+          "answer": "The local to-do list parks ideas.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "explicit_dispatch": {
+          "support": "supported",
+          "answer": "Start cuts the worktree and agent.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "task_session_separation": {
+          "support": "partial",
+          "answer": "Tasks and agents are separate objects.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "metadata": {
+          "support": "partial",
+          "answer": "Issue metadata shown.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "durable_states": {
+          "support": "partial",
+          "answer": "Tracker states displayed.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "external_tracker_requirement": {
+          "support": "partial",
+          "answer": "Issues come from external trackers.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        }
+      },
+      "limitations": [
+        "The panel presents trackers and a to-do list rather than owning issues."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "workspace"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentglass:PLAN-07",
+      "criterionId": "PLAN-07",
+      "answer": "Agents can start tasks and read state through agentglass-agent and agentglass-ui and the HTTP API; the orchestrator cannot change policy; no issue claims or dependencies.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "release v1.0.0 (2026-11-03, commit 1b878f8); plugin repositories at default-branch heads checked 2026-11-16",
+        "plan": "Open source (MIT) desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "shared_ids": {
+          "support": "partial",
+          "answer": "Agent names and sessions are shared between tools and UI.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "read": {
+          "support": "supported",
+          "answer": "agentglass-agent list and read; agentglass-ui reads panels.",
+          "evidenceIds": [
+            "workspace",
+            "extending"
+          ]
+        },
+        "create": {
+          "support": "supported",
+          "answer": "agentglass-agent start and schedule.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "update": {
+          "support": "partial",
+          "answer": "Prompt, send-keys and stop on owned workers; settings door requires the person.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "claim": {
+          "support": "partial",
+          "answer": "A seat takes ownership of an unowned agent explicitly.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "assign": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "state_changes": {
+          "support": "partial",
+          "answer": "Stop and prompt.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "dependencies": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "children": {
+          "support": "supported",
+          "answer": "Seat starts workers.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "results": {
+          "support": "supported",
+          "answer": "wait and read return output.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "human_visibility": {
+          "support": "supported",
+          "answer": "Everything appears in the Agents view and Lantern.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "attribution": {
+          "support": "supported",
+          "answer": "Every start, prompt, key press and refusal is an action log line under the seat's name.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "permissions": {
+          "support": "supported",
+          "answer": "A seat reaches only agents it owns in its project.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "conflicts": {
+          "support": "partial",
+          "answer": "Refusals are logged to the fence record.",
+          "evidenceIds": [
+            "security"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: shared_ids, update, claim, assign, state_changes, dependencies, conflicts; see each atomic answer for the limitation."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "workspace",
+        "extending",
+        "security"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentglass:PLAN-08",
+      "criterionId": "PLAN-08",
+      "answer": "No living product specification support.",
+      "support": "unsupported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "release v1.0.0 (2026-11-03, commit 1b878f8); plugin repositories at default-branch heads checked 2026-11-16",
+        "plan": "Open source (MIT) desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "persistent_requirements": {
+          "support": "unsupported",
+          "answer": "Not implemented in agentglass.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "human_edits": {
+          "support": "unsupported",
+          "answer": "Not implemented in agentglass.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "agent_edits": {
+          "support": "unsupported",
+          "answer": "Not implemented in agentglass.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "revisions": {
+          "support": "unsupported",
+          "answer": "Not implemented in agentglass.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "approvals": {
+          "support": "unsupported",
+          "answer": "Not implemented in agentglass.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "implementation_links": {
+          "support": "unsupported",
+          "answer": "Not implemented in agentglass.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "later_retrieval": {
+          "support": "unsupported",
+          "answer": "Not implemented in agentglass.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "drift_detection": {
+          "support": "unsupported",
+          "answer": "Not implemented in agentglass.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "review_integration": {
+          "support": "unsupported",
+          "answer": "Not implemented in agentglass.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "workspace"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentglass:COORD-01",
+      "criterionId": "COORD-01",
+      "answer": "Up to 200 concurrent PTY sessions by default; many agents run across projects and worktrees; orchestrator workers limited to 1-12 (default 3); the Agents view and Lantern show who is working, waiting or failed.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "release v1.0.0 (2026-11-03, commit 1b878f8); plugin repositories at default-branch heads checked 2026-11-16",
+        "plan": "Open source (MIT) desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "concurrent_sessions": {
+          "support": "supported",
+          "answer": "AGENTGLASS_MAX_TERMINALS default 200 concurrent terminals; tmux agents run independently.",
+          "evidenceIds": [
+            "terminal",
+            "config"
+          ]
+        },
+        "concurrent_tasks": {
+          "support": "supported",
+          "answer": "Several worktree agents run at once without colliding.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "quotas": {
+          "support": "supported",
+          "answer": "Terminals 200; maxWorkers 1-12 default 3; turnMinutes 1-240 default 30.",
+          "evidenceIds": [
+            "config"
+          ]
+        },
+        "observed_concurrency": {
+          "support": "unknown",
+          "answer": "Achieved concurrency is a machine-dependent measurement outside source inspection and ADEMark has no entry.",
+          "evidenceIds": []
+        },
+        "status_visibility": {
+          "support": "supported",
+          "answer": "Lantern: red for a permission gate, amber for waiting for input; Agents view counts working, waiting on you and to clean up.",
+          "evidenceIds": [
+            "readme",
+            "workspace"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: ; see each atomic answer for the limitation."
+      ],
+      "unknownReason": "Measured concurrency is a runtime fact.",
+      "evidenceIds": [
+        "config",
+        "terminal",
+        "workspace",
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentglass:COORD-02",
+      "criterionId": "COORD-02",
+      "answer": "Orchestrator seat owns the workers it starts and cannot touch other seats; ownership is enforced server-side; no work queue.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "release v1.0.0 (2026-11-03, commit 1b878f8); plugin repositories at default-branch heads checked 2026-11-16",
+        "plan": "Open source (MIT) desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "human_assignment": {
+          "support": "partial",
+          "answer": "The person starts agents and takes ownership.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "agent_assignment": {
+          "support": "supported",
+          "answer": "Seat starts workers under a policy.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "claims": {
+          "support": "partial",
+          "answer": "A seat may take an unowned agent explicitly.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "queues": {
+          "support": "partial",
+          "answer": "Gate queue for approvals; scheduled starts.",
+          "evidenceIds": [
+            "security",
+            "schedule"
+          ]
+        },
+        "routing": {
+          "support": "supported",
+          "answer": "Engine chains per role with rules that change them when a quota runs low.",
+          "evidenceIds": [
+            "config"
+          ]
+        },
+        "duplicate_prevention": {
+          "support": "partial",
+          "answer": "A second server cannot run a second transcript scanner (database claim); shared checkouts are marked when several sessions write.",
+          "evidenceIds": [
+            "security",
+            "workspace"
+          ]
+        },
+        "ownership_enforcement": {
+          "support": "supported",
+          "answer": "Seat to worker ownership is checked by the server and refusals are logged.",
+          "evidenceIds": [
+            "security"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: human_assignment, claims, queues, duplicate_prevention; see each atomic answer for the limitation."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "security",
+        "ticket",
+        "workspace",
+        "schedule",
+        "config"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentglass:COORD-03",
+      "criterionId": "COORD-03",
+      "answer": "Product-owned orchestrator: a seat per project starts and prompts workers on chosen engines under a policy with envelopes and limits, with CLI start, prompt, wait, read, send-keys and stop; seat cannot answer a worker's permission prompt; results retained in the action log.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "release v1.0.0 (2026-11-03, commit 1b878f8); plugin repositories at default-branch heads checked 2026-11-16",
+        "plan": "Open source (MIT) desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "roles": {
+          "support": "supported",
+          "answer": "Seat (chair), workers, scouts, builders, reviewers and verifiers.",
+          "evidenceIds": [
+            "config"
+          ]
+        },
+        "model_harness_effort": {
+          "support": "supported",
+          "answer": "Engine and model per role in Settings > Orchestration with fallback chains.",
+          "evidenceIds": [
+            "config"
+          ]
+        },
+        "messages": {
+          "support": "supported",
+          "answer": "prompt, send-keys and broadcast to owned workers.",
+          "evidenceIds": [
+            "security",
+            "workspace"
+          ]
+        },
+        "results_return": {
+          "support": "supported",
+          "answer": "wait and read return worker output; every action is logged.",
+          "evidenceIds": [
+            "workspace",
+            "security"
+          ]
+        },
+        "cross_harness": {
+          "support": "supported",
+          "answer": "Chair and workers can be different engines (Claude Code, Codex, Gemini CLI, OpenCode).",
+          "evidenceIds": [
+            "readme",
+            "config"
+          ]
+        },
+        "orchestration_owner": {
+          "support": "supported",
+          "answer": "agentglass ships the seat, policy and CLIs.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "activation": {
+          "support": "supported",
+          "answer": "Configured in Settings > Orchestration; the person writes the policy.",
+          "evidenceIds": [
+            "config",
+            "security"
+          ]
+        },
+        "authentication": {
+          "support": "supported",
+          "answer": "Seat credential limited to its project; workers turned away from the chair.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "live_progress": {
+          "support": "supported",
+          "answer": "Agents view and Lantern show workers; tmux windows open for the person.",
+          "evidenceIds": [
+            "workspace",
+            "security"
+          ]
+        },
+        "retained_results": {
+          "support": "supported",
+          "answer": "Action log keeps starts, prompts, key presses, refusals and policy changes.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "followup": {
+          "support": "supported",
+          "answer": "Workers can be prompted again; relaunch of dropped jobs through Polaris.",
+          "evidenceIds": [
+            "security",
+            "polaris"
+          ]
+        },
+        "invocation": {
+          "support": "partial",
+          "answer": "Natural language to the agent in the chair; policy through settings and presets.",
+          "evidenceIds": [
+            "config"
+          ]
+        }
+      },
+      "limitations": [
+        "The envelope stops engines that respect their permissions; it is not a sandbox."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "security",
+        "config",
+        "workspace",
+        "polaris"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentglass:COORD-04",
+      "criterionId": "COORD-04",
+      "answer": "Scheduled agent starts at a time with a prompt, Lantern watch every 15 minutes, reminders and Polaris job relaunch; scheduler runs in the local server and persists schedules across restarts; the server must be running.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "release v1.0.0 (2026-11-03, commit 1b878f8); plugin repositories at default-branch heads checked 2026-11-16",
+        "plan": "Open source (MIT) desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "schedules": {
+          "support": "supported",
+          "answer": "agentglass-agent schedule starts a named agent in a checkout at a time with a prompt.",
+          "evidenceIds": [
+            "schedule",
+            "workspace"
+          ]
+        },
+        "events": {
+          "support": "partial",
+          "answer": "PR check events and gate waits raise alerts; Polaris can re-run a dropped CI job when enabled.",
+          "evidenceIds": [
+            "polaris"
+          ]
+        },
+        "recurring_tasks": {
+          "support": "partial",
+          "answer": "The Lantern watch re-reads the field every 15 minutes; recurring agent schedules are not documented beyond a time.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "completion_conditions": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "schedule"
+          ]
+        },
+        "scheduler_location": {
+          "support": "supported",
+          "answer": "The local server tick claims due items in one transaction.",
+          "evidenceIds": [
+            "schedule"
+          ]
+        },
+        "overlaps": {
+          "support": "partial",
+          "answer": "Claimed in one transaction so a restart does not fire twice.",
+          "evidenceIds": [
+            "schedule"
+          ]
+        },
+        "retries": {
+          "support": "partial",
+          "answer": "Polaris relaunch of dropped jobs; maxRetries 0-5 for workers.",
+          "evidenceIds": [
+            "polaris",
+            "config"
+          ]
+        },
+        "client_independence": {
+          "support": "partial",
+          "answer": "Runs while the server runs, independent of the window; the machine must be on.",
+          "evidenceIds": [
+            "schedule"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: events, recurring_tasks, completion_conditions, overlaps, retries, client_independence; see each atomic answer for the limitation."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "schedule",
+        "workspace",
+        "polaris",
+        "config"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentglass:COORD-05",
+      "criterionId": "COORD-05",
+      "answer": "Allow or deny held tool calls from desk or phone with queue persisted on disk; stop, prompt and send-keys; fail-open default with a fail-closed option; Lantern and bell notifications; seats cannot answer workers' prompts.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "release v1.0.0 (2026-11-03, commit 1b878f8); plugin repositories at default-branch heads checked 2026-11-16",
+        "plan": "Open source (MIT) desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "pause": {
+          "support": "partial",
+          "answer": "Gate holds a tool call until decided.",
+          "evidenceIds": [
+            "install"
+          ]
+        },
+        "stop": {
+          "support": "supported",
+          "answer": "agentglass-agent stop and UI stop.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "resume": {
+          "support": "supported",
+          "answer": "The gate re-attaches to a held request after a server restart; sessions restore and resume conversations.",
+          "evidenceIds": [
+            "install"
+          ]
+        },
+        "steer": {
+          "support": "supported",
+          "answer": "Terminals, prompt and send-keys.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "notifications": {
+          "support": "supported",
+          "answer": "Bell, cards, desktop notifications, phone alerts and webhook.",
+          "evidenceIds": [
+            "workspace",
+            "security"
+          ]
+        },
+        "pending_decisions": {
+          "support": "supported",
+          "answer": "What needs you lists gates and permission prompts with Approve and Deny.",
+          "evidenceIds": [
+            "install",
+            "readme"
+          ]
+        },
+        "escalation": {
+          "support": "partial",
+          "answer": "Lantern watch notifies every 15 minutes about blockers.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "visible_errors": {
+          "support": "supported",
+          "answer": "Failed counts and CI failure lens surface failures.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "chat_terminal_parity": {
+          "support": "supported",
+          "answer": "Permission prompts in the terminal and in the Lantern are the same request.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "retained_history": {
+          "support": "supported",
+          "answer": "Events and action log persist subject to a retention window.",
+          "evidenceIds": [
+            "security"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: pause, escalation; see each atomic answer for the limitation."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "install",
+        "readme",
+        "security",
+        "workspace"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentglass:COORD-06",
+      "criterionId": "COORD-06",
+      "answer": "Dashboard, Agents view (waiting on you, working, to clean up), Lantern, Polaris pull request classes and a project-wide board; scoped to one machine.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "release v1.0.0 (2026-11-03, commit 1b878f8); plugin repositories at default-branch heads checked 2026-11-16",
+        "plan": "Open source (MIT) desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "fleet_fixture": {
+          "support": "supported",
+          "answer": "First-party dashboard screenshot shows 17 sessions across 6 projects with failed and waiting counts.",
+          "evidenceIds": [
+            "screenshot"
+          ]
+        },
+        "parent_child": {
+          "support": "partial",
+          "answer": "Seat to worker ownership appears in the Agents view.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "dependencies": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "attention": {
+          "support": "supported",
+          "answer": "Waiting on you column and Alerts panel.",
+          "evidenceIds": [
+            "workspace",
+            "screenshot"
+          ]
+        },
+        "history": {
+          "support": "supported",
+          "answer": "Mission timeline and sessions over time.",
+          "evidenceIds": [
+            "screenshot"
+          ]
+        },
+        "workload": {
+          "support": "supported",
+          "answer": "Working, events per minute and tools run; cost per session.",
+          "evidenceIds": [
+            "screenshot"
+          ]
+        },
+        "navigation_errors": {
+          "support": "supported",
+          "answer": "Failed count, CI failures lens and error states.",
+          "evidenceIds": [
+            "screenshot"
+          ]
+        },
+        "fixture_mode": {
+          "support": "supported",
+          "answer": "The live demo and screenshots run on sample data labelled sandbox.",
+          "evidenceIds": [
+            "readme",
+            "screenshot"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: parent_child, dependencies; see each atomic answer for the limitation."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "workspace",
+        "polaris",
+        "screenshot",
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentglass:COORD-07",
+      "criterionId": "COORD-07",
+      "answer": "Orchestration presets and rule conditions, per-role engine chains, natural-language control by the chair agent, and a Flow canvas showing what runs; the person can always take over a tmux window.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "release v1.0.0 (2026-11-03, commit 1b878f8); plugin repositories at default-branch heads checked 2026-11-16",
+        "plan": "Open source (MIT) desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "quick_task": {
+          "support": "supported",
+          "answer": "Start an agent from a terminal or task with no preset.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "growing_epic": {
+          "support": "unsupported",
+          "answer": "No epic concept.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "presets": {
+          "support": "supported",
+          "answer": "Quick setup presets and Polaris presets are optional.",
+          "evidenceIds": [
+            "config",
+            "polaris"
+          ]
+        },
+        "natural_language": {
+          "support": "partial",
+          "answer": "The chair agent receives prompts; policy edits go through the settings door and the person.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "agent_configuration": {
+          "support": "supported",
+          "answer": "Engine, model and envelope per role and project.",
+          "evidenceIds": [
+            "config"
+          ]
+        },
+        "in_run_changes": {
+          "support": "partial",
+          "answer": "Policy narrowing is rechecked on resume; no mid-turn engine switch documented.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "live_roles": {
+          "support": "supported",
+          "answer": "Flow canvas blocks and Agents view show chair and workers.",
+          "evidenceIds": [
+            "config",
+            "workspace"
+          ]
+        },
+        "retained_relationships": {
+          "support": "supported",
+          "answer": "Seat ownership and the action log persist.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "discoverability": {
+          "support": "supported",
+          "answer": "Documented in CONFIG and Settings pages with Assisted setup.",
+          "evidenceIds": [
+            "config",
+            "polaris"
+          ]
+        },
+        "auth_friction": {
+          "support": "supported",
+          "answer": "Seat credentials are scoped; the person approves policy changes.",
+          "evidenceIds": [
+            "security"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: growing_epic, natural_language, in_run_changes; see each atomic answer for the limitation."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "config",
+        "security",
+        "workspace",
+        "polaris"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentglass:RUN-01",
+      "criterionId": "RUN-01",
+      "answer": "Everything executes on the user's own machine; the phone and a Remote switch reach it over LAN or tailnet; tmux agents keep running when agentglass closes; no hosted or managed cloud.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "release v1.0.0 (2026-11-03, commit 1b878f8); plugin repositories at default-branch heads checked 2026-11-16",
+        "plan": "Open source (MIT) desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [
+          "local",
+          "own-server"
+        ],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "local": {
+          "support": "supported",
+          "answer": "Agents run in tmux or panes on the machine.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "byo_remote": {
+          "support": "partial",
+          "answer": "Install on any machine you control and reach it from the phone through your network; no remote worker management.",
+          "evidenceIds": [
+            "workspace",
+            "security"
+          ]
+        },
+        "self_hosted": {
+          "support": "supported",
+          "answer": "The server is embedded and local.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "managed_cloud": {
+          "support": "unsupported",
+          "answer": "No cloud (\"no account, no cloud, nothing phoned home\").",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "hybrid": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "provisioning": {
+          "support": "unsupported",
+          "answer": "Not applicable.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "payer": {
+          "support": "supported",
+          "answer": "The user.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "resources": {
+          "support": "unsupported",
+          "answer": "Host machine; Resources panel reports CPU, memory and disk.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "region": {
+          "support": "unsupported",
+          "answer": "Not applicable.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "expiry": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "client_disconnect": {
+          "support": "supported",
+          "answer": "Closing agentglass leaves tmux agents running.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "other_device_continuation": {
+          "support": "supported",
+          "answer": "The phone app reads terminals, approvals and PRs of the same machine.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        }
+      },
+      "limitations": [
+        "Remote access reaches the same machine; it does not provision remote workers."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "security",
+        "workspace"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentglass:RUN-02",
+      "criterionId": "RUN-02",
+      "answer": "Git worktrees per task or issue with .worktreeinclude for ignored files; worker envelopes narrow by default (own worktree, no network, no commit, no docker) but are locks, not a sandbox; a local-review plugin reviews in a sandbox.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "release v1.0.0 (2026-11-03, commit 1b878f8); plugin repositories at default-branch heads checked 2026-11-16",
+        "plan": "Open source (MIT) desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "checkout": {
+          "support": "supported",
+          "answer": "Agents run in project checkouts; shared checkouts are marked.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "branch": {
+          "support": "supported",
+          "answer": "Each worktree agent has a branch.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "worktree": {
+          "support": "supported",
+          "answer": "A task or issue becomes a worktree, a branch and an agent.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "container": {
+          "support": "partial",
+          "answer": "Docker is managed as a panel; workers start with docker disabled; no container isolation.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "vm": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "os_sandbox": {
+          "support": "partial",
+          "answer": "Only the optional local-review plugin states a sandbox.",
+          "evidenceIds": [
+            "localreview"
+          ]
+        },
+        "filesystem": {
+          "support": "partial",
+          "answer": "Worktree and project-root checks for seats.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "process": {
+          "support": "partial",
+          "answer": "Process tree stop for turn limits.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "network": {
+          "support": "partial",
+          "answer": "Workers start with no network under the envelope as an engine rule.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "secrets": {
+          "support": "partial",
+          "answer": "Hooks refuse non-local destinations; worker wrapper unsets token variables.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "code_separation": {
+          "support": "supported",
+          "answer": "Worktrees keep agents from colliding.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "security_boundary": {
+          "support": "supported",
+          "answer": "SECURITY states the envelope is not a sandbox and a real boundary is not provided.",
+          "evidenceIds": [
+            "security"
+          ]
+        }
+      },
+      "limitations": [
+        "Engines run as the same user; the envelope is not a security boundary."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "security",
+        "localreview",
+        "workspace"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentglass:RUN-03",
+      "criterionId": "RUN-03",
+      "answer": "Agents in tmux survive agentglass restarts; pending gates are persisted and reattached; scheduled starts claim in one transaction; sessions restore and resume conversations; the server must be restarted manually after crashes.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "release v1.0.0 (2026-11-03, commit 1b878f8); plugin repositories at default-branch heads checked 2026-11-16",
+        "plan": "Open source (MIT) desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "client_disconnect": {
+          "support": "supported",
+          "answer": "Close agentglass and every tmux agent keeps running.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "worker_crash": {
+          "support": "partial",
+          "answer": "Dropped CI jobs can be relaunched; agent crash handling is the CLI's.",
+          "evidenceIds": [
+            "polaris"
+          ]
+        },
+        "service_restart": {
+          "support": "supported",
+          "answer": "Gate queue returns after a restart and the hook re-attaches.",
+          "evidenceIds": [
+            "install"
+          ]
+        },
+        "expiry": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "transcript_reload": {
+          "support": "supported",
+          "answer": "Events and sessions are in SQLite.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "process_reconnect": {
+          "support": "supported",
+          "answer": "Attaches to sessions already open in tmux.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "task_resume": {
+          "support": "supported",
+          "answer": "restore-resumes-the-conversation test and session restore.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "state_reconstruction": {
+          "support": "partial",
+          "answer": "Database rebuilds views; hooks re-register.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "context_loss": {
+          "support": "partial",
+          "answer": "Fail-open gate may let calls through after timeout or when the control plane is down.",
+          "evidenceIds": [
+            "install"
+          ]
+        },
+        "duplicate_actions": {
+          "support": "partial",
+          "answer": "Schedules are claimed in one transaction so restarts do not double-fire.",
+          "evidenceIds": [
+            "schedule"
+          ]
+        },
+        "manual_repair": {
+          "support": "partial",
+          "answer": "Settings > Agents reinstall hook when the gate script moves.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "multi_day_continuity": {
+          "support": "partial",
+          "answer": "tmux agents and database persist while the machine stays on.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: worker_crash, expiry, state_reconstruction, context_loss, duplicate_actions, manual_repair, multi_day_continuity; see each atomic answer for the limitation."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "install",
+        "readme",
+        "schedule",
+        "polaris",
+        "security"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentglass:RUN-04",
+      "criterionId": "RUN-04",
+      "answer": "A .worktreeinclude copies ignored files into new worktrees; checkoutDeps handles dependencies for checkouts; Ports shows which checkout owns each listening port; no installation deduplication or port allocation.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "release v1.0.0 (2026-11-03, commit 1b878f8); plugin repositories at default-branch heads checked 2026-11-16",
+        "plan": "Open source (MIT) desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "dependencies": {
+          "support": "partial",
+          "answer": "Checkout dependency handling in the server (checkoutDeps) and project scripts one click away.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "caches": {
+          "support": "partial",
+          "answer": "A build cache module exists in the server.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "snapshots": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "services": {
+          "support": "partial",
+          "answer": "Docker panel and project scripts.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "ports": {
+          "support": "partial",
+          "answer": "Ports panel lists listeners and owning checkout; no allocation.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "secrets": {
+          "support": "supported",
+          "answer": ".worktreeinclude carries .env and local settings into worktrees.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "duplicate_installs": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "collisions": {
+          "support": "partial",
+          "answer": "Ports panel shows collisions; no automatic avoidance.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "remote_setup": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "automatic_repair": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: dependencies, caches, snapshots, services, ports, duplicate_installs, collisions, remote_setup, automatic_repair; see each atomic answer for the limitation."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "workspace"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentglass:RUN-05",
+      "criterionId": "RUN-05",
+      "answer": "Worker turn limit (default 30 minutes, up to 240), retries 0-5, maxWorkers, 300-second gate timeout, spend budgets warned at 80 percent and an overBudget deny rule; limits are enforced stops for policy-started workers.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "release v1.0.0 (2026-11-03, commit 1b878f8); plugin repositories at default-branch heads checked 2026-11-16",
+        "plan": "Open source (MIT) desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "time_limits": {
+          "support": "supported",
+          "answer": "turnMinutes 1-240 default 30; gate timeout 300 s.",
+          "evidenceIds": [
+            "config",
+            "install"
+          ]
+        },
+        "turn_limits": {
+          "support": "partial",
+          "answer": "Workers' turn minutes and maxWorkers; no step cap.",
+          "evidenceIds": [
+            "config"
+          ]
+        },
+        "token_limits": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "config"
+          ]
+        },
+        "spend_limits": {
+          "support": "supported",
+          "answer": "Budgets per period and scope; gate rule overBudget can deny.",
+          "evidenceIds": [
+            "install",
+            "workspace"
+          ]
+        },
+        "timeouts": {
+          "support": "supported",
+          "answer": "Gate timeout, turn limit process-tree stop.",
+          "evidenceIds": [
+            "install",
+            "security"
+          ]
+        },
+        "retries": {
+          "support": "supported",
+          "answer": "maxRetries 0-5.",
+          "evidenceIds": [
+            "config"
+          ]
+        },
+        "provider_failures": {
+          "support": "partial",
+          "answer": "Rules can move builders off Claude Code when its weekly plan is nearly spent.",
+          "evidenceIds": [
+            "config"
+          ]
+        },
+        "enforcement": {
+          "support": "partial",
+          "answer": "Turn limit stops a process tree it can find; budgets warn at 80 percent and the gate can deny.",
+          "evidenceIds": [
+            "security",
+            "workspace"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: turn_limits, token_limits, provider_failures, enforcement; see each atomic answer for the limitation."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "config",
+        "install",
+        "security",
+        "workspace"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentglass:RUN-06",
+      "criterionId": "RUN-06",
+      "answer": "Live events, per-tool durations, throughput, tool mix, health score, session timeline and cost by model on the dashboard; action log, fence record, CI failure lens and logs; OTLP intake; usage history from daily rollups.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "release v1.0.0 (2026-11-03, commit 1b878f8); plugin repositories at default-branch heads checked 2026-11-16",
+        "plan": "Open source (MIT) desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "logs": {
+          "support": "supported",
+          "answer": "Live events and an action log.",
+          "evidenceIds": [
+            "screenshot",
+            "security"
+          ]
+        },
+        "traces": {
+          "support": "supported",
+          "answer": "OTLP traces and logs are accepted.",
+          "evidenceIds": [
+            "install"
+          ]
+        },
+        "failure_reasons": {
+          "support": "supported",
+          "answer": "Failed counts and CI failure lens.",
+          "evidenceIds": [
+            "screenshot",
+            "workspace"
+          ]
+        },
+        "usage_export": {
+          "support": "partial",
+          "answer": "Everything is in the local SQLite file; no export feature found.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "task_stats": {
+          "support": "partial",
+          "answer": "Per-session tools, tokens and cost.",
+          "evidenceIds": [
+            "screenshot"
+          ]
+        },
+        "agent_stats": {
+          "support": "supported",
+          "answer": "Per session and model.",
+          "evidenceIds": [
+            "screenshot"
+          ]
+        },
+        "project_stats": {
+          "support": "supported",
+          "answer": "Per project and repository.",
+          "evidenceIds": [
+            "screenshot",
+            "workspace"
+          ]
+        },
+        "time_stats": {
+          "support": "supported",
+          "answer": "Windows from 15 minutes to 30 days and timelines.",
+          "evidenceIds": [
+            "screenshot"
+          ]
+        },
+        "failure_status": {
+          "support": "supported",
+          "answer": "Working, waiting, errored and idle states.",
+          "evidenceIds": [
+            "screenshot"
+          ]
+        },
+        "approval_status": {
+          "support": "supported",
+          "answer": "What needs you alert queue.",
+          "evidenceIds": [
+            "screenshot"
+          ]
+        },
+        "reconnect_consistency": {
+          "support": "partial",
+          "answer": "Pending requests persist; a single server claims the database.",
+          "evidenceIds": [
+            "install",
+            "security"
+          ]
+        },
+        "performance_method": {
+          "support": "partial",
+          "answer": "Tool wall-clock duration p50 and p95 from PreToolUse to PostToolUse, not model latency; no benchmark published.",
+          "evidenceIds": [
+            "screenshot"
+          ]
+        },
+        "responsiveness": {
+          "support": "partial",
+          "answer": "Server is single-threaded and shows cached answers with their age.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: usage_export, task_stats, reconnect_consistency, performance_method, responsiveness; see each atomic answer for the limitation."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "screenshot",
+        "workspace",
+        "security",
+        "install"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentglass:RUN-07",
+      "criterionId": "RUN-07",
+      "answer": "Spend per session, model, project and time window with input-equivalent tokens, user-set budgets warned at 80 percent, plan meters for Anthropic usage and a price catalogue; costs are estimates from token usage.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "release v1.0.0 (2026-11-03, commit 1b878f8); plugin repositories at default-branch heads checked 2026-11-16",
+        "plan": "Open source (MIT) desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "task_cost": {
+          "support": "partial",
+          "answer": "Per session cost shown; no task entity.",
+          "evidenceIds": [
+            "screenshot"
+          ]
+        },
+        "session_cost": {
+          "support": "supported",
+          "answer": "Each session shows tools, equivalent tokens and dollars.",
+          "evidenceIds": [
+            "screenshot"
+          ]
+        },
+        "child_cost": {
+          "support": "partial",
+          "answer": "Subagent finished cost lines appear in events.",
+          "evidenceIds": [
+            "screenshot"
+          ]
+        },
+        "epic_cost": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "harness_aggregation": {
+          "support": "supported",
+          "answer": "Cost by model across providers (Opus, GPT-5, Sonnet, Gemini Flash).",
+          "evidenceIds": [
+            "screenshot"
+          ]
+        },
+        "billed_vs_estimated": {
+          "support": "partial",
+          "answer": "Input-equivalent tokens priced from a catalogue.",
+          "evidenceIds": [
+            "security",
+            "screenshot"
+          ]
+        },
+        "tokens": {
+          "support": "supported",
+          "answer": "Input-equivalent tokens and cached tokens.",
+          "evidenceIds": [
+            "screenshot"
+          ]
+        },
+        "subscription_allowance": {
+          "support": "supported",
+          "answer": "Anthropic 5-hour and weekly plan meters in the bar.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "provider_reconciliation": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "compute_cost": {
+          "support": "unsupported",
+          "answer": "Not applicable.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "refresh_delay": {
+          "support": "partial",
+          "answer": "Counted from the daily rollup as well as live events.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "alerts": {
+          "support": "supported",
+          "answer": "Budgets warn at 80 percent and over-budget gate rules.",
+          "evidenceIds": [
+            "workspace",
+            "budget"
+          ]
+        },
+        "export": {
+          "support": "unsupported",
+          "answer": "None found.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "drilldown": {
+          "support": "supported",
+          "answer": "Dashboard cost by model drills to sessions and timelines.",
+          "evidenceIds": [
+            "screenshot"
+          ]
+        }
+      },
+      "limitations": [
+        "Dollar figures are estimates from prices; subscription marginal cost is not separated."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "screenshot",
+        "workspace",
+        "budget",
+        "security",
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentglass:RUN-08",
+      "criterionId": "RUN-08",
+      "answer": "A terminal ceiling and maxWorkers cap concurrency; Resources panel shows CPU, memory and disk share of the fleet; Docker clean-up exists; no queues, backpressure or check reuse.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "release v1.0.0 (2026-11-03, commit 1b878f8); plugin repositories at default-branch heads checked 2026-11-16",
+        "plan": "Open source (MIT) desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "concurrency": {
+          "support": "supported",
+          "answer": "200 terminals, 1-12 workers.",
+          "evidenceIds": [
+            "config"
+          ]
+        },
+        "queues": {
+          "support": "partial",
+          "answer": "Gate queue; no compute queue.",
+          "evidenceIds": [
+            "install"
+          ]
+        },
+        "cpu_ram": {
+          "support": "partial",
+          "answer": "Resources panel shows machine and fleet share.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "backpressure": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "config"
+          ]
+        },
+        "host_awareness": {
+          "support": "partial",
+          "answer": "Single host.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "check_reuse": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "check_deduplication": {
+          "support": "partial",
+          "answer": "Check results are batched in one GraphQL query for PR lists.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "bounded_tests": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "cancellation": {
+          "support": "supported",
+          "answer": "Stop and turn limit process-tree stop.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "fairness": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "config"
+          ]
+        },
+        "recovery": {
+          "support": "partial",
+          "answer": "Reattach and restart behaviors.",
+          "evidenceIds": [
+            "install"
+          ]
+        },
+        "shared_limits": {
+          "support": "supported",
+          "answer": "Limits are global or per project policy.",
+          "evidenceIds": [
+            "config"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: queues, cpu_ram, backpressure, host_awareness, check_reuse, check_deduplication, bounded_tests, fairness, recovery; see each atomic answer for the limitation."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "config",
+        "workspace",
+        "install",
+        "security"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentglass:TEAM-01",
+      "criterionId": "TEAM-01",
+      "answer": "Single-user local app; paired phones belong to the same person at read, answer or full scope; no sharing, presence or co-prompting.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "release v1.0.0 (2026-11-03, commit 1b878f8); plugin repositories at default-branch heads checked 2026-11-16",
+        "plan": "Open source (MIT) desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "visibility": {
+          "support": "unsupported",
+          "answer": "No sharing with other people.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "discussion": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "comments": {
+          "support": "partial",
+          "answer": "PR review comments go to GitHub.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "presence": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "coprompting": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "ordering": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "conflicts": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "attribution": {
+          "support": "partial",
+          "answer": "Manifest verdicts record person or phone device.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "permissions": {
+          "support": "supported",
+          "answer": "Devices hold read, answer or full levels.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "plan_restrictions": {
+          "support": "supported",
+          "answer": "No plans.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "owner_online": {
+          "support": "unsupported",
+          "answer": "The machine must be on.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: visibility, discussion, comments, presence, coprompting, ordering, conflicts, attribution, owner_online; see each atomic answer for the limitation."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "security",
+        "workspace",
+        "readme",
+        "site"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentglass:TEAM-02",
+      "criterionId": "TEAM-02",
+      "answer": "No users or SSO; device pairing levels (read, answer, full) and a machine token; revoked devices are kept as records.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "release v1.0.0 (2026-11-03, commit 1b878f8); plugin repositories at default-branch heads checked 2026-11-16",
+        "plan": "Open source (MIT) desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "organization_roles": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "project_roles": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "task_roles": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "membership": {
+          "support": "partial",
+          "answer": "Devices are paired by a scanned code and listed in devices.json.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "sso": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "provisioning": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "unauthorized_access": {
+          "support": "supported",
+          "answer": "Origin and Host gates, DNS-rebinding guard, token and pairing.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "revocation": {
+          "support": "supported",
+          "answer": "Device credentials can be revoked and revoked rows are kept.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "plan_scope": {
+          "support": "supported",
+          "answer": "No plans.",
+          "evidenceIds": [
+            "site"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: organization_roles, project_roles, task_roles, membership, sso, provisioning; see each atomic answer for the limitation."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "security",
+        "site"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentglass:TEAM-03",
+      "criterionId": "TEAM-03",
+      "answer": "PreToolUse gate holds a tool call until you allow it from desk or phone; rules allow, deny or hold by tool, project and budget; queue persists; timeout auto-allows unless fail-closed is set; seats cannot answer worker permission dialogs; envelope grants are narrow by default and capped by a ceiling.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "release v1.0.0 (2026-11-03, commit 1b878f8); plugin repositories at default-branch heads checked 2026-11-16",
+        "plan": "Open source (MIT) desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "command": {
+          "support": "supported",
+          "answer": "Tool calls matching the hook matcher (for example Bash) are held.",
+          "evidenceIds": [
+            "install"
+          ]
+        },
+        "tool": {
+          "support": "supported",
+          "answer": "gateRules allow or deny by tool name with otherwise and overBudget outcomes.",
+          "evidenceIds": [
+            "install"
+          ]
+        },
+        "network": {
+          "support": "partial",
+          "answer": "Workers start with no network; allowing network is a seat grant within the ceiling.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "secret": {
+          "support": "unsupported",
+          "answer": "No secret approval flow.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "delivery": {
+          "support": "partial",
+          "answer": "Branch push, PR, merge and release are never inside a worker envelope and stay the person's.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "approver_identity": {
+          "support": "partial",
+          "answer": "Decisions come from the person; Manifest and action log record device label.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "lifetime": {
+          "support": "partial",
+          "answer": "Gate timeout 300 s; envelope rechecked on resume.",
+          "evidenceIds": [
+            "install",
+            "security"
+          ]
+        },
+        "allow": {
+          "support": "supported",
+          "answer": "Approve in the Lantern or phone.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "deny": {
+          "support": "supported",
+          "answer": "Deny with a reason written for the model.",
+          "evidenceIds": [
+            "install"
+          ]
+        },
+        "revoke": {
+          "support": "partial",
+          "answer": "Narrowing the ceiling stops workers started under the old one on resume.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "tunnels": {
+          "support": "partial",
+          "answer": "Remote access is a switch that can be turned off and closes the port.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "defaults": {
+          "support": "supported",
+          "answer": "The gate is fail-open by default with a timeout auto-allow.",
+          "evidenceIds": [
+            "install",
+            "security"
+          ]
+        },
+        "safer_modes": {
+          "support": "supported",
+          "answer": "Fail-closed switch, rules and narrow worker defaults.",
+          "evidenceIds": [
+            "install",
+            "security"
+          ]
+        },
+        "enforcement": {
+          "support": "supported",
+          "answer": "Server-enforced seat and policy checks with an audited action log.",
+          "evidenceIds": [
+            "security"
+          ]
+        }
+      },
+      "limitations": [
+        "The gate is fail-open by default and the envelope is not a sandbox."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "install",
+        "security",
+        "readme",
+        "config"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentglass:TEAM-04",
+      "criterionId": "TEAM-04",
+      "answer": "Action log of every start, prompt, key press, refusal and policy change under the actor's name, fence record, Manifest verdicts with device label, events retained for a window; nothing deletes history except an erase action; files are local and alterable.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "release v1.0.0 (2026-11-03, commit 1b878f8); plugin repositories at default-branch heads checked 2026-11-16",
+        "plan": "Open source (MIT) desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "actions": {
+          "support": "supported",
+          "answer": "Action log lines under seat names with reasons.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "approvals": {
+          "support": "supported",
+          "answer": "Gate decisions and Manifest verdicts are recorded.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "edits": {
+          "support": "partial",
+          "answer": "Policy changes are logged.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "discussion": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "decisions": {
+          "support": "supported",
+          "answer": "Clone records how you decide; Manifest verdicts.",
+          "evidenceIds": [
+            "workspace",
+            "security"
+          ]
+        },
+        "cross_user_persistence": {
+          "support": "unsupported",
+          "answer": "Single user.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "cross_session_persistence": {
+          "support": "supported",
+          "answer": "SQLite persists across sessions.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "export": {
+          "support": "partial",
+          "answer": "A webhook sends alerts only; no history export found.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "mutability": {
+          "support": "partial",
+          "answer": "A local file; only a person-pressed erase action removes history.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "retention": {
+          "support": "supported",
+          "answer": "AGENTGLASS_RETENTION_DAYS bounds raw events; derived history and rollups are retained separately.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "integrity": {
+          "support": "unsupported",
+          "answer": "No integrity model beyond file permissions.",
+          "evidenceIds": [
+            "security"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: edits, discussion, cross_user_persistence, export, mutability, integrity; see each atomic answer for the limitation."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "security",
+        "workspace"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentglass:TEAM-05",
+      "criterionId": "TEAM-05",
+      "answer": "Pull-request review without a browser: list filtered by facets, overview, conversation, commits, files with viewed marks, checks and review; draft line comments submitted as one approve, request-changes or comment review; keyboard shortcuts; AI Explain; the Manifest sign-off.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "release v1.0.0 (2026-11-03, commit 1b878f8); plugin repositories at default-branch heads checked 2026-11-16",
+        "plan": "Open source (MIT) desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "pending_reviews": {
+          "support": "supported",
+          "answer": "Opens on what is waiting on your review.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "change_understanding": {
+          "support": "supported",
+          "answer": "Word-level diffs, chaptered changes and Explain walkthrough.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "evidence_navigation": {
+          "support": "supported",
+          "answer": "Tabs for overview, conversation, commits, files, checks and review; blockers link to the tab that fixes them.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "comments": {
+          "support": "supported",
+          "answer": "Line threads and a review composer with pending drafts.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "request_changes": {
+          "support": "supported",
+          "answer": "Approve, request changes or comment as one review.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "shipping_guidance": {
+          "support": "supported",
+          "answer": "Overview leads with whether it can land and what blocks.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "effort": {
+          "support": "partial",
+          "answer": "Files over 600 changed lines start folded; Explain describes hunks.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "missed_evidence": {
+          "support": "partial",
+          "answer": "Checks and blockers surfaced.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "keyboard": {
+          "support": "supported",
+          "answer": "j/k, n/p, x and Enter in lists and files.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "narrow_screen": {
+          "support": "partial",
+          "answer": "The phone app shows PRs and a checkout's changes.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "context_switching": {
+          "support": "supported",
+          "answer": "Review stays in the workspace beside agents.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "roles": {
+          "support": "partial",
+          "answer": "Reviewers, assignee and requester shown on the masthead.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "retained_context": {
+          "support": "partial",
+          "answer": "Reviewed check-offs and drafts persist locally.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: effort, missed_evidence, narrow_screen, roles, retained_context; see each atomic answer for the limitation."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "workspace",
+        "security",
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentglass:TEAM-06",
+      "criterionId": "TEAM-06",
+      "answer": "No colleague takeover; the phone can take over terminals and approvals of the same machine at a granted scope.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "release v1.0.0 (2026-11-03, commit 1b878f8); plugin repositories at default-branch heads checked 2026-11-16",
+        "plan": "Open source (MIT) desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "ongoing_takeover": {
+          "support": "partial",
+          "answer": "A paired phone can read terminal panes and answer approvals at its level.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "same_task": {
+          "support": "supported",
+          "answer": "Same server and sessions.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "session_history": {
+          "support": "supported",
+          "answer": "Same database.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "decisions": {
+          "support": "partial",
+          "answer": "Approvals visible.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "artifacts": {
+          "support": "partial",
+          "answer": "Checkout changes on the phone.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "permissions": {
+          "support": "supported",
+          "answer": "Read, answer or full.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "runtime_context": {
+          "support": "supported",
+          "answer": "Same machine.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "owner_disconnect": {
+          "support": "unsupported",
+          "answer": "The machine must stay on.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "ownership": {
+          "support": "unsupported",
+          "answer": "Single owner.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "attribution": {
+          "support": "partial",
+          "answer": "Device label recorded on verdicts.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "context_loss": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "harness_transfer": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: ongoing_takeover, decisions, artifacts, owner_disconnect, ownership, attribution, context_loss, harness_transfer; see each atomic answer for the limitation."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "workspace",
+        "security",
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentglass:SHIP-01",
+      "criterionId": "SHIP-01",
+      "answer": "Diff viewer with Explain, source control, PR files and checks, Manifest verdicts, ports and resources views and a driven browser; no recordings or gallery.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "release v1.0.0 (2026-11-03, commit 1b878f8); plugin repositories at default-branch heads checked 2026-11-16",
+        "plan": "Open source (MIT) desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "diffs": {
+          "support": "supported",
+          "answer": "Syntax-highlighted split or unified diffs grouped by worktree and agent.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "documents": {
+          "support": "partial",
+          "answer": "Markdown files in the file browser.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "screenshots": {
+          "support": "partial",
+          "answer": "Browser panel the agent drives can capture pages.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "recordings": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "previews": {
+          "support": "partial",
+          "answer": "Driven browser panel and Ports.",
+          "evidenceIds": [
+            "readme",
+            "workspace"
+          ]
+        },
+        "test_outputs": {
+          "support": "partial",
+          "answer": "Checks tab and terminal output.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "reviewer_outputs": {
+          "support": "partial",
+          "answer": "Local-review plugin keeps findings inside agentglass.",
+          "evidenceIds": [
+            "localreview"
+          ]
+        },
+        "gallery": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "task_links": {
+          "support": "partial",
+          "answer": "Diffs grouped by worktree.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "revision_links": {
+          "support": "partial",
+          "answer": "Manifest verdicts per commit.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "persistence": {
+          "support": "supported",
+          "answer": "Local database.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "child_findings": {
+          "support": "partial",
+          "answer": "Review plugin findings.",
+          "evidenceIds": [
+            "localreview"
+          ]
+        },
+        "prompt_leakage": {
+          "support": "unknown",
+          "answer": "Whether reviewer prompts leak into delivered outputs needs inspection of generated artifacts, not source docs.",
+          "evidenceIds": []
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: documents, screenshots, recordings, previews, test_outputs, reviewer_outputs, gallery, task_links, revision_links, child_findings; see each atomic answer for the limitation."
+      ],
+      "unknownReason": "Prompt leakage is an observed-output behavior not tested here.",
+      "evidenceIds": [
+        "workspace",
+        "security",
+        "readme",
+        "localreview"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentglass:SHIP-02",
+      "criterionId": "SHIP-02",
+      "answer": "Checks tab and check states with CI failure lens; checkOnBase verifies tests; the gate and budgets can deny tool calls; Polaris classifies PRs; Manifest sign-off; no spec gates.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "release v1.0.0 (2026-11-03, commit 1b878f8); plugin repositories at default-branch heads checked 2026-11-16",
+        "plan": "Open source (MIT) desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "tests": {
+          "support": "partial",
+          "answer": "Project scripts one click away; check-on-base module in the server.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "lint": {
+          "support": "partial",
+          "answer": "Via project scripts.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "types": {
+          "support": "partial",
+          "answer": "Via project scripts.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "ci": {
+          "support": "supported",
+          "answer": "Check runs shown and CI failures analyzed; dropped runner jobs can be re-run.",
+          "evidenceIds": [
+            "workspace",
+            "polaris"
+          ]
+        },
+        "independent_review": {
+          "support": "partial",
+          "answer": "Local-review plugin and PR review composer.",
+          "evidenceIds": [
+            "localreview",
+            "workspace"
+          ]
+        },
+        "spec_checks": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "required_checks": {
+          "support": "partial",
+          "answer": "Overview lists what blocks merge from GitHub.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "failure_blocking": {
+          "support": "partial",
+          "answer": "GitHub mergeability blocks squash-merge button.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "requirement_conflicts": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "configured_policy": {
+          "support": "supported",
+          "answer": "gateRules and Polaris doors.",
+          "evidenceIds": [
+            "install",
+            "polaris"
+          ]
+        },
+        "enforced_policy": {
+          "support": "partial",
+          "answer": "Gate enforcement is fail-open by default.",
+          "evidenceIds": [
+            "install"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: tests, lint, types, independent_review, spec_checks, required_checks, failure_blocking, requirement_conflicts, enforced_policy; see each atomic answer for the limitation."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "workspace",
+        "polaris",
+        "install",
+        "localreview"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentglass:SHIP-03",
+      "criterionId": "SHIP-03",
+      "answer": "Source control panel (stage hunks, commit, branches, stash, reflog, tags, worktrees, sync from base, resolve conflicts, undo merge), worktrees from issues, PR review and squash-merge, convert-to-draft and retitle; agents create commits in worktrees; local cleanup of merged PR leftovers.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "release v1.0.0 (2026-11-03, commit 1b878f8); plugin repositories at default-branch heads checked 2026-11-16",
+        "plan": "Open source (MIT) desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "branches": {
+          "support": "supported",
+          "answer": "Create, checkout, delete.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "worktrees": {
+          "support": "supported",
+          "answer": "Worktrees per task or issue and cleanup of merged ones.",
+          "evidenceIds": [
+            "readme",
+            "cleanup"
+          ]
+        },
+        "commits": {
+          "support": "supported",
+          "answer": "Commit composer and hunk staging.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "pull_requests": {
+          "support": "supported",
+          "answer": "List, review, retitle, request review, edit labels, convert to draft and merge.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "comments": {
+          "support": "supported",
+          "answer": "Line threads and reviews.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "ci_response": {
+          "support": "partial",
+          "answer": "Check results, notifications and CI failure lens; Polaris relaunch.",
+          "evidenceIds": [
+            "workspace",
+            "polaris"
+          ]
+        },
+        "rebase": {
+          "support": "partial",
+          "answer": "Sync from base merges main; rebase not documented.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "conflicts": {
+          "support": "supported",
+          "answer": "Resolve conflicts one by one or take ours/theirs.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "product_state": {
+          "support": "supported",
+          "answer": "PR cache and states.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: ci_response, rebase; see each atomic answer for the limitation."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "workspace",
+        "cleanup",
+        "readme",
+        "polaris"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentglass:SHIP-04",
+      "criterionId": "SHIP-04",
+      "answer": "The person merges: squash-and-merge is pinned to the head SHA; Polaris never merges and never pushes; branch push, PR, merge, release and spend are outside the worker envelope.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "release v1.0.0 (2026-11-03, commit 1b878f8); plugin repositories at default-branch heads checked 2026-11-16",
+        "plan": "Open source (MIT) desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "approve": {
+          "support": "supported",
+          "answer": "Review composer approval by the person.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "merge": {
+          "support": "supported",
+          "answer": "Squash-and-merge from the overview, optionally deleting the branch.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "release": {
+          "support": "unsupported",
+          "answer": "Releases are outside every envelope; no release feature.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "deploy": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "exact_revision": {
+          "support": "supported",
+          "answer": "Squash-and-merge is pinned to the head SHA so an unseen push makes GitHub refuse.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "authority_enforcement": {
+          "support": "supported",
+          "answer": "No envelope field exists for push, PR, merge, release or spend and the deny list cannot be emptied.",
+          "evidenceIds": [
+            "security"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: release, deploy; see each atomic answer for the limitation."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "workspace",
+        "polaris",
+        "security"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentglass:SHIP-05",
+      "criterionId": "SHIP-05",
+      "answer": "The Manifest records tested or failed verdicts per project commit with who and when; PR and task links; local cleanup of merged PR leftovers; undo merge while reversible.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "release v1.0.0 (2026-11-03, commit 1b878f8); plugin repositories at default-branch heads checked 2026-11-16",
+        "plan": "Open source (MIT) desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "commit_links": {
+          "support": "supported",
+          "answer": "Manifest rows per project and commit.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "pr_links": {
+          "support": "supported",
+          "answer": "Agents and PRs link by branch.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "build_links": {
+          "support": "partial",
+          "answer": "Checks tab shows runs.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "deployment_links": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "delivery_status": {
+          "support": "partial",
+          "answer": "PR overview and Manifest.",
+          "evidenceIds": [
+            "workspace",
+            "security"
+          ]
+        },
+        "retained_evidence": {
+          "support": "supported",
+          "answer": "Verdicts and notes persist locally.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "rollback": {
+          "support": "partial",
+          "answer": "Undo the merge while nothing is committed on top or pushed.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "revert": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "stale_approval_invalidation": {
+          "support": "partial",
+          "answer": "Squash-merge refuses when the head moved.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: build_links, deployment_links, delivery_status, rollback, revert, stale_approval_invalidation; see each atomic answer for the limitation."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "security",
+        "workspace",
+        "cleanup"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentglass:SHIP-06",
+      "criterionId": "SHIP-06",
+      "answer": "Pull request list with saved views and facet filters, classes and one next button from Polaris; no batch approval or merge queue.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "release v1.0.0 (2026-11-03, commit 1b878f8); plugin repositories at default-branch heads checked 2026-11-16",
+        "plan": "Open source (MIT) desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "review_queue": {
+          "support": "supported",
+          "answer": "PR list opening on what waits on your review.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "summaries": {
+          "support": "supported",
+          "answer": "Polaris gives one plain sentence per PR.",
+          "evidenceIds": [
+            "polaris"
+          ]
+        },
+        "grouping": {
+          "support": "supported",
+          "answer": "Classes and saved views.",
+          "evidenceIds": [
+            "polaris",
+            "workspace"
+          ]
+        },
+        "risk_size_filters": {
+          "support": "supported",
+          "answer": "Author, label, reviews, checks, draft, base, assignee and milestone facets with sort.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "findings": {
+          "support": "partial",
+          "answer": "Local-review findings.",
+          "evidenceIds": [
+            "localreview"
+          ]
+        },
+        "artifacts": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "request_changes": {
+          "support": "supported",
+          "answer": "Review composer.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "exact_revision_approval": {
+          "support": "partial",
+          "answer": "Merge pinned to head SHA.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "dependency_queues": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "next_actions": {
+          "support": "supported",
+          "answer": "One button per PR from Polaris.",
+          "evidenceIds": [
+            "polaris"
+          ]
+        },
+        "stale_approval_invalidation": {
+          "support": "partial",
+          "answer": "Head-pinned merge.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        },
+        "check_deduplication": {
+          "support": "partial",
+          "answer": "One batched GraphQL query for checks.",
+          "evidenceIds": [
+            "workspace"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: findings, artifacts, exact_revision_approval, dependency_queues, stale_approval_invalidation, check_deduplication; see each atomic answer for the limitation."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "workspace",
+        "polaris",
+        "localreview"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentglass:OWN-01",
+      "criterionId": "OWN-01",
+      "answer": "MIT licensed app, server, Electron shell, React Native app and hooks; plugin repositories agentglass-accounts, agentglass-local-review and the Jev inbox plugin are MIT; the agentglass-plugins catalogue repository shows no license.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "release v1.0.0 (2026-11-03, commit 1b878f8); plugin repositories at default-branch heads checked 2026-11-16",
+        "plan": "Open source (MIT) desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "client_license": {
+          "support": "supported",
+          "answer": "MIT.",
+          "evidenceIds": [
+            "license",
+            "repoapi"
+          ]
+        },
+        "server_license": {
+          "support": "supported",
+          "answer": "MIT.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "hosted_extensions": {
+          "support": "unsupported",
+          "answer": "No hosted extensions.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "source_visibility": {
+          "support": "supported",
+          "answer": "Public repositories with a plugin ecosystem.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "source_revision": {
+          "support": "supported",
+          "answer": "Release v1.0.0 at commit 1b878f8.",
+          "evidenceIds": [
+            "release"
+          ]
+        },
+        "hosted_parity": {
+          "support": "unsupported",
+          "answer": "No hosted service.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: hosted_extensions, hosted_parity; see each atomic answer for the limitation."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "license",
+        "repoapi",
+        "accountsrepo",
+        "catalogue",
+        "release",
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-05-15",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentglass:OWN-02",
+      "criterionId": "OWN-02",
+      "answer": "Local-only; data in a SQLite file and config files on your disk with no account or sync; the plugin catalogue is fetched from a repository when browsing.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "release v1.0.0 (2026-11-03, commit 1b878f8); plugin repositories at default-branch heads checked 2026-11-16",
+        "plan": "Open source (MIT) desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "self_hosting": {
+          "support": "supported",
+          "answer": "The server is embedded in the desktop app or run from source.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "vendor_dependencies": {
+          "support": "supported",
+          "answer": "None required; GitHub, ClickUp and Jira only if connected.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "export": {
+          "support": "partial",
+          "answer": "Local files are readable; no export feature.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "import": {
+          "support": "partial",
+          "answer": "Imports browsing history from your own browser into a separate file.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "formats": {
+          "support": "supported",
+          "answer": "SQLite and JSON files.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "cancellation": {
+          "support": "supported",
+          "answer": "No account.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "account_independence": {
+          "support": "supported",
+          "answer": "Works without any account.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "history_portability": {
+          "support": "partial",
+          "answer": "Copyable database file.",
+          "evidenceIds": [
+            "security"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: export, import, history_portability; see each atomic answer for the limitation."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "security",
+        "readme",
+        "catalogue"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-05-15",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentglass:OWN-03",
+      "criterionId": "OWN-03",
+      "answer": "No account, no cloud and no telemetry; data stays in local SQLite; opt-in paths leave the machine: an alert webhook, the Explain button, the Clone judge and a price-catalogue refresh; hooks refuse non-local destinations; connected-service tokens stored 0600.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "release v1.0.0 (2026-11-03, commit 1b878f8); plugin repositories at default-branch heads checked 2026-11-16",
+        "plan": "Open source (MIT) desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "code_data": {
+          "support": "supported",
+          "answer": "Stay on the machine; only the Explain button sends hunks to a model.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "prompts": {
+          "support": "supported",
+          "answer": "Hooks post transcripts only to this machine unless AGENTGLASS_ALLOW_REMOTE=1.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "credentials": {
+          "support": "supported",
+          "answer": "credentials.json and secrets.json are 0600 and plugin secrets go only to the declaring plugin.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "logs": {
+          "support": "supported",
+          "answer": "Local SQLite and action log.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "artifacts": {
+          "support": "supported",
+          "answer": "Local.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "retention": {
+          "support": "supported",
+          "answer": "AGENTGLASS_RETENTION_DAYS and hourly sweeps; derived history retained.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "deletion": {
+          "support": "supported",
+          "answer": "Erase local history behind a typed confirmation, refused to every agent.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "training": {
+          "support": "unsupported",
+          "answer": "agentglass does no model processing; Explain uses the claude CLI or Anthropic API.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "residency": {
+          "support": "supported",
+          "answer": "Local machine.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "subprocessors": {
+          "support": "partial",
+          "answer": "Only if you enable webhook, Explain, Clone judge or connect services.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "telemetry_disclosure": {
+          "support": "supported",
+          "answer": "SECURITY lists every outbound path and README states no telemetry.",
+          "evidenceIds": [
+            "security",
+            "readme"
+          ]
+        },
+        "telemetry_defaults": {
+          "support": "supported",
+          "answer": "No telemetry; the opt-in paths are off by default.",
+          "evidenceIds": [
+            "readme",
+            "security"
+          ]
+        },
+        "telemetry_controls": {
+          "support": "supported",
+          "answer": "Switches such as AGENTGLASS_WALKTHROUGH_DISABLED, AGENTGLASS_WEBHOOK and AGENTGLASS_PRICING_REFRESH control each outbound path.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "consent_prompt": {
+          "support": "partial",
+          "answer": "The Remote switch states what turning it on grants; no generic first-run consent prompt.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "provider_separation": {
+          "support": "supported",
+          "answer": "Explain and provider routing are separated from the app's own storage.",
+          "evidenceIds": [
+            "security"
+          ]
+        }
+      },
+      "limitations": [
+        "Prompts and code sent to agent CLIs follow those CLIs' providers."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "security",
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentglass:OWN-04",
+      "criterionId": "OWN-04",
+      "answer": "Free: MIT open-source app with no plans, seats, credits or trial; costs are the agent CLIs' subscriptions or API usage and your hardware.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "release v1.0.0 (2026-11-03, commit 1b878f8); plugin repositories at default-branch heads checked 2026-11-16",
+        "plan": "Open source (MIT) desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "currency": {
+          "support": "supported",
+          "answer": "No price.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "interval": {
+          "support": "supported",
+          "answer": "No billing.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "seats": {
+          "support": "supported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "seat_minimum": {
+          "support": "supported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "workspace_fees": {
+          "support": "supported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "included_usage": {
+          "support": "supported",
+          "answer": "Not applicable.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "credits": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "trial": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "overages": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "taxes": {
+          "support": "unknown",
+          "answer": "No sale; tax treatment is not applicable to a free download.",
+          "evidenceIds": []
+        },
+        "model_cost": {
+          "support": "supported",
+          "answer": "Paid to model vendors through agent CLIs.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "compute_cost": {
+          "support": "supported",
+          "answer": "User hardware.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: credits, trial, overages; see each atomic answer for the limitation."
+      ],
+      "unknownReason": "Tax treatment is not applicable to a free download.",
+      "evidenceIds": [
+        "readme",
+        "site",
+        "license"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-01-15",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentglass:OWN-05",
+      "criterionId": "OWN-05",
+      "answer": "Software cost is zero for one, two or five developers; agent subscriptions and hardware are separate.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "release v1.0.0 (2026-11-03, commit 1b878f8); plugin repositories at default-branch heads checked 2026-11-16",
+        "plan": "Open source (MIT) desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "one_person": {
+          "support": "supported",
+          "answer": "Zero.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "two_people": {
+          "support": "supported",
+          "answer": "Zero; no collaboration features.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "five_people": {
+          "support": "supported",
+          "answer": "Zero.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "task_assumptions": {
+          "support": "unknown",
+          "answer": "None published.",
+          "evidenceIds": []
+        },
+        "concurrency": {
+          "support": "unknown",
+          "answer": "None published.",
+          "evidenceIds": []
+        },
+        "tokens": {
+          "support": "unknown",
+          "answer": "None published.",
+          "evidenceIds": []
+        },
+        "compute_hours": {
+          "support": "unknown",
+          "answer": "None published.",
+          "evidenceIds": []
+        },
+        "fixed_cost": {
+          "support": "supported",
+          "answer": "Zero.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "variable_cost": {
+          "support": "supported",
+          "answer": "Agent usage.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "included_cost": {
+          "support": "supported",
+          "answer": "Nothing included.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "unknown_cost": {
+          "support": "supported",
+          "answer": "Agent usage varies.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: ; see each atomic answer for the limitation."
+      ],
+      "unknownReason": "No workload assumptions are published and the catalog invents none.",
+      "evidenceIds": [
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentglass:OWN-06",
+      "criterionId": "OWN-06",
+      "answer": "Releases v0.25.0 to v0.27.0 within days in October and v1.0.0 on 2026-11-03 with all platform builds; only latest main is supported; CodeQL and Dependabot; issues and discussions; Windows and macOS caveats stated; no response commitments.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "release v1.0.0 (2026-11-03, commit 1b878f8); plugin repositories at default-branch heads checked 2026-11-16",
+        "plan": "Open source (MIT) desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "release_stage": {
+          "support": "supported",
+          "answer": "v1.0.0 with working Linux and macOS, unverified Windows.",
+          "evidenceIds": [
+            "release",
+            "readme"
+          ]
+        },
+        "access_restrictions": {
+          "support": "supported",
+          "answer": "Public downloads; macOS unsigned.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "support": {
+          "support": "partial",
+          "answer": "GitHub issues, discussions and a private vulnerability path.",
+          "evidenceIds": [
+            "readme",
+            "security"
+          ]
+        },
+        "response_commitments": {
+          "support": "unsupported",
+          "answer": "None stated.",
+          "evidenceIds": [
+            "security"
+          ]
+        },
+        "release_activity": {
+          "support": "supported",
+          "answer": "Frequent releases and pushes through 2026-11-16.",
+          "evidenceIds": [
+            "release",
+            "repoapi"
+          ]
+        },
+        "status_history": {
+          "support": "unsupported",
+          "answer": "No hosted service.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "deprecation": {
+          "support": "unsupported",
+          "answer": "None found.",
+          "evidenceIds": [
+            "release"
+          ]
+        },
+        "export_options": {
+          "support": "partial",
+          "answer": "Local files.",
+          "evidenceIds": [
+            "security"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: support, response_commitments, status_history, deprecation, export_options; see each atomic answer for the limitation."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "release",
+        "security",
+        "readme",
+        "repoapi",
+        "site"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-01-15",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentglass:OWN-07",
+      "criterionId": "OWN-07",
+      "answer": "No ISO or SOC 2 claim; local app with CodeQL, Dependabot and secret scanning stated for the repository.",
+      "support": "unknown",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "release v1.0.0 (2026-11-03, commit 1b878f8); plugin repositories at default-branch heads checked 2026-11-16",
+        "plan": "Open source (MIT) desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "iso_scope": {
+          "support": "unknown",
+          "answer": "No certification is claimed; it would be a maintainer business fact outside the repository.",
+          "evidenceIds": []
+        },
+        "iso_issuer": {
+          "support": "unknown",
+          "answer": "No certification is claimed; it would be a maintainer business fact outside the repository.",
+          "evidenceIds": []
+        },
+        "iso_validity": {
+          "support": "unknown",
+          "answer": "No certification is claimed; it would be a maintainer business fact outside the repository.",
+          "evidenceIds": []
+        },
+        "soc2_type": {
+          "support": "unknown",
+          "answer": "No certification is claimed; it would be a maintainer business fact outside the repository.",
+          "evidenceIds": []
+        },
+        "soc2_scope": {
+          "support": "unknown",
+          "answer": "No certification is claimed; it would be a maintainer business fact outside the repository.",
+          "evidenceIds": []
+        },
+        "soc2_period": {
+          "support": "unknown",
+          "answer": "No certification is claimed; it would be a maintainer business fact outside the repository.",
+          "evidenceIds": []
+        },
+        "report_access": {
+          "support": "unknown",
+          "answer": "No certification is claimed; it would be a maintainer business fact outside the repository.",
+          "evidenceIds": []
+        },
+        "verification_date": {
+          "support": "unknown",
+          "answer": "No certification is claimed; it would be a maintainer business fact outside the repository.",
+          "evidenceIds": []
+        },
+        "evidence_status": {
+          "support": "unknown",
+          "answer": "No certification is claimed; it would be a maintainer business fact outside the repository.",
+          "evidenceIds": []
+        }
+      },
+      "limitations": [],
+      "unknownReason": "Certification is a business fact; none is claimed by the repository or site.",
+      "evidenceIds": [
+        "security"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "internal-only",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentglass:OWN-08",
+      "criterionId": "OWN-08",
+      "answer": "Free MIT download; all supported scenarios are free apart from agent subscriptions; collaboration and remote compute are not offered; the live demo needs no install.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "release v1.0.0 (2026-11-03, commit 1b878f8); plugin repositories at default-branch heads checked 2026-11-16",
+        "plan": "Open source (MIT) desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "ongoing_free": {
+          "support": "supported",
+          "answer": "Free download.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "trial": {
+          "support": "unsupported",
+          "answer": "Not needed.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "credits_trial": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "self_host_cost": {
+          "support": "supported",
+          "answer": "User hardware.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "paid_only": {
+          "support": "unsupported",
+          "answer": "Not paid-only.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "early_access": {
+          "support": "unsupported",
+          "answer": "Public releases.",
+          "evidenceIds": [
+            "release"
+          ]
+        },
+        "free_scenarios": {
+          "support": "partial",
+          "answer": "BYO subscriptions, phone access, PR review and task intake are free; collaboration and managed remote compute are not offered.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "card_required": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "usage_caps": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "paid_evaluation": {
+          "support": "unsupported",
+          "answer": "None; live demo in a browser.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: trial, credits_trial, paid_only, early_access, free_scenarios, card_required, usage_caps, paid_evaluation; see each atomic answer for the limitation."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "site",
+        "release"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-01-15",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentglass:OWN-09",
+      "criterionId": "OWN-09",
+      "answer": "Transparent: free with no pricing.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "release v1.0.0 (2026-11-03, commit 1b878f8); plugin repositories at default-branch heads checked 2026-11-16",
+        "plan": "Open source (MIT) desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "units": {
+          "support": "supported",
+          "answer": "None.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "included_limits": {
+          "support": "supported",
+          "answer": "None.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "overages": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "compute_markup": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "model_markup": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "minimum_commitment": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "cancellation": {
+          "support": "supported",
+          "answer": "No subscription.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "sales_only_unknowns": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "transparency_classification": {
+          "support": "supported",
+          "answer": "Transparent (free).",
+          "evidenceIds": [
+            "site"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: overages, compute_markup, model_markup, minimum_commitment, sales_only_unknowns; see each atomic answer for the limitation."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "site"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-01-15",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    }
+  ],
+  "evidence": [
+    {
+      "id": "repoapi",
+      "kind": "documented",
+      "url": "https://api.github.com/repos/SirAllap/agentglass",
+      "title": "GitHub repository metadata",
+      "locator": "stargazers_count, license",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Repository SirAllap/agentglass: 348 stars, MIT, homepage sirallap.github.io/agentglass, default branch main, not archived.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "readme",
+      "kind": "documented",
+      "url": "https://github.com/SirAllap/agentglass/blob/1b878f80d012132c53aeadcd0fae0c45675656b4/README.md",
+      "title": "agentglass README",
+      "locator": "Without leaving the window; Platforms; Install; Local; FAQ",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Desktop workspace for Claude Code, Codex, Gemini CLI and OpenCode with tmux terminals, worktree agents, orchestrator seat, approvals Lantern, diff viewer, source control, pull request review, driven browser, Docker, Android app and plugins; local-only SQLite, no account, no telemetry; MIT.",
+      "visibility": "public",
+      "commit": "1b878f80d012132c53aeadcd0fae0c45675656b4",
+      "path": "README.md"
+    },
+    {
+      "id": "security",
+      "kind": "documented",
+      "url": "https://github.com/SirAllap/agentglass/blob/1b878f80d012132c53aeadcd0fae0c45675656b4/SECURITY.md",
+      "title": "Security policy and trust model",
+      "locator": "Trust model; Pairing; Stores; Orchestration; Webhook; Hardening knobs",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Local-first trust model, tokens and device pairing at read/answer/full levels, gate fail-open default, storage and retention, orchestration envelope not a sandbox, opt-in webhook and Explain paths.",
+      "visibility": "public",
+      "commit": "1b878f80d012132c53aeadcd0fae0c45675656b4",
+      "path": "SECURITY.md"
+    },
+    {
+      "id": "workspace",
+      "kind": "documented",
+      "url": "https://github.com/SirAllap/agentglass/blob/1b878f80d012132c53aeadcd0fae0c45675656b4/docs/WORKSPACE.md",
+      "title": "Workspace views",
+      "locator": "bar; File changes; Source control; Pull requests; Tasks; Agents; phone app",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Views for diffs, source control, PR review with drafted reviews and squash-merge pinned to head SHA, tasks from GitHub issues, to-do and ClickUp, agent Lantern, Docker, ports and the phone app.",
+      "visibility": "public",
+      "commit": "1b878f80d012132c53aeadcd0fae0c45675656b4",
+      "path": "docs/WORKSPACE.md"
+    },
+    {
+      "id": "config",
+      "kind": "documented",
+      "url": "https://github.com/SirAllap/agentglass/blob/1b878f80d012132c53aeadcd0fae0c45675656b4/docs/CONFIG.md",
+      "title": "Configuration, API and architecture",
+      "locator": "Configuration (env); API; orchestration policy",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Environment variables (AGENTGLASS_MAX_TERMINALS 200), the HTTP API, orchestration policy fields with limits maxWorkers 1-12, turnMinutes 1-240, maxRetries 0-5.",
+      "visibility": "public",
+      "commit": "1b878f80d012132c53aeadcd0fae0c45675656b4",
+      "path": "docs/CONFIG.md"
+    },
+    {
+      "id": "install",
+      "kind": "documented",
+      "url": "https://github.com/SirAllap/agentglass/blob/1b878f80d012132c53aeadcd0fae0c45675656b4/docs/INSTALL.md",
+      "title": "Install guide",
+      "locator": "Requirements; Control plane; Any provider",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Requirements (git, Claude Code CLI, Python 3), desktop app caveats, PreToolUse gate with rules and overBudget, provider routing for Kimi, OpenAI, Gemini and Bedrock.",
+      "visibility": "public",
+      "commit": "1b878f80d012132c53aeadcd0fae0c45675656b4",
+      "path": "docs/INSTALL.md"
+    },
+    {
+      "id": "extending",
+      "kind": "documented",
+      "url": "https://github.com/SirAllap/agentglass/blob/1b878f80d012132c53aeadcd0fae0c45675656b4/docs/EXTENDING.md",
+      "title": "Extending agentglass",
+      "locator": "Point any agent at agentglass; gate in your own harness; POST /control; agentglass-ui",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Ingest and OTLP intake for any agent, gate API for custom harnesses, POST /control and the agentglass-ui CLI.",
+      "visibility": "public",
+      "commit": "1b878f80d012132c53aeadcd0fae0c45675656b4",
+      "path": "docs/EXTENDING.md"
+    },
+    {
+      "id": "plugins",
+      "kind": "documented",
+      "url": "https://github.com/SirAllap/agentglass/blob/1b878f80d012132c53aeadcd0fae0c45675656b4/docs/PLUGINS.md",
+      "title": "Plugins",
+      "locator": "What a plugin is; Scopes; Install, review, enable; What a plugin cannot do",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Plugins are separate processes with a scoped revocable token installed from an in-app catalogue after review.",
+      "visibility": "public",
+      "commit": "1b878f80d012132c53aeadcd0fae0c45675656b4",
+      "path": "docs/PLUGINS.md"
+    },
+    {
+      "id": "polaris",
+      "kind": "documented",
+      "url": "https://github.com/SirAllap/agentglass/blob/1b878f80d012132c53aeadcd0fae0c45675656b4/docs/POLARIS.md",
+      "title": "Polaris",
+      "locator": "The one rule; Doors; Guardrails",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Orchestrator pull-request abilities that classify PRs, never merge and re-run dropped CI jobs only after the person enables a door.",
+      "visibility": "public",
+      "commit": "1b878f80d012132c53aeadcd0fae0c45675656b4",
+      "path": "docs/POLARIS.md"
+    },
+    {
+      "id": "cleanup",
+      "kind": "documented",
+      "url": "https://github.com/SirAllap/agentglass/blob/1b878f80d012132c53aeadcd0fae0c45675656b4/docs/CLEANUP.md",
+      "title": "Cleanup",
+      "locator": "Modes; Safety blocks",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Local leftovers of merged PRs are cleaned in four modes with safety blocks.",
+      "visibility": "public",
+      "commit": "1b878f80d012132c53aeadcd0fae0c45675656b4",
+      "path": "docs/CLEANUP.md"
+    },
+    {
+      "id": "license",
+      "kind": "documented",
+      "url": "https://github.com/SirAllap/agentglass/blob/1b878f80d012132c53aeadcd0fae0c45675656b4/LICENSE",
+      "title": "MIT License",
+      "locator": "Header",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "MIT license, Copyright 2026 David Pallares.",
+      "visibility": "public",
+      "commit": "1b878f80d012132c53aeadcd0fae0c45675656b4",
+      "path": "LICENSE"
+    },
+    {
+      "id": "release",
+      "kind": "documented",
+      "url": "https://github.com/SirAllap/agentglass/releases/tag/v1.0.0",
+      "title": "Release v1.0.0",
+      "locator": "Assets",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Release published 2026-11-03 with AppImage, deb, arm64 and x64 dmg, exe, signed apk and SHA256SUMS.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "pkg",
+      "kind": "source-inspected",
+      "url": "https://github.com/SirAllap/agentglass/blob/1b878f80d012132c53aeadcd0fae0c45675656b4/package.json",
+      "title": "Root package manifest",
+      "locator": "build targets near lines 91-107; license",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "electron-builder targets AppImage and deb for Linux, dmg for macOS and nsis for Windows; MIT license.",
+      "visibility": "public",
+      "commit": "1b878f80d012132c53aeadcd0fae0c45675656b4",
+      "path": "package.json"
+    },
+    {
+      "id": "terminal",
+      "kind": "source-inspected",
+      "url": "https://github.com/SirAllap/agentglass/blob/1b878f80d012132c53aeadcd0fae0c45675656b4/server/src/terminal.ts",
+      "title": "Terminal sessions",
+      "locator": "MAX_SESSIONS (line 119)",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Concurrent PTY sessions capped at AGENTGLASS_MAX_TERMINALS, default 200.",
+      "visibility": "public",
+      "commit": "1b878f80d012132c53aeadcd0fae0c45675656b4",
+      "path": "server/src/terminal.ts"
+    },
+    {
+      "id": "budget",
+      "kind": "source-inspected",
+      "url": "https://github.com/SirAllap/agentglass/blob/1b878f80d012132c53aeadcd0fae0c45675656b4/server/src/budget.ts",
+      "title": "Budgets",
+      "locator": "Header comment",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "User-set spend budgets per period and scope, warned before crossing, used by gate rules overBudget.",
+      "visibility": "public",
+      "commit": "1b878f80d012132c53aeadcd0fae0c45675656b4",
+      "path": "server/src/budget.ts"
+    },
+    {
+      "id": "ticket",
+      "kind": "source-inspected",
+      "url": "https://github.com/SirAllap/agentglass/blob/1b878f80d012132c53aeadcd0fae0c45675656b4/server/src/agentticket.ts",
+      "title": "Agent ticket start",
+      "locator": "Header comment",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Buttons that send a pull request, issue or card to an agent open a tmux window or a pane running the agent.",
+      "visibility": "public",
+      "commit": "1b878f80d012132c53aeadcd0fae0c45675656b4",
+      "path": "server/src/agentticket.ts"
+    },
+    {
+      "id": "schedule",
+      "kind": "source-inspected",
+      "url": "https://github.com/SirAllap/agentglass/blob/1b878f80d012132c53aeadcd0fae0c45675656b4/server/src/agentschedule.ts",
+      "title": "Scheduled agents",
+      "locator": "Header comment",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "A schedule starts a named agent in a checkout at a time with a prompt, claimed in one transaction so a restart does not lose it.",
+      "visibility": "public",
+      "commit": "1b878f80d012132c53aeadcd0fae0c45675656b4",
+      "path": "server/src/agentschedule.ts"
+    },
+    {
+      "id": "accountsrepo",
+      "kind": "documented",
+      "url": "https://github.com/SirAllap/agentglass-accounts/blob/6b39d00df2599af654e9b5af512c116579820960/README.md",
+      "title": "agentglass-accounts plugin",
+      "locator": "Overview",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Plugin that keeps several Claude logins side by side and switches between them from the usage popover.",
+      "visibility": "public",
+      "commit": "6b39d00df2599af654e9b5af512c116579820960",
+      "path": "README.md"
+    },
+    {
+      "id": "localreview",
+      "kind": "documented",
+      "url": "https://github.com/SirAllap/agentglass-local-review/blob/1f7f00fbdbe4e414d357f267f6e9b8ca6062f241/README.md",
+      "title": "agentglass-local-review plugin",
+      "locator": "Overview",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Plugin that reviews pull requests on this machine with a chosen agent in a sandbox and keeps findings inside agentglass; nothing is posted.",
+      "visibility": "public",
+      "commit": "1f7f00fbdbe4e414d357f267f6e9b8ca6062f241",
+      "path": "README.md"
+    },
+    {
+      "id": "catalogue",
+      "kind": "documented",
+      "url": "https://github.com/SirAllap/agentglass-plugins/blob/695f46a44ee4604719b16d794f70e3b9d7f804c6/README.md",
+      "title": "agentglass-plugins catalogue",
+      "locator": "Overview",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "The agentglass plugin catalogue and market repository; GitHub reports no license.",
+      "visibility": "public",
+      "commit": "695f46a44ee4604719b16d794f70e3b9d7f804c6",
+      "path": "README.md"
+    },
+    {
+      "id": "site",
+      "kind": "documented",
+      "url": "https://sirallap.github.io/agentglass/",
+      "title": "agentglass site",
+      "locator": "Home",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Marketing page and live demo; no pricing page.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "screenshot",
+      "kind": "documented",
+      "url": "https://github.com/SirAllap/agentglass/blob/1b878f80d012132c53aeadcd0fae0c45675656b4/.github/assets/dashboard.png",
+      "title": "Cockpit dashboard screenshot",
+      "locator": "Image file",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Real dashboard with spend, live sessions, events, alerts with Approve and Deny, cost by model and timeline on demo data.",
+      "visibility": "public",
+      "commit": "1b878f80d012132c53aeadcd0fae0c45675656b4",
+      "path": ".github/assets/dashboard.png"
+    }
+  ],
+  "changes": [
+    {
+      "date": "2026-11-16",
+      "author": "researcher-batch11",
+      "type": "initial-research",
+      "summary": "Initial full-profile source pass over release v1.0.0 (commit 1b878f8) of SirAllap/agentglass plus its public plugin repositories (agentglass-accounts, agentglass-local-review, agentglass-jev-inbox-plugin, agentglass-plugins catalogue): README, SECURITY (trust model, storage, orchestration), WORKSPACE, CONFIG (API, orchestration policy), INSTALL, EXTENDING, PLUGINS, POLARIS, server sources and bounded code searches covering all 51 criteria. No ADEMark entry. Screenshot: first-party .github/assets/dashboard.png demo-data cockpit.",
+      "claimIds": [
+        "agentglass:ACC-01",
+        "agentglass:ACC-02",
+        "agentglass:ACC-03",
+        "agentglass:ACC-04",
+        "agentglass:ACC-05",
+        "agentglass:ACC-06",
+        "agentglass:ACC-07",
+        "agentglass:PLAN-01",
+        "agentglass:PLAN-02",
+        "agentglass:PLAN-03",
+        "agentglass:PLAN-04",
+        "agentglass:PLAN-05",
+        "agentglass:PLAN-06",
+        "agentglass:PLAN-07",
+        "agentglass:PLAN-08",
+        "agentglass:COORD-01",
+        "agentglass:COORD-02",
+        "agentglass:COORD-03",
+        "agentglass:COORD-04",
+        "agentglass:COORD-05",
+        "agentglass:COORD-06",
+        "agentglass:COORD-07",
+        "agentglass:RUN-01",
+        "agentglass:RUN-02",
+        "agentglass:RUN-03",
+        "agentglass:RUN-04",
+        "agentglass:RUN-05",
+        "agentglass:RUN-06",
+        "agentglass:RUN-07",
+        "agentglass:RUN-08",
+        "agentglass:TEAM-01",
+        "agentglass:TEAM-02",
+        "agentglass:TEAM-03",
+        "agentglass:TEAM-04",
+        "agentglass:TEAM-05",
+        "agentglass:TEAM-06",
+        "agentglass:SHIP-01",
+        "agentglass:SHIP-02",
+        "agentglass:SHIP-03",
+        "agentglass:SHIP-04",
+        "agentglass:SHIP-05",
+        "agentglass:SHIP-06",
+        "agentglass:OWN-01",
+        "agentglass:OWN-02",
+        "agentglass:OWN-03",
+        "agentglass:OWN-04",
+        "agentglass:OWN-05",
+        "agentglass:OWN-06",
+        "agentglass:OWN-07",
+        "agentglass:OWN-08",
+        "agentglass:OWN-09"
+      ],
+      "evidenceIds": [
+        "repoapi",
+        "readme",
+        "security",
+        "workspace",
+        "config",
+        "install",
+        "extending",
+        "plugins",
+        "polaris",
+        "cleanup",
+        "license",
+        "release",
+        "pkg",
+        "terminal",
+        "budget",
+        "ticket",
+        "schedule",
+        "accountsrepo",
+        "localreview",
+        "catalogue",
+        "site",
+        "screenshot"
+      ]
+    }
+  ],
+  "context": {
+    "roadmapReview": {
+      "checkedAt": "2026-11-16",
+      "locations": [
+        {
+          "url": "https://github.com/SirAllap/agentglass/releases",
+          "result": "v1.0.0 (2026-11-03) preceded by v0.27.0 to v0.25.0 in late October, each with AppImage, deb, dmg, exe, apk and SHA256SUMS; no roadmap section."
+        },
+        {
+          "url": "https://github.com/SirAllap/agentglass/blob/1b878f80d012132c53aeadcd0fae0c45675656b4/CHANGELOG.md",
+          "result": "Changelog lists releases; no dated future commitments."
+        },
+        {
+          "url": "https://github.com/SirAllap/agentglass/issues",
+          "result": "Issue 231 requests Windows hardware confirmation; items are unscheduled."
+        },
+        {
+          "url": "https://sirallap.github.io/agentglass/",
+          "result": "Site and live demo; no roadmap or pricing page."
+        }
+      ],
+      "announced": [],
+      "gaps": [
+        "Windows build is stated as not verified on hardware and macOS signing and notarization as not done; neither has a dated plan."
+      ]
+    },
+    "marketContext": {
+      "githubStars": {
+        "value": 348,
+        "observedAt": "2026-11-16",
+        "evidenceIds": [
+          "repoapi"
+        ]
+      }
+    }
+  }
+}
