@@ -1,0 +1,5895 @@
+{
+  "schemaVersion": 1,
+  "rubricVersion": "0.3",
+  "id": "agentic-orchestrator",
+  "name": "Agentic Orchestrator",
+  "category": "A",
+  "researchTier": "full-profile",
+  "researchState": "documented",
+  "identity": {
+    "website": "https://github.com/doordash-oss/agentic-orchestrator",
+    "repository": "https://github.com/doordash-oss/agentic-orchestrator",
+    "aliases": [
+      "Agentico",
+      "agentico"
+    ],
+    "company": "DoorDash"
+  },
+  "surfaces": [
+    {
+      "id": "desktop",
+      "name": "Agentic Orchestrator desktop app (Electron; macOS and Linux)",
+      "type": "desktop"
+    },
+    {
+      "id": "server",
+      "name": "agentico server (local and network REST/SSE)",
+      "type": "other"
+    },
+    {
+      "id": "cli",
+      "name": "agentico CLI",
+      "type": "cli"
+    }
+  ],
+  "claims": [
+    {
+      "id": "agentic-orchestrator:ACC-01",
+      "criterionId": "ACC-01",
+      "answer": "Electron desktop app for macOS (universal DMG) and Linux (x64/arm64 AppImage and .deb) with a Go agentico server/CLI; the app can attach to a server on another machine by connection string. No Windows build, no mobile or browser client, and no editor extension.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop",
+          "server",
+          "cli"
+        ],
+        "version": "release v0.162.0 (2026-10-30, commit ea4f920)",
+        "plan": "Free, open source (Apache-2.0); user pays provider subscriptions or API usage",
+        "os": [
+          "macOS (universal)",
+          "Linux x64/arm64"
+        ],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "desktop_os": {
+          "support": "partial",
+          "answer": "Assets are exactly a macOS universal DMG, Linux x64/arm64 AppImages and amd64/arm64 .deb packages; no Windows asset; macOS releases are not yet Developer ID signed per README.",
+          "evidenceIds": [
+            "relsup",
+            "readme"
+          ]
+        },
+        "mobile_apps": {
+          "support": "unsupported",
+          "answer": "The release asset list has no mobile app.",
+          "evidenceIds": [
+            "relsup"
+          ]
+        },
+        "browser": {
+          "support": "unsupported",
+          "answer": "Desktop app is the primary interface; no browser client is documented.",
+          "evidenceIds": [
+            "readme",
+            "api"
+          ]
+        },
+        "mobile_browser": {
+          "support": "unsupported",
+          "answer": "No browser client documented.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "cli": {
+          "support": "supported",
+          "answer": "`agentico` launches the desktop app; `agentico server` runs a headless server; `agentico api` makes authenticated REST calls.",
+          "evidenceIds": [
+            "readme",
+            "api"
+          ]
+        },
+        "editor_extensions": {
+          "support": "unsupported",
+          "answer": "Bounded search found no IDE extension.",
+          "evidenceIds": [
+            "srch-auth"
+          ]
+        },
+        "task_actions": {
+          "support": "supported",
+          "answer": "Create features, steer through checkpoints and Ask Agentico, answer questions, approve gates, stop, rewind, publish from the app.",
+          "evidenceIds": [
+            "readme",
+            "api",
+            "demo"
+          ]
+        },
+        "notifications": {
+          "support": "supported",
+          "answer": "Desktop attention notifications and a bell indicator for pending permissions and help requests (main/notifications).",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "cross_device_continuity": {
+          "support": "partial",
+          "answer": "State lives in the server; the app can attach to a server on another machine; no web or mobile continuation.",
+          "evidenceIds": [
+            "remote"
+          ]
+        }
+      },
+      "limitations": [
+        "Desktop only; the REST server is reachable from other machines only as a bearer-token network server."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "relsup",
+        "readme",
+        "api",
+        "srch-auth",
+        "demo",
+        "remote"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch19",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentic-orchestrator:ACC-02",
+      "criterionId": "ACC-02",
+      "answer": "Three co-equal provider CLIs run each phase: Claude Code (>=2.1.81), Codex (>=0.153.2) and OpenCode (>=1.17.9, routing many backends incl. local Ollama); per-phase model selection, mixed providers within one feature. The product drives each CLI through its protocol; no user-defined adapter exists.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop",
+          "server"
+        ],
+        "version": "release v0.162.0 (2026-10-30, commit ea4f920)",
+        "plan": "Free, open source (Apache-2.0); user pays provider subscriptions or API usage",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": "claude-code, codex, opencode"
+      },
+      "subanswers": {
+        "harnesses": {
+          "support": "supported",
+          "answer": "Claude Code, Codex and OpenCode CLIs.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "model_providers": {
+          "support": "supported",
+          "answer": "Native Claude and Codex models plus any OpenCode backend (Anthropic, OpenAI, Google, Ollama).",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "custom_adapters": {
+          "support": "unsupported",
+          "answer": "Bounded inspection of internal/llm found built-in claude, codex and opencode adapters only; no user adapter mechanism.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "session_integration": {
+          "support": "supported",
+          "answer": "Embedded provider control: Claude via CLI, Codex via app-server thread/start protocol, OpenCode via control protocol (internal/llm).",
+          "evidenceIds": [
+            "readme",
+            "cfg"
+          ]
+        },
+        "mixed_harness_operation": {
+          "support": "supported",
+          "answer": "Phases can use different providers: e.g. implementation on Claude and review on Codex.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Three built-in provider adapters only."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "cfg"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch19",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentic-orchestrator:ACC-03",
+      "criterionId": "ACC-03",
+      "answer": "Uses the installed provider CLIs under their own logins (Claude, Codex, OpenCode backends), so existing subscriptions or API keys held by those CLIs apply; no vendor credits or Agentico account.",
+      "support": "supported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop",
+          "server"
+        ],
+        "version": "release v0.162.0 (2026-10-30, commit ea4f920)",
+        "plan": "Free, open source (Apache-2.0); user pays provider subscriptions or API usage",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "agent_subscriptions": {
+          "support": "supported",
+          "answer": "Provider CLIs authenticate with their own login (claude auth status, codex login status, opencode auth).",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "api_accounts": {
+          "support": "supported",
+          "answer": "OpenCode and the CLIs accept provider API keys via their own configuration.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "vendor_credits": {
+          "support": "unsupported",
+          "answer": "No credits: bounded search found no billing code.",
+          "evidenceIds": [
+            "srch-pricing"
+          ]
+        },
+        "local_models": {
+          "support": "supported",
+          "answer": "A local Ollama model can be routed through OpenCode.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "account_switching": {
+          "support": "unsupported",
+          "answer": "No multi-account switching feature; each CLI holds its login.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "vendor_account_requirement": {
+          "support": "supported",
+          "answer": "No Agentico account; at least one provider CLI and gh are required.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "provider_restrictions": {
+          "support": "partial",
+          "answer": "README states provider readiness checks; no provider terms summarised.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "srch-pricing"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch19",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentic-orchestrator:ACC-04",
+      "criterionId": "ACC-04",
+      "answer": "Install the desktop package (Homebrew cask or release asset), install at least one provider CLI and gh, authenticate them, launch the app (readiness check is the only gate) and create a feature through a wizard. Requires a git repo for features; single or multi-repo. Server install over SSH is not provided.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop",
+          "server"
+        ],
+        "version": "release v0.162.0 (2026-10-30, commit ea4f920)",
+        "plan": "Free, open source (Apache-2.0); user pays provider subscriptions or API usage",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "first_task_setup": {
+          "support": "supported",
+          "answer": "README Quick Start and Prerequisites.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "no_git": {
+          "support": "unsupported",
+          "answer": "Features use worktrees, branches and gh; a folder without git is not supported by the documented flow.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "local_git_without_remote": {
+          "support": "partial",
+          "answer": "Worktrees and local commits work without a remote; gh is required for PR creation at Publish.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "hosted_git": {
+          "support": "supported",
+          "answer": "GitHub via gh for pull requests and cross-repo PR links.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "prerequisite_guidance": {
+          "support": "supported",
+          "answer": "Prerequisites tables, minimum versions and readiness check showing missing items and fix commands.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "managed_cloud_setup": {
+          "support": "unsupported",
+          "answer": "No managed cloud offering found.",
+          "evidenceIds": [
+            "srch-pricing"
+          ]
+        },
+        "byo_vps_onboarding": {
+          "support": "partial",
+          "answer": "agentico server --listen on another machine and paste the connection string; no installer or onboarding wizard.",
+          "evidenceIds": [
+            "remote"
+          ]
+        }
+      },
+      "limitations": [
+        "Requires git repositories; no BYO-VPS installer or managed cloud."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "srch-pricing",
+        "remote"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch19",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentic-orchestrator:ACC-05",
+      "criterionId": "ACC-05",
+      "answer": "Local REST/SSE API with owner-only discovery token and an `agentico api` helper that makes authenticated calls; the CLI otherwise launches the app/server. No SDK, MCP server or webhooks; API versioned with compatibility series.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "server",
+          "cli"
+        ],
+        "version": "release v0.162.0 (2026-10-30, commit ea4f920)",
+        "plan": "Free, open source (Apache-2.0); user pays provider subscriptions or API usage",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "cli": {
+          "support": "supported",
+          "answer": "agentico, agentico server, agentico api.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "api": {
+          "support": "supported",
+          "answer": "/api/v1 features, actions, events, sessions output, supervisor messages, update routes.",
+          "evidenceIds": [
+            "api"
+          ]
+        },
+        "sdk": {
+          "support": "unsupported",
+          "answer": "No SDK found.",
+          "evidenceIds": [
+            "api"
+          ]
+        },
+        "mcp_server": {
+          "support": "unsupported",
+          "answer": "No MCP server exposure found.",
+          "evidenceIds": [
+            "srch-auth"
+          ]
+        },
+        "webhooks": {
+          "support": "unsupported",
+          "answer": "No webhooks.",
+          "evidenceIds": [
+            "srch-sched"
+          ]
+        },
+        "operations": {
+          "support": "supported",
+          "answer": "Create features, perform actions (stop, rewind, publish, discard), answer questions, read output and events, send supervisor messages.",
+          "evidenceIds": [
+            "api"
+          ]
+        },
+        "authentication": {
+          "support": "supported",
+          "answer": "Bearer token in a 0600 discovery file; network posture adds strict Origin checks.",
+          "evidenceIds": [
+            "api",
+            "remote"
+          ]
+        },
+        "stability": {
+          "support": "supported",
+          "answer": "Compatibility declaration reports schema series 5 and minimum client series 5.",
+          "evidenceIds": [
+            "api"
+          ]
+        }
+      },
+      "limitations": [
+        "API is the desktop app backend; no SDK or MCP exposure."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "api",
+        "srch-auth",
+        "srch-sched",
+        "remote"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch19",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentic-orchestrator:ACC-06",
+      "criterionId": "ACC-06",
+      "answer": "Providers bring their own MCP/skills configuration; Agentico adds repo skills, guidelines and agents definitions, capability gates for testing contracts and a per-phase tool policy; it has no plugin API. The Claude config is inherited.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop",
+          "server"
+        ],
+        "version": "release v0.162.0 (2026-10-30, commit ea4f920)",
+        "plan": "Free, open source (Apache-2.0); user pays provider subscriptions or API usage",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "mcp_client": {
+          "support": "partial",
+          "answer": "Inherited from the provider CLIs; internal/claudeconfig manages the Claude config used by sessions.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "plugins": {
+          "support": "unsupported",
+          "answer": "No plugin API found.",
+          "evidenceIds": [
+            "srch-auth"
+          ]
+        },
+        "custom_tools": {
+          "support": "partial",
+          "answer": "Repo skills, guidelines and agent definitions (repo directories skills/, guidelines/, agents/) shape prompts; no custom tool registry.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "instructions_import": {
+          "support": "partial",
+          "answer": "Provider CLIs read project instruction files; Agentico builds a per-repo knowledge base.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "authentication": {
+          "support": "partial",
+          "answer": "Inherited from provider CLIs and gh.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "permission_scope": {
+          "support": "partial",
+          "answer": "Permission prompts surfaced in the app; --dangerously-skip-permissions disables them.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "integration_owner": {
+          "support": "supported",
+          "answer": "Provider CLIs own MCP connections; gh owns GitHub.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Extension surface is skills/guidelines and provider-native MCP."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "srch-auth",
+        "api"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch19",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentic-orchestrator:ACC-07",
+      "criterionId": "ACC-07",
+      "answer": "Electron desktop app (electron-builder, TypeScript renderer and main process) with a Go server it supervises; no native or mobile client.",
+      "support": "supported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop",
+          "server"
+        ],
+        "version": "release v0.162.0 (2026-10-30, commit ea4f920)",
+        "plan": "Free, open source (Apache-2.0); user pays provider subscriptions or API usage",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "desktop_implementation": {
+          "support": "supported",
+          "answer": "Electron (desktop/electron.vite.config.ts, electron-builder.yml).",
+          "evidenceIds": [
+            "relsup"
+          ]
+        },
+        "mobile_implementation": {
+          "support": "unsupported",
+          "answer": "No mobile client.",
+          "evidenceIds": [
+            "relsup"
+          ]
+        },
+        "hybrids": {
+          "support": "supported",
+          "answer": "Electron shell plus bundled Go server process.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "implementation_evidence": {
+          "support": "supported",
+          "answer": "Pinned source desktop/ and cmd/agentico.",
+          "evidenceIds": [
+            "readme",
+            "relsup"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "relsup",
+        "readme"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-05-16",
+      "researcher": "researcher-batch19",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentic-orchestrator:PLAN-01",
+      "criterionId": "PLAN-01",
+      "answer": "Work enters as a described feature in the wizard (repos, description with attached files/images, name, depth, checkpoints, models) and through Ask Agentico messages; no tracker import, chat or Git triggers. Features are authoritative locally.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop",
+          "server"
+        ],
+        "version": "release v0.162.0 (2026-10-30, commit ea4f920)",
+        "plan": "Free, open source (Apache-2.0); user pays provider subscriptions or API usage",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "local_creation": {
+          "support": "supported",
+          "answer": "Create feature wizard.",
+          "evidenceIds": [
+            "demo",
+            "readme"
+          ]
+        },
+        "prompt_intake": {
+          "support": "supported",
+          "answer": "Description with pasted files and images; clarifying inquiry phase.",
+          "evidenceIds": [
+            "demo",
+            "readme"
+          ]
+        },
+        "external_import": {
+          "support": "unsupported",
+          "answer": "Bounded search found no tracker import.",
+          "evidenceIds": [
+            "srch-tracker"
+          ]
+        },
+        "chat_git_triggers": {
+          "support": "unsupported",
+          "answer": "No chat or Git triggers.",
+          "evidenceIds": [
+            "srch-sched"
+          ]
+        },
+        "authoritative_tracker": {
+          "support": "supported",
+          "answer": "Features in the server state directory are authoritative.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "stable_ids": {
+          "support": "supported",
+          "answer": "Feature IDs and names; PR numbers recorded.",
+          "evidenceIds": [
+            "api"
+          ]
+        },
+        "sync": {
+          "support": "unsupported",
+          "answer": "No tracker sync.",
+          "evidenceIds": [
+            "srch-tracker"
+          ]
+        },
+        "supported_edits": {
+          "support": "supported",
+          "answer": "Rename, rewind, discard, feature actions through the API.",
+          "evidenceIds": [
+            "api"
+          ]
+        },
+        "external_roundtrips": {
+          "support": "unsupported",
+          "answer": "No tracker used.",
+          "evidenceIds": [
+            "srch-tracker"
+          ]
+        }
+      },
+      "limitations": [
+        "No external tracker integration."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "demo",
+        "readme",
+        "srch-tracker",
+        "srch-sched",
+        "api"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch19",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentic-orchestrator:PLAN-02",
+      "criterionId": "PLAN-02",
+      "answer": "Durable roadmap and per-phase plans with acceptance criteria (exit criteria distilled into design and plans), plan critics, phase plan review checkpoints, rewind to replan, and persisted Q&A artifacts; plans are stored as artifacts per feature. Editing inside the app is review/iterate rather than a document editor.",
+      "support": "supported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop",
+          "server"
+        ],
+        "version": "release v0.162.0 (2026-10-30, commit ea4f920)",
+        "plan": "Free, open source (Apache-2.0); user pays provider subscriptions or API usage",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "plans": {
+          "support": "supported",
+          "answer": "Roadmap plus detailed phase plans.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "acceptance_criteria": {
+          "support": "supported",
+          "answer": "exit_criteria seeds design Acceptance Criteria and roadmap Overall Exit Criteria.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "editors": {
+          "support": "partial",
+          "answer": "Approve, request iteration or answer questions at review gates; a review-doc tab exists; no free-form editor documented.",
+          "evidenceIds": [
+            "readme",
+            "demo"
+          ]
+        },
+        "revisions": {
+          "support": "partial",
+          "answer": "Plans are revised and re-validated; rewind starts a new run; durable artifacts per run.",
+          "evidenceIds": [
+            "readme",
+            "obs"
+          ]
+        },
+        "implementation_links": {
+          "support": "supported",
+          "answer": "Phase plans drive implementation and Final Review evidence.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "amendment": {
+          "support": "supported",
+          "answer": "Checkpoints pause for iteration; Ask Agentico mid-flight.",
+          "evidenceIds": [
+            "readme",
+            "demo"
+          ]
+        },
+        "restart_persistence": {
+          "support": "supported",
+          "answer": "Feature state machine persists across restarts and auto-resume.",
+          "evidenceIds": [
+            "feature"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "demo",
+        "obs",
+        "feature"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch19",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentic-orchestrator:PLAN-03",
+      "criterionId": "PLAN-03",
+      "answer": "Features have roadmap phases, per-repo dependency ordering across repos, parent/child (refactor) features and gates; pipelines (medium/large/moonshot) fix the phase sequence. Parent/child is documented; no epics or free dependency graph.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop",
+          "server"
+        ],
+        "version": "release v0.162.0 (2026-10-30, commit ea4f920)",
+        "plan": "Free, open source (Apache-2.0); user pays provider subscriptions or API usage",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "epics": {
+          "support": "partial",
+          "answer": "A feature with a roadmap of phases acts as an epic; no separate epic entity.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "hierarchy": {
+          "support": "partial",
+          "answer": "Feature > child features (Refactor History) and roadmap phases.",
+          "evidenceIds": [
+            "api",
+            "child"
+          ]
+        },
+        "blockers": {
+          "support": "partial",
+          "answer": "Cross-repo dependency ordering in the execution plan; gates block progress.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "readiness": {
+          "support": "partial",
+          "answer": "Capability gates and status machine gate transitions.",
+          "evidenceIds": [
+            "api",
+            "feature"
+          ]
+        },
+        "enforcement": {
+          "support": "supported",
+          "answer": "Transition table enforces allowed status changes.",
+          "evidenceIds": [
+            "feature"
+          ]
+        },
+        "state_propagation": {
+          "support": "partial",
+          "answer": "Child lifecycle events update the parent relationship.",
+          "evidenceIds": [
+            "api"
+          ]
+        },
+        "task_to_epic": {
+          "support": "unsupported",
+          "answer": "No conversion of a small task into an epic.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "identity_retention": {
+          "support": "partial",
+          "answer": "Rewind keeps the feature while starting a new run.",
+          "evidenceIds": [
+            "obs"
+          ]
+        },
+        "workflow_constraints": {
+          "support": "partial",
+          "answer": "A pipeline profile must be chosen (default Large); Medium skips KB and design.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Fixed pipeline profiles; no epics or arbitrary dependencies."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "api",
+        "child",
+        "feature",
+        "obs"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch19",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentic-orchestrator:PLAN-04",
+      "criterionId": "PLAN-04",
+      "answer": "Per-repo knowledge base (architecture, conventions, API surface, dependencies, verification) built and incrementally refreshed; guidelines and skills directories; provider instruction files; persisted inquiry Q&A feeds later phases. No cross-harness user memory.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop",
+          "server"
+        ],
+        "version": "release v0.162.0 (2026-10-30, commit ea4f920)",
+        "plan": "Free, open source (Apache-2.0); user pays provider subscriptions or API usage",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "instructions": {
+          "support": "partial",
+          "answer": "Provider CLIs read instruction files; Agentico adds guidelines/ and role specs.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "skills": {
+          "support": "partial",
+          "answer": "Repo skills/ directory shipped with the product for its agents.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "project_docs": {
+          "support": "supported",
+          "answer": "KB documents graph and design/roadmap artifacts.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "memory": {
+          "support": "partial",
+          "answer": "KB cache and persisted Q&A artifacts; no free-form memory.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "scope": {
+          "support": "supported",
+          "answer": "Per-repo KB and per-feature artifacts.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "provenance": {
+          "support": "partial",
+          "answer": "Artifacts tied to feature runs.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "correction": {
+          "support": "partial",
+          "answer": "KB refresh/rebuild; edits not documented.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "deletion": {
+          "support": "partial",
+          "answer": "Feature delete cascades artifacts; cleanup is manual for worktrees.",
+          "evidenceIds": [
+            "api",
+            "readme"
+          ]
+        },
+        "freshness": {
+          "support": "supported",
+          "answer": "Fresh KBs are reused; stale ones incrementally updated.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "takeover_continuity": {
+          "support": "partial",
+          "answer": "Artifacts persist server-side.",
+          "evidenceIds": [
+            "feature"
+          ]
+        }
+      },
+      "limitations": [
+        "KB is per repo; no free-form shared memory."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "api",
+        "feature"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch19",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentic-orchestrator:PLAN-05",
+      "criterionId": "PLAN-05",
+      "answer": "Per-repo knowledge-base build, inquiry, research and design phases, plan critics for architecture/scope/structure (security/performance/testing at high risk), and Final Review; code search is provider-native. Conflicts detected by architecture critic at plan time.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop",
+          "server"
+        ],
+        "version": "release v0.162.0 (2026-10-30, commit ea4f920)",
+        "plan": "Free, open source (Apache-2.0); user pays provider subscriptions or API usage",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "code_search": {
+          "support": "partial",
+          "answer": "Provider-native search; KB documents the repo.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "indexing": {
+          "support": "partial",
+          "answer": "KB is a structured document graph, not a search index.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "external_knowledge": {
+          "support": "partial",
+          "answer": "Research phase can consult external sources through the provider.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "multimodal_inputs": {
+          "support": "supported",
+          "answer": "Pasted images and documents in the description.",
+          "evidenceIds": [
+            "demo"
+          ]
+        },
+        "freshness": {
+          "support": "supported",
+          "answer": "KB staleness and refresh.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "access_scope": {
+          "support": "partial",
+          "answer": "Repos configured in config and workspace roots.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "api_retrieval": {
+          "support": "unsupported",
+          "answer": "No retrieval API.",
+          "evidenceIds": [
+            "api"
+          ]
+        },
+        "citations": {
+          "support": "partial",
+          "answer": "Artifacts cite sources in prompts; formal citations not documented.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "conflict_detection": {
+          "support": "supported",
+          "answer": "Architecture critic checks pattern consistency and module boundaries.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "review_enforcement": {
+          "support": "supported",
+          "answer": "Plan validators and Final Review loops gate progress.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "No external index or citation system; enforcement is in plan and review phases."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "demo",
+        "api"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch19",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentic-orchestrator:PLAN-06",
+      "criterionId": "PLAN-06",
+      "answer": "No native issue tracker: the dashboard lists features by status (In Progress, Published, Completed, needs attention) with details, children and history; ideas are not parked separately and no external tracker is required or integrated.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "release v0.162.0 (2026-10-30, commit ea4f920)",
+        "plan": "Free, open source (Apache-2.0); user pays provider subscriptions or API usage",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "create": {
+          "support": "partial",
+          "answer": "Create features via wizard.",
+          "evidenceIds": [
+            "demo"
+          ]
+        },
+        "edit": {
+          "support": "partial",
+          "answer": "Rename and action edits; no free-form issue editing.",
+          "evidenceIds": [
+            "api"
+          ]
+        },
+        "discuss": {
+          "support": "unsupported",
+          "answer": "No comments or discussion threads.",
+          "evidenceIds": [
+            "srch-tracker"
+          ]
+        },
+        "prioritize": {
+          "support": "unsupported",
+          "answer": "No priority.",
+          "evidenceIds": [
+            "srch-tracker"
+          ]
+        },
+        "label": {
+          "support": "unsupported",
+          "answer": "No labels.",
+          "evidenceIds": [
+            "srch-tracker"
+          ]
+        },
+        "assign": {
+          "support": "unsupported",
+          "answer": "No assignee.",
+          "evidenceIds": [
+            "srch-auth"
+          ]
+        },
+        "search": {
+          "support": "partial",
+          "answer": "Search in the sidebar.",
+          "evidenceIds": [
+            "demo"
+          ]
+        },
+        "filter": {
+          "support": "partial",
+          "answer": "Dashboard groups by Running, At rest, status.",
+          "evidenceIds": [
+            "demo",
+            "readme"
+          ]
+        },
+        "archive": {
+          "support": "partial",
+          "answer": "Mark done, clean up; delete.",
+          "evidenceIds": [
+            "api"
+          ]
+        },
+        "reopen": {
+          "support": "partial",
+          "answer": "Rewind or follow-up on a published feature.",
+          "evidenceIds": [
+            "obs"
+          ]
+        },
+        "project_epic_views": {
+          "support": "partial",
+          "answer": "Dashboard overview groups running and at-rest features across repos.",
+          "evidenceIds": [
+            "demo"
+          ]
+        },
+        "idea_parking": {
+          "support": "unsupported",
+          "answer": "Features start when created; no unstarted backlog.",
+          "evidenceIds": [
+            "srch-tracker"
+          ]
+        },
+        "explicit_dispatch": {
+          "support": "supported",
+          "answer": "Create and start in one step.",
+          "evidenceIds": [
+            "demo"
+          ]
+        },
+        "task_session_separation": {
+          "support": "supported",
+          "answer": "Feature, run, phase and session are separate objects.",
+          "evidenceIds": [
+            "api",
+            "feature"
+          ]
+        },
+        "metadata": {
+          "support": "partial",
+          "answer": "Pipeline, models, repos, cost, status.",
+          "evidenceIds": [
+            "api",
+            "demo"
+          ]
+        },
+        "durable_states": {
+          "support": "supported",
+          "answer": "Status machine persisted.",
+          "evidenceIds": [
+            "feature"
+          ]
+        },
+        "external_tracker_requirement": {
+          "support": "supported",
+          "answer": "An external tracker is needed for any backlog or planning outside a run.",
+          "evidenceIds": [
+            "srch-tracker"
+          ]
+        }
+      },
+      "limitations": [
+        "Features are runs of a pipeline, not issues."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "demo",
+        "api",
+        "srch-tracker",
+        "srch-auth",
+        "readme",
+        "obs",
+        "feature"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch19",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentic-orchestrator:PLAN-07",
+      "criterionId": "PLAN-07",
+      "answer": "Agents operate inside feature runs and hand results through artifacts; the API lets external clients create and act on features, but agents are not given a shared issue store.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "server"
+        ],
+        "version": "release v0.162.0 (2026-10-30, commit ea4f920)",
+        "plan": "Free, open source (Apache-2.0); user pays provider subscriptions or API usage",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "shared_ids": {
+          "support": "supported",
+          "answer": "Feature IDs used across API, UI and artifacts.",
+          "evidenceIds": [
+            "api"
+          ]
+        },
+        "read": {
+          "support": "partial",
+          "answer": "Agents read artifacts for their phase.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "create": {
+          "support": "partial",
+          "answer": "Provider-reported tasks are shown; features are created by users or API clients.",
+          "evidenceIds": [
+            "supbg",
+            "api"
+          ]
+        },
+        "update": {
+          "support": "partial",
+          "answer": "Agents drive status through the orchestrator, not directly.",
+          "evidenceIds": [
+            "feature"
+          ]
+        },
+        "claim": {
+          "support": "unsupported",
+          "answer": "No claim.",
+          "evidenceIds": [
+            "srch-auth"
+          ]
+        },
+        "assign": {
+          "support": "unsupported",
+          "answer": "No assignment.",
+          "evidenceIds": [
+            "srch-auth"
+          ]
+        },
+        "state_changes": {
+          "support": "partial",
+          "answer": "Orchestrator transitions status per phase outcome.",
+          "evidenceIds": [
+            "feature"
+          ]
+        },
+        "dependencies": {
+          "support": "partial",
+          "answer": "Cross-repo execution plan dependencies.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "children": {
+          "support": "partial",
+          "answer": "Child features launched by actions.",
+          "evidenceIds": [
+            "api",
+            "child"
+          ]
+        },
+        "results": {
+          "support": "supported",
+          "answer": "Phase artifacts and Final Review evidence.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "human_visibility": {
+          "support": "supported",
+          "answer": "App derives actions from the server and shows state.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "attribution": {
+          "support": "partial",
+          "answer": "Events record sessions and phases.",
+          "evidenceIds": [
+            "api"
+          ]
+        },
+        "permissions": {
+          "support": "partial",
+          "answer": "Permission prompts surfaced to the user.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "conflicts": {
+          "support": "partial",
+          "answer": "Instance lock and work admission prevent conflicting installs.",
+          "evidenceIds": [
+            "admission"
+          ]
+        }
+      },
+      "limitations": [
+        "No agent-writable issue records."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "api",
+        "readme",
+        "supbg",
+        "feature",
+        "srch-auth",
+        "child",
+        "admission"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch19",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentic-orchestrator:PLAN-08",
+      "criterionId": "PLAN-08",
+      "answer": "No living product specification across tasks: exit criteria and acceptance criteria are per feature; the per-repo KB persists architecture and conventions but is regenerated, not a maintained requirements store.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop",
+          "server"
+        ],
+        "version": "release v0.162.0 (2026-10-30, commit ea4f920)",
+        "plan": "Free, open source (Apache-2.0); user pays provider subscriptions or API usage",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "persistent_requirements": {
+          "support": "partial",
+          "answer": "Default exit_criteria in config applies to every feature; per-feature criteria are per run.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "human_edits": {
+          "support": "partial",
+          "answer": "Config and checkpoints let humans edit criteria.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "agent_edits": {
+          "support": "partial",
+          "answer": "KB updated by agents.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "revisions": {
+          "support": "unsupported",
+          "answer": "No revision history of requirements.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "approvals": {
+          "support": "partial",
+          "answer": "Review checkpoints approve per-feature artifacts.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "implementation_links": {
+          "support": "partial",
+          "answer": "Roadmap and phase plans link criteria to implementation.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "later_retrieval": {
+          "support": "partial",
+          "answer": "KB reused in later features.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "drift_detection": {
+          "support": "unsupported",
+          "answer": "No drift detection.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "review_integration": {
+          "support": "supported",
+          "answer": "Final Review and plan validators check against criteria and plan.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "KB captures codebase facts, not product requirements."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch19",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentic-orchestrator:COORD-01",
+      "criterionId": "COORD-01",
+      "answer": "Multiple features run in parallel, each in its own worktree, branches, sessions and artifacts; the overview lists Running and At rest with phase progress. No documented concurrency cap.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop",
+          "server"
+        ],
+        "version": "release v0.162.0 (2026-10-30, commit ea4f920)",
+        "plan": "Free, open source (Apache-2.0); user pays provider subscriptions or API usage",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "concurrent_sessions": {
+          "support": "supported",
+          "answer": "\"Run several complex workflows at once\".",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "concurrent_tasks": {
+          "support": "supported",
+          "answer": "Parallel features and per-repo parallel implementation by dependency.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "quotas": {
+          "support": "unsupported",
+          "answer": "Bounded search of README, docs and config found no session quota.",
+          "evidenceIds": [
+            "cfg"
+          ]
+        },
+        "observed_concurrency": {
+          "support": "partial",
+          "answer": "Documented; this catalog does not run it.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "status_visibility": {
+          "support": "supported",
+          "answer": "Overview Running/At rest, phase progress bars, elapsed, cost and context.",
+          "evidenceIds": [
+            "demo",
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "No quota documented."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "cfg",
+        "demo"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch19",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentic-orchestrator:COORD-02",
+      "criterionId": "COORD-02",
+      "answer": "The orchestrator dispatches phases to the configured provider/model per phase; no human assignment, claims or queues.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "server"
+        ],
+        "version": "release v0.162.0 (2026-10-30, commit ea4f920)",
+        "plan": "Free, open source (Apache-2.0); user pays provider subscriptions or API usage",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "human_assignment": {
+          "support": "unsupported",
+          "answer": "No human assignment.",
+          "evidenceIds": [
+            "srch-auth"
+          ]
+        },
+        "agent_assignment": {
+          "support": "supported",
+          "answer": "Per-phase model and provider assignment.",
+          "evidenceIds": [
+            "readme",
+            "cfg"
+          ]
+        },
+        "claims": {
+          "support": "unsupported",
+          "answer": "No claims.",
+          "evidenceIds": [
+            "srch-auth"
+          ]
+        },
+        "queues": {
+          "support": "partial",
+          "answer": "Work admission reservations; no user queue.",
+          "evidenceIds": [
+            "admission"
+          ]
+        },
+        "routing": {
+          "support": "supported",
+          "answer": "Model recommendations and capability discovery route phases to providers.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "duplicate_prevention": {
+          "support": "partial",
+          "answer": "Isolated worktrees and branches per feature.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "ownership_enforcement": {
+          "support": "partial",
+          "answer": "Instance lock and work admission.",
+          "evidenceIds": [
+            "admission"
+          ]
+        }
+      },
+      "limitations": [
+        "Phase routing only."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "srch-auth",
+        "readme",
+        "cfg",
+        "admission"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch19",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentic-orchestrator:COORD-03",
+      "criterionId": "COORD-03",
+      "answer": "Product-owned orchestration: the pipeline coordinates KB, inquiry, research, design, planning critics (in parallel), implementation and review agents across Claude, Codex and OpenCode, with per-phase model/effort, live progress, retained artifacts and child features; Ask Agentico is a supervisor chat.",
+      "support": "supported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop",
+          "server"
+        ],
+        "version": "release v0.162.0 (2026-10-30, commit ea4f920)",
+        "plan": "Free, open source (Apache-2.0); user pays provider subscriptions or API usage",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "roles": {
+          "support": "supported",
+          "answer": "Clarify, research, design, planning, implementation, reviewers, critics, supervisor.",
+          "evidenceIds": [
+            "readme",
+            "demo"
+          ]
+        },
+        "model_harness_effort": {
+          "support": "supported",
+          "answer": "Per-phase model, effort and provider in defaults.models and the wizard.",
+          "evidenceIds": [
+            "readme",
+            "demo"
+          ]
+        },
+        "messages": {
+          "support": "supported",
+          "answer": "Supervisor messages and answers to questions flow through the API.",
+          "evidenceIds": [
+            "api"
+          ]
+        },
+        "results_return": {
+          "support": "supported",
+          "answer": "Phase artifacts and critic verdicts return to the orchestrator.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "cross_harness": {
+          "support": "supported",
+          "answer": "Different providers per phase.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "orchestration_owner": {
+          "support": "supported",
+          "answer": "Agentico orchestrates; providers do not.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "activation": {
+          "support": "supported",
+          "answer": "Always on in the pipeline; Automatic Review optional.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "authentication": {
+          "support": "supported",
+          "answer": "Provider CLI logins.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "live_progress": {
+          "support": "supported",
+          "answer": "Live conversation and signal trace; SSE streams.",
+          "evidenceIds": [
+            "demo",
+            "api"
+          ]
+        },
+        "retained_results": {
+          "support": "supported",
+          "answer": "Artifacts per run retained.",
+          "evidenceIds": [
+            "obs",
+            "readme"
+          ]
+        },
+        "followup": {
+          "support": "supported",
+          "answer": "Ask Agentico mid-flight and follow-up on published features; rewind.",
+          "evidenceIds": [
+            "demo",
+            "obs"
+          ]
+        },
+        "invocation": {
+          "support": "supported",
+          "answer": "Pipeline invokes agents; users use checkpoints and Ask Agentico.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "demo",
+        "api",
+        "obs"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch19",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentic-orchestrator:COORD-04",
+      "criterionId": "COORD-04",
+      "answer": "No scheduler or event triggers for features; the supervisor tracks provider-reported scheduled/event monitors (e.g. Claude CronCreate) and the server checks for updates on a schedule.",
+      "support": "unsupported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "server"
+        ],
+        "version": "release v0.162.0 (2026-10-30, commit ea4f920)",
+        "plan": "Free, open source (Apache-2.0); user pays provider subscriptions or API usage",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "schedules": {
+          "support": "unsupported",
+          "answer": "No user-facing schedule feature.",
+          "evidenceIds": [
+            "srch-sched"
+          ]
+        },
+        "events": {
+          "support": "unsupported",
+          "answer": "No triggers.",
+          "evidenceIds": [
+            "srch-sched"
+          ]
+        },
+        "recurring_tasks": {
+          "support": "partial",
+          "answer": "Provider-created recurring tasks are displayed, not owned by Agentico.",
+          "evidenceIds": [
+            "supbg"
+          ]
+        },
+        "completion_conditions": {
+          "support": "partial",
+          "answer": "Pipeline exit criteria and iteration limits end a run.",
+          "evidenceIds": [
+            "cfg"
+          ]
+        },
+        "scheduler_location": {
+          "support": "unsupported",
+          "answer": "No scheduler exists in the product for features.",
+          "evidenceIds": [
+            "srch-sched"
+          ]
+        },
+        "overlaps": {
+          "support": "unsupported",
+          "answer": "Not applicable.",
+          "evidenceIds": [
+            "srch-sched"
+          ]
+        },
+        "retries": {
+          "support": "partial",
+          "answer": "max_consecutive_failures and iteration limits retry failed loops.",
+          "evidenceIds": [
+            "cfg"
+          ]
+        },
+        "client_independence": {
+          "support": "supported",
+          "answer": "The server supervises runs independent of the app window; interrupted tasks are not auto-restarted.",
+          "evidenceIds": [
+            "supbg",
+            "readme"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "srch-sched",
+        "supbg",
+        "cfg",
+        "readme"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch19",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentic-orchestrator:COORD-05",
+      "criterionId": "COORD-05",
+      "answer": "Stop, interrupt, rewind, resume (auto-resume), answer need-input questions, approve checkpoints and permissions from the app; desktop notifications and a bell flag attention; stop of background tasks requires provider acknowledgement.",
+      "support": "supported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "release v0.162.0 (2026-10-30, commit ea4f920)",
+        "plan": "Free, open source (Apache-2.0); user pays provider subscriptions or API usage",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "pause": {
+          "support": "supported",
+          "answer": "Checkpoint gates pause the pipeline for review.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "stop": {
+          "support": "supported",
+          "answer": "Stop button; Interrupted status; history preserved.",
+          "evidenceIds": [
+            "feature",
+            "demo"
+          ]
+        },
+        "resume": {
+          "support": "supported",
+          "answer": "auto_resume and bulk resume/retry in Overview.",
+          "evidenceIds": [
+            "feature",
+            "demo"
+          ]
+        },
+        "steer": {
+          "support": "supported",
+          "answer": "Ask Agentico and iteration requests at gates.",
+          "evidenceIds": [
+            "demo",
+            "readme"
+          ]
+        },
+        "notifications": {
+          "support": "supported",
+          "answer": "Desktop attention notifications and unread supervisor rules.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "pending_decisions": {
+          "support": "supported",
+          "answer": "NeedUserInput status and warning indicator.",
+          "evidenceIds": [
+            "feature",
+            "readme"
+          ]
+        },
+        "escalation": {
+          "support": "partial",
+          "answer": "Help requests surface; no multi-level escalation.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "visible_errors": {
+          "support": "supported",
+          "answer": "Typed error catalog with diagnostics and error references to the supervisor.",
+          "evidenceIds": [
+            "api"
+          ]
+        },
+        "chat_terminal_parity": {
+          "support": "partial",
+          "answer": "Provider terminals are not shown; conversation and signal trace views are.",
+          "evidenceIds": [
+            "demo"
+          ]
+        },
+        "retained_history": {
+          "support": "supported",
+          "answer": "Transcripts and artifacts retained.",
+          "evidenceIds": [
+            "obs",
+            "supbg"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "feature",
+        "demo",
+        "api",
+        "obs",
+        "supbg"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch19",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentic-orchestrator:COORD-06",
+      "criterionId": "COORD-06",
+      "answer": "Overview shows all features by Running/At rest with phase progress bars, attention warnings, recovery and bulk resume; features carry parent/child Refactor History and repo progress. No cross-epic dependency graph.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "release v0.162.0 (2026-10-30, commit ea4f920)",
+        "plan": "Free, open source (Apache-2.0); user pays provider subscriptions or API usage",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "fleet_fixture": {
+          "support": "supported",
+          "answer": "Overview with Running and At rest groups across repos.",
+          "evidenceIds": [
+            "demo"
+          ]
+        },
+        "parent_child": {
+          "support": "supported",
+          "answer": "Refactor History per parent.",
+          "evidenceIds": [
+            "api"
+          ]
+        },
+        "dependencies": {
+          "support": "partial",
+          "answer": "Repo Progress panel and cross-repo ordering.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "attention": {
+          "support": "supported",
+          "answer": "Warning indicator for pending permissions and help requests.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "history": {
+          "support": "supported",
+          "answer": "Published/Completed features and child history.",
+          "evidenceIds": [
+            "readme",
+            "api"
+          ]
+        },
+        "workload": {
+          "support": "partial",
+          "answer": "Elapsed, cost, context per feature.",
+          "evidenceIds": [
+            "demo"
+          ]
+        },
+        "navigation_errors": {
+          "support": "partial",
+          "answer": "Failure and attention states; error catalog.",
+          "evidenceIds": [
+            "api"
+          ]
+        },
+        "fixture_mode": {
+          "support": "supported",
+          "answer": "Source-and-docs inspection only; README demo is a vendor recording.",
+          "evidenceIds": [
+            "demo"
+          ]
+        }
+      },
+      "limitations": [
+        "List/overview view; no dependency graph."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "demo",
+        "api",
+        "readme"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch19",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentic-orchestrator:COORD-07",
+      "criterionId": "COORD-07",
+      "answer": "Pipeline profile (Medium, Large, Moonshot) is chosen per feature, with per-phase models and checkpoints configured in the wizard or config; in-run changes by gates and Ask Agentico; the app shows phase, iteration, signal trace and review loops. No natural-language reconfiguration of the pipeline itself.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop",
+          "server"
+        ],
+        "version": "release v0.162.0 (2026-10-30, commit ea4f920)",
+        "plan": "Free, open source (Apache-2.0); user pays provider subscriptions or API usage",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "quick_task": {
+          "support": "partial",
+          "answer": "Medium pipeline for small changes still plans and reviews.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "growing_epic": {
+          "support": "unsupported",
+          "answer": "A feature cannot change profile mid-run (rewind restarts).",
+          "evidenceIds": [
+            "obs"
+          ]
+        },
+        "presets": {
+          "support": "supported",
+          "answer": "Medium/Large/Moonshot.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "natural_language": {
+          "support": "partial",
+          "answer": "Feature description in natural language; checkpoints answered in text.",
+          "evidenceIds": [
+            "demo"
+          ]
+        },
+        "agent_configuration": {
+          "support": "supported",
+          "answer": "Per-phase model and effort overrides.",
+          "evidenceIds": [
+            "readme",
+            "demo"
+          ]
+        },
+        "in_run_changes": {
+          "support": "partial",
+          "answer": "Gates and Ask Agentico; models are chosen at creation.",
+          "evidenceIds": [
+            "demo"
+          ]
+        },
+        "live_roles": {
+          "support": "supported",
+          "answer": "Phase stepper and conversation view.",
+          "evidenceIds": [
+            "demo"
+          ]
+        },
+        "retained_relationships": {
+          "support": "supported",
+          "answer": "Artifacts and child history.",
+          "evidenceIds": [
+            "api"
+          ]
+        },
+        "discoverability": {
+          "support": "supported",
+          "answer": "Wizard explains each checkpoint.",
+          "evidenceIds": [
+            "demo"
+          ]
+        },
+        "auth_friction": {
+          "support": "partial",
+          "answer": "Provider CLI logins and gh are prerequisites.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Pipeline shape is fixed to three profiles."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "obs",
+        "demo",
+        "api"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch19",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentic-orchestrator:RUN-01",
+      "criterionId": "RUN-01",
+      "answer": "Runs on your machine or on a host you run `agentico server` on, attached from the desktop app by connection string; runs continue in the server independent of the app window; no managed cloud. Network mode is plain HTTP with a bearer token and expects a trusted network, VPN or SSH tunnel.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop",
+          "server"
+        ],
+        "version": "release v0.162.0 (2026-10-30, commit ea4f920)",
+        "plan": "Free, open source (Apache-2.0); user pays provider subscriptions or API usage",
+        "os": [],
+        "executionModes": [
+          "local",
+          "own-server"
+        ],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "local": {
+          "support": "supported",
+          "answer": "Desktop app launches and supervises a bundled local server.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "byo_remote": {
+          "support": "supported",
+          "answer": "agentico server --listen on a host you own; desktop attaches.",
+          "evidenceIds": [
+            "remote"
+          ]
+        },
+        "self_hosted": {
+          "support": "supported",
+          "answer": "The server is the self-hosted control plane.",
+          "evidenceIds": [
+            "remote"
+          ]
+        },
+        "managed_cloud": {
+          "support": "unsupported",
+          "answer": "No managed cloud found.",
+          "evidenceIds": [
+            "srch-pricing"
+          ]
+        },
+        "hybrid": {
+          "support": "partial",
+          "answer": "Desktop app can attach to local and remote servers.",
+          "evidenceIds": [
+            "remote"
+          ]
+        },
+        "provisioning": {
+          "support": "unsupported",
+          "answer": "No provisioning; manual install.",
+          "evidenceIds": [
+            "remote"
+          ]
+        },
+        "payer": {
+          "support": "supported",
+          "answer": "User pays host and provider costs.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "resources": {
+          "support": "unsupported",
+          "answer": "Host-dependent.",
+          "evidenceIds": [
+            "remote"
+          ]
+        },
+        "region": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "remote"
+          ]
+        },
+        "expiry": {
+          "support": "supported",
+          "answer": "No expiry.",
+          "evidenceIds": [
+            "remote"
+          ]
+        },
+        "client_disconnect": {
+          "support": "supported",
+          "answer": "Server keeps running when the app closes (supervised).",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "other_device_continuation": {
+          "support": "partial",
+          "answer": "Another desktop app can attach with the connection string; no web or mobile.",
+          "evidenceIds": [
+            "remote"
+          ]
+        }
+      },
+      "limitations": [
+        "Remote use is a manual server deployment on a trusted network."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "remote",
+        "srch-pricing"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch19",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentic-orchestrator:RUN-02",
+      "criterionId": "RUN-02",
+      "answer": "Per-feature git worktrees under ~/.agentic-orchestrator/worktrees, branches per repo; Codex gets a coarse sandbox mode and OpenCode a generated permission config; Claude runs under permission prompts or --dangerously-skip-permissions. No container or VM isolation.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop",
+          "server"
+        ],
+        "version": "release v0.162.0 (2026-10-30, commit ea4f920)",
+        "plan": "Free, open source (Apache-2.0); user pays provider subscriptions or API usage",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "checkout": {
+          "support": "supported",
+          "answer": "Main checkout untouched.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "branch": {
+          "support": "supported",
+          "answer": "Feature branches per repo.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "worktree": {
+          "support": "supported",
+          "answer": "Worktree per feature and repo; cleanup manual until the desktop action is delivered.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "container": {
+          "support": "unsupported",
+          "answer": "No container isolation; Docker appears only as a verification capability.",
+          "evidenceIds": [
+            "srch-sandbox"
+          ]
+        },
+        "vm": {
+          "support": "unsupported",
+          "answer": "No VM isolation.",
+          "evidenceIds": [
+            "srch-sandbox"
+          ]
+        },
+        "os_sandbox": {
+          "support": "partial",
+          "answer": "Codex sandbox mode and OpenCode permission config.",
+          "evidenceIds": [
+            "srch-sandbox"
+          ]
+        },
+        "filesystem": {
+          "support": "partial",
+          "answer": "Writable and read roots set for OpenCode; worktree per feature.",
+          "evidenceIds": [
+            "srch-sandbox"
+          ]
+        },
+        "process": {
+          "support": "unsupported",
+          "answer": "Providers run as the user.",
+          "evidenceIds": [
+            "srch-sandbox"
+          ]
+        },
+        "network": {
+          "support": "unsupported",
+          "answer": "No network controls.",
+          "evidenceIds": [
+            "srch-sandbox"
+          ]
+        },
+        "secrets": {
+          "support": "partial",
+          "answer": "Server token 0600; provider logins stay in CLIs.",
+          "evidenceIds": [
+            "api"
+          ]
+        },
+        "code_separation": {
+          "support": "supported",
+          "answer": "Isolated worktrees and branches per feature.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "security_boundary": {
+          "support": "unsupported",
+          "answer": "No hostile-code containment claimed.",
+          "evidenceIds": [
+            "srch-sandbox"
+          ]
+        }
+      },
+      "limitations": [
+        "Worktrees separate files only; no hostile-code containment."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "srch-sandbox",
+        "api"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch19",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentic-orchestrator:RUN-03",
+      "criterionId": "RUN-03",
+      "answer": "Durable status machine with Interrupted and auto-resume, bulk resume/retry, orphan-session recovery scan, persisted run milestones across retries and restarts, rewind to restart a run, and a supervised bundled server; provider task registry shows interrupted tasks without restarting them.",
+      "support": "supported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop",
+          "server"
+        ],
+        "version": "release v0.162.0 (2026-10-30, commit ea4f920)",
+        "plan": "Free, open source (Apache-2.0); user pays provider subscriptions or API usage",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "client_disconnect": {
+          "support": "supported",
+          "answer": "Server runs independent of the app window.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "worker_crash": {
+          "support": "supported",
+          "answer": "Failed/Interrupted states, error classification and recovery scan.",
+          "evidenceIds": [
+            "feature",
+            "obs"
+          ]
+        },
+        "service_restart": {
+          "support": "supported",
+          "answer": "Status machine persists and auto-resumes.",
+          "evidenceIds": [
+            "feature"
+          ]
+        },
+        "expiry": {
+          "support": "supported",
+          "answer": "No sandbox expiry.",
+          "evidenceIds": [
+            "remote"
+          ]
+        },
+        "transcript_reload": {
+          "support": "supported",
+          "answer": "Transcript committed records are re-derived after restart.",
+          "evidenceIds": [
+            "supbg"
+          ]
+        },
+        "process_reconnect": {
+          "support": "partial",
+          "answer": "Clients reconnect via snapshot-then-subscribe; dead provider processes are not reattached.",
+          "evidenceIds": [
+            "api",
+            "supbg"
+          ]
+        },
+        "task_resume": {
+          "support": "supported",
+          "answer": "Resume and retry actions; auto_resume.",
+          "evidenceIds": [
+            "feature",
+            "demo"
+          ]
+        },
+        "state_reconstruction": {
+          "support": "supported",
+          "answer": "Registry derived from committed transcript records at startup.",
+          "evidenceIds": [
+            "supbg"
+          ]
+        },
+        "context_loss": {
+          "support": "partial",
+          "answer": "Resumed provider sessions depend on provider resume.",
+          "evidenceIds": [
+            "supbg"
+          ]
+        },
+        "duplicate_actions": {
+          "support": "partial",
+          "answer": "Interrupted tasks not auto-restarted to avoid duplicates.",
+          "evidenceIds": [
+            "supbg"
+          ]
+        },
+        "manual_repair": {
+          "support": "partial",
+          "answer": "Scan for orphans; manual cleanup of worktrees.",
+          "evidenceIds": [
+            "demo",
+            "readme"
+          ]
+        },
+        "multi_day_continuity": {
+          "support": "supported",
+          "answer": "Roadmap phases persist across restarts.",
+          "evidenceIds": [
+            "feature"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "feature",
+        "obs",
+        "remote",
+        "supbg",
+        "api",
+        "demo"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch19",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentic-orchestrator:RUN-04",
+      "criterionId": "RUN-04",
+      "answer": "Agentico builds per-repo verification commands and testing contracts with capability gates (authenticated browser, display, docker, network); dependency installs, caches, ports and secrets are left to the agents and the repo.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "server"
+        ],
+        "version": "release v0.162.0 (2026-10-30, commit ea4f920)",
+        "plan": "Free, open source (Apache-2.0); user pays provider subscriptions or API usage",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "dependencies": {
+          "support": "unsupported",
+          "answer": "No dependency management.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "caches": {
+          "support": "unsupported",
+          "answer": "No cache handling.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "snapshots": {
+          "support": "unsupported",
+          "answer": "No snapshots.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "services": {
+          "support": "partial",
+          "answer": "Capability gates probe docker/display/browser/network before verification.",
+          "evidenceIds": [
+            "api"
+          ]
+        },
+        "ports": {
+          "support": "partial",
+          "answer": "Server uses ephemeral loopback ports; no project allocation.",
+          "evidenceIds": [
+            "api"
+          ]
+        },
+        "secrets": {
+          "support": "unsupported",
+          "answer": "No secret injection.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "duplicate_installs": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "collisions": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "remote_setup": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "remote"
+          ]
+        },
+        "automatic_repair": {
+          "support": "partial",
+          "answer": "Readiness check shows the fix command.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Environment setup is agent-owned; no snapshots or port allocation."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "api",
+        "remote"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch19",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentic-orchestrator:RUN-05",
+      "criterionId": "RUN-05",
+      "answer": "Configurable max_iterations (default 10), max_consecutive_failures (3) and max_consecutive_no_progress (3) bound loops; provider failure handling and classified errors; no spend or token caps.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "server"
+        ],
+        "version": "release v0.162.0 (2026-10-30, commit ea4f920)",
+        "plan": "Free, open source (Apache-2.0); user pays provider subscriptions or API usage",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "time_limits": {
+          "support": "unsupported",
+          "answer": "No wall-clock limit.",
+          "evidenceIds": [
+            "cfg"
+          ]
+        },
+        "turn_limits": {
+          "support": "supported",
+          "answer": "max_iterations.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "token_limits": {
+          "support": "unsupported",
+          "answer": "No token limits.",
+          "evidenceIds": [
+            "cfg"
+          ]
+        },
+        "spend_limits": {
+          "support": "unsupported",
+          "answer": "No spend limits; cost displayed.",
+          "evidenceIds": [
+            "cfg"
+          ]
+        },
+        "timeouts": {
+          "support": "partial",
+          "answer": "Provider failure classification with timeouts.",
+          "evidenceIds": [
+            "cfg"
+          ]
+        },
+        "retries": {
+          "support": "supported",
+          "answer": "max_consecutive_failures and no-progress limits.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "provider_failures": {
+          "support": "supported",
+          "answer": "Provider failure classification (internal/agent/provider_failure.go).",
+          "evidenceIds": [
+            "cfg"
+          ]
+        },
+        "enforcement": {
+          "support": "supported",
+          "answer": "Loop limits are enforced stops.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "No spend or token limits."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "cfg",
+        "readme"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch19",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentic-orchestrator:RUN-06",
+      "criterionId": "RUN-06",
+      "answer": "Per-feature JSONL and summary artifacts, event stream, signal trace, typed error catalog with diagnostics, optional OpenTelemetry traces/metrics/wide events, and outcome definitions (output ready, delivered, failure); cost and context shown per feature.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop",
+          "server"
+        ],
+        "version": "release v0.162.0 (2026-10-30, commit ea4f920)",
+        "plan": "Free, open source (Apache-2.0); user pays provider subscriptions or API usage",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "logs": {
+          "support": "supported",
+          "answer": "Per-feature observability JSONL and session output streams.",
+          "evidenceIds": [
+            "obs",
+            "api"
+          ]
+        },
+        "traces": {
+          "support": "supported",
+          "answer": "OTel workflow traces when enabled.",
+          "evidenceIds": [
+            "obs"
+          ]
+        },
+        "failure_reasons": {
+          "support": "supported",
+          "answer": "error_code and error_class on terminal Failed.",
+          "evidenceIds": [
+            "obs"
+          ]
+        },
+        "usage_export": {
+          "support": "partial",
+          "answer": "OTel export or local JSONL; no CSV export.",
+          "evidenceIds": [
+            "obs"
+          ]
+        },
+        "task_stats": {
+          "support": "supported",
+          "answer": "Per-feature time-to-milestone, quality outcomes.",
+          "evidenceIds": [
+            "obs"
+          ]
+        },
+        "agent_stats": {
+          "support": "partial",
+          "answer": "Token and cost metrics by provider/model.",
+          "evidenceIds": [
+            "obs"
+          ]
+        },
+        "project_stats": {
+          "support": "partial",
+          "answer": "Repo names in wide events only.",
+          "evidenceIds": [
+            "obs"
+          ]
+        },
+        "time_stats": {
+          "support": "supported",
+          "answer": "Elapsed, milestone histograms.",
+          "evidenceIds": [
+            "obs",
+            "demo"
+          ]
+        },
+        "failure_status": {
+          "support": "supported",
+          "answer": "Failed vs Interrupted vs NeedUserInput distinct.",
+          "evidenceIds": [
+            "obs"
+          ]
+        },
+        "approval_status": {
+          "support": "supported",
+          "answer": "Pending permissions flagged.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "reconnect_consistency": {
+          "support": "supported",
+          "answer": "Snapshot-then-subscribe with event epoch.",
+          "evidenceIds": [
+            "api"
+          ]
+        },
+        "performance_method": {
+          "support": "unknown",
+          "answer": "No first-party performance figures catalogued.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "responsiveness": {
+          "support": "unknown",
+          "answer": "Not measured; performance-baselines.json exists for the desktop app but is not catalogued.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Statistics are fleet telemetry for operators; benchmarks are not catalogued."
+      ],
+      "unknownReason": "performance_method and responsiveness: speed numbers come only from ADEMark, which does not list this product, and the repository performance baselines are not catalogued.",
+      "evidenceIds": [
+        "obs",
+        "api",
+        "demo",
+        "readme"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch19",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentic-orchestrator:RUN-07",
+      "criterionId": "RUN-07",
+      "answer": "Per-feature and per-child cost and tokens shown in the feature header, OTel cost and token histograms, Codex pricing estimates documented; subscription use not distinguished from billed cost; no alerts or budgets.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop",
+          "server"
+        ],
+        "version": "release v0.162.0 (2026-10-30, commit ea4f920)",
+        "plan": "Free, open source (Apache-2.0); user pays provider subscriptions or API usage",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "task_cost": {
+          "support": "supported",
+          "answer": "Cost shown on the feature (e.g. $0.30).",
+          "evidenceIds": [
+            "demo"
+          ]
+        },
+        "session_cost": {
+          "support": "partial",
+          "answer": "Per-session usage in telemetry.",
+          "evidenceIds": [
+            "obs"
+          ]
+        },
+        "child_cost": {
+          "support": "supported",
+          "answer": "Child relationship carries cost.",
+          "evidenceIds": [
+            "api"
+          ]
+        },
+        "epic_cost": {
+          "support": "partial",
+          "answer": "Feature total across phases.",
+          "evidenceIds": [
+            "demo"
+          ]
+        },
+        "harness_aggregation": {
+          "support": "partial",
+          "answer": "Aggregates across providers; Codex price tables documented.",
+          "evidenceIds": [
+            "obs"
+          ]
+        },
+        "billed_vs_estimated": {
+          "support": "partial",
+          "answer": "Provider estimates; codex-pricing.md notes live estimates.",
+          "evidenceIds": [
+            "obs"
+          ]
+        },
+        "tokens": {
+          "support": "supported",
+          "answer": "Token usage metrics.",
+          "evidenceIds": [
+            "obs"
+          ]
+        },
+        "subscription_allowance": {
+          "support": "unsupported",
+          "answer": "No allowance display.",
+          "evidenceIds": [
+            "obs"
+          ]
+        },
+        "provider_reconciliation": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "obs"
+          ]
+        },
+        "compute_cost": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "obs"
+          ]
+        },
+        "refresh_delay": {
+          "support": "partial",
+          "answer": "Updates with provider usage events.",
+          "evidenceIds": [
+            "obs"
+          ]
+        },
+        "alerts": {
+          "support": "unsupported",
+          "answer": "No alerts.",
+          "evidenceIds": [
+            "cfg"
+          ]
+        },
+        "export": {
+          "support": "partial",
+          "answer": "OTel export.",
+          "evidenceIds": [
+            "obs"
+          ]
+        },
+        "drilldown": {
+          "support": "partial",
+          "answer": "Feature to child cost drill.",
+          "evidenceIds": [
+            "api"
+          ]
+        }
+      },
+      "limitations": [
+        "Estimates from provider-reported usage; no budgets."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "demo",
+        "obs",
+        "api",
+        "cfg"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch19",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentic-orchestrator:RUN-08",
+      "criterionId": "RUN-08",
+      "answer": "Work admission reservations gate launches (and updates), capability gates probe environment resources; no CPU/RAM scheduler, queue or check deduplication documented.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "server"
+        ],
+        "version": "release v0.162.0 (2026-10-30, commit ea4f920)",
+        "plan": "Free, open source (Apache-2.0); user pays provider subscriptions or API usage",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "concurrency": {
+          "support": "partial",
+          "answer": "No limit setting; reservations track active work.",
+          "evidenceIds": [
+            "admission"
+          ]
+        },
+        "queues": {
+          "support": "unsupported",
+          "answer": "No work queue.",
+          "evidenceIds": [
+            "admission"
+          ]
+        },
+        "cpu_ram": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "cfg"
+          ]
+        },
+        "backpressure": {
+          "support": "partial",
+          "answer": "Admission refuses new work while closed for install.",
+          "evidenceIds": [
+            "admission"
+          ]
+        },
+        "host_awareness": {
+          "support": "partial",
+          "answer": "Capability probes for docker, display, network.",
+          "evidenceIds": [
+            "api"
+          ]
+        },
+        "check_reuse": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "api"
+          ]
+        },
+        "check_deduplication": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "api"
+          ]
+        },
+        "bounded_tests": {
+          "support": "partial",
+          "answer": "Testing contract rows and waivers.",
+          "evidenceIds": [
+            "api"
+          ]
+        },
+        "cancellation": {
+          "support": "supported",
+          "answer": "Stop and discard actions.",
+          "evidenceIds": [
+            "api"
+          ]
+        },
+        "fairness": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "admission"
+          ]
+        },
+        "recovery": {
+          "support": "supported",
+          "answer": "Recovery and bulk resume.",
+          "evidenceIds": [
+            "demo"
+          ]
+        },
+        "shared_limits": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "admission"
+          ]
+        }
+      },
+      "limitations": [
+        "Admission is for safety of installs, not resource scheduling."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "admission",
+        "cfg",
+        "api",
+        "demo"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch19",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentic-orchestrator:TEAM-01",
+      "criterionId": "TEAM-01",
+      "answer": "Single-user desktop app and server; the connection string is one shared bearer credential, so anyone holding it has full access, but there are no comments, presence, attribution or ordering for multiple people.",
+      "support": "unsupported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop",
+          "server"
+        ],
+        "version": "release v0.162.0 (2026-10-30, commit ea4f920)",
+        "plan": "Free, open source (Apache-2.0); user pays provider subscriptions or API usage",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "visibility": {
+          "support": "partial",
+          "answer": "Anyone with the connection string can attach and see features.",
+          "evidenceIds": [
+            "remote"
+          ]
+        },
+        "discussion": {
+          "support": "unsupported",
+          "answer": "No discussion.",
+          "evidenceIds": [
+            "srch-auth"
+          ]
+        },
+        "comments": {
+          "support": "unsupported",
+          "answer": "No comments.",
+          "evidenceIds": [
+            "srch-auth"
+          ]
+        },
+        "presence": {
+          "support": "unsupported",
+          "answer": "No presence.",
+          "evidenceIds": [
+            "srch-auth"
+          ]
+        },
+        "coprompting": {
+          "support": "unsupported",
+          "answer": "Not designed for it; a second attached client could send supervisor messages but no ordering is documented.",
+          "evidenceIds": [
+            "remote"
+          ]
+        },
+        "ordering": {
+          "support": "unsupported",
+          "answer": "Not documented.",
+          "evidenceIds": [
+            "remote"
+          ]
+        },
+        "conflicts": {
+          "support": "unsupported",
+          "answer": "Not documented.",
+          "evidenceIds": [
+            "remote"
+          ]
+        },
+        "attribution": {
+          "support": "unsupported",
+          "answer": "No user identities.",
+          "evidenceIds": [
+            "srch-auth"
+          ]
+        },
+        "permissions": {
+          "support": "partial",
+          "answer": "One bearer token grants full access.",
+          "evidenceIds": [
+            "remote"
+          ]
+        },
+        "plan_restrictions": {
+          "support": "supported",
+          "answer": "Free Apache-2.0 software.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "owner_online": {
+          "support": "supported",
+          "answer": "The server host must be running.",
+          "evidenceIds": [
+            "remote"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "remote",
+        "srch-auth",
+        "license"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch19",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentic-orchestrator:TEAM-02",
+      "criterionId": "TEAM-02",
+      "answer": "No organizations, roles, SSO or provisioning; access control is the server bearer token and strict Origin checks in network mode.",
+      "support": "unsupported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "server"
+        ],
+        "version": "release v0.162.0 (2026-10-30, commit ea4f920)",
+        "plan": "Free, open source (Apache-2.0); user pays provider subscriptions or API usage",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "organization_roles": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-auth"
+          ]
+        },
+        "project_roles": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-auth"
+          ]
+        },
+        "task_roles": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-auth"
+          ]
+        },
+        "membership": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-auth"
+          ]
+        },
+        "sso": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-auth"
+          ]
+        },
+        "provisioning": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-auth"
+          ]
+        },
+        "unauthorized_access": {
+          "support": "supported",
+          "answer": "Token required on every /api/v1 route; Origin enforcement in network posture.",
+          "evidenceIds": [
+            "remote"
+          ]
+        },
+        "revocation": {
+          "support": "partial",
+          "answer": "The discovery file with the token is written by the server at start; no documented revocation command.",
+          "evidenceIds": [
+            "api"
+          ]
+        },
+        "plan_scope": {
+          "support": "supported",
+          "answer": "Free software.",
+          "evidenceIds": [
+            "license"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "srch-auth",
+        "remote",
+        "api",
+        "license"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch19",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentic-orchestrator:TEAM-03",
+      "criterionId": "TEAM-03",
+      "answer": "Permission prompts for provider tool use are surfaced in the app with pending-permission indicators; plan and design gates require approval; --dangerously-skip-permissions disables prompts. Enforcement is by the provider CLIs plus a generated OpenCode permission config and Codex sandbox mode.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop",
+          "server"
+        ],
+        "version": "release v0.162.0 (2026-10-30, commit ea4f920)",
+        "plan": "Free, open source (Apache-2.0); user pays provider subscriptions or API usage",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "command": {
+          "support": "supported",
+          "answer": "Permission prompts for commands surfaced in the app.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "tool": {
+          "support": "supported",
+          "answer": "Tool permission prompts.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "network": {
+          "support": "unsupported",
+          "answer": "No network approvals.",
+          "evidenceIds": [
+            "srch-sandbox"
+          ]
+        },
+        "secret": {
+          "support": "unsupported",
+          "answer": "No secret approvals.",
+          "evidenceIds": [
+            "srch-sandbox"
+          ]
+        },
+        "delivery": {
+          "support": "supported",
+          "answer": "Manual publish checkpoint pauses at CodeReady; auto-publish is optional.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "approver_identity": {
+          "support": "unsupported",
+          "answer": "Single user.",
+          "evidenceIds": [
+            "srch-auth"
+          ]
+        },
+        "lifetime": {
+          "support": "partial",
+          "answer": "Provider-defined.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "allow": {
+          "support": "supported",
+          "answer": "Approve.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "deny": {
+          "support": "supported",
+          "answer": "Request iteration or deny.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "revoke": {
+          "support": "unsupported",
+          "answer": "Not documented.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "tunnels": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "remote"
+          ]
+        },
+        "defaults": {
+          "support": "partial",
+          "answer": "Prompts on by default; skip flag available.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "safer_modes": {
+          "support": "partial",
+          "answer": "Codex read-only/workspace sandbox; OpenCode permission config.",
+          "evidenceIds": [
+            "srch-sandbox"
+          ]
+        },
+        "enforcement": {
+          "support": "partial",
+          "answer": "Product-generated provider permission config for OpenCode; Claude and Codex per CLI.",
+          "evidenceIds": [
+            "srch-sandbox"
+          ]
+        }
+      },
+      "limitations": [
+        "Policy lives in providers; the skip flag removes prompts."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "srch-sandbox",
+        "srch-auth",
+        "remote"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch19",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentic-orchestrator:TEAM-04",
+      "criterionId": "TEAM-04",
+      "answer": "Per-feature JSONL/summary artifacts, committed transcript records, events with cursors, error catalog and OTel wide events; local files, no user attribution, export or integrity guarantees.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "server"
+        ],
+        "version": "release v0.162.0 (2026-10-30, commit ea4f920)",
+        "plan": "Free, open source (Apache-2.0); user pays provider subscriptions or API usage",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "actions": {
+          "support": "supported",
+          "answer": "Events and transcripts.",
+          "evidenceIds": [
+            "obs",
+            "api"
+          ]
+        },
+        "approvals": {
+          "support": "partial",
+          "answer": "Gate decisions recorded in artifacts.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "edits": {
+          "support": "partial",
+          "answer": "Artifacts per phase.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "discussion": {
+          "support": "partial",
+          "answer": "Supervisor transcript.",
+          "evidenceIds": [
+            "supbg"
+          ]
+        },
+        "decisions": {
+          "support": "partial",
+          "answer": "Plan critic verdicts and final review outcomes recorded as quality evidence.",
+          "evidenceIds": [
+            "obs"
+          ]
+        },
+        "cross_user_persistence": {
+          "support": "unsupported",
+          "answer": "Single user.",
+          "evidenceIds": [
+            "srch-auth"
+          ]
+        },
+        "cross_session_persistence": {
+          "support": "supported",
+          "answer": "State directory persists.",
+          "evidenceIds": [
+            "feature"
+          ]
+        },
+        "export": {
+          "support": "partial",
+          "answer": "OTel export and local JSONL.",
+          "evidenceIds": [
+            "obs"
+          ]
+        },
+        "mutability": {
+          "support": "partial",
+          "answer": "Local files.",
+          "evidenceIds": [
+            "obs"
+          ]
+        },
+        "retention": {
+          "support": "unsupported",
+          "answer": "No retention policy.",
+          "evidenceIds": [
+            "obs"
+          ]
+        },
+        "integrity": {
+          "support": "unsupported",
+          "answer": "No integrity model.",
+          "evidenceIds": [
+            "obs"
+          ]
+        }
+      },
+      "limitations": [
+        "Local files; not an audit log."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "obs",
+        "api",
+        "readme",
+        "supbg",
+        "srch-auth",
+        "feature"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch19",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentic-orchestrator:TEAM-05",
+      "criterionId": "TEAM-05",
+      "answer": "Feature workspace tabs Live, Changes, Review doc and Files; review checkpoints; Final Review with explicit verification evidence; manual publish pause at CodeReady to review the diff and PR description; keyboard shortcuts partially documented. No PR-comment handling.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "release v0.162.0 (2026-10-30, commit ea4f920)",
+        "plan": "Free, open source (Apache-2.0); user pays provider subscriptions or API usage",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "pending_reviews": {
+          "support": "supported",
+          "answer": "Attention indicators and gates in Overview.",
+          "evidenceIds": [
+            "readme",
+            "demo"
+          ]
+        },
+        "change_understanding": {
+          "support": "supported",
+          "answer": "Changes and Review doc tabs, diff summary on closed children.",
+          "evidenceIds": [
+            "demo",
+            "api"
+          ]
+        },
+        "evidence_navigation": {
+          "support": "supported",
+          "answer": "Signal trace, verification evidence, testing contract.",
+          "evidenceIds": [
+            "demo",
+            "api"
+          ]
+        },
+        "comments": {
+          "support": "unsupported",
+          "answer": "No inline comments.",
+          "evidenceIds": [
+            "srch-tracker"
+          ]
+        },
+        "request_changes": {
+          "support": "supported",
+          "answer": "Request iteration at gates.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "shipping_guidance": {
+          "support": "supported",
+          "answer": "Publish dialog with PR title/narrative; manual publish pause.",
+          "evidenceIds": [
+            "demo",
+            "readme"
+          ]
+        },
+        "effort": {
+          "support": "partial",
+          "answer": "Phase and iteration counters.",
+          "evidenceIds": [
+            "demo"
+          ]
+        },
+        "missed_evidence": {
+          "support": "partial",
+          "answer": "Verification items and capability waivers.",
+          "evidenceIds": [
+            "api"
+          ]
+        },
+        "keyboard": {
+          "support": "partial",
+          "answer": "Ask shortcut shown in the sidebar footer; broader support not documented.",
+          "evidenceIds": [
+            "demo"
+          ]
+        },
+        "narrow_screen": {
+          "support": "unsupported",
+          "answer": "Desktop window only.",
+          "evidenceIds": [
+            "relsup"
+          ]
+        },
+        "context_switching": {
+          "support": "supported",
+          "answer": "Sidebar list of running and at-rest features.",
+          "evidenceIds": [
+            "demo"
+          ]
+        },
+        "roles": {
+          "support": "supported",
+          "answer": "Reviewer, critics and implementer roles distinct.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "retained_context": {
+          "support": "supported",
+          "answer": "Review artifacts retained.",
+          "evidenceIds": [
+            "obs"
+          ]
+        }
+      },
+      "limitations": [
+        "Per-feature review; no batch queue."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "demo",
+        "api",
+        "srch-tracker",
+        "relsup",
+        "obs"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch19",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentic-orchestrator:TEAM-06",
+      "criterionId": "TEAM-06",
+      "answer": "No colleague takeover model: another desktop app can attach to the same server with the connection string and see the same features, but there is no ownership, attribution or permission transfer.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop",
+          "server"
+        ],
+        "version": "release v0.162.0 (2026-10-30, commit ea4f920)",
+        "plan": "Free, open source (Apache-2.0); user pays provider subscriptions or API usage",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "ongoing_takeover": {
+          "support": "partial",
+          "answer": "Attach with connection string.",
+          "evidenceIds": [
+            "remote"
+          ]
+        },
+        "same_task": {
+          "support": "supported",
+          "answer": "Same feature state server-side.",
+          "evidenceIds": [
+            "remote"
+          ]
+        },
+        "session_history": {
+          "support": "supported",
+          "answer": "Server holds transcripts.",
+          "evidenceIds": [
+            "supbg"
+          ]
+        },
+        "decisions": {
+          "support": "partial",
+          "answer": "In artifacts.",
+          "evidenceIds": [
+            "obs"
+          ]
+        },
+        "artifacts": {
+          "support": "supported",
+          "answer": "Server-side artifacts.",
+          "evidenceIds": [
+            "obs"
+          ]
+        },
+        "permissions": {
+          "support": "unsupported",
+          "answer": "No permission model.",
+          "evidenceIds": [
+            "srch-auth"
+          ]
+        },
+        "runtime_context": {
+          "support": "supported",
+          "answer": "Runtime on the server.",
+          "evidenceIds": [
+            "remote"
+          ]
+        },
+        "owner_disconnect": {
+          "support": "supported",
+          "answer": "Server continues.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "ownership": {
+          "support": "unsupported",
+          "answer": "No ownership.",
+          "evidenceIds": [
+            "srch-auth"
+          ]
+        },
+        "attribution": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-auth"
+          ]
+        },
+        "context_loss": {
+          "support": "partial",
+          "answer": "Provider session resume limits.",
+          "evidenceIds": [
+            "supbg"
+          ]
+        },
+        "harness_transfer": {
+          "support": "partial",
+          "answer": "Rewind with different models for later phases.",
+          "evidenceIds": [
+            "obs"
+          ]
+        }
+      },
+      "limitations": [
+        "Shared-token access only."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "remote",
+        "supbg",
+        "obs",
+        "srch-auth",
+        "readme"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch19",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentic-orchestrator:SHIP-01",
+      "criterionId": "SHIP-01",
+      "answer": "Per-run artifacts (KB, inquiry, research, design, roadmap, phase plans, verification evidence, review verdicts), diffs, session output and transcripts retained; testing contracts include visual and behavioral evidence rows; no cross-feature gallery.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop",
+          "server"
+        ],
+        "version": "release v0.162.0 (2026-10-30, commit ea4f920)",
+        "plan": "Free, open source (Apache-2.0); user pays provider subscriptions or API usage",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "diffs": {
+          "support": "supported",
+          "answer": "Changes tab and diff summaries.",
+          "evidenceIds": [
+            "demo",
+            "api"
+          ]
+        },
+        "documents": {
+          "support": "supported",
+          "answer": "KB, design, roadmap and plan documents.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "screenshots": {
+          "support": "partial",
+          "answer": "Testing contract Visual Evidence rows can require screenshots; capture is by agents.",
+          "evidenceIds": [
+            "api"
+          ]
+        },
+        "recordings": {
+          "support": "unsupported",
+          "answer": "None documented.",
+          "evidenceIds": [
+            "api"
+          ]
+        },
+        "previews": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "api"
+          ]
+        },
+        "test_outputs": {
+          "support": "supported",
+          "answer": "Verification evidence recorded.",
+          "evidenceIds": [
+            "readme",
+            "obs"
+          ]
+        },
+        "reviewer_outputs": {
+          "support": "supported",
+          "answer": "Critic and Final Review verdicts retained.",
+          "evidenceIds": [
+            "obs"
+          ]
+        },
+        "gallery": {
+          "support": "unsupported",
+          "answer": "No gallery.",
+          "evidenceIds": [
+            "api"
+          ]
+        },
+        "task_links": {
+          "support": "supported",
+          "answer": "Artifacts per feature directory.",
+          "evidenceIds": [
+            "obs"
+          ]
+        },
+        "revision_links": {
+          "support": "partial",
+          "answer": "Per run and phase.",
+          "evidenceIds": [
+            "obs"
+          ]
+        },
+        "persistence": {
+          "support": "supported",
+          "answer": "Persist in state directory.",
+          "evidenceIds": [
+            "obs"
+          ]
+        },
+        "child_findings": {
+          "support": "supported",
+          "answer": "Child records retained with outcomes.",
+          "evidenceIds": [
+            "api"
+          ]
+        },
+        "prompt_leakage": {
+          "support": "unknown",
+          "answer": "Not tested; the catalog does not run products.",
+          "evidenceIds": [
+            "api"
+          ]
+        }
+      },
+      "limitations": [
+        "No searchable gallery."
+      ],
+      "unknownReason": "prompt_leakage depends on model behaviour and was not tested; the catalog does not run products.",
+      "evidenceIds": [
+        "demo",
+        "api",
+        "readme",
+        "obs"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch19",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentic-orchestrator:SHIP-02",
+      "criterionId": "SHIP-02",
+      "answer": "Plan validators (architecture, structure, scope, plus security/performance/testing at high risk) gate planning; implementation and Final Review loops require explicit verification evidence; configured exit criteria and verification command per repo; a failed Final Review blocks CodeReady.",
+      "support": "supported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop",
+          "server"
+        ],
+        "version": "release v0.162.0 (2026-10-30, commit ea4f920)",
+        "plan": "Free, open source (Apache-2.0); user pays provider subscriptions or API usage",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "tests": {
+          "support": "supported",
+          "answer": "Verification command per repo and testing contract.",
+          "evidenceIds": [
+            "readme",
+            "api"
+          ]
+        },
+        "lint": {
+          "support": "partial",
+          "answer": "Exit criteria include lint-free.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "types": {
+          "support": "partial",
+          "answer": "Via verification command.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "ci": {
+          "support": "partial",
+          "answer": "Agentico does not observe external CI.",
+          "evidenceIds": [
+            "obs"
+          ]
+        },
+        "independent_review": {
+          "support": "supported",
+          "answer": "Codex or chosen reviewer model in Final Review; automatic review optional.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "spec_checks": {
+          "support": "supported",
+          "answer": "Plan and phase criteria checked by validators and Final Review.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "required_checks": {
+          "support": "supported",
+          "answer": "Final Review required before CodeReady.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "failure_blocking": {
+          "support": "supported",
+          "answer": "Exhausting the loop or violating criteria blocks.",
+          "evidenceIds": [
+            "readme",
+            "feature"
+          ]
+        },
+        "requirement_conflicts": {
+          "support": "partial",
+          "answer": "Architecture and scope critics detect conflicts at plan time.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "configured_policy": {
+          "support": "supported",
+          "answer": "exit_criteria, verification, max_iterations.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "enforced_policy": {
+          "support": "supported",
+          "answer": "State machine and loops enforce.",
+          "evidenceIds": [
+            "feature"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "api",
+        "obs",
+        "feature"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch19",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentic-orchestrator:SHIP-03",
+      "criterionId": "SHIP-03",
+      "answer": "Integrated Git workflow: worktrees, branches, commits, rebase action, push, PR creation via gh with cross-repo PR link injection, auto or manual publish; conflict handling is agent-driven.",
+      "support": "supported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop",
+          "server"
+        ],
+        "version": "release v0.162.0 (2026-10-30, commit ea4f920)",
+        "plan": "Free, open source (Apache-2.0); user pays provider subscriptions or API usage",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "branches": {
+          "support": "supported",
+          "answer": "Feature branches.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "worktrees": {
+          "support": "supported",
+          "answer": "Worktrees per feature.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "commits": {
+          "support": "supported",
+          "answer": "Publish commits.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "pull_requests": {
+          "support": "supported",
+          "answer": "gh creates PRs and cross-links.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "comments": {
+          "support": "partial",
+          "answer": "Published PR is tracked; comment handling not documented.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "ci_response": {
+          "support": "unsupported",
+          "answer": "Does not observe CI.",
+          "evidenceIds": [
+            "obs"
+          ]
+        },
+        "rebase": {
+          "support": "supported",
+          "answer": "Rebase feature action served via the generic action route.",
+          "evidenceIds": [
+            "api"
+          ]
+        },
+        "conflicts": {
+          "support": "partial",
+          "answer": "Agent-driven.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "product_state": {
+          "support": "supported",
+          "answer": "Published and Done statuses with PR numbers.",
+          "evidenceIds": [
+            "feature",
+            "obs"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "obs",
+        "api",
+        "feature"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch19",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentic-orchestrator:SHIP-04",
+      "criterionId": "SHIP-04",
+      "answer": "Humans approve checkpoints and choose auto or manual publish; PR merge happens on GitHub outside Agentico; no release or deploy features; GitHub merge state is not observed.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "release v0.162.0 (2026-10-30, commit ea4f920)",
+        "plan": "Free, open source (Apache-2.0); user pays provider subscriptions or API usage",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "approve": {
+          "support": "supported",
+          "answer": "Review checkpoints and manual publish.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "merge": {
+          "support": "unsupported",
+          "answer": "Merge happens on GitHub; Agentico does not observe merge state.",
+          "evidenceIds": [
+            "obs"
+          ]
+        },
+        "release": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "obs"
+          ]
+        },
+        "deploy": {
+          "support": "unsupported",
+          "answer": "Does not observe deployment health.",
+          "evidenceIds": [
+            "obs"
+          ]
+        },
+        "exact_revision": {
+          "support": "partial",
+          "answer": "Publish acts on the reviewed worktree state.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "authority_enforcement": {
+          "support": "partial",
+          "answer": "Manual publish setting.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Delivery ends at PR creation."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "obs"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch19",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentic-orchestrator:SHIP-05",
+      "criterionId": "SHIP-05",
+      "answer": "Published and Done states with PR numbers and cross-repo PR table, delivery milestones persisted, rewind to restart; no merge, deployment or rollback tracking.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "release v0.162.0 (2026-10-30, commit ea4f920)",
+        "plan": "Free, open source (Apache-2.0); user pays provider subscriptions or API usage",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "commit_links": {
+          "support": "partial",
+          "answer": "Publish commits recorded.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "pr_links": {
+          "support": "supported",
+          "answer": "Cross-reference PR table.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "build_links": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "obs"
+          ]
+        },
+        "deployment_links": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "obs"
+          ]
+        },
+        "delivery_status": {
+          "support": "supported",
+          "answer": "Delivered milestone first Published or Done.",
+          "evidenceIds": [
+            "obs"
+          ]
+        },
+        "retained_evidence": {
+          "support": "supported",
+          "answer": "Artifacts and evidence retained.",
+          "evidenceIds": [
+            "obs"
+          ]
+        },
+        "rollback": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "obs"
+          ]
+        },
+        "revert": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "obs"
+          ]
+        },
+        "stale_approval_invalidation": {
+          "support": "partial",
+          "answer": "A rewind starts a new set of milestones.",
+          "evidenceIds": [
+            "obs"
+          ]
+        }
+      },
+      "limitations": [
+        "Does not observe merge or deploy."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "obs"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch19",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentic-orchestrator:SHIP-06",
+      "criterionId": "SHIP-06",
+      "answer": "No batch review queue: Overview lists features awaiting review and Bulk resume/retry exists, but review, approval and publish are per feature.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "release v0.162.0 (2026-10-30, commit ea4f920)",
+        "plan": "Free, open source (Apache-2.0); user pays provider subscriptions or API usage",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "review_queue": {
+          "support": "partial",
+          "answer": "Overview At rest group shows Code ready features.",
+          "evidenceIds": [
+            "demo"
+          ]
+        },
+        "summaries": {
+          "support": "partial",
+          "answer": "Feature summaries and diff summary.",
+          "evidenceIds": [
+            "api"
+          ]
+        },
+        "grouping": {
+          "support": "partial",
+          "answer": "Running and At rest groups.",
+          "evidenceIds": [
+            "demo"
+          ]
+        },
+        "risk_size_filters": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "demo"
+          ]
+        },
+        "findings": {
+          "support": "supported",
+          "answer": "Review findings retained.",
+          "evidenceIds": [
+            "obs"
+          ]
+        },
+        "artifacts": {
+          "support": "partial",
+          "answer": "Per-feature.",
+          "evidenceIds": [
+            "obs"
+          ]
+        },
+        "request_changes": {
+          "support": "supported",
+          "answer": "Iteration at gates.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "exact_revision_approval": {
+          "support": "partial",
+          "answer": "Per publish.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "dependency_queues": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "api"
+          ]
+        },
+        "next_actions": {
+          "support": "supported",
+          "answer": "Action catalog derived from server with disabled reasons.",
+          "evidenceIds": [
+            "api"
+          ]
+        },
+        "stale_approval_invalidation": {
+          "support": "partial",
+          "answer": "Rewind starts new milestones.",
+          "evidenceIds": [
+            "obs"
+          ]
+        },
+        "check_deduplication": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "api"
+          ]
+        }
+      },
+      "limitations": [
+        "Per-feature review."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "demo",
+        "api",
+        "obs",
+        "readme"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch19",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentic-orchestrator:OWN-01",
+      "criterionId": "OWN-01",
+      "answer": "Apache-2.0 for the repository (Go server/CLI, Electron desktop app, skills, guidelines); DoorDash CLA required for contributions; third-party notices in NOTICE.txt; macOS builds are not yet Developer ID signed.",
+      "support": "supported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop",
+          "server",
+          "cli"
+        ],
+        "version": "release v0.162.0 (2026-10-30, commit ea4f920)",
+        "plan": "Free, open source (Apache-2.0); user pays provider subscriptions or API usage",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "client_license": {
+          "support": "supported",
+          "answer": "Apache-2.0.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "server_license": {
+          "support": "supported",
+          "answer": "Apache-2.0.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "hosted_extensions": {
+          "support": "supported",
+          "answer": "No hosted extensions.",
+          "evidenceIds": [
+            "srch-pricing"
+          ]
+        },
+        "source_visibility": {
+          "support": "supported",
+          "answer": "Public repository.",
+          "evidenceIds": [
+            "ghrepo"
+          ]
+        },
+        "source_revision": {
+          "support": "supported",
+          "answer": "Release v0.162.0 (2026-10-30, commit ea4f920).",
+          "evidenceIds": [
+            "release"
+          ]
+        },
+        "hosted_parity": {
+          "support": "supported",
+          "answer": "No hosted product.",
+          "evidenceIds": [
+            "srch-pricing"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "license",
+        "srch-pricing",
+        "ghrepo",
+        "release",
+        "readme",
+        "repoapi"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-05-16",
+      "researcher": "researcher-batch19",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentic-orchestrator:OWN-02",
+      "criterionId": "OWN-02",
+      "answer": "Fully local: desktop app and bundled server store features, artifacts and worktrees on your machine (or your own server); no vendor account; files are YAML/JSONL; self-update from GitHub releases with signed manifests.",
+      "support": "supported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop",
+          "server"
+        ],
+        "version": "release v0.162.0 (2026-10-30, commit ea4f920)",
+        "plan": "Free, open source (Apache-2.0); user pays provider subscriptions or API usage",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "self_hosting": {
+          "support": "supported",
+          "answer": "agentico server on your own machine.",
+          "evidenceIds": [
+            "remote"
+          ]
+        },
+        "vendor_dependencies": {
+          "support": "partial",
+          "answer": "Update checks to GitHub releases; provider CLIs; optional OTel endpoint.",
+          "evidenceIds": [
+            "relsup",
+            "obs"
+          ]
+        },
+        "export": {
+          "support": "partial",
+          "answer": "Plain files in state directory; no export command.",
+          "evidenceIds": [
+            "obs"
+          ]
+        },
+        "import": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "formats": {
+          "support": "supported",
+          "answer": "YAML config, JSONL artifacts.",
+          "evidenceIds": [
+            "readme",
+            "obs"
+          ]
+        },
+        "cancellation": {
+          "support": "supported",
+          "answer": "No account.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "account_independence": {
+          "support": "supported",
+          "answer": "Works with no Agentico account.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "history_portability": {
+          "support": "partial",
+          "answer": "Files portable; tied to local paths.",
+          "evidenceIds": [
+            "obs"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "remote",
+        "relsup",
+        "obs",
+        "readme"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-05-16",
+      "researcher": "researcher-batch19",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentic-orchestrator:OWN-03",
+      "criterionId": "OWN-03",
+      "answer": "Code, prompts and artifacts stay on the machine and flow to the providers you configure; local observability files are on by setting; OpenTelemetry export is off unless otel_enabled and an endpoint are set and carries no repo names in resource attributes; update checks contact GitHub; a stable installation ID is stored locally.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop",
+          "server"
+        ],
+        "version": "release v0.162.0 (2026-10-30, commit ea4f920)",
+        "plan": "Free, open source (Apache-2.0); user pays provider subscriptions or API usage",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "code_data": {
+          "support": "supported",
+          "answer": "Local; providers receive context.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "prompts": {
+          "support": "supported",
+          "answer": "Sent to providers.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "credentials": {
+          "support": "supported",
+          "answer": "Provider logins stay in CLIs; server token 0600.",
+          "evidenceIds": [
+            "api"
+          ]
+        },
+        "logs": {
+          "support": "supported",
+          "answer": "Local per-feature JSONL.",
+          "evidenceIds": [
+            "obs"
+          ]
+        },
+        "artifacts": {
+          "support": "supported",
+          "answer": "Local state directory.",
+          "evidenceIds": [
+            "obs"
+          ]
+        },
+        "retention": {
+          "support": "partial",
+          "answer": "Until deletion.",
+          "evidenceIds": [
+            "obs"
+          ]
+        },
+        "deletion": {
+          "support": "supported",
+          "answer": "Feature delete with cascade and impact preview.",
+          "evidenceIds": [
+            "api"
+          ]
+        },
+        "training": {
+          "support": "unknown",
+          "answer": "Provider-dependent.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "residency": {
+          "support": "unknown",
+          "answer": "Provider-dependent.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "subprocessors": {
+          "support": "unknown",
+          "answer": "Providers and optional OTel collector are third parties.",
+          "evidenceIds": [
+            "obs"
+          ]
+        },
+        "telemetry_disclosure": {
+          "support": "supported",
+          "answer": "observability.md documents signals and attributes.",
+          "evidenceIds": [
+            "obs"
+          ]
+        },
+        "telemetry_defaults": {
+          "support": "supported",
+          "answer": "OTel disabled unless otel_enabled; setting an endpoint alone does not enable it.",
+          "evidenceIds": [
+            "obs"
+          ]
+        },
+        "telemetry_controls": {
+          "support": "supported",
+          "answer": "observability.events and otel_enabled switches.",
+          "evidenceIds": [
+            "obs"
+          ]
+        },
+        "consent_prompt": {
+          "support": "partial",
+          "answer": "No consent prompt documented.",
+          "evidenceIds": [
+            "obs"
+          ]
+        },
+        "provider_separation": {
+          "support": "supported",
+          "answer": "Providers separate.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Provider retention, training and residency are provider facts."
+      ],
+      "unknownReason": "Provider retention, training and residency are third-party facts outside the repository.",
+      "evidenceIds": [
+        "readme",
+        "api",
+        "obs",
+        "relsup"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch19",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentic-orchestrator:OWN-04",
+      "criterionId": "OWN-04",
+      "answer": "Free and open source (Apache-2.0); no Agentico price; users pay provider subscriptions/API usage.",
+      "support": "supported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "release v0.162.0 (2026-10-30, commit ea4f920)",
+        "plan": "Free, open source (Apache-2.0); user pays provider subscriptions or API usage",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "currency": {
+          "support": "supported",
+          "answer": "No price.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "interval": {
+          "support": "supported",
+          "answer": "None.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "seats": {
+          "support": "supported",
+          "answer": "None.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "seat_minimum": {
+          "support": "supported",
+          "answer": "None.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "workspace_fees": {
+          "support": "supported",
+          "answer": "None.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "included_usage": {
+          "support": "supported",
+          "answer": "None metered.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "credits": {
+          "support": "supported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-pricing"
+          ]
+        },
+        "trial": {
+          "support": "supported",
+          "answer": "None; free.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "overages": {
+          "support": "supported",
+          "answer": "None.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "taxes": {
+          "support": "supported",
+          "answer": "No billing.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "model_cost": {
+          "support": "supported",
+          "answer": "Separate provider costs.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "compute_cost": {
+          "support": "supported",
+          "answer": "Own hardware.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "license",
+        "readme",
+        "srch-pricing"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-01-16",
+      "researcher": "researcher-batch19",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentic-orchestrator:OWN-05",
+      "criterionId": "OWN-05",
+      "answer": "No Agentico fee for one, two or five developers; costs are provider usage and own hosts; no workload scenarios published.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "release v0.162.0 (2026-10-30, commit ea4f920)",
+        "plan": "Free, open source (Apache-2.0); user pays provider subscriptions or API usage",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "one_person": {
+          "support": "partial",
+          "answer": "Fee 0 plus provider costs.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "two_people": {
+          "support": "partial",
+          "answer": "Each installs the app; fee 0.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "five_people": {
+          "support": "partial",
+          "answer": "Fee 0.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "task_assumptions": {
+          "support": "unknown",
+          "answer": "Not defined.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "concurrency": {
+          "support": "partial",
+          "answer": "Parallel features raise provider usage.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "tokens": {
+          "support": "unknown",
+          "answer": "Not defined.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "compute_hours": {
+          "support": "partial",
+          "answer": "Own hardware.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "fixed_cost": {
+          "support": "supported",
+          "answer": "Zero.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "variable_cost": {
+          "support": "partial",
+          "answer": "Provider usage.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "included_cost": {
+          "support": "partial",
+          "answer": "Subscription logins covered by plans.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "unknown_cost": {
+          "support": "supported",
+          "answer": "Provider prices not catalogued.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Workload-specific provider costs."
+      ],
+      "unknownReason": "Provider token volumes and prices depend on workload assumptions the catalog does not define.",
+      "evidenceIds": [
+        "license",
+        "readme"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch19",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentic-orchestrator:OWN-06",
+      "criterionId": "OWN-06",
+      "answer": "Fast-moving project from DoorDash (v0.162.0 on 2026-10-30, v0.161.x earlier) with a signed update channel, release support docs and GitHub issues; releases are cut locally by the operator; macOS builds not yet Developer ID signed; no SLA.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop",
+          "server"
+        ],
+        "version": "release v0.162.0 (2026-10-30, commit ea4f920)",
+        "plan": "Free, open source (Apache-2.0); user pays provider subscriptions or API usage",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "release_stage": {
+          "support": "supported",
+          "answer": "0.x releases.",
+          "evidenceIds": [
+            "release"
+          ]
+        },
+        "access_restrictions": {
+          "support": "supported",
+          "answer": "Public download.",
+          "evidenceIds": [
+            "relsup"
+          ]
+        },
+        "support": {
+          "support": "partial",
+          "answer": "GitHub issues; CONTRIBUTING.",
+          "evidenceIds": [
+            "ghrepo"
+          ]
+        },
+        "response_commitments": {
+          "support": "supported",
+          "answer": "None documented.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "release_activity": {
+          "support": "supported",
+          "answer": "v0.161.0 2026-10-12, v0.161.1 2026-10-29, v0.162.0 2026-10-30.",
+          "evidenceIds": [
+            "release"
+          ]
+        },
+        "status_history": {
+          "support": "unsupported",
+          "answer": "No status page.",
+          "evidenceIds": [
+            "ghrepo"
+          ]
+        },
+        "deprecation": {
+          "support": "partial",
+          "answer": "API compatibility series declared.",
+          "evidenceIds": [
+            "api"
+          ]
+        },
+        "export_options": {
+          "support": "supported",
+          "answer": "Local files.",
+          "evidenceIds": [
+            "obs"
+          ]
+        }
+      },
+      "limitations": [
+        "No response commitments; pre-1.0."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "release",
+        "relsup",
+        "ghrepo",
+        "readme",
+        "api",
+        "obs"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch19",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentic-orchestrator:OWN-07",
+      "criterionId": "OWN-07",
+      "answer": "No ISO or SOC 2 claims in the repository or docs.",
+      "support": "unknown",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "release v0.162.0 (2026-10-30, commit ea4f920)",
+        "plan": "Free, open source (Apache-2.0); user pays provider subscriptions or API usage",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "iso_scope": {
+          "support": "unknown",
+          "answer": "No ISO claim.",
+          "evidenceIds": [
+            "srch-cert"
+          ]
+        },
+        "iso_issuer": {
+          "support": "unknown",
+          "answer": "No ISO claim.",
+          "evidenceIds": [
+            "srch-cert"
+          ]
+        },
+        "iso_validity": {
+          "support": "unknown",
+          "answer": "No ISO claim.",
+          "evidenceIds": [
+            "srch-cert"
+          ]
+        },
+        "soc2_type": {
+          "support": "unknown",
+          "answer": "No SOC 2 claim.",
+          "evidenceIds": [
+            "srch-cert"
+          ]
+        },
+        "soc2_scope": {
+          "support": "unknown",
+          "answer": "No SOC 2 claim.",
+          "evidenceIds": [
+            "srch-cert"
+          ]
+        },
+        "soc2_period": {
+          "support": "unknown",
+          "answer": "No SOC 2 claim.",
+          "evidenceIds": [
+            "srch-cert"
+          ]
+        },
+        "report_access": {
+          "support": "unknown",
+          "answer": "None offered.",
+          "evidenceIds": [
+            "srch-cert"
+          ]
+        },
+        "verification_date": {
+          "support": "unknown",
+          "answer": "Nothing to verify.",
+          "evidenceIds": [
+            "srch-cert"
+          ]
+        },
+        "evidence_status": {
+          "support": "unknown",
+          "answer": "No assurance evidence; absence of a claim is not proof of absence.",
+          "evidenceIds": [
+            "srch-cert"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": "Certifications are closed business facts that a code repository cannot establish; none are claimed in first-party text inspected.",
+      "evidenceIds": [
+        "srch-cert"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch19",
+      "publication": "internal-only",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentic-orchestrator:OWN-08",
+      "criterionId": "OWN-08",
+      "answer": "Free open-source app, no paid tier; provider costs separate; free scenarios work except mobile and browser (not offered).",
+      "support": "supported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "release v0.162.0 (2026-10-30, commit ea4f920)",
+        "plan": "Free, open source (Apache-2.0); user pays provider subscriptions or API usage",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "ongoing_free": {
+          "support": "supported",
+          "answer": "Apache-2.0.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "trial": {
+          "support": "supported",
+          "answer": "Not applicable.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "credits_trial": {
+          "support": "supported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-pricing"
+          ]
+        },
+        "self_host_cost": {
+          "support": "supported",
+          "answer": "Own host.",
+          "evidenceIds": [
+            "remote"
+          ]
+        },
+        "paid_only": {
+          "support": "supported",
+          "answer": "Not paid.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "early_access": {
+          "support": "supported",
+          "answer": "Public.",
+          "evidenceIds": [
+            "ghrepo"
+          ]
+        },
+        "free_scenarios": {
+          "support": "partial",
+          "answer": "Remote server and review work free; no mobile or browser clients.",
+          "evidenceIds": [
+            "relsup",
+            "remote"
+          ]
+        },
+        "card_required": {
+          "support": "supported",
+          "answer": "None.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "usage_caps": {
+          "support": "supported",
+          "answer": "Provider caps only.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "paid_evaluation": {
+          "support": "supported",
+          "answer": "No payment for Agentico.",
+          "evidenceIds": [
+            "license"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "license",
+        "srch-pricing",
+        "remote",
+        "ghrepo",
+        "relsup",
+        "readme"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-01-16",
+      "researcher": "researcher-batch19",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "agentic-orchestrator:OWN-09",
+      "criterionId": "OWN-09",
+      "answer": "No Agentico pricing: free Apache-2.0 software; provider and host costs are third-party. Classification: no paid plan.",
+      "support": "supported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "desktop"
+        ],
+        "version": "release v0.162.0 (2026-10-30, commit ea4f920)",
+        "plan": "Free, open source (Apache-2.0); user pays provider subscriptions or API usage",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "units": {
+          "support": "supported",
+          "answer": "None.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "included_limits": {
+          "support": "supported",
+          "answer": "None.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "overages": {
+          "support": "supported",
+          "answer": "None.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "compute_markup": {
+          "support": "supported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-pricing"
+          ]
+        },
+        "model_markup": {
+          "support": "supported",
+          "answer": "None; provider CLIs used directly.",
+          "evidenceIds": [
+            "srch-pricing"
+          ]
+        },
+        "minimum_commitment": {
+          "support": "supported",
+          "answer": "None.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "cancellation": {
+          "support": "supported",
+          "answer": "Nothing to cancel.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "sales_only_unknowns": {
+          "support": "supported",
+          "answer": "None.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "transparency_classification": {
+          "support": "supported",
+          "answer": "Transparent: free open-source software with no paid tier located.",
+          "evidenceIds": [
+            "license",
+            "srch-pricing"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "license",
+        "srch-pricing"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-01-16",
+      "researcher": "researcher-batch19",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    }
+  ],
+  "evidence": [
+    {
+      "id": "readme",
+      "kind": "documented",
+      "url": "https://github.com/doordash-oss/agentic-orchestrator/blob/ea4f9206382d00d3a6fb659159a307a4182ff6a8/README.md",
+      "title": "Agentic Orchestrator README",
+      "locator": "intro; The Feature Lifecycle; Pipeline Profiles; Worktree Isolation; Configuration; Launch Flags",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "Desktop-first AI development workflow orchestrator (Electron app plus agentico Go server/CLI): per-feature worktrees, KB, inquiry, research, design, roadmap and phase planning with plan critics, implementation, Final Review and publish via gh; Claude Code, Codex and OpenCode providers; Apache-2.0.",
+      "visibility": "public",
+      "commit": "ea4f9206382d00d3a6fb659159a307a4182ff6a8",
+      "path": "README.md"
+    },
+    {
+      "id": "relsup",
+      "kind": "documented",
+      "url": "https://github.com/doordash-oss/agentic-orchestrator/blob/ea4f9206382d00d3a6fb659159a307a4182ff6a8/docs/desktop/release-support.md",
+      "title": "Desktop release, updates and diagnostics",
+      "locator": "The resulting desktop assets are exactly",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "Desktop assets are exactly a macOS universal DMG, Linux x64/arm64 AppImages and amd64/arm64 .deb packages plus a signed desktop-release.json; staged in-app updates on DMG and AppImage; releases cut locally by the operator.",
+      "visibility": "public",
+      "commit": "ea4f9206382d00d3a6fb659159a307a4182ff6a8",
+      "path": "docs/desktop/release-support.md"
+    },
+    {
+      "id": "remote",
+      "kind": "documented",
+      "url": "https://github.com/doordash-oss/agentic-orchestrator/blob/ea4f9206382d00d3a6fb659159a307a4182ff6a8/docs/desktop/remote-servers.md",
+      "title": "Connecting the desktop app to a server on another machine",
+      "locator": "Running the server on the host; Pasting the connection string",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "agentico server --listen binds a network address with plain HTTP plus a bearer token and prints an agentico:// connection string; the desktop app attaches via Settings > Servers; trusted-network or SSH tunnel expected.",
+      "visibility": "public",
+      "commit": "ea4f9206382d00d3a6fb659159a307a4182ff6a8",
+      "path": "docs/desktop/remote-servers.md"
+    },
+    {
+      "id": "obs",
+      "kind": "documented",
+      "url": "https://github.com/doordash-oss/agentic-orchestrator/blob/ea4f9206382d00d3a6fb659159a307a4182ff6a8/docs/observability.md",
+      "title": "Observability and fleet telemetry",
+      "locator": "intro; Outcome definitions; OTel resource identity",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "Local per-feature JSONL/summary artifacts (observability.events) separate from OpenTelemetry traces/metrics (otel_enabled, off unless enabled); defines output-ready, delivered and failure outcomes; installation ID stored locally; no repo names or paths in resource attributes.",
+      "visibility": "public",
+      "commit": "ea4f9206382d00d3a6fb659159a307a4182ff6a8",
+      "path": "docs/observability.md"
+    },
+    {
+      "id": "api",
+      "kind": "documented",
+      "url": "https://github.com/doordash-oss/agentic-orchestrator/blob/ea4f9206382d00d3a6fb659159a307a4182ff6a8/docs/api.md",
+      "title": "Agentico server API",
+      "locator": "Discovery And Auth; Parent/Child Relationships; Capability Gates; Supervisor Messages",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "Loopback REST/SSE API with owner-only discovery file and bearer token, snapshot-then-subscribe events, parent/child feature relationships, capability gates in testing contracts and supervisor messages; agentico api helper for authenticated calls.",
+      "visibility": "public",
+      "commit": "ea4f9206382d00d3a6fb659159a307a4182ff6a8",
+      "path": "docs/api.md"
+    },
+    {
+      "id": "supbg",
+      "kind": "documented",
+      "url": "https://github.com/doordash-oss/agentic-orchestrator/blob/ea4f9206382d00d3a6fb659159a307a4182ff6a8/docs/supervisor-background-work.md",
+      "title": "Supervisor background work",
+      "locator": "whole file",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "Background work panel lists provider-reported scheduled and event monitors and tasks (e.g. Claude CronCreate); ask-to-stop requires provider acknowledgement; interrupted tasks are not restarted.",
+      "visibility": "public",
+      "commit": "ea4f9206382d00d3a6fb659159a307a4182ff6a8",
+      "path": "docs/supervisor-background-work.md"
+    },
+    {
+      "id": "feature",
+      "kind": "source-inspected",
+      "url": "https://github.com/doordash-oss/agentic-orchestrator/blob/ea4f9206382d00d3a6fb659159a307a4182ff6a8/internal/feature/feature.go",
+      "title": "Feature state machine",
+      "locator": "Status constants and transition table (lines ~226-390, ~946)",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "Durable feature statuses incl. Created, Planning, Implementing, NeedUserInput, ReviewPassed, CodeReady, Published, Done, Failed, Interrupted with an explicit allowed-transition table.",
+      "visibility": "public",
+      "commit": "ea4f9206382d00d3a6fb659159a307a4182ff6a8",
+      "path": "internal/feature/feature.go"
+    },
+    {
+      "id": "child",
+      "kind": "source-inspected",
+      "url": "https://github.com/doordash-oss/agentic-orchestrator/blob/ea4f9206382d00d3a6fb659159a307a4182ff6a8/internal/feature/child.go",
+      "title": "Child features",
+      "locator": "module",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "Child feature (refactor) relationships under a parent feature with lifecycle, discard and cascade delete.",
+      "visibility": "public",
+      "commit": "ea4f9206382d00d3a6fb659159a307a4182ff6a8",
+      "path": "internal/feature/child.go"
+    },
+    {
+      "id": "admission",
+      "kind": "source-inspected",
+      "url": "https://github.com/doordash-oss/agentic-orchestrator/blob/ea4f9206382d00d3a6fb659159a307a4182ff6a8/internal/workadmission",
+      "title": "Work admission",
+      "locator": "package doc",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "Reservation-based work admission shared by HTTP entry points, orchestration and session launching, used to close admission during self-update installs.",
+      "visibility": "public",
+      "commit": "ea4f9206382d00d3a6fb659159a307a4182ff6a8",
+      "path": "internal/workadmission"
+    },
+    {
+      "id": "cfg",
+      "kind": "source-inspected",
+      "url": "https://github.com/doordash-oss/agentic-orchestrator/blob/ea4f9206382d00d3a6fb659159a307a4182ff6a8/internal/config/config.go",
+      "title": "Configuration schema",
+      "locator": "ObservabilityConfig; OTelEnabled yaml otel_enabled; defaults",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "YAML config with defaults.models, exit_criteria, max_iterations, max_consecutive_failures, max_consecutive_no_progress, inquireness, pipeline, repos, workspace_roots and observability settings.",
+      "visibility": "public",
+      "commit": "ea4f9206382d00d3a6fb659159a307a4182ff6a8",
+      "path": "internal/config/config.go"
+    },
+    {
+      "id": "license",
+      "kind": "source-inspected",
+      "url": "https://github.com/doordash-oss/agentic-orchestrator/blob/ea4f9206382d00d3a6fb659159a307a4182ff6a8/LICENSE.txt",
+      "title": "Apache-2.0 license",
+      "locator": "whole file",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "Apache License 2.0; contributions need the DoorDash CLA (CLA.md).",
+      "visibility": "public",
+      "commit": "ea4f9206382d00d3a6fb659159a307a4182ff6a8",
+      "path": "LICENSE.txt"
+    },
+    {
+      "id": "demo",
+      "kind": "documented",
+      "url": "https://github.com/user-attachments/assets/1df0c833-eeae-4b14-92d5-2694ac5506ff",
+      "title": "README demo animation (agentico-demo-light)",
+      "locator": "frames 2-6 Overview; later frames feature workspace and Publish",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "First-party GIF of the desktop app: Overview with two running features and one code-ready feature, new-feature wizard with pipeline profiles and checkpoints, a feature workspace with phase progress, elapsed, cost and context, an Ask Agentico panel, and a Publish dialog.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "ghrepo",
+      "kind": "documented",
+      "url": "https://github.com/doordash-oss/agentic-orchestrator",
+      "title": "GitHub repository",
+      "locator": "repo header",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "doordash-oss/agentic-orchestrator, Apache-2.0, pushed 2026-11-15.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "repoapi",
+      "kind": "documented",
+      "url": "https://api.github.com/repos/doordash-oss/agentic-orchestrator",
+      "title": "GitHub repository API",
+      "locator": "stargazers_count",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "stargazers_count 131, license Apache-2.0, pushed_at 2026-11-15T22:17:58Z.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "release",
+      "kind": "documented",
+      "url": "https://github.com/doordash-oss/agentic-orchestrator/releases/tag/v0.162.0",
+      "title": "Release v0.162.0",
+      "locator": "release page",
+      "sourceDate": "2026-10-30",
+      "retrievedAt": "2026-11-17",
+      "finding": "Latest release v0.162.0 published 2026-10-30 (commit ea4f920); v0.161.1 on 2026-10-29 and v0.161.0 on 2026-10-12.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "srch-sched",
+      "kind": "source-inspected",
+      "url": "https://github.com/doordash-oss/agentic-orchestrator/blob/ea4f9206382d00d3a6fb659159a307a4182ff6a8/internal",
+      "title": "Bounded search: schedules and triggers",
+      "locator": "rg -il \"cron|schedule|webhook\" internal/ docs/ README.md",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "The cron/schedule/webhook hits are provider protocol fields, prompt fixtures and the update-check schedule; no user-facing scheduler or webhook trigger for features beyond supervisor monitoring of provider-reported tasks.",
+      "visibility": "public",
+      "commit": "ea4f9206382d00d3a6fb659159a307a4182ff6a8",
+      "path": "internal"
+    },
+    {
+      "id": "srch-tracker",
+      "kind": "source-inspected",
+      "url": "https://github.com/doordash-oss/agentic-orchestrator/blob/ea4f9206382d00d3a6fb659159a307a4182ff6a8/internal",
+      "title": "Bounded search: issue trackers",
+      "locator": "rg -il \"linear|jira|github issue|issue tracker\" internal/ desktop/src docs/ README.md",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "No tracker integration or native issue entity; features are the work unit; gh is used only for PR creation.",
+      "visibility": "public",
+      "commit": "ea4f9206382d00d3a6fb659159a307a4182ff6a8",
+      "path": "internal"
+    },
+    {
+      "id": "srch-auth",
+      "kind": "source-inspected",
+      "url": "https://github.com/doordash-oss/agentic-orchestrator/blob/ea4f9206382d00d3a6fb659159a307a4182ff6a8/internal",
+      "title": "Bounded search: users, roles, SSO",
+      "locator": "rg -il \"sso|oidc|saml|rbac|role|organization\" internal/ desktop/src docs/",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "No users, roles, SSO or organizations; one bearer token per server.",
+      "visibility": "public",
+      "commit": "ea4f9206382d00d3a6fb659159a307a4182ff6a8",
+      "path": "internal"
+    },
+    {
+      "id": "srch-sandbox",
+      "kind": "source-inspected",
+      "url": "https://github.com/doordash-oss/agentic-orchestrator/blob/ea4f9206382d00d3a6fb659159a307a4182ff6a8/internal",
+      "title": "Bounded search: sandbox and containers",
+      "locator": "rg -il \"sandbox|container|docker|firejail\" internal/ docs/ README.md",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "Docker appears only as a testing-contract capability gate and release build tool; the Codex backend is started with a coarse sandbox mode (read-only/workspace write) and OpenCode gets a generated permission config; no per-feature container or VM isolation.",
+      "visibility": "public",
+      "commit": "ea4f9206382d00d3a6fb659159a307a4182ff6a8",
+      "path": "internal"
+    },
+    {
+      "id": "srch-cert",
+      "kind": "source-inspected",
+      "url": "https://github.com/doordash-oss/agentic-orchestrator/blob/ea4f9206382d00d3a6fb659159a307a4182ff6a8/docs",
+      "title": "Bounded search: certifications",
+      "locator": "rg -il \"soc ?2|iso ?27001\" docs README.md",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "No SOC 2 or ISO 27001 mention in docs or README.",
+      "visibility": "public",
+      "commit": "ea4f9206382d00d3a6fb659159a307a4182ff6a8",
+      "path": "docs"
+    },
+    {
+      "id": "srch-pricing",
+      "kind": "source-inspected",
+      "url": "https://github.com/doordash-oss/agentic-orchestrator/blob/ea4f9206382d00d3a6fb659159a307a4182ff6a8/docs",
+      "title": "Bounded search: billing",
+      "locator": "rg -il \"pricing|subscription plan|stripe\" docs README.md internal",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "No pricing page or billing code; only codex-pricing.md (model price tables for cost estimates).",
+      "visibility": "public",
+      "commit": "ea4f9206382d00d3a6fb659159a307a4182ff6a8",
+      "path": "docs"
+    }
+  ],
+  "changes": [
+    {
+      "date": "2026-11-17",
+      "author": "researcher-batch19",
+      "type": "initial-research",
+      "summary": "Initial full-profile source pass over release v0.162.0 (2026-10-30): README, docs (api, observability, release support, remote servers, supervisor background work), Go packages for features, config and work admission, and bounded searches covering all 51 criteria. Depth note: the Go server and Electron app are large; answers rest on docs and the named packages rather than every file. Screenshot: frame 2 of the README demo animation (Overview, caption-free).",
+      "claimIds": [
+        "agentic-orchestrator:ACC-01",
+        "agentic-orchestrator:ACC-02",
+        "agentic-orchestrator:ACC-03",
+        "agentic-orchestrator:ACC-04",
+        "agentic-orchestrator:ACC-05",
+        "agentic-orchestrator:ACC-06",
+        "agentic-orchestrator:ACC-07",
+        "agentic-orchestrator:PLAN-01",
+        "agentic-orchestrator:PLAN-02",
+        "agentic-orchestrator:PLAN-03",
+        "agentic-orchestrator:PLAN-04",
+        "agentic-orchestrator:PLAN-05",
+        "agentic-orchestrator:PLAN-06",
+        "agentic-orchestrator:PLAN-07",
+        "agentic-orchestrator:PLAN-08",
+        "agentic-orchestrator:COORD-01",
+        "agentic-orchestrator:COORD-02",
+        "agentic-orchestrator:COORD-03",
+        "agentic-orchestrator:COORD-04",
+        "agentic-orchestrator:COORD-05",
+        "agentic-orchestrator:COORD-06",
+        "agentic-orchestrator:COORD-07",
+        "agentic-orchestrator:RUN-01",
+        "agentic-orchestrator:RUN-02",
+        "agentic-orchestrator:RUN-03",
+        "agentic-orchestrator:RUN-04",
+        "agentic-orchestrator:RUN-05",
+        "agentic-orchestrator:RUN-06",
+        "agentic-orchestrator:RUN-07",
+        "agentic-orchestrator:RUN-08",
+        "agentic-orchestrator:TEAM-01",
+        "agentic-orchestrator:TEAM-02",
+        "agentic-orchestrator:TEAM-03",
+        "agentic-orchestrator:TEAM-04",
+        "agentic-orchestrator:TEAM-05",
+        "agentic-orchestrator:TEAM-06",
+        "agentic-orchestrator:SHIP-01",
+        "agentic-orchestrator:SHIP-02",
+        "agentic-orchestrator:SHIP-03",
+        "agentic-orchestrator:SHIP-04",
+        "agentic-orchestrator:SHIP-05",
+        "agentic-orchestrator:SHIP-06",
+        "agentic-orchestrator:OWN-01",
+        "agentic-orchestrator:OWN-02",
+        "agentic-orchestrator:OWN-03",
+        "agentic-orchestrator:OWN-04",
+        "agentic-orchestrator:OWN-05",
+        "agentic-orchestrator:OWN-06",
+        "agentic-orchestrator:OWN-07",
+        "agentic-orchestrator:OWN-08",
+        "agentic-orchestrator:OWN-09"
+      ],
+      "evidenceIds": [
+        "readme",
+        "relsup",
+        "remote",
+        "obs",
+        "api",
+        "supbg",
+        "feature",
+        "child",
+        "admission",
+        "cfg",
+        "license",
+        "demo",
+        "ghrepo",
+        "repoapi",
+        "release",
+        "srch-sched",
+        "srch-tracker",
+        "srch-auth",
+        "srch-sandbox",
+        "srch-cert",
+        "srch-pricing"
+      ]
+    }
+  ],
+  "context": {
+    "roadmapReview": {
+      "checkedAt": "2026-11-17",
+      "locations": [
+        {
+          "url": "https://github.com/doordash-oss/agentic-orchestrator/releases",
+          "result": "Frequent releases through v0.162.0 (2026-10-30); no later release at the check although the default branch was pushed 2026-11-15."
+        },
+        {
+          "url": "https://github.com/doordash-oss/agentic-orchestrator/blob/ea4f9206382d00d3a6fb659159a307a4182ff6a8/docs/desktop/release-support.md",
+          "result": "Release support doc describes the signed update channel and mentions a desktop cleanup action \"until delivered\"; no dates."
+        },
+        {
+          "url": "https://github.com/doordash-oss/agentic-orchestrator/blob/ea4f9206382d00d3a6fb659159a307a4182ff6a8/README.md",
+          "result": "README states macOS releases are not yet Developer ID signed and worktree cleanup is manual until the desktop cleanup action is delivered; no dated commitments."
+        },
+        {
+          "url": "https://github.com/doordash-oss/agentic-orchestrator/issues",
+          "result": "Public issues checked for announcements; no dated product announcements extracted."
+        }
+      ],
+      "announced": [],
+      "gaps": [
+        "No separate product site or public roadmap was found; commits after v0.162.0 were not reviewed."
+      ]
+    },
+    "marketContext": {
+      "githubStars": {
+        "value": 131,
+        "observedAt": "2026-11-17",
+        "evidenceIds": [
+          "repoapi"
+        ]
+      }
+    }
+  }
+}
