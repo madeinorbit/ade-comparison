@@ -1,0 +1,5730 @@
+{
+  "schemaVersion": 1,
+  "rubricVersion": "0.3",
+  "id": "dorothy",
+  "name": "Dorothy",
+  "category": "A",
+  "researchTier": "full-profile",
+  "researchState": "documented",
+  "identity": {
+    "website": "https://dorothyai.app/",
+    "repository": "https://github.com/Charlie85270/Dorothy",
+    "aliases": [],
+    "company": null
+  },
+  "surfaces": [
+    {
+      "id": "app",
+      "name": "Dorothy Electron desktop app (macOS arm64 DMG/zip)",
+      "type": "desktop"
+    },
+    {
+      "id": "remote",
+      "name": "Telegram and Slack bots served by the desktop app",
+      "type": "chat"
+    },
+    {
+      "id": "mcp",
+      "name": "Dorothy MCP servers (orchestrator, kanban, vault, telegram, socialdata) and local agent API",
+      "type": "api"
+    }
+  ],
+  "claims": [
+    {
+      "id": "dorothy:ACC-01",
+      "criterionId": "ACC-01",
+      "answer": "macOS-only Electron desktop app (arm64 DMG and zip); the Next.js UI can run in a browser only as a development server without agent features; remote control through Telegram and Slack chats; no mobile apps, CLI or editor extensions.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release 1.2.10 (2026-10-23, commit 787568d)",
+        "plan": "Open source (MIT) macOS desktop app, free download; no paid plan",
+        "os": [
+          "macOS (arm64)"
+        ],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "desktop_os": {
+          "support": "supported",
+          "answer": "electron-builder macOS dmg and zip targets only; release 1.2.10 ships arm64 assets; the site offers Download for Mac.",
+          "evidenceIds": [
+            "pkg",
+            "release",
+            "site"
+          ]
+        },
+        "mobile_apps": {
+          "support": "unsupported",
+          "answer": "README and site list no mobile app; remote control uses Telegram and Slack.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "browser": {
+          "support": "partial",
+          "answer": "npm run dev serves the UI at localhost:3000, but agent management and terminals need the Electron app.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "mobile_browser": {
+          "support": "unsupported",
+          "answer": "No phone browser access; the API server binds 127.0.0.1.",
+          "evidenceIds": [
+            "apiserver"
+          ]
+        },
+        "cli": {
+          "support": "unsupported",
+          "answer": "No product CLI (bounded search of package.json bin and README).",
+          "evidenceIds": [
+            "pkg"
+          ]
+        },
+        "editor_extensions": {
+          "support": "unsupported",
+          "answer": "No editor extension.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "task_actions": {
+          "support": "supported",
+          "answer": "Start, stop and message agents, kanban, usage in the UI; /start_agent, /stop_agent and /ask from Telegram or Slack.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "notifications": {
+          "support": "supported",
+          "answer": "Telegram and Slack notifications for finished agents and permission prompts through hooks.",
+          "evidenceIds": [
+            "readme",
+            "hookperm"
+          ]
+        },
+        "cross_device_continuity": {
+          "support": "partial",
+          "answer": "Telegram and Slack let you check and command agents from a phone while the Mac app runs.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Windows and Linux builds are not produced; Telegram and Slack are chat surfaces, not clients of the UI."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "release",
+        "pkg",
+        "site",
+        "apiserver",
+        "hookperm"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "dorothy:ACC-02",
+      "criterionId": "ACC-02",
+      "answer": "Launches Claude Code, Codex, Gemini CLI, Grok, OpenCode and pi CLIs in PTY terminals through provider modules, plus a local-model agent via Tasmania; no embedded harness; the Super Agent orchestrator is Claude-based.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release 1.2.10 (2026-10-23, commit 787568d)",
+        "plan": "Open source (MIT) macOS desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": "Claude Code, Codex, Gemini CLI, Grok, OpenCode, pi (terminal CLIs via node-pty)"
+      },
+      "subanswers": {
+        "harnesses": {
+          "support": "supported",
+          "answer": "electron/providers contains claude, codex, gemini, grok, opencode and pi providers; README names Claude Code, Codex, Gemini, Grok and local agents.",
+          "evidenceIds": [
+            "providers",
+            "readme"
+          ]
+        },
+        "model_providers": {
+          "support": "partial",
+          "answer": "Models come from each CLI; Claude sonnet/opus/haiku selectable; local models via the Tasmania control API.",
+          "evidenceIds": [
+            "readme",
+            "tasmania"
+          ]
+        },
+        "custom_adapters": {
+          "support": "partial",
+          "answer": "A cli-provider base class exists in the repository but no user-facing adapter API is documented.",
+          "evidenceIds": [
+            "providers"
+          ]
+        },
+        "session_integration": {
+          "support": "supported",
+          "answer": "Spawns each CLI as a PTY process and observes it through hooks and output parsing.",
+          "evidenceIds": [
+            "agentmgr",
+            "readme"
+          ]
+        },
+        "mixed_harness_operation": {
+          "support": "supported",
+          "answer": "Different providers run side by side and automations default to a configurable provider.",
+          "evidenceIds": [
+            "providers",
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: model_providers, custom_adapters; see each atomic answer for the limitation."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "providers",
+        "agentmgr",
+        "tasmania"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "dorothy:ACC-03",
+      "criterionId": "ACC-03",
+      "answer": "Agent CLIs use their own sign-ins, so existing Claude, ChatGPT and other subscriptions work as the CLIs allow; no vendor credits or Dorothy account; local models through Tasmania.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release 1.2.10 (2026-10-23, commit 787568d)",
+        "plan": "Open source (MIT) macOS desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "agent_subscriptions": {
+          "support": "partial",
+          "answer": "The dashboard screenshot shows Claude Code on Claude Max; each CLI signs in itself.",
+          "evidenceIds": [
+            "screenshot",
+            "readme"
+          ]
+        },
+        "api_accounts": {
+          "support": "partial",
+          "answer": "Whatever each CLI accepts.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "vendor_credits": {
+          "support": "unsupported",
+          "answer": "No vendor credits; free open-source app.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "local_models": {
+          "support": "partial",
+          "answer": "A local agent type uses the Tasmania control API on localhost:3999; the site also lists Ollama.",
+          "evidenceIds": [
+            "tasmania",
+            "site"
+          ]
+        },
+        "account_switching": {
+          "support": "unsupported",
+          "answer": "No account switching.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "vendor_account_requirement": {
+          "support": "supported",
+          "answer": "No account needed (site: free forever, no account).",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "provider_restrictions": {
+          "support": "partial",
+          "answer": "Autonomous mode launches Claude Code with --dangerously-skip-permissions; no provider-terms discussion.",
+          "evidenceIds": [
+            "claudeprov"
+          ]
+        }
+      },
+      "limitations": [
+        "Account handling is entirely the CLIs'; Dorothy only shows Claude Code usage."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "site",
+        "screenshot",
+        "tasmania",
+        "claudeprov"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "dorothy:ACC-04",
+      "criterionId": "ACC-04",
+      "answer": "Download the DMG, install the Claude Code CLI and gh, open a project and create an agent; any project path works with optional git worktrees; GitHub through gh; no cloud or VPS onboarding.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release 1.2.10 (2026-10-23, commit 787568d)",
+        "plan": "Open source (MIT) macOS desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "first_task_setup": {
+          "support": "supported",
+          "answer": "Download from GitHub Releases, run xattr -cr if macOS says the app is damaged, create an agent with a project path and start it.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "no_git": {
+          "support": "supported",
+          "answer": "Agents run in any project path; worktrees are optional.",
+          "evidenceIds": [
+            "agentmgr",
+            "ipc"
+          ]
+        },
+        "local_git_without_remote": {
+          "support": "supported",
+          "answer": "Worktrees use local git worktree add.",
+          "evidenceIds": [
+            "ipc"
+          ]
+        },
+        "hosted_git": {
+          "support": "partial",
+          "answer": "GitHub automations use the gh CLI and JIRA REST; no repository binding UI beyond that.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "prerequisite_guidance": {
+          "support": "supported",
+          "answer": "README lists Node 18+, Claude Code CLI and gh.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "managed_cloud_setup": {
+          "support": "unsupported",
+          "answer": "No managed cloud.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "byo_vps_onboarding": {
+          "support": "unsupported",
+          "answer": "No remote host onboarding; the API server binds 127.0.0.1.",
+          "evidenceIds": [
+            "apiserver"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: hosted_git, managed_cloud_setup, byo_vps_onboarding; see each atomic answer for the limitation."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "ipc",
+        "agentmgr",
+        "site",
+        "apiserver"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "dorothy:ACC-05",
+      "criterionId": "ACC-05",
+      "answer": "Local HTTP agent API on 127.0.0.1 with a token file used by hooks and bots, five stdio MCP servers (orchestrator, kanban, vault, telegram, socialdata) exposing agent control, tasks and automations; no CLI, SDK or inbound webhooks.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release 1.2.10 (2026-10-23, commit 787568d)",
+        "plan": "Open source (MIT) macOS desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "cli": {
+          "support": "unsupported",
+          "answer": "No CLI.",
+          "evidenceIds": [
+            "pkg"
+          ]
+        },
+        "api": {
+          "support": "partial",
+          "answer": "HTTP API server on 127.0.0.1:31415 with health, hooks, agents, kanban, scheduler, Slack, Telegram and vault routes; not documented as a public API.",
+          "evidenceIds": [
+            "apiserver"
+          ]
+        },
+        "sdk": {
+          "support": "unsupported",
+          "answer": "No SDK.",
+          "evidenceIds": [
+            "pkg"
+          ]
+        },
+        "mcp_server": {
+          "support": "supported",
+          "answer": "mcp-orchestrator (26+ tools), mcp-kanban, mcp-vault, mcp-telegram and mcp-socialdata over stdio, registrable in any Claude Code session.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "webhooks": {
+          "support": "unsupported",
+          "answer": "Custom webhook source is Planned in the README, not shipped.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "operations": {
+          "support": "supported",
+          "answer": "list/get/create/start/send/stop/remove agents and wait_for_agent, output reads, tasks and automations through MCP.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "authentication": {
+          "support": "supported",
+          "answer": "Random 32-byte bearer token stored 0600; loopback bind.",
+          "evidenceIds": [
+            "apiserver"
+          ]
+        },
+        "stability": {
+          "support": "partial",
+          "answer": "Version 1.2.x with no stability promise found.",
+          "evidenceIds": [
+            "release"
+          ]
+        }
+      },
+      "limitations": [
+        "The programmable surface is local and undocumented as an API; MCP is the documented route; stability is not promised."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "apiserver",
+        "readme",
+        "pkg",
+        "release"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "dorothy:ACC-06",
+      "criterionId": "ACC-06",
+      "answer": "Registers its MCP servers with agent providers, a plugin marketplace and skills from skills.sh per agent, Google Workspace gws MCP integration and Telegram/Slack/GitHub/JIRA connectors; MCP client behavior belongs to the agent CLIs.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release 1.2.10 (2026-10-23, commit 787568d)",
+        "plan": "Open source (MIT) macOS desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "mcp_client": {
+          "support": "partial",
+          "answer": "Dorothy writes MCP configuration for providers (mcp-config handlers) and the CLIs act as MCP clients.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "plugins": {
+          "support": "supported",
+          "answer": "Built-in plugin marketplace (LSP, GitHub, GitLab, Jira, Figma, Slack, Vercel plugins).",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "custom_tools": {
+          "support": "partial",
+          "answer": "Skills and MCP servers; no custom tool API.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "instructions_import": {
+          "support": "supported",
+          "answer": "Installs skills from skills.sh per agent and reads CLAUDE.md-style files through the CLIs.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "authentication": {
+          "support": "partial",
+          "answer": "Google Workspace guided OAuth setup; bot tokens in app settings.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "permission_scope": {
+          "support": "partial",
+          "answer": "Per-service READ or R/W badges for Google Workspace; per-agent skills.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "integration_owner": {
+          "support": "supported",
+          "answer": "Dorothy installs and registers; the CLIs call.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: mcp_client, custom_tools, authentication, permission_scope; see each atomic answer for the limitation."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "providers"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "dorothy:ACC-07",
+      "criterionId": "ACC-07",
+      "answer": "Electron 33 shell with a Next.js 16 / React 19 renderer, xterm.js and node-pty; no mobile client.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release 1.2.10 (2026-10-23, commit 787568d)",
+        "plan": "Open source (MIT) macOS desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "desktop_implementation": {
+          "support": "supported",
+          "answer": "Electron main process plus Next.js renderer.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "mobile_implementation": {
+          "support": "unsupported",
+          "answer": "No mobile client.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "hybrids": {
+          "support": "supported",
+          "answer": "Web renderer with native node-pty and better-sqlite3 modules.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "implementation_evidence": {
+          "support": "supported",
+          "answer": "README tech stack plus package.json at the pinned commit.",
+          "evidenceIds": [
+            "readme",
+            "pkg"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: mobile_implementation; see each atomic answer for the limitation."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "pkg"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-05-15",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "dorothy:PLAN-01",
+      "criterionId": "PLAN-01",
+      "answer": "Tasks are created locally on a Kanban board; GitHub pull requests, issues and releases and JIRA issues are polled by automations and become agent runs, with JIRA items also created as Kanban backlog tasks; Telegram and Slack messages start work.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release 1.2.10 (2026-10-23, commit 787568d)",
+        "plan": "Open source (MIT) macOS desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "local_creation": {
+          "support": "supported",
+          "answer": "Kanban create_task and board UI.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "prompt_intake": {
+          "support": "supported",
+          "answer": "Agent prompts, Telegram and Slack messages.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "external_import": {
+          "support": "supported",
+          "answer": "GitHub (PRs, issues, releases) and JIRA (JQL) automations; JIRA automations create Kanban tasks.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "chat_git_triggers": {
+          "support": "partial",
+          "answer": "Polling via gh and JIRA REST on a schedule rather than push events; Telegram/Slack commands.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "authoritative_tracker": {
+          "support": "supported",
+          "answer": "GitHub and JIRA stay authoritative for their items.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "stable_ids": {
+          "support": "supported",
+          "answer": "JIRA keys and PR numbers are template variables; deduplication by content hashing.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "sync": {
+          "support": "partial",
+          "answer": "update_jira_issue transitions and comments; GitHub comments; no inbound sync.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "supported_edits": {
+          "support": "partial",
+          "answer": "JIRA transition and comment, GitHub comment.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "external_roundtrips": {
+          "support": "supported",
+          "answer": "Issue editing and triage remain in GitHub or JIRA.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "GitHub and JIRA remain authoritative; sync is poll-based and one-way except JIRA comments/transitions."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "dorothy:PLAN-02",
+      "criterionId": "PLAN-02",
+      "answer": "No durable plans; the Kanban task has title, description, progress and an agent summary on completion.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release 1.2.10 (2026-10-23, commit 787568d)",
+        "plan": "Open source (MIT) macOS desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "plans": {
+          "support": "unsupported",
+          "answer": "No plan objects.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "acceptance_criteria": {
+          "support": "unsupported",
+          "answer": "No acceptance criteria field.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "editors": {
+          "support": "partial",
+          "answer": "Task text is editable in the board.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "revisions": {
+          "support": "unsupported",
+          "answer": "No revision history.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "implementation_links": {
+          "support": "partial",
+          "answer": "mark_task_done takes a summary; no commit links.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "amendment": {
+          "support": "partial",
+          "answer": "send_message to a running agent.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "restart_persistence": {
+          "support": "supported",
+          "answer": "Tasks persist in ~/.dorothy/kanban-tasks.json.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: plans, acceptance_criteria, editors, revisions, implementation_links, amendment; see each atomic answer for the limitation."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "dorothy:PLAN-03",
+      "criterionId": "PLAN-03",
+      "answer": "Kanban columns Backlog, Planned, Ongoing, Done with priority, progress and skill requirements; no epics, hierarchy or enforced blockers.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release 1.2.10 (2026-10-23, commit 787568d)",
+        "plan": "Open source (MIT) macOS desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "epics": {
+          "support": "unsupported",
+          "answer": "No epics.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "hierarchy": {
+          "support": "unsupported",
+          "answer": "Flat tasks; Super Agent may create temporary agents.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "blockers": {
+          "support": "unsupported",
+          "answer": "No blockers.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "readiness": {
+          "support": "partial",
+          "answer": "Backlog and Planned columns with skill matching.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "enforcement": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "state_propagation": {
+          "support": "partial",
+          "answer": "Task moves to ongoing on assignment and done when the agent completes.",
+          "evidenceIds": [
+            "readme",
+            "kanbanauto"
+          ]
+        },
+        "task_to_epic": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "identity_retention": {
+          "support": "unsupported",
+          "answer": "Not applicable.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "workflow_constraints": {
+          "support": "supported",
+          "answer": "Fixed four-column workflow.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: epics, hierarchy, blockers, readiness, enforcement, state_propagation, task_to_epic, identity_retention; see each atomic answer for the limitation."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "kanbanauto"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "dorothy:PLAN-04",
+      "criterionId": "PLAN-04",
+      "answer": "Skills from skills.sh per agent, Claude Code native memory exposed on a Memory page, shared Vault of markdown documents with full-text search and attachments, agent CLAUDE.md files; no stale-context controls.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release 1.2.10 (2026-10-23, commit 787568d)",
+        "plan": "Open source (MIT) macOS desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "instructions": {
+          "support": "partial",
+          "answer": "Handled by agent CLIs; Dorothy edits Claude settings and shows memory.",
+          "evidenceIds": [
+            "claudemd"
+          ]
+        },
+        "skills": {
+          "support": "supported",
+          "answer": "Install skills per agent; skills view.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "project_docs": {
+          "support": "supported",
+          "answer": "Vault documents with folders and tags readable by any agent.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "memory": {
+          "support": "supported",
+          "answer": "Memory page reads Claude Code native memory; Vault is cross-agent persistent storage.",
+          "evidenceIds": [
+            "claudemd",
+            "readme"
+          ]
+        },
+        "scope": {
+          "support": "partial",
+          "answer": "Per Claude project directory for memory; vault is global to the app.",
+          "evidenceIds": [
+            "claudemd",
+            "readme"
+          ]
+        },
+        "provenance": {
+          "support": "partial",
+          "answer": "Vault docs have tags and attachments; authorship not recorded.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "correction": {
+          "support": "supported",
+          "answer": "vault_update_document and delete tools.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "deletion": {
+          "support": "supported",
+          "answer": "vault_delete_document and folder delete.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "freshness": {
+          "support": "unsupported",
+          "answer": "No staleness controls.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "takeover_continuity": {
+          "support": "partial",
+          "answer": "Vault persists in ~/.dorothy/vault.db across sessions.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: instructions, scope, provenance, freshness, takeover_continuity; see each atomic answer for the limitation."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "claudemd"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "dorothy:PLAN-05",
+      "criterionId": "PLAN-05",
+      "answer": "LSP plugins and vault full-text search; agent CLIs do their own code search; no index.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release 1.2.10 (2026-10-23, commit 787568d)",
+        "plan": "Open source (MIT) macOS desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "code_search": {
+          "support": "partial",
+          "answer": "LSP plugin installs for TypeScript, Python, Rust and Go; agents use their CLI tools.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "indexing": {
+          "support": "unsupported",
+          "answer": "No repository index.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "external_knowledge": {
+          "support": "supported",
+          "answer": "Google Workspace, Twitter/X SocialData and GitHub/JIRA connectors.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "multimodal_inputs": {
+          "support": "partial",
+          "answer": "Telegram photo, video and document sending; no image input pipeline documented.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "freshness": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "access_scope": {
+          "support": "partial",
+          "answer": "Per-service OAuth scopes for Google Workspace.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "api_retrieval": {
+          "support": "partial",
+          "answer": "SocialData API tools.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "citations": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "conflict_detection": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "review_enforcement": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: code_search, indexing, multimodal_inputs, freshness, access_scope, api_retrieval, citations, conflict_detection, review_enforcement; see each atomic answer for the limitation."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "dorothy:PLAN-06",
+      "criterionId": "PLAN-06",
+      "answer": "Kanban board with priority, progress, labels, assignment and skill requirements for agent work; no discussion, search, archive or issue views; trackers remain external.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release 1.2.10 (2026-10-23, commit 787568d)",
+        "plan": "Open source (MIT) macOS desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "create": {
+          "support": "supported",
+          "answer": "Create tasks in the UI or by MCP.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "edit": {
+          "support": "supported",
+          "answer": "Edit title, description, priority, labels, progress.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "discuss": {
+          "support": "unsupported",
+          "answer": "No task discussion.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "prioritize": {
+          "support": "supported",
+          "answer": "Low, Medium, High priority.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "label": {
+          "support": "supported",
+          "answer": "Labels and tags.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "assign": {
+          "support": "supported",
+          "answer": "Assign to an agent or auto-assign.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "search": {
+          "support": "unsupported",
+          "answer": "No search found.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "filter": {
+          "support": "partial",
+          "answer": "Filter by column or assignment through MCP list_tasks; labels for UI filtering.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "archive": {
+          "support": "unsupported",
+          "answer": "Only delete_task.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "reopen": {
+          "support": "partial",
+          "answer": "Tasks can be moved between columns.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "project_epic_views": {
+          "support": "partial",
+          "answer": "Projects overview page groups agents by project.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "idea_parking": {
+          "support": "supported",
+          "answer": "Backlog column.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "explicit_dispatch": {
+          "support": "supported",
+          "answer": "Auto-assignment or manual assign moves a task to ongoing.",
+          "evidenceIds": [
+            "readme",
+            "kanbanauto"
+          ]
+        },
+        "task_session_separation": {
+          "support": "supported",
+          "answer": "Tasks are separate from agents.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "metadata": {
+          "support": "supported",
+          "answer": "Priority, progress, labels, skills, project path.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "durable_states": {
+          "support": "supported",
+          "answer": "Backlog, planned, ongoing, done persisted to file.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "external_tracker_requirement": {
+          "support": "partial",
+          "answer": "Optional; JIRA and GitHub are for intake only.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "A task board, not an issue tracker: no comments, search, archive or project views."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "kanbanauto"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "dorothy:PLAN-07",
+      "criterionId": "PLAN-07",
+      "answer": "Agents operate the same Kanban tasks as humans through mcp-kanban (list, get, create, move, progress, done, assign, delete); no dependencies or claims beyond assignment.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release 1.2.10 (2026-10-23, commit 787568d)",
+        "plan": "Open source (MIT) macOS desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "shared_ids": {
+          "support": "supported",
+          "answer": "Tasks have IDs with prefix matching.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "read": {
+          "support": "supported",
+          "answer": "list_tasks and get_task.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "create": {
+          "support": "supported",
+          "answer": "create_task.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "update": {
+          "support": "supported",
+          "answer": "move_task and update_task_progress.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "claim": {
+          "support": "partial",
+          "answer": "assign_task with agent_id or the kanban automation assigns.",
+          "evidenceIds": [
+            "readme",
+            "kanbanauto"
+          ]
+        },
+        "assign": {
+          "support": "supported",
+          "answer": "assign_task.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "state_changes": {
+          "support": "supported",
+          "answer": "move_task and mark_task_done.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "dependencies": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "children": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "results": {
+          "support": "supported",
+          "answer": "mark_task_done takes a summary.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "human_visibility": {
+          "support": "supported",
+          "answer": "The board UI shows the same store.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "attribution": {
+          "support": "partial",
+          "answer": "Assignee is recorded; author is not.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "permissions": {
+          "support": "unsupported",
+          "answer": "No permissions model; local single user.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "conflicts": {
+          "support": "unsupported",
+          "answer": "File store without documented conflict handling.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: claim, dependencies, children, attribution, permissions, conflicts; see each atomic answer for the limitation."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "kanbanauto"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "dorothy:PLAN-08",
+      "criterionId": "PLAN-08",
+      "answer": "No living product specification; the Vault is a general document store.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release 1.2.10 (2026-10-23, commit 787568d)",
+        "plan": "Open source (MIT) macOS desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "persistent_requirements": {
+          "support": "partial",
+          "answer": "Vault documents persist across sessions.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "human_edits": {
+          "support": "supported",
+          "answer": "People can edit vault documents.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "agent_edits": {
+          "support": "supported",
+          "answer": "vault_create_document and update tools.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "revisions": {
+          "support": "unsupported",
+          "answer": "No revision history.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "approvals": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "implementation_links": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "later_retrieval": {
+          "support": "supported",
+          "answer": "vault_search for later tasks.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "drift_detection": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "review_integration": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: persistent_requirements, revisions, approvals, implementation_links, drift_detection, review_integration; see each atomic answer for the limitation."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "dorothy:COORD-01",
+      "criterionId": "COORD-01",
+      "answer": "Run 10+ agents in parallel PTY terminals across projects; dashboard grid shows running, waiting, idle, completed and error states; no quotas.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release 1.2.10 (2026-10-23, commit 787568d)",
+        "plan": "Open source (MIT) macOS desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "concurrent_sessions": {
+          "support": "supported",
+          "answer": "Unlimited concurrent agents, each in its own PTY.",
+          "evidenceIds": [
+            "readme",
+            "agentmgr"
+          ]
+        },
+        "concurrent_tasks": {
+          "support": "supported",
+          "answer": "Kanban tasks and automations spawn agents concurrently.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "quotas": {
+          "support": "unsupported",
+          "answer": "No limits documented or found in agent-manager.",
+          "evidenceIds": [
+            "agentmgr"
+          ]
+        },
+        "observed_concurrency": {
+          "support": "unknown",
+          "answer": "Achievable concurrency is a machine-dependent measurement outside source inspection; ADEMark has no entry.",
+          "evidenceIds": []
+        },
+        "status_visibility": {
+          "support": "supported",
+          "answer": "Dashboard grid with running/waiting badges and counts; lifecycle idle, running, completed, error, waiting.",
+          "evidenceIds": [
+            "readme",
+            "screenshot"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: quotas; see each atomic answer for the limitation."
+      ],
+      "unknownReason": "Measured concurrency is a runtime fact.",
+      "evidenceIds": [
+        "readme",
+        "agentmgr",
+        "screenshot"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "dorothy:COORD-02",
+      "criterionId": "COORD-02",
+      "answer": "Tasks can be assigned to agents manually or automatically by skill matching; no queues, locks or routing; the user decides agent per task.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release 1.2.10 (2026-10-23, commit 787568d)",
+        "plan": "Open source (MIT) macOS desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "human_assignment": {
+          "support": "supported",
+          "answer": "Assign tasks to specific agents in the UI.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "agent_assignment": {
+          "support": "supported",
+          "answer": "assign_task and the kanban-automation service.",
+          "evidenceIds": [
+            "readme",
+            "kanbanauto"
+          ]
+        },
+        "claims": {
+          "support": "partial",
+          "answer": "Assignment moves the task to ongoing.",
+          "evidenceIds": [
+            "kanbanauto"
+          ]
+        },
+        "queues": {
+          "support": "partial",
+          "answer": "Backlog column acts as a queue.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "routing": {
+          "support": "supported",
+          "answer": "Skill requirements matched to agents; new agents created when none match.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "duplicate_prevention": {
+          "support": "partial",
+          "answer": "Automation items are deduplicated by content hash; no task locks.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "ownership_enforcement": {
+          "support": "unsupported",
+          "answer": "No enforcement.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: claims, queues, duplicate_prevention, ownership_enforcement; see each atomic answer for the limitation."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "kanbanauto"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "dorothy:COORD-03",
+      "criterionId": "COORD-03",
+      "answer": "Product-owned Super Agent orchestrator creates, starts, stops, messages and waits on other agents through mcp-orchestrator and temporary agents for one-off tasks; results come from reading output; the Super Agent runs on Claude.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release 1.2.10 (2026-10-23, commit 787568d)",
+        "plan": "Open source (MIT) macOS desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "roles": {
+          "support": "supported",
+          "answer": "Super Agent (orchestrator) and worker agents.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "model_harness_effort": {
+          "support": "partial",
+          "answer": "start_agent accepts sonnet/opus/haiku; create_agent has no provider parameter.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "messages": {
+          "support": "supported",
+          "answer": "send_message to a running agent and wait_for_agent.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "results_return": {
+          "support": "supported",
+          "answer": "get_agent_output reads recent terminal output; wait_for_agent polls to completion.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "cross_harness": {
+          "support": "unsupported",
+          "answer": "The orchestration tools do not select other providers.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "orchestration_owner": {
+          "support": "supported",
+          "answer": "Dorothy ships the Super Agent and tools.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "activation": {
+          "support": "supported",
+          "answer": "Enabled by default; Super Agent started from the Agents view.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "authentication": {
+          "support": "supported",
+          "answer": "Local token and loopback.",
+          "evidenceIds": [
+            "apiserver"
+          ]
+        },
+        "live_progress": {
+          "support": "supported",
+          "answer": "Agents view and terminals show live output.",
+          "evidenceIds": [
+            "screenshot"
+          ]
+        },
+        "retained_results": {
+          "support": "partial",
+          "answer": "Persisted agent output history and state in agents.json.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "followup": {
+          "support": "supported",
+          "answer": "send_message auto-starts idle agents.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "invocation": {
+          "support": "supported",
+          "answer": "Natural language to the Super Agent, Telegram or Slack.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Orchestrator tools take a prompt and model but not a provider, so delegation is Claude Code only."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "apiserver",
+        "screenshot"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "dorothy:COORD-04",
+      "criterionId": "COORD-04",
+      "answer": "Cron-based scheduled tasks run via launchd or cron even when the app is closed; automations poll GitHub and JIRA on an interval or cron inside the app; Telegram and Slack messages start work; webhooks are planned only.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release 1.2.10 (2026-10-23, commit 787568d)",
+        "plan": "Open source (MIT) macOS desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "schedules": {
+          "support": "supported",
+          "answer": "Cron scheduled tasks with launchd on macOS and crontab on Linux.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "events": {
+          "support": "partial",
+          "answer": "Polling GitHub and JIRA; Telegram/Slack messages; no webhooks.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "recurring_tasks": {
+          "support": "supported",
+          "answer": "Scheduled tasks and automations.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "completion_conditions": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "scheduler_location": {
+          "support": "supported",
+          "answer": "Generated scripts run by launchd or cron on the Mac; the automation scheduler runs inside the app.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "overlaps": {
+          "support": "partial",
+          "answer": "Deduplication prevents reprocessing items; overlap of cron runs not documented.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "retries": {
+          "support": "unsupported",
+          "answer": "No retries documented.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "client_independence": {
+          "support": "partial",
+          "answer": "Scheduled tasks run without the app via launchd; automations and bots need the app running.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: events, completion_conditions, overlaps, retries, client_independence; see each atomic answer for the limitation."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "dorothy:COORD-05",
+      "criterionId": "COORD-05",
+      "answer": "Stop and Stop All, send_message steering, status waiting set by a permission hook with Telegram/Slack notifications; questions and approvals are answered in the agent terminal; no pause.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release 1.2.10 (2026-10-23, commit 787568d)",
+        "plan": "Open source (MIT) macOS desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "pause": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "stop": {
+          "support": "supported",
+          "answer": "Stop, Stop All, stop_agent, /stop_agent.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "resume": {
+          "support": "partial",
+          "answer": "Idle agents restart with a message; PTYs re-initialise for restored agents.",
+          "evidenceIds": [
+            "agentmgr"
+          ]
+        },
+        "steer": {
+          "support": "supported",
+          "answer": "Interactive input and Broadcast to agents.",
+          "evidenceIds": [
+            "readme",
+            "screenshot"
+          ]
+        },
+        "notifications": {
+          "support": "supported",
+          "answer": "Telegram and Slack notifications; permission_prompt notifications.",
+          "evidenceIds": [
+            "readme",
+            "hookperm"
+          ]
+        },
+        "pending_decisions": {
+          "support": "partial",
+          "answer": "A hook marks an agent waiting with reason permission; the decision is made in the terminal.",
+          "evidenceIds": [
+            "hookperm"
+          ]
+        },
+        "escalation": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "visible_errors": {
+          "support": "supported",
+          "answer": "Error status for agents.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "chat_terminal_parity": {
+          "support": "partial",
+          "answer": "Telegram/Slack cannot answer permission prompts; they can message the Super Agent.",
+          "evidenceIds": [
+            "hookperm",
+            "readme"
+          ]
+        },
+        "retained_history": {
+          "support": "supported",
+          "answer": "Agent output history persisted.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: pause, resume, pending_decisions, escalation, chat_terminal_parity; see each atomic answer for the limitation."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "hookperm",
+        "agentmgr",
+        "screenshot"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "dorothy:COORD-06",
+      "criterionId": "COORD-06",
+      "answer": "Dashboard with terminal grid, board and 3D view; Agents control center grouped by project; Kanban columns; no dependencies or epics.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release 1.2.10 (2026-10-23, commit 787568d)",
+        "plan": "Open source (MIT) macOS desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "fleet_fixture": {
+          "support": "supported",
+          "answer": "First-party dashboard screenshot shows six agents across five projects.",
+          "evidenceIds": [
+            "screenshot"
+          ]
+        },
+        "parent_child": {
+          "support": "unsupported",
+          "answer": "No hierarchy view.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "dependencies": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "attention": {
+          "support": "partial",
+          "answer": "Waiting state badge.",
+          "evidenceIds": [
+            "screenshot"
+          ]
+        },
+        "history": {
+          "support": "partial",
+          "answer": "Agent output history.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "workload": {
+          "support": "supported",
+          "answer": "Per-project agent counts and 6 agents, 5 running, 1 waiting footer.",
+          "evidenceIds": [
+            "screenshot"
+          ]
+        },
+        "navigation_errors": {
+          "support": "partial",
+          "answer": "Error status per agent.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "fixture_mode": {
+          "support": "unknown",
+          "answer": "Whether the screenshot data is live use or a fixture is not stated.",
+          "evidenceIds": []
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: parent_child, dependencies, attention, history, navigation_errors; see each atomic answer for the limitation."
+      ],
+      "unknownReason": "The provenance of the README screenshot data is not documented.",
+      "evidenceIds": [
+        "screenshot",
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "dorothy:COORD-07",
+      "criterionId": "COORD-07",
+      "answer": "No mandatory preset; agents are created with project, skills, model and autonomy per agent; Super Agent takes natural-language instructions; characters and a 3D world visualise agents.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release 1.2.10 (2026-10-23, commit 787568d)",
+        "plan": "Open source (MIT) macOS desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "quick_task": {
+          "support": "supported",
+          "answer": "Create an agent and start with a prompt.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "growing_epic": {
+          "support": "unsupported",
+          "answer": "No epics.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "presets": {
+          "support": "partial",
+          "answer": "Agent templates and skills.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "natural_language": {
+          "support": "supported",
+          "answer": "Super Agent and bots accept natural language.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "agent_configuration": {
+          "support": "supported",
+          "answer": "Skills, model and project context per agent.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "in_run_changes": {
+          "support": "partial",
+          "answer": "Messages to running agents; model fixed at start.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "live_roles": {
+          "support": "supported",
+          "answer": "Super Agent crown and agent cards.",
+          "evidenceIds": [
+            "screenshot"
+          ]
+        },
+        "retained_relationships": {
+          "support": "unsupported",
+          "answer": "No relationship records.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "discoverability": {
+          "support": "partial",
+          "answer": "README documents tools.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "auth_friction": {
+          "support": "supported",
+          "answer": "No extra auth.",
+          "evidenceIds": [
+            "apiserver"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: growing_epic, presets, in_run_changes, retained_relationships, discoverability; see each atomic answer for the limitation."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "screenshot",
+        "apiserver"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "dorothy:RUN-01",
+      "criterionId": "RUN-01",
+      "answer": "Everything runs locally on the Mac; no remote, self-hosted server or cloud mode; scheduled tasks can fire when the app is closed through launchd.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release 1.2.10 (2026-10-23, commit 787568d)",
+        "plan": "Open source (MIT) macOS desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [
+          "local"
+        ],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "local": {
+          "support": "supported",
+          "answer": "Agents run in PTYs on the user's computer.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "byo_remote": {
+          "support": "unsupported",
+          "answer": "No remote execution; the API binds loopback.",
+          "evidenceIds": [
+            "apiserver"
+          ]
+        },
+        "self_hosted": {
+          "support": "unsupported",
+          "answer": "No server.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "managed_cloud": {
+          "support": "unsupported",
+          "answer": "No cloud; free app with no account.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "hybrid": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "provisioning": {
+          "support": "unsupported",
+          "answer": "Not applicable.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "payer": {
+          "support": "supported",
+          "answer": "The user.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "resources": {
+          "support": "unsupported",
+          "answer": "Host resources only.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "region": {
+          "support": "unsupported",
+          "answer": "Not applicable.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "expiry": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "client_disconnect": {
+          "support": "unsupported",
+          "answer": "Agents are children of the app and stop when it quits (state is restored, processes are not continued).",
+          "evidenceIds": [
+            "agentmgr"
+          ]
+        },
+        "other_device_continuation": {
+          "support": "partial",
+          "answer": "Telegram and Slack can command the Mac app but do not continue execution elsewhere.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: byo_remote, self_hosted, managed_cloud, hybrid, provisioning, resources, region, expiry, client_disconnect, other_device_continuation; see each atomic answer for the limitation."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "apiserver",
+        "site",
+        "agentmgr"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "dorothy:RUN-02",
+      "criterionId": "RUN-02",
+      "answer": "Each agent has its own PTY; optional git worktrees under .worktrees/<branch>; secondary project paths; no container, VM or sandbox, and autonomous mode skips permissions.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release 1.2.10 (2026-10-23, commit 787568d)",
+        "plan": "Open source (MIT) macOS desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "checkout": {
+          "support": "supported",
+          "answer": "Agents run in the project path.",
+          "evidenceIds": [
+            "agentmgr"
+          ]
+        },
+        "branch": {
+          "support": "supported",
+          "answer": "Optional branch per worktree agent.",
+          "evidenceIds": [
+            "ipc"
+          ]
+        },
+        "worktree": {
+          "support": "supported",
+          "answer": "git worktree add under <project>/.worktrees/<branch>.",
+          "evidenceIds": [
+            "ipc"
+          ]
+        },
+        "container": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "vm": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "os_sandbox": {
+          "support": "unsupported",
+          "answer": "No OS sandbox.",
+          "evidenceIds": [
+            "claudeprov"
+          ]
+        },
+        "filesystem": {
+          "support": "partial",
+          "answer": "Worktree separation only.",
+          "evidenceIds": [
+            "ipc"
+          ]
+        },
+        "process": {
+          "support": "partial",
+          "answer": "Separate PTY per agent.",
+          "evidenceIds": [
+            "agentmgr"
+          ]
+        },
+        "network": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "secrets": {
+          "support": "unsupported",
+          "answer": "No secret handling beyond app settings.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "code_separation": {
+          "support": "supported",
+          "answer": "Worktree per agent when enabled.",
+          "evidenceIds": [
+            "ipc"
+          ]
+        },
+        "security_boundary": {
+          "support": "unsupported",
+          "answer": "No containment claim; skipPermissions defaults to true for created agents.",
+          "evidenceIds": [
+            "readme",
+            "claudeprov"
+          ]
+        }
+      },
+      "limitations": [
+        "A worktree separates files only; agents run as the user with optional permission skipping."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "ipc",
+        "agentmgr",
+        "claudeprov",
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "dorothy:RUN-03",
+      "criterionId": "RUN-03",
+      "answer": "Agent definitions and sessions persist in ~/.dorothy/agents.json and PTYs are re-initialised for restored agents after an app restart; running processes do not survive quitting.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release 1.2.10 (2026-10-23, commit 787568d)",
+        "plan": "Open source (MIT) macOS desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "client_disconnect": {
+          "support": "unsupported",
+          "answer": "Quitting the app ends its child agent processes.",
+          "evidenceIds": [
+            "agentmgr"
+          ]
+        },
+        "worker_crash": {
+          "support": "partial",
+          "answer": "Error status is detected from output.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "service_restart": {
+          "support": "partial",
+          "answer": "Restored agents get a new PTY.",
+          "evidenceIds": [
+            "agentmgr"
+          ]
+        },
+        "expiry": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "transcript_reload": {
+          "support": "supported",
+          "answer": "Agent output history is persisted.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "process_reconnect": {
+          "support": "unsupported",
+          "answer": "No process reconnection.",
+          "evidenceIds": [
+            "agentmgr"
+          ]
+        },
+        "task_resume": {
+          "support": "partial",
+          "answer": "Agent CLI resume depends on the provider.",
+          "evidenceIds": [
+            "agentmgr"
+          ]
+        },
+        "state_reconstruction": {
+          "support": "supported",
+          "answer": "agents.json restores all agents and sessions.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "context_loss": {
+          "support": "partial",
+          "answer": "Process state is lost on restart.",
+          "evidenceIds": [
+            "agentmgr"
+          ]
+        },
+        "duplicate_actions": {
+          "support": "unsupported",
+          "answer": "Not documented.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "manual_repair": {
+          "support": "partial",
+          "answer": "xattr fix documented only for installation.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "multi_day_continuity": {
+          "support": "partial",
+          "answer": "State persists but agents must be restarted.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: client_disconnect, worker_crash, service_restart, expiry, process_reconnect, task_resume, context_loss, duplicate_actions, manual_repair, multi_day_continuity; see each atomic answer for the limitation."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "agentmgr",
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "dorothy:RUN-04",
+      "criterionId": "RUN-04",
+      "answer": "No environment setup, caching or port management for projects.",
+      "support": "unsupported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release 1.2.10 (2026-10-23, commit 787568d)",
+        "plan": "Open source (MIT) macOS desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "dependencies": {
+          "support": "unsupported",
+          "answer": "Bounded search of electron/ and README found no environment management.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "caches": {
+          "support": "unsupported",
+          "answer": "Bounded search of electron/ and README found no environment management.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "snapshots": {
+          "support": "unsupported",
+          "answer": "Bounded search of electron/ and README found no environment management.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "services": {
+          "support": "unsupported",
+          "answer": "Bounded search of electron/ and README found no environment management.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "ports": {
+          "support": "unsupported",
+          "answer": "Bounded search of electron/ and README found no environment management.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "secrets": {
+          "support": "unsupported",
+          "answer": "Bounded search of electron/ and README found no environment management.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "duplicate_installs": {
+          "support": "unsupported",
+          "answer": "Bounded search of electron/ and README found no environment management.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "collisions": {
+          "support": "unsupported",
+          "answer": "Bounded search of electron/ and README found no environment management.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "remote_setup": {
+          "support": "unsupported",
+          "answer": "Bounded search of electron/ and README found no environment management.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "automatic_repair": {
+          "support": "unsupported",
+          "answer": "Bounded search of electron/ and README found no environment management.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "dorothy:RUN-05",
+      "criterionId": "RUN-05",
+      "answer": "No product limits; agents show Claude Code's own usage-limit messages; MCP wait_for_agent defaults to a 300-second timeout.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release 1.2.10 (2026-10-23, commit 787568d)",
+        "plan": "Open source (MIT) macOS desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "time_limits": {
+          "support": "partial",
+          "answer": "wait_for_agent timeoutSeconds default 300.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "turn_limits": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "token_limits": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "spend_limits": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "timeouts": {
+          "support": "partial",
+          "answer": "MCP wait timeout only.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "retries": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "provider_failures": {
+          "support": "partial",
+          "answer": "Claude Code usage limit messages appear in terminals.",
+          "evidenceIds": [
+            "screenshot"
+          ]
+        },
+        "enforcement": {
+          "support": "unsupported",
+          "answer": "No enforcement.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: time_limits, turn_limits, token_limits, spend_limits, timeouts, retries, provider_failures, enforcement; see each atomic answer for the limitation."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "screenshot"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "dorothy:RUN-06",
+      "criterionId": "RUN-06",
+      "answer": "Usage page with token and cost statistics from Claude Code data, scheduled task logs, hook-driven agent status and live output; no traces or exports.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release 1.2.10 (2026-10-23, commit 787568d)",
+        "plan": "Open source (MIT) macOS desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "logs": {
+          "support": "supported",
+          "answer": "Scheduled task logs under ~/.claude/logs and agent output.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "traces": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "failure_reasons": {
+          "support": "partial",
+          "answer": "Error status and waiting reason permission.",
+          "evidenceIds": [
+            "hookperm"
+          ]
+        },
+        "usage_export": {
+          "support": "unsupported",
+          "answer": "No export.",
+          "evidenceIds": [
+            "usagepage"
+          ]
+        },
+        "task_stats": {
+          "support": "partial",
+          "answer": "Kanban progress percentages.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "agent_stats": {
+          "support": "partial",
+          "answer": "Usage page covers Claude Code usage across agents.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "project_stats": {
+          "support": "partial",
+          "answer": "Conversation history by project.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "time_stats": {
+          "support": "supported",
+          "answer": "Activity patterns over time on the Usage page.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "failure_status": {
+          "support": "supported",
+          "answer": "Agent states include error and waiting.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "approval_status": {
+          "support": "partial",
+          "answer": "Waiting with permission reason.",
+          "evidenceIds": [
+            "hookperm"
+          ]
+        },
+        "reconnect_consistency": {
+          "support": "partial",
+          "answer": "Status from hooks and output parsing.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "performance_method": {
+          "support": "unsupported",
+          "answer": "None; no ADEMark entry.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "responsiveness": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: traces, failure_reasons, usage_export, task_stats, agent_stats, project_stats, approval_status, reconnect_consistency, performance_method, responsiveness; see each atomic answer for the limitation."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "usagepage",
+        "readme",
+        "hookperm"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "dorothy:RUN-07",
+      "criterionId": "RUN-07",
+      "answer": "Usage page shows Claude Code token consumption and estimated cost by model from token counts and a price table, plus conversation history and activity patterns; no per-task budgets or alerts.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release 1.2.10 (2026-10-23, commit 787568d)",
+        "plan": "Open source (MIT) macOS desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "task_cost": {
+          "support": "unsupported",
+          "answer": "No per-task cost.",
+          "evidenceIds": [
+            "usagepage"
+          ]
+        },
+        "session_cost": {
+          "support": "partial",
+          "answer": "Conversation-level usage from Claude Code data.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "child_cost": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "usagepage"
+          ]
+        },
+        "epic_cost": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "usagepage"
+          ]
+        },
+        "harness_aggregation": {
+          "support": "unsupported",
+          "answer": "Claude Code only.",
+          "evidenceIds": [
+            "usagepage"
+          ]
+        },
+        "billed_vs_estimated": {
+          "support": "partial",
+          "answer": "Estimated from tokens and price table.",
+          "evidenceIds": [
+            "usagepage"
+          ]
+        },
+        "tokens": {
+          "support": "supported",
+          "answer": "Input and output token counts.",
+          "evidenceIds": [
+            "usagepage"
+          ]
+        },
+        "subscription_allowance": {
+          "support": "partial",
+          "answer": "Terminal shows Claude's session limit messages.",
+          "evidenceIds": [
+            "screenshot"
+          ]
+        },
+        "provider_reconciliation": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "usagepage"
+          ]
+        },
+        "compute_cost": {
+          "support": "unsupported",
+          "answer": "Not applicable.",
+          "evidenceIds": [
+            "usagepage"
+          ]
+        },
+        "refresh_delay": {
+          "support": "unknown",
+          "answer": "Refresh interval of the usage view is not stated in the code searched.",
+          "evidenceIds": []
+        },
+        "alerts": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "usagepage"
+          ]
+        },
+        "export": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "usagepage"
+          ]
+        },
+        "drilldown": {
+          "support": "partial",
+          "answer": "Models and activity breakdown.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Claude Code only; costs are estimates from a built-in price table."
+      ],
+      "unknownReason": "Usage view refresh interval was not located.",
+      "evidenceIds": [
+        "usagepage",
+        "readme",
+        "screenshot"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "dorothy:RUN-08",
+      "criterionId": "RUN-08",
+      "answer": "No compute-aware scheduling.",
+      "support": "unsupported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release 1.2.10 (2026-10-23, commit 787568d)",
+        "plan": "Open source (MIT) macOS desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "concurrency": {
+          "support": "unsupported",
+          "answer": "Bounded search of electron/core found no scheduler or resource limits.",
+          "evidenceIds": [
+            "agentmgr"
+          ]
+        },
+        "queues": {
+          "support": "unsupported",
+          "answer": "Bounded search of electron/core found no scheduler or resource limits.",
+          "evidenceIds": [
+            "agentmgr"
+          ]
+        },
+        "cpu_ram": {
+          "support": "unsupported",
+          "answer": "Bounded search of electron/core found no scheduler or resource limits.",
+          "evidenceIds": [
+            "agentmgr"
+          ]
+        },
+        "backpressure": {
+          "support": "unsupported",
+          "answer": "Bounded search of electron/core found no scheduler or resource limits.",
+          "evidenceIds": [
+            "agentmgr"
+          ]
+        },
+        "host_awareness": {
+          "support": "unsupported",
+          "answer": "Bounded search of electron/core found no scheduler or resource limits.",
+          "evidenceIds": [
+            "agentmgr"
+          ]
+        },
+        "check_reuse": {
+          "support": "unsupported",
+          "answer": "Bounded search of electron/core found no scheduler or resource limits.",
+          "evidenceIds": [
+            "agentmgr"
+          ]
+        },
+        "check_deduplication": {
+          "support": "unsupported",
+          "answer": "Bounded search of electron/core found no scheduler or resource limits.",
+          "evidenceIds": [
+            "agentmgr"
+          ]
+        },
+        "bounded_tests": {
+          "support": "unsupported",
+          "answer": "Bounded search of electron/core found no scheduler or resource limits.",
+          "evidenceIds": [
+            "agentmgr"
+          ]
+        },
+        "cancellation": {
+          "support": "unsupported",
+          "answer": "Bounded search of electron/core found no scheduler or resource limits.",
+          "evidenceIds": [
+            "agentmgr"
+          ]
+        },
+        "fairness": {
+          "support": "unsupported",
+          "answer": "Bounded search of electron/core found no scheduler or resource limits.",
+          "evidenceIds": [
+            "agentmgr"
+          ]
+        },
+        "recovery": {
+          "support": "unsupported",
+          "answer": "Bounded search of electron/core found no scheduler or resource limits.",
+          "evidenceIds": [
+            "agentmgr"
+          ]
+        },
+        "shared_limits": {
+          "support": "unsupported",
+          "answer": "Bounded search of electron/core found no scheduler or resource limits.",
+          "evidenceIds": [
+            "agentmgr"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "agentmgr"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "dorothy:TEAM-01",
+      "criterionId": "TEAM-01",
+      "answer": "Single-user local app; Telegram and Slack bots allow several authorized people to command the Super Agent but there is no shared workspace.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release 1.2.10 (2026-10-23, commit 787568d)",
+        "plan": "Open source (MIT) macOS desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "visibility": {
+          "support": "unsupported",
+          "answer": "No shared view.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "discussion": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "comments": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "presence": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "coprompting": {
+          "support": "partial",
+          "answer": "Multiple authorized Telegram users and Slack members can send tasks to the Super Agent.",
+          "evidenceIds": [
+            "telegram",
+            "readme"
+          ]
+        },
+        "ordering": {
+          "support": "unsupported",
+          "answer": "Not documented.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "conflicts": {
+          "support": "unsupported",
+          "answer": "Not documented.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "attribution": {
+          "support": "unsupported",
+          "answer": "Not documented.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "permissions": {
+          "support": "partial",
+          "answer": "Telegram authorized chat IDs; Slack workspace app.",
+          "evidenceIds": [
+            "telegram"
+          ]
+        },
+        "plan_restrictions": {
+          "support": "supported",
+          "answer": "No plans.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "owner_online": {
+          "support": "unsupported",
+          "answer": "The owner's Mac must be running.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Multiple Telegram or Slack users can command the same Super Agent; attribution and ordering are not modelled."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "telegram",
+        "readme",
+        "site"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "dorothy:TEAM-02",
+      "criterionId": "TEAM-02",
+      "answer": "No accounts, roles or SSO; Telegram bot restricts commands to authorized chat IDs.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release 1.2.10 (2026-10-23, commit 787568d)",
+        "plan": "Open source (MIT) macOS desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "organization_roles": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "project_roles": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "task_roles": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "membership": {
+          "support": "partial",
+          "answer": "Users authorize themselves by sending /start to the bot.",
+          "evidenceIds": [
+            "telegram"
+          ]
+        },
+        "sso": {
+          "support": "unsupported",
+          "answer": "No SSO.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "provisioning": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "unauthorized_access": {
+          "support": "partial",
+          "answer": "Unauthorized Telegram chats get a refusal message; API token on loopback.",
+          "evidenceIds": [
+            "telegram",
+            "apiserver"
+          ]
+        },
+        "revocation": {
+          "support": "unsupported",
+          "answer": "Not documented.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "plan_scope": {
+          "support": "supported",
+          "answer": "No plans.",
+          "evidenceIds": [
+            "site"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: organization_roles, project_roles, task_roles, membership, sso, provisioning, unauthorized_access, revocation; see each atomic answer for the limitation."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "telegram",
+        "site",
+        "readme",
+        "apiserver"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "dorothy:TEAM-03",
+      "criterionId": "TEAM-03",
+      "answer": "Agents are created with permission skipping on by default; --permission-mode default or auto can be chosen; a PermissionRequest hook flags waiting but approvals are answered in the agent terminal; no tool, network or delivery approval workflow.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release 1.2.10 (2026-10-23, commit 787568d)",
+        "plan": "Open source (MIT) macOS desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "command": {
+          "support": "partial",
+          "answer": "Claude Code permission dialog appears in the terminal; hook sets waiting.",
+          "evidenceIds": [
+            "hookperm"
+          ]
+        },
+        "tool": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "network": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "secret": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "delivery": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "approver_identity": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "lifetime": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "allow": {
+          "support": "partial",
+          "answer": "In the terminal.",
+          "evidenceIds": [
+            "hookperm"
+          ]
+        },
+        "deny": {
+          "support": "partial",
+          "answer": "In the terminal.",
+          "evidenceIds": [
+            "hookperm"
+          ]
+        },
+        "revoke": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "tunnels": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "defaults": {
+          "support": "supported",
+          "answer": "skipPermissions defaults to true in create_agent; autonomous mode uses --dangerously-skip-permissions.",
+          "evidenceIds": [
+            "readme",
+            "claudeprov"
+          ]
+        },
+        "safer_modes": {
+          "support": "partial",
+          "answer": "--permission-mode default or auto selectable.",
+          "evidenceIds": [
+            "claudeprov"
+          ]
+        },
+        "enforcement": {
+          "support": "unsupported",
+          "answer": "No product-enforced policy.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Approval is the agent CLI's own prompt; Dorothy does not enforce policy."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "claudeprov",
+        "hookperm"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "dorothy:TEAM-04",
+      "criterionId": "TEAM-04",
+      "answer": "Local files only (agents.json, processed-items.json, logs); no attributed audit history.",
+      "support": "unsupported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release 1.2.10 (2026-10-23, commit 787568d)",
+        "plan": "Open source (MIT) macOS desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "actions": {
+          "support": "unsupported",
+          "answer": "Dorothy keeps no attributed activity history (bounded search of electron/ found only state files and logs).",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "approvals": {
+          "support": "unsupported",
+          "answer": "Dorothy keeps no attributed activity history (bounded search of electron/ found only state files and logs).",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "edits": {
+          "support": "unsupported",
+          "answer": "Dorothy keeps no attributed activity history (bounded search of electron/ found only state files and logs).",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "discussion": {
+          "support": "unsupported",
+          "answer": "Dorothy keeps no attributed activity history (bounded search of electron/ found only state files and logs).",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "decisions": {
+          "support": "unsupported",
+          "answer": "Dorothy keeps no attributed activity history (bounded search of electron/ found only state files and logs).",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "cross_user_persistence": {
+          "support": "unsupported",
+          "answer": "Dorothy keeps no attributed activity history (bounded search of electron/ found only state files and logs).",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "cross_session_persistence": {
+          "support": "unsupported",
+          "answer": "Dorothy keeps no attributed activity history (bounded search of electron/ found only state files and logs).",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "export": {
+          "support": "unsupported",
+          "answer": "Dorothy keeps no attributed activity history (bounded search of electron/ found only state files and logs).",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "mutability": {
+          "support": "unsupported",
+          "answer": "Dorothy keeps no attributed activity history (bounded search of electron/ found only state files and logs).",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "retention": {
+          "support": "unsupported",
+          "answer": "Dorothy keeps no attributed activity history (bounded search of electron/ found only state files and logs).",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "integrity": {
+          "support": "unsupported",
+          "answer": "Dorothy keeps no attributed activity history (bounded search of electron/ found only state files and logs).",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "dorothy:TEAM-05",
+      "criterionId": "TEAM-05",
+      "answer": "No review interface; agents are asked to review PRs through automations that comment on GitHub.",
+      "support": "unsupported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release 1.2.10 (2026-10-23, commit 787568d)",
+        "plan": "Open source (MIT) macOS desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "pending_reviews": {
+          "support": "unsupported",
+          "answer": "Dorothy has no review UI; an automation can post a review comment through GitHub.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "change_understanding": {
+          "support": "unsupported",
+          "answer": "Dorothy has no review UI; an automation can post a review comment through GitHub.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "evidence_navigation": {
+          "support": "unsupported",
+          "answer": "Dorothy has no review UI; an automation can post a review comment through GitHub.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "comments": {
+          "support": "unsupported",
+          "answer": "Dorothy has no review UI; an automation can post a review comment through GitHub.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "request_changes": {
+          "support": "unsupported",
+          "answer": "Dorothy has no review UI; an automation can post a review comment through GitHub.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "shipping_guidance": {
+          "support": "unsupported",
+          "answer": "Dorothy has no review UI; an automation can post a review comment through GitHub.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "effort": {
+          "support": "unsupported",
+          "answer": "Dorothy has no review UI; an automation can post a review comment through GitHub.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "missed_evidence": {
+          "support": "unsupported",
+          "answer": "Dorothy has no review UI; an automation can post a review comment through GitHub.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "keyboard": {
+          "support": "unsupported",
+          "answer": "Dorothy has no review UI; an automation can post a review comment through GitHub.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "narrow_screen": {
+          "support": "unsupported",
+          "answer": "Dorothy has no review UI; an automation can post a review comment through GitHub.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "context_switching": {
+          "support": "unsupported",
+          "answer": "Dorothy has no review UI; an automation can post a review comment through GitHub.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "roles": {
+          "support": "unsupported",
+          "answer": "Dorothy has no review UI; an automation can post a review comment through GitHub.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "retained_context": {
+          "support": "unsupported",
+          "answer": "Dorothy has no review UI; an automation can post a review comment through GitHub.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "dorothy:TEAM-06",
+      "criterionId": "TEAM-06",
+      "answer": "No colleague takeover; single-user.",
+      "support": "unsupported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release 1.2.10 (2026-10-23, commit 787568d)",
+        "plan": "Open source (MIT) macOS desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "ongoing_takeover": {
+          "support": "unsupported",
+          "answer": "No multi-user features.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "same_task": {
+          "support": "unsupported",
+          "answer": "No multi-user features.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "session_history": {
+          "support": "unsupported",
+          "answer": "No multi-user features.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "decisions": {
+          "support": "unsupported",
+          "answer": "No multi-user features.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "artifacts": {
+          "support": "unsupported",
+          "answer": "No multi-user features.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "permissions": {
+          "support": "unsupported",
+          "answer": "No multi-user features.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "runtime_context": {
+          "support": "unsupported",
+          "answer": "No multi-user features.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "owner_disconnect": {
+          "support": "unsupported",
+          "answer": "No multi-user features.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "ownership": {
+          "support": "unsupported",
+          "answer": "No multi-user features.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "attribution": {
+          "support": "unsupported",
+          "answer": "No multi-user features.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "context_loss": {
+          "support": "unsupported",
+          "answer": "No multi-user features.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "harness_transfer": {
+          "support": "unsupported",
+          "answer": "No multi-user features.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "dorothy:SHIP-01",
+      "criterionId": "SHIP-01",
+      "answer": "Vault documents, Telegram media sending and terminal output; no diff viewer, artifacts gallery or previews.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release 1.2.10 (2026-10-23, commit 787568d)",
+        "plan": "Open source (MIT) macOS desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "diffs": {
+          "support": "unsupported",
+          "answer": "No diff viewer.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "documents": {
+          "support": "supported",
+          "answer": "Vault markdown documents with attachments.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "screenshots": {
+          "support": "partial",
+          "answer": "Agents can send photos through Telegram.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "recordings": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "previews": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "test_outputs": {
+          "support": "partial",
+          "answer": "Terminal output retained.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "reviewer_outputs": {
+          "support": "partial",
+          "answer": "Automation output to GitHub comments, Telegram, Slack.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "gallery": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "task_links": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "revision_links": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "persistence": {
+          "support": "supported",
+          "answer": "Vault persists.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "child_findings": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "prompt_leakage": {
+          "support": "unsupported",
+          "answer": "Not applicable.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: diffs, screenshots, recordings, previews, test_outputs, reviewer_outputs, gallery, task_links, revision_links, child_findings, prompt_leakage; see each atomic answer for the limitation."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "dorothy:SHIP-02",
+      "criterionId": "SHIP-02",
+      "answer": "No gates; automations run PR review agents that post comments but cannot block merges.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release 1.2.10 (2026-10-23, commit 787568d)",
+        "plan": "Open source (MIT) macOS desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "tests": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "lint": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "types": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "ci": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "independent_review": {
+          "support": "partial",
+          "answer": "PR Code Reviewer automation example posts review comments.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "spec_checks": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "required_checks": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "failure_blocking": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "requirement_conflicts": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "configured_policy": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "enforced_policy": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: tests, lint, types, ci, independent_review, spec_checks, required_checks, failure_blocking, requirement_conflicts, configured_policy, enforced_policy; see each atomic answer for the limitation."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "dorothy:SHIP-03",
+      "criterionId": "SHIP-03",
+      "answer": "Optional git worktrees per agent; GitHub automations poll PRs and issues and post comments through gh; PR creation and merge are left to the agent's own commands.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release 1.2.10 (2026-10-23, commit 787568d)",
+        "plan": "Open source (MIT) macOS desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "branches": {
+          "support": "supported",
+          "answer": "Branch per worktree agent.",
+          "evidenceIds": [
+            "ipc"
+          ]
+        },
+        "worktrees": {
+          "support": "supported",
+          "answer": "Worktree creation and use.",
+          "evidenceIds": [
+            "ipc"
+          ]
+        },
+        "commits": {
+          "support": "unsupported",
+          "answer": "Agents commit through their own CLIs.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "pull_requests": {
+          "support": "partial",
+          "answer": "Automations read PRs and post GitHub comments; no PR creation feature.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "comments": {
+          "support": "supported",
+          "answer": "outputGitHubComment posts review output.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "ci_response": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "rebase": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "conflicts": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "product_state": {
+          "support": "partial",
+          "answer": "Processed item state for deduplication.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: commits, pull_requests, ci_response, rebase, conflicts, product_state; see each atomic answer for the limitation."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "ipc",
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "dorothy:SHIP-04",
+      "criterionId": "SHIP-04",
+      "answer": "No merge, release or deploy authority features.",
+      "support": "unsupported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release 1.2.10 (2026-10-23, commit 787568d)",
+        "plan": "Open source (MIT) macOS desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "approve": {
+          "support": "unsupported",
+          "answer": "Bounded search found no merge or deploy features.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "merge": {
+          "support": "unsupported",
+          "answer": "Bounded search found no merge or deploy features.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "release": {
+          "support": "unsupported",
+          "answer": "Bounded search found no merge or deploy features.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "deploy": {
+          "support": "unsupported",
+          "answer": "Bounded search found no merge or deploy features.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "exact_revision": {
+          "support": "unsupported",
+          "answer": "Bounded search found no merge or deploy features.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "authority_enforcement": {
+          "support": "unsupported",
+          "answer": "Bounded search found no merge or deploy features.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "dorothy:SHIP-05",
+      "criterionId": "SHIP-05",
+      "answer": "No delivery tracking beyond JIRA transitions and GitHub comments posted by automations.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release 1.2.10 (2026-10-23, commit 787568d)",
+        "plan": "Open source (MIT) macOS desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "commit_links": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "pr_links": {
+          "support": "partial",
+          "answer": "Automation outputs link to the item.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "build_links": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "deployment_links": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "delivery_status": {
+          "support": "partial",
+          "answer": "JIRA transition output option.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "retained_evidence": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "rollback": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "revert": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "stale_approval_invalidation": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: commit_links, pr_links, build_links, deployment_links, delivery_status, retained_evidence, rollback, revert, stale_approval_invalidation; see each atomic answer for the limitation."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "dorothy:SHIP-06",
+      "criterionId": "SHIP-06",
+      "answer": "No batch review or delivery queue.",
+      "support": "unsupported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release 1.2.10 (2026-10-23, commit 787568d)",
+        "plan": "Open source (MIT) macOS desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "review_queue": {
+          "support": "unsupported",
+          "answer": "No queue-level features.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "summaries": {
+          "support": "unsupported",
+          "answer": "No queue-level features.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "grouping": {
+          "support": "unsupported",
+          "answer": "No queue-level features.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "risk_size_filters": {
+          "support": "unsupported",
+          "answer": "No queue-level features.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "findings": {
+          "support": "unsupported",
+          "answer": "No queue-level features.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "artifacts": {
+          "support": "unsupported",
+          "answer": "No queue-level features.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "request_changes": {
+          "support": "unsupported",
+          "answer": "No queue-level features.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "exact_revision_approval": {
+          "support": "unsupported",
+          "answer": "No queue-level features.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "dependency_queues": {
+          "support": "unsupported",
+          "answer": "No queue-level features.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "next_actions": {
+          "support": "unsupported",
+          "answer": "No queue-level features.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "stale_approval_invalidation": {
+          "support": "unsupported",
+          "answer": "No queue-level features.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "check_deduplication": {
+          "support": "unsupported",
+          "answer": "No queue-level features.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "dorothy:OWN-01",
+      "criterionId": "OWN-01",
+      "answer": "MIT licensed repository including the app, MCP servers and landing site; no closed components.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release 1.2.10 (2026-10-23, commit 787568d)",
+        "plan": "Open source (MIT) macOS desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "client_license": {
+          "support": "supported",
+          "answer": "MIT.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "server_license": {
+          "support": "supported",
+          "answer": "MIT for the local API server and MCP servers.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "hosted_extensions": {
+          "support": "unsupported",
+          "answer": "No hosted extensions.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "source_visibility": {
+          "support": "supported",
+          "answer": "Public repository accepting pull requests.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "source_revision": {
+          "support": "supported",
+          "answer": "Release 1.2.10 at commit 787568d.",
+          "evidenceIds": [
+            "release"
+          ]
+        },
+        "hosted_parity": {
+          "support": "unsupported",
+          "answer": "No hosted service.",
+          "evidenceIds": [
+            "site"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: hosted_extensions, hosted_parity; see each atomic answer for the limitation."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "license",
+        "repoapi",
+        "release",
+        "site",
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-05-15",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "dorothy:OWN-02",
+      "criterionId": "OWN-02",
+      "answer": "Fully local app with no vendor service; state in ~/.dorothy and ~/.claude files; updates via GitHub releases.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release 1.2.10 (2026-10-23, commit 787568d)",
+        "plan": "Open source (MIT) macOS desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "self_hosting": {
+          "support": "supported",
+          "answer": "The app runs on your Mac.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "vendor_dependencies": {
+          "support": "supported",
+          "answer": "None required; update check uses GitHub releases.",
+          "evidenceIds": [
+            "updater"
+          ]
+        },
+        "export": {
+          "support": "partial",
+          "answer": "Local JSON and SQLite files.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "import": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "formats": {
+          "support": "supported",
+          "answer": "JSON files and SQLite vault.db.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "cancellation": {
+          "support": "supported",
+          "answer": "No account.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "account_independence": {
+          "support": "supported",
+          "answer": "Works without an account.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "history_portability": {
+          "support": "partial",
+          "answer": "Files are copyable.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: export, import, history_portability; see each atomic answer for the limitation."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "site",
+        "updater"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-05-15",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "dorothy:OWN-03",
+      "criterionId": "OWN-03",
+      "answer": "Local state; prompts go to the agent CLIs' providers; the app has no analytics dependency (landing site uses Vercel Analytics); bots send messages through Telegram and Slack; update checks use GitHub; no privacy policy found.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release 1.2.10 (2026-10-23, commit 787568d)",
+        "plan": "Open source (MIT) macOS desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "code_data": {
+          "support": "supported",
+          "answer": "Stays local except what agent CLIs send to their providers.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "prompts": {
+          "support": "partial",
+          "answer": "Passed to agent CLIs; Telegram/Slack messages traverse those services.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "credentials": {
+          "support": "partial",
+          "answer": "Bot tokens in ~/.dorothy/app-settings.json; API token 0600.",
+          "evidenceIds": [
+            "readme",
+            "apiserver"
+          ]
+        },
+        "logs": {
+          "support": "partial",
+          "answer": "Local logs including /tmp/dorothy-hooks.log from hooks.",
+          "evidenceIds": [
+            "hookperm"
+          ]
+        },
+        "artifacts": {
+          "support": "supported",
+          "answer": "Local.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "retention": {
+          "support": "unsupported",
+          "answer": "No policy.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "deletion": {
+          "support": "partial",
+          "answer": "User deletes files or entries.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "training": {
+          "support": "unsupported",
+          "answer": "Dorothy does no model processing.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "residency": {
+          "support": "supported",
+          "answer": "Local Mac.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "subprocessors": {
+          "support": "partial",
+          "answer": "Telegram, Slack and SocialData if enabled by the user.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "telemetry_disclosure": {
+          "support": "unsupported",
+          "answer": "No telemetry statement found.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "telemetry_defaults": {
+          "support": "supported",
+          "answer": "Bounded search of package.json, electron/ and src/ found no analytics or telemetry dependency; the landing page uses @vercel/analytics.",
+          "evidenceIds": [
+            "pkg",
+            "landing"
+          ]
+        },
+        "telemetry_controls": {
+          "support": "unsupported",
+          "answer": "None, because no app telemetry was found.",
+          "evidenceIds": [
+            "pkg"
+          ]
+        },
+        "consent_prompt": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "provider_separation": {
+          "support": "unsupported",
+          "answer": "Not documented.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "No privacy policy or telemetry statement was found; absence of an SDK in the app is not a guarantee."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "pkg",
+        "landing",
+        "updater",
+        "readme",
+        "site",
+        "apiserver",
+        "hookperm"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "dorothy:OWN-04",
+      "criterionId": "OWN-04",
+      "answer": "Free: MIT open source; site says free forever with no account; costs are the agent CLIs' subscriptions.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release 1.2.10 (2026-10-23, commit 787568d)",
+        "plan": "Open source (MIT) macOS desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "currency": {
+          "support": "supported",
+          "answer": "No price.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "interval": {
+          "support": "supported",
+          "answer": "No billing.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "seats": {
+          "support": "supported",
+          "answer": "None.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "seat_minimum": {
+          "support": "supported",
+          "answer": "None.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "workspace_fees": {
+          "support": "supported",
+          "answer": "None.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "included_usage": {
+          "support": "supported",
+          "answer": "Not applicable.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "credits": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "trial": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "overages": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "taxes": {
+          "support": "unknown",
+          "answer": "No sale; tax treatment is not applicable.",
+          "evidenceIds": []
+        },
+        "model_cost": {
+          "support": "supported",
+          "answer": "Paid to model vendors through CLIs.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "compute_cost": {
+          "support": "supported",
+          "answer": "User hardware.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: credits, trial, overages; see each atomic answer for the limitation."
+      ],
+      "unknownReason": "Tax treatment is not applicable to a free download.",
+      "evidenceIds": [
+        "site",
+        "license",
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-01-15",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "dorothy:OWN-05",
+      "criterionId": "OWN-05",
+      "answer": "Software cost is zero for one, two or five developers; agent subscriptions are separate.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release 1.2.10 (2026-10-23, commit 787568d)",
+        "plan": "Open source (MIT) macOS desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "one_person": {
+          "support": "supported",
+          "answer": "Zero.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "two_people": {
+          "support": "supported",
+          "answer": "Zero; no collaboration features.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "five_people": {
+          "support": "supported",
+          "answer": "Zero.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "task_assumptions": {
+          "support": "unknown",
+          "answer": "None published.",
+          "evidenceIds": []
+        },
+        "concurrency": {
+          "support": "unknown",
+          "answer": "None published.",
+          "evidenceIds": []
+        },
+        "tokens": {
+          "support": "unknown",
+          "answer": "None published.",
+          "evidenceIds": []
+        },
+        "compute_hours": {
+          "support": "unknown",
+          "answer": "None published.",
+          "evidenceIds": []
+        },
+        "fixed_cost": {
+          "support": "supported",
+          "answer": "Zero.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "variable_cost": {
+          "support": "supported",
+          "answer": "Agent subscriptions or API.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "included_cost": {
+          "support": "supported",
+          "answer": "Nothing included.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "unknown_cost": {
+          "support": "supported",
+          "answer": "Agent usage varies.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: ; see each atomic answer for the limitation."
+      ],
+      "unknownReason": "No workload assumptions are published and the catalog invents none.",
+      "evidenceIds": [
+        "site",
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "dorothy:OWN-06",
+      "criterionId": "OWN-06",
+      "answer": "Releases about every few months (1.2.8 in May, 1.2.9 in July, 1.2.10 in October 2026); GitHub issues; no commitments.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release 1.2.10 (2026-10-23, commit 787568d)",
+        "plan": "Open source (MIT) macOS desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "release_stage": {
+          "support": "supported",
+          "answer": "Version 1.2.x general releases.",
+          "evidenceIds": [
+            "release"
+          ]
+        },
+        "access_restrictions": {
+          "support": "supported",
+          "answer": "Public download for macOS arm64.",
+          "evidenceIds": [
+            "release"
+          ]
+        },
+        "support": {
+          "support": "partial",
+          "answer": "GitHub issues linked from the site.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "response_commitments": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "release_activity": {
+          "support": "supported",
+          "answer": "Releases 2026-05-05, 2026-07-07 and 2026-10-23; last push 2026-10-23.",
+          "evidenceIds": [
+            "release",
+            "repoapi"
+          ]
+        },
+        "status_history": {
+          "support": "unsupported",
+          "answer": "No hosted service.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "deprecation": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "release"
+          ]
+        },
+        "export_options": {
+          "support": "partial",
+          "answer": "Local files.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: support, response_commitments, status_history, deprecation, export_options; see each atomic answer for the limitation."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "release",
+        "repoapi",
+        "site",
+        "readme"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-01-15",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "dorothy:OWN-07",
+      "criterionId": "OWN-07",
+      "answer": "No ISO or SOC 2 claim; local app.",
+      "support": "unknown",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release 1.2.10 (2026-10-23, commit 787568d)",
+        "plan": "Open source (MIT) macOS desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "iso_scope": {
+          "support": "unknown",
+          "answer": "No certification is claimed; it would be a maintainer business fact outside the repository.",
+          "evidenceIds": []
+        },
+        "iso_issuer": {
+          "support": "unknown",
+          "answer": "No certification is claimed; it would be a maintainer business fact outside the repository.",
+          "evidenceIds": []
+        },
+        "iso_validity": {
+          "support": "unknown",
+          "answer": "No certification is claimed; it would be a maintainer business fact outside the repository.",
+          "evidenceIds": []
+        },
+        "soc2_type": {
+          "support": "unknown",
+          "answer": "No certification is claimed; it would be a maintainer business fact outside the repository.",
+          "evidenceIds": []
+        },
+        "soc2_scope": {
+          "support": "unknown",
+          "answer": "No certification is claimed; it would be a maintainer business fact outside the repository.",
+          "evidenceIds": []
+        },
+        "soc2_period": {
+          "support": "unknown",
+          "answer": "No certification is claimed; it would be a maintainer business fact outside the repository.",
+          "evidenceIds": []
+        },
+        "report_access": {
+          "support": "unknown",
+          "answer": "No certification is claimed; it would be a maintainer business fact outside the repository.",
+          "evidenceIds": []
+        },
+        "verification_date": {
+          "support": "unknown",
+          "answer": "No certification is claimed; it would be a maintainer business fact outside the repository.",
+          "evidenceIds": []
+        },
+        "evidence_status": {
+          "support": "unknown",
+          "answer": "No certification is claimed; it would be a maintainer business fact outside the repository.",
+          "evidenceIds": []
+        }
+      },
+      "limitations": [],
+      "unknownReason": "Certification is a business fact; none is claimed on the site or repository.",
+      "evidenceIds": [
+        "site"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-03-16",
+      "researcher": "researcher-batch11",
+      "publication": "internal-only",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "dorothy:OWN-08",
+      "criterionId": "OWN-08",
+      "answer": "Free forever open-source download; every supported scenario is free apart from agent subscriptions; collaboration, remote compute and mobile are not offered.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release 1.2.10 (2026-10-23, commit 787568d)",
+        "plan": "Open source (MIT) macOS desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "ongoing_free": {
+          "support": "supported",
+          "answer": "Free forever.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "trial": {
+          "support": "unsupported",
+          "answer": "Not needed.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "credits_trial": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "self_host_cost": {
+          "support": "supported",
+          "answer": "User hardware.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "paid_only": {
+          "support": "unsupported",
+          "answer": "Not paid-only.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "early_access": {
+          "support": "unsupported",
+          "answer": "Public releases.",
+          "evidenceIds": [
+            "release"
+          ]
+        },
+        "free_scenarios": {
+          "support": "partial",
+          "answer": "BYO subscriptions, local runs, Telegram/Slack remote control work free; collaboration and managed remote compute are not offered.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "card_required": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "usage_caps": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "paid_evaluation": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "site"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: trial, credits_trial, paid_only, early_access, free_scenarios, card_required, usage_caps, paid_evaluation; see each atomic answer for the limitation."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "site",
+        "readme",
+        "release"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-01-15",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "dorothy:OWN-09",
+      "criterionId": "OWN-09",
+      "answer": "Transparent: free with no pricing.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "app"
+        ],
+        "version": "release 1.2.10 (2026-10-23, commit 787568d)",
+        "plan": "Open source (MIT) macOS desktop app, free download; no paid plan",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "units": {
+          "support": "supported",
+          "answer": "None.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "included_limits": {
+          "support": "supported",
+          "answer": "None.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "overages": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "compute_markup": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "model_markup": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "minimum_commitment": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "cancellation": {
+          "support": "supported",
+          "answer": "No subscription.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "sales_only_unknowns": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "transparency_classification": {
+          "support": "supported",
+          "answer": "Transparent (free).",
+          "evidenceIds": [
+            "site"
+          ]
+        }
+      },
+      "limitations": [
+        "Partly met or absent atomic parts: overages, compute_markup, model_markup, minimum_commitment, sales_only_unknowns; see each atomic answer for the limitation."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "site"
+      ],
+      "checkedAt": "2026-11-16",
+      "nextReviewAt": "2027-01-15",
+      "researcher": "researcher-batch11",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    }
+  ],
+  "evidence": [
+    {
+      "id": "repoapi",
+      "kind": "documented",
+      "url": "https://api.github.com/repos/Charlie85270/Dorothy",
+      "title": "GitHub repository metadata",
+      "locator": "stargazers_count, license",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Repository Charlie85270/Dorothy: 357 stars, MIT, homepage dorothyai.app, not archived.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "readme",
+      "kind": "documented",
+      "url": "https://github.com/Charlie85270/Dorothy/blob/787568d5bba83b8ef35baa9ac29912d8eecc44cf/README.md",
+      "title": "Dorothy README",
+      "locator": "Core Features; Automations; Kanban; Scheduled Tasks; Remote Control; Vault; MCP Servers; Installation; Architecture",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Desktop app to orchestrate Claude Code, Codex, Gemini, Grok and local agents in parallel PTY terminals with a Super Agent orchestrator, Kanban, GitHub/JIRA automations, cron tasks, Telegram and Slack remote control, vault and usage tracking; macOS download; MIT.",
+      "visibility": "public",
+      "commit": "787568d5bba83b8ef35baa9ac29912d8eecc44cf",
+      "path": "README.md"
+    },
+    {
+      "id": "claudemd",
+      "kind": "documented",
+      "url": "https://github.com/Charlie85270/Dorothy/blob/787568d5bba83b8ef35baa9ac29912d8eecc44cf/CLAUDE.md",
+      "title": "Repository agent instructions",
+      "locator": "Memory; Autonomy",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Dorothy exposes Claude Code native memory; agents delegated by Dorothy are told to act autonomously.",
+      "visibility": "public",
+      "commit": "787568d5bba83b8ef35baa9ac29912d8eecc44cf",
+      "path": "CLAUDE.md"
+    },
+    {
+      "id": "license",
+      "kind": "documented",
+      "url": "https://github.com/Charlie85270/Dorothy/blob/787568d5bba83b8ef35baa9ac29912d8eecc44cf/LICENSE",
+      "title": "MIT License",
+      "locator": "Header",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "MIT license, Copyright 2025 Claude Manager Contributors.",
+      "visibility": "public",
+      "commit": "787568d5bba83b8ef35baa9ac29912d8eecc44cf",
+      "path": "LICENSE"
+    },
+    {
+      "id": "site",
+      "kind": "documented",
+      "url": "https://dorothyai.app/",
+      "title": "Dorothy website",
+      "locator": "Home",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Free forever, open source, no account; Download for Mac; lists Claude, Codex, Gemini and Ollama; no pricing page.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "release",
+      "kind": "documented",
+      "url": "https://github.com/Charlie85270/Dorothy/releases/tag/1.2.10",
+      "title": "Release 1.2.10",
+      "locator": "Assets",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Release 1.2.10 (2026-10-23) ships Dorothy-1.2.10-arm64.dmg and arm64 mac zip with latest-mac.yml; no Windows or Linux asset.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "pkg",
+      "kind": "source-inspected",
+      "url": "https://github.com/Charlie85270/Dorothy/blob/787568d5bba83b8ef35baa9ac29912d8eecc44cf/package.json",
+      "title": "Package manifest",
+      "locator": "version 1.2.10; build.mac target dmg and zip; dependencies",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "electron-builder configured with macOS dmg and zip targets only (no win or linux block); no analytics dependencies in the app.",
+      "visibility": "public",
+      "commit": "787568d5bba83b8ef35baa9ac29912d8eecc44cf",
+      "path": "package.json"
+    },
+    {
+      "id": "agentmgr",
+      "kind": "source-inspected",
+      "url": "https://github.com/Charlie85270/Dorothy/blob/787568d5bba83b8ef35baa9ac29912d8eecc44cf/electron/core/agent-manager.ts",
+      "title": "Agent manager",
+      "locator": "worktreePath handling (lines 204, 243); restored agents (line 250)",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Spawns one PTY per agent, uses worktreePath or projectPath as cwd and re-initialises a PTY for restored agents.",
+      "visibility": "public",
+      "commit": "787568d5bba83b8ef35baa9ac29912d8eecc44cf",
+      "path": "electron/core/agent-manager.ts"
+    },
+    {
+      "id": "ipc",
+      "kind": "source-inspected",
+      "url": "https://github.com/Charlie85270/Dorothy/blob/787568d5bba83b8ef35baa9ac29912d8eecc44cf/electron/handlers/ipc-handlers.ts",
+      "title": "IPC handlers",
+      "locator": "worktree creation (lines 247-292)",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Creates git worktrees under <project>/.worktrees/<branch> with git worktree add when enabled; branch names validated.",
+      "visibility": "public",
+      "commit": "787568d5bba83b8ef35baa9ac29912d8eecc44cf",
+      "path": "electron/handlers/ipc-handlers.ts"
+    },
+    {
+      "id": "providers",
+      "kind": "source-inspected",
+      "url": "https://github.com/Charlie85270/Dorothy/blob/787568d5bba83b8ef35baa9ac29912d8eecc44cf/electron/providers/index.ts",
+      "title": "Provider registry",
+      "locator": "directory listing: claude, codex, gemini, grok, opencode, pi providers",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Provider modules for Claude Code, Codex, Gemini CLI, Grok, OpenCode and pi that launch each CLI with its flags.",
+      "visibility": "public",
+      "commit": "787568d5bba83b8ef35baa9ac29912d8eecc44cf",
+      "path": "electron/providers/index.ts"
+    },
+    {
+      "id": "claudeprov",
+      "kind": "source-inspected",
+      "url": "https://github.com/Charlie85270/Dorothy/blob/787568d5bba83b8ef35baa9ac29912d8eecc44cf/electron/providers/claude-provider.ts",
+      "title": "Claude provider",
+      "locator": "permission flags (lines 64-68, 119, 395); configureHooks (line 177)",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Launches claude with --permission-mode default/auto or --dangerously-skip-permissions and writes hooks into Claude settings.",
+      "visibility": "public",
+      "commit": "787568d5bba83b8ef35baa9ac29912d8eecc44cf",
+      "path": "electron/providers/claude-provider.ts"
+    },
+    {
+      "id": "apiserver",
+      "kind": "source-inspected",
+      "url": "https://github.com/Charlie85270/Dorothy/blob/787568d5bba83b8ef35baa9ac29912d8eecc44cf/electron/services/api-server.ts",
+      "title": "Local API server",
+      "locator": "token creation (lines 32-38); listen on 127.0.0.1 (line 182)",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "HTTP API listens on 127.0.0.1 with a random 32-byte token stored with mode 0600.",
+      "visibility": "public",
+      "commit": "787568d5bba83b8ef35baa9ac29912d8eecc44cf",
+      "path": "electron/services/api-server.ts"
+    },
+    {
+      "id": "hookperm",
+      "kind": "source-inspected",
+      "url": "https://github.com/Charlie85270/Dorothy/blob/787568d5bba83b8ef35baa9ac29912d8eecc44cf/hooks/permission-request.sh",
+      "title": "PermissionRequest hook",
+      "locator": "Whole file",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Hook posts status waiting with reason permission to the local API; it does not approve or deny.",
+      "visibility": "public",
+      "commit": "787568d5bba83b8ef35baa9ac29912d8eecc44cf",
+      "path": "hooks/permission-request.sh"
+    },
+    {
+      "id": "telegram",
+      "kind": "source-inspected",
+      "url": "https://github.com/Charlie85270/Dorothy/blob/787568d5bba83b8ef35baa9ac29912d8eecc44cf/electron/services/telegram-bot.ts",
+      "title": "Telegram bot",
+      "locator": "authorized chat IDs (lines 62-83, 203)",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Telegram bot restricted to authorized chat IDs registered with /start; supports status, agents, projects, start/stop and ask commands.",
+      "visibility": "public",
+      "commit": "787568d5bba83b8ef35baa9ac29912d8eecc44cf",
+      "path": "electron/services/telegram-bot.ts"
+    },
+    {
+      "id": "kanbanauto",
+      "kind": "source-inspected",
+      "url": "https://github.com/Charlie85270/Dorothy/blob/787568d5bba83b8ef35baa9ac29912d8eecc44cf/electron/services/kanban-automation.ts",
+      "title": "Kanban automation",
+      "locator": "Whole file",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Service that matches backlog tasks to agents by skills and moves them through columns.",
+      "visibility": "public",
+      "commit": "787568d5bba83b8ef35baa9ac29912d8eecc44cf",
+      "path": "electron/services/kanban-automation.ts"
+    },
+    {
+      "id": "usagepage",
+      "kind": "source-inspected",
+      "url": "https://github.com/Charlie85270/Dorothy/blob/787568d5bba83b8ef35baa9ac29912d8eecc44cf/src/app/usage/page.tsx",
+      "title": "Usage page",
+      "locator": "calculateModelCost (lines 120-131)",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Usage page computes cost from token counts and per-model prices read from Claude Code data.",
+      "visibility": "public",
+      "commit": "787568d5bba83b8ef35baa9ac29912d8eecc44cf",
+      "path": "src/app/usage/page.tsx"
+    },
+    {
+      "id": "updater",
+      "kind": "source-inspected",
+      "url": "https://github.com/Charlie85270/Dorothy/blob/787568d5bba83b8ef35baa9ac29912d8eecc44cf/electron/services/update-checker.ts",
+      "title": "Update checker",
+      "locator": "autoUpdater setup",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "electron-updater checks GitHub releases; download only after the user clicks.",
+      "visibility": "public",
+      "commit": "787568d5bba83b8ef35baa9ac29912d8eecc44cf",
+      "path": "electron/services/update-checker.ts"
+    },
+    {
+      "id": "landing",
+      "kind": "source-inspected",
+      "url": "https://github.com/Charlie85270/Dorothy/blob/787568d5bba83b8ef35baa9ac29912d8eecc44cf/landing/src/app/layout.tsx",
+      "title": "Landing page layout",
+      "locator": "Analytics import (line 2, 25)",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "The marketing landing page, not the app, includes @vercel/analytics.",
+      "visibility": "public",
+      "commit": "787568d5bba83b8ef35baa9ac29912d8eecc44cf",
+      "path": "landing/src/app/layout.tsx"
+    },
+    {
+      "id": "tasmania",
+      "kind": "source-inspected",
+      "url": "https://github.com/Charlie85270/Dorothy/blob/787568d5bba83b8ef35baa9ac29912d8eecc44cf/electron/services/tasmania-client.ts",
+      "title": "Tasmania client",
+      "locator": "TASMANIA_API_BASE",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Client for a local Tasmania control API on localhost:3999 used for local models.",
+      "visibility": "public",
+      "commit": "787568d5bba83b8ef35baa9ac29912d8eecc44cf",
+      "path": "electron/services/tasmania-client.ts"
+    },
+    {
+      "id": "screenshot",
+      "kind": "documented",
+      "url": "https://github.com/Charlie85270/Dorothy/blob/787568d5bba83b8ef35baa9ac29912d8eecc44cf/screenshots/0.png",
+      "title": "Dashboard screenshot",
+      "locator": "Image file",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-16",
+      "finding": "Real Dorothy Dashboard with six Claude Code terminals, statuses running and waiting.",
+      "visibility": "public",
+      "commit": "787568d5bba83b8ef35baa9ac29912d8eecc44cf",
+      "path": "screenshots/0.png"
+    }
+  ],
+  "changes": [
+    {
+      "date": "2026-11-16",
+      "author": "researcher-batch11",
+      "type": "initial-research",
+      "summary": "Initial full-profile source pass over release 1.2.10 (commit 787568d) of Charlie85270/Dorothy (single public repository including the landing site): README, CLAUDE.md, package.json, Electron main process (agent manager, providers, API server, hooks, Telegram/Slack bots, kanban automation), MCP servers and the dorothyai.app site, with bounded code searches covering all 51 criteria. No ADEMark entry. Screenshot: first-party README dashboard (screenshots/0.png).",
+      "claimIds": [
+        "dorothy:ACC-01",
+        "dorothy:ACC-02",
+        "dorothy:ACC-03",
+        "dorothy:ACC-04",
+        "dorothy:ACC-05",
+        "dorothy:ACC-06",
+        "dorothy:ACC-07",
+        "dorothy:PLAN-01",
+        "dorothy:PLAN-02",
+        "dorothy:PLAN-03",
+        "dorothy:PLAN-04",
+        "dorothy:PLAN-05",
+        "dorothy:PLAN-06",
+        "dorothy:PLAN-07",
+        "dorothy:PLAN-08",
+        "dorothy:COORD-01",
+        "dorothy:COORD-02",
+        "dorothy:COORD-03",
+        "dorothy:COORD-04",
+        "dorothy:COORD-05",
+        "dorothy:COORD-06",
+        "dorothy:COORD-07",
+        "dorothy:RUN-01",
+        "dorothy:RUN-02",
+        "dorothy:RUN-03",
+        "dorothy:RUN-04",
+        "dorothy:RUN-05",
+        "dorothy:RUN-06",
+        "dorothy:RUN-07",
+        "dorothy:RUN-08",
+        "dorothy:TEAM-01",
+        "dorothy:TEAM-02",
+        "dorothy:TEAM-03",
+        "dorothy:TEAM-04",
+        "dorothy:TEAM-05",
+        "dorothy:TEAM-06",
+        "dorothy:SHIP-01",
+        "dorothy:SHIP-02",
+        "dorothy:SHIP-03",
+        "dorothy:SHIP-04",
+        "dorothy:SHIP-05",
+        "dorothy:SHIP-06",
+        "dorothy:OWN-01",
+        "dorothy:OWN-02",
+        "dorothy:OWN-03",
+        "dorothy:OWN-04",
+        "dorothy:OWN-05",
+        "dorothy:OWN-06",
+        "dorothy:OWN-07",
+        "dorothy:OWN-08",
+        "dorothy:OWN-09"
+      ],
+      "evidenceIds": [
+        "repoapi",
+        "readme",
+        "claudemd",
+        "license",
+        "site",
+        "release",
+        "pkg",
+        "agentmgr",
+        "ipc",
+        "providers",
+        "claudeprov",
+        "apiserver",
+        "hookperm",
+        "telegram",
+        "kanbanauto",
+        "usagepage",
+        "updater",
+        "landing",
+        "tasmania",
+        "screenshot"
+      ]
+    }
+  ],
+  "context": {
+    "roadmapReview": {
+      "checkedAt": "2026-11-16",
+      "locations": [
+        {
+          "url": "https://github.com/Charlie85270/Dorothy/releases",
+          "result": "Releases 1.2.8 (2026-05-05), 1.2.9 (2026-07-07) and 1.2.10 (2026-10-23) with macOS arm64 DMG and zip; no roadmap in notes."
+        },
+        {
+          "url": "https://github.com/Charlie85270/Dorothy/blob/787568d5bba83b8ef35baa9ac29912d8eecc44cf/README.md",
+          "result": "README marks Pipedrive, Twitter, RSS and custom webhook automation sources as Planned, with no dates; they are not counted as shipped."
+        },
+        {
+          "url": "https://dorothyai.app/",
+          "result": "Marketing page lists features and a macOS download; no roadmap or pricing page."
+        },
+        {
+          "url": "https://github.com/Charlie85270/Dorothy/issues",
+          "result": "Issues tracker linked from the site; no dated maintainer announcements found."
+        }
+      ],
+      "announced": [],
+      "gaps": [
+        "README Planned automation sources have no dated source; no changelog beyond GitHub releases."
+      ]
+    },
+    "marketContext": {
+      "githubStars": {
+        "value": 357,
+        "observedAt": "2026-11-16",
+        "evidenceIds": [
+          "repoapi"
+        ]
+      }
+    }
+  }
+}
