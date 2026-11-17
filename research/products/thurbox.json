@@ -1,0 +1,6182 @@
+{
+  "schemaVersion": 1,
+  "rubricVersion": "0.3",
+  "id": "thurbox",
+  "name": "thurbox",
+  "category": "A",
+  "researchTier": "full-profile",
+  "researchState": "documented",
+  "identity": {
+    "website": "https://thurbox.thurbeen.eu/",
+    "repository": "https://github.com/Thurbeen/thurbox",
+    "aliases": [
+      "Thurbeen thurbox",
+      "Fleet"
+    ],
+    "company": "Thurbeen"
+  },
+  "surfaces": [
+    {
+      "id": "tui",
+      "name": "thurbox terminal interface and thurbox-cli (v3)",
+      "type": "tui"
+    },
+    {
+      "id": "fleet",
+      "name": "Fleet engine and fleet CLI (headless, same repository)",
+      "type": "cli"
+    }
+  ],
+  "claims": [
+    {
+      "id": "thurbox:ACC-01",
+      "criterionId": "ACC-01",
+      "answer": "Terminal interface (thurbox) and CLIs (thurbox-cli, fleet) for macOS arm64, Linux x64/arm64 and Windows x64; no GUI desktop app, web client or phone app; sessions are controlled by keyboard in the TUI or by fleet verbs from any shell.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui",
+          "fleet"
+        ],
+        "version": "v3.5.2 (commit 67bec8c, released 2026-11-17)",
+        "plan": "Open source (MIT); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "desktop_os": {
+          "support": "partial",
+          "answer": "Release archives exist for aarch64-apple-darwin, Linux x64 (gnu/musl) and arm64 (musl) and x86_64 Windows (needs psmux); these are terminal programs, not a GUI desktop app; Intel macOS has no archive; minimum OS versions not stated.",
+          "evidenceIds": [
+            "release",
+            "readme"
+          ]
+        },
+        "mobile_apps": {
+          "support": "unsupported",
+          "answer": "No iOS or Android app in a bounded search.",
+          "evidenceIds": [
+            "srch-web"
+          ]
+        },
+        "browser": {
+          "support": "unsupported",
+          "answer": "No browser client; website is documentation.",
+          "evidenceIds": [
+            "srch-web"
+          ]
+        },
+        "mobile_browser": {
+          "support": "unsupported",
+          "answer": "No browser client.",
+          "evidenceIds": [
+            "srch-web"
+          ]
+        },
+        "cli": {
+          "support": "supported",
+          "answer": "`thurbox-cli` (doctor, update, version) and `fleet` (init, up, apply, list, get, send, watch, delete, amend, signal, result, declare, event, gateway).",
+          "evidenceIds": [
+            "readme",
+            "orch",
+            "fleet"
+          ]
+        },
+        "editor_extensions": {
+          "support": "partial",
+          "answer": "`Ctrl+O` opens a session folder in an editor; no editor extension (v2 satellite panes are separate repos).",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "task_actions": {
+          "support": "supported",
+          "answer": "Create (Ctrl+N), rename, reorder, delete, search, send text, steer in the live agent pane, shell pane toggle and fleet verbs.",
+          "evidenceIds": [
+            "readme",
+            "features",
+            "orch"
+          ]
+        },
+        "notifications": {
+          "support": "supported",
+          "answer": "OS notifications on attention/idle transitions with click-to-focus on Linux.",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "cross_device_continuity": {
+          "support": "partial",
+          "answer": "Fleets over ssh/WSL let one interface list sessions on several machines; sessions outlive the interface; no phone or web handoff.",
+          "evidenceIds": [
+            "where",
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established or not supported: desktop_os, mobile_apps, browser, mobile_browser, editor_extensions, cross_device_continuity; see atomic answers."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "release",
+        "readme",
+        "srch-web",
+        "orch",
+        "fleet",
+        "features",
+        "where"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "thurbox:ACC-02",
+      "criterionId": "ACC-02",
+      "answer": "Runs nine unmodified agent CLIs through Fleet harness profiles inside tmux/psmux terminals; new agents are TOML profiles; no embedded harness or model-provider layer.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui",
+          "fleet"
+        ],
+        "version": "v3.5.2 (commit 67bec8c, released 2026-11-17)",
+        "plan": "Open source (MIT); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "harnesses": {
+          "support": "supported",
+          "answer": "Claude Code, Codex, pi, opencode, kilo, omp, Qwen Code, GitHub Copilot CLI and Kimi Code; README also names \"any CLI you describe yourself\" via harness profiles.",
+          "evidenceIds": [
+            "agents",
+            "readme"
+          ]
+        },
+        "model_providers": {
+          "support": "partial",
+          "answer": "Model choice is the agent CLI; `spec.model` is passed to harnesses and refused by runtimes that pass no model.",
+          "evidenceIds": [
+            "task",
+            "agents"
+          ]
+        },
+        "custom_adapters": {
+          "support": "supported",
+          "answer": "A harness profile is a TOML file under harnesses/ in Fleet config (command, args, resume argv, status hooks).",
+          "evidenceIds": [
+            "agents",
+            "taskctl"
+          ]
+        },
+        "session_integration": {
+          "support": "supported",
+          "answer": "Launches each agent command in a tmux window (psmux on Windows) and watches status through hooks and screen rules; no API control of the model loop.",
+          "evidenceIds": [
+            "mux",
+            "agents"
+          ]
+        },
+        "mixed_harness_operation": {
+          "support": "supported",
+          "answer": "Sessions of different harnesses are listed together and each Task chooses its harness.",
+          "evidenceIds": [
+            "agents",
+            "orch"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established or not supported: model_providers; see atomic answers."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "agents",
+        "task",
+        "taskctl",
+        "mux",
+        "orch"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "thurbox:ACC-03",
+      "criterionId": "ACC-03",
+      "answer": "Agents are launched unmodified and use their own logins and API keys; thurbox has no accounts, credits or billing.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v3.5.2 (commit 67bec8c, released 2026-11-17)",
+        "plan": "Open source (MIT); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "agent_subscriptions": {
+          "support": "supported",
+          "answer": "Each agent CLI uses its own login (the screenshots show Claude Code asking /login); thurbox adds nothing.",
+          "evidenceIds": [
+            "readme",
+            "img-iface"
+          ]
+        },
+        "api_accounts": {
+          "support": "supported",
+          "answer": "Agent CLIs use their own API keys; `env`/EnvProvider can inject environment values.",
+          "evidenceIds": [
+            "task"
+          ]
+        },
+        "vendor_credits": {
+          "support": "unsupported",
+          "answer": "No vendor credits or paid plans exist.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "local_models": {
+          "support": "partial",
+          "answer": "Possible only through agent CLIs that support them (opencode, pi); thurbox adds no local-model runtime.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "account_switching": {
+          "support": "partial",
+          "answer": "Per-Task `env` and TaskConfig can point an agent at different config directories or keys; no account switcher.",
+          "evidenceIds": [
+            "task"
+          ]
+        },
+        "vendor_account_requirement": {
+          "support": "supported",
+          "answer": "No thurbox account is required.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "provider_restrictions": {
+          "support": "unknown",
+          "answer": "Provider terms on third-party harness use are not documented by thurbox.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established or not supported: vendor_credits, local_models, account_switching, provider_restrictions; see atomic answers."
+      ],
+      "unknownReason": "Provider terms are external policies, not in the repository.",
+      "evidenceIds": [
+        "readme",
+        "agents",
+        "img-iface",
+        "task",
+        "srch-cost"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "thurbox:ACC-04",
+      "criterionId": "ACC-04",
+      "answer": "Install script, `thurbox-cli doctor`, run `thurbox`; first launch runs `fleet init`; needs tmux ≥3.2 (psmux on Windows), git and an agent CLI; remote machines via ssh or WSL Fleets; no managed cloud.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui",
+          "fleet"
+        ],
+        "version": "v3.5.2 (commit 67bec8c, released 2026-11-17)",
+        "plan": "Open source (MIT); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "first_task_setup": {
+          "support": "supported",
+          "answer": "README First steps: doctor, thurbox, Ctrl+N picks Fleet, place, repository, agent; installer puts five programs on PATH.",
+          "evidenceIds": [
+            "readme",
+            "install"
+          ]
+        },
+        "no_git": {
+          "support": "supported",
+          "answer": "A directory that is no git repository gets a `file://` workspace URL (no worktree).",
+          "evidenceIds": [
+            "orch"
+          ]
+        },
+        "local_git_without_remote": {
+          "support": "supported",
+          "answer": "Worktrees are created locally from `git+file://` URLs.",
+          "evidenceIds": [
+            "orch",
+            "mux"
+          ]
+        },
+        "hosted_git": {
+          "support": "partial",
+          "answer": "Forge adapters (GitHub, GitLab, Azure DevOps, Bitbucket) cover change requests; repositories can be cloned from `git+https` URLs.",
+          "evidenceIds": [
+            "crdoc",
+            "task"
+          ]
+        },
+        "prerequisite_guidance": {
+          "support": "supported",
+          "answer": "README lists tmux ≥3.2 or psmux ≥3.3.8, git and an agent CLI; `thurbox-cli doctor` checks each Fleet, runtime and agents.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "managed_cloud_setup": {
+          "support": "unsupported",
+          "answer": "No vendor cloud.",
+          "evidenceIds": [
+            "srch-isol"
+          ]
+        },
+        "byo_vps_onboarding": {
+          "support": "supported",
+          "answer": "Documented setup: run `fleet up` as a user service (systemd unit given) on the box and list it under [fleets.<name>] with ssh transport.",
+          "evidenceIds": [
+            "where",
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established or not supported: hosted_git, managed_cloud_setup; see atomic answers."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "where",
+        "install",
+        "orch",
+        "mux",
+        "crdoc",
+        "task",
+        "srch-isol"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "thurbox:ACC-05",
+      "criterionId": "ACC-05",
+      "answer": "Fleet CLI and a declarative resource store expose create, inspect, send, watch, result and delete operations; no network API, SDK, MCP server or webhooks into Fleet.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "fleet"
+        ],
+        "version": "v3.5.2 (commit 67bec8c, released 2026-11-17)",
+        "plan": "Open source (MIT); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "cli": {
+          "support": "supported",
+          "answer": "`fleet` verbs: apply, list, get, send, amend, watch --json, delete, signal, result, declare, event, runtime, gateway, doctor.",
+          "evidenceIds": [
+            "orch",
+            "fleet"
+          ]
+        },
+        "api": {
+          "support": "partial",
+          "answer": "Resources are `apiVersion: fleet/v1alpha1` files in a local store reached through the CLI; no HTTP API.",
+          "evidenceIds": [
+            "fleet",
+            "config"
+          ]
+        },
+        "sdk": {
+          "support": "unsupported",
+          "answer": "No SDK; plugin programs speak a documented plugin protocol.",
+          "evidenceIds": [
+            "fleet"
+          ]
+        },
+        "mcp_server": {
+          "support": "unsupported",
+          "answer": "No MCP server.",
+          "evidenceIds": [
+            "srch-mcp"
+          ]
+        },
+        "webhooks": {
+          "support": "partial",
+          "answer": "Gateway receives chat messages from Slack and Discord; no general webhook endpoint.",
+          "evidenceIds": [
+            "gateway"
+          ]
+        },
+        "operations": {
+          "support": "supported",
+          "answer": "create (apply), inspect (get/watch), steer (send/amend), stop (delete), review (declare/ChangeRequest).",
+          "evidenceIds": [
+            "orch",
+            "task",
+            "forge"
+          ]
+        },
+        "authentication": {
+          "support": "supported",
+          "answer": "Local file-store with a lease and compare-and-swap; remote Fleets reached over the user ssh/WSL login; chat tokens in operator-owned curl configs.",
+          "evidenceIds": [
+            "fleet",
+            "config"
+          ]
+        },
+        "stability": {
+          "support": "partial",
+          "answer": "Resources are `v1alpha1`; a Fleet lacking fleet/v1alpha1 is refused; README says v3 is not yet stable.",
+          "evidenceIds": [
+            "where",
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established or not supported: api, sdk, mcp_server, webhooks, stability; see atomic answers."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "orch",
+        "fleet",
+        "task",
+        "srch-mcp",
+        "config",
+        "gateway",
+        "forge",
+        "where",
+        "readme"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "thurbox:ACC-06",
+      "criterionId": "ACC-06",
+      "answer": "No MCP client of its own; agents keep their own MCP/skills; Lua interface plugins, Fleet plugin kinds and harness profiles extend thurbox.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui",
+          "fleet"
+        ],
+        "version": "v3.5.2 (commit 67bec8c, released 2026-11-17)",
+        "plan": "Open source (MIT); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "mcp_client": {
+          "support": "unsupported",
+          "answer": "thurbox has no MCP client; the agent CLI handles MCP.",
+          "evidenceIds": [
+            "srch-mcp"
+          ]
+        },
+        "plugins": {
+          "support": "supported",
+          "answer": "Lua panes in ui/plugins and Fleet plugin kinds registered with a plugin program.",
+          "evidenceIds": [
+            "plugins",
+            "fleet"
+          ]
+        },
+        "custom_tools": {
+          "support": "partial",
+          "answer": "Plugins and `fleet` verbs act as tools for agents that run shell commands.",
+          "evidenceIds": [
+            "orch",
+            "plugins"
+          ]
+        },
+        "instructions_import": {
+          "support": "partial",
+          "answer": "The interface directory ships AGENTS.md/CLAUDE.md/GEMINI.md for agents editing it; no skill import.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "authentication": {
+          "support": "partial",
+          "answer": "Plugin and chat credentials are operator-owned files; Fleet never reads tokens.",
+          "evidenceIds": [
+            "config"
+          ]
+        },
+        "permission_scope": {
+          "support": "supported",
+          "answer": "Lua plugins run in a sandbox with scoped readable data (\"thurbox\" scope, trust per plugin) and Fleet plugin Task scopes.",
+          "evidenceIds": [
+            "plugins",
+            "fleet"
+          ]
+        },
+        "integration_owner": {
+          "support": "supported",
+          "answer": "Agent hooks are installed by Fleet (set at launch or `fleet integration install kimi`).",
+          "evidenceIds": [
+            "agents"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established or not supported: mcp_client, custom_tools, instructions_import, authentication; see atomic answers."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "plugins",
+        "fleet",
+        "srch-mcp",
+        "orch",
+        "readme",
+        "config",
+        "agents"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "thurbox:ACC-07",
+      "criterionId": "ACC-07",
+      "answer": "Rust terminal UI (ratatui, tui-term, vt100) with a Lua pane layer; Fleet is Rust; no GUI or mobile client.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v3.5.2 (commit 67bec8c, released 2026-11-17)",
+        "plan": "Open source (MIT); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "desktop_implementation": {
+          "support": "supported",
+          "answer": "Terminal application in Rust (ratatui) rather than a GUI shell.",
+          "evidenceIds": [
+            "readme",
+            "cargo"
+          ]
+        },
+        "mobile_implementation": {
+          "support": "unsupported",
+          "answer": "No mobile client.",
+          "evidenceIds": [
+            "srch-web"
+          ]
+        },
+        "hybrids": {
+          "support": "supported",
+          "answer": "Rust core with Lua panes reloaded by F10; Fleet in separate Rust crates.",
+          "evidenceIds": [
+            "plugins",
+            "arch"
+          ]
+        },
+        "implementation_evidence": {
+          "support": "supported",
+          "answer": "README credits ratatui/tui-term/vt100/tmux and Cargo workspace is pinned.",
+          "evidenceIds": [
+            "readme",
+            "cargo"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established or not supported: mobile_implementation; see atomic answers."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "arch",
+        "cargo",
+        "srch-web",
+        "plugins"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-05-16",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "thurbox:PLAN-01",
+      "criterionId": "PLAN-01",
+      "answer": "Work is created by hand (Ctrl+N), by `fleet apply` Tasks, CronTasks or chat threads (Slack/Discord); no tracker import.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui",
+          "fleet"
+        ],
+        "version": "v3.5.2 (commit 67bec8c, released 2026-11-17)",
+        "plan": "Open source (MIT); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "local_creation": {
+          "support": "supported",
+          "answer": "New-session flow and `fleet apply` Tasks.",
+          "evidenceIds": [
+            "readme",
+            "orch"
+          ]
+        },
+        "prompt_intake": {
+          "support": "supported",
+          "answer": "Tasks take a brief; sessions take typed input.",
+          "evidenceIds": [
+            "task"
+          ]
+        },
+        "external_import": {
+          "support": "unsupported",
+          "answer": "No issue-tracker import.",
+          "evidenceIds": [
+            "srch-track"
+          ]
+        },
+        "chat_git_triggers": {
+          "support": "partial",
+          "answer": "Slack/Discord threads start Tasks; forge changes are followed after a worker declares them; no Git-event trigger.",
+          "evidenceIds": [
+            "gateway",
+            "forge"
+          ]
+        },
+        "authoritative_tracker": {
+          "support": "supported",
+          "answer": "Fleet store is authoritative; no external tracker.",
+          "evidenceIds": [
+            "fleet"
+          ]
+        },
+        "stable_ids": {
+          "support": "supported",
+          "answer": "Tasks have names and uids; row ids are `<fleet>:<task>`.",
+          "evidenceIds": [
+            "where",
+            "task"
+          ]
+        },
+        "sync": {
+          "support": "unsupported",
+          "answer": "No tracker sync.",
+          "evidenceIds": [
+            "srch-track"
+          ]
+        },
+        "supported_edits": {
+          "support": "partial",
+          "answer": "Amend the brief (fleet amend); rename sessions; dispatch/forge/subscriptions can change.",
+          "evidenceIds": [
+            "task"
+          ]
+        },
+        "external_roundtrips": {
+          "support": "unsupported",
+          "answer": "No tracker exists.",
+          "evidenceIds": [
+            "srch-track"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established or not supported: external_import, chat_git_triggers, sync, supported_edits, external_roundtrips; see atomic answers."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "task",
+        "cron",
+        "gateway",
+        "readme",
+        "orch",
+        "srch-track",
+        "forge",
+        "fleet",
+        "where"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "thurbox:PLAN-02",
+      "criterionId": "PLAN-02",
+      "answer": "A Task has a brief and appended amendments with typed required outputs; no acceptance-criteria editor or plan revisions.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "fleet"
+        ],
+        "version": "v3.5.2 (commit 67bec8c, released 2026-11-17)",
+        "plan": "Open source (MIT); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "plans": {
+          "support": "partial",
+          "answer": "Brief plus amendments is a task starting brief, not a plan object.",
+          "evidenceIds": [
+            "task"
+          ]
+        },
+        "acceptance_criteria": {
+          "support": "partial",
+          "answer": "`spec.outputs` declares required result fields (type, required) that a result must carry.",
+          "evidenceIds": [
+            "task"
+          ]
+        },
+        "editors": {
+          "support": "partial",
+          "answer": "`fleet amend` appends; briefs are fixed once created.",
+          "evidenceIds": [
+            "task"
+          ]
+        },
+        "revisions": {
+          "support": "partial",
+          "answer": "Amendments are ordered and generation-numbered.",
+          "evidenceIds": [
+            "task",
+            "taskctl"
+          ]
+        },
+        "implementation_links": {
+          "support": "partial",
+          "answer": "Declared change requests link a Task to forge changes.",
+          "evidenceIds": [
+            "forge"
+          ]
+        },
+        "amendment": {
+          "support": "supported",
+          "answer": "`fleet amend` adds to a running Task (refused for Stalled/deleting).",
+          "evidenceIds": [
+            "task",
+            "taskctl"
+          ]
+        },
+        "restart_persistence": {
+          "support": "supported",
+          "answer": "Brief record, counters and conversation survive reboot; sessions are revived.",
+          "evidenceIds": [
+            "taskctl"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established or not supported: plans, acceptance_criteria, editors, revisions, implementation_links; see atomic answers."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "task",
+        "taskctl",
+        "forge"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "thurbox:PLAN-03",
+      "criterionId": "PLAN-03",
+      "answer": "Parent/child links by label (informational), Boards for events; no epics, blockers or dependency enforcement.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui",
+          "fleet"
+        ],
+        "version": "v3.5.2 (commit 67bec8c, released 2026-11-17)",
+        "plan": "Open source (MIT); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "epics": {
+          "support": "unsupported",
+          "answer": "No epic kind among the built-in resource kinds.",
+          "evidenceIds": [
+            "fleet"
+          ]
+        },
+        "hierarchy": {
+          "support": "partial",
+          "answer": "`gateway.fleet.dev/parent` label nests workers under a lead one level at a time in the list; deleting a lead deletes no worker.",
+          "evidenceIds": [
+            "features",
+            "orch"
+          ]
+        },
+        "blockers": {
+          "support": "unsupported",
+          "answer": "No blocker field.",
+          "evidenceIds": [
+            "fleet"
+          ]
+        },
+        "readiness": {
+          "support": "partial",
+          "answer": "`dispatch: false` holds a Task; no dependency readiness.",
+          "evidenceIds": [
+            "task"
+          ]
+        },
+        "enforcement": {
+          "support": "unsupported",
+          "answer": "No dependency enforcement.",
+          "evidenceIds": [
+            "fleet"
+          ]
+        },
+        "state_propagation": {
+          "support": "partial",
+          "answer": "A parent relays a child Questions, Comments, Drafts and results into its inbox; no state roll-up.",
+          "evidenceIds": [
+            "task"
+          ]
+        },
+        "task_to_epic": {
+          "support": "unsupported",
+          "answer": "No epic conversion.",
+          "evidenceIds": [
+            "fleet"
+          ]
+        },
+        "identity_retention": {
+          "support": "supported",
+          "answer": "Tasks keep name, uid, inbox and result through amendments.",
+          "evidenceIds": [
+            "task"
+          ]
+        },
+        "workflow_constraints": {
+          "support": "supported",
+          "answer": "No mandatory workflow.",
+          "evidenceIds": [
+            "fleet"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established or not supported: epics, hierarchy, blockers, readiness, enforcement, state_propagation, task_to_epic; see atomic answers."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "orch",
+        "features",
+        "board",
+        "fleet",
+        "task"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "thurbox:PLAN-04",
+      "criterionId": "PLAN-04",
+      "answer": "Agents read their own instruction files; Fleet keeps Task briefs, inboxes and boards; no managed memory or skill store.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "fleet"
+        ],
+        "version": "v3.5.2 (commit 67bec8c, released 2026-11-17)",
+        "plan": "Open source (MIT); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "instructions": {
+          "support": "partial",
+          "answer": "Interface directory ships AGENTS.md; agents read their own repository instructions.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "skills": {
+          "support": "unsupported",
+          "answer": "No skill management in v3.5.2.",
+          "evidenceIds": [
+            "srch-track"
+          ]
+        },
+        "project_docs": {
+          "support": "unsupported",
+          "answer": "No project notes or docs store.",
+          "evidenceIds": [
+            "srch-track"
+          ]
+        },
+        "memory": {
+          "support": "unsupported",
+          "answer": "No cross-session memory.",
+          "evidenceIds": [
+            "srch-track"
+          ]
+        },
+        "scope": {
+          "support": "partial",
+          "answer": "Boards scope events per board with retention.",
+          "evidenceIds": [
+            "board"
+          ]
+        },
+        "provenance": {
+          "support": "partial",
+          "answer": "Board events carry type, subject and sequence.",
+          "evidenceIds": [
+            "board"
+          ]
+        },
+        "correction": {
+          "support": "unsupported",
+          "answer": "No correction tools.",
+          "evidenceIds": [
+            "srch-track"
+          ]
+        },
+        "deletion": {
+          "support": "partial",
+          "answer": "Boards expire events by maxAge/maxCount.",
+          "evidenceIds": [
+            "board"
+          ]
+        },
+        "freshness": {
+          "support": "partial",
+          "answer": "Retention windows on Boards.",
+          "evidenceIds": [
+            "board"
+          ]
+        },
+        "takeover_continuity": {
+          "support": "partial",
+          "answer": "Sessions and Task records outlive the interface and can be followed from another shell.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established or not supported: instructions, skills, project_docs, memory, scope, provenance, correction, deletion, freshness, takeover_continuity; see atomic answers."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "task",
+        "board",
+        "srch-track",
+        "readme"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "thurbox:PLAN-05",
+      "criterionId": "PLAN-05",
+      "answer": "Thurbox has a fuzzy session search and global terminal-text search; no code indexing or architecture awareness.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v3.5.2 (commit 67bec8c, released 2026-11-17)",
+        "plan": "Open source (MIT); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "code_search": {
+          "support": "partial",
+          "answer": "Global Search covers sessions and terminal text, not source code.",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "indexing": {
+          "support": "unsupported",
+          "answer": "No repository indexing.",
+          "evidenceIds": [
+            "srch-track"
+          ]
+        },
+        "external_knowledge": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-track"
+          ]
+        },
+        "multimodal_inputs": {
+          "support": "partial",
+          "answer": "Images can be pasted/dropped into local sessions.",
+          "evidenceIds": [
+            "features",
+            "where"
+          ]
+        },
+        "freshness": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-track"
+          ]
+        },
+        "access_scope": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-track"
+          ]
+        },
+        "api_retrieval": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-track"
+          ]
+        },
+        "citations": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-track"
+          ]
+        },
+        "conflict_detection": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-track"
+          ]
+        },
+        "review_enforcement": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-track"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established or not supported: code_search, indexing, external_knowledge, multimodal_inputs, freshness, access_scope, api_retrieval, citations, conflict_detection, review_enforcement; see atomic answers."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "features",
+        "srch-track",
+        "where"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "thurbox:PLAN-06",
+      "criterionId": "PLAN-06",
+      "answer": "Sessions and Tasks (name, harness, place, brief, state, parent); no issue objects, priority, labels beyond Kubernetes-style labels, or assignees.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui",
+          "fleet"
+        ],
+        "version": "v3.5.2 (commit 67bec8c, released 2026-11-17)",
+        "plan": "Open source (MIT); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "create": {
+          "support": "partial",
+          "answer": "Create Tasks; no issue object.",
+          "evidenceIds": [
+            "task"
+          ]
+        },
+        "edit": {
+          "support": "partial",
+          "answer": "Rename sessions, amend briefs.",
+          "evidenceIds": [
+            "features",
+            "task"
+          ]
+        },
+        "discuss": {
+          "support": "unsupported",
+          "answer": "No discussion on work items (chat threads via Gateway only).",
+          "evidenceIds": [
+            "gateway"
+          ]
+        },
+        "prioritize": {
+          "support": "partial",
+          "answer": "Manual ordering or alphabetical sort in the list.",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "label": {
+          "support": "partial",
+          "answer": "Tasks carry metadata labels.",
+          "evidenceIds": [
+            "task"
+          ]
+        },
+        "assign": {
+          "support": "partial",
+          "answer": "A Task names its harness and place; no human assignee.",
+          "evidenceIds": [
+            "task"
+          ]
+        },
+        "search": {
+          "support": "supported",
+          "answer": "Fuzzy session search and global search.",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "filter": {
+          "support": "partial",
+          "answer": "Repo groups and Fleet grouping in the list; `fleet list task`.",
+          "evidenceIds": [
+            "features",
+            "orch"
+          ]
+        },
+        "archive": {
+          "support": "partial",
+          "answer": "Delete a Task to release it; no archive.",
+          "evidenceIds": [
+            "taskctl"
+          ]
+        },
+        "reopen": {
+          "support": "partial",
+          "answer": "Concluded Tasks can receive new inbox entries and are revived.",
+          "evidenceIds": [
+            "taskctl"
+          ]
+        },
+        "project_epic_views": {
+          "support": "partial",
+          "answer": "Repo groups with parent nesting; no epic views.",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "idea_parking": {
+          "support": "partial",
+          "answer": "`dispatch: false` Tasks wait without spawning; empty-brief interactive Tasks.",
+          "evidenceIds": [
+            "task"
+          ]
+        },
+        "explicit_dispatch": {
+          "support": "supported",
+          "answer": "`spec.dispatch` controls when a session spawns.",
+          "evidenceIds": [
+            "task"
+          ]
+        },
+        "task_session_separation": {
+          "support": "partial",
+          "answer": "Task is the unit and owns one session at a time; revives keep the id.",
+          "evidenceIds": [
+            "fleet",
+            "taskctl"
+          ]
+        },
+        "metadata": {
+          "support": "supported",
+          "answer": "Phase, conditions, session state, result, forge and gateway status per Task.",
+          "evidenceIds": [
+            "task"
+          ]
+        },
+        "durable_states": {
+          "support": "supported",
+          "answer": "Task phases and conditions persist in the Fleet store.",
+          "evidenceIds": [
+            "taskctl"
+          ]
+        },
+        "external_tracker_requirement": {
+          "support": "supported",
+          "answer": "An external tracker is needed for issues.",
+          "evidenceIds": [
+            "srch-track"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established or not supported: create, edit, discuss, prioritize, label, assign, filter, archive, reopen, project_epic_views, idea_parking, task_session_separation; see atomic answers."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "task",
+        "features",
+        "gateway",
+        "orch",
+        "taskctl",
+        "fleet",
+        "srch-track"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "thurbox:PLAN-07",
+      "criterionId": "PLAN-07",
+      "answer": "Agents (and scripts) run `fleet` to create, read, message and delete Tasks that humans see in the list; no claims, assignment or dependencies.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "fleet"
+        ],
+        "version": "v3.5.2 (commit 67bec8c, released 2026-11-17)",
+        "plan": "Open source (MIT); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "shared_ids": {
+          "support": "supported",
+          "answer": "Same Task names in the list and CLI.",
+          "evidenceIds": [
+            "orch"
+          ]
+        },
+        "read": {
+          "support": "supported",
+          "answer": "`fleet list/get/watch`.",
+          "evidenceIds": [
+            "orch"
+          ]
+        },
+        "create": {
+          "support": "supported",
+          "answer": "`fleet apply --create-only`.",
+          "evidenceIds": [
+            "orch"
+          ]
+        },
+        "update": {
+          "support": "partial",
+          "answer": "`fleet amend`, `fleet send`; spec is otherwise fixed.",
+          "evidenceIds": [
+            "task"
+          ]
+        },
+        "claim": {
+          "support": "unsupported",
+          "answer": "No claim operation.",
+          "evidenceIds": [
+            "fleet"
+          ]
+        },
+        "assign": {
+          "support": "partial",
+          "answer": "A creator chooses harness and place for a child Task.",
+          "evidenceIds": [
+            "task"
+          ]
+        },
+        "state_changes": {
+          "support": "partial",
+          "answer": "`fleet result` and `fleet signal` report outcome and state; dispatch toggles.",
+          "evidenceIds": [
+            "orch",
+            "task"
+          ]
+        },
+        "dependencies": {
+          "support": "unsupported",
+          "answer": "No dependency model.",
+          "evidenceIds": [
+            "fleet"
+          ]
+        },
+        "children": {
+          "support": "supported",
+          "answer": "Children by parent label.",
+          "evidenceIds": [
+            "orch"
+          ]
+        },
+        "results": {
+          "support": "supported",
+          "answer": "`fleet result` sets status.result; outputs schema.",
+          "evidenceIds": [
+            "orch",
+            "task"
+          ]
+        },
+        "human_visibility": {
+          "support": "supported",
+          "answer": "Tasks created by agents appear in the list within a tick.",
+          "evidenceIds": [
+            "orch"
+          ]
+        },
+        "attribution": {
+          "support": "partial",
+          "answer": "Posts mark their Task identity; no per-field author history.",
+          "evidenceIds": [
+            "forge"
+          ]
+        },
+        "permissions": {
+          "support": "partial",
+          "answer": "Store writes need the lease holder; plugin Task scopes limit parents.",
+          "evidenceIds": [
+            "task"
+          ]
+        },
+        "conflicts": {
+          "support": "supported",
+          "answer": "Compare-and-swap writes with generations.",
+          "evidenceIds": [
+            "fleet"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established or not supported: update, claim, assign, state_changes, dependencies, attribution, permissions; see atomic answers."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "orch",
+        "task",
+        "fleet",
+        "forge"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "thurbox:PLAN-08",
+      "criterionId": "PLAN-08",
+      "answer": "No living product specifications.",
+      "support": "unsupported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "fleet"
+        ],
+        "version": "v3.5.2 (commit 67bec8c, released 2026-11-17)",
+        "plan": "Open source (MIT); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "persistent_requirements": {
+          "support": "unsupported",
+          "answer": "No requirements or spec store found in a bounded search.",
+          "evidenceIds": [
+            "srch-track"
+          ]
+        },
+        "human_edits": {
+          "support": "unsupported",
+          "answer": "No requirements or spec store found in a bounded search.",
+          "evidenceIds": [
+            "srch-track"
+          ]
+        },
+        "agent_edits": {
+          "support": "unsupported",
+          "answer": "No requirements or spec store found in a bounded search.",
+          "evidenceIds": [
+            "srch-track"
+          ]
+        },
+        "revisions": {
+          "support": "unsupported",
+          "answer": "No requirements or spec store found in a bounded search.",
+          "evidenceIds": [
+            "srch-track"
+          ]
+        },
+        "approvals": {
+          "support": "unsupported",
+          "answer": "No requirements or spec store found in a bounded search.",
+          "evidenceIds": [
+            "srch-track"
+          ]
+        },
+        "implementation_links": {
+          "support": "unsupported",
+          "answer": "No requirements or spec store found in a bounded search.",
+          "evidenceIds": [
+            "srch-track"
+          ]
+        },
+        "later_retrieval": {
+          "support": "unsupported",
+          "answer": "No requirements or spec store found in a bounded search.",
+          "evidenceIds": [
+            "srch-track"
+          ]
+        },
+        "drift_detection": {
+          "support": "unsupported",
+          "answer": "No requirements or spec store found in a bounded search.",
+          "evidenceIds": [
+            "srch-track"
+          ]
+        },
+        "review_integration": {
+          "support": "unsupported",
+          "answer": "No requirements or spec store found in a bounded search.",
+          "evidenceIds": [
+            "srch-track"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "srch-track"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "thurbox:COORD-01",
+      "criterionId": "COORD-01",
+      "answer": "Each Task is its own session in a tmux window; any number run concurrently and keep running when the interface quits; no documented concurrency quota.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui",
+          "fleet"
+        ],
+        "version": "v3.5.2 (commit 67bec8c, released 2026-11-17)",
+        "plan": "Open source (MIT); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "concurrent_sessions": {
+          "support": "supported",
+          "answer": "Sessions outlive the interface; the one not in view keeps working.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "concurrent_tasks": {
+          "support": "supported",
+          "answer": "Tasks run concurrently, CronTask has concurrencyPolicy.",
+          "evidenceIds": [
+            "task",
+            "cron"
+          ]
+        },
+        "quotas": {
+          "support": "unsupported",
+          "answer": "No quota found in the Fleet configuration reference.",
+          "evidenceIds": [
+            "config"
+          ]
+        },
+        "observed_concurrency": {
+          "support": "unknown",
+          "answer": "No benchmark here; ADEMark lists no result.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "status_visibility": {
+          "support": "supported",
+          "answer": "Session list shows agent state (working, attention/blocked, idle) and unreachable Fleets.",
+          "evidenceIds": [
+            "agents",
+            "where"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established or not supported: quotas, observed_concurrency; see atomic answers."
+      ],
+      "unknownReason": "Observed concurrency needs benchmarks; ADEMark has no entry for thurbox.",
+      "evidenceIds": [
+        "readme",
+        "mux",
+        "task",
+        "cron",
+        "config",
+        "agents",
+        "where"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "thurbox:COORD-02",
+      "criterionId": "COORD-02",
+      "answer": "Humans choose harness and place per Task; scripts and agents create Tasks; no claims, queues or routing.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "fleet"
+        ],
+        "version": "v3.5.2 (commit 67bec8c, released 2026-11-17)",
+        "plan": "Open source (MIT); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "human_assignment": {
+          "support": "supported",
+          "answer": "Ctrl+N flow picks Fleet, place, repository and agent.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "agent_assignment": {
+          "support": "supported",
+          "answer": "Agents run `fleet apply` to hand work to another harness.",
+          "evidenceIds": [
+            "orch"
+          ]
+        },
+        "claims": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "fleet"
+          ]
+        },
+        "queues": {
+          "support": "partial",
+          "answer": "`dispatch:false` holds Tasks until released.",
+          "evidenceIds": [
+            "task"
+          ]
+        },
+        "routing": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "fleet"
+          ]
+        },
+        "duplicate_prevention": {
+          "support": "partial",
+          "answer": "Worktree per session separates checkouts; delivery journals prevent duplicate sends.",
+          "evidenceIds": [
+            "taskctl",
+            "readme"
+          ]
+        },
+        "ownership_enforcement": {
+          "support": "partial",
+          "answer": "One session per Task enforced by the controller; no work ownership.",
+          "evidenceIds": [
+            "taskctl"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established or not supported: claims, queues, routing, duplicate_prevention, ownership_enforcement; see atomic answers."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "task",
+        "readme",
+        "orch",
+        "fleet",
+        "taskctl"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "thurbox:COORD-03",
+      "criterionId": "COORD-03",
+      "answer": "A lead agent can start child Tasks with the `fleet` CLI and read their results; parent relays child Questions/Drafts/results; no product-designated coordinator role or shipped delegation tools beyond the CLI.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "fleet",
+          "tui"
+        ],
+        "version": "v3.5.2 (commit 67bec8c, released 2026-11-17)",
+        "plan": "Open source (MIT); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "roles": {
+          "support": "partial",
+          "answer": "Parent/child via label; \"lead/worker\" is informal.",
+          "evidenceIds": [
+            "features",
+            "task"
+          ]
+        },
+        "model_harness_effort": {
+          "support": "partial",
+          "answer": "Each child chooses harness and model; no effort setting.",
+          "evidenceIds": [
+            "task"
+          ]
+        },
+        "messages": {
+          "support": "supported",
+          "answer": "`fleet send` types into a session; inbox entries delivered with proof.",
+          "evidenceIds": [
+            "orch",
+            "taskctl"
+          ]
+        },
+        "results_return": {
+          "support": "supported",
+          "answer": "`fleet result` with typed outputs; parent relays child results.",
+          "evidenceIds": [
+            "task"
+          ]
+        },
+        "cross_harness": {
+          "support": "supported",
+          "answer": "Children may use any bundled harness.",
+          "evidenceIds": [
+            "agents",
+            "orch"
+          ]
+        },
+        "orchestration_owner": {
+          "support": "partial",
+          "answer": "Fleet owns Task execution and inbox; no coordinator logic of its own.",
+          "evidenceIds": [
+            "task"
+          ]
+        },
+        "activation": {
+          "support": "partial",
+          "answer": "Any agent that can run `fleet` can orchestrate; no switch.",
+          "evidenceIds": [
+            "orch"
+          ]
+        },
+        "authentication": {
+          "support": "supported",
+          "answer": "Same local user; remote Fleets via ssh/WSL.",
+          "evidenceIds": [
+            "where"
+          ]
+        },
+        "live_progress": {
+          "support": "supported",
+          "answer": "Child state shown in list; `fleet watch`.",
+          "evidenceIds": [
+            "orch"
+          ]
+        },
+        "retained_results": {
+          "support": "supported",
+          "answer": "Result stored in Task status.",
+          "evidenceIds": [
+            "task"
+          ]
+        },
+        "followup": {
+          "support": "supported",
+          "answer": "Amend or send to a concluded Task which is revived.",
+          "evidenceIds": [
+            "taskctl"
+          ]
+        },
+        "invocation": {
+          "support": "partial",
+          "answer": "Only by agents running shell commands.",
+          "evidenceIds": [
+            "orch"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established or not supported: roles, model_harness_effort, orchestration_owner, activation, invocation; see atomic answers."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "orch",
+        "task",
+        "features",
+        "taskctl",
+        "agents",
+        "where"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "thurbox:COORD-04",
+      "criterionId": "COORD-04",
+      "answer": "CronTask schedules Tasks from a template with overlap and deadline policy; chat threads and forge feedback trigger work; closing the interface does not stop the manager.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "fleet"
+        ],
+        "version": "v3.5.2 (commit 67bec8c, released 2026-11-17)",
+        "plan": "Open source (MIT); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "schedules": {
+          "support": "supported",
+          "answer": "Cron expressions, startingDeadlineSeconds, suspend.",
+          "evidenceIds": [
+            "cron"
+          ]
+        },
+        "events": {
+          "support": "partial",
+          "answer": "Slack/Discord messages start Tasks; Board events can be subscribed to by Tasks; forge feedback relayed.",
+          "evidenceIds": [
+            "gateway",
+            "board",
+            "forge"
+          ]
+        },
+        "recurring_tasks": {
+          "support": "supported",
+          "answer": "CronTask nightly review example.",
+          "evidenceIds": [
+            "cron"
+          ]
+        },
+        "completion_conditions": {
+          "support": "partial",
+          "answer": "Tasks conclude when the worker reports a result; no iteration conditions.",
+          "evidenceIds": [
+            "task"
+          ]
+        },
+        "scheduler_location": {
+          "support": "supported",
+          "answer": "`fleet up` manager on the Fleet machine runs controllers.",
+          "evidenceIds": [
+            "fleet",
+            "config"
+          ]
+        },
+        "overlaps": {
+          "support": "supported",
+          "answer": "concurrencyPolicy (e.g. Forbid).",
+          "evidenceIds": [
+            "cron"
+          ]
+        },
+        "retries": {
+          "support": "supported",
+          "answer": "Task spawn and send retries (3 attempts, 30 s); CronTask misses beyond deadline are skipped.",
+          "evidenceIds": [
+            "taskctl",
+            "cron"
+          ]
+        },
+        "client_independence": {
+          "support": "supported",
+          "answer": "The manager is headless; closing thurbox stops nothing.",
+          "evidenceIds": [
+            "readme",
+            "fleet"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established or not supported: events, completion_conditions; see atomic answers."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "cron",
+        "features",
+        "forge",
+        "gateway",
+        "board",
+        "task",
+        "fleet",
+        "config",
+        "taskctl",
+        "readme"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "thurbox:COORD-05",
+      "criterionId": "COORD-05",
+      "answer": "Type into any session, shell pane, delete a Task, pause idle sessions automatically; attention state and OS notifications; no pause button or escalation chain.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui",
+          "fleet"
+        ],
+        "version": "v3.5.2 (commit 67bec8c, released 2026-11-17)",
+        "plan": "Open source (MIT); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "pause": {
+          "support": "partial",
+          "answer": "Idle pause after `pauseAfterMs`; resume automatically on delivery.",
+          "evidenceIds": [
+            "task",
+            "taskctl"
+          ]
+        },
+        "stop": {
+          "support": "supported",
+          "answer": "Delete a Task to release its session.",
+          "evidenceIds": [
+            "taskctl"
+          ]
+        },
+        "resume": {
+          "support": "supported",
+          "answer": "Revive after reboot; resume argv per harness.",
+          "evidenceIds": [
+            "taskctl",
+            "agents"
+          ]
+        },
+        "steer": {
+          "support": "supported",
+          "answer": "Every key goes to the live agent pane; `fleet send`.",
+          "evidenceIds": [
+            "readme",
+            "orch"
+          ]
+        },
+        "notifications": {
+          "support": "supported",
+          "answer": "OS notifications with backend auto-detect.",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "pending_decisions": {
+          "support": "supported",
+          "answer": "Agent state `attention` shown as blocked.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "escalation": {
+          "support": "partial",
+          "answer": "Gateway posts questions to Slack/Discord threads.",
+          "evidenceIds": [
+            "gateway"
+          ]
+        },
+        "visible_errors": {
+          "support": "supported",
+          "answer": "Stalled/NeedsAttention conditions; unreachable Fleets marked.",
+          "evidenceIds": [
+            "taskctl",
+            "where"
+          ]
+        },
+        "chat_terminal_parity": {
+          "support": "supported",
+          "answer": "The pane is the real agent terminal.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "retained_history": {
+          "support": "partial",
+          "answer": "Scrollback buffer and agent transcripts kept by the agent.",
+          "evidenceIds": [
+            "features"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established or not supported: pause, escalation, retained_history; see atomic answers."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "features",
+        "taskctl",
+        "agents",
+        "task",
+        "readme",
+        "orch",
+        "gateway",
+        "where"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "thurbox:COORD-06",
+      "criterionId": "COORD-06",
+      "answer": "Session list groups by repo with parent nesting, agent state and Fleet reachability; no epic/dependency board.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v3.5.2 (commit 67bec8c, released 2026-11-17)",
+        "plan": "Open source (MIT); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "fleet_fixture": {
+          "support": "unknown",
+          "answer": "This catalog defines no fixture for thurbox.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "parent_child": {
+          "support": "supported",
+          "answer": "Children nest under parents within a repo group.",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "dependencies": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "fleet"
+          ]
+        },
+        "attention": {
+          "support": "supported",
+          "answer": "blocked/attention markers and notifications.",
+          "evidenceIds": [
+            "agents",
+            "features"
+          ]
+        },
+        "history": {
+          "support": "partial",
+          "answer": "Session list and Task status; no history timeline.",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "workload": {
+          "support": "partial",
+          "answer": "A user pane can show CPU/RAM; none bundled.",
+          "evidenceIds": [
+            "plugins",
+            "uiplug"
+          ]
+        },
+        "navigation_errors": {
+          "support": "supported",
+          "answer": "Unreachable Fleets and errors appear inline without crashing.",
+          "evidenceIds": [
+            "where",
+            "features"
+          ]
+        },
+        "fixture_mode": {
+          "support": "unknown",
+          "answer": "Not applicable to a source pass.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established or not supported: fleet_fixture, dependencies, history, workload, fixture_mode; see atomic answers."
+      ],
+      "unknownReason": "Fixture questions need hands-on tests, which this catalog does not run.",
+      "evidenceIds": [
+        "features",
+        "where",
+        "agents",
+        "readme",
+        "fleet",
+        "plugins",
+        "uiplug"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "thurbox:COORD-07",
+      "criterionId": "COORD-07",
+      "answer": "No mandatory preset; per-Task harness/model/place; in-run steering and amendments; parent nesting visible.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui",
+          "fleet"
+        ],
+        "version": "v3.5.2 (commit 67bec8c, released 2026-11-17)",
+        "plan": "Open source (MIT); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "quick_task": {
+          "support": "supported",
+          "answer": "Ctrl+N new-session flow.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "growing_epic": {
+          "support": "unsupported",
+          "answer": "No epic model.",
+          "evidenceIds": [
+            "fleet"
+          ]
+        },
+        "presets": {
+          "support": "partial",
+          "answer": "TaskConfig defaults and harness profiles.",
+          "evidenceIds": [
+            "task"
+          ]
+        },
+        "natural_language": {
+          "support": "partial",
+          "answer": "Agents can edit the Lua interface from a natural-language request (README example).",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "agent_configuration": {
+          "support": "supported",
+          "answer": "harness, model, env, pauseAfterMs per Task or TaskConfig.",
+          "evidenceIds": [
+            "task"
+          ]
+        },
+        "in_run_changes": {
+          "support": "supported",
+          "answer": "Amend, send, dispatch toggle.",
+          "evidenceIds": [
+            "task"
+          ]
+        },
+        "live_roles": {
+          "support": "partial",
+          "answer": "Parent nesting only.",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "retained_relationships": {
+          "support": "partial",
+          "answer": "Parent labels persist.",
+          "evidenceIds": [
+            "task"
+          ]
+        },
+        "discoverability": {
+          "support": "supported",
+          "answer": "F1 key list, Ctrl+P palette, docs site.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "auth_friction": {
+          "support": "supported",
+          "answer": "No thurbox login.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established or not supported: growing_epic, presets, natural_language, live_roles, retained_relationships; see atomic answers."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "task",
+        "orch",
+        "readme",
+        "fleet",
+        "features"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "thurbox:RUN-01",
+      "criterionId": "RUN-01",
+      "answer": "Sessions run in tmux/psmux on the Fleet machine: local, a machine reached over ssh, or a WSL distro; a user-service Fleet on a VPS survives laptop sleep; no vendor cloud; VM runtime planned.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui",
+          "fleet"
+        ],
+        "version": "v3.5.2 (commit 67bec8c, released 2026-11-17)",
+        "plan": "Open source (MIT); free",
+        "os": [],
+        "executionModes": [
+          "local",
+          "own-server"
+        ],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "local": {
+          "support": "supported",
+          "answer": "Place `local` on the laptop.",
+          "evidenceIds": [
+            "where"
+          ]
+        },
+        "byo_remote": {
+          "support": "supported",
+          "answer": "ssh places and WSL places via runtime-mux; remote Fleets via ssh.",
+          "evidenceIds": [
+            "where",
+            "mux"
+          ]
+        },
+        "self_hosted": {
+          "support": "supported",
+          "answer": "`fleet up` as a user systemd unit on a box.",
+          "evidenceIds": [
+            "where"
+          ]
+        },
+        "managed_cloud": {
+          "support": "unsupported",
+          "answer": "No vendor-operated runtime.",
+          "evidenceIds": [
+            "srch-isol"
+          ]
+        },
+        "hybrid": {
+          "support": "supported",
+          "answer": "One interface lists several Fleets and places at once.",
+          "evidenceIds": [
+            "where"
+          ]
+        },
+        "provisioning": {
+          "support": "supported",
+          "answer": "Workspaces are cloned on the target place via workspace-git.",
+          "evidenceIds": [
+            "where",
+            "mux"
+          ]
+        },
+        "payer": {
+          "support": "supported",
+          "answer": "User machines only.",
+          "evidenceIds": [
+            "where"
+          ]
+        },
+        "resources": {
+          "support": "partial",
+          "answer": "Whatever the host provides.",
+          "evidenceIds": [
+            "where"
+          ]
+        },
+        "region": {
+          "support": "unsupported",
+          "answer": "No vendor region.",
+          "evidenceIds": [
+            "srch-isol"
+          ]
+        },
+        "expiry": {
+          "support": "supported",
+          "answer": "No expiry for tmux sessions; reboot is handled by revive.",
+          "evidenceIds": [
+            "taskctl"
+          ]
+        },
+        "client_disconnect": {
+          "support": "supported",
+          "answer": "Sessions keep working when the interface quits (`Ctrl+Q` stops nothing).",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "other_device_continuation": {
+          "support": "partial",
+          "answer": "Another machine can run thurbox against the same Fleet over ssh; no phone/web.",
+          "evidenceIds": [
+            "where",
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established or not supported: managed_cloud, resources, region, other_device_continuation; see atomic answers."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "where",
+        "readme",
+        "mux",
+        "srch-isol",
+        "taskctl"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "thurbox:RUN-02",
+      "criterionId": "RUN-02",
+      "answer": "A git worktree per session (Alt+W), tmux windows per process; no container, VM or OS sandbox (VM runtime planned).",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui",
+          "fleet"
+        ],
+        "version": "v3.5.2 (commit 67bec8c, released 2026-11-17)",
+        "plan": "Open source (MIT); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "checkout": {
+          "support": "supported",
+          "answer": "Sessions can run in an existing checkout (`file://` URL).",
+          "evidenceIds": [
+            "orch"
+          ]
+        },
+        "branch": {
+          "support": "supported",
+          "answer": "New-session flow names a branch and base.",
+          "evidenceIds": [
+            "orch"
+          ]
+        },
+        "worktree": {
+          "support": "supported",
+          "answer": "`git+file://...?branch=` URLs create worktrees through workspace-git.",
+          "evidenceIds": [
+            "orch",
+            "mux"
+          ]
+        },
+        "container": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-isol"
+          ]
+        },
+        "vm": {
+          "support": "unsupported",
+          "answer": "Planned only (\"A VM runtime: planned\").",
+          "evidenceIds": [
+            "where",
+            "srch-isol"
+          ]
+        },
+        "os_sandbox": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-isol"
+          ]
+        },
+        "filesystem": {
+          "support": "partial",
+          "answer": "Worktree separates files only.",
+          "evidenceIds": [
+            "orch"
+          ]
+        },
+        "process": {
+          "support": "partial",
+          "answer": "Separate tmux window per session.",
+          "evidenceIds": [
+            "mux"
+          ]
+        },
+        "network": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-isol"
+          ]
+        },
+        "secrets": {
+          "support": "partial",
+          "answer": "Env values from EnvProvider; no isolation.",
+          "evidenceIds": [
+            "task"
+          ]
+        },
+        "code_separation": {
+          "support": "partial",
+          "answer": "Worktrees.",
+          "evidenceIds": [
+            "orch"
+          ]
+        },
+        "security_boundary": {
+          "support": "unsupported",
+          "answer": "Not a security boundary.",
+          "evidenceIds": [
+            "srch-isol"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established or not supported: container, vm, os_sandbox, filesystem, process, network, secrets, code_separation, security_boundary; see atomic answers."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "mux",
+        "srch-isol",
+        "orch",
+        "where",
+        "task"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "thurbox:RUN-03",
+      "criterionId": "RUN-03",
+      "answer": "Sessions survive interface exit and crashes; after reboot Fleet revives the same session and worktree with a catch-up note; delivery uses proof-of-delivery journals; stalls need a new Task.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "fleet",
+          "tui"
+        ],
+        "version": "v3.5.2 (commit 67bec8c, released 2026-11-17)",
+        "plan": "Open source (MIT); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "client_disconnect": {
+          "support": "supported",
+          "answer": "Quit or crash of the interface stops nothing.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "worker_crash": {
+          "support": "supported",
+          "answer": "Lost session answer triggers revive; three failures raise NeedsAttention.",
+          "evidenceIds": [
+            "taskctl"
+          ]
+        },
+        "service_restart": {
+          "support": "supported",
+          "answer": "Manager restarts continue from persisted `notBefore` and receipts.",
+          "evidenceIds": [
+            "taskctl"
+          ]
+        },
+        "expiry": {
+          "support": "unsupported",
+          "answer": "No expiry concept for own hosts.",
+          "evidenceIds": [
+            "taskctl"
+          ]
+        },
+        "transcript_reload": {
+          "support": "partial",
+          "answer": "Agent keeps its conversation and is resumed with its resume argv.",
+          "evidenceIds": [
+            "agents",
+            "taskctl"
+          ]
+        },
+        "process_reconnect": {
+          "support": "supported",
+          "answer": "Reattach to tmux sessions.",
+          "evidenceIds": [
+            "mux",
+            "readme"
+          ]
+        },
+        "task_resume": {
+          "support": "supported",
+          "answer": "Revive resumes the same session.",
+          "evidenceIds": [
+            "taskctl"
+          ]
+        },
+        "state_reconstruction": {
+          "support": "supported",
+          "answer": "Interface follows `fleet watch` and redraws from the store.",
+          "evidenceIds": [
+            "orch",
+            "arch"
+          ]
+        },
+        "context_loss": {
+          "support": "partial",
+          "answer": "Depends on the harness resume.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "duplicate_actions": {
+          "support": "supported",
+          "answer": "Brief key reused; unknown answers never resend.",
+          "evidenceIds": [
+            "taskctl"
+          ]
+        },
+        "manual_repair": {
+          "support": "partial",
+          "answer": "`thurbox-cli doctor`, `fleet reconcile`; Stalled needs a new Task.",
+          "evidenceIds": [
+            "taskctl",
+            "readme"
+          ]
+        },
+        "multi_day_continuity": {
+          "support": "supported",
+          "answer": "Sessions revive after reboot with the same worktree.",
+          "evidenceIds": [
+            "taskctl"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established or not supported: expiry, transcript_reload, context_loss, manual_repair; see atomic answers."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "taskctl",
+        "readme",
+        "agents",
+        "mux",
+        "orch",
+        "arch"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "thurbox:RUN-04",
+      "criterionId": "RUN-04",
+      "answer": "Worktrees through workspace-git; no dependency caches, services or port management.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "fleet"
+        ],
+        "version": "v3.5.2 (commit 67bec8c, released 2026-11-17)",
+        "plan": "Open source (MIT); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "dependencies": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-isol"
+          ]
+        },
+        "caches": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-isol"
+          ]
+        },
+        "snapshots": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-isol"
+          ]
+        },
+        "services": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-isol"
+          ]
+        },
+        "ports": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-isol"
+          ]
+        },
+        "secrets": {
+          "support": "partial",
+          "answer": "EnvProvider supplies environment values from stored data, a file or a command.",
+          "evidenceIds": [
+            "fleet",
+            "task"
+          ]
+        },
+        "duplicate_installs": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-isol"
+          ]
+        },
+        "collisions": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-isol"
+          ]
+        },
+        "remote_setup": {
+          "support": "partial",
+          "answer": "Remote place clones the workspace and runs the session; no dependency setup.",
+          "evidenceIds": [
+            "where"
+          ]
+        },
+        "automatic_repair": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-isol"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established or not supported: dependencies, caches, snapshots, services, ports, secrets, duplicate_installs, collisions, remote_setup, automatic_repair; see atomic answers."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "mux",
+        "orch",
+        "srch-isol",
+        "fleet",
+        "task",
+        "where"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "thurbox:RUN-05",
+      "criterionId": "RUN-05",
+      "answer": "Idle pause, bounded retries and delivery timeouts; no time, token or spend limits for agent work.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "fleet"
+        ],
+        "version": "v3.5.2 (commit 67bec8c, released 2026-11-17)",
+        "plan": "Open source (MIT); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "time_limits": {
+          "support": "partial",
+          "answer": "CronTask startingDeadlineSeconds and bounded sweep timeouts; none on running sessions.",
+          "evidenceIds": [
+            "cron",
+            "config"
+          ]
+        },
+        "turn_limits": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "token_limits": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "spend_limits": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "timeouts": {
+          "support": "partial",
+          "answer": "Per-call bounded timeouts in gateway/runtime calls.",
+          "evidenceIds": [
+            "gateway",
+            "config"
+          ]
+        },
+        "retries": {
+          "support": "supported",
+          "answer": "3 spawn/send attempts with 30 s waits.",
+          "evidenceIds": [
+            "taskctl"
+          ]
+        },
+        "provider_failures": {
+          "support": "partial",
+          "answer": "Failed sends raise DeliveryFailed/NeedsAttention.",
+          "evidenceIds": [
+            "taskctl"
+          ]
+        },
+        "enforcement": {
+          "support": "partial",
+          "answer": "Enforced retry bounds; no budgets.",
+          "evidenceIds": [
+            "taskctl"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established or not supported: time_limits, turn_limits, token_limits, spend_limits, timeouts, provider_failures, enforcement; see atomic answers."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "taskctl",
+        "config",
+        "cron",
+        "srch-cost",
+        "gateway"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "thurbox:RUN-06",
+      "criterionId": "RUN-06",
+      "answer": "Task phases, conditions and agent state from hooks; OpenTelemetry export on request; no usage or cost statistics.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "fleet",
+          "tui"
+        ],
+        "version": "v3.5.2 (commit 67bec8c, released 2026-11-17)",
+        "plan": "Open source (MIT); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "logs": {
+          "support": "supported",
+          "answer": "thurbox writes a log file; Fleet logs reconciliation.",
+          "evidenceIds": [
+            "obs"
+          ]
+        },
+        "traces": {
+          "support": "supported",
+          "answer": "OpenTelemetry traces and metrics when OTEL_* is set; grafana dashboards in a satellite repo.",
+          "evidenceIds": [
+            "obs"
+          ]
+        },
+        "failure_reasons": {
+          "support": "supported",
+          "answer": "Conditions with reasons (Stalled, NeedsAttention, DeliveryFailed).",
+          "evidenceIds": [
+            "taskctl"
+          ]
+        },
+        "usage_export": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "task_stats": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "agent_stats": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "project_stats": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "time_stats": {
+          "support": "partial",
+          "answer": "Telemetry metrics timings when exported.",
+          "evidenceIds": [
+            "obs"
+          ]
+        },
+        "failure_status": {
+          "support": "supported",
+          "answer": "Failure conditions distinct from idle.",
+          "evidenceIds": [
+            "taskctl"
+          ]
+        },
+        "approval_status": {
+          "support": "supported",
+          "answer": "`attention`/blocked state from harness hooks.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "reconnect_consistency": {
+          "support": "supported",
+          "answer": "Interface re-reads Fleet; unreachable Fleet rows stay marked.",
+          "evidenceIds": [
+            "where"
+          ]
+        },
+        "performance_method": {
+          "support": "unknown",
+          "answer": "No benchmark here; ADEMark has no entry.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "responsiveness": {
+          "support": "unknown",
+          "answer": "Not measured.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established or not supported: usage_export, task_stats, agent_stats, project_stats, time_stats, performance_method, responsiveness; see atomic answers."
+      ],
+      "unknownReason": "Speed figures need benchmarks; ADEMark lists no result for thurbox.",
+      "evidenceIds": [
+        "taskctl",
+        "obs",
+        "srch-cost",
+        "agents",
+        "where",
+        "readme"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "thurbox:RUN-07",
+      "criterionId": "RUN-07",
+      "answer": "No cost or token accounting.",
+      "support": "unsupported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v3.5.2 (commit 67bec8c, released 2026-11-17)",
+        "plan": "Open source (MIT); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "task_cost": {
+          "support": "unsupported",
+          "answer": "No cost, token or spend feature found in a bounded search of crates/ and docs/.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "session_cost": {
+          "support": "unsupported",
+          "answer": "No cost, token or spend feature found in a bounded search of crates/ and docs/.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "child_cost": {
+          "support": "unsupported",
+          "answer": "No cost, token or spend feature found in a bounded search of crates/ and docs/.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "epic_cost": {
+          "support": "unsupported",
+          "answer": "No cost, token or spend feature found in a bounded search of crates/ and docs/.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "harness_aggregation": {
+          "support": "unsupported",
+          "answer": "No cost, token or spend feature found in a bounded search of crates/ and docs/.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "billed_vs_estimated": {
+          "support": "unsupported",
+          "answer": "No cost, token or spend feature found in a bounded search of crates/ and docs/.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "tokens": {
+          "support": "unsupported",
+          "answer": "No cost, token or spend feature found in a bounded search of crates/ and docs/.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "subscription_allowance": {
+          "support": "unsupported",
+          "answer": "No cost, token or spend feature found in a bounded search of crates/ and docs/.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "provider_reconciliation": {
+          "support": "unsupported",
+          "answer": "No cost, token or spend feature found in a bounded search of crates/ and docs/.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "compute_cost": {
+          "support": "unsupported",
+          "answer": "No cost, token or spend feature found in a bounded search of crates/ and docs/.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "refresh_delay": {
+          "support": "unsupported",
+          "answer": "No cost, token or spend feature found in a bounded search of crates/ and docs/.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "alerts": {
+          "support": "unsupported",
+          "answer": "No cost, token or spend feature found in a bounded search of crates/ and docs/.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "export": {
+          "support": "unsupported",
+          "answer": "No cost, token or spend feature found in a bounded search of crates/ and docs/.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        },
+        "drilldown": {
+          "support": "unsupported",
+          "answer": "No cost, token or spend feature found in a bounded search of crates/ and docs/.",
+          "evidenceIds": [
+            "srch-cost"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "srch-cost"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "thurbox:RUN-08",
+      "criterionId": "RUN-08",
+      "answer": "Bounded sweeps and call timeouts in Fleet; no CPU/RAM-aware scheduling, queues or check reuse.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "fleet"
+        ],
+        "version": "v3.5.2 (commit 67bec8c, released 2026-11-17)",
+        "plan": "Open source (MIT); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "concurrency": {
+          "support": "unsupported",
+          "answer": "No concurrency limit documented.",
+          "evidenceIds": [
+            "config"
+          ]
+        },
+        "queues": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "config"
+          ]
+        },
+        "cpu_ram": {
+          "support": "unsupported",
+          "answer": "None (a user pane can show CPU/RAM).",
+          "evidenceIds": [
+            "config"
+          ]
+        },
+        "backpressure": {
+          "support": "partial",
+          "answer": "Bounded per-call work and sweeps.",
+          "evidenceIds": [
+            "config"
+          ]
+        },
+        "host_awareness": {
+          "support": "partial",
+          "answer": "Per-place runtimes; no resource awareness.",
+          "evidenceIds": [
+            "where"
+          ]
+        },
+        "check_reuse": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "config"
+          ]
+        },
+        "check_deduplication": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "config"
+          ]
+        },
+        "bounded_tests": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "config"
+          ]
+        },
+        "cancellation": {
+          "support": "supported",
+          "answer": "Delete a Task to release its session.",
+          "evidenceIds": [
+            "taskctl"
+          ]
+        },
+        "fairness": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "config"
+          ]
+        },
+        "recovery": {
+          "support": "supported",
+          "answer": "Revive and release recovery.",
+          "evidenceIds": [
+            "taskctl"
+          ]
+        },
+        "shared_limits": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "config"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established or not supported: concurrency, queues, cpu_ram, backpressure, host_awareness, check_reuse, check_deduplication, bounded_tests, fairness, shared_limits; see atomic answers."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "config",
+        "taskctl",
+        "where"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "thurbox:TEAM-01",
+      "criterionId": "TEAM-01",
+      "answer": "Single-user local tool; multiple Fleets can be followed, chat threads let people talk to Tasks in Slack/Discord; no presence, comments or co-prompting model.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "fleet"
+        ],
+        "version": "v3.5.2 (commit 67bec8c, released 2026-11-17)",
+        "plan": "Open source (MIT); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "visibility": {
+          "support": "partial",
+          "answer": "Chat threads show Task posts to channel members.",
+          "evidenceIds": [
+            "gateway"
+          ]
+        },
+        "discussion": {
+          "support": "partial",
+          "answer": "Threads in Slack/Discord discuss a Task.",
+          "evidenceIds": [
+            "gateway"
+          ]
+        },
+        "comments": {
+          "support": "partial",
+          "answer": "Forge review comments relayed to the worker.",
+          "evidenceIds": [
+            "forge"
+          ]
+        },
+        "presence": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-sso"
+          ]
+        },
+        "coprompting": {
+          "support": "partial",
+          "answer": "Several chat users can message the tied Task through the thread.",
+          "evidenceIds": [
+            "gateway"
+          ]
+        },
+        "ordering": {
+          "support": "partial",
+          "answer": "Conversation messages are numbered in order.",
+          "evidenceIds": [
+            "gateway",
+            "fleet"
+          ]
+        },
+        "conflicts": {
+          "support": "unsupported",
+          "answer": "Not described.",
+          "evidenceIds": [
+            "gateway"
+          ]
+        },
+        "attribution": {
+          "support": "partial",
+          "answer": "Messages carry chat author ids; worker posts carry a Task mark.",
+          "evidenceIds": [
+            "gateway",
+            "forge"
+          ]
+        },
+        "permissions": {
+          "support": "partial",
+          "answer": "Per-account/channel routes decide who can start Tasks.",
+          "evidenceIds": [
+            "gateway",
+            "config"
+          ]
+        },
+        "plan_restrictions": {
+          "support": "unsupported",
+          "answer": "No plans.",
+          "evidenceIds": [
+            "srch-sso"
+          ]
+        },
+        "owner_online": {
+          "support": "supported",
+          "answer": "The Fleet machine must run `fleet up`.",
+          "evidenceIds": [
+            "config"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established or not supported: visibility, discussion, comments, presence, coprompting, ordering, conflicts, attribution, permissions, plan_restrictions; see atomic answers."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "gateway",
+        "srch-sso",
+        "forge",
+        "fleet",
+        "config"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "thurbox:TEAM-02",
+      "criterionId": "TEAM-02",
+      "answer": "No roles, accounts or SSO; Gateway channel routes and forge credentials decide access.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "fleet"
+        ],
+        "version": "v3.5.2 (commit 67bec8c, released 2026-11-17)",
+        "plan": "Open source (MIT); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "organization_roles": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-sso"
+          ]
+        },
+        "project_roles": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-sso"
+          ]
+        },
+        "task_roles": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-sso"
+          ]
+        },
+        "membership": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-sso"
+          ]
+        },
+        "sso": {
+          "support": "unsupported",
+          "answer": "No SSO.",
+          "evidenceIds": [
+            "srch-sso"
+          ]
+        },
+        "provisioning": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-sso"
+          ]
+        },
+        "unauthorized_access": {
+          "support": "partial",
+          "answer": "Gateway refuses unverified senders by route config; local store uses OS permissions.",
+          "evidenceIds": [
+            "gateway"
+          ]
+        },
+        "revocation": {
+          "support": "partial",
+          "answer": "Remove an account from config.",
+          "evidenceIds": [
+            "gateway"
+          ]
+        },
+        "plan_scope": {
+          "support": "unsupported",
+          "answer": "No plans.",
+          "evidenceIds": [
+            "srch-sso"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established or not supported: organization_roles, project_roles, task_roles, membership, sso, provisioning, unauthorized_access, revocation, plan_scope; see atomic answers."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "srch-sso",
+        "gateway"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "thurbox:TEAM-03",
+      "criterionId": "TEAM-03",
+      "answer": "Approvals are handled by each agent CLI (attention state shown); Fleet enforces trust gating of workspaces and ready policies for drafts.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "fleet",
+          "tui"
+        ],
+        "version": "v3.5.2 (commit 67bec8c, released 2026-11-17)",
+        "plan": "Open source (MIT); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "command": {
+          "support": "partial",
+          "answer": "Agent permission prompts appear as `attention`; the user answers in the live pane.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "tool": {
+          "support": "partial",
+          "answer": "Same.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "network": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-isol"
+          ]
+        },
+        "secret": {
+          "support": "partial",
+          "answer": "Fleet holds no credentials; operators keep tokens in curl configs.",
+          "evidenceIds": [
+            "config"
+          ]
+        },
+        "delivery": {
+          "support": "partial",
+          "answer": "Draft change requests are marked ready only by configured ready policies.",
+          "evidenceIds": [
+            "forge"
+          ]
+        },
+        "approver_identity": {
+          "support": "unsupported",
+          "answer": "Not recorded.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "lifetime": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "allow": {
+          "support": "supported",
+          "answer": "Answer the agent prompt in the pane.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "deny": {
+          "support": "supported",
+          "answer": "Same.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "revoke": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "tunnels": {
+          "support": "unsupported",
+          "answer": "No tunnels.",
+          "evidenceIds": [
+            "srch-web"
+          ]
+        },
+        "defaults": {
+          "support": "partial",
+          "answer": "Defaults follow each harness; Claude shown in auto mode in demo.",
+          "evidenceIds": [
+            "agents",
+            "img-iface"
+          ]
+        },
+        "safer_modes": {
+          "support": "partial",
+          "answer": "Per-agent modes remain the agent own.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "enforcement": {
+          "support": "partial",
+          "answer": "Enforced by the agent, not thurbox; workspace trust is a Fleet probe.",
+          "evidenceIds": [
+            "taskctl"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established or not supported: command, tool, network, secret, delivery, approver_identity, lifetime, revoke, tunnels, defaults, safer_modes, enforcement; see atomic answers."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "agents",
+        "taskctl",
+        "forge",
+        "srch-isol",
+        "config",
+        "readme",
+        "srch-web",
+        "img-iface"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "thurbox:TEAM-04",
+      "criterionId": "TEAM-04",
+      "answer": "Fleet records Task phases, conditions, receipts, inbox and Board events with sequence numbers; no user attribution or audit guarantees.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "fleet"
+        ],
+        "version": "v3.5.2 (commit 67bec8c, released 2026-11-17)",
+        "plan": "Open source (MIT); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "actions": {
+          "support": "partial",
+          "answer": "Intent and receipt journals for effects.",
+          "evidenceIds": [
+            "taskctl"
+          ]
+        },
+        "approvals": {
+          "support": "unsupported",
+          "answer": "Not recorded.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "edits": {
+          "support": "partial",
+          "answer": "Amendments are recorded.",
+          "evidenceIds": [
+            "task"
+          ]
+        },
+        "discussion": {
+          "support": "partial",
+          "answer": "Conversation mirrors chat threads.",
+          "evidenceIds": [
+            "gateway"
+          ]
+        },
+        "decisions": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-track"
+          ]
+        },
+        "cross_user_persistence": {
+          "support": "unsupported",
+          "answer": "Single user.",
+          "evidenceIds": [
+            "srch-sso"
+          ]
+        },
+        "cross_session_persistence": {
+          "support": "supported",
+          "answer": "Store files persist.",
+          "evidenceIds": [
+            "fleet"
+          ]
+        },
+        "export": {
+          "support": "partial",
+          "answer": "`fleet get --json`, `fleet event list --json`.",
+          "evidenceIds": [
+            "orch",
+            "board"
+          ]
+        },
+        "mutability": {
+          "support": "partial",
+          "answer": "Files in a local store; compare-and-swap, not tamper-evident.",
+          "evidenceIds": [
+            "fleet"
+          ]
+        },
+        "retention": {
+          "support": "supported",
+          "answer": "Board maxAge/maxCount; ChangeRequest/Conversation retention.",
+          "evidenceIds": [
+            "board"
+          ]
+        },
+        "integrity": {
+          "support": "unsupported",
+          "answer": "No integrity model.",
+          "evidenceIds": [
+            "fleet"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established or not supported: actions, approvals, edits, discussion, decisions, cross_user_persistence, export, mutability, integrity; see atomic answers."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "taskctl",
+        "board",
+        "agents",
+        "task",
+        "gateway",
+        "srch-track",
+        "srch-sso",
+        "fleet",
+        "orch"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "thurbox:TEAM-05",
+      "criterionId": "TEAM-05",
+      "answer": "No bundled review interface in v3.5.2; per-session diffs are computed for plugins; forge feedback is relayed to the worker.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui",
+          "fleet"
+        ],
+        "version": "v3.5.2 (commit 67bec8c, released 2026-11-17)",
+        "plan": "Open source (MIT); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "pending_reviews": {
+          "support": "partial",
+          "answer": "Satellite repo `fleet-reviewer` discovers open PRs; not in v3.5.2.",
+          "evidenceIds": [
+            "forge"
+          ]
+        },
+        "change_understanding": {
+          "support": "partial",
+          "answer": "Kernel computes per-session diffs (4 MiB cap) for plugins.",
+          "evidenceIds": [
+            "diffsrc"
+          ]
+        },
+        "evidence_navigation": {
+          "support": "unsupported",
+          "answer": "No bundled diff pane among the seven plugins.",
+          "evidenceIds": [
+            "uiplug"
+          ]
+        },
+        "comments": {
+          "support": "partial",
+          "answer": "Review feedback relayed from forge to the worker inbox.",
+          "evidenceIds": [
+            "forge"
+          ]
+        },
+        "request_changes": {
+          "support": "unsupported",
+          "answer": "None in the interface.",
+          "evidenceIds": [
+            "uiplug"
+          ]
+        },
+        "shipping_guidance": {
+          "support": "partial",
+          "answer": "Ready policy marks drafts ready.",
+          "evidenceIds": [
+            "forge"
+          ]
+        },
+        "effort": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "uiplug"
+          ]
+        },
+        "missed_evidence": {
+          "support": "unsupported",
+          "answer": "Cap is reported rather than truncating silently.",
+          "evidenceIds": [
+            "diffsrc"
+          ]
+        },
+        "keyboard": {
+          "support": "supported",
+          "answer": "Keyboard-first interface with F1 key list.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "narrow_screen": {
+          "support": "partial",
+          "answer": "Responsive layout section exists.",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "context_switching": {
+          "support": "partial",
+          "answer": "Sessions keep working while not in view.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "roles": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "uiplug"
+          ]
+        },
+        "retained_context": {
+          "support": "partial",
+          "answer": "Forge snapshot retained by ChangeRequest.",
+          "evidenceIds": [
+            "crdoc"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established or not supported: pending_reviews, change_understanding, evidence_navigation, comments, request_changes, shipping_guidance, effort, missed_evidence, narrow_screen, context_switching, roles, retained_context; see atomic answers."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "diffsrc",
+        "uiplug",
+        "forge",
+        "readme",
+        "features",
+        "crdoc"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "thurbox:TEAM-06",
+      "criterionId": "TEAM-06",
+      "answer": "One user per Fleet; another person can attach to the same Fleet by ssh and see/drive sessions; no takeover features.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "fleet"
+        ],
+        "version": "v3.5.2 (commit 67bec8c, released 2026-11-17)",
+        "plan": "Open source (MIT); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "ongoing_takeover": {
+          "support": "partial",
+          "answer": "Anyone with ssh login to the Fleet machine can run thurbox against it.",
+          "evidenceIds": [
+            "where"
+          ]
+        },
+        "same_task": {
+          "support": "supported",
+          "answer": "Same Task and tmux session.",
+          "evidenceIds": [
+            "where"
+          ]
+        },
+        "session_history": {
+          "support": "partial",
+          "answer": "Agent scrollback and transcript stay in the session.",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "decisions": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-track"
+          ]
+        },
+        "artifacts": {
+          "support": "supported",
+          "answer": "Worktree on the host.",
+          "evidenceIds": [
+            "mux"
+          ]
+        },
+        "permissions": {
+          "support": "unsupported",
+          "answer": "No permission model beyond OS login.",
+          "evidenceIds": [
+            "srch-sso"
+          ]
+        },
+        "runtime_context": {
+          "support": "supported",
+          "answer": "Runtime stays on host.",
+          "evidenceIds": [
+            "where"
+          ]
+        },
+        "owner_disconnect": {
+          "support": "supported",
+          "answer": "Sessions continue.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "ownership": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-sso"
+          ]
+        },
+        "attribution": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-sso"
+          ]
+        },
+        "context_loss": {
+          "support": "partial",
+          "answer": "Resume depends on harness.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "harness_transfer": {
+          "support": "unsupported",
+          "answer": "No transfer between harnesses.",
+          "evidenceIds": [
+            "agents"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established or not supported: ongoing_takeover, session_history, decisions, permissions, ownership, attribution, context_loss, harness_transfer; see atomic answers."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "where",
+        "readme",
+        "features",
+        "srch-track",
+        "mux",
+        "srch-sso",
+        "agents"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "thurbox:SHIP-01",
+      "criterionId": "SHIP-01",
+      "answer": "Terminal scrollback and worktree diffs; no artifact gallery.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v3.5.2 (commit 67bec8c, released 2026-11-17)",
+        "plan": "Open source (MIT); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "diffs": {
+          "support": "partial",
+          "answer": "Per-session diff computed for plugins, capped.",
+          "evidenceIds": [
+            "diffsrc"
+          ]
+        },
+        "documents": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-track"
+          ]
+        },
+        "screenshots": {
+          "support": "partial",
+          "answer": "Images pasted into local sessions.",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "recordings": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-track"
+          ]
+        },
+        "previews": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-web"
+          ]
+        },
+        "test_outputs": {
+          "support": "partial",
+          "answer": "Terminal scrollback.",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "reviewer_outputs": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-track"
+          ]
+        },
+        "gallery": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-track"
+          ]
+        },
+        "task_links": {
+          "support": "partial",
+          "answer": "Worktree path per Task.",
+          "evidenceIds": [
+            "orch"
+          ]
+        },
+        "revision_links": {
+          "support": "partial",
+          "answer": "Declared change requests.",
+          "evidenceIds": [
+            "forge"
+          ]
+        },
+        "persistence": {
+          "support": "partial",
+          "answer": "Worktrees persist; scrollback with session.",
+          "evidenceIds": [
+            "mux"
+          ]
+        },
+        "child_findings": {
+          "support": "supported",
+          "answer": "`fleet result` outputs persisted in Task status.",
+          "evidenceIds": [
+            "task"
+          ]
+        },
+        "prompt_leakage": {
+          "support": "unknown",
+          "answer": "Not assessed.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established or not supported: diffs, documents, screenshots, recordings, previews, test_outputs, reviewer_outputs, gallery, task_links, revision_links, persistence, prompt_leakage; see atomic answers."
+      ],
+      "unknownReason": "Prompt leakage is a security property not testable without running the product.",
+      "evidenceIds": [
+        "features",
+        "diffsrc",
+        "srch-track",
+        "srch-web",
+        "orch",
+        "forge",
+        "mux",
+        "task",
+        "readme"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "thurbox:SHIP-02",
+      "criterionId": "SHIP-02",
+      "answer": "Forge ready policies can gate marking a draft ready on checks; agents run their own tests; no spec gates.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "fleet"
+        ],
+        "version": "v3.5.2 (commit 67bec8c, released 2026-11-17)",
+        "plan": "Open source (MIT); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "tests": {
+          "support": "partial",
+          "answer": "Agents run tests themselves.",
+          "evidenceIds": [
+            "forge"
+          ]
+        },
+        "lint": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "forge"
+          ]
+        },
+        "types": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "forge"
+          ]
+        },
+        "ci": {
+          "support": "supported",
+          "answer": "ChangeRequest mirrors checks; checks relay to the worker; ready policy can require them.",
+          "evidenceIds": [
+            "forge",
+            "crdoc"
+          ]
+        },
+        "independent_review": {
+          "support": "partial",
+          "answer": "Review feedback from forge is relayed; satellite thurview not in v3.5.2.",
+          "evidenceIds": [
+            "forge"
+          ]
+        },
+        "spec_checks": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-track"
+          ]
+        },
+        "required_checks": {
+          "support": "partial",
+          "answer": "Ready policy configurable under [forge.readyPolicies].",
+          "evidenceIds": [
+            "forge",
+            "config"
+          ]
+        },
+        "failure_blocking": {
+          "support": "partial",
+          "answer": "Blocks mark-ready by policy; merging is forge-side.",
+          "evidenceIds": [
+            "forge"
+          ]
+        },
+        "requirement_conflicts": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "srch-track"
+          ]
+        },
+        "configured_policy": {
+          "support": "supported",
+          "answer": "[forge.readyPolicies] in config.",
+          "evidenceIds": [
+            "config"
+          ]
+        },
+        "enforced_policy": {
+          "support": "partial",
+          "answer": "Enforced for mark-ready only.",
+          "evidenceIds": [
+            "forge"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established or not supported: tests, lint, types, independent_review, spec_checks, required_checks, failure_blocking, requirement_conflicts, enforced_policy; see atomic answers."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "forge",
+        "crdoc",
+        "srch-track",
+        "config"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "thurbox:SHIP-03",
+      "criterionId": "SHIP-03",
+      "answer": "Worktree and branch per session; workers declare change requests; Fleet mirrors state, checks and reviews and relays feedback; PR creation is by the agent via forge CLI.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "fleet"
+        ],
+        "version": "v3.5.2 (commit 67bec8c, released 2026-11-17)",
+        "plan": "Open source (MIT); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "branches": {
+          "support": "supported",
+          "answer": "Branch name and base in new-session flow.",
+          "evidenceIds": [
+            "orch"
+          ]
+        },
+        "worktrees": {
+          "support": "supported",
+          "answer": "Worktrees via workspace-git.",
+          "evidenceIds": [
+            "orch",
+            "mux"
+          ]
+        },
+        "commits": {
+          "support": "partial",
+          "answer": "Agent commits; thurbox runs no git commands for it.",
+          "evidenceIds": [
+            "forge"
+          ]
+        },
+        "pull_requests": {
+          "support": "partial",
+          "answer": "Worker opens the draft with the forge CLI and runs `fleet declare`; Fleet mirrors and marks ready.",
+          "evidenceIds": [
+            "forge"
+          ]
+        },
+        "comments": {
+          "support": "supported",
+          "answer": "Notes and reviews relayed in the inbox.",
+          "evidenceIds": [
+            "forge"
+          ]
+        },
+        "ci_response": {
+          "support": "supported",
+          "answer": "Check results relayed to the worker.",
+          "evidenceIds": [
+            "forge"
+          ]
+        },
+        "rebase": {
+          "support": "unsupported",
+          "answer": "None in product.",
+          "evidenceIds": [
+            "forge"
+          ]
+        },
+        "conflicts": {
+          "support": "partial",
+          "answer": "Mergeability answer relayed.",
+          "evidenceIds": [
+            "forge"
+          ]
+        },
+        "product_state": {
+          "support": "supported",
+          "answer": "ChangeRequest status in the store.",
+          "evidenceIds": [
+            "crdoc"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established or not supported: commits, pull_requests, rebase, conflicts; see atomic answers."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "forge",
+        "crdoc",
+        "orch",
+        "mux"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "thurbox:SHIP-04",
+      "criterionId": "SHIP-04",
+      "answer": "Mark-ready by policy; merge and release stay on the forge.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "fleet"
+        ],
+        "version": "v3.5.2 (commit 67bec8c, released 2026-11-17)",
+        "plan": "Open source (MIT); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "approve": {
+          "support": "unsupported",
+          "answer": "No approval action.",
+          "evidenceIds": [
+            "forge"
+          ]
+        },
+        "merge": {
+          "support": "unsupported",
+          "answer": "Merge is not a Fleet effect (mark-ready is the one effect).",
+          "evidenceIds": [
+            "forge"
+          ]
+        },
+        "release": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "forge"
+          ]
+        },
+        "deploy": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "forge"
+          ]
+        },
+        "exact_revision": {
+          "support": "partial",
+          "answer": "Snapshot carries head and checks.",
+          "evidenceIds": [
+            "forge"
+          ]
+        },
+        "authority_enforcement": {
+          "support": "partial",
+          "answer": "Forge credentials are the gh/glab login.",
+          "evidenceIds": [
+            "crdoc"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established or not supported: approve, merge, release, deploy, exact_revision, authority_enforcement; see atomic answers."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "forge",
+        "crdoc"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "thurbox:SHIP-05",
+      "criterionId": "SHIP-05",
+      "answer": "Task links to declared change requests and result outputs; no deployment or rollback.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "fleet"
+        ],
+        "version": "v3.5.2 (commit 67bec8c, released 2026-11-17)",
+        "plan": "Open source (MIT); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "commit_links": {
+          "support": "partial",
+          "answer": "Head in ChangeRequest snapshot.",
+          "evidenceIds": [
+            "forge"
+          ]
+        },
+        "pr_links": {
+          "support": "supported",
+          "answer": "status.declared names the change request URL.",
+          "evidenceIds": [
+            "forge"
+          ]
+        },
+        "build_links": {
+          "support": "partial",
+          "answer": "Checks mirrored.",
+          "evidenceIds": [
+            "crdoc"
+          ]
+        },
+        "deployment_links": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "forge"
+          ]
+        },
+        "delivery_status": {
+          "support": "partial",
+          "answer": "ChangeRequest state.",
+          "evidenceIds": [
+            "crdoc"
+          ]
+        },
+        "retained_evidence": {
+          "support": "partial",
+          "answer": "Retention window on ChangeRequest.",
+          "evidenceIds": [
+            "crdoc"
+          ]
+        },
+        "rollback": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "forge"
+          ]
+        },
+        "revert": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "forge"
+          ]
+        },
+        "stale_approval_invalidation": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "forge"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established or not supported: commit_links, build_links, deployment_links, delivery_status, retained_evidence, rollback, revert, stale_approval_invalidation; see atomic answers."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "forge",
+        "task",
+        "crdoc"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "thurbox:SHIP-06",
+      "criterionId": "SHIP-06",
+      "answer": "No batch review or delivery queue in v3.5.2.",
+      "support": "unsupported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v3.5.2 (commit 67bec8c, released 2026-11-17)",
+        "plan": "Open source (MIT); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "review_queue": {
+          "support": "unsupported",
+          "answer": "No review queue, grouping or merge queue in the bundled interface or Fleet controllers.",
+          "evidenceIds": [
+            "uiplug",
+            "forge"
+          ]
+        },
+        "summaries": {
+          "support": "unsupported",
+          "answer": "No review queue, grouping or merge queue in the bundled interface or Fleet controllers.",
+          "evidenceIds": [
+            "uiplug",
+            "forge"
+          ]
+        },
+        "grouping": {
+          "support": "unsupported",
+          "answer": "No review queue, grouping or merge queue in the bundled interface or Fleet controllers.",
+          "evidenceIds": [
+            "uiplug",
+            "forge"
+          ]
+        },
+        "risk_size_filters": {
+          "support": "unsupported",
+          "answer": "No review queue, grouping or merge queue in the bundled interface or Fleet controllers.",
+          "evidenceIds": [
+            "uiplug",
+            "forge"
+          ]
+        },
+        "findings": {
+          "support": "unsupported",
+          "answer": "No review queue, grouping or merge queue in the bundled interface or Fleet controllers.",
+          "evidenceIds": [
+            "uiplug",
+            "forge"
+          ]
+        },
+        "artifacts": {
+          "support": "unsupported",
+          "answer": "No review queue, grouping or merge queue in the bundled interface or Fleet controllers.",
+          "evidenceIds": [
+            "uiplug",
+            "forge"
+          ]
+        },
+        "request_changes": {
+          "support": "unsupported",
+          "answer": "No review queue, grouping or merge queue in the bundled interface or Fleet controllers.",
+          "evidenceIds": [
+            "uiplug",
+            "forge"
+          ]
+        },
+        "exact_revision_approval": {
+          "support": "unsupported",
+          "answer": "No review queue, grouping or merge queue in the bundled interface or Fleet controllers.",
+          "evidenceIds": [
+            "uiplug",
+            "forge"
+          ]
+        },
+        "dependency_queues": {
+          "support": "unsupported",
+          "answer": "No review queue, grouping or merge queue in the bundled interface or Fleet controllers.",
+          "evidenceIds": [
+            "uiplug",
+            "forge"
+          ]
+        },
+        "next_actions": {
+          "support": "unsupported",
+          "answer": "No review queue, grouping or merge queue in the bundled interface or Fleet controllers.",
+          "evidenceIds": [
+            "uiplug",
+            "forge"
+          ]
+        },
+        "stale_approval_invalidation": {
+          "support": "unsupported",
+          "answer": "No review queue, grouping or merge queue in the bundled interface or Fleet controllers.",
+          "evidenceIds": [
+            "uiplug",
+            "forge"
+          ]
+        },
+        "check_deduplication": {
+          "support": "unsupported",
+          "answer": "No review queue, grouping or merge queue in the bundled interface or Fleet controllers.",
+          "evidenceIds": [
+            "uiplug",
+            "forge"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "uiplug",
+        "forge"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "thurbox:OWN-01",
+      "criterionId": "OWN-01",
+      "answer": "MIT for the single repository holding the interface, Fleet, runtimes and docs; Fleet v2 repo archived.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui",
+          "fleet"
+        ],
+        "version": "v3.5.2 (commit 67bec8c, released 2026-11-17)",
+        "plan": "Open source (MIT); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "client_license": {
+          "support": "supported",
+          "answer": "MIT LICENSE; Cargo workspace MIT.",
+          "evidenceIds": [
+            "license",
+            "cargo",
+            "repoapi"
+          ]
+        },
+        "server_license": {
+          "support": "supported",
+          "answer": "Fleet crates are in the same MIT repository.",
+          "evidenceIds": [
+            "cargo"
+          ]
+        },
+        "hosted_extensions": {
+          "support": "unsupported",
+          "answer": "No hosted component.",
+          "evidenceIds": [
+            "srch-sso"
+          ]
+        },
+        "source_visibility": {
+          "support": "supported",
+          "answer": "Public monorepo; satellites public.",
+          "evidenceIds": [
+            "repoapi"
+          ]
+        },
+        "source_revision": {
+          "support": "supported",
+          "answer": "Pinned to v3.5.2 at 67bec8c.",
+          "evidenceIds": [
+            "release"
+          ]
+        },
+        "hosted_parity": {
+          "support": "unsupported",
+          "answer": "No hosted service.",
+          "evidenceIds": [
+            "srch-sso"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established or not supported: hosted_extensions, hosted_parity; see atomic answers."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "license",
+        "cargo",
+        "repoapi",
+        "srch-sso",
+        "release"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-05-16",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "thurbox:OWN-02",
+      "criterionId": "OWN-02",
+      "answer": "Everything is local/self-hosted; no vendor account; data in plain files under the Fleet data dir.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui",
+          "fleet"
+        ],
+        "version": "v3.5.2 (commit 67bec8c, released 2026-11-17)",
+        "plan": "Open source (MIT); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "self_hosting": {
+          "support": "supported",
+          "answer": "Fleet runs headless on your machines.",
+          "evidenceIds": [
+            "fleet",
+            "where"
+          ]
+        },
+        "vendor_dependencies": {
+          "support": "partial",
+          "answer": "Optional GitHub update checks; chat platforms if used.",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "export": {
+          "support": "supported",
+          "answer": "Resources are files; `fleet get --json`.",
+          "evidenceIds": [
+            "fleet",
+            "orch"
+          ]
+        },
+        "import": {
+          "support": "partial",
+          "answer": "`fleet apply -f` loads manifests; v2 sessions are not imported.",
+          "evidenceIds": [
+            "fleet",
+            "readme"
+          ]
+        },
+        "formats": {
+          "support": "supported",
+          "answer": "JSON resource manifests, TOML config.",
+          "evidenceIds": [
+            "fleet",
+            "config"
+          ]
+        },
+        "cancellation": {
+          "support": "unsupported",
+          "answer": "No account.",
+          "evidenceIds": [
+            "srch-sso"
+          ]
+        },
+        "account_independence": {
+          "support": "supported",
+          "answer": "No account.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "history_portability": {
+          "support": "partial",
+          "answer": "Store files portable; sessions live in tmux.",
+          "evidenceIds": [
+            "fleet"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established or not supported: vendor_dependencies, import, cancellation, history_portability; see atomic answers."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "fleet",
+        "where",
+        "features",
+        "orch",
+        "readme",
+        "config",
+        "srch-sso"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-05-16",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "thurbox:OWN-03",
+      "criterionId": "OWN-03",
+      "answer": "No thurbox servers receive code or prompts; update checks hit GitHub; OpenTelemetry export only to an endpoint the user sets.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui",
+          "fleet"
+        ],
+        "version": "v3.5.2 (commit 67bec8c, released 2026-11-17)",
+        "plan": "Open source (MIT); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "code_data": {
+          "support": "supported",
+          "answer": "Stays local or on the user remote machines.",
+          "evidenceIds": [
+            "where"
+          ]
+        },
+        "prompts": {
+          "support": "supported",
+          "answer": "Go to the user chosen agents.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "credentials": {
+          "support": "supported",
+          "answer": "Fleet reads no tokens; operator-owned files.",
+          "evidenceIds": [
+            "config"
+          ]
+        },
+        "logs": {
+          "support": "supported",
+          "answer": "Local log file; OTel only to the configured endpoint.",
+          "evidenceIds": [
+            "obs"
+          ]
+        },
+        "artifacts": {
+          "support": "supported",
+          "answer": "Local.",
+          "evidenceIds": [
+            "where"
+          ]
+        },
+        "retention": {
+          "support": "partial",
+          "answer": "Board and ChangeRequest retention; logs local.",
+          "evidenceIds": [
+            "board"
+          ]
+        },
+        "deletion": {
+          "support": "supported",
+          "answer": "Delete Tasks/files.",
+          "evidenceIds": [
+            "taskctl"
+          ]
+        },
+        "training": {
+          "support": "unsupported",
+          "answer": "No data reaches thurbox.",
+          "evidenceIds": [
+            "obs"
+          ]
+        },
+        "residency": {
+          "support": "unsupported",
+          "answer": "Local.",
+          "evidenceIds": [
+            "where"
+          ]
+        },
+        "subprocessors": {
+          "support": "unsupported",
+          "answer": "None for thurbox; agent providers separate.",
+          "evidenceIds": [
+            "obs"
+          ]
+        },
+        "telemetry_disclosure": {
+          "support": "supported",
+          "answer": "observability.md owns the telemetry interface.",
+          "evidenceIds": [
+            "obs"
+          ]
+        },
+        "telemetry_defaults": {
+          "support": "supported",
+          "answer": "No export unless OTEL endpoint set; update check on by default.",
+          "evidenceIds": [
+            "obs",
+            "features"
+          ]
+        },
+        "telemetry_controls": {
+          "support": "supported",
+          "answer": "OTEL_* variables; `version_check`/`auto_update` flags.",
+          "evidenceIds": [
+            "obs",
+            "features",
+            "config-doc"
+          ]
+        },
+        "consent_prompt": {
+          "support": "unsupported",
+          "answer": "No consent prompt found.",
+          "evidenceIds": [
+            "features"
+          ]
+        },
+        "provider_separation": {
+          "support": "supported",
+          "answer": "Agent providers are separate.",
+          "evidenceIds": [
+            "obs"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established or not supported: retention, training, residency, subprocessors, consent_prompt; see atomic answers."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "obs",
+        "features",
+        "config",
+        "where",
+        "agents",
+        "board",
+        "taskctl",
+        "config-doc"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "thurbox:OWN-04",
+      "criterionId": "OWN-04",
+      "answer": "Free and open source (MIT); no paid tier found in repository or site; model costs are the user own.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v3.5.2 (commit 67bec8c, released 2026-11-17)",
+        "plan": "Open source (MIT); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "currency": {
+          "support": "unsupported",
+          "answer": "No price.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "interval": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "seats": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "seat_minimum": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "workspace_fees": {
+          "support": "supported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "included_usage": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "credits": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "trial": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "overages": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "taxes": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "model_cost": {
+          "support": "supported",
+          "answer": "Paid to agent providers.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "compute_cost": {
+          "support": "supported",
+          "answer": "Your own machines.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established or not supported: currency, interval, seats, seat_minimum, included_usage, credits, trial, overages, taxes; see atomic answers."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "license"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-01-16",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "thurbox:OWN-05",
+      "criterionId": "OWN-05",
+      "answer": "Platform cost is zero at any team size; provider and compute costs are not priced here.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v3.5.2 (commit 67bec8c, released 2026-11-17)",
+        "plan": "Open source (MIT); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "one_person": {
+          "support": "supported",
+          "answer": "Zero platform fee.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "two_people": {
+          "support": "supported",
+          "answer": "Zero.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "five_people": {
+          "support": "supported",
+          "answer": "Zero.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "task_assumptions": {
+          "support": "unknown",
+          "answer": "None set.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "concurrency": {
+          "support": "unknown",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "tokens": {
+          "support": "unknown",
+          "answer": "Provider-priced.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "compute_hours": {
+          "support": "unknown",
+          "answer": "Own machines.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "fixed_cost": {
+          "support": "supported",
+          "answer": "Zero.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "variable_cost": {
+          "support": "unknown",
+          "answer": "Provider-defined.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "included_cost": {
+          "support": "unknown",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "unknown_cost": {
+          "support": "unknown",
+          "answer": "Provider-defined.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established or not supported: task_assumptions, concurrency, tokens, compute_hours, variable_cost, included_cost, unknown_cost; see atomic answers."
+      ],
+      "unknownReason": "Provider token and compute costs depend on users plans.",
+      "evidenceIds": [
+        "readme"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "thurbox:OWN-06",
+      "criterionId": "OWN-06",
+      "answer": "Open-source project with very frequent releases (v3.5.2 on 2026-11-17); v3 flagged not yet fully stable; support via GitHub issues and Discord.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v3.5.2 (commit 67bec8c, released 2026-11-17)",
+        "plan": "Open source (MIT); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "release_stage": {
+          "support": "supported",
+          "answer": "v3 available but README recommends v2.89.0 for stability.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "access_restrictions": {
+          "support": "supported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "support": {
+          "support": "supported",
+          "answer": "GitHub Issues and Discord.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "response_commitments": {
+          "support": "unknown",
+          "answer": "None published.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "release_activity": {
+          "support": "supported",
+          "answer": "Multiple releases per day on 2026-11-17.",
+          "evidenceIds": [
+            "release"
+          ]
+        },
+        "status_history": {
+          "support": "unknown",
+          "answer": "No status page.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "deprecation": {
+          "support": "partial",
+          "answer": "v2 stays on 2.x updates; v3 migration doc exists.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "export_options": {
+          "support": "supported",
+          "answer": "Files and fleet JSON.",
+          "evidenceIds": [
+            "fleet"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established or not supported: response_commitments, status_history, deprecation; see atomic answers."
+      ],
+      "unknownReason": "Support commitments and status history are vendor business facts.",
+      "evidenceIds": [
+        "release",
+        "readme",
+        "fleet"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "thurbox:OWN-07",
+      "criterionId": "OWN-07",
+      "answer": "No ISO or SOC reports claimed.",
+      "support": "unknown",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v3.5.2 (commit 67bec8c, released 2026-11-17)",
+        "plan": "Open source (MIT); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "iso_scope": {
+          "support": "unknown",
+          "answer": "No certification or audit is claimed in the repository or site; certification is a business fact outside the code.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "iso_issuer": {
+          "support": "unknown",
+          "answer": "No certification or audit is claimed in the repository or site; certification is a business fact outside the code.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "iso_validity": {
+          "support": "unknown",
+          "answer": "No certification or audit is claimed in the repository or site; certification is a business fact outside the code.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "soc2_type": {
+          "support": "unknown",
+          "answer": "No certification or audit is claimed in the repository or site; certification is a business fact outside the code.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "soc2_scope": {
+          "support": "unknown",
+          "answer": "No certification or audit is claimed in the repository or site; certification is a business fact outside the code.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "soc2_period": {
+          "support": "unknown",
+          "answer": "No certification or audit is claimed in the repository or site; certification is a business fact outside the code.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "report_access": {
+          "support": "unknown",
+          "answer": "No certification or audit is claimed in the repository or site; certification is a business fact outside the code.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "verification_date": {
+          "support": "unknown",
+          "answer": "No certification or audit is claimed in the repository or site; certification is a business fact outside the code.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "evidence_status": {
+          "support": "unknown",
+          "answer": "No certification or audit is claimed in the repository or site; certification is a business fact outside the code.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": "Certification and audit are business facts not present in the repository.",
+      "evidenceIds": [
+        "readme"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch20",
+      "publication": "internal-only",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "thurbox:OWN-08",
+      "criterionId": "OWN-08",
+      "answer": "Free, open-source, no paid tier, trial or card.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v3.5.2 (commit 67bec8c, released 2026-11-17)",
+        "plan": "Open source (MIT); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "ongoing_free": {
+          "support": "supported",
+          "answer": "Free MIT software.",
+          "evidenceIds": [
+            "readme",
+            "license"
+          ]
+        },
+        "trial": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "credits_trial": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "self_host_cost": {
+          "support": "supported",
+          "answer": "Your own machines.",
+          "evidenceIds": [
+            "where"
+          ]
+        },
+        "paid_only": {
+          "support": "unsupported",
+          "answer": "Nothing is paid-only.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "early_access": {
+          "support": "partial",
+          "answer": "v3 is marked not yet fully stable.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "free_scenarios": {
+          "support": "partial",
+          "answer": "BYO subscriptions and remote ssh are free; no mobile, collaboration or issue management.",
+          "evidenceIds": [
+            "readme",
+            "srch-web"
+          ]
+        },
+        "card_required": {
+          "support": "supported",
+          "answer": "No card.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "usage_caps": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "paid_evaluation": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established or not supported: trial, credits_trial, paid_only, early_access, free_scenarios, usage_caps, paid_evaluation; see atomic answers."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "license",
+        "where",
+        "srch-web"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-01-16",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "thurbox:OWN-09",
+      "criterionId": "OWN-09",
+      "answer": "Transparent: no price.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "tui"
+        ],
+        "version": "v3.5.2 (commit 67bec8c, released 2026-11-17)",
+        "plan": "Open source (MIT); free",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "units": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "included_limits": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "overages": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "compute_markup": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "model_markup": {
+          "support": "unsupported",
+          "answer": "No resale.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "minimum_commitment": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "cancellation": {
+          "support": "unsupported",
+          "answer": "No account.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "sales_only_unknowns": {
+          "support": "unsupported",
+          "answer": "None.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "transparency_classification": {
+          "support": "supported",
+          "answer": "Free software with no pricing page.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established or not supported: units, included_limits, overages, compute_markup, model_markup, minimum_commitment, cancellation, sales_only_unknowns; see atomic answers."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-01-16",
+      "researcher": "researcher-batch20",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    }
+  ],
+  "evidence": [
+    {
+      "id": "repoapi",
+      "kind": "documented",
+      "url": "https://api.github.com/repos/Thurbeen/thurbox",
+      "title": "GitHub repository metadata",
+      "locator": "stargazers_count, license, homepage",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "120 stars, MIT, homepage thurbox.thurbeen.eu, Rust, pushed 2026-11-17.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "release",
+      "kind": "documented",
+      "url": "https://github.com/Thurbeen/thurbox/releases/tag/v3.5.2",
+      "title": "Release v3.5.2 and assets",
+      "locator": "release page; asset list",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "Latest release v3.5.2 (2026-11-17) with archives for aarch64-apple-darwin, aarch64/x86_64 Linux (musl; gnu x64) and x86_64-pc-windows-msvc plus sha256 sums.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "readme",
+      "kind": "documented",
+      "url": "https://github.com/Thurbeen/thurbox/blob/67bec8c0c5b3c662c8e27ef272f68ea7a11e8de1/README.md",
+      "title": "README",
+      "locator": "intro; Use v2 for now; What's new in v3; Install v3; First steps",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "Terminal workspace running Claude Code, Codex, pi, opencode, kilo, omp, Qwen Code, Copilot CLI and Kimi Code unmodified; sessions outlive the interface; Fleets over ssh/WSL; worktree per session; Lua panes; MIT; v3 not yet fully stable.",
+      "visibility": "public",
+      "commit": "67bec8c0c5b3c662c8e27ef272f68ea7a11e8de1",
+      "path": "README.md"
+    },
+    {
+      "id": "where",
+      "kind": "documented",
+      "url": "https://github.com/Thurbeen/thurbox/blob/67bec8c0c5b3c662c8e27ef272f68ea7a11e8de1/docs/where-sessions-run.md",
+      "title": "Where sessions run",
+      "locator": "Terms; Today and planned; What thurbox does on another machine",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "Fleets and places (local, ssh, WSL); remote Fleet session panes; diffs and git stats refuse remote sessions; VM runtime planned.",
+      "visibility": "public",
+      "commit": "67bec8c0c5b3c662c8e27ef272f68ea7a11e8de1",
+      "path": "docs/where-sessions-run.md"
+    },
+    {
+      "id": "orch",
+      "kind": "documented",
+      "url": "https://github.com/Thurbeen/thurbox/blob/67bec8c0c5b3c662c8e27ef272f68ea7a11e8de1/docs/thurbox/orchestration.md",
+      "title": "Orchestration",
+      "locator": "Every Task is a session; Driving sessions; Read the state; Recurring work",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "Tasks created by scripts, agents or timers appear in the list; parent label nests workers under a lead; fleet list/get/apply/send/watch/delete verbs.",
+      "visibility": "public",
+      "commit": "67bec8c0c5b3c662c8e27ef272f68ea7a11e8de1",
+      "path": "docs/thurbox/orchestration.md"
+    },
+    {
+      "id": "agents",
+      "kind": "documented",
+      "url": "https://github.com/Thurbeen/thurbox/blob/67bec8c0c5b3c662c8e27ef272f68ea7a11e8de1/docs/thurbox/agents.md",
+      "title": "Agents",
+      "locator": "bundled harness table; How status works",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "Nine bundled harness profiles with hooks and screen rules; status working/attention/idle/unknown; new agents are TOML harness profiles.",
+      "visibility": "public",
+      "commit": "67bec8c0c5b3c662c8e27ef272f68ea7a11e8de1",
+      "path": "docs/thurbox/agents.md"
+    },
+    {
+      "id": "fleet",
+      "kind": "documented",
+      "url": "https://github.com/Thurbeen/thurbox/blob/67bec8c0c5b3c662c8e27ef272f68ea7a11e8de1/docs/fleet/README.md",
+      "title": "Fleet overview",
+      "locator": "The model; Resource kinds; Controllers",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "Declarative engine: Task, TaskConfig, EnvProvider, ChangeRequest, Conversation, Listener, Board, CronTask, plugin kinds; controllers reconcile; compare-and-swap store under a lease.",
+      "visibility": "public",
+      "commit": "67bec8c0c5b3c662c8e27ef272f68ea7a11e8de1",
+      "path": "docs/fleet/README.md"
+    },
+    {
+      "id": "task",
+      "kind": "documented",
+      "url": "https://github.com/Thurbeen/thurbox/blob/67bec8c0c5b3c662c8e27ef272f68ea7a11e8de1/docs/fleet/resources/task.md",
+      "title": "Task resource",
+      "locator": "Spec table; Amendments; Subscriptions",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "Task spec: harness, host, model, configRef, env, pauseAfterMs, brief, amendments, workspace URLs, dispatch, outputs, forge, subscriptions; dispatch false holds the Task.",
+      "visibility": "public",
+      "commit": "67bec8c0c5b3c662c8e27ef272f68ea7a11e8de1",
+      "path": "docs/fleet/resources/task.md"
+    },
+    {
+      "id": "taskctl",
+      "kind": "documented",
+      "url": "https://github.com/Thurbeen/thurbox/blob/67bec8c0c5b3c662c8e27ef272f68ea7a11e8de1/docs/fleet/controllers/task.md",
+      "title": "Task controller",
+      "locator": "Retries and recovery; After a host reboot; Signals; Harness profiles",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "Bounded retries (3 attempts, 30 s), revive of lost sessions after reboot with the same id and worktree, idle pause/resume, proven-delivery journal, per-harness hooks.",
+      "visibility": "public",
+      "commit": "67bec8c0c5b3c662c8e27ef272f68ea7a11e8de1",
+      "path": "docs/fleet/controllers/task.md"
+    },
+    {
+      "id": "cron",
+      "kind": "documented",
+      "url": "https://github.com/Thurbeen/thurbox/blob/67bec8c0c5b3c662c8e27ef272f68ea7a11e8de1/docs/fleet/resources/cron-task.md",
+      "title": "CronTask resource",
+      "locator": "Example; concurrencyPolicy; historyLimit",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "CronTask creates a Task from a template on a cron schedule with concurrencyPolicy, startingDeadlineSeconds and historyLimit.",
+      "visibility": "public",
+      "commit": "67bec8c0c5b3c662c8e27ef272f68ea7a11e8de1",
+      "path": "docs/fleet/resources/cron-task.md"
+    },
+    {
+      "id": "features",
+      "kind": "documented",
+      "url": "https://github.com/Thurbeen/thurbox/blob/67bec8c0c5b3c662c8e27ef272f68ea7a11e8de1/docs/thurbox/features.md",
+      "title": "Feature decisions",
+      "locator": "Scheduling work; Session Lifecycle; Update Notifications; OS Notifications; Parent Sessions",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "Fleet schedules; version_check and auto_update feature flags on by default; OS notifications; parent label nests children.",
+      "visibility": "public",
+      "commit": "67bec8c0c5b3c662c8e27ef272f68ea7a11e8de1",
+      "path": "docs/thurbox/features.md"
+    },
+    {
+      "id": "forge",
+      "kind": "documented",
+      "url": "https://github.com/Thurbeen/thurbox/blob/67bec8c0c5b3c662c8e27ef272f68ea7a11e8de1/docs/fleet/controllers/forge.md",
+      "title": "Forge controller",
+      "locator": "One run; Interface",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "Workers declare changes with `fleet declare`; ForgeController relays checks, reviews and notes to the Task inbox and can mark a draft ready by policy.",
+      "visibility": "public",
+      "commit": "67bec8c0c5b3c662c8e27ef272f68ea7a11e8de1",
+      "path": "docs/fleet/controllers/forge.md"
+    },
+    {
+      "id": "crdoc",
+      "kind": "documented",
+      "url": "https://github.com/Thurbeen/thurbox/blob/67bec8c0c5b3c662c8e27ef272f68ea7a11e8de1/docs/fleet/controllers/change-request.md",
+      "title": "ChangeRequest controller",
+      "locator": "forge adapter table",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "Forge adapters: GitHub via gh, GitLab via glab, Azure DevOps via az, Bitbucket Cloud via curl.",
+      "visibility": "public",
+      "commit": "67bec8c0c5b3c662c8e27ef272f68ea7a11e8de1",
+      "path": "docs/fleet/controllers/change-request.md"
+    },
+    {
+      "id": "gateway",
+      "kind": "documented",
+      "url": "https://github.com/Thurbeen/thurbox/blob/67bec8c0c5b3c662c8e27ef272f68ea7a11e8de1/docs/fleet/controllers/gateway-adapters.md",
+      "title": "Gateway adapters",
+      "locator": "platform table; Common rules",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "Slack and Discord adapters (Telegram and Teams mapped on paper only) let a chat thread start and talk to a Task; Fleet holds no credentials.",
+      "visibility": "public",
+      "commit": "67bec8c0c5b3c662c8e27ef272f68ea7a11e8de1",
+      "path": "docs/fleet/controllers/gateway-adapters.md"
+    },
+    {
+      "id": "board",
+      "kind": "documented",
+      "url": "https://github.com/Thurbeen/thurbox/blob/67bec8c0c5b3c662c8e27ef272f68ea7a11e8de1/docs/fleet/resources/board.md",
+      "title": "Board resource",
+      "locator": "What it is for; Example",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "Boards are shared event logs that Tasks can subscribe to, with retention limits.",
+      "visibility": "public",
+      "commit": "67bec8c0c5b3c662c8e27ef272f68ea7a11e8de1",
+      "path": "docs/fleet/resources/board.md"
+    },
+    {
+      "id": "config",
+      "kind": "documented",
+      "url": "https://github.com/Thurbeen/thurbox/blob/67bec8c0c5b3c662c8e27ef272f68ea7a11e8de1/docs/fleet/configuration.md",
+      "title": "Fleet configuration",
+      "locator": "running fleet up; forge; gateway accounts",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "fleet init/doctor/up; accounts keep tokens in operator-owned curl config files; Fleet never reads PATs or tokens.",
+      "visibility": "public",
+      "commit": "67bec8c0c5b3c662c8e27ef272f68ea7a11e8de1",
+      "path": "docs/fleet/configuration.md"
+    },
+    {
+      "id": "obs",
+      "kind": "documented",
+      "url": "https://github.com/Thurbeen/thurbox/blob/67bec8c0c5b3c662c8e27ef272f68ea7a11e8de1/docs/observability.md",
+      "title": "Observability",
+      "locator": "telemetry interface",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "No program has its own telemetry setting; OpenTelemetry export follows standard OTEL_* variables and is off without them.",
+      "visibility": "public",
+      "commit": "67bec8c0c5b3c662c8e27ef272f68ea7a11e8de1",
+      "path": "docs/observability.md"
+    },
+    {
+      "id": "arch",
+      "kind": "documented",
+      "url": "https://github.com/Thurbeen/thurbox/blob/67bec8c0c5b3c662c8e27ef272f68ea7a11e8de1/docs/thurbox/architecture.md",
+      "title": "thurbox architecture",
+      "locator": "ADRs",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "Fleet is the engine (ADR-41); the interface reads fleet watch and draws it; Lua panes.",
+      "visibility": "public",
+      "commit": "67bec8c0c5b3c662c8e27ef272f68ea7a11e8de1",
+      "path": "docs/thurbox/architecture.md"
+    },
+    {
+      "id": "mux",
+      "kind": "documented",
+      "url": "https://github.com/Thurbeen/thurbox/blob/67bec8c0c5b3c662c8e27ef272f68ea7a11e8de1/docs/runtime/runtime-mux.md",
+      "title": "runtime-mux",
+      "locator": "sessions in tmux/psmux",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "Runtime keeps sessions alive in tmux (psmux on Windows) and makes worktrees through workspace-git.",
+      "visibility": "public",
+      "commit": "67bec8c0c5b3c662c8e27ef272f68ea7a11e8de1",
+      "path": "docs/runtime/runtime-mux.md"
+    },
+    {
+      "id": "plugins",
+      "kind": "documented",
+      "url": "https://github.com/Thurbeen/thurbox/blob/67bec8c0c5b3c662c8e27ef272f68ea7a11e8de1/docs/thurbox/plugins.md",
+      "title": "Writing a pane",
+      "locator": "Lua plugin API",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "Panes are Lua files with a sandboxed API exposing sessions, tasks, diffs and links; F10 reloads.",
+      "visibility": "public",
+      "commit": "67bec8c0c5b3c662c8e27ef272f68ea7a11e8de1",
+      "path": "docs/thurbox/plugins.md"
+    },
+    {
+      "id": "config-doc",
+      "kind": "documented",
+      "url": "https://github.com/Thurbeen/thurbox/blob/67bec8c0c5b3c662c8e27ef272f68ea7a11e8de1/docs/thurbox/config.md",
+      "title": "thurbox config",
+      "locator": "features; fleets",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "settings.toml [features] and [fleets.<name>] with local, ssh and WSL transports.",
+      "visibility": "public",
+      "commit": "67bec8c0c5b3c662c8e27ef272f68ea7a11e8de1",
+      "path": "docs/thurbox/config.md"
+    },
+    {
+      "id": "diffsrc",
+      "kind": "source-inspected",
+      "url": "https://github.com/Thurbeen/thurbox/blob/67bec8c0c5b3c662c8e27ef272f68ea7a11e8de1/crates/thurbox/src/kernel/diff.rs",
+      "title": "Session diff worker",
+      "locator": "MAX_DIFF_BYTES, FileSummary",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "Per-session diff computed on a background thread via git, capped at 4 MiB and exposed to Lua plugins; there is no bundled diff pane in ui/plugins.",
+      "visibility": "public",
+      "commit": "67bec8c0c5b3c662c8e27ef272f68ea7a11e8de1",
+      "path": "crates/thurbox/src/kernel/diff.rs"
+    },
+    {
+      "id": "uiplug",
+      "kind": "source-inspected",
+      "url": "https://github.com/Thurbeen/thurbox/blob/67bec8c0c5b3c662c8e27ef272f68ea7a11e8de1/ui/plugins/10_sessions.lua",
+      "title": "Bundled interface plugins",
+      "locator": "ui/plugins listing",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "Bundled panes: sessions, agent, confirm, rename, menu, search, new_session.",
+      "visibility": "public",
+      "commit": "67bec8c0c5b3c662c8e27ef272f68ea7a11e8de1",
+      "path": "ui/plugins/10_sessions.lua"
+    },
+    {
+      "id": "install",
+      "kind": "documented",
+      "url": "https://github.com/Thurbeen/thurbox/blob/67bec8c0c5b3c662c8e27ef272f68ea7a11e8de1/scripts/install.sh",
+      "title": "Install script",
+      "locator": "scripts/install.sh",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "Downloads release archives and checksums and installs thurbox, thurbox-cli, fleet, runtime-mux and workspace-git.",
+      "visibility": "public",
+      "commit": "67bec8c0c5b3c662c8e27ef272f68ea7a11e8de1",
+      "path": "scripts/install.sh"
+    },
+    {
+      "id": "license",
+      "kind": "documented",
+      "url": "https://github.com/Thurbeen/thurbox/blob/67bec8c0c5b3c662c8e27ef272f68ea7a11e8de1/LICENSE",
+      "title": "LICENSE",
+      "locator": "MIT",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "MIT License.",
+      "visibility": "public",
+      "commit": "67bec8c0c5b3c662c8e27ef272f68ea7a11e8de1",
+      "path": "LICENSE"
+    },
+    {
+      "id": "cargo",
+      "kind": "documented",
+      "url": "https://github.com/Thurbeen/thurbox/blob/67bec8c0c5b3c662c8e27ef272f68ea7a11e8de1/Cargo.toml",
+      "title": "Cargo.toml",
+      "locator": "workspace members, license",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "Rust workspace with fleet-* crates, runtime-mux, workspace-git, thurbox; MIT.",
+      "visibility": "public",
+      "commit": "67bec8c0c5b3c662c8e27ef272f68ea7a11e8de1",
+      "path": "Cargo.toml"
+    },
+    {
+      "id": "img-iface",
+      "kind": "documented",
+      "url": "https://github.com/Thurbeen/thurbox/releases/download/media/thurbox-interface.gif",
+      "title": "Interface demo animation",
+      "locator": "media release thurbox-interface.gif, first frame",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "First frame: Sessions list (fix-osc52-tmux, perf-session-order-cache, add-wsl-host-tests, docs-remote-hooks), Claude Code pane, Tasks list (3 open) and System CPU/MEM panel.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "srch-mcp",
+      "kind": "source-inspected",
+      "url": "https://github.com/Thurbeen/thurbox/blob/67bec8c0c5b3c662c8e27ef272f68ea7a11e8de1/crates",
+      "title": "Bounded search: MCP and API servers",
+      "locator": "grep mcp|model context protocol over crates/, ui/, docs/",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "No MCP server or HTTP API is shipped; the only match is a harness MCP-reload status string.",
+      "visibility": "public",
+      "commit": "67bec8c0c5b3c662c8e27ef272f68ea7a11e8de1",
+      "path": "crates"
+    },
+    {
+      "id": "srch-sso",
+      "kind": "source-inspected",
+      "url": "https://github.com/Thurbeen/thurbox/blob/67bec8c0c5b3c662c8e27ef272f68ea7a11e8de1/crates",
+      "title": "Bounded search: SSO and accounts",
+      "locator": "grep saml|oidc|sso|organization|multi-user over crates/, docs/",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "No SSO, accounts or multi-user model; matches concern forge organizations only.",
+      "visibility": "public",
+      "commit": "67bec8c0c5b3c662c8e27ef272f68ea7a11e8de1",
+      "path": "crates"
+    },
+    {
+      "id": "srch-cost",
+      "kind": "source-inspected",
+      "url": "https://github.com/Thurbeen/thurbox/blob/67bec8c0c5b3c662c8e27ef272f68ea7a11e8de1/crates",
+      "title": "Bounded search: cost and usage",
+      "locator": "grep token usage|cost|spend|billing over crates/, docs/",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "No per-task cost or token accounting; matches are tests and theme code.",
+      "visibility": "public",
+      "commit": "67bec8c0c5b3c662c8e27ef272f68ea7a11e8de1",
+      "path": "crates"
+    },
+    {
+      "id": "srch-isol",
+      "kind": "source-inspected",
+      "url": "https://github.com/Thurbeen/thurbox/blob/67bec8c0c5b3c662c8e27ef272f68ea7a11e8de1/crates",
+      "title": "Bounded search: container and sandbox isolation",
+      "locator": "grep docker|container|bubblewrap|sandbox-exec over crates/, docs/",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "No container, VM or OS sandbox for agents; matches are tmux/workspace code and test sandboxes; VM runtime is planned only.",
+      "visibility": "public",
+      "commit": "67bec8c0c5b3c662c8e27ef272f68ea7a11e8de1",
+      "path": "crates"
+    },
+    {
+      "id": "srch-web",
+      "kind": "source-inspected",
+      "url": "https://github.com/Thurbeen/thurbox/blob/67bec8c0c5b3c662c8e27ef272f68ea7a11e8de1/crates",
+      "title": "Bounded search: web and mobile clients",
+      "locator": "grep web ui|browser client|http server|ios|android over crates/, website/",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "No web client or phone app; the interface is a terminal UI (website is documentation).",
+      "visibility": "public",
+      "commit": "67bec8c0c5b3c662c8e27ef272f68ea7a11e8de1",
+      "path": "crates"
+    },
+    {
+      "id": "srch-track",
+      "kind": "source-inspected",
+      "url": "https://github.com/Thurbeen/thurbox/blob/67bec8c0c5b3c662c8e27ef272f68ea7a11e8de1/crates",
+      "title": "Bounded search: issue tracker, specs, memory",
+      "locator": "grep issue tracker|linear|jira|spec-driven|memory over crates/, docs/",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "No issue tracker integration or spec feature; the demo Tasks pane is not among the seven bundled panes.",
+      "visibility": "public",
+      "commit": "67bec8c0c5b3c662c8e27ef272f68ea7a11e8de1",
+      "path": "crates"
+    }
+  ],
+  "changes": [
+    {
+      "date": "2026-11-17",
+      "author": "researcher-batch20",
+      "type": "initial-research",
+      "summary": "Initial full-profile source pass over release v3.5.2 (commit 67bec8c): README, docs/ (Fleet, runtime, thurbox), website docs, crates/, ui/, scripts/ and release assets, with bounded code searches covering all 51 criteria. v2.89.0 (the README-recommended stable line) was not profiled; v3 is the scoped release.",
+      "claimIds": [
+        "thurbox:ACC-01",
+        "thurbox:ACC-02",
+        "thurbox:ACC-03",
+        "thurbox:ACC-04",
+        "thurbox:ACC-05",
+        "thurbox:ACC-06",
+        "thurbox:ACC-07",
+        "thurbox:PLAN-01",
+        "thurbox:PLAN-02",
+        "thurbox:PLAN-03",
+        "thurbox:PLAN-04",
+        "thurbox:PLAN-05",
+        "thurbox:PLAN-06",
+        "thurbox:PLAN-07",
+        "thurbox:PLAN-08",
+        "thurbox:COORD-01",
+        "thurbox:COORD-02",
+        "thurbox:COORD-03",
+        "thurbox:COORD-04",
+        "thurbox:COORD-05",
+        "thurbox:COORD-06",
+        "thurbox:COORD-07",
+        "thurbox:RUN-01",
+        "thurbox:RUN-02",
+        "thurbox:RUN-03",
+        "thurbox:RUN-04",
+        "thurbox:RUN-05",
+        "thurbox:RUN-06",
+        "thurbox:RUN-07",
+        "thurbox:RUN-08",
+        "thurbox:TEAM-01",
+        "thurbox:TEAM-02",
+        "thurbox:TEAM-03",
+        "thurbox:TEAM-04",
+        "thurbox:TEAM-05",
+        "thurbox:TEAM-06",
+        "thurbox:SHIP-01",
+        "thurbox:SHIP-02",
+        "thurbox:SHIP-03",
+        "thurbox:SHIP-04",
+        "thurbox:SHIP-05",
+        "thurbox:SHIP-06",
+        "thurbox:OWN-01",
+        "thurbox:OWN-02",
+        "thurbox:OWN-03",
+        "thurbox:OWN-04",
+        "thurbox:OWN-05",
+        "thurbox:OWN-06",
+        "thurbox:OWN-07",
+        "thurbox:OWN-08",
+        "thurbox:OWN-09"
+      ],
+      "evidenceIds": [
+        "repoapi",
+        "release",
+        "readme",
+        "where",
+        "orch",
+        "agents",
+        "fleet",
+        "task",
+        "taskctl",
+        "cron",
+        "features",
+        "forge",
+        "crdoc",
+        "gateway",
+        "board",
+        "config",
+        "obs",
+        "arch",
+        "mux",
+        "plugins",
+        "config-doc",
+        "diffsrc",
+        "uiplug",
+        "install",
+        "license",
+        "cargo",
+        "img-iface",
+        "srch-mcp",
+        "srch-sso",
+        "srch-cost",
+        "srch-isol",
+        "srch-web",
+        "srch-track"
+      ]
+    }
+  ],
+  "context": {
+    "roadmapReview": {
+      "checkedAt": "2026-11-17",
+      "locations": [
+        {
+          "url": "https://github.com/Thurbeen/thurbox/releases",
+          "result": "v3.5.2 (2026-11-17) is Latest; several v3 releases per day; README recommends v2.89.0 over v3 for stability."
+        },
+        {
+          "url": "https://github.com/Thurbeen/thurbox/blob/v3.5.2/docs/where-sessions-run.md",
+          "result": "Status table: A VM runtime is \"planned\"; everything else listed is implemented. Planned items are not counted as shipped."
+        },
+        {
+          "url": "https://github.com/Thurbeen/thurbox/blob/v3.5.2/README.md",
+          "result": "Says v3 is not yet fully stable; no dated plans."
+        },
+        {
+          "url": "https://github.com/Thurbeen/thurbox/issues",
+          "result": "Public issues; no dated product announcements recorded."
+        },
+        {
+          "url": "https://thurbox.thurbeen.eu/",
+          "result": "Product site and docs; no separate roadmap page found."
+        }
+      ],
+      "announced": [],
+      "gaps": [
+        "A planned VM runtime is mentioned without a date.",
+        "Satellite repositories (thurview, fleet-factory, thurbox-* panes, fleet-reviewer) were read only at README level and are not part of v3.5.2."
+      ]
+    },
+    "marketContext": {
+      "githubStars": {
+        "value": 120,
+        "observedAt": "2026-11-17",
+        "evidenceIds": [
+          "repoapi"
+        ]
+      }
+    }
+  }
+}
