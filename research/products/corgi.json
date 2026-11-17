@@ -1,0 +1,5774 @@
+{
+  "schemaVersion": 1,
+  "rubricVersion": "0.3",
+  "id": "corgi",
+  "name": "Corgi",
+  "category": "A",
+  "researchTier": "full-profile",
+  "researchState": "documented",
+  "identity": {
+    "website": "https://corgi.computer",
+    "repository": "https://github.com/tals/corgi",
+    "aliases": [
+      "tals/corgi"
+    ],
+    "company": null
+  },
+  "surfaces": [
+    {
+      "id": "terminal",
+      "name": "Corgi terminal UI (Ghostty-powered viewer for a persistent runtime)",
+      "type": "cli"
+    },
+    {
+      "id": "cli",
+      "name": "corgi command line, scripting and JSON RPC",
+      "type": "cli"
+    },
+    {
+      "id": "daemon",
+      "name": "Corgi daemon (persistent runtime that owns panes and agents)",
+      "type": "service"
+    }
+  ],
+  "claims": [
+    {
+      "id": "corgi:ACC-01",
+      "criterionId": "ACC-01",
+      "answer": "A terminal application for macOS (Apple Silicon) and Linux (amd64, arm64) that runs inside the user's terminal; remote use is ssh -t host corgi; no native Windows, browser or phone client; no editor extension.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "terminal",
+          "cli"
+        ],
+        "version": "stable release 20261106T233845Z-03c72b717526 (commit 03c72b7, 2026-11-06); default-branch work at c29ecae (2026-11-11) is noted separately",
+        "plan": "Open source (MIT), free, local install",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "desktop_os": {
+          "support": "partial",
+          "answer": "README install offers macOS Apple Silicon and Linux amd64/arm64 builds; no Windows build. Corgi runs in a host terminal rather than as a separate GUI app.",
+          "evidenceIds": [
+            "readme",
+            "stable",
+            "installsrc"
+          ]
+        },
+        "mobile_apps": {
+          "support": "unsupported",
+          "answer": "No iOS or Android app; the install section lists only macOS and Linux.",
+          "evidenceIds": [
+            "readme",
+            "scan"
+          ]
+        },
+        "browser": {
+          "support": "unsupported",
+          "answer": "No browser client in the released product (a browser viewer appears only as a future note in the unreleased design doc).",
+          "evidenceIds": [
+            "readme",
+            "scan"
+          ]
+        },
+        "mobile_browser": {
+          "support": "unsupported",
+          "answer": "No browser client, so no phone browser access.",
+          "evidenceIds": [
+            "readme",
+            "scan"
+          ]
+        },
+        "cli": {
+          "support": "supported",
+          "answer": "corgi command with scripting, headless, watch, usage and rpc commands.",
+          "evidenceIds": [
+            "help",
+            "reference"
+          ]
+        },
+        "editor_extensions": {
+          "support": "unsupported",
+          "answer": "No editor extension in the repository.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "task_actions": {
+          "support": "supported",
+          "answer": "Start agents from the picker, message or send input, read panes, review changes, jump to waiting agents, resume closed agents.",
+          "evidenceIds": [
+            "reference",
+            "launcher",
+            "workspaces"
+          ]
+        },
+        "notifications": {
+          "support": "partial",
+          "answer": "Sounds and unread/needs-input indicators in the UI; over SSH only the terminal bell; no push notifications.",
+          "evidenceIds": [
+            "workspaces",
+            "reference"
+          ]
+        },
+        "cross_device_continuity": {
+          "support": "partial",
+          "answer": "Detaching leaves the runtime running so a later corgi (or ssh -t host corgi) reattaches; there is no multi-device client.",
+          "evidenceIds": [
+            "reference"
+          ]
+        }
+      },
+      "limitations": [
+        "Windows is not offered by the installer; there is no browser or phone client; SSH machine profiles exist only on the default branch."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "stable",
+        "installsrc",
+        "scan",
+        "help",
+        "reference",
+        "launcher",
+        "workspaces"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch15",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "corgi:ACC-02",
+      "criterionId": "ACC-02",
+      "answer": "Provider adapters for Claude Code, Codex, Pi, OpenCode and Oh My Pi; Corgi launches each agent CLI in a terminal pane or headlessly and observes it through hooks, extensions or provider channels.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "terminal",
+          "cli"
+        ],
+        "version": "stable release 20261106T233845Z-03c72b717526 (commit 03c72b7, 2026-11-06); default-branch work at c29ecae (2026-11-11) is noted separately",
+        "plan": "Open source (MIT), free, local install",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "harnesses": {
+          "support": "supported",
+          "answer": "Five provider adapters.",
+          "evidenceIds": [
+            "providers",
+            "readme"
+          ]
+        },
+        "model_providers": {
+          "support": "partial",
+          "answer": "Model choice is delegated to each agent; Pi and OpenCode bring many providers and Corgi lists models per account.",
+          "evidenceIds": [
+            "agents",
+            "launcher"
+          ]
+        },
+        "custom_adapters": {
+          "support": "partial",
+          "answer": "Custom commands can be saved in the launcher, and corgi agent launches a discovered binary; providers are code-level adapters only.",
+          "evidenceIds": [
+            "launcher",
+            "agents"
+          ]
+        },
+        "session_integration": {
+          "support": "supported",
+          "answer": "Hooks for Claude Code and Codex, an extension for Pi and Oh My Pi, OpenCode server, headless provider clients.",
+          "evidenceIds": [
+            "readme",
+            "agents"
+          ]
+        },
+        "mixed_harness_operation": {
+          "support": "supported",
+          "answer": "README hero shows Claude Code and Codex side by side and the agent list mixes providers.",
+          "evidenceIds": [
+            "readme",
+            "workspaces"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established: model_providers, custom_adapters."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "providers",
+        "readme",
+        "agents",
+        "launcher",
+        "workspaces"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch15",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "corgi:ACC-03",
+      "criterionId": "ACC-03",
+      "answer": "Each agent uses its own login folder; Corgi manages several accounts per provider and shows plan, usage and spend; no vendor credits or Corgi account.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "terminal",
+          "cli"
+        ],
+        "version": "stable release 20261106T233845Z-03c72b717526 (commit 03c72b7, 2026-11-06); default-branch work at c29ecae (2026-11-11) is noted separately",
+        "plan": "Open source (MIT), free, local install",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "agent_subscriptions": {
+          "support": "supported",
+          "answer": "Accounts are provider settings folders (CLAUDE_CONFIG_DIR, CODEX_HOME) with plan tier and limits shown.",
+          "evidenceIds": [
+            "launcher",
+            "agents"
+          ]
+        },
+        "api_accounts": {
+          "support": "partial",
+          "answer": "Metered logins appear as Metered plans in the picker; Corgi does not store API keys itself.",
+          "evidenceIds": [
+            "agents",
+            "launcher"
+          ]
+        },
+        "vendor_credits": {
+          "support": "unsupported",
+          "answer": "No Corgi credits or paid plans exist.",
+          "evidenceIds": [
+            "readme",
+            "site"
+          ]
+        },
+        "local_models": {
+          "support": "unknown",
+          "answer": "Local-model setup is not described in the released docs.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "account_switching": {
+          "support": "supported",
+          "answer": "Named accounts per provider with sign-in, usage and launcher membership; corgi account add.",
+          "evidenceIds": [
+            "launcher",
+            "help"
+          ]
+        },
+        "vendor_account_requirement": {
+          "support": "supported",
+          "answer": "No Corgi account is required.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "provider_restrictions": {
+          "support": "unknown",
+          "answer": "Provider terms for multiple accounts are not covered in the repository.",
+          "evidenceIds": [
+            "launcher"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established: api_accounts, vendor_credits, local_models, provider_restrictions."
+      ],
+      "unknownReason": "Provider terms and local-model support are not documented in the repository.",
+      "evidenceIds": [
+        "launcher",
+        "agents",
+        "readme",
+        "site",
+        "help"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch15",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "corgi:ACC-04",
+      "criterionId": "ACC-04",
+      "answer": "One curl install, run corgi, pick a shortcut preset, import tmux/herdr/cmux sessions if wanted and click New to start an agent; works in any folder, with git worktree helpers when the folder is a repository.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "terminal"
+        ],
+        "version": "stable release 20261106T233845Z-03c72b717526 (commit 03c72b7, 2026-11-06); default-branch work at c29ecae (2026-11-11) is noted separately",
+        "plan": "Open source (MIT), free, local install",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "first_task_setup": {
+          "support": "supported",
+          "answer": "Install script, corgi, onboarding preset choice, New agent.",
+          "evidenceIds": [
+            "readme",
+            "reference"
+          ]
+        },
+        "no_git": {
+          "support": "supported",
+          "answer": "Workspaces are folders and terminals; worktree features appear only for git checkouts.",
+          "evidenceIds": [
+            "reference",
+            "workspaces"
+          ]
+        },
+        "local_git_without_remote": {
+          "support": "supported",
+          "answer": "Review and worktrees read local Git; push is optional.",
+          "evidenceIds": [
+            "workspaces",
+            "reference"
+          ]
+        },
+        "hosted_git": {
+          "support": "partial",
+          "answer": "Push of unpushed commits is offered; no GitHub-specific integration found.",
+          "evidenceIds": [
+            "workspaces",
+            "scan"
+          ]
+        },
+        "prerequisite_guidance": {
+          "support": "supported",
+          "answer": "README: run claude, codex, pi, opencode or omp in a pane; Codex asks to trust hooks once.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "managed_cloud_setup": {
+          "support": "unsupported",
+          "answer": "Nothing hosted; the product is a local app.",
+          "evidenceIds": [
+            "readme",
+            "site"
+          ]
+        },
+        "byo_vps_onboarding": {
+          "support": "partial",
+          "answer": "ssh -t host corgi runs the same runtime on a server; a dedicated machine installer exists only on the default branch.",
+          "evidenceIds": [
+            "reference",
+            "remotemain"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established: hosted_git, managed_cloud_setup, byo_vps_onboarding."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "reference",
+        "workspaces",
+        "scan",
+        "site",
+        "remotemain"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch15",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "corgi:ACC-05",
+      "criterionId": "ACC-05",
+      "answer": "Extensive corgi CLI (list, tab, pane, message, read, grep, headless, watch, usage, rpc) plus a local JSON RPC and a skill for agents; no SDK or webhooks.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli",
+          "daemon"
+        ],
+        "version": "stable release 20261106T233845Z-03c72b717526 (commit 03c72b7, 2026-11-06); default-branch work at c29ecae (2026-11-11) is noted separately",
+        "plan": "Open source (MIT), free, local install",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "cli": {
+          "support": "supported",
+          "answer": "corgi list/tab/pane/message/read/grep/headless/usage with --json.",
+          "evidenceIds": [
+            "reference",
+            "help",
+            "skill"
+          ]
+        },
+        "api": {
+          "support": "supported",
+          "answer": "corgi rpc takes JSON for the local control protocol over a Unix socket.",
+          "evidenceIds": [
+            "help"
+          ]
+        },
+        "sdk": {
+          "support": "unsupported",
+          "answer": "No SDK package.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "mcp_server": {
+          "support": "unsupported",
+          "answer": "No MCP server; agents use corgi --skill instructions and the CLI.",
+          "evidenceIds": [
+            "skill",
+            "scan"
+          ]
+        },
+        "webhooks": {
+          "support": "unsupported",
+          "answer": "No webhook endpoints.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "operations": {
+          "support": "supported",
+          "answer": "Create tabs, panes and headless sessions, message and read, stop via pane close, review through the panel.",
+          "evidenceIds": [
+            "reference",
+            "skill"
+          ]
+        },
+        "authentication": {
+          "support": "partial",
+          "answer": "Local Unix socket owned by the user; no tokens.",
+          "evidenceIds": [
+            "help",
+            "hacking"
+          ]
+        },
+        "stability": {
+          "support": "unknown",
+          "answer": "No stability promise for the CLI or RPC was found.",
+          "evidenceIds": [
+            "help"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established: sdk, mcp_server, webhooks, authentication, stability."
+      ],
+      "unknownReason": "The docs state no compatibility policy for CLI or RPC.",
+      "evidenceIds": [
+        "reference",
+        "help",
+        "skill",
+        "scan",
+        "hacking"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch15",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "corgi:ACC-06",
+      "criterionId": "ACC-06",
+      "answer": "Corgi installs hooks and extensions into agents and offers a skill; MCP and plugins stay with each agent.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "terminal"
+        ],
+        "version": "stable release 20261106T233845Z-03c72b717526 (commit 03c72b7, 2026-11-06); default-branch work at c29ecae (2026-11-11) is noted separately",
+        "plan": "Open source (MIT), free, local install",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "mcp_client": {
+          "support": "unsupported",
+          "answer": "Corgi is not an MCP client.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "plugins": {
+          "support": "partial",
+          "answer": "Pi and Oh My Pi extensions that Corgi installs; no general plugin API.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "custom_tools": {
+          "support": "partial",
+          "answer": "Saved launch commands and scripts; no tool API for agents beyond the CLI.",
+          "evidenceIds": [
+            "launcher",
+            "skill"
+          ]
+        },
+        "instructions_import": {
+          "support": "supported",
+          "answer": "corgi --skill prints agent instructions.",
+          "evidenceIds": [
+            "skill",
+            "readme"
+          ]
+        },
+        "authentication": {
+          "support": "partial",
+          "answer": "Hook trust handled by Codex.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "permission_scope": {
+          "support": "partial",
+          "answer": "Per-provider YOLO flag, off by default.",
+          "evidenceIds": [
+            "launcher"
+          ]
+        },
+        "integration_owner": {
+          "support": "supported",
+          "answer": "Corgi installs hooks via corgi integration.",
+          "evidenceIds": [
+            "help",
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established: mcp_client, plugins, custom_tools, authentication, permission_scope."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "scan",
+        "agents",
+        "launcher",
+        "skill",
+        "readme",
+        "help"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch15",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "corgi:ACC-07",
+      "criterionId": "ACC-07",
+      "answer": "Zig native layer with Ghostty terminal emulation and a Bun TypeScript daemon and viewer; no Electron or web UI.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "terminal"
+        ],
+        "version": "stable release 20261106T233845Z-03c72b717526 (commit 03c72b7, 2026-11-06); default-branch work at c29ecae (2026-11-11) is noted separately",
+        "plan": "Open source (MIT), free, local install",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "desktop_implementation": {
+          "support": "supported",
+          "answer": "Native binary with Ghostty-derived terminal handling, drawn inside the host terminal.",
+          "evidenceIds": [
+            "hacking",
+            "readme"
+          ]
+        },
+        "mobile_implementation": {
+          "support": "unsupported",
+          "answer": "No mobile client.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "hybrids": {
+          "support": "unsupported",
+          "answer": "Not a hybrid; a TUI.",
+          "evidenceIds": [
+            "hacking"
+          ]
+        },
+        "implementation_evidence": {
+          "support": "supported",
+          "answer": "HACKING.md and the repository layout (native/, src/).",
+          "evidenceIds": [
+            "hacking"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established: mobile_implementation, hybrids."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "hacking",
+        "readme",
+        "scan"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-05-16",
+      "researcher": "researcher-batch15",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "corgi:PLAN-01",
+      "criterionId": "PLAN-01",
+      "answer": "Work starts from prompts typed into agents; there is no tracker or plan intake.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "terminal"
+        ],
+        "version": "stable release 20261106T233845Z-03c72b717526 (commit 03c72b7, 2026-11-06); default-branch work at c29ecae (2026-11-11) is noted separately",
+        "plan": "Open source (MIT), free, local install",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "local_creation": {
+          "support": "unsupported",
+          "answer": "No task or issue creation.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "prompt_intake": {
+          "support": "supported",
+          "answer": "Prompts go directly to agents; Ask Corgi takes prompts.",
+          "evidenceIds": [
+            "reference"
+          ]
+        },
+        "external_import": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "chat_git_triggers": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "authoritative_tracker": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "stable_ids": {
+          "support": "partial",
+          "answer": "Pane IDs and provider session IDs.",
+          "evidenceIds": [
+            "skill"
+          ]
+        },
+        "sync": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "supported_edits": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "external_roundtrips": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established: local_creation, external_import, chat_git_triggers, authoritative_tracker, stable_ids, sync, supported_edits, external_roundtrips."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "scan",
+        "reference",
+        "skill"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch15",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "corgi:PLAN-02",
+      "criterionId": "PLAN-02",
+      "answer": "No task plans; plans live in the agents.",
+      "support": "unsupported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "terminal"
+        ],
+        "version": "stable release 20261106T233845Z-03c72b717526 (commit 03c72b7, 2026-11-06); default-branch work at c29ecae (2026-11-11) is noted separately",
+        "plan": "Open source (MIT), free, local install",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "plans": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "acceptance_criteria": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "editors": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "revisions": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "implementation_links": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "amendment": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "restart_persistence": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "scan"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch15",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "corgi:PLAN-03",
+      "criterionId": "PLAN-03",
+      "answer": "No hierarchy, blockers or epics; workspaces group tabs and panes only.",
+      "support": "unsupported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "terminal"
+        ],
+        "version": "stable release 20261106T233845Z-03c72b717526 (commit 03c72b7, 2026-11-06); default-branch work at c29ecae (2026-11-11) is noted separately",
+        "plan": "Open source (MIT), free, local install",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "epics": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan",
+            "help"
+          ]
+        },
+        "hierarchy": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "blockers": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "readiness": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "enforcement": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "state_propagation": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "task_to_epic": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "identity_retention": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "workflow_constraints": {
+          "support": "supported",
+          "answer": "No workflow imposed.",
+          "evidenceIds": [
+            "reference"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "scan",
+        "help",
+        "reference"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch15",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "corgi:PLAN-04",
+      "criterionId": "PLAN-04",
+      "answer": "Ask Corgi keeps Markdown memory; conversation grep across providers; agent instruction files stay with agents.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "terminal"
+        ],
+        "version": "stable release 20261106T233845Z-03c72b717526 (commit 03c72b7, 2026-11-06); default-branch work at c29ecae (2026-11-11) is noted separately",
+        "plan": "Open source (MIT), free, local install",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "instructions": {
+          "support": "partial",
+          "answer": "Provider instruction files are read by agents; Corgi adds corgi --skill.",
+          "evidenceIds": [
+            "skill"
+          ]
+        },
+        "skills": {
+          "support": "partial",
+          "answer": "The Corgi skill.",
+          "evidenceIds": [
+            "skill"
+          ]
+        },
+        "project_docs": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "memory": {
+          "support": "supported",
+          "answer": "MEMORY.md, daily logs and per-workspace notes for Ask Corgi.",
+          "evidenceIds": [
+            "reference"
+          ]
+        },
+        "scope": {
+          "support": "supported",
+          "answer": "Per workspace and global.",
+          "evidenceIds": [
+            "reference"
+          ]
+        },
+        "provenance": {
+          "support": "partial",
+          "answer": "Logs by day.",
+          "evidenceIds": [
+            "reference"
+          ]
+        },
+        "correction": {
+          "support": "supported",
+          "answer": "/memory, /erase commands.",
+          "evidenceIds": [
+            "reference"
+          ]
+        },
+        "deletion": {
+          "support": "supported",
+          "answer": "/erase deletes.",
+          "evidenceIds": [
+            "reference"
+          ]
+        },
+        "freshness": {
+          "support": "partial",
+          "answer": "Promotion rule for repeated lines.",
+          "evidenceIds": [
+            "reference"
+          ]
+        },
+        "takeover_continuity": {
+          "support": "supported",
+          "answer": "Runtime persists and grep reads past conversations.",
+          "evidenceIds": [
+            "reference",
+            "skill"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established: instructions, skills, project_docs, provenance, freshness."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "skill",
+        "scan",
+        "reference"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch15",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "corgi:PLAN-05",
+      "criterionId": "PLAN-05",
+      "answer": "corgi grep searches past agent conversations (private index); no repository index or architecture enforcement.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "terminal",
+          "cli"
+        ],
+        "version": "stable release 20261106T233845Z-03c72b717526 (commit 03c72b7, 2026-11-06); default-branch work at c29ecae (2026-11-11) is noted separately",
+        "plan": "Open source (MIT), free, local install",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "code_search": {
+          "support": "unsupported",
+          "answer": "Conversation search only.",
+          "evidenceIds": [
+            "skill",
+            "scan"
+          ]
+        },
+        "indexing": {
+          "support": "partial",
+          "answer": "Private conversation index.",
+          "evidenceIds": [
+            "reference"
+          ]
+        },
+        "external_knowledge": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "multimodal_inputs": {
+          "support": "supported",
+          "answer": "Image paste and attachments in Ask Corgi.",
+          "evidenceIds": [
+            "reference"
+          ]
+        },
+        "freshness": {
+          "support": "supported",
+          "answer": "Index refreshes changed conversations.",
+          "evidenceIds": [
+            "reference"
+          ]
+        },
+        "access_scope": {
+          "support": "supported",
+          "answer": "Workspace and worktrees.",
+          "evidenceIds": [
+            "reference"
+          ]
+        },
+        "api_retrieval": {
+          "support": "supported",
+          "answer": "corgi grep --json.",
+          "evidenceIds": [
+            "reference"
+          ]
+        },
+        "citations": {
+          "support": "supported",
+          "answer": "Hits name session and line.",
+          "evidenceIds": [
+            "reference"
+          ]
+        },
+        "conflict_detection": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "review_enforcement": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established: code_search, indexing, external_knowledge, conflict_detection, review_enforcement."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "skill",
+        "scan",
+        "reference"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch15",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "corgi:PLAN-06",
+      "criterionId": "PLAN-06",
+      "answer": "No issue or backlog management.",
+      "support": "unsupported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "terminal"
+        ],
+        "version": "stable release 20261106T233845Z-03c72b717526 (commit 03c72b7, 2026-11-06); default-branch work at c29ecae (2026-11-11) is noted separately",
+        "plan": "Open source (MIT), free, local install",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "create": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "edit": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "discuss": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "prioritize": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "label": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "assign": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "search": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "filter": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "archive": {
+          "support": "partial",
+          "answer": "Archive a workspace.",
+          "evidenceIds": [
+            "workspaces"
+          ]
+        },
+        "reopen": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "project_epic_views": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "idea_parking": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "explicit_dispatch": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "task_session_separation": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "metadata": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "durable_states": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "external_tracker_requirement": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "scan",
+        "workspaces"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch15",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "corgi:PLAN-07",
+      "criterionId": "PLAN-07",
+      "answer": "No issue operations.",
+      "support": "unsupported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "cli"
+        ],
+        "version": "stable release 20261106T233845Z-03c72b717526 (commit 03c72b7, 2026-11-06); default-branch work at c29ecae (2026-11-11) is noted separately",
+        "plan": "Open source (MIT), free, local install",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "shared_ids": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "read": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "create": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "update": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "claim": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "assign": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "state_changes": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "dependencies": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "children": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "results": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "human_visibility": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "attribution": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "permissions": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "conflicts": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "scan"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch15",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "corgi:PLAN-08",
+      "criterionId": "PLAN-08",
+      "answer": "No living specification feature.",
+      "support": "unsupported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "terminal"
+        ],
+        "version": "stable release 20261106T233845Z-03c72b717526 (commit 03c72b7, 2026-11-06); default-branch work at c29ecae (2026-11-11) is noted separately",
+        "plan": "Open source (MIT), free, local install",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "persistent_requirements": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "human_edits": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "agent_edits": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "revisions": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "approvals": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "implementation_links": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "later_retrieval": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "drift_detection": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "review_integration": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "scan"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch15",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "corgi:COORD-01",
+      "criterionId": "COORD-01",
+      "answer": "Any number of panes and agents run concurrently inside workspaces; activity indicators show working, needs input, unread and done.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "terminal",
+          "daemon"
+        ],
+        "version": "stable release 20261106T233845Z-03c72b717526 (commit 03c72b7, 2026-11-06); default-branch work at c29ecae (2026-11-11) is noted separately",
+        "plan": "Open source (MIT), free, local install",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "concurrent_sessions": {
+          "support": "supported",
+          "answer": "Multiple panes and agents run concurrently.",
+          "evidenceIds": [
+            "readme",
+            "workspaces"
+          ]
+        },
+        "concurrent_tasks": {
+          "support": "unsupported",
+          "answer": "No task entity.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "quotas": {
+          "support": "unsupported",
+          "answer": "No documented concurrency limit.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "observed_concurrency": {
+          "support": "partial",
+          "answer": "README hero shows Claude Code and Codex side by side.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "status_visibility": {
+          "support": "supported",
+          "answer": "Working, needs input, unread, done indicators.",
+          "evidenceIds": [
+            "workspaces",
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established: concurrent_tasks, quotas, observed_concurrency."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "workspaces",
+        "scan"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch15",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "corgi:COORD-02",
+      "criterionId": "COORD-02",
+      "answer": "No assignment, claims or queues.",
+      "support": "unsupported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "terminal"
+        ],
+        "version": "stable release 20261106T233845Z-03c72b717526 (commit 03c72b7, 2026-11-06); default-branch work at c29ecae (2026-11-11) is noted separately",
+        "plan": "Open source (MIT), free, local install",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "human_assignment": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "agent_assignment": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "claims": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "queues": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "routing": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "duplicate_prevention": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "ownership_enforcement": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "scan"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch15",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "corgi:COORD-03",
+      "criterionId": "COORD-03",
+      "answer": "Corgi observes provider subagents and lets a script or agent message, read and start other agents through the CLI and skill; no product-owned orchestrator.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "terminal",
+          "cli"
+        ],
+        "version": "stable release 20261106T233845Z-03c72b717526 (commit 03c72b7, 2026-11-06); default-branch work at c29ecae (2026-11-11) is noted separately",
+        "plan": "Open source (MIT), free, local install",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "roles": {
+          "support": "partial",
+          "answer": "Subagent children observed; Reviewer agent started from review.",
+          "evidenceIds": [
+            "agents",
+            "reference"
+          ]
+        },
+        "model_harness_effort": {
+          "support": "supported",
+          "answer": "Model and effort chosen per launch in the picker.",
+          "evidenceIds": [
+            "launcher"
+          ]
+        },
+        "messages": {
+          "support": "supported",
+          "answer": "corgi message and pane send.",
+          "evidenceIds": [
+            "skill",
+            "reference"
+          ]
+        },
+        "results_return": {
+          "support": "partial",
+          "answer": "pane read and headless events.",
+          "evidenceIds": [
+            "skill",
+            "help"
+          ]
+        },
+        "cross_harness": {
+          "support": "supported",
+          "answer": "Any provider can be messaged.",
+          "evidenceIds": [
+            "skill"
+          ]
+        },
+        "orchestration_owner": {
+          "support": "partial",
+          "answer": "Corgi supplies the CLI and skill; orchestration is user or agent driven.",
+          "evidenceIds": [
+            "skill"
+          ]
+        },
+        "activation": {
+          "support": "supported",
+          "answer": "corgi --skill.",
+          "evidenceIds": [
+            "skill"
+          ]
+        },
+        "authentication": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "help"
+          ]
+        },
+        "live_progress": {
+          "support": "supported",
+          "answer": "Children and activity shown in the agent list.",
+          "evidenceIds": [
+            "agents",
+            "workspaces"
+          ]
+        },
+        "retained_results": {
+          "support": "partial",
+          "answer": "Conversations stay resumable.",
+          "evidenceIds": [
+            "launcher"
+          ]
+        },
+        "followup": {
+          "support": "supported",
+          "answer": "Resume and message.",
+          "evidenceIds": [
+            "launcher",
+            "skill"
+          ]
+        },
+        "invocation": {
+          "support": "supported",
+          "answer": "CLI.",
+          "evidenceIds": [
+            "skill"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established: roles, results_return, orchestration_owner, authentication, retained_results."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "agents",
+        "reference",
+        "launcher",
+        "skill",
+        "help",
+        "workspaces"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch15",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "corgi:COORD-04",
+      "criterionId": "COORD-04",
+      "answer": "No schedules or event triggers; capacity retries only.",
+      "support": "unsupported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "terminal"
+        ],
+        "version": "stable release 20261106T233845Z-03c72b717526 (commit 03c72b7, 2026-11-06); default-branch work at c29ecae (2026-11-11) is noted separately",
+        "plan": "Open source (MIT), free, local install",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "schedules": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "events": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "recurring_tasks": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "completion_conditions": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "scheduler_location": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "overlaps": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "retries": {
+          "support": "partial",
+          "answer": "Auto-retry of Codex capacity errors.",
+          "evidenceIds": [
+            "workspaces"
+          ]
+        },
+        "client_independence": {
+          "support": "supported",
+          "answer": "Runtime continues when the viewer detaches.",
+          "evidenceIds": [
+            "reference"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "scan",
+        "workspaces",
+        "reference"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch15",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "corgi:COORD-05",
+      "criterionId": "COORD-05",
+      "answer": "Needs-input indicators, jump to attention, steering by typing, headless stop and interrupt.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "terminal"
+        ],
+        "version": "stable release 20261106T233845Z-03c72b717526 (commit 03c72b7, 2026-11-06); default-branch work at c29ecae (2026-11-11) is noted separately",
+        "plan": "Open source (MIT), free, local install",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "pause": {
+          "support": "partial",
+          "answer": "Hibernate panes.",
+          "evidenceIds": [
+            "workspaces"
+          ]
+        },
+        "stop": {
+          "support": "supported",
+          "answer": "pane close and headless stop.",
+          "evidenceIds": [
+            "help",
+            "reference"
+          ]
+        },
+        "resume": {
+          "support": "supported",
+          "answer": "Resume closed agents.",
+          "evidenceIds": [
+            "reference"
+          ]
+        },
+        "steer": {
+          "support": "supported",
+          "answer": "Type into the pane or corgi message.",
+          "evidenceIds": [
+            "skill"
+          ]
+        },
+        "notifications": {
+          "support": "partial",
+          "answer": "Sounds and indicators.",
+          "evidenceIds": [
+            "workspaces"
+          ]
+        },
+        "pending_decisions": {
+          "support": "supported",
+          "answer": "Needs-input state.",
+          "evidenceIds": [
+            "workspaces"
+          ]
+        },
+        "escalation": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "visible_errors": {
+          "support": "partial",
+          "answer": "capacity retry shown.",
+          "evidenceIds": [
+            "workspaces"
+          ]
+        },
+        "chat_terminal_parity": {
+          "support": "supported",
+          "answer": "Terminal is the interface.",
+          "evidenceIds": [
+            "reference"
+          ]
+        },
+        "retained_history": {
+          "support": "supported",
+          "answer": "conversations resumable.",
+          "evidenceIds": [
+            "launcher"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established: pause, notifications, escalation, visible_errors."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "workspaces",
+        "help",
+        "reference",
+        "skill",
+        "scan",
+        "launcher"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch15",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "corgi:COORD-06",
+      "criterionId": "COORD-06",
+      "answer": "Sidebar of workspaces and agents with state sorting and worktree grouping.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "terminal"
+        ],
+        "version": "stable release 20261106T233845Z-03c72b717526 (commit 03c72b7, 2026-11-06); default-branch work at c29ecae (2026-11-11) is noted separately",
+        "plan": "Open source (MIT), free, local install",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "fleet_fixture": {
+          "support": "partial",
+          "answer": "Screenshot of review view only.",
+          "evidenceIds": [
+            "screenshot"
+          ]
+        },
+        "parent_child": {
+          "support": "supported",
+          "answer": "Children shown.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "dependencies": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "attention": {
+          "support": "supported",
+          "answer": "Jump to attention.",
+          "evidenceIds": [
+            "workspaces"
+          ]
+        },
+        "history": {
+          "support": "supported",
+          "answer": "Resume list.",
+          "evidenceIds": [
+            "launcher"
+          ]
+        },
+        "workload": {
+          "support": "supported",
+          "answer": "Usage and resource display.",
+          "evidenceIds": [
+            "workspaces"
+          ]
+        },
+        "navigation_errors": {
+          "support": "partial",
+          "answer": "states.",
+          "evidenceIds": [
+            "workspaces"
+          ]
+        },
+        "fixture_mode": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established: fleet_fixture, dependencies, navigation_errors, fixture_mode."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "screenshot",
+        "agents",
+        "scan",
+        "workspaces",
+        "launcher"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch15",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "corgi:COORD-07",
+      "criterionId": "COORD-07",
+      "answer": "No imposed workflow; Ask Corgi takes natural language.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "terminal"
+        ],
+        "version": "stable release 20261106T233845Z-03c72b717526 (commit 03c72b7, 2026-11-06); default-branch work at c29ecae (2026-11-11) is noted separately",
+        "plan": "Open source (MIT), free, local install",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "quick_task": {
+          "support": "supported",
+          "answer": "New agent.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "growing_epic": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "presets": {
+          "support": "partial",
+          "answer": "Saved launch commands.",
+          "evidenceIds": [
+            "launcher"
+          ]
+        },
+        "natural_language": {
+          "support": "supported",
+          "answer": "Ask Corgi.",
+          "evidenceIds": [
+            "reference"
+          ]
+        },
+        "agent_configuration": {
+          "support": "supported",
+          "answer": "model and effort.",
+          "evidenceIds": [
+            "launcher"
+          ]
+        },
+        "in_run_changes": {
+          "support": "partial",
+          "answer": "steer.",
+          "evidenceIds": [
+            "skill"
+          ]
+        },
+        "live_roles": {
+          "support": "partial",
+          "answer": "children.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "retained_relationships": {
+          "support": "unknown",
+          "answer": "unknown.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "discoverability": {
+          "support": "supported",
+          "answer": "docs and help.",
+          "evidenceIds": [
+            "help"
+          ]
+        },
+        "auth_friction": {
+          "support": "partial",
+          "answer": "hook trust.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established: growing_epic, presets, in_run_changes, live_roles, auth_friction, retained_relationships."
+      ],
+      "unknownReason": "See unknown atomic answers for the source and access gaps.",
+      "evidenceIds": [
+        "readme",
+        "scan",
+        "launcher",
+        "reference",
+        "skill",
+        "agents",
+        "help"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch15",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "corgi:RUN-01",
+      "criterionId": "RUN-01",
+      "answer": "Runs on the machine hosting the daemon; ssh -t host corgi keeps agents running there after disconnect; SSH machine profiles are on the default branch only; no vendor cloud.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "terminal",
+          "daemon"
+        ],
+        "version": "stable release 20261106T233845Z-03c72b717526 (commit 03c72b7, 2026-11-06); default-branch work at c29ecae (2026-11-11) is noted separately",
+        "plan": "Open source (MIT), free, local install",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "local": {
+          "support": "supported",
+          "answer": "Default.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "byo_remote": {
+          "support": "partial",
+          "answer": "ssh -t host corgi documented in the release; corgi machine add is on main only.",
+          "evidenceIds": [
+            "reference",
+            "remotemain"
+          ]
+        },
+        "self_hosted": {
+          "support": "unsupported",
+          "answer": "No server component beyond the daemon.",
+          "evidenceIds": [
+            "remotemain"
+          ]
+        },
+        "managed_cloud": {
+          "support": "unsupported",
+          "answer": "Nothing hosted.",
+          "evidenceIds": [
+            "site",
+            "remotemain"
+          ]
+        },
+        "hybrid": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "provisioning": {
+          "support": "supported",
+          "answer": "User installs on each host.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "payer": {
+          "support": "supported",
+          "answer": "User.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "resources": {
+          "support": "supported",
+          "answer": "Host.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "region": {
+          "support": "supported",
+          "answer": "Host.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "expiry": {
+          "support": "supported",
+          "answer": "none.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "client_disconnect": {
+          "support": "supported",
+          "answer": "Detaching or losing the SSH connection leaves the runtime on that host.",
+          "evidenceIds": [
+            "reference"
+          ]
+        },
+        "other_device_continuation": {
+          "support": "partial",
+          "answer": "Reattach with another ssh session; no other-device client.",
+          "evidenceIds": [
+            "reference"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established: byo_remote, self_hosted, managed_cloud, hybrid, other_device_continuation."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "reference",
+        "remotemain",
+        "site",
+        "scan"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch15",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "corgi:RUN-02",
+      "criterionId": "RUN-02",
+      "answer": "Optional git worktrees per agent; no sandbox.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "terminal"
+        ],
+        "version": "stable release 20261106T233845Z-03c72b717526 (commit 03c72b7, 2026-11-06); default-branch work at c29ecae (2026-11-11) is noted separately",
+        "plan": "Open source (MIT), free, local install",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "checkout": {
+          "support": "supported",
+          "answer": "default.",
+          "evidenceIds": [
+            "reference"
+          ]
+        },
+        "branch": {
+          "support": "supported",
+          "answer": "worktree branch.",
+          "evidenceIds": [
+            "workspaces"
+          ]
+        },
+        "worktree": {
+          "support": "supported",
+          "answer": "create from picker.",
+          "evidenceIds": [
+            "workspaces"
+          ]
+        },
+        "container": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "vm": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "os_sandbox": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "filesystem": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "process": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "network": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "secrets": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "code_separation": {
+          "support": "supported",
+          "answer": "worktrees.",
+          "evidenceIds": [
+            "workspaces"
+          ]
+        },
+        "security_boundary": {
+          "support": "unsupported",
+          "answer": "none claimed.",
+          "evidenceIds": [
+            "scan"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established: container, vm, os_sandbox, filesystem, process, network, secrets, security_boundary."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "reference",
+        "workspaces",
+        "scan"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch15",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "corgi:RUN-03",
+      "criterionId": "RUN-03",
+      "answer": "Daemon survives detach; layout, output and agent sessions are checkpointed and resume after crash or reboot; process memory is not restored.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "terminal",
+          "daemon"
+        ],
+        "version": "stable release 20261106T233845Z-03c72b717526 (commit 03c72b7, 2026-11-06); default-branch work at c29ecae (2026-11-11) is noted separately",
+        "plan": "Open source (MIT), free, local install",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "client_disconnect": {
+          "support": "supported",
+          "answer": "Detach leaves runtime.",
+          "evidenceIds": [
+            "reference"
+          ]
+        },
+        "worker_crash": {
+          "support": "partial",
+          "answer": "Recovery restores layout and dormant sessions.",
+          "evidenceIds": [
+            "reference"
+          ]
+        },
+        "service_restart": {
+          "support": "supported",
+          "answer": "corgi reload preserves processes.",
+          "evidenceIds": [
+            "help"
+          ]
+        },
+        "expiry": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "transcript_reload": {
+          "support": "supported",
+          "answer": "saved output.",
+          "evidenceIds": [
+            "reference"
+          ]
+        },
+        "process_reconnect": {
+          "support": "supported",
+          "answer": "reload handoff.",
+          "evidenceIds": [
+            "help"
+          ]
+        },
+        "task_resume": {
+          "support": "supported",
+          "answer": "resume on focus.",
+          "evidenceIds": [
+            "reference"
+          ]
+        },
+        "state_reconstruction": {
+          "support": "supported",
+          "answer": "recovery folder.",
+          "evidenceIds": [
+            "reference"
+          ]
+        },
+        "context_loss": {
+          "support": "partial",
+          "answer": "memory not restored.",
+          "evidenceIds": [
+            "reference"
+          ]
+        },
+        "duplicate_actions": {
+          "support": "unknown",
+          "answer": "unknown.",
+          "evidenceIds": [
+            "reference"
+          ]
+        },
+        "manual_repair": {
+          "support": "partial",
+          "answer": "checkpoint command.",
+          "evidenceIds": [
+            "help"
+          ]
+        },
+        "multi_day_continuity": {
+          "support": "supported",
+          "answer": "conversations resume.",
+          "evidenceIds": [
+            "reference"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established: worker_crash, expiry, context_loss, manual_repair, duplicate_actions."
+      ],
+      "unknownReason": "See unknown atomic answers for the source and access gaps.",
+      "evidenceIds": [
+        "reference",
+        "help",
+        "scan"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch15",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "corgi:RUN-04",
+      "criterionId": "RUN-04",
+      "answer": "No dependency, cache or port management.",
+      "support": "unsupported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "terminal"
+        ],
+        "version": "stable release 20261106T233845Z-03c72b717526 (commit 03c72b7, 2026-11-06); default-branch work at c29ecae (2026-11-11) is noted separately",
+        "plan": "Open source (MIT), free, local install",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "dependencies": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "caches": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "snapshots": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "services": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "ports": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "secrets": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "duplicate_installs": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "collisions": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "remote_setup": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "automatic_repair": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "scan"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch15",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "corgi:RUN-05",
+      "criterionId": "RUN-05",
+      "answer": "Usage meters and Codex capacity auto-retry; no hard limits.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "terminal"
+        ],
+        "version": "stable release 20261106T233845Z-03c72b717526 (commit 03c72b7, 2026-11-06); default-branch work at c29ecae (2026-11-11) is noted separately",
+        "plan": "Open source (MIT), free, local install",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "time_limits": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "turn_limits": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "token_limits": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "spend_limits": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "timeouts": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "retries": {
+          "support": "supported",
+          "answer": "capacity retries at 15s to 10m.",
+          "evidenceIds": [
+            "workspaces"
+          ]
+        },
+        "provider_failures": {
+          "support": "partial",
+          "answer": "retry only for Codex.",
+          "evidenceIds": [
+            "workspaces"
+          ]
+        },
+        "enforcement": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established: time_limits, turn_limits, token_limits, spend_limits, timeouts, provider_failures, enforcement."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "scan",
+        "workspaces"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch15",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "corgi:RUN-06",
+      "criterionId": "RUN-06",
+      "answer": "Activity states, usage, resource use per workspace and corgi watch/usage JSON.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "terminal",
+          "cli"
+        ],
+        "version": "stable release 20261106T233845Z-03c72b717526 (commit 03c72b7, 2026-11-06); default-branch work at c29ecae (2026-11-11) is noted separately",
+        "plan": "Open source (MIT), free, local install",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "logs": {
+          "support": "partial",
+          "answer": "server.log local.",
+          "evidenceIds": [
+            "reference"
+          ]
+        },
+        "traces": {
+          "support": "partial",
+          "answer": "activity summaries.",
+          "evidenceIds": [
+            "workspaces"
+          ]
+        },
+        "failure_reasons": {
+          "support": "partial",
+          "answer": "usage errors shown.",
+          "evidenceIds": [
+            "reference"
+          ]
+        },
+        "usage_export": {
+          "support": "supported",
+          "answer": "corgi usage --json.",
+          "evidenceIds": [
+            "help"
+          ]
+        },
+        "task_stats": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "agent_stats": {
+          "support": "supported",
+          "answer": "per agent usage.",
+          "evidenceIds": [
+            "workspaces"
+          ]
+        },
+        "project_stats": {
+          "support": "partial",
+          "answer": "per workspace resource.",
+          "evidenceIds": [
+            "workspaces"
+          ]
+        },
+        "time_stats": {
+          "support": "supported",
+          "answer": "limit history.",
+          "evidenceIds": [
+            "reference"
+          ]
+        },
+        "failure_status": {
+          "support": "partial",
+          "answer": "states.",
+          "evidenceIds": [
+            "workspaces"
+          ]
+        },
+        "approval_status": {
+          "support": "supported",
+          "answer": "needs input.",
+          "evidenceIds": [
+            "workspaces"
+          ]
+        },
+        "reconnect_consistency": {
+          "support": "supported",
+          "answer": "conversation actor.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "performance_method": {
+          "support": "partial",
+          "answer": "benchmark tools in repo; catalog measures none.",
+          "evidenceIds": [
+            "telemetrysrc"
+          ]
+        },
+        "responsiveness": {
+          "support": "partial",
+          "answer": "not measured.",
+          "evidenceIds": [
+            "telemetrysrc"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established: logs, traces, failure_reasons, task_stats, project_stats, failure_status, performance_method, responsiveness."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "reference",
+        "workspaces",
+        "help",
+        "scan",
+        "agents",
+        "telemetrysrc"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch15",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "corgi:RUN-07",
+      "criterionId": "RUN-07",
+      "answer": "Plan, usage and spend per account with history; no per-task cost.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "terminal",
+          "cli"
+        ],
+        "version": "stable release 20261106T233845Z-03c72b717526 (commit 03c72b7, 2026-11-06); default-branch work at c29ecae (2026-11-11) is noted separately",
+        "plan": "Open source (MIT), free, local install",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "task_cost": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "session_cost": {
+          "support": "partial",
+          "answer": "usage per agent.",
+          "evidenceIds": [
+            "workspaces"
+          ]
+        },
+        "child_cost": {
+          "support": "partial",
+          "answer": "child usage.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "epic_cost": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "harness_aggregation": {
+          "support": "partial",
+          "answer": "per account.",
+          "evidenceIds": [
+            "launcher"
+          ]
+        },
+        "billed_vs_estimated": {
+          "support": "partial",
+          "answer": "plan vs metered labels.",
+          "evidenceIds": [
+            "launcher"
+          ]
+        },
+        "tokens": {
+          "support": "supported",
+          "answer": "context and tokens.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "subscription_allowance": {
+          "support": "supported",
+          "answer": "limits and resets.",
+          "evidenceIds": [
+            "launcher"
+          ]
+        },
+        "provider_reconciliation": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "compute_cost": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "refresh_delay": {
+          "support": "unknown",
+          "answer": "unknown.",
+          "evidenceIds": [
+            "launcher"
+          ]
+        },
+        "alerts": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "export": {
+          "support": "supported",
+          "answer": "JSON.",
+          "evidenceIds": [
+            "help"
+          ]
+        },
+        "drilldown": {
+          "support": "partial",
+          "answer": "hover.",
+          "evidenceIds": [
+            "workspaces"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established: task_cost, session_cost, child_cost, epic_cost, harness_aggregation, billed_vs_estimated, provider_reconciliation, compute_cost, alerts, drilldown, refresh_delay."
+      ],
+      "unknownReason": "See unknown atomic answers for the source and access gaps.",
+      "evidenceIds": [
+        "scan",
+        "workspaces",
+        "agents",
+        "launcher",
+        "readme",
+        "help"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch15",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "corgi:RUN-08",
+      "criterionId": "RUN-08",
+      "answer": "Resource hover per workspace; no scheduling or limits.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "terminal"
+        ],
+        "version": "stable release 20261106T233845Z-03c72b717526 (commit 03c72b7, 2026-11-06); default-branch work at c29ecae (2026-11-11) is noted separately",
+        "plan": "Open source (MIT), free, local install",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "concurrency": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "queues": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "cpu_ram": {
+          "support": "partial",
+          "answer": "resource display only.",
+          "evidenceIds": [
+            "workspaces"
+          ]
+        },
+        "backpressure": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "host_awareness": {
+          "support": "partial",
+          "answer": "per-workspace C and M.",
+          "evidenceIds": [
+            "screenshot"
+          ]
+        },
+        "check_reuse": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "check_deduplication": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "bounded_tests": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "cancellation": {
+          "support": "supported",
+          "answer": "close.",
+          "evidenceIds": [
+            "reference"
+          ]
+        },
+        "fairness": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "recovery": {
+          "support": "partial",
+          "answer": "recovery.",
+          "evidenceIds": [
+            "reference"
+          ]
+        },
+        "shared_limits": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established: concurrency, queues, cpu_ram, backpressure, host_awareness, check_reuse, check_deduplication, bounded_tests, fairness, recovery, shared_limits."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "scan",
+        "workspaces",
+        "screenshot",
+        "reference"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch15",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "corgi:TEAM-01",
+      "criterionId": "TEAM-01",
+      "answer": "Several viewers can attach to one runtime on one machine; no accounts or presence.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "terminal"
+        ],
+        "version": "stable release 20261106T233845Z-03c72b717526 (commit 03c72b7, 2026-11-06); default-branch work at c29ecae (2026-11-11) is noted separately",
+        "plan": "Open source (MIT), free, local install",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "visibility": {
+          "support": "partial",
+          "answer": "Viewers share processes and layout.",
+          "evidenceIds": [
+            "reference"
+          ]
+        },
+        "discussion": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "comments": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "presence": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "coprompting": {
+          "support": "partial",
+          "answer": "Viewers share panes, ordering unspecified.",
+          "evidenceIds": [
+            "reference"
+          ]
+        },
+        "ordering": {
+          "support": "unknown",
+          "answer": "unknown.",
+          "evidenceIds": [
+            "reference"
+          ]
+        },
+        "conflicts": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "attribution": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "permissions": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "plan_restrictions": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "owner_online": {
+          "support": "supported",
+          "answer": "runtime host must run.",
+          "evidenceIds": [
+            "reference"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established: visibility, discussion, comments, presence, coprompting, conflicts, attribution, permissions, plan_restrictions, ordering."
+      ],
+      "unknownReason": "See unknown atomic answers for the source and access gaps.",
+      "evidenceIds": [
+        "reference",
+        "scan"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch15",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "corgi:TEAM-02",
+      "criterionId": "TEAM-02",
+      "answer": "No roles, SSO or accounts.",
+      "support": "unsupported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "terminal"
+        ],
+        "version": "stable release 20261106T233845Z-03c72b717526 (commit 03c72b7, 2026-11-06); default-branch work at c29ecae (2026-11-11) is noted separately",
+        "plan": "Open source (MIT), free, local install",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "organization_roles": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "project_roles": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "task_roles": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "membership": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "sso": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "provisioning": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "unauthorized_access": {
+          "support": "partial",
+          "answer": "Unix socket permissions.",
+          "evidenceIds": [
+            "hacking"
+          ]
+        },
+        "revocation": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "plan_scope": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "scan",
+        "hacking"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch15",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "corgi:TEAM-03",
+      "criterionId": "TEAM-03",
+      "answer": "Provider permission prompts surface as needs-input; YOLO toggle per provider.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "terminal"
+        ],
+        "version": "stable release 20261106T233845Z-03c72b717526 (commit 03c72b7, 2026-11-06); default-branch work at c29ecae (2026-11-11) is noted separately",
+        "plan": "Open source (MIT), free, local install",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "command": {
+          "support": "partial",
+          "answer": "provider prompts.",
+          "evidenceIds": [
+            "launcher"
+          ]
+        },
+        "tool": {
+          "support": "partial",
+          "answer": "provider prompts.",
+          "evidenceIds": [
+            "launcher"
+          ]
+        },
+        "network": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "secret": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "delivery": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "approver_identity": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "lifetime": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "allow": {
+          "support": "partial",
+          "answer": "answer in pane.",
+          "evidenceIds": [
+            "workspaces"
+          ]
+        },
+        "deny": {
+          "support": "partial",
+          "answer": "answer in pane.",
+          "evidenceIds": [
+            "workspaces"
+          ]
+        },
+        "revoke": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "tunnels": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "defaults": {
+          "support": "supported",
+          "answer": "YOLO off by default.",
+          "evidenceIds": [
+            "launcher"
+          ]
+        },
+        "safer_modes": {
+          "support": "supported",
+          "answer": "normal permission settings.",
+          "evidenceIds": [
+            "launcher"
+          ]
+        },
+        "enforcement": {
+          "support": "partial",
+          "answer": "provider enforces.",
+          "evidenceIds": [
+            "launcher"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established: command, tool, network, secret, delivery, approver_identity, lifetime, allow, deny, revoke, tunnels, enforcement."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "launcher",
+        "scan",
+        "workspaces"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch15",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "corgi:TEAM-04",
+      "criterionId": "TEAM-04",
+      "answer": "Local logs, recovery files and provider transcripts; no integrity model.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "terminal"
+        ],
+        "version": "stable release 20261106T233845Z-03c72b717526 (commit 03c72b7, 2026-11-06); default-branch work at c29ecae (2026-11-11) is noted separately",
+        "plan": "Open source (MIT), free, local install",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "actions": {
+          "support": "partial",
+          "answer": "activity.",
+          "evidenceIds": [
+            "workspaces"
+          ]
+        },
+        "approvals": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "edits": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "discussion": {
+          "support": "partial",
+          "answer": "transcripts.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "decisions": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "cross_user_persistence": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "cross_session_persistence": {
+          "support": "supported",
+          "answer": "recovery.",
+          "evidenceIds": [
+            "reference"
+          ]
+        },
+        "export": {
+          "support": "partial",
+          "answer": "files.",
+          "evidenceIds": [
+            "reference"
+          ]
+        },
+        "mutability": {
+          "support": "supported",
+          "answer": "editable.",
+          "evidenceIds": [
+            "reference"
+          ]
+        },
+        "retention": {
+          "support": "unknown",
+          "answer": "unknown.",
+          "evidenceIds": [
+            "reference"
+          ]
+        },
+        "integrity": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established: actions, approvals, edits, discussion, decisions, cross_user_persistence, export, integrity, retention."
+      ],
+      "unknownReason": "See unknown atomic answers for the source and access gaps.",
+      "evidenceIds": [
+        "workspaces",
+        "scan",
+        "agents",
+        "reference"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch15",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "corgi:TEAM-05",
+      "criterionId": "TEAM-05",
+      "answer": "Review panel with commits and uncommitted changes, notes pasted back to the agent, keyboard first, narrow terminals supported.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "terminal"
+        ],
+        "version": "stable release 20261106T233845Z-03c72b717526 (commit 03c72b7, 2026-11-06); default-branch work at c29ecae (2026-11-11) is noted separately",
+        "plan": "Open source (MIT), free, local install",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "pending_reviews": {
+          "support": "partial",
+          "answer": "unread agents.",
+          "evidenceIds": [
+            "workspaces"
+          ]
+        },
+        "change_understanding": {
+          "support": "supported",
+          "answer": "diff view.",
+          "evidenceIds": [
+            "reference"
+          ]
+        },
+        "evidence_navigation": {
+          "support": "supported",
+          "answer": "hunks and files.",
+          "evidenceIds": [
+            "reference"
+          ]
+        },
+        "comments": {
+          "support": "supported",
+          "answer": "line notes.",
+          "evidenceIds": [
+            "reference"
+          ]
+        },
+        "request_changes": {
+          "support": "partial",
+          "answer": "paste notes into the pane.",
+          "evidenceIds": [
+            "reference"
+          ]
+        },
+        "shipping_guidance": {
+          "support": "partial",
+          "answer": "push count.",
+          "evidenceIds": [
+            "workspaces"
+          ]
+        },
+        "effort": {
+          "support": "partial",
+          "answer": "views.",
+          "evidenceIds": [
+            "reference"
+          ]
+        },
+        "missed_evidence": {
+          "support": "unknown",
+          "answer": "unknown.",
+          "evidenceIds": [
+            "reference"
+          ]
+        },
+        "keyboard": {
+          "support": "supported",
+          "answer": "keys.",
+          "evidenceIds": [
+            "reference"
+          ]
+        },
+        "narrow_screen": {
+          "support": "supported",
+          "answer": "narrow help layouts.",
+          "evidenceIds": [
+            "reference"
+          ]
+        },
+        "context_switching": {
+          "support": "partial",
+          "answer": "pin.",
+          "evidenceIds": [
+            "reference"
+          ]
+        },
+        "roles": {
+          "support": "partial",
+          "answer": "Reviewer agent.",
+          "evidenceIds": [
+            "reference"
+          ]
+        },
+        "retained_context": {
+          "support": "unsupported",
+          "answer": "Notes disappear when viewer exits.",
+          "evidenceIds": [
+            "reference"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established: pending_reviews, request_changes, shipping_guidance, effort, context_switching, roles, retained_context, missed_evidence."
+      ],
+      "unknownReason": "See unknown atomic answers for the source and access gaps.",
+      "evidenceIds": [
+        "workspaces",
+        "reference"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch15",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "corgi:TEAM-06",
+      "criterionId": "TEAM-06",
+      "answer": "Single-user.",
+      "support": "unsupported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "terminal"
+        ],
+        "version": "stable release 20261106T233845Z-03c72b717526 (commit 03c72b7, 2026-11-06); default-branch work at c29ecae (2026-11-11) is noted separately",
+        "plan": "Open source (MIT), free, local install",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "ongoing_takeover": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "same_task": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "session_history": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "decisions": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "artifacts": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "permissions": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "runtime_context": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "owner_disconnect": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "ownership": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "attribution": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "context_loss": {
+          "support": "unknown",
+          "answer": "unknown.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "harness_transfer": {
+          "support": "partial",
+          "answer": "fork.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": "See unknown atomic answers for the source and access gaps.",
+      "evidenceIds": [
+        "scan",
+        "readme"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch15",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "corgi:SHIP-01",
+      "criterionId": "SHIP-01",
+      "answer": "Diffs and conversations; no artifact gallery.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "terminal"
+        ],
+        "version": "stable release 20261106T233845Z-03c72b717526 (commit 03c72b7, 2026-11-06); default-branch work at c29ecae (2026-11-11) is noted separately",
+        "plan": "Open source (MIT), free, local install",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "diffs": {
+          "support": "supported",
+          "answer": "review panel.",
+          "evidenceIds": [
+            "reference"
+          ]
+        },
+        "documents": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "screenshots": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "recordings": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "previews": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "test_outputs": {
+          "support": "partial",
+          "answer": "pane output.",
+          "evidenceIds": [
+            "reference"
+          ]
+        },
+        "reviewer_outputs": {
+          "support": "partial",
+          "answer": "Reviewer agent.",
+          "evidenceIds": [
+            "reference"
+          ]
+        },
+        "gallery": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "task_links": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "revision_links": {
+          "support": "partial",
+          "answer": "commit links in Ask Corgi.",
+          "evidenceIds": [
+            "reference"
+          ]
+        },
+        "persistence": {
+          "support": "supported",
+          "answer": "recovery.",
+          "evidenceIds": [
+            "reference"
+          ]
+        },
+        "child_findings": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "prompt_leakage": {
+          "support": "unknown",
+          "answer": "unknown.",
+          "evidenceIds": [
+            "reference"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established: documents, screenshots, recordings, previews, test_outputs, reviewer_outputs, gallery, task_links, revision_links, child_findings, prompt_leakage."
+      ],
+      "unknownReason": "See unknown atomic answers for the source and access gaps.",
+      "evidenceIds": [
+        "reference",
+        "scan"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch15",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "corgi:SHIP-02",
+      "criterionId": "SHIP-02",
+      "answer": "No verification gates.",
+      "support": "unsupported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "terminal"
+        ],
+        "version": "stable release 20261106T233845Z-03c72b717526 (commit 03c72b7, 2026-11-06); default-branch work at c29ecae (2026-11-11) is noted separately",
+        "plan": "Open source (MIT), free, local install",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "tests": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "lint": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "types": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "ci": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "independent_review": {
+          "support": "partial",
+          "answer": "Reviewer agent only.",
+          "evidenceIds": [
+            "reference"
+          ]
+        },
+        "spec_checks": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "required_checks": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "failure_blocking": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "requirement_conflicts": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "configured_policy": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "enforced_policy": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "scan",
+        "reference"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch15",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "corgi:SHIP-03",
+      "criterionId": "SHIP-03",
+      "answer": "Worktrees, branch comparison and push; no PR or CI workflow.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "terminal"
+        ],
+        "version": "stable release 20261106T233845Z-03c72b717526 (commit 03c72b7, 2026-11-06); default-branch work at c29ecae (2026-11-11) is noted separately",
+        "plan": "Open source (MIT), free, local install",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "branches": {
+          "support": "supported",
+          "answer": "worktree branches.",
+          "evidenceIds": [
+            "workspaces"
+          ]
+        },
+        "worktrees": {
+          "support": "supported",
+          "answer": "yes.",
+          "evidenceIds": [
+            "workspaces"
+          ]
+        },
+        "commits": {
+          "support": "partial",
+          "answer": "agents commit.",
+          "evidenceIds": [
+            "workspaces"
+          ]
+        },
+        "pull_requests": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "comments": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "ci_response": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "rebase": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "conflicts": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "product_state": {
+          "support": "partial",
+          "answer": "ahead and behind.",
+          "evidenceIds": [
+            "workspaces"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established: commits, pull_requests, comments, ci_response, rebase, conflicts, product_state."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "workspaces",
+        "scan"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch15",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "corgi:SHIP-04",
+      "criterionId": "SHIP-04",
+      "answer": "User pushes; no merge or deploy.",
+      "support": "unsupported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "terminal"
+        ],
+        "version": "stable release 20261106T233845Z-03c72b717526 (commit 03c72b7, 2026-11-06); default-branch work at c29ecae (2026-11-11) is noted separately",
+        "plan": "Open source (MIT), free, local install",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "approve": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "merge": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "release": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "deploy": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "exact_revision": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "authority_enforcement": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "scan"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch15",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "corgi:SHIP-05",
+      "criterionId": "SHIP-05",
+      "answer": "Included-in-main ancestry and ahead counts.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "terminal"
+        ],
+        "version": "stable release 20261106T233845Z-03c72b717526 (commit 03c72b7, 2026-11-06); default-branch work at c29ecae (2026-11-11) is noted separately",
+        "plan": "Open source (MIT), free, local install",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "commit_links": {
+          "support": "partial",
+          "answer": "unpushed commits.",
+          "evidenceIds": [
+            "workspaces"
+          ]
+        },
+        "pr_links": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "build_links": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "deployment_links": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "delivery_status": {
+          "support": "partial",
+          "answer": "Included in main.",
+          "evidenceIds": [
+            "workspaces"
+          ]
+        },
+        "retained_evidence": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "rollback": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "revert": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "stale_approval_invalidation": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established: commit_links, pr_links, build_links, deployment_links, delivery_status, retained_evidence, rollback, revert, stale_approval_invalidation."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "workspaces",
+        "scan"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch15",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "corgi:SHIP-06",
+      "criterionId": "SHIP-06",
+      "answer": "No batch review queue.",
+      "support": "unsupported",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "terminal"
+        ],
+        "version": "stable release 20261106T233845Z-03c72b717526 (commit 03c72b7, 2026-11-06); default-branch work at c29ecae (2026-11-11) is noted separately",
+        "plan": "Open source (MIT), free, local install",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "review_queue": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "summaries": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "grouping": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "risk_size_filters": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "findings": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "artifacts": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "request_changes": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "exact_revision_approval": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "dependency_queues": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "next_actions": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "stale_approval_invalidation": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "check_deduplication": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        }
+      },
+      "limitations": [],
+      "unknownReason": null,
+      "evidenceIds": [
+        "scan"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch15",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "corgi:OWN-01",
+      "criterionId": "OWN-01",
+      "answer": "MIT for the repository; notification sounds from herdr are Apache-2.0; no hosted extension.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "terminal",
+          "cli",
+          "daemon"
+        ],
+        "version": "stable release 20261106T233845Z-03c72b717526 (commit 03c72b7, 2026-11-06); default-branch work at c29ecae (2026-11-11) is noted separately",
+        "plan": "Open source (MIT), free, local install",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "client_license": {
+          "support": "supported",
+          "answer": "MIT.",
+          "evidenceIds": [
+            "license",
+            "readme"
+          ]
+        },
+        "server_license": {
+          "support": "supported",
+          "answer": "MIT.",
+          "evidenceIds": [
+            "license"
+          ]
+        },
+        "hosted_extensions": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "source_visibility": {
+          "support": "supported",
+          "answer": "public.",
+          "evidenceIds": [
+            "repoapi"
+          ]
+        },
+        "source_revision": {
+          "support": "supported",
+          "answer": "stable manifest names commit 03c72b7.",
+          "evidenceIds": [
+            "stable"
+          ]
+        },
+        "hosted_parity": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "site"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established: hosted_extensions, hosted_parity."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "license",
+        "readme",
+        "site",
+        "repoapi",
+        "stable"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-05-16",
+      "researcher": "researcher-batch15",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "corgi:OWN-02",
+      "criterionId": "OWN-02",
+      "answer": "Local state files; no account.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "terminal"
+        ],
+        "version": "stable release 20261106T233845Z-03c72b717526 (commit 03c72b7, 2026-11-06); default-branch work at c29ecae (2026-11-11) is noted separately",
+        "plan": "Open source (MIT), free, local install",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "self_hosting": {
+          "support": "supported",
+          "answer": "local.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "vendor_dependencies": {
+          "support": "partial",
+          "answer": "Updates and installer from corgi.computer.",
+          "evidenceIds": [
+            "releases",
+            "readme"
+          ]
+        },
+        "export": {
+          "support": "partial",
+          "answer": "files.",
+          "evidenceIds": [
+            "reference"
+          ]
+        },
+        "import": {
+          "support": "supported",
+          "answer": "import from tmux, herdr, cmux.",
+          "evidenceIds": [
+            "reference"
+          ]
+        },
+        "formats": {
+          "support": "partial",
+          "answer": "JSON files.",
+          "evidenceIds": [
+            "reference"
+          ]
+        },
+        "cancellation": {
+          "support": "unsupported",
+          "answer": "no account.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "account_independence": {
+          "support": "supported",
+          "answer": "none.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "history_portability": {
+          "support": "partial",
+          "answer": "files.",
+          "evidenceIds": [
+            "reference"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established: vendor_dependencies, export, formats, cancellation, history_portability."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "releases",
+        "reference"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-05-16",
+      "researcher": "researcher-batch15",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "corgi:OWN-03",
+      "criterionId": "OWN-03",
+      "answer": "Data stays local; crash reports go to Sentry only in release builds configured with a DSN.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "terminal"
+        ],
+        "version": "stable release 20261106T233845Z-03c72b717526 (commit 03c72b7, 2026-11-06); default-branch work at c29ecae (2026-11-11) is noted separately",
+        "plan": "Open source (MIT), free, local install",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "code_data": {
+          "support": "supported",
+          "answer": "local.",
+          "evidenceIds": [
+            "reference",
+            "agents"
+          ]
+        },
+        "prompts": {
+          "support": "partial",
+          "answer": "summary inference sends content to a provider.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "credentials": {
+          "support": "supported",
+          "answer": "provider folders.",
+          "evidenceIds": [
+            "launcher"
+          ]
+        },
+        "logs": {
+          "support": "supported",
+          "answer": "local server.log.",
+          "evidenceIds": [
+            "reference"
+          ]
+        },
+        "artifacts": {
+          "support": "supported",
+          "answer": "local.",
+          "evidenceIds": [
+            "reference"
+          ]
+        },
+        "retention": {
+          "support": "unknown",
+          "answer": "unknown.",
+          "evidenceIds": [
+            "reference"
+          ]
+        },
+        "deletion": {
+          "support": "supported",
+          "answer": "/erase and files.",
+          "evidenceIds": [
+            "reference"
+          ]
+        },
+        "training": {
+          "support": "unknown",
+          "answer": "provider.",
+          "evidenceIds": [
+            "agents"
+          ]
+        },
+        "residency": {
+          "support": "unknown",
+          "answer": "unknown.",
+          "evidenceIds": [
+            "hacking"
+          ]
+        },
+        "subprocessors": {
+          "support": "unknown",
+          "answer": "unknown.",
+          "evidenceIds": [
+            "hacking"
+          ]
+        },
+        "telemetry_disclosure": {
+          "support": "partial",
+          "answer": "HACKING notes crash reporting; a user-facing policy not found.",
+          "evidenceIds": [
+            "hacking"
+          ]
+        },
+        "telemetry_defaults": {
+          "support": "unknown",
+          "answer": "whether the release build sets a DSN is not stated.",
+          "evidenceIds": [
+            "crashsrc"
+          ]
+        },
+        "telemetry_controls": {
+          "support": "unknown",
+          "answer": "unknown.",
+          "evidenceIds": [
+            "crashsrc"
+          ]
+        },
+        "consent_prompt": {
+          "support": "unknown",
+          "answer": "unknown.",
+          "evidenceIds": [
+            "crashsrc"
+          ]
+        },
+        "provider_separation": {
+          "support": "supported",
+          "answer": "separate.",
+          "evidenceIds": [
+            "agents"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established: prompts, telemetry_disclosure, retention, training, residency, subprocessors, telemetry_defaults, telemetry_controls, consent_prompt."
+      ],
+      "unknownReason": "The shipped crash-reporting DSN and any user control sit in the closed release build configuration; the released binary was not inspected.",
+      "evidenceIds": [
+        "reference",
+        "agents",
+        "launcher",
+        "hacking",
+        "crashsrc"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch15",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "corgi:OWN-04",
+      "criterionId": "OWN-04",
+      "answer": "Free open source; no plan.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "terminal"
+        ],
+        "version": "stable release 20261106T233845Z-03c72b717526 (commit 03c72b7, 2026-11-06); default-branch work at c29ecae (2026-11-11) is noted separately",
+        "plan": "Open source (MIT), free, local install",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "currency": {
+          "support": "supported",
+          "answer": "none.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "interval": {
+          "support": "supported",
+          "answer": "none.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "seats": {
+          "support": "supported",
+          "answer": "none.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "seat_minimum": {
+          "support": "supported",
+          "answer": "none.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "workspace_fees": {
+          "support": "supported",
+          "answer": "none.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "included_usage": {
+          "support": "supported",
+          "answer": "n/a.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "credits": {
+          "support": "supported",
+          "answer": "none.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "trial": {
+          "support": "supported",
+          "answer": "none.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "overages": {
+          "support": "supported",
+          "answer": "none.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "taxes": {
+          "support": "unknown",
+          "answer": "n/a.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "model_cost": {
+          "support": "supported",
+          "answer": "separate.",
+          "evidenceIds": [
+            "launcher"
+          ]
+        },
+        "compute_cost": {
+          "support": "supported",
+          "answer": "user.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established: taxes."
+      ],
+      "unknownReason": "See unknown atomic answers for the source and access gaps.",
+      "evidenceIds": [
+        "site",
+        "launcher",
+        "readme"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-01-16",
+      "researcher": "researcher-batch15",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "corgi:OWN-05",
+      "criterionId": "OWN-05",
+      "answer": "No scenarios defined.",
+      "support": "unknown",
+      "availability": "unknown",
+      "delivery": "unknown",
+      "scope": {
+        "surfaceIds": [
+          "terminal"
+        ],
+        "version": "stable release 20261106T233845Z-03c72b717526 (commit 03c72b7, 2026-11-06); default-branch work at c29ecae (2026-11-11) is noted separately",
+        "plan": "Open source (MIT), free, local install",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "one_person": {
+          "support": "unknown",
+          "answer": "- ¦",
+          "evidenceIds": []
+        },
+        "two_people": {
+          "support": "unknown",
+          "answer": "- ¦",
+          "evidenceIds": []
+        },
+        "five_people": {
+          "support": "unknown",
+          "answer": "- ¦",
+          "evidenceIds": []
+        },
+        "task_assumptions": {
+          "support": "unknown",
+          "answer": "- ¦",
+          "evidenceIds": []
+        },
+        "concurrency": {
+          "support": "unknown",
+          "answer": "- ¦",
+          "evidenceIds": []
+        },
+        "tokens": {
+          "support": "unknown",
+          "answer": "- ¦",
+          "evidenceIds": []
+        },
+        "compute_hours": {
+          "support": "unknown",
+          "answer": "- ¦",
+          "evidenceIds": []
+        },
+        "fixed_cost": {
+          "support": "unknown",
+          "answer": "- ¦",
+          "evidenceIds": []
+        },
+        "variable_cost": {
+          "support": "unknown",
+          "answer": "- ¦",
+          "evidenceIds": []
+        },
+        "included_cost": {
+          "support": "unknown",
+          "answer": "- ¦",
+          "evidenceIds": []
+        },
+        "unknown_cost": {
+          "support": "unknown",
+          "answer": "- ¦",
+          "evidenceIds": []
+        }
+      },
+      "limitations": [],
+      "unknownReason": "Scenario workloads are not defined in this pass; the product is free.",
+      "evidenceIds": [],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch15",
+      "publication": "internal-only",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "corgi:OWN-06",
+      "criterionId": "OWN-06",
+      "answer": "Frequent releases through the stable channel; GitHub issues; no response commitment.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "terminal"
+        ],
+        "version": "stable release 20261106T233845Z-03c72b717526 (commit 03c72b7, 2026-11-06); default-branch work at c29ecae (2026-11-11) is noted separately",
+        "plan": "Open source (MIT), free, local install",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "release_stage": {
+          "support": "supported",
+          "answer": "stable channel.",
+          "evidenceIds": [
+            "stable"
+          ]
+        },
+        "access_restrictions": {
+          "support": "supported",
+          "answer": "none.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "support": {
+          "support": "partial",
+          "answer": "GitHub issues and bugreport command.",
+          "evidenceIds": [
+            "help"
+          ]
+        },
+        "response_commitments": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "release_activity": {
+          "support": "supported",
+          "answer": "releases and tags.",
+          "evidenceIds": [
+            "stable",
+            "repoapi"
+          ]
+        },
+        "status_history": {
+          "support": "partial",
+          "answer": "none public.",
+          "evidenceIds": [
+            "releases"
+          ]
+        },
+        "deprecation": {
+          "support": "partial",
+          "answer": "rollback.",
+          "evidenceIds": [
+            "help"
+          ]
+        },
+        "export_options": {
+          "support": "partial",
+          "answer": "files.",
+          "evidenceIds": [
+            "reference"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established: support, response_commitments, status_history, deprecation, export_options."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "stable",
+        "readme",
+        "help",
+        "scan",
+        "repoapi",
+        "releases",
+        "reference"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch15",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "corgi:OWN-07",
+      "criterionId": "OWN-07",
+      "answer": "No assurance claims.",
+      "support": "unknown",
+      "availability": "unknown",
+      "delivery": "unknown",
+      "scope": {
+        "surfaceIds": [
+          "terminal"
+        ],
+        "version": "stable release 20261106T233845Z-03c72b717526 (commit 03c72b7, 2026-11-06); default-branch work at c29ecae (2026-11-11) is noted separately",
+        "plan": "Open source (MIT), free, local install",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "iso_scope": {
+          "support": "unknown",
+          "answer": "- ¦",
+          "evidenceIds": []
+        },
+        "iso_issuer": {
+          "support": "unknown",
+          "answer": "- ¦",
+          "evidenceIds": []
+        },
+        "iso_validity": {
+          "support": "unknown",
+          "answer": "- ¦",
+          "evidenceIds": []
+        },
+        "soc2_type": {
+          "support": "unknown",
+          "answer": "- ¦",
+          "evidenceIds": []
+        },
+        "soc2_scope": {
+          "support": "unknown",
+          "answer": "- ¦",
+          "evidenceIds": []
+        },
+        "soc2_period": {
+          "support": "unknown",
+          "answer": "- ¦",
+          "evidenceIds": []
+        },
+        "report_access": {
+          "support": "unknown",
+          "answer": "- ¦",
+          "evidenceIds": []
+        },
+        "verification_date": {
+          "support": "unknown",
+          "answer": "- ¦",
+          "evidenceIds": []
+        },
+        "evidence_status": {
+          "support": "unknown",
+          "answer": "- ¦",
+          "evidenceIds": []
+        }
+      },
+      "limitations": [],
+      "unknownReason": "No certifications are claimed; assurance reports are business facts outside code.",
+      "evidenceIds": [],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch15",
+      "publication": "internal-only",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "corgi:OWN-08",
+      "criterionId": "OWN-08",
+      "answer": "Free to use.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "terminal"
+        ],
+        "version": "stable release 20261106T233845Z-03c72b717526 (commit 03c72b7, 2026-11-06); default-branch work at c29ecae (2026-11-11) is noted separately",
+        "plan": "Open source (MIT), free, local install",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "ongoing_free": {
+          "support": "supported",
+          "answer": "free.",
+          "evidenceIds": [
+            "readme",
+            "license"
+          ]
+        },
+        "trial": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "credits_trial": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "scan"
+          ]
+        },
+        "self_host_cost": {
+          "support": "supported",
+          "answer": "own.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "paid_only": {
+          "support": "unsupported",
+          "answer": "no.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "early_access": {
+          "support": "unsupported",
+          "answer": "no.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "free_scenarios": {
+          "support": "partial",
+          "answer": "BYO subscriptions.",
+          "evidenceIds": [
+            "launcher"
+          ]
+        },
+        "card_required": {
+          "support": "supported",
+          "answer": "no.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "usage_caps": {
+          "support": "supported",
+          "answer": "none.",
+          "evidenceIds": [
+            "readme"
+          ]
+        },
+        "paid_evaluation": {
+          "support": "unsupported",
+          "answer": "no.",
+          "evidenceIds": [
+            "readme"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established: trial, credits_trial, paid_only, early_access, free_scenarios, paid_evaluation."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "readme",
+        "license",
+        "scan",
+        "launcher"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-01-16",
+      "researcher": "researcher-batch15",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    },
+    {
+      "id": "corgi:OWN-09",
+      "criterionId": "OWN-09",
+      "answer": "No prices.",
+      "support": "partial",
+      "availability": "generally-available",
+      "delivery": "native",
+      "scope": {
+        "surfaceIds": [
+          "terminal"
+        ],
+        "version": "stable release 20261106T233845Z-03c72b717526 (commit 03c72b7, 2026-11-06); default-branch work at c29ecae (2026-11-11) is noted separately",
+        "plan": "Open source (MIT), free, local install",
+        "os": [],
+        "executionModes": [],
+        "region": null,
+        "harness": null
+      },
+      "subanswers": {
+        "units": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "included_limits": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "overages": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "compute_markup": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "model_markup": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "minimum_commitment": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "cancellation": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "sales_only_unknowns": {
+          "support": "unsupported",
+          "answer": "none.",
+          "evidenceIds": [
+            "site"
+          ]
+        },
+        "transparency_classification": {
+          "support": "partial",
+          "answer": "No pricing page; free MIT.",
+          "evidenceIds": [
+            "site"
+          ]
+        }
+      },
+      "limitations": [
+        "Not fully established: units, included_limits, overages, compute_markup, model_markup, minimum_commitment, cancellation, sales_only_unknowns, transparency_classification."
+      ],
+      "unknownReason": null,
+      "evidenceIds": [
+        "site"
+      ],
+      "checkedAt": "2026-11-17",
+      "nextReviewAt": "2027-03-17",
+      "researcher": "researcher-batch15",
+      "publication": "public-candidate",
+      "review": null,
+      "contradictions": []
+    }
+  ],
+  "evidence": [
+    {
+      "id": "readme",
+      "kind": "documented",
+      "url": "https://github.com/tals/corgi/blob/03c72b7175269a6b4f0c2b3451202c462f72aa3e/README.md",
+      "title": "README.md",
+      "locator": "Install; Agents; Scripting; License",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "Corgi is a terminal multiplexer for humans and agents powered by Ghostty; install script for macOS Apple Silicon or Linux amd64/arm64; detects claude, codex, pi, opencode and omp panes, installs hooks, shows status, subagents, usage, rename/fork, resume after crash, multiple accounts; corgi list/tab/pane/message/read scripting; MIT.",
+      "visibility": "public",
+      "commit": "03c72b7175269a6b4f0c2b3451202c462f72aa3e",
+      "path": "README.md"
+    },
+    {
+      "id": "license",
+      "kind": "source-inspected",
+      "url": "https://github.com/tals/corgi/blob/03c72b7175269a6b4f0c2b3451202c462f72aa3e/LICENSE",
+      "title": "LICENSE",
+      "locator": "MIT License",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "MIT License, copyright Tal Shiri and Corgi contributors; notification sounds from herdr remain Apache-2.0.",
+      "visibility": "public",
+      "commit": "03c72b7175269a6b4f0c2b3451202c462f72aa3e",
+      "path": "LICENSE"
+    },
+    {
+      "id": "reference",
+      "kind": "documented",
+      "url": "https://github.com/tals/corgi/blob/03c72b7175269a6b4f0c2b3451202c462f72aa3e/docs/reference.md",
+      "title": "docs/reference.md",
+      "locator": "Set up and import; Tabs and panes; Review changes; Ask Corgi; Script Corgi; Settings and troubleshooting",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "Setup and import from tmux, herdr, cmux; tabs, panes and workspaces; review panel; Ask Corgi prompt with memory; scripting commands; state under ~/.local/state/corgi; remote work by running ssh -t host corgi so detaching leaves the runtime on that host.",
+      "visibility": "public",
+      "commit": "03c72b7175269a6b4f0c2b3451202c462f72aa3e",
+      "path": "docs/reference.md"
+    },
+    {
+      "id": "agents",
+      "kind": "documented",
+      "url": "https://github.com/tals/corgi/blob/03c72b7175269a6b4f0c2b3451202c462f72aa3e/docs/agents.md",
+      "title": "docs/agents.md",
+      "locator": "Providers; Conversation ownership; Children, usage and context; Inference and data boundaries",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "Each provider is an adapter (Claude Code, Codex, Pi, OpenCode, Oh My Pi) with hooks or extensions; daemon owns a conversation actor per provider session; children and usage are observed; summary inference uses a private worker whose provider can differ from the observed agent.",
+      "visibility": "public",
+      "commit": "03c72b7175269a6b4f0c2b3451202c462f72aa3e",
+      "path": "docs/agents.md"
+    },
+    {
+      "id": "launcher",
+      "kind": "documented",
+      "url": "https://github.com/tals/corgi/blob/03c72b7175269a6b4f0c2b3451202c462f72aa3e/docs/agent-launcher.md",
+      "title": "docs/agent-launcher.md",
+      "locator": "Start an agent; Several accounts; YOLO",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "Agent picker starts or resumes agents; each provider can have several accounts (CLAUDE_CONFIG_DIR, CODEX_HOME folders) with usage; per-provider YOLO checkbox off by default.",
+      "visibility": "public",
+      "commit": "03c72b7175269a6b4f0c2b3451202c462f72aa3e",
+      "path": "docs/agent-launcher.md"
+    },
+    {
+      "id": "workspaces",
+      "kind": "documented",
+      "url": "https://github.com/tals/corgi/blob/03c72b7175269a6b4f0c2b3451202c462f72aa3e/docs/workspaces.md",
+      "title": "docs/workspaces.md",
+      "locator": "Follow activity; Hibernate; Create or choose a worktree; Browse and compare worktrees",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "Workspace indicators for working, needs input, unread; jump to attention; hibernate and archive; create a git worktree from the agent picker; browse and compare worktrees; push unpushed commits.",
+      "visibility": "public",
+      "commit": "03c72b7175269a6b4f0c2b3451202c462f72aa3e",
+      "path": "docs/workspaces.md"
+    },
+    {
+      "id": "releases",
+      "kind": "documented",
+      "url": "https://github.com/tals/corgi/blob/03c72b7175269a6b4f0c2b3451202c462f72aa3e/docs/releases.md",
+      "title": "docs/releases.md",
+      "locator": "Releases; Setup; Release checklist",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "Publisher builds macOS arm64 and Linux amd64/arm64, signs a manifest, serves it from https://corgi.computer; releases are not published on GitHub; test builds do not send crash reports; optional Sentry.",
+      "visibility": "public",
+      "commit": "03c72b7175269a6b4f0c2b3451202c462f72aa3e",
+      "path": "docs/releases.md"
+    },
+    {
+      "id": "help",
+      "kind": "source-inspected",
+      "url": "https://github.com/tals/corgi/blob/03c72b7175269a6b4f0c2b3451202c462f72aa3e/assets/help.txt",
+      "title": "assets/help.txt",
+      "locator": "command list",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "corgi start/attach, open, onboard, update with rollback, hooks, integration, account, headless start/list/send/events/stop, watch --json, usage --json, rpc, reload, checkpoint, shutdown, bugreport; workspaces group tabs and panes, no worktrees note.",
+      "visibility": "public",
+      "commit": "03c72b7175269a6b4f0c2b3451202c462f72aa3e",
+      "path": "assets/help.txt"
+    },
+    {
+      "id": "skill",
+      "kind": "documented",
+      "url": "https://github.com/tals/corgi/blob/03c72b7175269a6b4f0c2b3451202c462f72aa3e/assets/corgi-skill.md",
+      "title": "assets/corgi-skill.md",
+      "locator": "Discover before acting; Arrange terminals",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "corgi --skill prints agent instructions: list, tab and pane commands, message agents, pane read, grep conversations, headless sessions, usage.",
+      "visibility": "public",
+      "commit": "03c72b7175269a6b4f0c2b3451202c462f72aa3e",
+      "path": "assets/corgi-skill.md"
+    },
+    {
+      "id": "hacking",
+      "kind": "documented",
+      "url": "https://github.com/tals/corgi/blob/03c72b7175269a6b4f0c2b3451202c462f72aa3e/HACKING.md",
+      "title": "HACKING.md",
+      "locator": "Architecture; Debug; crash reporting",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "Zig native layer with Ghostty, Bun TypeScript daemon and viewer; release builds configured with Sentry report daemon and viewer crashes; development builds have no DSN.",
+      "visibility": "public",
+      "commit": "03c72b7175269a6b4f0c2b3451202c462f72aa3e",
+      "path": "HACKING.md"
+    },
+    {
+      "id": "telemetrysrc",
+      "kind": "source-inspected",
+      "url": "https://github.com/tals/corgi/blob/03c72b7175269a6b4f0c2b3451202c462f72aa3e/src/telemetry.ts",
+      "title": "src/telemetry.ts",
+      "locator": "module header; CORGI_TELEMETRY",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "Opt-in aggregate timings and a bounded timeline written locally, enabled by CORGI_TELEMETRY; no network I/O in the module.",
+      "visibility": "public",
+      "commit": "03c72b7175269a6b4f0c2b3451202c462f72aa3e",
+      "path": "src/telemetry.ts"
+    },
+    {
+      "id": "crashsrc",
+      "kind": "source-inspected",
+      "url": "https://github.com/tals/corgi/blob/03c72b7175269a6b4f0c2b3451202c462f72aa3e/src/crash.ts",
+      "title": "src/crash.ts",
+      "locator": "Endpoint.parse, init",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "Crash reporter uploads to a Sentry DSN only when a release build sets one (src/build_config.ts default is empty).",
+      "visibility": "public",
+      "commit": "03c72b7175269a6b4f0c2b3451202c462f72aa3e",
+      "path": "src/crash.ts"
+    },
+    {
+      "id": "installsrc",
+      "kind": "source-inspected",
+      "url": "https://github.com/tals/corgi/blob/03c72b7175269a6b4f0c2b3451202c462f72aa3e/scripts/install.sh.in",
+      "title": "scripts/install.sh.in",
+      "locator": "platform detection",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "Installer script served at corgi.computer/install.sh for macOS Apple Silicon and Linux.",
+      "visibility": "public",
+      "commit": "03c72b7175269a6b4f0c2b3451202c462f72aa3e",
+      "path": "scripts/install.sh.in"
+    },
+    {
+      "id": "providers",
+      "kind": "source-inspected",
+      "url": "https://github.com/tals/corgi/blob/03c72b7175269a6b4f0c2b3451202c462f72aa3e/src/providers.ts",
+      "title": "src/providers.ts",
+      "locator": "provider list",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "Provider adapters registered in UI order: claude, codex, pi, opencode, omp.",
+      "visibility": "public",
+      "commit": "03c72b7175269a6b4f0c2b3451202c462f72aa3e",
+      "path": "src/providers.ts"
+    },
+    {
+      "id": "remotemain",
+      "kind": "documented",
+      "url": "https://github.com/tals/corgi/blob/c29ecae208a6deca34318e9c885cae55478633fa/docs/remote.md",
+      "title": "docs/remote.md",
+      "locator": "Machines over SSH",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "Default-branch (not in stable release 03c72b7) documentation for corgi machine add and --machine: each machine keeps its own daemon; no Corgi network listener, account service or hosted relay.",
+      "visibility": "public",
+      "commit": "c29ecae208a6deca34318e9c885cae55478633fa",
+      "path": "docs/remote.md"
+    },
+    {
+      "id": "sandboxmain",
+      "kind": "documented",
+      "url": "https://github.com/tals/corgi/blob/c29ecae208a6deca34318e9c885cae55478633fa/docs/remote-sandbox.md",
+      "title": "docs/remote-sandbox.md",
+      "locator": "Remote connectivity lab",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "Default-branch simulated remote lab for development.",
+      "visibility": "public",
+      "commit": "c29ecae208a6deca34318e9c885cae55478633fa",
+      "path": "docs/remote-sandbox.md"
+    },
+    {
+      "id": "scan",
+      "kind": "source-inspected",
+      "url": "https://github.com/tals/corgi/blob/03c72b7175269a6b4f0c2b3451202c462f72aa3e/src",
+      "title": "src",
+      "locator": "bounded search at 03c72b7 of src/, docs/ and native/: saml, oidc, sso, rbac, organization, schedule, cron, webhook, gh pr create, spend limit, rollback, issue tracker",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "Bounded search found no SSO or role model, no scheduler or webhook trigger, no pull-request creation, no issue tracker and no spend cap setting.",
+      "visibility": "public",
+      "commit": "03c72b7175269a6b4f0c2b3451202c462f72aa3e",
+      "path": "src"
+    },
+    {
+      "id": "repoapi",
+      "kind": "documented",
+      "url": "https://api.github.com/repos/tals/corgi",
+      "title": "GitHub repository metadata",
+      "locator": "GitHub repository metadata|stargazers_count, license, pushed_at",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "206 stars, MIT, pushed 2026-11-15, homepage corgi.computer; no GitHub releases, only test tags.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "stable",
+      "kind": "documented",
+      "url": "https://corgi.computer/channels/stable.json",
+      "title": "stable channel manifest",
+      "locator": "stable channel manifest|payload version and commit",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "Signed stable channel manifest names version 20261106T233845Z-03c72b717526 at commit 03c72b7175269a6b4f0c2b3451202c462f72aa3e with macOS arm64 and Linux x86_64 builds (Linux arm64 on its own channel).",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "site",
+      "kind": "documented",
+      "url": "https://corgi.computer/",
+      "title": "Corgi home page",
+      "locator": "Corgi home page|whole page",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "Prerendered product page with install command; no pricing page; the README hero image URL https://corgi.computer/images/hero.gif returned 404 at retrieval.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "screenshot",
+      "kind": "documented",
+      "url": "https://github.com/tals/corgi/blob/03c72b7175269a6b4f0c2b3451202c462f72aa3e/docs/images/localization/ru-review.png",
+      "title": "docs/images/localization/ru-review.png",
+      "locator": "localization README image",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-17",
+      "finding": "First-party capture of the Corgi UI with sidebar workspaces, an agent list and the review panel.",
+      "visibility": "public",
+      "commit": "03c72b7175269a6b4f0c2b3451202c462f72aa3e",
+      "path": "docs/images/localization/ru-review.png"
+    }
+  ],
+  "changes": [
+    {
+      "date": "2026-11-17",
+      "author": "researcher-batch15",
+      "type": "initial-research",
+      "summary": "Initial full-profile source pass of tals/corgi at the stable release 20261106T233845Z-03c72b717526 (commit 03c72b7, advertised by https://corgi.computer/channels/stable.json) with the default branch (commit c29ecae, 2026-11-11) read for unreleased work such as SSH machines: README, docs/, HACKING.md, assets/help.txt and corgi-skill.md, CLI help, provider adapters, release scripts and crash reporting. tals/corgi has no GitHub releases and its only other public repository, corgi-omarchy, is an empty distribution mirror. Screenshot: fallback, first-party localization capture docs/images/localization/ru-review.png.",
+      "claimIds": [
+        "corgi:ACC-01",
+        "corgi:ACC-02",
+        "corgi:ACC-03",
+        "corgi:ACC-04",
+        "corgi:ACC-05",
+        "corgi:ACC-06",
+        "corgi:ACC-07",
+        "corgi:PLAN-01",
+        "corgi:PLAN-02",
+        "corgi:PLAN-03",
+        "corgi:PLAN-04",
+        "corgi:PLAN-05",
+        "corgi:PLAN-06",
+        "corgi:PLAN-07",
+        "corgi:PLAN-08",
+        "corgi:COORD-01",
+        "corgi:COORD-02",
+        "corgi:COORD-03",
+        "corgi:COORD-04",
+        "corgi:COORD-05",
+        "corgi:COORD-06",
+        "corgi:COORD-07",
+        "corgi:RUN-01",
+        "corgi:RUN-02",
+        "corgi:RUN-03",
+        "corgi:RUN-04",
+        "corgi:RUN-05",
+        "corgi:RUN-06",
+        "corgi:RUN-07",
+        "corgi:RUN-08",
+        "corgi:TEAM-01",
+        "corgi:TEAM-02",
+        "corgi:TEAM-03",
+        "corgi:TEAM-04",
+        "corgi:TEAM-05",
+        "corgi:TEAM-06",
+        "corgi:SHIP-01",
+        "corgi:SHIP-02",
+        "corgi:SHIP-03",
+        "corgi:SHIP-04",
+        "corgi:SHIP-05",
+        "corgi:SHIP-06",
+        "corgi:OWN-01",
+        "corgi:OWN-02",
+        "corgi:OWN-03",
+        "corgi:OWN-04",
+        "corgi:OWN-05",
+        "corgi:OWN-06",
+        "corgi:OWN-07",
+        "corgi:OWN-08",
+        "corgi:OWN-09"
+      ],
+      "evidenceIds": []
+    }
+  ],
+  "context": {
+    "roadmapReview": {
+      "checkedAt": "2026-11-17",
+      "locations": [
+        {
+          "url": "https://github.com/tals/corgi/releases",
+          "result": "No GitHub releases; only test/* tags. Releases are served from the signed corgi.computer stable channel."
+        },
+        {
+          "url": "https://corgi.computer/channels/stable.json",
+          "result": "Stable version 20261106T233845Z-03c72b717526 at commit 03c72b7."
+        },
+        {
+          "url": "https://github.com/tals/corgi/blob/c29ecae208a6deca34318e9c885cae55478633fa/docs/remote.md",
+          "result": "Default branch documents SSH machine profiles (corgi machine add) not in the stable release; no dated promise."
+        },
+        {
+          "url": "https://github.com/tals/corgi/issues",
+          "result": "Issues are the feedback channel; no dated roadmap was found."
+        }
+      ],
+      "announced": [],
+      "gaps": [
+        "No public roadmap file; default-branch features (SSH machines, hero GIF) were not treated as shipped."
+      ]
+    },
+    "marketContext": {
+      "githubStars": {
+        "value": 206,
+        "observedAt": "2026-11-17",
+        "evidenceIds": [
+          "repoapi"
+        ]
+      }
+    }
+  }
+}
