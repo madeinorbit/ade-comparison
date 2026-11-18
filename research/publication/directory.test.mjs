@@ -5,7 +5,7 @@ import { tmpdir } from 'node:os'
 import { resolve } from 'node:path'
 import { claimReviewHash, createUnknownProfile, lifecycleReviewHash } from '../lib.mjs'
 import { buildPublication, buildPublicationFromProfiles, publicationConfig, publicationDate, publicationDateOverride, publicationDateVariables } from './build.mjs'
-import { assertPublicationSafe } from './security.mjs'
+import { assertPublicationSafe, substringSearcher } from './security.mjs'
 import { buildDirectoryFromPublication, checkDirectoryPackage, facetVocabulary, loadFacetDefinitions, loadFacetMappings, packageFiles, publicFormerNames, writeDirectoryPackage } from '../directory/build.mjs'
 import { facetReviewHash, productFacets, publicFacet, validateDefinitions } from '../directory/facets.mjs'
 import { assertDirectoryShape } from '../directory/security.mjs'
@@ -21,6 +21,31 @@ const due = '2026-11-21'
 const definitions = loadFacetDefinitions()
 const definition = id => definitions.facets.find(facet => facet.id === id)
 const knownCells = product => Object.values(product.facets).flatMap(value => value.value ? [value] : Object.values(value))
+
+// Building from the real catalog takes seconds, so each (date, format, directory)
+// publication and its default-mapping directory package is built once and shared.
+// The shared results are deeply frozen: a test that needs to change one must take
+// a structuredClone, and a forgotten clone throws instead of leaking into later tests.
+const deepFreeze = value => {
+  if (value === null || typeof value !== 'object' || Object.isFrozen(value)) return value
+  Object.freeze(value)
+  for (const child of Object.values(value)) deepFreeze(child)
+  return value
+}
+const catalogBuilds = new Map()
+const catalogBuild = ({ date: buildDate, format, directory = false }) => {
+  const key = JSON.stringify([buildDate, format, directory])
+  if (!catalogBuilds.has(key)) {
+    const publication = deepFreeze(buildPublication({ date: buildDate, format, directory }))
+    let data
+    catalogBuilds.set(key, { publication, get data() {
+      return data ??= deepFreeze(buildDirectoryFromPublication(publication, { mappings: loadFacetMappings() }))
+    } })
+  }
+  return catalogBuilds.get(key)
+}
+const catalogPublication = options => catalogBuild(options).publication
+const catalogDirectory = options => catalogBuild(options).data
 
 // These mapping tests model an independently rechecked catalog finding. The old
 // facet digest must still expire after that source or claim review is replaced.
@@ -188,8 +213,8 @@ test('paid-price choices distinguish no paid plan from missing evidence and inva
 
 test('paid-price mappings remain bound after adding the absence option', () => {
   const mappings = loadFacetMappings()
-  const publication = buildPublication({ date: packageDate, format: 'products', directory: true })
-  const data = buildDirectoryFromPublication(publication, { mappings })
+  const publication = catalogPublication({ date: packageDate, format: 'products', directory: true })
+  const data = catalogDirectory({ date: packageDate, format: 'products', directory: true })
   for (const id of ['codex-action', 'dmux', 'fusion', 'gastown', 'gh-aw', 'ghostex']) {
     assert.equal(mappings[id]['paid-from'].value, 'no-paid-plan', id)
     assert.equal(mappings[id]['paid-from'].claimId, `${id}:OWN-04`, id)
@@ -553,6 +578,18 @@ test('privacy scanner blocks private keys, file URLs, internal text and identiti
   assert.throws(() => assertPublicationSafe({ answer: 'S3CR3T' }, safety), /Internal-only text/)
 })
 
+test('the indexed approved-text search agrees with a plain substring search', () => {
+  let seed = 7
+  const random = limit => (seed = (seed * 1103515245 + 12345) % 2147483648) % limit
+  const text = length => Array.from({ length }, () => 'ab c\0'[random(5)]).join('')
+  for (const haystack of ['', 'short', text(40), text(3000)]) {
+    const found = substringSearcher(haystack)
+    const needles = ['', 'a', haystack, `${haystack}a`, ...Array.from({ length: 400 }, () => text(1 + random(40)))]
+    for (let at = 0; at < haystack.length; at += 7) for (const length of [1, 14, 15, 16, 23, 64]) needles.push(haystack.slice(at, at + length))
+    for (const needle of needles) assert.equal(found(needle), haystack.includes(needle), JSON.stringify([haystack.length, needle]))
+  }
+})
+
 test('text outside the approved output fails, including expired and unreviewed candidates', () => {
   const f = fixture()
   f.mappings.tool.cli.review = { state: 'changes-requested', reviewer: 'PRIVATE-FACET-REVIEWER', date,
@@ -714,7 +751,7 @@ test('expiry only removes data and never makes the real package fail its safety 
   // A failed scan keeps the prior package, so a false positive here would keep
   // expired findings on the site. Fully expired is the widest private set.
   for (const scanDate of ['2026-12-08', '2030-01-01']) {
-    const data = buildDirectoryFromPublication(buildPublication({ date: scanDate, format: 'products' }), { mappings })
+    const data = catalogDirectory({ date: scanDate, format: 'products' })
     assertDirectoryShape(data)
     assert.doesNotThrow(() => assertPublicationSafe(Object.fromEntries(packageFiles(data)),
       { date: scanDate, privateRecords: Object.values(mappings), vocabulary }))
@@ -773,8 +810,8 @@ test('real mappings cover all 36 launch products, use eligible receipts and rema
     'buzz', 'claude-squad', 'cmux', 'emdash', 'jean', 'maestro', 'openhands', 'opencode', 'qm', 'tembo', 'vibe-kanban']) assert.ok(mappings[id], id)
   // Use the recorded snapshot date. Later research edits may correctly make
   // individual values unknown; tests must not silently refresh their hashes.
-  const publication = buildPublication({ date: packageDate, format: 'products', directory: true })
-  const data = buildDirectoryFromPublication(publication, { mappings })
+  const publication = catalogPublication({ date: packageDate, format: 'products', directory: true })
+  const data = catalogDirectory({ date: packageDate, format: 'products', directory: true })
   assertDirectoryShape(data)
   assertPublicationSafe(Object.fromEntries(packageFiles(data)), { date: packageDate, directory: true, privateRecords: Object.values(mappings),
     vocabulary: facetVocabulary(definitions) })
@@ -796,7 +833,7 @@ test('real mappings cover all 36 launch products, use eligible receipts and rema
 })
 
 test('returned launch interpretations retain their corrected scope and citations', () => {
-  const data = buildDirectoryFromPublication(buildPublication({ date: packageDate, format: 'products', directory: true }))
+  const data = catalogDirectory({ date: packageDate, format: 'products', directory: true })
   const product = id => data.products.find(product => product.id === id)
   // The November 13 source pass resolves the earlier Cloud-scope objections.
   // Current enterprise SSO eligibility remains unestablished after the revised announcement.
@@ -896,8 +933,8 @@ const assertLicenseReceipt = (id, entry, cell, hash) => {
 
 test('GPL and AGPL application findings have current license mappings, sourced or independently reviewed', () => {
   const mappings = loadFacetMappings()
-  const publication = buildPublication({ date: packageDate, format: 'products', directory: true })
-  const data = buildDirectoryFromPublication(publication, { mappings })
+  const publication = catalogPublication({ date: packageDate, format: 'products', directory: true })
+  const data = catalogDirectory({ date: packageDate, format: 'products', directory: true })
   const expected = { proliferate: 'agpl-3-0', xum: 'agpl-3-0', 'claude-squad': 'agpl-3-0',
     cmux: 'gpl-3-0-or-later', maestro: 'agpl-3-0', zed: 'gpl-3-0-or-later', warp: 'agpl-3-0' }
   for (const [id, value] of Object.entries(expected)) {
@@ -1032,8 +1069,8 @@ test('directory lifecycle candidates need first-party public sources and keep op
 test('directory-retained real data still passes all privacy checks far beyond its recheck dates', () => {
   const mappings = loadFacetMappings(), vocabulary = facetVocabulary(definitions)
   const count = data => data.products.reduce((sum, product) => sum + (product.claims?.length || 0), 0)
-  const original = buildDirectoryFromPublication(buildPublication({ date: packageDate, format: 'products', directory: true }), { mappings })
-  const later = buildDirectoryFromPublication(buildPublication({ date: '2030-01-01', format: 'products', directory: true }), { mappings })
+  const original = catalogDirectory({ date: packageDate, format: 'products', directory: true })
+  const later = catalogDirectory({ date: '2030-01-01', format: 'products', directory: true })
   assert.equal(count(later), count(original))
   assertDirectoryShape(later)
   assertPublicationSafe(Object.fromEntries(packageFiles(later)), { date: '2030-01-01', privateRecords: Object.values(mappings), vocabulary, directory: true })

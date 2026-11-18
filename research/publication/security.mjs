@@ -60,6 +60,33 @@ const structuralTokens = (profiles, registry, vocabulary) => {
 }
 const isStructural = (text, tokens) => /^\d{4}-\d{2}-\d{2}(?:T\S*)?$/.test(text.trim()) ||
   /^https?:\/\/\S+$/.test(text.trim()) || tokens.has(normalize(text))
+// Answers exactly what `haystack.includes(needle)` answers, for many needles against
+// one large haystack. The index holds the haystack's `gram`-character windows at every
+// `stride`-th position. An occurrence of a long enough needle covers such windows at one
+// alignment, and every one of them must then be indexed, so the rarest window of each
+// alignment names the few positions to compare. Shorter needles use a plain search.
+export const substringSearcher = (haystack, { gram = 8, stride = 8 } = {}) => {
+  const index = new Map()
+  for (let at = 0; at + gram <= haystack.length; at += stride) {
+    const key = haystack.slice(at, at + gram)
+    const positions = index.get(key)
+    if (positions) positions.push(at)
+    else index.set(key, [at])
+  }
+  return needle => {
+    if (needle.length < gram + stride - 1) return haystack.includes(needle)
+    for (let alignment = 0; alignment < stride; alignment += 1) {
+      let rarest = null, offset = 0
+      for (let at = alignment; at + gram <= needle.length; at += stride) {
+        const positions = index.get(needle.slice(at, at + gram))
+        if (!positions) { rarest = null; break }
+        if (!rarest || positions.length < rarest.length) { rarest = positions; offset = at }
+      }
+      if (rarest?.some(position => position >= offset && haystack.startsWith(needle, position - offset))) return true
+    }
+    return false
+  }
+}
 // Short common phrases legitimately recur in authored public text. A whole-field
 // copy of one still fails. Inside longer text, match only what identifies a source.
 const isDistinctive = phrase => phrase.split(' ').length >= 6 || /\d/.test(phrase)
@@ -113,8 +140,8 @@ export function assertPublicationSafe(value, {
   const privateNames = [...names].filter(Boolean).map(normalize)
   // Stock gap wording can occur in both private and eligible public findings.
   // Only text absent from the gate-approved output is an internal-only marker.
-  const approvedText = [...publicStrings].map(normalize).join('\0')
-  const privateText = new Set([...internalStrings].map(normalize).filter(text => !approvedText.includes(text)))
+  const approved = substringSearcher([...publicStrings].map(normalize).join('\0'))
+  const privateText = new Set([...internalStrings].map(normalize).filter(text => !approved(text)))
   const privatePhrases = [...privateText].filter(isDistinctive)
   walk(value, (text, path, key) => {
     if (key && privateFields.has(text)) throw new Error(`Private field in public package at ${path}`)
