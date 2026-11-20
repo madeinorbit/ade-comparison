@@ -225,6 +225,11 @@ test('paid-price mappings remain bound after adding the absence option', () => {
     if (entry.review?.state === 'changes-requested') continue
     const source = publication.products.find(p => p.id === product.id)
     assert.equal(entry.contentHash, facetReviewHash(source, 'paid-from', null, entry, definition('paid-from')), product.id)
+    // A contradicted finding is withheld from publication, so its bound mapping publishes unknown.
+    if (!source.claims.some(c => c.claimId === entry.claimId)) {
+      assert.equal(product.facets['paid-from'].value, 'unknown', product.id)
+      continue
+    }
     assert.equal(product.facets['paid-from'].value, entry.value, product.id)
     if (!entry.review) {
       assert.equal(product.facets['paid-from'].verificationStatus, 'sourced', product.id)
