@@ -139,7 +139,7 @@
   {
    "id": "qm:ACC-02",
    "criterionId": "ACC-02",
-   "answer": "The current QM core runs the Pi coding-agent loop. Model/provider subscription choices do not select a Claude Code, Codex or other coding-agent CLI harness.",
+   "answer": "The current QM core runs the Pi coding-agent loop. Model/provider subscription choices do not select a Claude Code, Codex or other coding-agent CLI harness. Each turn runs Pi inside the QM core; v0.1.16 removed harness choice, so one deployment cannot mix agent harnesses.",
    "support": "partial",
    "availability": "generally-available",
    "delivery": "native",
@@ -150,7 +150,7 @@
      "core",
      "desktop"
     ],
-    "version": "First-party sources checked 2026-11-07; pinned implementations retain their cited revision.",
+    "version": "First-party sources checked 2026-11-07; pinned implementations retain their cited revision.; v0.1.18 (9c20219, 2026-11-11) for backfilled atoms",
     "plan": null,
     "os": [],
     "executionModes": [],
@@ -178,28 +178,36 @@
      "evidenceIds": []
     },
     "session_integration": {
-     "support": "unknown",
-     "answer": "Session integration: The November first-party documentation and repository pass did not establish agent and model choice at the rubric's required scope. No installed-product fixture was run.",
-     "evidenceIds": []
+     "support": "supported",
+     "answer": "Embedded: the Pi agent loop runs inside the QM core for every turn; QM owns sessions, tools and sandboxes.",
+     "evidenceIds": [
+      "b06-readme"
+     ]
     },
     "mixed_harness_operation": {
-     "support": "unknown",
-     "answer": "Mixed harness operation: The November first-party documentation and repository pass did not establish agent and model choice at the rubric's required scope. No installed-product fixture was run.",
-     "evidenceIds": []
+     "support": "unsupported",
+     "answer": "v0.1.16 kept one harness and a v0.1.18 migration strips harnessId from every runtime, cron, subagent and swarm config, so harnesses cannot be mixed.",
+     "evidenceIds": [
+      "b06-rel-0116",
+      "b06-harness-migration"
+     ]
     }
    },
    "limitations": [
     "Documentation and pinned source inspection only; no hands-on scenario was run.",
     "Other atomic questions remain unestablished: custom_adapters, session_integration, mixed_harness_operation."
    ],
-   "unknownReason": "Other atomic questions remain unestablished: custom_adapters, session_integration, mixed_harness_operation.",
+   "unknownReason": "Unknown after the 2026-11-21 backfill re-verification of first-party sources and public code: custom_adapters. Earlier pass: Other atomic questions remain unestablished: custom_adapters, session_integration, mixed_harness_operation.",
    "evidenceIds": [
     "nov07-readme",
-    "gaps-pi-loop"
+    "gaps-pi-loop",
+    "b06-readme",
+    "b06-rel-0116",
+    "b06-harness-migration"
    ],
    "checkedAt": "2026-11-07",
    "nextReviewAt": "2026-12-07",
-   "researcher": "researcher-facet-gaps-batch6",
+   "researcher": "researcher-ade-128",
    "publication": "public-candidate",
    "review": null,
    "contradictions": []
@@ -287,7 +295,7 @@
   {
    "id": "qm:ACC-04",
    "criterionId": "ACC-04",
-   "answer": "QM supplies an agent-guided deployment directory and requires Postgres.",
+   "answer": "QM supplies an agent-guided deployment directory and requires Postgres. No YC-run hosted service: one-click templates on DigitalOcean, E2B and Render and a third-party hosted option (Agent 37).",
    "support": "partial",
    "availability": "generally-available",
    "delivery": "native",
@@ -298,7 +306,7 @@
      "core",
      "desktop"
     ],
-    "version": "First-party sources checked 2026-11-07; pinned implementations retain their cited revision.",
+    "version": "First-party sources checked 2026-11-07; pinned implementations retain their cited revision.; v0.1.18 (9c20219, 2026-11-11) for backfilled atoms",
     "plan": null,
     "os": [],
     "executionModes": [],
@@ -336,9 +344,11 @@
      ]
     },
     "managed_cloud_setup": {
-     "support": "unknown",
-     "answer": "Managed cloud setup: The November first-party documentation and repository pass did not establish onboarding and project prerequisites at the rubric's required scope. No installed-product fixture was run.",
-     "evidenceIds": []
+     "support": "partial",
+     "answer": "No YC-run managed service. DigitalOcean, E2B and Render offer one-click templates and Agent 37 a third-party fully hosted option; YC only collects interest in a hosted version.",
+     "evidenceIds": [
+      "b06-readme"
+     ]
     },
     "byo_vps_onboarding": {
      "support": "partial",
@@ -351,25 +361,22 @@
    "limitations": [
     "The remaining atomic questions and the rubric scenario are unverified. Documentation is not a successful product test."
    ],
-   "unknownReason": "See unknown atomic answers for the source and test gaps.",
+   "unknownReason": "Unknown after the 2026-11-21 backfill re-verification of first-party sources and public code: no_git, local_git_without_remote, hosted_git. Earlier pass: See unknown atomic answers for the source and test gaps.",
    "evidenceIds": [
-    "nov07-readme"
+    "nov07-readme",
+    "b06-readme"
    ],
    "checkedAt": "2026-11-07",
    "nextReviewAt": "2026-12-07",
-   "researcher": "researcher-75",
-   "publication": "public-reviewed",
-   "review": {
-    "reviewer": "reviewer-46",
-    "date": "2026-11-07",
-    "contentHash": "af352957479fc3d4cbda1deb956c8f7256ce2a9b9883a9b0b0e2b8b50c8f8f11"
-   },
+   "researcher": "researcher-ade-128",
+   "publication": "public-candidate",
+   "review": null,
    "contradictions": []
   },
   {
    "id": "qm:ACC-05",
    "criterionId": "ACC-05",
-   "answer": "Core HTTP APIs and scoped swarm routes provide programmatic operations.",
+   "answer": "Core HTTP APIs and scoped swarm routes provide programmatic operations. The qm CLI handles deployment and operations only; inbound webhooks wake agent turns.",
    "support": "partial",
    "availability": "generally-available",
    "delivery": "native",
@@ -380,7 +387,7 @@
      "core",
      "desktop"
     ],
-    "version": "First-party sources checked 2026-11-07; pinned implementations retain their cited revision.",
+    "version": "First-party sources checked 2026-11-07; pinned implementations retain their cited revision.; v0.1.18 (9c20219, 2026-11-11) for backfilled atoms",
     "plan": null,
     "os": [],
     "executionModes": [],
@@ -389,9 +396,12 @@
    },
    "subanswers": {
     "cli": {
-     "support": "unknown",
-     "answer": "Cli: The November first-party documentation and repository pass did not establish programmable access at the rubric's required scope. No installed-product fixture was run.",
-     "evidenceIds": []
+     "support": "partial",
+     "answer": "qm is a deployment and operations CLI (init, up, logs, secrets, ui publish and similar); starting or steering agent work goes through the HTTP API, Slack or the web UI.",
+     "evidenceIds": [
+      "b06-cli",
+      "b06-readme"
+     ]
     },
     "api": {
      "support": "supported",
@@ -412,9 +422,12 @@
      "evidenceIds": []
     },
     "webhooks": {
-     "support": "unknown",
-     "answer": "Webhooks: The November first-party documentation and repository pass did not establish programmable access at the rubric's required scope. No installed-product fixture was run.",
-     "evidenceIds": []
+     "support": "supported",
+     "answer": "Inbound webhooks: POST /v1/webhooks creates one and /v1/webhooks/incoming/:id delivers verified events that wake background work.",
+     "evidenceIds": [
+      "b06-webhooks",
+      "b06-readme"
+     ]
     },
     "operations": {
      "support": "supported",
@@ -441,26 +454,25 @@
    "limitations": [
     "The remaining atomic questions and the rubric scenario are unverified. Documentation is not a successful product test."
    ],
-   "unknownReason": "See unknown atomic answers for the source and test gaps.",
+   "unknownReason": "Unknown after the 2026-11-21 backfill re-verification of first-party sources and public code: sdk, mcp_server, stability. Earlier pass: See unknown atomic answers for the source and test gaps.",
    "evidenceIds": [
     "nov07-projects",
-    "nov07-swarms"
+    "nov07-swarms",
+    "b06-cli",
+    "b06-readme",
+    "b06-webhooks"
    ],
    "checkedAt": "2026-11-07",
    "nextReviewAt": "2026-12-07",
-   "researcher": "researcher-75",
-   "publication": "public-reviewed",
-   "review": {
-    "reviewer": "reviewer-46",
-    "date": "2026-11-07",
-    "contentHash": "737a991e7b70028376761298685e91da4267c9ba4d0af1c97b000b500bc96ed2"
-   },
+   "researcher": "researcher-ade-128",
+   "publication": "public-candidate",
+   "review": null,
    "contradictions": []
   },
   {
    "id": "qm:ACC-06",
    "criterionId": "ACC-06",
-   "answer": "QM provides administrator-registered HTTP MCP connectors and own-deployment customization.",
+   "answer": "QM provides administrator-registered HTTP MCP connectors and own-deployment customization. Deployments add custom tools and skills under sandbox/, services under plugins/, and admins import skill packs from git.",
    "support": "partial",
    "availability": "unknown",
    "delivery": "unknown",
@@ -469,7 +481,7 @@
      "core",
      "web"
     ],
-    "version": "First-party documentation/source checked 2026-11-07; exact pinned source revision is recorded in each citation. No installed-product fixture.",
+    "version": "First-party documentation/source checked 2026-11-07; exact pinned source revision is recorded in each citation. No installed-product fixture.; v0.1.18 (9c20219, 2026-11-11) for backfilled atoms",
     "plan": null,
     "os": [],
     "executionModes": [],
@@ -485,14 +497,19 @@
      ]
     },
     "plugins": {
-     "support": "unknown",
-     "answer": "Plugins: The November first-party documentation and repository pass did not establish external tools and extensions at the rubric's required scope. No installed-product fixture was run.",
-     "evidenceIds": []
+     "support": "supported",
+     "answer": "Admins import skill packs from git repositories at pinned refs into chosen scopes; deployments add services under plugins/ and skills under sandbox/skills/.",
+     "evidenceIds": [
+      "b06-skill-registry",
+      "b06-deploy-dir"
+     ]
     },
     "custom_tools": {
-     "support": "unknown",
-     "answer": "Custom tools: The November first-party documentation and repository pass did not establish external tools and extensions at the rubric's required scope. No installed-product fixture was run.",
-     "evidenceIds": []
+     "support": "supported",
+     "answer": "Deployment directories add custom tools as sandbox/tools/<id>/tool.json plus binaries, synced to core as a versioned deployment layer.",
+     "evidenceIds": [
+      "b06-deploy-dir"
+     ]
     },
     "instructions_import": {
      "support": "unknown",
@@ -524,34 +541,32 @@
    "limitations": [
     "Only the named atomic facts are established by documentation. Remaining rubric scenarios and unknown answers were not demonstrated."
    ],
-   "unknownReason": "Remaining unknown atomic answers were checked against the first-party locations in context.gapFillReview. Sources did not establish those answers; no installed-product fixture was run.",
+   "unknownReason": "Unknown after the 2026-11-21 backfill re-verification of first-party sources and public code: instructions_import. Earlier pass: Remaining unknown atomic answers were checked against the first-party locations in context.gapFillReview. Sources did not establish those answers; no installed-product fixture was run.",
    "evidenceIds": [
     "gap-mcp",
-    "nov07-readme"
+    "nov07-readme",
+    "b06-deploy-dir",
+    "b06-skill-registry"
    ],
    "checkedAt": "2026-11-07",
    "nextReviewAt": "2026-12-07",
-   "researcher": "reviewer-51",
-   "publication": "public-reviewed",
-   "review": {
-    "reviewer": "reviewer-03",
-    "date": "2026-11-10",
-    "contentHash": "cf61eaf56c863e33b7eb7768cc5d7c6ba1c24da0e35f536d1ac2a59a7dea5bea"
-   },
+   "researcher": "researcher-ade-128",
+   "publication": "public-candidate",
+   "review": null,
    "contradictions": []
   },
   {
    "id": "qm:ACC-07",
    "criterionId": "ACC-07",
-   "answer": "The web package uses Lit with Vite.",
-   "support": "partial",
+   "answer": "The web package uses Lit with Vite. Desktop is an Electron shell running the same web UI; iOS is a native SwiftUI client.",
+   "support": "supported",
    "availability": "generally-available",
    "delivery": "native",
    "scope": {
     "surfaceIds": [
      "web"
     ],
-    "version": "First-party sources checked 2026-11-07; pinned implementations retain their cited revision.",
+    "version": "First-party sources checked 2026-11-07; pinned implementations retain their cited revision.; v0.1.18 (9c20219, 2026-11-11) for backfilled atoms",
     "plan": null,
     "os": [],
     "executionModes": [],
@@ -560,14 +575,18 @@
    },
    "subanswers": {
     "desktop_implementation": {
-     "support": "unknown",
-     "answer": "Desktop implementation: The November first-party documentation and repository pass did not establish client implementation at the rubric's required scope. No installed-product fixture was run.",
-     "evidenceIds": []
+     "support": "supported",
+     "answer": "Electron client that runs the same web UI against an existing deployment; the macOS build is an unsigned local prototype.",
+     "evidenceIds": [
+      "b06-desktop"
+     ]
     },
     "mobile_implementation": {
-     "support": "unknown",
-     "answer": "Mobile implementation: The November first-party documentation and repository pass did not establish client implementation at the rubric's required scope. No installed-product fixture was run.",
-     "evidenceIds": []
+     "support": "supported",
+     "answer": "Native SwiftUI iOS 18+ client with no embedded WebKit product UI, using the authenticated APIs; built from source.",
+     "evidenceIds": [
+      "b06-ios"
+     ]
     },
     "hybrids": {
      "support": "supported",
@@ -585,21 +604,19 @@
     }
    },
    "limitations": [
-    "The remaining atomic questions and the rubric scenario are unverified. Documentation is not a successful product test."
+    "Documentation and source inspection of v0.1.18 only; no installed client was run. The macOS desktop build is an unsigned local prototype and iOS is built from source."
    ],
-   "unknownReason": "See unknown atomic answers for the source and test gaps.",
+   "unknownReason": null,
    "evidenceIds": [
-    "nov07-web-build"
+    "nov07-web-build",
+    "b06-desktop",
+    "b06-ios"
    ],
    "checkedAt": "2026-11-07",
    "nextReviewAt": "2027-02-05",
-   "researcher": "researcher-75",
-   "publication": "public-reviewed",
-   "review": {
-    "reviewer": "reviewer-46",
-    "date": "2026-11-07",
-    "contentHash": "a8225ea8835713dc5a99714ccc274d88bcec14b4cd21fca8cb1c66e32e7c04ad"
-   },
+   "researcher": "researcher-ade-128",
+   "publication": "public-candidate",
+   "review": null,
    "contradictions": []
   },
   {
@@ -1029,7 +1046,7 @@
   {
    "id": "qm:PLAN-06",
    "criterionId": "PLAN-06",
-   "answer": "The current QM API and web UI expose conversations/runs, schedules and approvals without a native independent issue tracker.",
+   "answer": "The current QM API and web UI expose conversations/runs, schedules and approvals without a native independent issue tracker. The run task list was removed in October 2026; preview Loop items carry status and triage priority.",
    "support": "partial",
    "availability": "generally-available",
    "delivery": "native",
@@ -1040,7 +1057,7 @@
      "core",
      "desktop"
     ],
-    "version": null,
+    "version": "v0.1.18 (9c20219, 2026-11-11) for backfilled atoms",
     "plan": null,
     "os": [],
     "executionModes": [],
@@ -1121,9 +1138,12 @@
      "evidenceIds": []
     },
     "metadata": {
-     "support": "unknown",
-     "answer": "Metadata: The November first-party documentation and repository pass did not establish native issue management and idea backlog at the rubric's required scope. No installed-product fixture was run.",
-     "evidenceIds": []
+     "support": "partial",
+     "answer": "No general task or issue records: the run task list (title, session, origin run, state) was removed on 2026-10-14. Preview Inbox/Loop items, off by default, carry status and urgent-to-low triage priority; no labels or backlog fields.",
+     "evidenceIds": [
+      "b06-task-removal",
+      "b06-loops"
+     ]
     },
     "durable_states": {
      "support": "unsupported",
@@ -1142,13 +1162,15 @@
     "Documentation and pinned source inspection only; no hands-on scenario was run.",
     "Other atomic questions remain unestablished: edit, discuss, prioritize, label, assign, search, filter, archive, reopen, project_epic_views, idea_parking, explicit_dispatch, task_session_separation, metadata, external_tracker_requirement."
    ],
-   "unknownReason": "Other atomic questions remain unestablished: edit, discuss, prioritize, label, assign, search, filter, archive, reopen, project_epic_views, idea_parking, explicit_dispatch, task_session_separation, metadata, external_tracker_requirement.",
+   "unknownReason": "Unknown after the 2026-11-21 backfill re-verification of first-party sources and public code: edit, discuss, prioritize, label, assign, search, filter, archive, reopen, project_epic_views, idea_parking, explicit_dispatch, task_session_separation, external_tracker_requirement. Earlier pass: Other atomic questions remain unestablished: edit, discuss, prioritize, label, assign, search, filter, archive, reopen, project_epic_views, idea_parking, explicit_dispatch, task_session_separation, metadata, external_tracker_requirement.",
    "evidenceIds": [
-    "gaps-public-model"
+    "gaps-public-model",
+    "b06-task-removal",
+    "b06-loops"
    ],
    "checkedAt": "2026-11-13",
    "nextReviewAt": "2027-03-13",
-   "researcher": "researcher-facet-gaps-batch6",
+   "researcher": "researcher-ade-128",
    "publication": "public-candidate",
    "review": null,
    "contradictions": []
@@ -1616,7 +1638,7 @@
      "core",
      "desktop"
     ],
-    "version": "First-party sources checked 2026-11-07; pinned implementations retain their cited revision.",
+    "version": "First-party sources checked 2026-11-07; pinned implementations retain their cited revision.; v0.1.18 (9c20219, 2026-11-11) for backfilled atoms",
     "plan": null,
     "os": [],
     "executionModes": [],
@@ -1639,9 +1661,12 @@
      ]
     },
     "recurring_tasks": {
-     "support": "unknown",
-     "answer": "Recurring tasks: The November first-party documentation and repository pass did not establish unattended triggers at the rubric's required scope. No installed-product fixture was run.",
-     "evidenceIds": []
+     "support": "supported",
+     "answer": "Crons (cron expression with timezone, fixed interval or first-fire time) are fired by the core scheduler on the deployment.",
+     "evidenceIds": [
+      "b06-crons",
+      "b06-readme"
+     ]
     },
     "completion_conditions": {
      "support": "unknown",
@@ -1677,19 +1702,17 @@
     "The remaining atomic questions and the rubric scenario are unverified. Documentation is not a successful product test.",
     "Only the named atomic facts are established by documentation. Remaining rubric scenarios and unknown answers were not demonstrated."
    ],
-   "unknownReason": "Remaining unknown atomic answers were checked against the first-party locations in context.gapFillReview. Sources did not establish those answers; no installed-product fixture was run.",
+   "unknownReason": "Unknown after the 2026-11-21 backfill re-verification of first-party sources and public code: completion_conditions, overlaps, retries. Earlier pass: Remaining unknown atomic answers were checked against the first-party locations in context.gapFillReview. Sources did not establish those answers; no installed-product fixture was run.",
    "evidenceIds": [
-    "nov07-readme"
+    "nov07-readme",
+    "b06-crons",
+    "b06-readme"
    ],
    "checkedAt": "2026-11-07",
    "nextReviewAt": "2026-12-07",
-   "researcher": "researcher-65",
-   "publication": "public-reviewed",
-   "review": {
-    "reviewer": "reviewer-51",
-    "date": "2026-11-07",
-    "contentHash": "f6e599e6945f315b68f11c31d2b7a5b64b51c7948ce0aca7e6c21b96a51b1768"
-   },
+   "researcher": "researcher-ade-128",
+   "publication": "public-candidate",
+   "review": null,
    "contradictions": []
   },
   {
@@ -2001,7 +2024,7 @@
      "core",
      "desktop"
     ],
-    "version": "First-party sources checked 2026-11-07; pinned implementations retain their cited revision.",
+    "version": "First-party sources checked 2026-11-07; pinned implementations retain their cited revision.; v0.1.18 (9c20219, 2026-11-11) for backfilled atoms",
     "plan": null,
     "os": [],
     "executionModes": [
@@ -2033,9 +2056,11 @@
      ]
     },
     "managed_cloud": {
-     "support": "unknown",
-     "answer": "Managed cloud: The November first-party documentation and repository pass did not establish laptop-independent execution at the rubric's required scope. No installed-product fixture was run.",
-     "evidenceIds": []
+     "support": "partial",
+     "answer": "No YC-run managed cloud; Agent 37 offers a third-party fully hosted version and DigitalOcean, E2B and Render offer templates in the operator's account.",
+     "evidenceIds": [
+      "b06-readme"
+     ]
     },
     "hybrid": {
      "support": "unknown",
@@ -2088,14 +2113,15 @@
     "Documentation and pinned source inspection only; no hands-on scenario was run.",
     "Other atomic questions remain unestablished: managed_cloud, hybrid, resources, region, expiry, other_device_continuation."
    ],
-   "unknownReason": "Other atomic questions remain unestablished: managed_cloud, hybrid, resources, region, expiry, other_device_continuation.",
+   "unknownReason": "Unknown after the 2026-11-21 backfill re-verification of first-party sources and public code: hybrid, resources, region, expiry, other_device_continuation. Earlier pass: Other atomic questions remain unestablished: managed_cloud, hybrid, resources, region, expiry, other_device_continuation.",
    "evidenceIds": [
     "nov07-readme",
-    "gaps-local-docker"
+    "gaps-local-docker",
+    "b06-readme"
    ],
    "checkedAt": "2026-11-07",
    "nextReviewAt": "2026-12-07",
-   "researcher": "researcher-facet-gaps-batch6",
+   "researcher": "researcher-ade-128",
    "publication": "public-candidate",
    "review": null,
    "contradictions": []
@@ -2114,7 +2140,7 @@
      "core",
      "desktop"
     ],
-    "version": "First-party sources checked 2026-11-07; pinned implementations retain their cited revision.",
+    "version": "First-party sources checked 2026-11-07; pinned implementations retain their cited revision.; v0.1.18 (9c20219, 2026-11-11) for backfilled atoms",
     "plan": null,
     "os": [],
     "executionModes": [],
@@ -2171,9 +2197,12 @@
      "evidenceIds": []
     },
     "network": {
-     "support": "unknown",
-     "answer": "Network: The November first-party documentation and repository pass did not establish workspace and process isolation at the rubric's required scope. No installed-product fixture was run.",
-     "evidenceIds": []
+     "support": "partial",
+     "answer": "The default auto posture denies private-network access; strict and dangerous do not. An optional egress-proxy service forces sandbox traffic through a proxy for supported backends.",
+     "evidenceIds": [
+      "b06-posture",
+      "b06-deploy-dir"
+     ]
     },
     "secrets": {
      "support": "supported",
@@ -2199,16 +2228,18 @@
     "Documentation and pinned source inspection only; no hands-on scenario was run.",
     "Other atomic questions remain unestablished: checkout, branch, os_sandbox, process, network, security_boundary."
    ],
-   "unknownReason": "Other atomic questions remain unestablished: checkout, branch, os_sandbox, process, network, security_boundary.",
+   "unknownReason": "Unknown after the 2026-11-21 backfill re-verification of first-party sources and public code: checkout, branch, os_sandbox, process, security_boundary. Earlier pass: Other atomic questions remain unestablished: checkout, branch, os_sandbox, process, network, security_boundary.",
    "evidenceIds": [
     "nov07-swarms",
     "gap-preservation",
     "gaps-local-docker",
-    "gaps-public-model"
+    "gaps-public-model",
+    "b06-posture",
+    "b06-deploy-dir"
    ],
    "checkedAt": "2026-11-07",
    "nextReviewAt": "2026-12-07",
-   "researcher": "researcher-facet-gaps-batch6",
+   "researcher": "researcher-ade-128",
    "publication": "public-candidate",
    "review": null,
    "contradictions": []
@@ -2227,7 +2258,7 @@
      "core",
      "desktop"
     ],
-    "version": "First-party sources checked 2026-11-07; pinned implementations retain their cited revision.",
+    "version": "First-party sources checked 2026-11-07; pinned implementations retain their cited revision.; v0.1.18 (9c20219, 2026-11-11) for backfilled atoms",
     "plan": null,
     "os": [],
     "executionModes": [],
@@ -2292,9 +2323,11 @@
      ]
     },
     "duplicate_actions": {
-     "support": "unknown",
-     "answer": "Duplicate actions: The November first-party documentation and repository pass did not establish recovery, expiry and continuity at the rubric's required scope. No installed-product fixture was run.",
-     "evidenceIds": []
+     "support": "supported",
+     "answer": "Subagent request keys recover the same child and run after a lost receipt and reject reuse for different work; message call IDs deduplicate retries.",
+     "evidenceIds": [
+      "b06-subagents"
+     ]
     },
     "manual_repair": {
      "support": "unknown",
@@ -2311,21 +2344,18 @@
     "The remaining atomic questions and the rubric scenario are unverified. Documentation is not a successful product test.",
     "Only the named atomic facts are established by documentation. Remaining rubric scenarios and unknown answers were not demonstrated."
    ],
-   "unknownReason": "Remaining unknown atomic answers were checked against the first-party locations in context.gapFillReview. Sources did not establish those answers; no installed-product fixture was run.",
+   "unknownReason": "Unknown after the 2026-11-21 backfill re-verification of first-party sources and public code: client_disconnect, worker_crash, process_reconnect, task_resume, manual_repair, multi_day_continuity. Earlier pass: Remaining unknown atomic answers were checked against the first-party locations in context.gapFillReview. Sources did not establish those answers; no installed-product fixture was run.",
    "evidenceIds": [
     "nov07-readme",
     "nov07-swarms",
-    "gap-preservation"
+    "gap-preservation",
+    "b06-subagents"
    ],
    "checkedAt": "2026-11-07",
    "nextReviewAt": "2026-12-07",
-   "researcher": "researcher-65",
-   "publication": "public-reviewed",
-   "review": {
-    "reviewer": "reviewer-51",
-    "date": "2026-11-07",
-    "contentHash": "6ce9b2e35b0fd8420d96ddf1fdca8f7863e91300090caa89413529173349ef7d"
-   },
+   "researcher": "researcher-ade-128",
+   "publication": "public-candidate",
+   "review": null,
    "contradictions": []
   },
   {
@@ -2436,7 +2466,7 @@
      "core",
      "desktop"
     ],
-    "version": "First-party sources checked 2026-11-07; pinned implementations retain their cited revision.",
+    "version": "First-party sources checked 2026-11-07; pinned implementations retain their cited revision.; v0.1.18 (9c20219, 2026-11-11) for backfilled atoms",
     "plan": null,
     "os": [],
     "executionModes": [],
@@ -2464,9 +2494,12 @@
      ]
     },
     "spend_limits": {
-     "support": "unknown",
-     "answer": "Spend limits: The November first-party documentation and repository pass did not establish limits and failure handling at the rubric's required scope. No installed-product fixture was run.",
-     "evidenceIds": []
+     "support": "supported",
+     "answer": "Per-scope daily and monthly USD caps with an org per-person default; at the cap new turns are refused until the UTC reset.",
+     "evidenceIds": [
+      "b06-spend-limits",
+      "b06-rel-0116"
+     ]
     },
     "timeouts": {
      "support": "supported",
@@ -2500,20 +2533,18 @@
     "The swarms document gates this behind a feature flag and states no release stage.",
     "Only the named atomic facts are established by documentation. Remaining rubric scenarios and unknown answers were not demonstrated."
    ],
-   "unknownReason": "Remaining unknown atomic answers were checked against the first-party locations in context.gapFillReview. Sources did not establish those answers; no installed-product fixture was run.",
+   "unknownReason": "Unknown after the 2026-11-21 backfill re-verification of first-party sources and public code: turn_limits, provider_failures. Earlier pass: Remaining unknown atomic answers were checked against the first-party locations in context.gapFillReview. Sources did not establish those answers; no installed-product fixture was run.",
    "evidenceIds": [
     "nov07-swarms",
-    "gap-swarms"
+    "gap-swarms",
+    "b06-spend-limits",
+    "b06-rel-0116"
    ],
    "checkedAt": "2026-11-07",
    "nextReviewAt": "2026-12-07",
-   "researcher": "researcher-65",
-   "publication": "public-reviewed",
-   "review": {
-    "reviewer": "reviewer-51",
-    "date": "2026-11-07",
-    "contentHash": "b77e2bbab24c6c07fbc329fc3b1e30b2efd90006d1c319196f20c456450d3051"
-   },
+   "researcher": "researcher-ade-128",
+   "publication": "public-candidate",
+   "review": null,
    "contradictions": []
   },
   {
@@ -2627,13 +2658,16 @@
   {
    "id": "qm:RUN-07",
    "criterionId": "RUN-07",
-   "answer": "The November first-party documentation and repository pass did not establish per-task api and compute cost at the rubric's required scope. No installed-product fixture was run.",
-   "support": "unknown",
-   "availability": "unknown",
-   "delivery": "unknown",
+   "answer": "QM estimates model spend per request from token usage and list prices and reports it by person, scope, cron and model, with export; caps stop new turns without alerts.",
+   "support": "partial",
+   "availability": "generally-available",
+   "delivery": "native",
    "scope": {
-    "surfaceIds": [],
-    "version": null,
+    "surfaceIds": [
+     "web",
+     "core"
+    ],
+    "version": "v0.1.18 (9c20219, 2026-11-11)",
     "plan": null,
     "os": [],
     "executionModes": [],
@@ -2647,9 +2681,12 @@
      "evidenceIds": []
     },
     "session_cost": {
-     "support": "unknown",
-     "answer": "Session cost: The November first-party documentation and repository pass did not establish per-task api and compute cost at the rubric's required scope. No installed-product fixture was run.",
-     "evidenceIds": []
+     "support": "partial",
+     "answer": "People see their own spend and admins see org spend by person, scope (room), cron and model; reports do not break cost down per individual session.",
+     "evidenceIds": [
+      "b06-spend-report",
+      "b06-rel-0116"
+     ]
     },
     "child_cost": {
      "support": "unknown",
@@ -2667,14 +2704,19 @@
      "evidenceIds": []
     },
     "billed_vs_estimated": {
-     "support": "unknown",
-     "answer": "Billed vs estimated: The November first-party documentation and repository pass did not establish per-task api and compute cost at the rubric's required scope. No installed-product fixture was run.",
-     "evidenceIds": []
+     "support": "partial",
+     "answer": "Costs are labeled as QM estimates at list price that can differ from the bill; there is no reconciliation with provider invoices.",
+     "evidenceIds": [
+      "b06-spend-ui",
+      "b06-cost-calc"
+     ]
     },
     "tokens": {
-     "support": "unknown",
-     "answer": "Tokens: The November first-party documentation and repository pass did not establish per-task api and compute cost at the rubric's required scope. No installed-product fixture was run.",
-     "evidenceIds": []
+     "support": "supported",
+     "answer": "Reports include calls and input, output, cache-read and cache-write tokens.",
+     "evidenceIds": [
+      "b06-spend-report"
+     ]
     },
     "subscription_allowance": {
      "support": "unknown",
@@ -2697,28 +2739,42 @@
      "evidenceIds": []
     },
     "alerts": {
-     "support": "unknown",
-     "answer": "Alerts: The November first-party documentation and repository pass did not establish per-task api and compute cost at the rubric's required scope. No installed-product fixture was run.",
-     "evidenceIds": []
+     "support": "partial",
+     "answer": "No spend alerts or notifications; at a configured cap new turns are refused with a message naming the limit.",
+     "evidenceIds": [
+      "b06-spend-limits"
+     ]
     },
     "export": {
-     "support": "unknown",
-     "answer": "Export: The November first-party documentation and repository pass did not establish per-task api and compute cost at the rubric's required scope. No installed-product fixture was run.",
-     "evidenceIds": []
+     "support": "supported",
+     "answer": "GET /v1/spend/export returns spend rows with an export token.",
+     "evidenceIds": [
+      "b06-spend-report"
+     ]
     },
     "drilldown": {
-     "support": "unknown",
-     "answer": "Drilldown: The November first-party documentation and repository pass did not establish per-task api and compute cost at the rubric's required scope. No installed-product fixture was run.",
-     "evidenceIds": []
+     "support": "supported",
+     "answer": "Day or week series drill into person, scope, cron, model and live versus background spend.",
+     "evidenceIds": [
+      "b06-spend-report"
+     ]
     }
    },
-   "limitations": [],
-   "unknownReason": "The November first-party documentation and repository pass did not establish per-task api and compute cost at the rubric's required scope. No installed-product fixture was run.",
-   "evidenceIds": [],
-   "checkedAt": "2026-11-07",
-   "nextReviewAt": "2026-11-21",
-   "researcher": "researcher-75",
-   "publication": "internal-only",
+   "limitations": [
+    "Source inspection of v0.1.18 spend code; no deployment or billing reconciliation was run."
+   ],
+   "unknownReason": "Unknown after the 2026-11-21 backfill re-verification of first-party sources and public code: task_cost, child_cost, epic_cost, harness_aggregation, subscription_allowance, provider_reconciliation, compute_cost, refresh_delay. Earlier pass: See unknown atomic answers for the source and test gaps.",
+   "evidenceIds": [
+    "b06-spend-report",
+    "b06-rel-0116",
+    "b06-spend-ui",
+    "b06-cost-calc",
+    "b06-spend-limits"
+   ],
+   "checkedAt": "2026-11-21",
+   "nextReviewAt": "2027-03-21",
+   "researcher": "researcher-ade-128",
+   "publication": "public-candidate",
    "review": null,
    "contradictions": []
   },
@@ -2959,7 +3015,7 @@
      "core",
      "desktop"
     ],
-    "version": "First-party sources checked 2026-11-07; pinned implementations retain their cited revision.",
+    "version": "First-party sources checked 2026-11-07; pinned implementations retain their cited revision.; v0.1.18 (9c20219, 2026-11-11) for backfilled atoms",
     "plan": null,
     "os": [],
     "executionModes": [],
@@ -2975,9 +3031,11 @@
      ]
     },
     "project_roles": {
-     "support": "unknown",
-     "answer": "Project roles: The November first-party documentation and repository pass did not establish roles and access boundaries at the rubric's required scope. No installed-product fixture was run.",
-     "evidenceIds": []
+     "support": "partial",
+     "answer": "Fixed owner and member roles: members add members and set the icon; only the owner removes members or renames; no configurable roles.",
+     "evidenceIds": [
+      "b06-projects"
+     ]
     },
     "task_roles": {
      "support": "unknown",
@@ -3013,9 +3071,12 @@
      ]
     },
     "revocation": {
-     "support": "unknown",
-     "answer": "Revocation: The November first-party documentation and repository pass did not establish roles and access boundaries at the rubric's required scope. No installed-product fixture was run.",
-     "evidenceIds": []
+     "support": "supported",
+     "answer": "An admin previews or applies one-step offboarding; each step is audited and reactivation exists.",
+     "evidenceIds": [
+      "b06-offboard",
+      "b06-rel-0116"
+     ]
     },
     "plan_scope": {
      "support": "unknown",
@@ -3026,21 +3087,20 @@
    "limitations": [
     "The remaining atomic questions and the rubric scenario are unverified. Documentation is not a successful product test."
    ],
-   "unknownReason": "See unknown atomic answers for the source and test gaps.",
+   "unknownReason": "Unknown after the 2026-11-21 backfill re-verification of first-party sources and public code: task_roles, provisioning, plan_scope. Earlier pass: See unknown atomic answers for the source and test gaps.",
    "evidenceIds": [
     "nov07-readme",
     "nov07-projects",
-    "gap-oidc"
+    "gap-oidc",
+    "b06-projects",
+    "b06-offboard",
+    "b06-rel-0116"
    ],
    "checkedAt": "2026-11-07",
    "nextReviewAt": "2026-12-07",
-   "researcher": "researcher-65",
-   "publication": "public-reviewed",
-   "review": {
-    "reviewer": "reviewer-51",
-    "date": "2026-11-07",
-    "contentHash": "b1ff3be277b9dbd75eb2f7eacc903a11a27c914eda762b9d2526174089bbbf3a"
-   },
+   "researcher": "researcher-ade-128",
+   "publication": "public-candidate",
+   "review": null,
    "contradictions": []
   },
   {
@@ -3189,7 +3249,7 @@
      "core",
      "web"
     ],
-    "version": "First-party documentation/source checked 2026-11-07; exact pinned source revision is recorded in each citation. No installed-product fixture.",
+    "version": "First-party documentation/source checked 2026-11-07; exact pinned source revision is recorded in each citation. No installed-product fixture.; v0.1.18 (9c20219, 2026-11-11) for backfilled atoms",
     "plan": null,
     "os": [],
     "executionModes": [],
@@ -3198,9 +3258,12 @@
    },
    "subanswers": {
     "actions": {
-     "support": "unknown",
-     "answer": "Actions: The November first-party documentation and repository pass did not establish decision and activity history at the rubric's required scope. No installed-product fixture was run.",
-     "evidenceIds": []
+     "support": "supported",
+     "answer": "Every tool call is committed to the session item log, and an audit log records approvals, security flags, credentials, connectors, sharing, sandbox, session and admin actions for admins.",
+     "evidenceIds": [
+      "b06-audit",
+      "b06-readme"
+     ]
     },
     "approvals": {
      "support": "unknown",
@@ -3264,19 +3327,17 @@
    "limitations": [
     "Only the named atomic facts are established by documentation. Remaining rubric scenarios and unknown answers were not demonstrated."
    ],
-   "unknownReason": "Remaining unknown atomic answers were checked against the first-party locations in context.gapFillReview. Sources did not establish those answers; no installed-product fixture was run.",
+   "unknownReason": "Unknown after the 2026-11-21 backfill re-verification of first-party sources and public code: approvals, edits, decisions, cross_user_persistence, retention, integrity. Earlier pass: Remaining unknown atomic answers were checked against the first-party locations in context.gapFillReview. Sources did not establish those answers; no installed-product fixture was run.",
    "evidenceIds": [
-    "gap-share"
+    "gap-share",
+    "b06-audit",
+    "b06-readme"
    ],
    "checkedAt": "2026-11-07",
    "nextReviewAt": "2026-12-07",
-   "researcher": "researcher-65",
-   "publication": "public-reviewed",
-   "review": {
-    "reviewer": "reviewer-51",
-    "date": "2026-11-07",
-    "contentHash": "c49a5b4e67de2700fe32bfa1f688d849041a09868d327c1e508f6a54e3c5ae78"
-   },
+   "researcher": "researcher-ade-128",
+   "publication": "public-candidate",
+   "review": null,
    "contradictions": []
   },
   {
@@ -3499,7 +3560,7 @@
      "core",
      "web"
     ],
-    "version": "First-party documentation/source checked 2026-11-07; exact pinned source revision is recorded in each citation. No installed-product fixture.",
+    "version": "First-party documentation/source checked 2026-11-07; exact pinned source revision is recorded in each citation. No installed-product fixture.; v0.1.18 (9c20219, 2026-11-11) for backfilled atoms",
     "plan": null,
     "os": [],
     "executionModes": [],
@@ -3530,9 +3591,12 @@
      "evidenceIds": []
     },
     "previews": {
-     "support": "unknown",
-     "answer": "Previews: The November first-party documentation and repository pass did not establish retained artifacts and outputs at the rubric's required scope. No installed-product fixture was run.",
-     "evidenceIds": []
+     "support": "partial",
+     "answer": "Agents publish internal web apps visible to the owner and people it is shared with, with optional admin-gated public links; no per-change preview deployment of a repository is documented.",
+     "evidenceIds": [
+      "b06-apps",
+      "b06-readme"
+     ]
     },
     "test_outputs": {
      "support": "unknown",
@@ -3582,19 +3646,17 @@
    "limitations": [
     "Only the named atomic facts are established by documentation. Remaining rubric scenarios and unknown answers were not demonstrated."
    ],
-   "unknownReason": "Remaining unknown atomic answers were checked against the first-party locations in context.gapFillReview. Sources did not establish those answers; no installed-product fixture was run.",
+   "unknownReason": "Unknown after the 2026-11-21 backfill re-verification of first-party sources and public code: diffs, screenshots, recordings, test_outputs, reviewer_outputs, gallery, revision_links, child_findings, prompt_leakage. Earlier pass: Remaining unknown atomic answers were checked against the first-party locations in context.gapFillReview. Sources did not establish those answers; no installed-product fixture was run.",
    "evidenceIds": [
-    "gap-files"
+    "gap-files",
+    "b06-apps",
+    "b06-readme"
    ],
    "checkedAt": "2026-11-07",
    "nextReviewAt": "2026-12-07",
-   "researcher": "reviewer-51",
-   "publication": "public-reviewed",
-   "review": {
-    "reviewer": "reviewer-03",
-    "date": "2026-11-10",
-    "contentHash": "822d29caedc0cff9680700104a72bbbd247c123155c3115c23fdba90d3d7a646"
-   },
+   "researcher": "researcher-ade-128",
+   "publication": "public-candidate",
+   "review": null,
    "contradictions": []
   },
   {
@@ -4005,7 +4067,7 @@
   {
    "id": "qm:OWN-01",
    "criterionId": "OWN-01",
-   "answer": "QM repository is MIT.",
+   "answer": "QM repository is MIT. The headless core server is in the same MIT repository.",
    "support": "partial",
    "availability": "generally-available",
    "delivery": "native",
@@ -4016,7 +4078,7 @@
      "core",
      "desktop"
     ],
-    "version": "First-party sources checked 2026-11-07; pinned implementations retain their cited revision.",
+    "version": "First-party sources checked 2026-11-07; pinned implementations retain their cited revision.; v0.1.18 (9c20219, 2026-11-11) for backfilled atoms",
     "plan": null,
     "os": [],
     "executionModes": [],
@@ -4032,9 +4094,11 @@
      ]
     },
     "server_license": {
-     "support": "unknown",
-     "answer": "Server license: The November first-party documentation and repository pass did not establish source and license at the rubric's required scope. No installed-product fixture was run.",
-     "evidenceIds": []
+     "support": "supported",
+     "answer": "MIT: the headless core (src/) ships in the same MIT-licensed repository as the CLI and clients.",
+     "evidenceIds": [
+      "b06-license"
+     ]
     },
     "hosted_extensions": {
      "support": "unknown",
@@ -4064,19 +4128,16 @@
    "limitations": [
     "The remaining atomic questions and the rubric scenario are unverified. Documentation is not a successful product test."
    ],
-   "unknownReason": "See unknown atomic answers for the source and test gaps.",
+   "unknownReason": "Unknown after the 2026-11-21 backfill re-verification of first-party sources and public code: hosted_extensions, hosted_parity. Earlier pass: See unknown atomic answers for the source and test gaps.",
    "evidenceIds": [
-    "nov07-license"
+    "nov07-license",
+    "b06-license"
    ],
    "checkedAt": "2026-11-07",
    "nextReviewAt": "2027-02-05",
-   "researcher": "researcher-75",
-   "publication": "public-reviewed",
-   "review": {
-    "reviewer": "reviewer-46",
-    "date": "2026-11-07",
-    "contentHash": "a58bc8aa098d4a75e91cdbea097c6728a015693b9c7254729d4ea145eac88034"
-   },
+   "researcher": "researcher-ade-128",
+   "publication": "public-candidate",
+   "review": null,
    "contradictions": []
   },
   {
@@ -4093,7 +4154,7 @@
      "core",
      "desktop"
     ],
-    "version": "First-party sources checked 2026-11-07; pinned implementations retain their cited revision.",
+    "version": "First-party sources checked 2026-11-07; pinned implementations retain their cited revision.; v0.1.18 (9c20219, 2026-11-11) for backfilled atoms",
     "plan": null,
     "os": [],
     "executionModes": [],
@@ -4142,9 +4203,11 @@
      "evidenceIds": []
     },
     "account_independence": {
-     "support": "unknown",
-     "answer": "Account independence: The November first-party documentation and repository pass did not establish hosting and exit at the rubric's required scope. No installed-product fixture was run.",
-     "evidenceIds": []
+     "support": "supported",
+     "answer": "Setup uses the operator's own cloud account, email sender and identity provider; no QM or YC vendor account is part of deployment.",
+     "evidenceIds": [
+      "b06-getting-started"
+     ]
     },
     "history_portability": {
      "support": "unknown",
@@ -4156,21 +4219,18 @@
     "The remaining atomic questions and the rubric scenario are unverified. Documentation is not a successful product test.",
     "Only the named atomic facts are established by documentation. Remaining rubric scenarios and unknown answers were not demonstrated."
    ],
-   "unknownReason": "Remaining unknown atomic answers were checked against the first-party locations in context.gapFillReview. Sources did not establish those answers; no installed-product fixture was run.",
+   "unknownReason": "Unknown after the 2026-11-21 backfill re-verification of first-party sources and public code: import, cancellation, history_portability. Earlier pass: Remaining unknown atomic answers were checked against the first-party locations in context.gapFillReview. Sources did not establish those answers; no installed-product fixture was run.",
    "evidenceIds": [
     "nov07-readme",
     "gap-files",
-    "gap-share"
+    "gap-share",
+    "b06-getting-started"
    ],
    "checkedAt": "2026-11-07",
    "nextReviewAt": "2026-12-07",
-   "researcher": "reviewer-51",
-   "publication": "public-reviewed",
-   "review": {
-    "reviewer": "reviewer-03",
-    "date": "2026-11-10",
-    "contentHash": "793e50acd2a64d3be81dc509861aa2a785ed16ab065ebb0939fc089668ee3699"
-   },
+   "researcher": "researcher-ade-128",
+   "publication": "public-candidate",
+   "review": null,
    "contradictions": []
   },
   {
@@ -4185,7 +4245,7 @@
      "core",
      "web"
     ],
-    "version": "First-party documentation/source checked 2026-11-07; exact pinned source revision is recorded in each citation. No installed-product fixture.",
+    "version": "First-party documentation/source checked 2026-11-07; exact pinned source revision is recorded in each citation. No installed-product fixture.; v0.1.18 (9c20219, 2026-11-11) for backfilled atoms",
     "plan": null,
     "os": [],
     "executionModes": [],
@@ -4194,9 +4254,12 @@
    },
    "subanswers": {
     "code_data": {
-     "support": "unknown",
-     "answer": "Code data: The November first-party documentation and repository pass did not establish data handling and telemetry at the rubric's required scope. No installed-product fixture was run.",
-     "evidenceIds": []
+     "support": "partial",
+     "answer": "Conversation, memory, files and workspace data live in the operator's Postgres, object storage and sandboxes; model and browser providers receive what is sent to them. Hosted third-party options are outside this scope.",
+     "evidenceIds": [
+      "b06-security",
+      "b06-readme"
+     ]
     },
     "prompts": {
      "support": "unknown",
@@ -4284,21 +4347,19 @@
    "limitations": [
     "Only the named atomic facts are established by documentation. Remaining rubric scenarios and unknown answers were not demonstrated."
    ],
-   "unknownReason": "Remaining unknown atomic answers were checked against the first-party locations in context.gapFillReview. Sources did not establish those answers; no installed-product fixture was run.",
+   "unknownReason": "Unknown after the 2026-11-21 backfill re-verification of first-party sources and public code: prompts, credentials, artifacts, retention, deletion, training, residency, subprocessors, consent_prompt. Earlier pass: Remaining unknown atomic answers were checked against the first-party locations in context.gapFillReview. Sources did not establish those answers; no installed-product fixture was run.",
    "evidenceIds": [
     "gap-web",
     "gap-errors",
-    "nov07-readme"
+    "nov07-readme",
+    "b06-security",
+    "b06-readme"
    ],
    "checkedAt": "2026-11-07",
    "nextReviewAt": "2026-12-07",
-   "researcher": "reviewer-51",
-   "publication": "public-reviewed",
-   "review": {
-    "reviewer": "reviewer-03",
-    "date": "2026-11-10",
-    "contentHash": "f6909c70c0c8dd2473ec06af5d3332f7873219db6751d3155ef392261483ab8f"
-   },
+   "researcher": "researcher-ade-128",
+   "publication": "public-candidate",
+   "review": null,
    "contradictions": []
   },
   {
@@ -4493,7 +4554,7 @@
   {
    "id": "qm:OWN-06",
    "criterionId": "OWN-06",
-   "answer": "QM is distributed as an MIT-licensed npm package and source for operator-run deployment; README links a separate third-party hosted version.",
+   "answer": "QM is distributed as an MIT-licensed npm package and source for operator-run deployment; README links a separate third-party hosted version. Pre-1.0 releases ship weekly; v0.1.16 removed legacy harnesses, storage and settings.",
    "support": "partial",
    "availability": "unknown",
    "delivery": "unknown",
@@ -4502,7 +4563,7 @@
      "core",
      "web"
     ],
-    "version": "First-party documentation/source checked 2026-11-07; exact pinned source revision is recorded in each citation. No installed-product fixture.",
+    "version": "First-party documentation/source checked 2026-11-07; exact pinned source revision is recorded in each citation. No installed-product fixture.; v0.1.18 (9c20219, 2026-11-11) for backfilled atoms",
     "plan": null,
     "os": [],
     "executionModes": [],
@@ -4511,9 +4572,13 @@
    },
    "subanswers": {
     "release_stage": {
-     "support": "unknown",
-     "answer": "Release stage: The November first-party documentation and repository pass did not establish availability and support at the rubric's required scope. No installed-product fixture was run.",
-     "evidenceIds": []
+     "support": "partial",
+     "answer": "Pre-1.0 (0.1.x) releases with breaking changes in v0.1.16; SECURITY.md calls QM early, experimental software.",
+     "evidenceIds": [
+      "b06-rel-0118",
+      "b06-rel-0116",
+      "b06-security"
+     ]
     },
     "access_restrictions": {
      "support": "supported",
@@ -4535,9 +4600,11 @@
      "evidenceIds": []
     },
     "release_activity": {
-     "support": "unknown",
-     "answer": "Release activity: The November first-party documentation and repository pass did not establish availability and support at the rubric's required scope. No installed-product fixture was run.",
-     "evidenceIds": []
+     "support": "supported",
+     "answer": "Stable v0.1.16 (2026-11-04), v0.1.17 (2026-11-10), v0.1.18 (2026-11-11); prereleases v0.1.19 (2026-11-12) and desktop-v0.1.6 (2026-11-06).",
+     "evidenceIds": [
+      "b06-rel-0118"
+     ]
     },
     "status_history": {
      "support": "unknown",
@@ -4545,9 +4612,11 @@
      "evidenceIds": []
     },
     "deprecation": {
-     "support": "unknown",
-     "answer": "Deprecation: The November first-party documentation and repository pass did not establish availability and support at the rubric's required scope. No installed-product fixture was run.",
-     "evidenceIds": []
+     "support": "supported",
+     "answer": "v0.1.16 release notes list breaking removals: multiple harnesses, non-Postgres storage and several legacy features and settings.",
+     "evidenceIds": [
+      "b06-rel-0116"
+     ]
     },
     "export_options": {
      "support": "unknown",
@@ -4558,19 +4627,18 @@
    "limitations": [
     "Only the named atomic facts are established by documentation. Remaining rubric scenarios and unknown answers were not demonstrated."
    ],
-   "unknownReason": "Remaining unknown atomic answers were checked against the first-party locations in context.gapFillReview. Sources did not establish those answers; no installed-product fixture was run.",
+   "unknownReason": "Unknown after the 2026-11-21 backfill re-verification of first-party sources and public code: response_commitments, status_history, export_options. Earlier pass: Remaining unknown atomic answers were checked against the first-party locations in context.gapFillReview. Sources did not establish those answers; no installed-product fixture was run.",
    "evidenceIds": [
-    "nov07-readme"
+    "nov07-readme",
+    "b06-rel-0118",
+    "b06-rel-0116",
+    "b06-security"
    ],
    "checkedAt": "2026-11-07",
    "nextReviewAt": "2026-11-21",
-   "researcher": "reviewer-51",
-   "publication": "public-reviewed",
-   "review": {
-    "reviewer": "reviewer-03",
-    "date": "2026-11-10",
-    "contentHash": "1c5814a59ead093aa9369d0e4b11717f2d523a984505ca6f66bae48e5bd7ff58"
-   },
+   "researcher": "researcher-ade-128",
+   "publication": "public-candidate",
+   "review": null,
    "contradictions": []
   },
   {
@@ -5259,6 +5327,344 @@
    "visibility": "public",
    "commit": "1c61ee3bf3b6460d14e39a90a1f53fdef1c81610",
    "path": "src/api/app.ts"
+  },
+  {
+   "id": "b06-readme",
+   "kind": "documented",
+   "url": "https://github.com/yc-software/qm/blob/9c202190be23f8cc042f27ac1e59a5b4feb47d62/README.md",
+   "title": "QM README (v0.1.18)",
+   "locator": "Setup; Features; Architecture; How it works; Security and secrets",
+   "sourceDate": "2026-11-11",
+   "retrievedAt": "2026-11-21",
+   "finding": "Headless core (API, identity, policy, scheduler) runs the Pi agent loop for every turn against Postgres and per-scope sandboxes. Setup: an agent follows the deployment guide; DigitalOcean, E2B and Render offer one-click templates; Agent 37 is a third-party fully hosted option; YC offers an interest form for a hosted version, not a service. Features: web apps published to chosen people, skill packs imported from git, crons, watches and inbound webhooks. Auto posture (default) blocks private-network access; the agent acts as the person and its actions are audited. Org config, custom tools, skills and sandbox image live in a deployment directory.",
+   "visibility": "public",
+   "commit": null,
+   "path": null
+  },
+  {
+   "id": "b06-license",
+   "kind": "source-inspected",
+   "url": "https://github.com/yc-software/qm/blob/9c202190be23f8cc042f27ac1e59a5b4feb47d62/LICENSE",
+   "title": "QM LICENSE and repository layout (v0.1.18)",
+   "locator": "LICENSE; src/ core; cli/; plugins/",
+   "sourceDate": "2026-11-11",
+   "retrievedAt": "2026-11-21",
+   "finding": "LICENSE is MIT (QM contributors). The headless core (src/), deployment CLI (cli/), web UI and Slack plugins (plugins/), desktop/ and ios/ clients sit in the same repository with no separate license file.",
+   "visibility": "public",
+   "commit": "9c202190be23f8cc042f27ac1e59a5b4feb47d62",
+   "path": "LICENSE"
+  },
+  {
+   "id": "b06-rel-0116",
+   "kind": "documented",
+   "url": "https://github.com/yc-software/qm/releases/tag/v0.1.16",
+   "title": "QM v0.1.16 release notes",
+   "locator": "Highlights",
+   "sourceDate": "2026-11-04",
+   "retrievedAt": "2026-11-21",
+   "finding": "Spend visibility (people see what their work costs; admins set spend caps), one-step offboarding, and Breaking: one agent harness (Claude via Pi), Postgres-only storage, several legacy features and settings removed.",
+   "visibility": "public",
+   "commit": null,
+   "path": null
+  },
+  {
+   "id": "b06-rel-0118",
+   "kind": "documented",
+   "url": "https://github.com/yc-software/qm/releases/tag/v0.1.18",
+   "title": "QM v0.1.18 release notes",
+   "locator": "Release list and What's Changed",
+   "sourceDate": "2026-11-11",
+   "retrievedAt": "2026-11-21",
+   "finding": "v0.1.18 (2026-11-11) is the latest stable release after v0.1.17 (2026-11-10) and v0.1.16 (2026-11-04); v0.1.19 (2026-11-12) and desktop-v0.1.6 (2026-11-06, Apple Silicon) are prereleases. Versions remain pre-1.0.",
+   "visibility": "public",
+   "commit": null,
+   "path": null
+  },
+  {
+   "id": "b06-harness-migration",
+   "kind": "source-inspected",
+   "url": "https://github.com/yc-software/qm/blob/9c202190be23f8cc042f27ac1e59a5b4feb47d62/src/wiring.ts#L2044-L2051",
+   "title": "QM migration runtime/0002-drop-harness-choice (v0.1.18)",
+   "locator": "runtime/0002-drop-harness-choice, lines 2044-2051",
+   "sourceDate": "2026-11-11",
+   "retrievedAt": "2026-11-21",
+   "finding": "A runtime migration drops approved_harness_configs and strips harnessId from model, cron, subagent, fallback and swarm configs: there is no per-run harness choice; every turn uses the built-in Pi coding agent.",
+   "visibility": "public",
+   "commit": "9c202190be23f8cc042f27ac1e59a5b4feb47d62",
+   "path": "src/wiring.ts"
+  },
+  {
+   "id": "b06-cli",
+   "kind": "source-inspected",
+   "url": "https://github.com/yc-software/qm/blob/9c202190be23f8cc042f27ac1e59a5b4feb47d62/cli/src/cli.ts",
+   "title": "QM deployment CLI commands (v0.1.18)",
+   "locator": "command switch",
+   "sourceDate": "2026-11-11",
+   "retrievedAt": "2026-11-21",
+   "finding": "qm commands are deployment and operations only: init, check, config, infra, plan, up, down, status, logs, migrate, secrets, tenant, sandbox, layer, ui, slack, outputs, rollback, doctor, admin-login. No command starts or steers agent work; that uses the core HTTP API.",
+   "visibility": "public",
+   "commit": "9c202190be23f8cc042f27ac1e59a5b4feb47d62",
+   "path": "cli/src/cli.ts"
+  },
+  {
+   "id": "b06-webhooks",
+   "kind": "source-inspected",
+   "url": "https://github.com/yc-software/qm/blob/9c202190be23f8cc042f27ac1e59a5b4feb47d62/src/api/routes/webhooks.ts#L205-L235",
+   "title": "QM webhook routes (v0.1.18)",
+   "locator": "route table, lines 205-235",
+   "sourceDate": "2026-11-11",
+   "retrievedAt": "2026-11-21",
+   "finding": "POST /v1/webhooks creates a webhook for a person; POST /v1/webhooks/incoming/:id receives verified deliveries that wake an agent turn; list, events and update routes exist.",
+   "visibility": "public",
+   "commit": "9c202190be23f8cc042f27ac1e59a5b4feb47d62",
+   "path": "src/api/routes/webhooks.ts"
+  },
+  {
+   "id": "b06-deploy-dir",
+   "kind": "documented",
+   "url": "https://github.com/yc-software/qm/blob/9c202190be23f8cc042f27ac1e59a5b4feb47d62/docs/deploy-directory.md",
+   "title": "QM docs: Deployment directory contract (v0.1.18)",
+   "locator": "Layout; Tool descriptors; Delivery and pins; Sandbox egress proxy",
+   "sourceDate": "2026-11-11",
+   "retrievedAt": "2026-11-21",
+   "finding": "sandbox/tools/<id>/tool.json plus binaries add custom tools and sandbox/skills/<id>/SKILL.md adds skills; plugins/ adds services. qm up syncs them to core as a versioned, audited deployment layer. An optional egress-proxy service forces sandbox traffic through a proxy that relays audit records, except exempt backends.",
+   "visibility": "public",
+   "commit": null,
+   "path": null
+  },
+  {
+   "id": "b06-skill-registry",
+   "kind": "documented",
+   "url": "https://github.com/yc-software/qm/blob/9c202190be23f8cc042f27ac1e59a5b4feb47d62/docs/skill-registry.md",
+   "title": "QM docs: Skill registry (v0.1.18)",
+   "locator": "overview; Admin API",
+   "sourceDate": "2026-11-11",
+   "retrievedAt": "2026-11-21",
+   "finding": "An org admin registers a git repository of SKILL.md files as a pack at a pinned ref, browses it and imports eligible skills into chosen scopes; updates bump the ref and re-import; admin routes are audited.",
+   "visibility": "public",
+   "commit": null,
+   "path": null
+  },
+  {
+   "id": "b06-desktop",
+   "kind": "documented",
+   "url": "https://github.com/yc-software/qm/blob/9c202190be23f8cc042f27ac1e59a5b4feb47d62/desktop/README.md",
+   "title": "QM desktop README (v0.1.18)",
+   "locator": "intro; Browser sign-in",
+   "sourceDate": "2026-11-11",
+   "retrievedAt": "2026-11-21",
+   "finding": "Electron client for an existing QM web deployment that runs the same web UI in a sandboxed window; does not bundle the backend. The macOS build is an unsigned local prototype.",
+   "visibility": "public",
+   "commit": null,
+   "path": null
+  },
+  {
+   "id": "b06-ios",
+   "kind": "documented",
+   "url": "https://github.com/yc-software/qm/blob/9c202190be23f8cc042f27ac1e59a5b4feb47d62/ios/README.md",
+   "title": "QM for iOS README (v0.1.18)",
+   "locator": "intro; Portal sign-in",
+   "sourceDate": "2026-11-11",
+   "retrievedAt": "2026-11-21",
+   "finding": "iOS 18+ SwiftUI client; product screens, navigation, editors and conversation controls are native, with no embedded WebKit product UI; uses existing authenticated APIs and runs no agent on the phone. Built from source with Xcode.",
+   "visibility": "public",
+   "commit": null,
+   "path": null
+  },
+  {
+   "id": "b06-crons",
+   "kind": "source-inspected",
+   "url": "https://github.com/yc-software/qm/blob/9c202190be23f8cc042f27ac1e59a5b4feb47d62/src/cron/schedule.ts",
+   "title": "QM cron schedules and routes (v0.1.18)",
+   "locator": "normalizeSchedule; src/api/routes/crons.ts route table; src/cron/scheduler.ts createScheduler",
+   "sourceDate": "2026-11-11",
+   "retrievedAt": "2026-11-21",
+   "finding": "Crons take a cron expression with timezone, an everyMs interval or a first-fire time; the core scheduler fires them on the deployment without a client; /v1/crons creates and lists them.",
+   "visibility": "public",
+   "commit": "9c202190be23f8cc042f27ac1e59a5b4feb47d62",
+   "path": "src/cron/schedule.ts"
+  },
+  {
+   "id": "b06-getting-started",
+   "kind": "documented",
+   "url": "https://github.com/yc-software/qm/blob/9c202190be23f8cc042f27ac1e59a5b4feb47d62/docs/getting-started.md",
+   "title": "QM docs: Deploy QM for an organization (v0.1.18)",
+   "locator": "intro",
+   "sourceDate": "2026-11-11",
+   "retrievedAt": "2026-11-21",
+   "finding": "qm init creates a deployment directory from the npm package in an operator-owned repository; the agent confirms the operator's own cloud account and billing; sign-in uses the built-in email auth broker or the operator's identity provider. No QM or YC vendor account is part of setup.",
+   "visibility": "public",
+   "commit": null,
+   "path": null
+  },
+  {
+   "id": "b06-security",
+   "kind": "documented",
+   "url": "https://github.com/yc-software/qm/blob/9c202190be23f8cc042f27ac1e59a5b4feb47d62/SECURITY.md",
+   "title": "QM SECURITY.md (v0.1.18)",
+   "locator": "Assets and actors; Trust boundaries and operator assumptions",
+   "sourceDate": "2026-11-11",
+   "retrievedAt": "2026-11-21",
+   "finding": "Assets include conversation and model request data, memory, files, workspaces and audit records. The operator controls the cloud account, database, object storage, keys and identity provider; model providers receive the prompts and request data sent to them; browser providers receive browser traffic.",
+   "visibility": "public",
+   "commit": null,
+   "path": null
+  },
+  {
+   "id": "b06-loops",
+   "kind": "source-inspected",
+   "url": "https://github.com/yc-software/qm/blob/9c202190be23f8cc042f27ac1e59a5b4feb47d62/src/loops/types.ts",
+   "title": "QM Loop item types (v0.1.18)",
+   "locator": "LoopItemStatus; LoopItemPriority; LoopItemTriage; docs/loop-ingestion.md Preview rollout",
+   "sourceDate": "2026-11-11",
+   "retrievedAt": "2026-11-21",
+   "finding": "Loop (Inbox) items carry status (queued, in_progress, ready, shipped, failed, skipped) and triage priority (urgent, high, normal, low). The inbox_loops feature flag defaults off and gates Inbox and Loops per personal scope.",
+   "visibility": "public",
+   "commit": "9c202190be23f8cc042f27ac1e59a5b4feb47d62",
+   "path": "src/loops/types.ts"
+  },
+  {
+   "id": "b06-task-removal",
+   "kind": "source-inspected",
+   "url": "https://github.com/yc-software/qm/commit/4875193840c214055e224d2fe52dc88e943b9b1f",
+   "title": "QM commit: Remove the run task list (#2274)",
+   "locator": "deleted src/tasks/task-store.ts",
+   "sourceDate": "2026-10-14",
+   "retrievedAt": "2026-11-21",
+   "finding": "The run task list with title, sessionId, originRunId and state was removed on 2026-10-14; v0.1.18 has no src/tasks directory.",
+   "visibility": "public",
+   "commit": "4875193840c214055e224d2fe52dc88e943b9b1f",
+   "path": "src/tasks/task-store.ts"
+  },
+  {
+   "id": "b06-projects",
+   "kind": "source-inspected",
+   "url": "https://github.com/yc-software/qm/blob/9c202190be23f8cc042f27ac1e59a5b4feb47d62/src/projects/project-store.ts#L155-L275",
+   "title": "QM project store roster rules (v0.1.18)",
+   "locator": "mutate, rename, setIcon, lines 155-275",
+   "sourceDate": "2026-11-11",
+   "retrievedAt": "2026-11-21",
+   "finding": "Projects have one owner and members. Any active member can add internal members and set the icon; only the owner can remove members or rename; other actors get forbidden. Roster changes are audited.",
+   "visibility": "public",
+   "commit": "9c202190be23f8cc042f27ac1e59a5b4feb47d62",
+   "path": "src/projects/project-store.ts"
+  },
+  {
+   "id": "b06-posture",
+   "kind": "source-inspected",
+   "url": "https://github.com/yc-software/qm/blob/9c202190be23f8cc042f27ac1e59a5b4feb47d62/src/security/security-posture.ts",
+   "title": "QM security posture policies (v0.1.18)",
+   "locator": "POSTURE_POLICIES",
+   "sourceDate": "2026-11-11",
+   "retrievedAt": "2026-11-21",
+   "finding": "auto (default) denies private networks without tool approvals; strict requires approval for every tool call; dangerous has neither gate. Only auto sets denyPrivateNetworks.",
+   "visibility": "public",
+   "commit": "9c202190be23f8cc042f27ac1e59a5b4feb47d62",
+   "path": "src/security/security-posture.ts"
+  },
+  {
+   "id": "b06-subagents",
+   "kind": "documented",
+   "url": "https://github.com/yc-software/qm/blob/9c202190be23f8cc042f27ac1e59a5b4feb47d62/docs/persistent-subagent-sessions.md",
+   "title": "QM docs: Persistent subagent sessions (v0.1.18)",
+   "locator": "request keys; send_message",
+   "sourceDate": "2026-11-11",
+   "retrievedAt": "2026-11-21",
+   "finding": "Reusing a request key recovers the same child and initial run after a lost receipt; using the key for different work is rejected. Stable call IDs deduplicate message retries.",
+   "visibility": "public",
+   "commit": null,
+   "path": null
+  },
+  {
+   "id": "b06-spend-limits",
+   "kind": "source-inspected",
+   "url": "https://github.com/yc-software/qm/blob/9c202190be23f8cc042f27ac1e59a5b4feb47d62/src/ratelimit/spend-limits.ts",
+   "title": "QM spend limits (v0.1.18)",
+   "locator": "createSpendLimits; spendLimitRefusal; spendLimitNote",
+   "sourceDate": "2026-11-11",
+   "retrievedAt": "2026-11-21",
+   "finding": "Per-scope dailyUsd and monthlyUsd limits with an org per-person default; at the cap new turns are refused with a message until the UTC reset. No threshold alert or notification path exists in the module.",
+   "visibility": "public",
+   "commit": "9c202190be23f8cc042f27ac1e59a5b4feb47d62",
+   "path": "src/ratelimit/spend-limits.ts"
+  },
+  {
+   "id": "b06-spend-report",
+   "kind": "source-inspected",
+   "url": "https://github.com/yc-software/qm/blob/9c202190be23f8cc042f27ac1e59a5b4feb47d62/src/api/routes/admin/spend.ts",
+   "title": "QM spend reports and export (v0.1.18)",
+   "locator": "SpendReport, SpendExportRow, spendExport (line 546), selfSpend (line 643)",
+   "sourceDate": "2026-11-11",
+   "retrievedAt": "2026-11-21",
+   "finding": "Admin and self spend reports give cost, calls and input/output/cache tokens by day or week, broken down by person, scope, cron, model, live versus background; GET /v1/spend/export exports rows with an export token. Reports group by scope and cron, not by individual session.",
+   "visibility": "public",
+   "commit": "9c202190be23f8cc042f27ac1e59a5b4feb47d62",
+   "path": "src/api/routes/admin/spend.ts"
+  },
+  {
+   "id": "b06-spend-ui",
+   "kind": "source-inspected",
+   "url": "https://github.com/yc-software/qm/blob/9c202190be23f8cc042f27ac1e59a5b4feb47d62/plugins/web-ui/src/spend.ts#L163",
+   "title": "QM web UI spend page (v0.1.18)",
+   "locator": "note near line 163",
+   "sourceDate": "2026-11-11",
+   "retrievedAt": "2026-11-21",
+   "finding": "The spend page states that amounts are QM's estimates at each model's list price, so the organization's bill can differ.",
+   "visibility": "public",
+   "commit": "9c202190be23f8cc042f27ac1e59a5b4feb47d62",
+   "path": "plugins/web-ui/src/spend.ts"
+  },
+  {
+   "id": "b06-cost-calc",
+   "kind": "source-inspected",
+   "url": "https://github.com/yc-software/qm/blob/9c202190be23f8cc042f27ac1e59a5b4feb47d62/src/model/model-runtime.ts#L45-L73",
+   "title": "QM per-call cost calculation (v0.1.18)",
+   "locator": "piUsageToCallUsage, lines 45-73",
+   "sourceDate": "2026-11-11",
+   "retrievedAt": "2026-11-21",
+   "finding": "Per-request costUsd is calculated from token usage and the served model's price card (calculateCost), not read from a provider bill.",
+   "visibility": "public",
+   "commit": "9c202190be23f8cc042f27ac1e59a5b4feb47d62",
+   "path": "src/model/model-runtime.ts"
+  },
+  {
+   "id": "b06-apps",
+   "kind": "source-inspected",
+   "url": "https://github.com/yc-software/qm/blob/9c202190be23f8cc042f27ac1e59a5b4feb47d62/src/api/agent-api-catalog.ts#L411-L452",
+   "title": "QM agent API catalog: published apps (v0.1.18)",
+   "locator": "apps publish and deployments share, lines 411-452",
+   "sourceDate": "2026-11-11",
+   "retrievedAt": "2026-11-21",
+   "finding": "Agents publish apps (apps action publish) reachable only by the owner and people it is shared with by scope, teammate or email (view or manage); public links are refused unless an org admin enables external sharing.",
+   "visibility": "public",
+   "commit": "9c202190be23f8cc042f27ac1e59a5b4feb47d62",
+   "path": "src/api/agent-api-catalog.ts"
+  },
+  {
+   "id": "b06-offboard",
+   "kind": "source-inspected",
+   "url": "https://github.com/yc-software/qm/blob/9c202190be23f8cc042f27ac1e59a5b4feb47d62/src/api/routes/admin/offboard.ts",
+   "title": "QM admin offboarding (v0.1.18)",
+   "locator": "offboardUser; admin user offboard POST route (principalId path parameter)",
+   "sourceDate": "2026-11-11",
+   "retrievedAt": "2026-11-21",
+   "finding": "An admin previews or applies offboarding of a user in one call; applied steps are run and each is audited; reactivation exists.",
+   "visibility": "public",
+   "commit": "9c202190be23f8cc042f27ac1e59a5b4feb47d62",
+   "path": "src/api/routes/admin/offboard.ts"
+  },
+  {
+   "id": "b06-audit",
+   "kind": "source-inspected",
+   "url": "https://github.com/yc-software/qm/blob/9c202190be23f8cc042f27ac1e59a5b4feb47d62/src/audit/audit-log.ts",
+   "title": "QM audit log (v0.1.18)",
+   "locator": "AuditEvent; GET /v1/admin/audit; docs/SPEC.md item log",
+   "sourceDate": "2026-11-11",
+   "retrievedAt": "2026-11-21",
+   "finding": "Audit events record actor, action, resource, scope and status for approvals, security flags, credentials, connectors, sharing, sandboxes, sessions and admin changes, read through GET /v1/admin/audit. Every tool call is committed to the session item log.",
+   "visibility": "public",
+   "commit": "9c202190be23f8cc042f27ac1e59a5b4feb47d62",
+   "path": "src/audit/audit-log.ts"
   }
  ],
  "changes": [
@@ -7769,6 +8175,645 @@
     },
     "availabilityScope": {}
    }
+  },
+  {
+   "date": "2026-11-21",
+   "author": "researcher-ade-128",
+   "type": "research-correction",
+   "summary": "2026-11-21 backfill re-verification of 28 inherited legacy leads against pinned QM v0.1.18 (9c20219, 2026-11-11) docs and source and release notes; adds RUN-07 tokens, export and drilldown from the same spend code.",
+   "claimIds": [
+    "qm:ACC-02"
+   ],
+   "before": {
+    "support": "partial",
+    "answer": "The current QM core runs the Pi coding-agent loop. Model/provider subscription choices do not select a Claude Code, Codex or other coding-agent CLI harness.",
+    "checkedAt": "2026-11-07",
+    "nextReviewAt": "2026-12-07",
+    "subanswers": {
+     "session_integration": "unknown",
+     "mixed_harness_operation": "unknown"
+    }
+   },
+   "after": {
+    "support": "partial",
+    "answer": "The current QM core runs the Pi coding-agent loop. Model/provider subscription choices do not select a Claude Code, Codex or other coding-agent CLI harness. Each turn runs Pi inside the QM core; v0.1.16 removed harness choice, so one deployment cannot mix agent harnesses.",
+    "checkedAt": "2026-11-07",
+    "nextReviewAt": "2026-12-07",
+    "subanswers": {
+     "session_integration": "supported",
+     "mixed_harness_operation": "unsupported"
+    }
+   },
+   "evidenceIds": [
+    "b06-readme",
+    "b06-rel-0116",
+    "b06-harness-migration"
+   ]
+  },
+  {
+   "date": "2026-11-21",
+   "author": "researcher-ade-128",
+   "type": "research-correction",
+   "summary": "2026-11-21 backfill re-verification of 28 inherited legacy leads against pinned QM v0.1.18 (9c20219, 2026-11-11) docs and source and release notes; adds RUN-07 tokens, export and drilldown from the same spend code.",
+   "claimIds": [
+    "qm:ACC-04"
+   ],
+   "before": {
+    "support": "partial",
+    "answer": "QM supplies an agent-guided deployment directory and requires Postgres.",
+    "checkedAt": "2026-11-07",
+    "nextReviewAt": "2026-12-07",
+    "subanswers": {
+     "managed_cloud_setup": "unknown"
+    }
+   },
+   "after": {
+    "support": "partial",
+    "answer": "QM supplies an agent-guided deployment directory and requires Postgres. No YC-run hosted service: one-click templates on DigitalOcean, E2B and Render and a third-party hosted option (Agent 37).",
+    "checkedAt": "2026-11-07",
+    "nextReviewAt": "2026-12-07",
+    "subanswers": {
+     "managed_cloud_setup": "partial"
+    }
+   },
+   "evidenceIds": [
+    "b06-readme"
+   ]
+  },
+  {
+   "date": "2026-11-21",
+   "author": "researcher-ade-128",
+   "type": "research-correction",
+   "summary": "2026-11-21 backfill re-verification of 28 inherited legacy leads against pinned QM v0.1.18 (9c20219, 2026-11-11) docs and source and release notes; adds RUN-07 tokens, export and drilldown from the same spend code.",
+   "claimIds": [
+    "qm:ACC-05"
+   ],
+   "before": {
+    "support": "partial",
+    "answer": "Core HTTP APIs and scoped swarm routes provide programmatic operations.",
+    "checkedAt": "2026-11-07",
+    "nextReviewAt": "2026-12-07",
+    "subanswers": {
+     "cli": "unknown",
+     "webhooks": "unknown"
+    }
+   },
+   "after": {
+    "support": "partial",
+    "answer": "Core HTTP APIs and scoped swarm routes provide programmatic operations. The qm CLI handles deployment and operations only; inbound webhooks wake agent turns.",
+    "checkedAt": "2026-11-07",
+    "nextReviewAt": "2026-12-07",
+    "subanswers": {
+     "cli": "partial",
+     "webhooks": "supported"
+    }
+   },
+   "evidenceIds": [
+    "b06-cli",
+    "b06-readme",
+    "b06-webhooks"
+   ]
+  },
+  {
+   "date": "2026-11-21",
+   "author": "researcher-ade-128",
+   "type": "research-correction",
+   "summary": "2026-11-21 backfill re-verification of 28 inherited legacy leads against pinned QM v0.1.18 (9c20219, 2026-11-11) docs and source and release notes; adds RUN-07 tokens, export and drilldown from the same spend code.",
+   "claimIds": [
+    "qm:ACC-06"
+   ],
+   "before": {
+    "support": "partial",
+    "answer": "QM provides administrator-registered HTTP MCP connectors and own-deployment customization.",
+    "checkedAt": "2026-11-07",
+    "nextReviewAt": "2026-12-07",
+    "subanswers": {
+     "custom_tools": "unknown",
+     "plugins": "unknown"
+    }
+   },
+   "after": {
+    "support": "partial",
+    "answer": "QM provides administrator-registered HTTP MCP connectors and own-deployment customization. Deployments add custom tools and skills under sandbox/, services under plugins/, and admins import skill packs from git.",
+    "checkedAt": "2026-11-07",
+    "nextReviewAt": "2026-12-07",
+    "subanswers": {
+     "custom_tools": "supported",
+     "plugins": "supported"
+    }
+   },
+   "evidenceIds": [
+    "b06-deploy-dir",
+    "b06-skill-registry"
+   ]
+  },
+  {
+   "date": "2026-11-21",
+   "author": "researcher-ade-128",
+   "type": "research-correction",
+   "summary": "2026-11-21 backfill re-verification of 28 inherited legacy leads against pinned QM v0.1.18 (9c20219, 2026-11-11) docs and source and release notes; adds RUN-07 tokens, export and drilldown from the same spend code.",
+   "claimIds": [
+    "qm:ACC-07"
+   ],
+   "before": {
+    "support": "partial",
+    "answer": "The web package uses Lit with Vite.",
+    "checkedAt": "2026-11-07",
+    "nextReviewAt": "2027-02-05",
+    "subanswers": {
+     "desktop_implementation": "unknown",
+     "mobile_implementation": "unknown"
+    }
+   },
+   "after": {
+    "support": "partial",
+    "answer": "The web package uses Lit with Vite. Desktop is an Electron shell running the same web UI; iOS is a native SwiftUI client.",
+    "checkedAt": "2026-11-07",
+    "nextReviewAt": "2027-02-05",
+    "subanswers": {
+     "desktop_implementation": "supported",
+     "mobile_implementation": "supported"
+    }
+   },
+   "evidenceIds": [
+    "b06-desktop",
+    "b06-ios"
+   ]
+  },
+  {
+   "date": "2026-11-21",
+   "author": "researcher-ade-128",
+   "type": "research-correction",
+   "summary": "2026-11-21 backfill re-verification of 28 inherited legacy leads against pinned QM v0.1.18 (9c20219, 2026-11-11) docs and source and release notes; adds RUN-07 tokens, export and drilldown from the same spend code.",
+   "claimIds": [
+    "qm:COORD-04"
+   ],
+   "before": {
+    "support": "partial",
+    "answer": "Headless QM crons, watches and webhooks run while users are away.",
+    "checkedAt": "2026-11-07",
+    "nextReviewAt": "2026-12-07",
+    "subanswers": {
+     "recurring_tasks": "unknown"
+    }
+   },
+   "after": {
+    "support": "partial",
+    "answer": "Headless QM crons, watches and webhooks run while users are away.",
+    "checkedAt": "2026-11-07",
+    "nextReviewAt": "2026-12-07",
+    "subanswers": {
+     "recurring_tasks": "supported"
+    }
+   },
+   "evidenceIds": [
+    "b06-crons",
+    "b06-readme"
+   ]
+  },
+  {
+   "date": "2026-11-21",
+   "author": "researcher-ade-128",
+   "type": "research-correction",
+   "summary": "2026-11-21 backfill re-verification of 28 inherited legacy leads against pinned QM v0.1.18 (9c20219, 2026-11-11) docs and source and release notes; adds RUN-07 tokens, export and drilldown from the same spend code.",
+   "claimIds": [
+    "qm:OWN-01"
+   ],
+   "before": {
+    "support": "partial",
+    "answer": "QM repository is MIT.",
+    "checkedAt": "2026-11-07",
+    "nextReviewAt": "2027-02-05",
+    "subanswers": {
+     "server_license": "unknown"
+    }
+   },
+   "after": {
+    "support": "partial",
+    "answer": "QM repository is MIT. The headless core server is in the same MIT repository.",
+    "checkedAt": "2026-11-07",
+    "nextReviewAt": "2027-02-05",
+    "subanswers": {
+     "server_license": "supported"
+    }
+   },
+   "evidenceIds": [
+    "b06-license"
+   ]
+  },
+  {
+   "date": "2026-11-21",
+   "author": "researcher-ade-128",
+   "type": "research-correction",
+   "summary": "2026-11-21 backfill re-verification of 28 inherited legacy leads against pinned QM v0.1.18 (9c20219, 2026-11-11) docs and source and release notes; adds RUN-07 tokens, export and drilldown from the same spend code.",
+   "claimIds": [
+    "qm:OWN-02"
+   ],
+   "before": {
+    "support": "partial",
+    "answer": "QM supports own-cloud deployment and durable Files/share outputs separate from sandbox lifetime.",
+    "checkedAt": "2026-11-07",
+    "nextReviewAt": "2026-12-07",
+    "subanswers": {
+     "account_independence": "unknown"
+    }
+   },
+   "after": {
+    "support": "partial",
+    "answer": "QM supports own-cloud deployment and durable Files/share outputs separate from sandbox lifetime.",
+    "checkedAt": "2026-11-07",
+    "nextReviewAt": "2026-12-07",
+    "subanswers": {
+     "account_independence": "supported"
+    }
+   },
+   "evidenceIds": [
+    "b06-getting-started"
+   ]
+  },
+  {
+   "date": "2026-11-21",
+   "author": "researcher-ade-128",
+   "type": "research-correction",
+   "summary": "2026-11-21 backfill re-verification of 28 inherited legacy leads against pinned QM v0.1.18 (9c20219, 2026-11-11) docs and source and release notes; adds RUN-07 tokens, export and drilldown from the same spend code.",
+   "claimIds": [
+    "qm:OWN-03"
+   ],
+   "before": {
+    "support": "partial",
+    "answer": "QM telemetry is deployment-configured with separate analytics and backend/browser error controls.",
+    "checkedAt": "2026-11-07",
+    "nextReviewAt": "2026-12-07",
+    "subanswers": {
+     "code_data": "unknown"
+    }
+   },
+   "after": {
+    "support": "partial",
+    "answer": "QM telemetry is deployment-configured with separate analytics and backend/browser error controls.",
+    "checkedAt": "2026-11-07",
+    "nextReviewAt": "2026-12-07",
+    "subanswers": {
+     "code_data": "partial"
+    }
+   },
+   "evidenceIds": [
+    "b06-security",
+    "b06-readme"
+   ]
+  },
+  {
+   "date": "2026-11-21",
+   "author": "researcher-ade-128",
+   "type": "research-correction",
+   "summary": "2026-11-21 backfill re-verification of 28 inherited legacy leads against pinned QM v0.1.18 (9c20219, 2026-11-11) docs and source and release notes; adds RUN-07 tokens, export and drilldown from the same spend code.",
+   "claimIds": [
+    "qm:OWN-06"
+   ],
+   "before": {
+    "support": "partial",
+    "answer": "QM is distributed as an MIT-licensed npm package and source for operator-run deployment; README links a separate third-party hosted version.",
+    "checkedAt": "2026-11-07",
+    "nextReviewAt": "2026-11-21",
+    "subanswers": {
+     "release_activity": "unknown",
+     "release_stage": "unknown",
+     "deprecation": "unknown"
+    }
+   },
+   "after": {
+    "support": "partial",
+    "answer": "QM is distributed as an MIT-licensed npm package and source for operator-run deployment; README links a separate third-party hosted version. Pre-1.0 releases ship weekly; v0.1.16 removed legacy harnesses, storage and settings.",
+    "checkedAt": "2026-11-07",
+    "nextReviewAt": "2026-11-21",
+    "subanswers": {
+     "release_activity": "supported",
+     "release_stage": "partial",
+     "deprecation": "supported"
+    }
+   },
+   "evidenceIds": [
+    "b06-rel-0118",
+    "b06-rel-0116",
+    "b06-security"
+   ]
+  },
+  {
+   "date": "2026-11-21",
+   "author": "researcher-ade-128",
+   "type": "research-correction",
+   "summary": "2026-11-21 backfill re-verification of 28 inherited legacy leads against pinned QM v0.1.18 (9c20219, 2026-11-11) docs and source and release notes; adds RUN-07 tokens, export and drilldown from the same spend code.",
+   "claimIds": [
+    "qm:PLAN-06"
+   ],
+   "before": {
+    "support": "partial",
+    "answer": "The current QM API and web UI expose conversations/runs, schedules and approvals without a native independent issue tracker.",
+    "checkedAt": "2026-11-13",
+    "nextReviewAt": "2027-03-13",
+    "subanswers": {
+     "metadata": "unknown"
+    }
+   },
+   "after": {
+    "support": "partial",
+    "answer": "The current QM API and web UI expose conversations/runs, schedules and approvals without a native independent issue tracker. The run task list was removed in October 2026; preview Loop items carry status and triage priority.",
+    "checkedAt": "2026-11-13",
+    "nextReviewAt": "2027-03-13",
+    "subanswers": {
+     "metadata": "partial"
+    }
+   },
+   "evidenceIds": [
+    "b06-task-removal",
+    "b06-loops"
+   ]
+  },
+  {
+   "date": "2026-11-21",
+   "author": "researcher-ade-128",
+   "type": "research-correction",
+   "summary": "2026-11-21 backfill re-verification of 28 inherited legacy leads against pinned QM v0.1.18 (9c20219, 2026-11-11) docs and source and release notes; adds RUN-07 tokens, export and drilldown from the same spend code.",
+   "claimIds": [
+    "qm:RUN-01"
+   ],
+   "before": {
+    "support": "partial",
+    "answer": "QM runs its headless core and agent resources on operator infrastructure. In addition to operator-cloud deployments, a local Docker sandbox provider runs tools on an operator computer; cloud-owned core work is independent of browser clients.",
+    "checkedAt": "2026-11-07",
+    "nextReviewAt": "2026-12-07",
+    "subanswers": {
+     "managed_cloud": "unknown"
+    }
+   },
+   "after": {
+    "support": "partial",
+    "answer": "QM runs its headless core and agent resources on operator infrastructure. In addition to operator-cloud deployments, a local Docker sandbox provider runs tools on an operator computer; cloud-owned core work is independent of browser clients.",
+    "checkedAt": "2026-11-07",
+    "nextReviewAt": "2026-12-07",
+    "subanswers": {
+     "managed_cloud": "partial"
+    }
+   },
+   "evidenceIds": [
+    "b06-readme"
+   ]
+  },
+  {
+   "date": "2026-11-21",
+   "author": "researcher-ade-128",
+   "type": "research-correction",
+   "summary": "2026-11-21 backfill re-verification of 28 inherited legacy leads against pinned QM v0.1.18 (9c20219, 2026-11-11) docs and source and release notes; adds RUN-07 tokens, export and drilldown from the same spend code.",
+   "claimIds": [
+    "qm:RUN-02"
+   ],
+   "before": {
+    "support": "partial",
+    "answer": "QM has per-scope sandbox computers. The local provider uses Docker containers, volumes and networks; cloud providers include microVMs. Native Git worktree isolation is not a product workspace option.",
+    "checkedAt": "2026-11-07",
+    "nextReviewAt": "2026-12-07",
+    "subanswers": {
+     "network": "unknown"
+    }
+   },
+   "after": {
+    "support": "partial",
+    "answer": "QM has per-scope sandbox computers. The local provider uses Docker containers, volumes and networks; cloud providers include microVMs. Native Git worktree isolation is not a product workspace option.",
+    "checkedAt": "2026-11-07",
+    "nextReviewAt": "2026-12-07",
+    "subanswers": {
+     "network": "partial"
+    }
+   },
+   "evidenceIds": [
+    "b06-posture",
+    "b06-deploy-dir"
+   ]
+  },
+  {
+   "date": "2026-11-21",
+   "author": "researcher-ade-128",
+   "type": "research-correction",
+   "summary": "2026-11-21 backfill re-verification of 28 inherited legacy leads against pinned QM v0.1.18 (9c20219, 2026-11-11) docs and source and release notes; adds RUN-07 tokens, export and drilldown from the same spend code.",
+   "claimIds": [
+    "qm:RUN-03"
+   ],
+   "before": {
+    "support": "partial",
+    "answer": "Durable core state, provider snapshots and file publication have separate recovery boundaries.",
+    "checkedAt": "2026-11-07",
+    "nextReviewAt": "2026-12-07",
+    "subanswers": {
+     "duplicate_actions": "unknown"
+    }
+   },
+   "after": {
+    "support": "partial",
+    "answer": "Durable core state, provider snapshots and file publication have separate recovery boundaries.",
+    "checkedAt": "2026-11-07",
+    "nextReviewAt": "2026-12-07",
+    "subanswers": {
+     "duplicate_actions": "supported"
+    }
+   },
+   "evidenceIds": [
+    "b06-subagents"
+   ]
+  },
+  {
+   "date": "2026-11-21",
+   "author": "researcher-ade-128",
+   "type": "research-correction",
+   "summary": "2026-11-21 backfill re-verification of 28 inherited legacy leads against pinned QM v0.1.18 (9c20219, 2026-11-11) docs and source and release notes; adds RUN-07 tokens, export and drilldown from the same spend code.",
+   "claimIds": [
+    "qm:RUN-05"
+   ],
+   "before": {
+    "support": "partial",
+    "answer": "Swarm goals/time budgets and resource reconciliation have bounded failure behavior.",
+    "checkedAt": "2026-11-07",
+    "nextReviewAt": "2026-12-07",
+    "subanswers": {
+     "spend_limits": "unknown"
+    }
+   },
+   "after": {
+    "support": "partial",
+    "answer": "Swarm goals/time budgets and resource reconciliation have bounded failure behavior.",
+    "checkedAt": "2026-11-07",
+    "nextReviewAt": "2026-12-07",
+    "subanswers": {
+     "spend_limits": "supported"
+    }
+   },
+   "evidenceIds": [
+    "b06-spend-limits",
+    "b06-rel-0116"
+   ]
+  },
+  {
+   "date": "2026-11-21",
+   "author": "researcher-ade-128",
+   "type": "research-correction",
+   "summary": "2026-11-21 backfill re-verification of 28 inherited legacy leads against pinned QM v0.1.18 (9c20219, 2026-11-11) docs and source and release notes; adds RUN-07 tokens, export and drilldown from the same spend code.",
+   "claimIds": [
+    "qm:RUN-07"
+   ],
+   "before": {
+    "support": "unknown",
+    "answer": "The November first-party documentation and repository pass did not establish per-task api and compute cost at the rubric's required scope. No installed-product fixture was run.",
+    "checkedAt": "2026-11-07",
+    "nextReviewAt": "2026-11-21",
+    "subanswers": {
+     "session_cost": "unknown",
+     "billed_vs_estimated": "unknown",
+     "alerts": "unknown",
+     "tokens": "unknown",
+     "export": "unknown",
+     "drilldown": "unknown"
+    }
+   },
+   "after": {
+    "support": "partial",
+    "answer": "QM estimates model spend per request from token usage and list prices and reports it by person, scope, cron and model, with export; caps stop new turns without alerts.",
+    "checkedAt": "2026-11-21",
+    "nextReviewAt": "2027-03-21",
+    "subanswers": {
+     "session_cost": "partial",
+     "billed_vs_estimated": "partial",
+     "alerts": "partial",
+     "tokens": "supported",
+     "export": "supported",
+     "drilldown": "supported"
+    }
+   },
+   "evidenceIds": [
+    "b06-spend-report",
+    "b06-rel-0116",
+    "b06-spend-ui",
+    "b06-cost-calc",
+    "b06-spend-limits"
+   ]
+  },
+  {
+   "date": "2026-11-21",
+   "author": "researcher-ade-128",
+   "type": "research-correction",
+   "summary": "2026-11-21 backfill re-verification of 28 inherited legacy leads against pinned QM v0.1.18 (9c20219, 2026-11-11) docs and source and release notes; adds RUN-07 tokens, export and drilldown from the same spend code.",
+   "claimIds": [
+    "qm:SHIP-01"
+   ],
+   "before": {
+    "support": "partial",
+    "answer": "Published Files retain artifacts after sandbox retirement.",
+    "checkedAt": "2026-11-07",
+    "nextReviewAt": "2026-12-07",
+    "subanswers": {
+     "previews": "unknown"
+    }
+   },
+   "after": {
+    "support": "partial",
+    "answer": "Published Files retain artifacts after sandbox retirement.",
+    "checkedAt": "2026-11-07",
+    "nextReviewAt": "2026-12-07",
+    "subanswers": {
+     "previews": "partial"
+    }
+   },
+   "evidenceIds": [
+    "b06-apps",
+    "b06-readme"
+   ]
+  },
+  {
+   "date": "2026-11-21",
+   "author": "researcher-ade-128",
+   "type": "research-correction",
+   "summary": "2026-11-21 backfill re-verification of 28 inherited legacy leads against pinned QM v0.1.18 (9c20219, 2026-11-11) docs and source and release notes; adds RUN-07 tokens, export and drilldown from the same spend code.",
+   "claimIds": [
+    "qm:TEAM-02"
+   ],
+   "before": {
+    "support": "partial",
+    "answer": "Organization security posture and project membership controls are documented.",
+    "checkedAt": "2026-11-07",
+    "nextReviewAt": "2026-12-07",
+    "subanswers": {
+     "project_roles": "unknown",
+     "revocation": "unknown"
+    }
+   },
+   "after": {
+    "support": "partial",
+    "answer": "Organization security posture and project membership controls are documented.",
+    "checkedAt": "2026-11-07",
+    "nextReviewAt": "2026-12-07",
+    "subanswers": {
+     "project_roles": "partial",
+     "revocation": "supported"
+    }
+   },
+   "evidenceIds": [
+    "b06-projects",
+    "b06-offboard",
+    "b06-rel-0116"
+   ]
+  },
+  {
+   "date": "2026-11-21",
+   "author": "researcher-ade-128",
+   "type": "research-correction",
+   "summary": "2026-11-21 backfill re-verification of 28 inherited legacy leads against pinned QM v0.1.18 (9c20219, 2026-11-11) docs and source and release notes; adds RUN-07 tokens, export and drilldown from the same spend code.",
+   "claimIds": [
+    "qm:TEAM-04"
+   ],
+   "before": {
+    "support": "partial",
+    "answer": "Durable shared session snapshots preserve selected visible history, separate from raw tool/audit history.",
+    "checkedAt": "2026-11-07",
+    "nextReviewAt": "2026-12-07",
+    "subanswers": {
+     "actions": "unknown"
+    }
+   },
+   "after": {
+    "support": "partial",
+    "answer": "Durable shared session snapshots preserve selected visible history, separate from raw tool/audit history.",
+    "checkedAt": "2026-11-07",
+    "nextReviewAt": "2026-12-07",
+    "subanswers": {
+     "actions": "supported"
+    }
+   },
+   "evidenceIds": [
+    "b06-audit",
+    "b06-readme"
+   ]
+  },
+  {
+   "date": "2026-11-21",
+   "author": "researcher-ade-128",
+   "type": "research-correction",
+   "summary": "2026-11-21 backfill: all four ACC-07 atoms are now answered from QM v0.1.18 docs, so the criterion marker becomes supported and the stale limitation is replaced.",
+   "claimIds": [
+    "qm:ACC-07"
+   ],
+   "before": {
+    "support": "partial",
+    "answer": "The web package uses Lit with Vite. Desktop is an Electron shell running the same web UI; iOS is a native SwiftUI client.",
+    "checkedAt": "2026-11-07",
+    "nextReviewAt": "2027-02-05",
+    "subanswers": {}
+   },
+   "after": {
+    "support": "supported",
+    "answer": "The web package uses Lit with Vite. Desktop is an Electron shell running the same web UI; iOS is a native SwiftUI client.",
+    "checkedAt": "2026-11-07",
+    "nextReviewAt": "2027-02-05",
+    "subanswers": {}
+   },
+   "evidenceIds": []
   }
  ],
  "context": {
@@ -7802,7 +8847,7 @@
   ],
   "sourceRevision": "ec86d8b603a6cc07b21aa4d55359b88c425b61ef",
   "roadmapReview": {
-   "checkedAt": "2026-11-13",
+   "checkedAt": "2026-11-21",
    "locations": [
     {
      "url": "https://github.com/yc-software/qm/releases",
@@ -7815,6 +8860,14 @@
     {
      "url": "https://github.com/yc-software/qm/blob/1c61ee3bf3b6460d14e39a90a1f53fdef1c81610/README.md",
      "result": "Pinned architecture and current client/account/sandbox documentation checked. Pi is the active coding loop; provider credentials and third-party hosting remain separate."
+    },
+    {
+     "url": "https://github.com/yc-software/qm/releases",
+     "result": "researcher-ade-128 2026-11-21 backfill: latest stable v0.1.18 (2026-11-11, commit 9c20219); v0.1.19 (2026-11-12), vendored Pi AI and desktop-v0.1.6 entries are prereleases. v0.1.16 (2026-11-04) notes record spend caps, offboarding and the single-harness breaking change used for ACC-02, OWN-06, RUN-05, RUN-07 and TEAM-02."
+    },
+    {
+     "url": "https://github.com/yc-software/qm/issues",
+     "result": "researcher-ade-128 2026-11-21 backfill: ten most recent open issues read (to #3808, 2026-11-21). They are bug reports, for example #3626 cron and wake sweepers wedged after a Postgres failover; none is a dated announcement and none is counted as a shipped or removed feature."
     }
    ],
    "announced": [],
