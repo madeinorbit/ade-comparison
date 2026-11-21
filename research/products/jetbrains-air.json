@@ -3383,16 +3383,15 @@
     {
       "id": "jetbrains-air:TEAM-03",
       "criterionId": "TEAM-03",
-      "answer": "The Air app offers Plan, Ask, Edit and Full Access permission modes; Ask requires approval before changes or commands run. Allow/deny rules, approver identity and mode defaults are not documented.",
+      "answer": "In Air Teams cloud tasks, permission modes belong to each agent: the selector on the New Task page shows the selected agent's own modes and can be changed during the task. Claude Agent offers Plan, Ask Permission, Auto-Edit and Full Access; OpenAI Codex offers Chat, Agent and Full Access, with no planning mode. Claude Agent's Ask Permission requires approval, answered in a chat card, before changes or commands run. No default mode is stated. Cloud environments reach the internet by default, with restricted egress modes. Exposed ports get unauthenticated public URLs for the life of the task. The Air app help now redirects to the Air Teams editor, so this record no longer describes Air app modes.",
       "support": "partial",
       "availability": "beta",
       "delivery": "native",
       "scope": {
         "surfaceIds": [
-          "desktop",
           "cloud-web"
         ],
-        "version": "Air help, product page and Console docs retrieved 2026-10-08 (Air app, Air Teams cloud, Air in IDEs EAP)",
+        "version": "Air Teams help rechecked 2026-11-21: Permission modes and Variables and secrets dated 2026-11-06, Network access 2026-10-23, Automations done by a person 2026-11-06, Exposed ports 2026-09-30. The Air app help redirects to the Air Teams editor; Air app and Air in IDEs mode selectors are outside this record.",
         "plan": null,
         "os": [],
         "executionModes": [],
@@ -3401,57 +3400,63 @@
       },
       "subanswers": {
         "command": {
-          "support": "supported",
-          "answer": "Ask mode requires approval before changes or commands run.",
+          "support": "partial",
+          "answer": "Claude Agent's Ask Permission mode requires approval before making changes or running commands; requests are answered in a chat card. Codex's Chat, Agent and Full Access modes include no Ask mode, and the page does not describe when Codex asks.",
           "evidenceIds": [
-            "permissions"
+            "ade154-permission-modes"
           ]
         },
         "tool": {
           "support": "partial",
-          "answer": "Permission modes select planning, asking, editing or full access; exact behavior follows each agent and differs in browser sessions.",
+          "answer": "Modes are defined by each agent and the list changes with the agent (Claude Agent: Plan, Ask Permission, Auto-Edit, Full Access; Codex: Chat, Agent, Full Access). Per-tool approval rules are not described.",
           "evidenceIds": [
-            "permissions"
+            "ade154-permission-modes"
           ]
         },
         "network": {
           "support": "supported",
-          "answer": "Cloud Internet access can be required-only, specified domains, trusted domains or all domains; mandatory service domains remain reachable.",
+          "answer": "Cloud Internet access can be required-only, specified domains, trusted domains or all domains; required service domains stay reachable.",
           "evidenceIds": [
-            "gap07-network"
+            "gap07-network",
+            "ade154-network"
           ]
         },
         "secret": {
           "support": "supported",
-          "answer": "Cloud configurations distinguish encrypted personal/shared secrets and external Vault references; ordinary variables are plaintext.",
+          "answer": "Cloud configurations distinguish plain-text variables, encrypted personal and shared secrets, and HashiCorp Vault references that are not stored in Air Teams.",
           "evidenceIds": [
-            "gap07-secrets"
+            "gap07-secrets",
+            "ade154-secrets"
           ]
         },
         "delivery": {
           "support": "partial",
-          "answer": "Cloud variables and secrets reach the environment at startup; Vault references resolve their value then without storing it in Air.",
+          "answer": "Cloud variables and secrets reach the environment at startup; Vault references are read from the vault then without storing the value in Air Teams.",
           "evidenceIds": [
-            "gap07-secrets"
+            "gap07-secrets",
+            "ade154-secrets"
           ]
         },
         "approver_identity": {
-          "support": "unknown",
-          "answer": "Approver identity: not stated in the Air help, product page, announcements or Console docs checked on 2026-10-08; no hands-on test run.",
-          "evidenceIds": []
+          "support": "partial",
+          "answer": "For a person's automation step, every project member can submit a project automation's waiting run and only its creator and project admins can stop it; a personal automation is handled only by its owner. Who may answer an agent's permission card in a task is not stated in the Air Teams help checked on 2026-11-21.",
+          "evidenceIds": [
+            "ade154-person-steps"
+          ]
         },
         "lifetime": {
           "support": "partial",
-          "answer": "A human automation step waits without timeout until submitted or stopped. General tool-approval expiration is not established.",
+          "answer": "A person's automation step waits without timeout until submitted or stopped. Expiry of a tool approval is not stated.",
           "evidenceIds": [
-            "gap07-person-steps"
+            "gap07-person-steps",
+            "ade154-person-steps"
           ]
         },
         "allow": {
           "support": "partial",
-          "answer": "Ask permission mode requires approval before changes or commands, while network configurations permit selected domains.",
+          "answer": "Claude Agent's Ask Permission mode requires approval before changes or commands, and network configurations permit selected domains. A per-command allow list is not described.",
           "evidenceIds": [
-            "permissions",
+            "ade154-permission-modes",
             "gap07-network"
           ]
         },
@@ -3459,52 +3464,71 @@
           "support": "partial",
           "answer": "Restricted cloud egress modes exclude unlisted domains while retaining required service domains. A per-command deny contract is not established.",
           "evidenceIds": [
-            "gap07-network"
+            "gap07-network",
+            "ade154-network"
           ]
         },
         "revoke": {
           "support": "unknown",
-          "answer": "Revoke: not stated in the Air help, product page, announcements or Console docs checked on 2026-10-08; no hands-on test run.",
+          "answer": "Revoke: revoking a granted approval is not described in the Air Teams help (Permission modes, Network access, Variables and secrets, Exposed ports) checked on 2026-11-21; no hands-on test run.",
           "evidenceIds": []
         },
         "tunnels": {
-          "support": "unknown",
-          "answer": "Tunnels: not stated in the Air help, product page, announcements or Console docs checked on 2026-10-08; no hands-on test run.",
-          "evidenceIds": []
+          "support": "partial",
+          "answer": "Exposed ports are published at public URLs with no Air Teams authentication; the URL stays valid for the whole task, including after resume. What happens to it after the task ends is not stated.",
+          "evidenceIds": [
+            "ade154-exposed-ports"
+          ]
         },
         "defaults": {
-          "support": "unknown",
-          "answer": "Defaults: the default permission mode is not stated; the help only warns to use Full Access for trusted projects. Cloud internet access defaults to reachable (network-access page). No hands-on test run.",
-          "evidenceIds": []
+          "support": "partial",
+          "answer": "Air Teams cloud environments can reach the internet by default (23 October 2026) and expose ports 3000, 8000 and 8080 by default. No default permission mode is stated: the selector shows each agent's own modes, chosen on the New Task page, and Full Access is advised only for trusted projects (6 November 2026).",
+          "evidenceIds": [
+            "nov21-network",
+            "ade154-permission-modes",
+            "ade154-exposed-ports"
+          ]
         },
         "safer_modes": {
           "support": "supported",
-          "answer": "Plan, Ask and Edit modes are less permissive than Full Access.",
+          "answer": "Claude Agent's Plan, Ask Permission and Auto-Edit modes are more restricted than its Full Access, which works with the fewest restrictions available. Codex lists Chat and Agent beside Full Access without describing their restrictions.",
           "evidenceIds": [
-            "permissions"
+            "ade154-permission-modes"
           ]
         },
         "enforcement": {
           "support": "unknown",
-          "answer": "Enforcement: not stated in the Air help, product page, announcements or Console docs checked on 2026-10-08; no hands-on test run.",
+          "answer": "Enforcement: the help says the mode list is each agent's own, \"as that agent defines them\", but does not say whether Air or the agent enforces a mode. Network modes are environment settings; no enforcement mechanism for them is described either. Checked 2026-11-21; no hands-on test run.",
           "evidenceIds": []
         }
       },
       "limitations": [
-        "Mode names and behavior vary by agent; Full Access is advised only for trusted projects."
+        "Mode names and behavior vary by agent; Full Access is advised only for trusted projects.",
+        "Exposed-port URLs carry no Air Teams authentication.",
+        "No hands-on test was run."
       ],
-      "unknownReason": "Atomic answers not established by the sources read on 2026-10-08: approver_identity, revoke, tunnels, defaults, enforcement. Missing results are not negative evidence.",
+      "unknownReason": "Atomic answers not established by the Air Teams help read on 2026-11-21: revoke, enforcement. Missing results are not negative evidence.",
       "evidenceIds": [
-        "permissions",
         "gap07-network",
         "gap07-secrets",
-        "gap07-person-steps"
+        "gap07-person-steps",
+        "nov21-network",
+        "nov21-air-app-redirect",
+        "ade154-permission-modes",
+        "ade154-exposed-ports",
+        "ade154-person-steps",
+        "ade154-secrets",
+        "ade154-network"
       ],
       "checkedAt": "2026-10-09",
       "nextReviewAt": "2026-11-08",
-      "researcher": "researcher-69",
-      "publication": "public-candidate",
-      "review": null,
+      "researcher": "researcher-ade-154",
+      "publication": "public-reviewed",
+      "review": {
+        "reviewer": "reviewer-ade-140",
+        "date": "2026-11-21",
+        "contentHash": "e6d928222af8eab89ebb68eccba71b07def3242133d266c1aa8a9fc9392fbcea"
+      },
       "contradictions": []
     },
     {
@@ -4945,7 +4969,7 @@
     {
       "id": "jetbrains-air:OWN-06",
       "criterionId": "OWN-06",
-      "answer": "Air is in early access: the Air app is under an EAP user agreement, Air in IDEs is EAP, Air Teams is available to JetBrains business customers with cloud runs rolling out gradually, and mobile is coming soon. JetBrains blog posts from July and August 2026 (release posts) and September and October 2026 (announcements) carry no visible publication day; their dates come from the URL path.",
+      "answer": "Air is in early access: the Air app is under an EAP user agreement, Air in IDEs is EAP, Air Teams is available to JetBrains business customers with cloud runs rolling out gradually, and mobile is coming soon. JetBrains blog posts from July and August 2026 (release posts) and September and October 2026 (announcements) carry no visible publication day; their dates come from the URL path. The Air app help now redirects and Air app users are pointed to Air in IDEs, with no dated end-of-life notice.",
       "support": "partial",
       "availability": "beta",
       "delivery": "native",
@@ -5015,9 +5039,12 @@
           "evidenceIds": []
         },
         "deprecation": {
-          "support": "unknown",
-          "answer": "Deprecation: not stated in the Air help, product page, announcements or Console docs checked on 2026-10-08; no hands-on test run.",
-          "evidenceIds": []
+          "support": "partial",
+          "answer": "The Air app is being steered away from without a dated notice: its help pages now redirect (HTTP 302) to the Air Teams editor page, which (6 November 2026) recommends Air in IDEs to Air app users. No end-of-life date, deprecation policy or export path is stated.",
+          "evidenceIds": [
+            "nov21-teams-editor",
+            "nov21-air-app-redirect"
+          ]
         },
         "export_options": {
           "support": "unknown",
@@ -5042,16 +5069,18 @@
         "air-teams-blog-nov07",
         "aug-release-nov07",
         "console-policies-nov07",
-        "console-plans-nov07"
+        "console-plans-nov07",
+        "nov21-teams-editor",
+        "nov21-air-app-redirect"
       ],
       "checkedAt": "2026-11-07",
       "nextReviewAt": "2026-11-21",
-      "researcher": "researcher-16",
+      "researcher": "researcher-ade-125",
       "publication": "public-reviewed",
       "review": {
-        "reviewer": "reviewer-44",
-        "date": "2026-11-07",
-        "contentHash": "b1da3ea4bace96811019db02c9897195b48c7262c1c0f1fa6ad6af05b2141b7e"
+        "reviewer": "reviewer-ade-140",
+        "date": "2026-11-21",
+        "contentHash": "bcb867903c5d4ab4130c33ad13a8f8fb6291251740b3d34cdcaab4675e0a9d7b"
       },
       "contradictions": []
     },
@@ -7094,6 +7123,123 @@
       "sourceDate": null,
       "retrievedAt": "2026-11-13",
       "finding": "Cloud tasks have starting, done, suspended, archived and problem states, retain conversation history and branch results, and can resume before archival. These run records do not establish an independent product-owned issue backlog distinct from sessions.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "nov21-teams-editor",
+      "kind": "documented",
+      "url": "https://www.jetbrains.com/help/air/air-teams-editor.html",
+      "title": "JetBrains Air Help: Air Teams editor",
+      "locator": "Opening note",
+      "sourceDate": "2026-11-06",
+      "retrievedAt": "2026-11-21",
+      "finding": "Page dated 6 November 2026 opens with \"If you're an Air app user, we recommend using Air in IDEs instead,\" calling Air in IDEs the main way to run agents on local projects. It gives no end-of-life date or export path for the Air app.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "nov21-air-app-redirect",
+      "kind": "documented",
+      "url": "https://www.jetbrains.com/help/air/air-app.html",
+      "title": "JetBrains Air Help: former Air app page",
+      "locator": "HTTP response; llms.txt index",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-21",
+      "finding": "On 2026-11-21 air-app.html and install-the-air-app.html return HTTP 302 to air-teams-editor.html, and the Air help llms.txt index lists no Air app page and no deprecation, retirement or sunset notice.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "nov21-permissions",
+      "kind": "documented",
+      "url": "https://www.jetbrains.com/help/air/permission-modes.html",
+      "title": "JetBrains Air Help: Permission modes",
+      "locator": "Select a permission mode",
+      "sourceDate": "2026-11-06",
+      "retrievedAt": "2026-11-21",
+      "finding": "Page dated 6 November 2026: the selector shows the selected agent's own modes (Claude Agent: Plan, Ask Permission, Auto-Edit, Full Access; Codex: Chat, Agent, Full Access), set on the New Task page and changeable during a task. Full Access is advised only for trusted projects. No default mode is stated.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "nov21-network",
+      "kind": "documented",
+      "url": "https://www.jetbrains.com/help/air/environment-network-access.html",
+      "title": "JetBrains Air Help: Environment network access",
+      "locator": "Internet access",
+      "sourceDate": "2026-10-23",
+      "retrievedAt": "2026-11-21",
+      "finding": "Page dated 23 October 2026: \"By default, a cloud environment can reach the internet\"; Internet access settings restrict which external sites the agent can reach.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "ade154-permission-modes",
+      "kind": "documented",
+      "url": "https://www.jetbrains.com/help/air/permission-modes.html",
+      "title": "JetBrains Air Help: Permission modes",
+      "locator": "Intro; Select a permission mode; Plan before the agent changes code",
+      "sourceDate": "2026-11-06",
+      "retrievedAt": "2026-11-21",
+      "finding": "Page dated 6 November 2026, in the Air Teams section of the help index: the selector shows the selected agent's own modes \"as that agent defines them\", chosen on the New Task page and changeable while the task runs. Claude Agent offers Plan (proposes a plan without changing code), Ask Permission (approval before making changes or running commands), Auto-Edit (edits files automatically with more limits than full access) and Full Access (fewest restrictions available for that agent; use only for trusted projects). OpenAI Codex offers Chat, Agent and Full Access, with no planning mode of its own. Permission requests are answered in a card in the chat, and the editor shows a \"Task needs your input\" notification. No default mode is stated.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "ade154-exposed-ports",
+      "kind": "documented",
+      "url": "https://www.jetbrains.com/help/air/exposed-ports.html",
+      "title": "JetBrains Air Help: Exposed ports",
+      "locator": "Intro; warning; Find the public URL of a port",
+      "sourceDate": "2026-09-30",
+      "retrievedAt": "2026-11-21",
+      "finding": "Page dated 30 September 2026: Air Teams publishes each exposed HTTP port of a cloud environment at its own public URL (ports 3000, 8000 and 8080 by default). Anyone with the URL can reach the port; Air Teams adds no authentication. The URL is set when the environment starts, a resumed task gets the same value, and it stays valid for the whole task. What happens to the URL after the task ends is not stated.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "ade154-person-steps",
+      "kind": "documented",
+      "url": "https://www.jetbrains.com/help/air/person-automations.html",
+      "title": "JetBrains Air Help: Automations done by a person",
+      "locator": "How this differs; Do the step",
+      "sourceDate": "2026-11-06",
+      "retrievedAt": "2026-11-21",
+      "finding": "Page dated 6 November 2026: a person's automation run waits until someone submits or stops it, with no timeout. On a personal automation only its owner can submit or stop a waiting run; on a project automation every project member can submit, and only the creator and project admins can stop it.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "ade154-secrets",
+      "kind": "documented",
+      "url": "https://www.jetbrains.com/help/air/environment-variables-and-secrets.html",
+      "title": "JetBrains Air Help: Variables and secrets",
+      "locator": "Type table; HashiCorp Vault secrets",
+      "sourceDate": "2026-11-06",
+      "retrievedAt": "2026-11-21",
+      "finding": "Page dated 6 November 2026: environment variables are plain text; personal secrets are encrypted and visible only to their user; shared secrets are encrypted and visible to everyone with access; provider (HashiCorp Vault) secrets are not stored in Air Teams and are read from the vault when the cloud environment starts.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "ade154-network",
+      "kind": "documented",
+      "url": "https://www.jetbrains.com/help/air/environment-network-access.html",
+      "title": "JetBrains Air Help: Network access",
+      "locator": "Internet access modes",
+      "sourceDate": "2026-10-23",
+      "retrievedAt": "2026-11-21",
+      "finding": "Page dated 23 October 2026: by default a cloud environment can reach the internet. Internet access modes Off (required only), specified or trusted domains and All domains control which external sites the agent can reach from the cloud environment; the required service domains stay allowed for the whole life of the environment, for both the setup script and the agent.",
       "visibility": "public",
       "commit": null,
       "path": null
@@ -13444,6 +13590,145 @@
         "setup-teams",
         "task-environments-review",
         "troubleshoot"
+      ]
+    },
+    {
+      "date": "2026-11-21",
+      "author": "researcher-ade-125",
+      "type": "research-correction",
+      "summary": "Backfill source batch 03 (ADE-125): re-verified 2 inherited legacy leads (issue/153, checked 2026-11-11) against the JetBrains Air help retrieved 2026-11-21. Both answered as partial public candidates; untouched atoms, findings and claim dates are preserved.",
+      "claimIds": [
+        "jetbrains-air:OWN-06",
+        "jetbrains-air:TEAM-03"
+      ],
+      "before": {
+        "OWN-06": {
+          "support": "partial",
+          "answer": "Air is in early access: the Air app is under an EAP user agreement, Air in IDEs is EAP, Air Teams is available to JetBrains business customers with cloud runs rolling out gradually, and mobile is coming soon. JetBrains blog posts from July and August 2026 (release posts) and September and October 2026 (announcements) carry no visible publication day; their dates come from the URL path.",
+          "checkedAt": "2026-11-07",
+          "nextReviewAt": "2026-11-21",
+          "subanswers": {
+            "deprecation": "unknown"
+          },
+          "publication": "public-reviewed",
+          "review": "present",
+          "researcher": "researcher-16"
+        },
+        "TEAM-03": {
+          "support": "partial",
+          "answer": "The Air app offers Plan, Ask, Edit and Full Access permission modes; Ask requires approval before changes or commands run. Allow/deny rules, approver identity and mode defaults are not documented.",
+          "checkedAt": "2026-10-09",
+          "nextReviewAt": "2026-11-08",
+          "subanswers": {
+            "defaults": "unknown"
+          },
+          "publication": "public-candidate",
+          "review": null,
+          "researcher": "researcher-69"
+        }
+      },
+      "after": {
+        "OWN-06": {
+          "subanswers": {
+            "deprecation": "partial"
+          },
+          "support": "partial",
+          "answer": "Air is in early access: the Air app is under an EAP user agreement, Air in IDEs is EAP, Air Teams is available to JetBrains business customers with cloud runs rolling out gradually, and mobile is coming soon. JetBrains blog posts from July and August 2026 (release posts) and September and October 2026 (announcements) carry no visible publication day; their dates come from the URL path. The Air app help now redirects and Air app users are pointed to Air in IDEs, with no dated end-of-life notice.",
+          "checkedAt": "2026-11-07",
+          "nextReviewAt": "2026-11-21",
+          "publication": "public-candidate",
+          "review": null,
+          "researcher": "researcher-ade-125"
+        },
+        "TEAM-03": {
+          "subanswers": {
+            "defaults": "partial"
+          },
+          "support": "partial",
+          "answer": "The Air app offers Plan, Ask, Edit and Full Access permission modes; Ask requires approval before changes or commands run. Allow/deny rules, approver identity and mode defaults are not documented. Cloud environments reach the internet by default; the default permission mode is not stated.",
+          "checkedAt": "2026-10-09",
+          "nextReviewAt": "2026-11-08",
+          "publication": "public-candidate",
+          "review": null,
+          "researcher": "researcher-ade-125"
+        }
+      },
+      "evidenceIds": [
+        "nov21-teams-editor",
+        "nov21-air-app-redirect",
+        "nov21-permissions",
+        "nov21-network"
+      ]
+    },
+    {
+      "date": "2026-11-21",
+      "author": "researcher-ade-154",
+      "type": "research-correction",
+      "summary": "ADE-154 correction of ADE-140 finding 1: restated TEAM-03 for per-agent Air Teams permission modes (Claude Agent: Plan, Ask Permission, Auto-Edit, Full Access; Codex: Chat, Agent, Full Access), dropped the Air app scope whose help now redirects to the Air Teams editor, and rechecked every row against the Air Teams help on 2026-11-21. Claim dates unchanged; review cleared.",
+      "claimIds": [
+        "jetbrains-air:TEAM-03"
+      ],
+      "before": {
+        "TEAM-03": {
+          "support": "partial",
+          "answer": "The Air app offers Plan, Ask, Edit and Full Access permission modes; Ask requires approval before changes or commands run. Allow/deny rules, approver identity and mode defaults are not documented. Cloud environments reach the internet by default; the default permission mode is not stated.",
+          "checkedAt": "2026-10-09",
+          "nextReviewAt": "2026-11-08",
+          "subanswers": {
+            "command": "supported",
+            "tool": "partial",
+            "network": "supported",
+            "secret": "supported",
+            "delivery": "partial",
+            "approver_identity": "unknown",
+            "lifetime": "partial",
+            "allow": "partial",
+            "deny": "partial",
+            "revoke": "unknown",
+            "tunnels": "unknown",
+            "defaults": "partial",
+            "safer_modes": "supported",
+            "enforcement": "unknown"
+          },
+          "publication": "public-candidate",
+          "review": null,
+          "researcher": "researcher-ade-125"
+        }
+      },
+      "after": {
+        "TEAM-03": {
+          "support": "partial",
+          "answer": "In Air Teams cloud tasks, permission modes belong to each agent: the selector on the New Task page shows the selected agent's own modes and can be changed during the task. Claude Agent offers Plan, Ask Permission, Auto-Edit and Full Access; OpenAI Codex offers Chat, Agent and Full Access, with no planning mode. Claude Agent's Ask Permission requires approval, answered in a chat card, before changes or commands run. No default mode is stated. Cloud environments reach the internet by default, with restricted egress modes. Exposed ports get unauthenticated public URLs for the life of the task. The Air app help now redirects to the Air Teams editor, so this record no longer describes Air app modes.",
+          "checkedAt": "2026-10-09",
+          "nextReviewAt": "2026-11-08",
+          "subanswers": {
+            "command": "partial",
+            "tool": "partial",
+            "network": "supported",
+            "secret": "supported",
+            "delivery": "partial",
+            "approver_identity": "partial",
+            "lifetime": "partial",
+            "allow": "partial",
+            "deny": "partial",
+            "revoke": "unknown",
+            "tunnels": "partial",
+            "defaults": "partial",
+            "safer_modes": "supported",
+            "enforcement": "unknown"
+          },
+          "publication": "public-candidate",
+          "review": null,
+          "researcher": "researcher-ade-154"
+        }
+      },
+      "evidenceIds": [
+        "nov21-air-app-redirect",
+        "ade154-permission-modes",
+        "ade154-exposed-ports",
+        "ade154-person-steps",
+        "ade154-secrets",
+        "ade154-network"
       ]
     }
   ],
