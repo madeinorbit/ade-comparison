@@ -2473,11 +2473,11 @@
           ]
         },
         "expiry": {
-          "support": "partial",
-          "answer": "A machine sleeps about 2 minutes after work stops. The 0.8.0 note clears a workspace asleep for more than 14 days; the machines doc still says deletion after 30 days.",
+          "support": "supported",
+          "answer": "A machine sleeps about 2 minutes after work stops. A cloud machine sleeping for 14 days is deleted; the thread remains, its next run recreates the environment and unpushed changes are lost.",
           "evidenceIds": [
-            "nov12-machines",
-            "nov12-cl080"
+            "nov21-machines-retention",
+            "nov21-cl080-retention"
           ]
         },
         "client_disconnect": {
@@ -2496,7 +2496,8 @@
         }
       },
       "limitations": [
-        "Remaining atomic behavior is unverified; this is a documentation pass, not a hands-on test."
+        "Remaining atomic behavior is unverified; this is a documentation pass, not a hands-on test.",
+        "Cloud retention was rechecked on 2026-11-21. Other execution details retain their original source dates."
       ],
       "unknownReason": null,
       "evidenceIds": [
@@ -2508,16 +2509,16 @@
         "nov06-captains",
         "nov06-environment",
         "nov12-machines",
-        "nov12-cl080"
+        "nov12-cl080",
+        "nov21-machines-retention",
+        "nov21-cl080-retention"
       ],
       "checkedAt": "2026-11-06",
       "nextReviewAt": "2026-11-20",
       "researcher": "reviewer-ade-25",
       "publication": "public-candidate",
       "review": null,
-      "contradictions": [
-        "The 0.8.0 changelog (Nov 10, 2026) says a cloud workspace asleep for more than 14 days is cleared; docs.capy.ai/machines, retrieved 2026-11-12, still says a machine that sleeps for 30 days is deleted. Whether both describe the same storage is unresolved."
-      ]
+      "contradictions": []
     },
     {
       "id": "capy:RUN-02",
@@ -2688,11 +2689,11 @@
           "evidenceIds": []
         },
         "expiry": {
-          "support": "partial",
-          "answer": "Per 0.8.0, a cloud workspace asleep for more than 14 days is cleared; the thread stays and restarts from Setup, so unpushed edits are lost. The machines doc still says 30 days.",
+          "support": "supported",
+          "answer": "A cloud machine sleeping for 14 days is deleted. The thread remains; its next run recreates the environment and unpushed changes are lost.",
           "evidenceIds": [
-            "nov12-machines",
-            "nov12-cl080"
+            "nov21-machines-retention",
+            "nov21-cl080-retention"
           ]
         },
         "transcript_reload": {
@@ -2744,16 +2745,17 @@
         },
         "multi_day_continuity": {
           "support": "partial",
-          "answer": "Device threads wait up to 24 hours offline; a sleeping cloud workspace is kept up to 14 days per 0.8.0, 30 days per the machines doc.",
+          "answer": "Device threads wait up to 24 hours offline. A cloud machine sleeping for 14 days is deleted, and its thread then starts with a fresh environment.",
           "evidenceIds": [
-            "nov12-machines",
-            "nov12-cl080",
-            "nov06-desktop"
+            "nov06-desktop",
+            "nov21-machines-retention",
+            "nov21-cl080-retention"
           ]
         }
       },
       "limitations": [
-        "Remaining atomic behavior is unverified; this is a documentation pass, not a hands-on test."
+        "Remaining atomic behavior is unverified; this is a documentation pass, not a hands-on test.",
+        "Cloud retention was rechecked on 2026-11-21. Other execution details retain their original source dates."
       ],
       "unknownReason": "Official docs, downloads, pricing and changelog checked on 2026-11-06 did not establish this. No installed-client or authenticated scenario was run.",
       "evidenceIds": [
@@ -2763,16 +2765,16 @@
         "nov06-desktop",
         "nov06-trouble",
         "nov12-machines",
-        "nov12-cl080"
+        "nov12-cl080",
+        "nov21-machines-retention",
+        "nov21-cl080-retention"
       ],
       "checkedAt": "2026-11-06",
       "nextReviewAt": "2026-11-26",
       "researcher": "reviewer-ade-25",
       "publication": "public-candidate",
       "review": null,
-      "contradictions": [
-        "The 0.8.0 changelog says sleeping cloud workspaces are cleared after more than 14 days; the machines doc retrieved 2026-11-12 still says 30 days."
-      ]
+      "contradictions": []
     },
     {
       "id": "capy:RUN-04",
@@ -6981,6 +6983,32 @@
       "title": "Models and pricing",
       "locator": "Add a connection; Subscriptions",
       "finding": "A Claude Pro or Max plan connects through Claude Code with a claude setup-token token; Codex, GitHub Copilot and SuperGrok subscriptions run their plans’ models; own keys, gateways and subscriptions work on every plan, the free plan included."
+    },
+    {
+      "kind": "documented",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-21",
+      "visibility": "public",
+      "commit": null,
+      "path": null,
+      "id": "nov21-machines-retention",
+      "url": "https://docs.capy.ai/machines",
+      "title": "Machines",
+      "locator": "Sleep",
+      "finding": "A machine sleeps about 2 minutes after the thread stops working. A machine that sleeps for 14 days is deleted; if Capy can't resume a machine, the thread gets a fresh one from the dev environment and unpushed work is lost."
+    },
+    {
+      "kind": "vendor-claimed",
+      "sourceDate": "2026-11-10",
+      "retrievedAt": "2026-11-21",
+      "visibility": "public",
+      "commit": null,
+      "path": null,
+      "id": "nov21-cl080-retention",
+      "url": "https://capy.ai/changelog",
+      "title": "Capy changelog",
+      "locator": "Nov 10, 2026 — Capy 0.8.0; sleeping cloud workspace item",
+      "finding": "A cloud workspace asleep for more than 14 days is cleared to free storage; the thread stays and its next run starts fresh from Setup."
     }
   ],
   "changes": [
@@ -10659,6 +10687,440 @@
       },
       "evidenceIds": [
         "gap-license"
+      ]
+    },
+    {
+      "date": "2026-11-21",
+      "author": "researcher-ade119",
+      "type": "research-correction",
+      "summary": "docs.capy.ai/machines (Sleep) now says a machine sleeping for 14 days is deleted, matching the Capy 0.8.0 changelog item; both rechecked 2026-11-21 from the PDM-257 proposal. Correct the 30-day retention atoms, clear the resolved 14-versus-30-day contradiction, keep the nov12 records as history and leave the claim a public candidate awaiting independent review.",
+      "claimIds": [
+        "capy:RUN-01"
+      ],
+      "before": {
+        "contradictions": [
+          "The 0.8.0 changelog (Nov 10, 2026) says a cloud workspace asleep for more than 14 days is cleared; docs.capy.ai/machines, retrieved 2026-11-12, still says a machine that sleeps for 30 days is deleted. Whether both describe the same storage is unresolved."
+        ],
+        "subanswers": {
+          "local": {
+            "support": "supported",
+            "answer": "Desktop runs threads in a folder on the computer, with no machine-time charge.",
+            "evidenceIds": [
+              "nov06-desktop"
+            ]
+          },
+          "byo_remote": {
+            "support": "supported",
+            "answer": "capy dock turns a user-run server or VM into a device.",
+            "evidenceIds": [
+              "nov06-dock"
+            ]
+          },
+          "self_hosted": {
+            "support": "partial",
+            "answer": "Running in your own cloud is offered on Enterprise by agreement.",
+            "evidenceIds": [
+              "nov06-admin-security",
+              "nov06-faq"
+            ]
+          },
+          "managed_cloud": {
+            "support": "supported",
+            "answer": "Hosted thread agents execute commands in managed machines.",
+            "evidenceIds": [
+              "nov06-machines"
+            ]
+          },
+          "hybrid": {
+            "support": "supported",
+            "answer": "Continue on moves a thread between cloud and devices, and a Captain can run on either.",
+            "evidenceIds": [
+              "nov06-desktop",
+              "nov06-captains"
+            ]
+          },
+          "provisioning": {
+            "support": "supported",
+            "answer": "Capy provisions a cloud VM from project environment setup.",
+            "evidenceIds": [
+              "nov06-machines",
+              "nov06-environment"
+            ]
+          },
+          "payer": {
+            "support": "supported",
+            "answer": "Cloud machine time draws credits even when model usage uses a subscription.",
+            "evidenceIds": [
+              "nov06-machines"
+            ]
+          },
+          "resources": {
+            "support": "supported",
+            "answer": "1 vCPU/4 GB through 16 vCPU/64 GB, gated by plan; Big Guy, 16 vCPU/128 GB, is on request.",
+            "evidenceIds": [
+              "nov06-machines"
+            ]
+          },
+          "region": {
+            "support": "supported",
+            "answer": "US East (New York).",
+            "evidenceIds": [
+              "nov06-machines",
+              "nov06-faq"
+            ]
+          },
+          "expiry": {
+            "support": "partial",
+            "answer": "A machine sleeps about 2 minutes after work stops. The 0.8.0 note clears a workspace asleep for more than 14 days; the machines doc still says deletion after 30 days.",
+            "evidenceIds": [
+              "nov12-machines",
+              "nov12-cl080"
+            ]
+          },
+          "client_disconnect": {
+            "support": "supported",
+            "answer": "Cloud threads continue after the laptop closes; device threads wait up to 24 hours while offline.",
+            "evidenceIds": [
+              "nov06-desktop"
+            ]
+          },
+          "other_device_continuation": {
+            "support": "partial",
+            "answer": "Any browser can start, follow and reply while the device is online.",
+            "evidenceIds": [
+              "nov06-desktop"
+            ]
+          }
+        },
+        "evidenceIds": [
+          "nov06-desktop",
+          "nov06-dock",
+          "nov06-admin-security",
+          "nov06-faq",
+          "nov06-machines",
+          "nov06-captains",
+          "nov06-environment",
+          "nov12-machines",
+          "nov12-cl080"
+        ]
+      },
+      "after": {
+        "contradictions": [],
+        "subanswers": {
+          "local": {
+            "support": "supported",
+            "answer": "Desktop runs threads in a folder on the computer, with no machine-time charge.",
+            "evidenceIds": [
+              "nov06-desktop"
+            ]
+          },
+          "byo_remote": {
+            "support": "supported",
+            "answer": "capy dock turns a user-run server or VM into a device.",
+            "evidenceIds": [
+              "nov06-dock"
+            ]
+          },
+          "self_hosted": {
+            "support": "partial",
+            "answer": "Running in your own cloud is offered on Enterprise by agreement.",
+            "evidenceIds": [
+              "nov06-admin-security",
+              "nov06-faq"
+            ]
+          },
+          "managed_cloud": {
+            "support": "supported",
+            "answer": "Hosted thread agents execute commands in managed machines.",
+            "evidenceIds": [
+              "nov06-machines"
+            ]
+          },
+          "hybrid": {
+            "support": "supported",
+            "answer": "Continue on moves a thread between cloud and devices, and a Captain can run on either.",
+            "evidenceIds": [
+              "nov06-desktop",
+              "nov06-captains"
+            ]
+          },
+          "provisioning": {
+            "support": "supported",
+            "answer": "Capy provisions a cloud VM from project environment setup.",
+            "evidenceIds": [
+              "nov06-machines",
+              "nov06-environment"
+            ]
+          },
+          "payer": {
+            "support": "supported",
+            "answer": "Cloud machine time draws credits even when model usage uses a subscription.",
+            "evidenceIds": [
+              "nov06-machines"
+            ]
+          },
+          "resources": {
+            "support": "supported",
+            "answer": "1 vCPU/4 GB through 16 vCPU/64 GB, gated by plan; Big Guy, 16 vCPU/128 GB, is on request.",
+            "evidenceIds": [
+              "nov06-machines"
+            ]
+          },
+          "region": {
+            "support": "supported",
+            "answer": "US East (New York).",
+            "evidenceIds": [
+              "nov06-machines",
+              "nov06-faq"
+            ]
+          },
+          "expiry": {
+            "support": "supported",
+            "answer": "A machine sleeps about 2 minutes after work stops. A cloud machine sleeping for 14 days is deleted; the thread remains, its next run recreates the environment and unpushed changes are lost.",
+            "evidenceIds": [
+              "nov21-machines-retention",
+              "nov21-cl080-retention"
+            ]
+          },
+          "client_disconnect": {
+            "support": "supported",
+            "answer": "Cloud threads continue after the laptop closes; device threads wait up to 24 hours while offline.",
+            "evidenceIds": [
+              "nov06-desktop"
+            ]
+          },
+          "other_device_continuation": {
+            "support": "partial",
+            "answer": "Any browser can start, follow and reply while the device is online.",
+            "evidenceIds": [
+              "nov06-desktop"
+            ]
+          }
+        },
+        "evidenceIds": [
+          "nov06-desktop",
+          "nov06-dock",
+          "nov06-admin-security",
+          "nov06-faq",
+          "nov06-machines",
+          "nov06-captains",
+          "nov06-environment",
+          "nov12-machines",
+          "nov12-cl080",
+          "nov21-machines-retention",
+          "nov21-cl080-retention"
+        ]
+      },
+      "evidenceIds": [
+        "nov21-machines-retention",
+        "nov21-cl080-retention"
+      ]
+    },
+    {
+      "date": "2026-11-21",
+      "author": "researcher-ade119",
+      "type": "research-correction",
+      "summary": "docs.capy.ai/machines (Sleep) now says a machine sleeping for 14 days is deleted, matching the Capy 0.8.0 changelog item; both rechecked 2026-11-21 from the PDM-257 proposal. Correct the 30-day retention atoms, clear the resolved 14-versus-30-day contradiction, keep the nov12 records as history and leave the claim a public candidate awaiting independent review.",
+      "claimIds": [
+        "capy:RUN-03"
+      ],
+      "before": {
+        "contradictions": [
+          "The 0.8.0 changelog says sleeping cloud workspaces are cleared after more than 14 days; the machines doc retrieved 2026-11-12 still says 30 days."
+        ],
+        "subanswers": {
+          "client_disconnect": {
+            "support": "supported",
+            "answer": "Managed cloud thread history persists after client closure.",
+            "evidenceIds": [
+              "nov06-threads"
+            ]
+          },
+          "worker_crash": {
+            "support": "unknown",
+            "answer": "Worker crash: Official docs, downloads, pricing and changelog checked on 2026-11-06 did not establish this. No installed-client or authenticated scenario was run.",
+            "evidenceIds": []
+          },
+          "service_restart": {
+            "support": "unknown",
+            "answer": "Service restart: Official docs, downloads, pricing and changelog checked on 2026-11-06 did not establish this. No installed-client or authenticated scenario was run.",
+            "evidenceIds": []
+          },
+          "expiry": {
+            "support": "partial",
+            "answer": "Per 0.8.0, a cloud workspace asleep for more than 14 days is cleared; the thread stays and restarts from Setup, so unpushed edits are lost. The machines doc still says 30 days.",
+            "evidenceIds": [
+              "nov12-machines",
+              "nov12-cl080"
+            ]
+          },
+          "transcript_reload": {
+            "support": "partial",
+            "answer": "Messages and tool output are stored in Capy cloud.",
+            "evidenceIds": [
+              "nov06-admin-security"
+            ]
+          },
+          "process_reconnect": {
+            "support": "unsupported",
+            "answer": "Sleep preserves disk, but memory/processes/connections do not survive; startup scripts restart configured services.",
+            "evidenceIds": [
+              "nov06-machines"
+            ]
+          },
+          "task_resume": {
+            "support": "partial",
+            "answer": "A message continues a thread; a device thread continues on reconnect.",
+            "evidenceIds": [
+              "nov06-desktop"
+            ]
+          },
+          "state_reconstruction": {
+            "support": "supported",
+            "answer": "A replacement backing follows project setup; durable machine identity remains.",
+            "evidenceIds": [
+              "nov06-machines"
+            ]
+          },
+          "context_loss": {
+            "support": "partial",
+            "answer": "Pushed code and Drive files survive replacement; unpushed edits and scratch state do not.",
+            "evidenceIds": [
+              "nov06-machines"
+            ]
+          },
+          "duplicate_actions": {
+            "support": "unknown",
+            "answer": "Duplicate actions: Official docs, downloads, pricing and changelog checked on 2026-11-06 did not establish this. No installed-client or authenticated scenario was run.",
+            "evidenceIds": []
+          },
+          "manual_repair": {
+            "support": "partial",
+            "answer": "Ask Capy to rebuild lost work from the thread history.",
+            "evidenceIds": [
+              "nov06-trouble"
+            ]
+          },
+          "multi_day_continuity": {
+            "support": "partial",
+            "answer": "Device threads wait up to 24 hours offline; a sleeping cloud workspace is kept up to 14 days per 0.8.0, 30 days per the machines doc.",
+            "evidenceIds": [
+              "nov12-machines",
+              "nov12-cl080",
+              "nov06-desktop"
+            ]
+          }
+        },
+        "evidenceIds": [
+          "nov06-threads",
+          "nov06-machines",
+          "nov06-admin-security",
+          "nov06-desktop",
+          "nov06-trouble",
+          "nov12-machines",
+          "nov12-cl080"
+        ]
+      },
+      "after": {
+        "contradictions": [],
+        "subanswers": {
+          "client_disconnect": {
+            "support": "supported",
+            "answer": "Managed cloud thread history persists after client closure.",
+            "evidenceIds": [
+              "nov06-threads"
+            ]
+          },
+          "worker_crash": {
+            "support": "unknown",
+            "answer": "Worker crash: Official docs, downloads, pricing and changelog checked on 2026-11-06 did not establish this. No installed-client or authenticated scenario was run.",
+            "evidenceIds": []
+          },
+          "service_restart": {
+            "support": "unknown",
+            "answer": "Service restart: Official docs, downloads, pricing and changelog checked on 2026-11-06 did not establish this. No installed-client or authenticated scenario was run.",
+            "evidenceIds": []
+          },
+          "expiry": {
+            "support": "supported",
+            "answer": "A cloud machine sleeping for 14 days is deleted. The thread remains; its next run recreates the environment and unpushed changes are lost.",
+            "evidenceIds": [
+              "nov21-machines-retention",
+              "nov21-cl080-retention"
+            ]
+          },
+          "transcript_reload": {
+            "support": "partial",
+            "answer": "Messages and tool output are stored in Capy cloud.",
+            "evidenceIds": [
+              "nov06-admin-security"
+            ]
+          },
+          "process_reconnect": {
+            "support": "unsupported",
+            "answer": "Sleep preserves disk, but memory/processes/connections do not survive; startup scripts restart configured services.",
+            "evidenceIds": [
+              "nov06-machines"
+            ]
+          },
+          "task_resume": {
+            "support": "partial",
+            "answer": "A message continues a thread; a device thread continues on reconnect.",
+            "evidenceIds": [
+              "nov06-desktop"
+            ]
+          },
+          "state_reconstruction": {
+            "support": "supported",
+            "answer": "A replacement backing follows project setup; durable machine identity remains.",
+            "evidenceIds": [
+              "nov06-machines"
+            ]
+          },
+          "context_loss": {
+            "support": "partial",
+            "answer": "Pushed code and Drive files survive replacement; unpushed edits and scratch state do not.",
+            "evidenceIds": [
+              "nov06-machines"
+            ]
+          },
+          "duplicate_actions": {
+            "support": "unknown",
+            "answer": "Duplicate actions: Official docs, downloads, pricing and changelog checked on 2026-11-06 did not establish this. No installed-client or authenticated scenario was run.",
+            "evidenceIds": []
+          },
+          "manual_repair": {
+            "support": "partial",
+            "answer": "Ask Capy to rebuild lost work from the thread history.",
+            "evidenceIds": [
+              "nov06-trouble"
+            ]
+          },
+          "multi_day_continuity": {
+            "support": "partial",
+            "answer": "Device threads wait up to 24 hours offline. A cloud machine sleeping for 14 days is deleted, and its thread then starts with a fresh environment.",
+            "evidenceIds": [
+              "nov06-desktop",
+              "nov21-machines-retention",
+              "nov21-cl080-retention"
+            ]
+          }
+        },
+        "evidenceIds": [
+          "nov06-threads",
+          "nov06-machines",
+          "nov06-admin-security",
+          "nov06-desktop",
+          "nov06-trouble",
+          "nov12-machines",
+          "nov12-cl080",
+          "nov21-machines-retention",
+          "nov21-cl080-retention"
+        ]
+      },
+      "evidenceIds": [
+        "nov21-machines-retention",
+        "nov21-cl080-retention"
       ]
     }
   ],
