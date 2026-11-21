@@ -117,7 +117,7 @@ export function reviewBrief(plan) {
 }
 
 export function monthBrief(plan) {
-  return `Idempotency key: ${plan.key}\nMonthly whole-catalog recheck (user authorized 2026-11-11). Snapshot ${plan.upstream.commit}, ${plan.counts.profiles} full profiles and ${plan.counts.register} register entries, filed as ${plan.tasks.length} batches of at most ${BATCH_SIZE} plus one independent review. Coordinate: claim the coordinator seat, start batches in turn within the daily spawn budget, start the review only when every batch is done, close accepted tasks. Sync Podium only after verified upstream commits (see the review task). Never restamp evidence dates.`;
+  return `Idempotency key: ${plan.key}\nMonthly whole-catalog recheck (user authorized 2026-11-11). Snapshot ${plan.upstream.commit}, ${plan.counts.profiles} full profiles and ${plan.counts.register} register entries, filed as ${plan.tasks.length} batches of at most ${BATCH_SIZE} plus one independent review. Coordinate: claim the coordinator seat, start batches in turn within the daily spawn budget with at most three active delegates, start the review only when every batch is done, close accepted tasks. Use Claude Code, Opus 5.5 medium. Sync Podium only after verified upstream commits (see the review task). Never restamp evidence dates.`;
 }
 
 // ---- Tracker -----------------------------------------------------------------
@@ -148,12 +148,41 @@ export class PodiumTracker {
       hits.push(...this.call(args));
     }
     const seen = new Set();
-    return hits.filter((i) => i.title === title && (i.brief ?? '').includes(key) && !seen.has(i.id) && seen.add(i.id));
+    // An older manually filed month must also prevent a duplicate. Its missing
+    // key is reported by runMonth instead of silently creating a second issue.
+    return hits.filter((i) => i.title === title && !seen.has(i.id) && seen.add(i.id));
+  }
+  currentIssue() {
+    const response = this.call(['prime']);
+    const prime = typeof response === 'string' ? response : response?.prime;
+    if (typeof prime !== 'string') throw new BlockedError('Podium did not return a current issue context');
+    const first = prime.split('\n')[0];
+    const draft = first.match(/^This session is attached to a draft work item \(([A-Z][A-Z0-9]*-\d+)\)\./);
+    const working = first.match(/^You are working on this issue.*?`([A-Z][A-Z0-9]*-\d+)`/);
+    const ref = draft?.[1] ?? working?.[1];
+    if (!ref) throw new BlockedError('Run from a managed Podium session');
+    const issue = this.call(['show', ref]);
+    if (Boolean(issue.draft) !== Boolean(draft)) throw new BlockedError('Current issue marker does not match its record');
+    return issue;
+  }
+  adoptDraft(issue, fields) {
+    if (!issue.draft || issue.stage === 'proposed') throw new BlockedError('Only the current user-assigned draft can become the monthly issue');
+    this.call(['update', '--id', refOf(issue), '--title', fields.title,
+      '--description', fields.description, '--brief', fields.brief, '--stage', 'in_progress',
+      '--agent', CONFIG.agent.kind, '--model', CONFIG.agent.model, '--effort', CONFIG.agent.effort,
+      '--parent-branch', 'origin/main']);
+    return this.call(['show', refOf(issue)]);
+  }
+  attach(ref) { this.call(['attach', '--id', ref]); }
+  coordinate(ref) {
+    this.call(['coordinator', ref, '--claim']);
+    this.call(['update', '--id', ref, '--stage', 'in_progress']);
   }
   children(ref) { return this.call(['children', ref]); }
   create(fields) {
     const args = ['create', '--repo-path', fields.repoPath ?? this.repoPath, '--title', fields.title, '--description', fields.description, '--brief', fields.brief];
     if (fields.parentId) args.push('--parent-id', fields.parentId);
+    args.push('--agent', CONFIG.agent.kind, '--model', CONFIG.agent.model, '--effort', CONFIG.agent.effort, '--parent-branch', 'origin/main');
     return this.call(args);
   }
   depAdd(from, to) { this.call(['dep-add', from, to]); }
@@ -186,12 +215,30 @@ export function runMonth({ plan, tracker, parentId = CONFIG.parentId, start = fa
     log(`${plan.key}: ${refOf(month)} is already closed; nothing to do`);
     return { issue: refOf(month), resumed, closed: true, actions };
   }
+  if (month?.stage === 'proposed') throw new BlockedError(`Monthly campaign ${refOf(month)} is Proposed and requires an operator to activate it`);
+  if (month?.stage === 'review') {
+    log(`${refOf(month)} is already ready for review; leaving it unchanged`);
+    return { issue: refOf(month), resumed: true, reviewReady: true, actions };
+  }
+  if (month && !(month.brief ?? '').includes(plan.key)) {
+    log(`${refOf(month)} already has this month's title without the idempotency key; leaving it unchanged instead of duplicating it`);
+    return { issue: refOf(month), resumed: true, needsAdoption: true, actions };
+  }
+  const current = tracker.currentIssue?.() ?? null;
+  const fields = {
+    title: plan.title, parentId,
+    description: `Monthly recheck of every adecomparison.com profile and register entry for ${plan.month}.`,
+    brief: monthBrief(plan),
+  };
   if (!month) {
-    month = act(`create issue "${plan.title}"${parentId ? ` under ${parentId}` : ''}`, () => tracker.create({
-      title: plan.title, parentId,
-      description: `Monthly recheck of every adecomparison.com profile and register entry for ${plan.month}.`,
-      brief: monthBrief(plan),
-    })) ?? { displayRef: '<new issue>' };
+    if (!parentId && current?.draft) {
+      // A native scheduled session starts on a user-assigned draft. Naming that
+      // draft is the supported issue-as-workspace path, not proposal promotion.
+      month = act(`name scheduled draft "${plan.title}"`, () => tracker.adoptDraft(current, fields)) ?? { displayRef: '<scheduled draft>' };
+    } else {
+      if (!parentId) throw new BlockedError('A new monthly campaign needs a fresh scheduled draft or an explicit open --parent-id');
+      month = act(`create issue "${plan.title}" under ${parentId}`, () => tracker.create(fields)) ?? { displayRef: '<new issue>' };
+    }
   } else {
     log(`${plan.key}: resuming ${refOf(month)}`);
   }
@@ -237,7 +284,14 @@ export function runMonth({ plan, tracker, parentId = CONFIG.parentId, start = fa
     const missing = [...effective.tasks.map((t) => t.title), effective.review.title].filter((t) => !titles.has(t));
     if (missing.length) throw new Error(`not starting: ${missing.length} tasks missing on ${ref}: ${missing.join(', ')}`);
   }
-  if (start) act(`start coordinator session on ${ref}`, () => tracker.start(ref));
+  if (start) {
+    if (current?.draft || current?.id === month.id) {
+      act(`use the scheduled session as coordinator on ${ref}`, () => {
+        if (current.id !== month.id) tracker.attach(ref);
+        tracker.coordinate(ref);
+      });
+    } else act(`start coordinator session on ${ref}`, () => tracker.start(ref));
+  }
   return { issue: ref, resumed, closed: false, actions, tasks: effective.tasks.length };
 }
 
@@ -260,7 +314,9 @@ export function syncSnapshot({ month, commit, deployRun, root = REPO_ROOT, track
   const brief = `Idempotency key: ${key}\nUpdate the vendored ADE comparison snapshot to ${CONFIG.repository}@${commit} (deploy run ${deployRun} succeeded). Do not edit snapshot content by hand and do not approve human comparison pages automatically.`;
   log(`${dryRun ? '[dry-run] ' : ''}file "${title}" in ${CONFIG.syncRepoPath} for ${commit}`);
   if (dryRun) return { issue: null, created: false };
-  const issue = syncTracker.create({ title, description: `Bring the ${month} ADE catalog recheck into podium-cloud.`, brief });
+  const parent = tracker.currentIssue();
+  if (parent.draft || ['done', 'closed'].includes(parent.stage)) throw new BlockedError('Snapshot sync needs an active monthly review issue as its parent');
+  const issue = syncTracker.create({ title, parentId: refOf(parent), description: `Bring the ${month} ADE catalog recheck into podium-cloud.`, brief });
   return { issue: refOf(issue), created: true };
 }
 

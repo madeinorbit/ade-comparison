@@ -4,7 +4,9 @@ import { createHash } from 'node:crypto';
 import { mkdtempSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { buildPlan, chunk, monthKey, runMonth, PodiumTracker, BlockedError, main } from './catalog-recheck.mjs';
+import { buildPlan, chunk, monthKey, runMonth, PodiumTracker, BlockedError, main, CONFIG } from './catalog-recheck.mjs';
+
+const runManual = (opts) => runMonth({ parentId: 'PDM-257', ...opts });
 
 const NOW = new Date('2026-12-01T09:00:00Z');
 
@@ -38,7 +40,7 @@ const digest = (root) => {
 class FakeTracker {
   constructor() { this.issues = []; this.artifacts = new Map(); this.started = []; this.calls = []; this.failAfterCreates = Infinity; }
   ping() {}
-  findByTitle(title, key) { return this.issues.filter((i) => i.title === title && i.brief.includes(key)); }
+  findByTitle(title, key) { return this.issues.filter((i) => i.title === title); }
   children(ref) { return this.issues.filter((i) => i.parentId === ref); }
   create(f) {
     if (this.issues.length >= this.failAfterCreates) throw new Error('simulated crash');
@@ -91,7 +93,7 @@ test('dry run files nothing, and the planner never edits research files', () => 
     const plan = buildPlan({ root, month: '2026-12', now: NOW, commit: 'abc1234' });
     const tracker = new FakeTracker();
     const lines = [];
-    const result = runMonth({ plan, tracker, parentId: 'PDM-257', start: true, dryRun: true, log: (l) => lines.push(l) });
+    const result = runManual({ plan, tracker, parentId: 'PDM-257', start: true, dryRun: true, log: (l) => lines.push(l) });
     assert.equal(tracker.issues.length, 0);
     assert.equal(tracker.started.length, 0);
     assert.equal(result.actions.length, 1 + 1 + 5 + 1 + 5 + 1, 'issue, manifest, 5 batches, review, 5 edges, start');
@@ -105,7 +107,7 @@ test('first run files every task and the review before starting; reruns resume w
   try {
     const plan = buildPlan({ root, month: '2026-12', now: NOW, commit: 'abc1234' });
     const tracker = new FakeTracker();
-    const first = runMonth({ plan, tracker, parentId: 'PDM-257', start: true, log: quiet });
+    const first = runManual({ plan, tracker, parentId: 'PDM-257', start: true, log: quiet });
     assert.equal(first.resumed, false);
     const month = tracker.issues[0];
     assert.equal(month.title, 'Catalog recheck 2026-12');
@@ -122,7 +124,7 @@ test('first run files every task and the review before starting; reruns resume w
     assert.ok(JSON.parse(tracker.getArtifact(month.displayRef, 'catalog-manifest.json')).tasks.length === 5);
 
     const count = tracker.issues.length;
-    const again = runMonth({ plan: buildPlan({ root, month: '2026-12', now: NOW, commit: 'later99' }), tracker, start: false, log: quiet });
+    const again = runManual({ plan: buildPlan({ root, month: '2026-12', now: NOW, commit: 'later99' }), tracker, start: false, log: quiet });
     assert.equal(again.resumed, true);
     assert.equal(again.issue, month.displayRef);
     assert.equal(tracker.issues.length, count, 'no duplicate issues');
@@ -135,11 +137,11 @@ test('a crashed run resumes from the frozen manifest even if the catalog changed
   try {
     const tracker = new FakeTracker();
     tracker.failAfterCreates = 3; // month issue + 2 batches, then crash
-    assert.throws(() => runMonth({ plan: buildPlan({ root, month: '2026-12', now: NOW, commit: 'abc1234' }), tracker, start: true, log: quiet }), /simulated crash/);
+    assert.throws(() => runManual({ plan: buildPlan({ root, month: '2026-12', now: NOW, commit: 'abc1234' }), tracker, start: true, log: quiet }), /simulated crash/);
     assert.equal(tracker.started.length, 0, 'nothing starts before every task is filed');
     writeFileSync(join(root, 'research', 'products', 'zzz.json'), JSON.stringify({ id: 'zzz', name: 'zzz', claims: [] }));
     tracker.failAfterCreates = Infinity;
-    const r = runMonth({ plan: buildPlan({ root, month: '2026-12', now: NOW, commit: 'new0000' }), tracker, start: true, log: quiet });
+    const r = runManual({ plan: buildPlan({ root, month: '2026-12', now: NOW, commit: 'new0000' }), tracker, start: true, log: quiet });
     assert.equal(r.resumed, true);
     const kids = tracker.children(r.issue);
     assert.equal(kids.length, 6, 'stored 5 batches + review, not recomputed');
@@ -154,13 +156,13 @@ test('a closed month is reported, not refiled; duplicates stop the run', () => {
   try {
     const plan = buildPlan({ root, month: '2026-12', now: NOW, commit: 'abc1234' });
     const tracker = new FakeTracker();
-    runMonth({ plan, tracker, log: quiet });
+    runManual({ plan, tracker, log: quiet });
     tracker.issues[0].stage = 'done';
-    const r = runMonth({ plan, tracker, start: true, log: quiet });
+    const r = runManual({ plan, tracker, start: true, log: quiet });
     assert.equal(r.closed, true);
     assert.equal(tracker.started.length, 0);
     tracker.issues.push({ ...tracker.issues[0], id: 'dup', displayRef: 'ADE-999' });
-    assert.throws(() => runMonth({ plan, tracker, log: quiet }), /more than one issue/);
+    assert.throws(() => runManual({ plan, tracker, log: quiet }), /more than one issue/);
   } finally { rmSync(root, { recursive: true, force: true }); }
 });
 
@@ -178,6 +180,119 @@ test('missing Podium CLI is reported as a blocker with exit code 3', () => {
     console.error = origErr; console.log = origLog;
     if (prevBin === undefined) delete process.env.ADE_RECHECK_PODIUM_BIN; else process.env.ADE_RECHECK_PODIUM_BIN = prevBin;
   }
+});
+
+test('fresh scheduled draft becomes the monthly issue without a closed setup parent', () => {
+  const root = fixture({ profiles: 1, register: 1 });
+  try {
+    const tracker = new FakeTracker();
+    const draft = { id: 'draft-user-assigned', displayRef: 'ADE-800', draft: true, title: 'Scheduled task', stage: 'backlog', brief: '', deps: [] };
+    tracker.issues.push(draft);
+    tracker.currentIssue = () => ({ ...draft });
+    tracker.adoptDraft = (current, fields) => {
+      assert.equal(current.id, draft.id);
+      Object.assign(draft, fields, { draft: false, stage: 'in_progress' });
+      return draft;
+    };
+    tracker.coordinate = (ref) => tracker.calls.push(['coordinate', ref]);
+    const plan = buildPlan({ root, month: '2026-12', now: NOW, commit: 'abc1234' });
+    const r = runMonth({ plan, tracker, parentId: null, start: true, log: quiet });
+    assert.equal(r.issue, 'ADE-800');
+    assert.equal(draft.draft, false);
+    assert.equal(draft.parentId, null);
+    assert.equal(tracker.issues.length, 4, 'same monthly issue, two batches, one review');
+    assert.deepEqual(tracker.started, [], 'the scheduled coordinator does not spawn a duplicate of itself');
+    assert.deepEqual(tracker.calls.at(-1), ['coordinate', 'ADE-800']);
+  } finally { rmSync(root, { recursive: true, force: true }); }
+});
+
+test('a real issue or Proposed record cannot be renamed into a fresh monthly campaign', () => {
+  const root = fixture({ profiles: 1, register: 0 });
+  try {
+    const plan = buildPlan({ root, month: '2026-12', now: NOW, commit: 'abc1234' });
+    const tracker = new FakeTracker();
+    tracker.currentIssue = () => ({ id: 'real', draft: false, title: 'Other task', stage: 'in_progress' });
+    assert.throws(() => runMonth({ plan, tracker, parentId: null, log: quiet }), /fresh scheduled draft/);
+    assert.equal(tracker.issues.length, 0);
+    const real = new PodiumTracker({ exec: () => { throw Error('must not mutate'); } });
+    assert.throws(() => real.adoptDraft({ id: 'proposal', draft: false, stage: 'proposed' }, {}), BlockedError);
+  } finally { rmSync(root, { recursive: true, force: true }); }
+});
+
+test('an existing unkeyed monthly title prevents a duplicate without being changed', () => {
+  const root = fixture({ profiles: 1, register: 0 });
+  try {
+    const tracker = new FakeTracker();
+    tracker.issues.push({ id: 'human-month', displayRef: 'ADE-700', title: 'Catalog recheck 2026-12', brief: 'Manually filed', stage: 'backlog' });
+    const result = runMonth({ plan: buildPlan({ root, month: '2026-12', now: NOW, commit: 'abc1234' }), tracker, parentId: null, start: true, log: quiet });
+    assert.equal(result.issue, 'ADE-700');
+    assert.equal(result.needsAdoption, true);
+    assert.equal(tracker.issues.length, 1);
+    assert.deepEqual(tracker.started, []);
+  } finally { rmSync(root, { recursive: true, force: true }); }
+});
+
+test('created work preserves the requested agent and starts from current remote main', () => {
+  const calls = [];
+  const tracker = new PodiumTracker({ exec: (bin, args) => {
+    calls.push(args);
+    return JSON.stringify({ ok: true, data: { id: 'created', displayRef: 'ADE-701' } });
+  } });
+  tracker.create({ title: 'Source batch 01', description: 'Recheck sources.', brief: 'Bounded research.', parentId: 'ADE-700' });
+  const args = calls[0];
+  assert.equal(args[args.indexOf('--agent') + 1], 'claude-code');
+  assert.equal(args[args.indexOf('--model') + 1], 'claude-opus-5-5');
+  assert.equal(args[args.indexOf('--effort') + 1], 'medium');
+  assert.equal(args[args.indexOf('--parent-branch') + 1], 'origin/main');
+  assert.equal(CONFIG.parentId, null, 'a recurring campaign must not depend on the one-off setup issue staying open');
+});
+
+test('native issue context reads the real CLI prime envelope and verifies the draft record', () => {
+  const draft = { id: 'draft', displayRef: 'ADE-800', draft: true, stage: 'backlog' };
+  const tracker = new PodiumTracker({ exec: (bin, args) => {
+    const data = args[1] === 'prime'
+      ? { prime: 'This session is attached to a draft work item (ADE-800).\nName the request.' }
+      : draft;
+    return JSON.stringify({ ok: true, data });
+  } });
+  assert.deepEqual(tracker.currentIssue(), draft);
+  const mismatch = new PodiumTracker({ exec: (bin, args) => JSON.stringify({ ok: true, data:
+    args[1] === 'prime' ? { prime: 'This session is attached to a draft work item (ADE-800).' } : { ...draft, draft: false } }) });
+  assert.throws(() => mismatch.currentIssue(), /does not match/);
+});
+
+test('a retry attaches the fresh scheduled session to its existing month without a second coordinator', () => {
+  const root = fixture({ profiles: 1, register: 0 });
+  try {
+    const tracker = new FakeTracker();
+    const plan = buildPlan({ root, month: '2026-12', now: NOW, commit: 'abc1234' });
+    runManual({ plan, tracker, log: quiet });
+    const month = tracker.issues[0], count = tracker.issues.length;
+    tracker.currentIssue = () => ({ id: 'new-draft', displayRef: 'ADE-800', draft: true, stage: 'backlog' });
+    tracker.attach = (ref) => tracker.calls.push(['attach', ref]);
+    tracker.coordinate = (ref) => { tracker.calls.push(['coordinate', ref]); month.stage = 'in_progress'; };
+    const result = runMonth({ plan, tracker, parentId: null, start: true, log: quiet });
+    assert.equal(result.resumed, true);
+    assert.equal(tracker.issues.length, count);
+    assert.deepEqual(tracker.started, []);
+    assert.deepEqual(tracker.calls.slice(-2), [['attach', month.displayRef], ['coordinate', month.displayRef]]);
+    assert.equal(month.stage, 'in_progress');
+  } finally { rmSync(root, { recursive: true, force: true }); }
+});
+
+test('a retry never activates a Proposed month or reopens a campaign ready for review', () => {
+  const root = fixture({ profiles: 1, register: 0 });
+  try {
+    const tracker = new FakeTracker();
+    const plan = buildPlan({ root, month: '2026-12', now: NOW, commit: 'abc1234' });
+    tracker.issues.push({ id: 'month', displayRef: 'ADE-700', title: plan.title, brief: plan.key, stage: 'proposed' });
+    assert.throws(() => runMonth({ plan, tracker, parentId: null, start: true, log: quiet }), /requires an operator/);
+    assert.equal(tracker.issues.length, 1);
+    tracker.issues[0].stage = 'review';
+    assert.equal(runMonth({ plan, tracker, parentId: null, start: true, log: quiet }).reviewReady, true);
+    assert.deepEqual(tracker.started, []);
+    assert.equal(tracker.issues[0].stage, 'review');
+  } finally { rmSync(root, { recursive: true, force: true }); }
 });
 
 test('routine config fires monthly at 09:00 UTC and only calls the handler', () => {
