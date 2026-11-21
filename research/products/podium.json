@@ -5287,9 +5287,13 @@
           ]
         },
         "retention": {
-          "support": "unknown",
-          "answer": "Retention for local, self-hosted and paired-machine state: not established. The feature-availability page says user-configurable retention controls are not implemented, but under its Hosted behavior heading, which is outside this claim scope. Searched docs and site on 2026-11-11.",
-          "evidenceIds": []
+          "support": "partial",
+          "answer": "At v0.3.0 the server prunes its event log to 14 days or 50,000 rows, drops quota history older than 90 days and keeps three database snapshots; these limits are fixed in code with no setting. No time-based deletion of issues, transcripts or artifacts was found. The docs list user-configurable retention as not implemented (hosted section).",
+          "evidenceIds": [
+            "nov21-feature-availability",
+            "nov21-src-event-retention",
+            "nov21-src-quota-backup-retention"
+          ]
         },
         "deletion": {
           "support": "partial",
@@ -5382,17 +5386,16 @@
         "nov06b-doc-availability",
         "nov06c-telemetry-tiers",
         "nov06c-telemetry-schema",
-        "nov06c-config-connect"
+        "nov06c-config-connect",
+        "nov21-feature-availability",
+        "nov21-src-event-retention",
+        "nov21-src-quota-backup-retention"
       ],
       "checkedAt": "2026-11-06",
       "nextReviewAt": "2026-12-06",
-      "researcher": "reviewer-39",
-      "publication": "public-reviewed",
-      "review": {
-        "reviewer": "reviewer-60",
-        "date": "2026-11-11",
-        "contentHash": "35f8a89806df404f4bc4d57061e1da6408fffc3229be9426a92654b618924c6c"
-      },
+      "researcher": "researcher-ade-126",
+      "publication": "public-candidate",
+      "review": null,
       "contradictions": []
     },
     {
@@ -7952,6 +7955,45 @@
       "visibility": "public",
       "commit": "ec6ff505f69aeb358eb744596e70e984996c2e42",
       "path": "apps/server/src/auth-route.ts"
+    },
+    {
+      "id": "nov21-feature-availability",
+      "kind": "documented",
+      "url": "https://podium.do/docs/reference/feature-availability",
+      "title": "Podium docs: Check feature availability",
+      "locator": "Hosted behavior, second paragraph",
+      "sourceDate": "2026-11-06",
+      "retrievedAt": "2026-11-21",
+      "finding": "Under Hosted behavior: hosted workspace requests still require manual provisioning, and billing, hosted metering, user-configurable retention controls and a durable public cloud-runtime lifecycle are not implemented product claims in the reviewed version. The page does not describe retention for local or self-hosted state.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "nov21-src-event-retention",
+      "kind": "source-inspected",
+      "url": "https://github.com/madeinorbit/podium/blob/ec6ff505f69aeb358eb744596e70e984996c2e42/apps/server/src/modules/events/retention.ts",
+      "title": "Podium v0.3.0 source: event-log retention",
+      "locator": "apps/server/src/modules/events/retention.ts: EVENT_RETENTION_MAX_AGE_DAYS, EVENT_RETENTION_MAX_ROWS; apps/server/src/modules/maintenance/service.ts lines 150-156 and 288-293; apps/server/src/relay.ts lines 3905-3908",
+      "sourceDate": "2026-11-05",
+      "retrievedAt": "2026-11-21",
+      "finding": "The server's podium_events log is pruned to at most 14 days and 50,000 rows. The constants are hardcoded with the comment 'no settings knob yet'; at v0.3.0 the prune runs through the janitor maintenance surface, which checks the same constants. Bounded search terms: retention, prune, purge, maxAge, RETENTION_ across apps/ and packages/.",
+      "visibility": "public",
+      "commit": "ec6ff505f69aeb358eb744596e70e984996c2e42",
+      "path": "apps/server/src/modules/events/retention.ts"
+    },
+    {
+      "id": "nov21-src-quota-backup-retention",
+      "kind": "source-inspected",
+      "url": "https://github.com/madeinorbit/podium/blob/ec6ff505f69aeb358eb744596e70e984996c2e42/apps/server/src/modules/quota-history/service.ts",
+      "title": "Podium v0.3.0 source: quota history and database snapshot retention",
+      "locator": "apps/server/src/modules/quota-history/service.ts: QUOTA_HISTORY_RETENTION_MS; apps/server/src/migrations/backup.ts: MIGRATION_BACKUPS_TO_KEEP, pruneBackups",
+      "sourceDate": "2026-11-05",
+      "retrievedAt": "2026-11-21",
+      "finding": "Harness quota windows that reset more than 90 days ago are dropped, and pre-migration database snapshots are pruned to the three newest plus the verified recovery point. Both limits are constants. The bounded search found no user-facing retention setting and no time-based deletion of issues, transcript mirrors or artifacts.",
+      "visibility": "public",
+      "commit": "ec6ff505f69aeb358eb744596e70e984996c2e42",
+      "path": "apps/server/src/modules/quota-history/service.ts"
     }
   ],
   "changes": [
@@ -25551,6 +25593,38 @@
           "roles": "roles=yes"
         }
       }
+    },
+    {
+      "date": "2026-11-21",
+      "author": "researcher-ade-126",
+      "type": "research-correction",
+      "summary": "Backfill source batch 04 (ADE-126): re-verified the one inherited legacy lead (OWN-03 retention, issue/244 2026-11-11). The feature-availability page (last modified 2026-11-06) still says user-configurable retention controls are not implemented, under Hosted behavior; a bounded inspection of public tag v0.3.0 (ec6ff50) answers the local and self-hosted scope: fixed internal pruning of the event log, quota history and pre-migration database snapshots, with no retention setting. Answered as a public candidate awaiting independent review. Untouched atoms, contradictions, findings and claim dates are preserved.",
+      "claimIds": [
+        "podium:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Docs state repositories and native harness credentials stay on machines you control and server state lives in a documented directory. Since 0.2.0 a daily usage report is on by default and can be turned off; crash reports stay opt-in. Usage reports carry an install id, schema version, Podium version, OS, architecture, bucketed install age and machine count, session counts per harness and whether issues were used. Crash reports carry the same install id, versions, OS and architecture, a fixed error type and up to 20 stack frames, each with a Podium source file path, line and function when there is one; error messages and frames outside Podium are dropped. Neither tier sends prompts, transcripts, your code or paths outside the Podium source tree. Model-provider handling is the harness own. Hosted analytics and website analytics are separate paths.",
+        "checkedAt": "2026-11-06",
+        "nextReviewAt": "2026-12-06",
+        "subanswers": {
+          "retention": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Docs state repositories and native harness credentials stay on machines you control and server state lives in a documented directory. Since 0.2.0 a daily usage report is on by default and can be turned off; crash reports stay opt-in. Usage reports carry an install id, schema version, Podium version, OS, architecture, bucketed install age and machine count, session counts per harness and whether issues were used. Crash reports carry the same install id, versions, OS and architecture, a fixed error type and up to 20 stack frames, each with a Podium source file path, line and function when there is one; error messages and frames outside Podium are dropped. Neither tier sends prompts, transcripts, your code or paths outside the Podium source tree. Model-provider handling is the harness own. Hosted analytics and website analytics are separate paths.",
+        "checkedAt": "2026-11-06",
+        "nextReviewAt": "2026-12-06",
+        "subanswers": {
+          "retention": "partial"
+        }
+      },
+      "evidenceIds": [
+        "nov21-feature-availability",
+        "nov21-src-event-retention",
+        "nov21-src-quota-backup-retention"
+      ]
     }
   ],
   "context": {
