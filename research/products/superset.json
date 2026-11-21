@@ -1905,7 +1905,7 @@
     {
       "id": "superset:COORD-04",
       "criterionId": "COORD-04",
-      "answer": "Current automations combine schedules and provider-event triggers, up to 25 per automation, on selected hosts or cloud. A created run records workspace creation, not verified task completion.",
+      "answer": "Current automations combine schedules and provider-event triggers, up to 25 per automation, on selected hosts or cloud. A created run records workspace creation, not verified task completion. Schedules are evaluated by the cloud API from its database (desktop-v2.0.11 code); a run needs its target device online through the relay, or a Cloud target, and an offline device misses the run.",
       "support": "partial",
       "availability": "generally-available",
       "delivery": "native",
@@ -1914,7 +1914,7 @@
           "desktop",
           "cli"
         ],
-        "version": "Paradev desktop-v2.0.5; current docs/pricing reread 2026-11-07",
+        "version": "Paradev desktop-v2.0.5; current docs/pricing reread 2026-11-07; scheduler code desktop-v2.0.11 23c193a and docs reread 2026-11-21",
         "plan": null,
         "os": [],
         "executionModes": [],
@@ -1952,9 +1952,12 @@
           ]
         },
         "scheduler_location": {
-          "support": "unknown",
-          "answer": "Not established by the first-party sources reread November 7; no configured or authenticated scenario was tested.",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "Server-side: a per-minute QStash tick in the cloud API selects due schedule triggers from the server database, enqueues dispatch and advances next_run_at, then hands the run to the chosen device or Cloud. Hosted deployment parity with the pinned code is not verified.",
+          "evidenceIds": [
+            "b06-evaluate",
+            "b06-automations"
+          ]
         },
         "overlaps": {
           "support": "unknown",
@@ -1970,29 +1973,32 @@
           ]
         },
         "client_independence": {
-          "support": "unknown",
-          "answer": "Not established by the first-party sources reread November 7; no configured or authenticated scenario was tested.",
-          "evidenceIds": []
+          "support": "partial",
+          "answer": "The creating client need not stay open, but a local target device must be online through the relay at fire time; an offline device misses the run. A Cloud target avoids keeping a computer connected. The docs disagree on whether such a run is missed and not retried or failed and retryable.",
+          "evidenceIds": [
+            "b06-automations",
+            "b06-faq"
+          ]
         }
       },
       "limitations": [
-        "No workload, billing or authenticated client test was performed; unestablished details remain unknown."
+        "No workload, billing or authenticated client test was performed; unestablished details remain unknown.",
+        "Docs conflict, 2026-11-21: the Automations page records an offline-device run as missed and not retried; the FAQ calls it failed and retryable with Retry all. Both agree the run does not happen while the target device is offline."
       ],
-      "unknownReason": "Reread the cited first-party sources on 2026-11-07. Remaining atomic questions are not established for the named surface and version; no installed-client or authenticated scenario was run.",
+      "unknownReason": "Unknown after the 2026-11-21 backfill re-verification of first-party sources and public code: overlaps. Earlier pass: Reread the cited first-party sources on 2026-11-07. Remaining atomic questions are not established for the named surface and version; no installed-client or authenticated scenario was run.",
       "evidenceIds": [
         "d-automations-nov07",
         "changelog-events-nov07",
-        "d-trouble-nov07"
+        "d-trouble-nov07",
+        "b06-evaluate",
+        "b06-automations",
+        "b06-faq"
       ],
       "checkedAt": "2026-11-07",
       "nextReviewAt": "2026-11-21",
-      "researcher": "researcher-16",
-      "publication": "public-reviewed",
-      "review": {
-        "reviewer": "reviewer-44",
-        "date": "2026-11-07",
-        "contentHash": "5d7e226235e36d80630eb0a03764fb1a03ee6768b940eef52834396043194e09"
-      },
+      "researcher": "researcher-ade-128",
+      "publication": "public-candidate",
+      "review": null,
       "contradictions": []
     },
     {
@@ -4581,7 +4587,7 @@
     {
       "id": "superset:OWN-01",
       "criterionId": "OWN-01",
-      "answer": "Current desktop-v2.0.5 root repository code is MIT-licensed. This does not establish hosted-service parity or licenses for every component.",
+      "answer": "Current desktop-v2.0.5 root repository code is MIT-licensed. This does not establish hosted-service parity or licenses for every component. At desktop-v2.0.11 the server apps (apps/api, apps/relay, apps/realtime) sit in the same MIT repository with no separate license.",
       "support": "partial",
       "availability": "source-only",
       "delivery": "native",
@@ -4589,7 +4595,7 @@
         "surfaceIds": [
           "source"
         ],
-        "version": "desktop-v2.0.5 at 624219c3c6a5428aec38b5f13f040cc0fc087010",
+        "version": "desktop-v2.0.5 at 624219c3c6a5428aec38b5f13f040cc0fc087010; server_license at desktop-v2.0.11 23c193a326a9be449f35bf3a97372cd1c2175e50",
         "plan": null,
         "os": [],
         "executionModes": [],
@@ -4605,9 +4611,11 @@
           ]
         },
         "server_license": {
-          "support": "unknown",
-          "answer": "Not established by the first-party sources reread November 7; no configured or authenticated scenario was tested.",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "MIT: apps/api, apps/relay and apps/realtime are in the root-MIT repository at desktop-v2.0.11 with no separate license file. Whether the hosted service runs this code unchanged is a separate, unestablished question.",
+          "evidenceIds": [
+            "b06-license-tree"
+          ]
         },
         "hosted_extensions": {
           "support": "unknown",
@@ -4637,20 +4645,17 @@
       "limitations": [
         "No workload, billing or authenticated client test was performed; unestablished details remain unknown."
       ],
-      "unknownReason": "Reread the cited first-party sources on 2026-11-07. Remaining atomic questions are not established for the named surface and version; no installed-client or authenticated scenario was run.",
+      "unknownReason": "Unknown after the 2026-11-21 backfill re-verification of first-party sources and public code: hosted_extensions, hosted_parity. Earlier pass: Reread the cited first-party sources on 2026-11-07. Remaining atomic questions are not established for the named surface and version; no installed-client or authenticated scenario was run.",
       "evidenceIds": [
         "mit-license-nov07",
-        "releases-nov07"
+        "releases-nov07",
+        "b06-license-tree"
       ],
       "checkedAt": "2026-11-07",
       "nextReviewAt": "2026-12-07",
-      "researcher": "reviewer-45",
-      "publication": "public-reviewed",
-      "review": {
-        "reviewer": "reviewer-47",
-        "date": "2026-11-07",
-        "contentHash": "10714ddbcc7bc6ae90a0a12c099de9d79851e60a1c003a1b26bd446a5c7d50ed"
-      },
+      "researcher": "researcher-ade-128",
+      "publication": "public-candidate",
+      "review": null,
       "contradictions": []
     },
     {
@@ -4931,7 +4936,7 @@
     {
       "id": "superset:OWN-04",
       "criterionId": "OWN-04",
-      "answer": "Per-seat Pro $20 monthly/$192 yearly; Team $60/$648 yearly; Ultra $200 monthly. Team/Ultra include pooled Cloud GB-hours with $0.06/GB-hour extra usage. Model accounts are separate.",
+      "answer": "Per-seat Pro $20 monthly/$192 yearly; Team $60/$648 yearly; Ultra $200 monthly. Team/Ultra include pooled Cloud GB-hours with $0.06/GB-hour extra usage. Model accounts are separate. Workspaces and projects are unlimited on every plan; cloud compute is metered per GB-hour instead.",
       "support": "partial",
       "availability": "generally-available",
       "delivery": "native",
@@ -4976,9 +4981,11 @@
           "evidenceIds": []
         },
         "workspace_fees": {
-          "support": "unknown",
-          "answer": "Not established by the first-party sources reread November 7; no configured or authenticated scenario was tested.",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "No per-workspace or per-project fee: the comparison lists Workspaces and Projects as Unlimited on Free, Pro, Team, Ultra and Enterprise. Cloud workspace use is metered by GB-hour.",
+          "evidenceIds": [
+            "b06-pricing"
+          ]
         },
         "included_usage": {
           "support": "supported",
@@ -5028,20 +5035,17 @@
       "limitations": [
         "No workload, billing or authenticated client test was performed; unestablished details remain unknown."
       ],
-      "unknownReason": "Reread the cited first-party sources on 2026-11-07. Remaining atomic questions are not established for the named surface and version; no installed-client or authenticated scenario was run.",
+      "unknownReason": "Unknown after the 2026-11-21 backfill re-verification of first-party sources and public code: seat_minimum, credits, trial, taxes. Earlier pass: Reread the cited first-party sources on 2026-11-07. Remaining atomic questions are not established for the named surface and version; no installed-client or authenticated scenario was run.",
       "evidenceIds": [
         "pricing-nov07",
-        "cloud-current-nov07"
+        "cloud-current-nov07",
+        "b06-pricing"
       ],
       "checkedAt": "2026-11-07",
       "nextReviewAt": "2026-11-21",
-      "researcher": "researcher-16",
-      "publication": "public-reviewed",
-      "review": {
-        "reviewer": "reviewer-44",
-        "date": "2026-11-07",
-        "contentHash": "76ba6fd9b0d421c0e49403dd4f96186834706d4e7c056ba9673a243696d2c893"
-      },
+      "researcher": "researcher-ade-128",
+      "publication": "public-candidate",
+      "review": null,
       "contradictions": []
     },
     {
@@ -5458,7 +5462,7 @@
     {
       "id": "superset:OWN-09",
       "criterionId": "OWN-09",
-      "answer": "Seat prices, pooled Cloud GB-hours and $0.06/GB-hour extras are public. Enterprise is custom annual; cancellation applies at period end.",
+      "answer": "Seat prices, pooled Cloud GB-hours and $0.06/GB-hour extras are public. Enterprise is custom annual; cancellation applies at period end. Enterprise is annual billing only; Pro and Team bill monthly or yearly and Ultra monthly, with no published seat minimum.",
       "support": "partial",
       "availability": "generally-available",
       "delivery": "native",
@@ -5509,9 +5513,11 @@
           ]
         },
         "minimum_commitment": {
-          "support": "unknown",
-          "answer": "Not established by the first-party sources reread November 7; no configured or authenticated scenario was tested.",
-          "evidenceIds": []
+          "support": "partial",
+          "answer": "Enterprise is annual billing only; Pro and Team can bill monthly and Ultra bills monthly. The pricing page states no seat or spend minimum; Enterprise contract minimums are sales-only.",
+          "evidenceIds": [
+            "b06-pricing"
+          ]
         },
         "cancellation": {
           "support": "supported",
@@ -5536,19 +5542,16 @@
       "limitations": [
         "No workload, billing or authenticated client test was performed; unestablished details remain unknown."
       ],
-      "unknownReason": "Reread the cited first-party sources on 2026-11-07. Remaining atomic questions are not established for the named surface and version; no installed-client or authenticated scenario was run.",
+      "unknownReason": "Unknown after the 2026-11-21 backfill re-verification of first-party sources and public code: compute_markup, transparency_classification. Earlier pass: Reread the cited first-party sources on 2026-11-07. Remaining atomic questions are not established for the named surface and version; no installed-client or authenticated scenario was run.",
       "evidenceIds": [
-        "pricing-nov07"
+        "pricing-nov07",
+        "b06-pricing"
       ],
       "checkedAt": "2026-11-07",
       "nextReviewAt": "2026-11-21",
-      "researcher": "researcher-16",
-      "publication": "public-reviewed",
-      "review": {
-        "reviewer": "reviewer-44",
-        "date": "2026-11-07",
-        "contentHash": "89b508ae250856f8f03e7c1d1b6ab331360e6652616123a954c384dcaa5d30c2"
-      },
+      "researcher": "researcher-ade-128",
+      "publication": "public-candidate",
+      "review": null,
       "contradictions": []
     }
   ],
@@ -7619,6 +7622,71 @@
       "title": "ParadevAI/Paradev releases",
       "locator": "Releases desktop-v2.0.6 to desktop-v2.0.8",
       "finding": "Non-prerelease desktop-v2.0.6 published 2026-11-08, desktop-v2.0.7 on 2026-11-09 and desktop-v2.0.8 on 2026-11-10; desktop-canary and cli-v2.0.8 are prereleases."
+    },
+    {
+      "id": "b06-automations",
+      "kind": "documented",
+      "url": "https://docs.paradev.com/automations",
+      "title": "Paradev docs: Automations",
+      "locator": "Create an Automation (Device); Runs; Limits",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-21",
+      "finding": "Each automation targets a device or Cloud. Run statuses: created, creating, missed (no device online to take the run; not retried) and failed. Limits: offline hosts miss the run; keep the device online. Legacy docs.superset.sh/automations redirects here.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "b06-faq",
+      "kind": "documented",
+      "url": "https://docs.paradev.com/faq",
+      "title": "Paradev docs: FAQ",
+      "locator": "Remote and Automations",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-21",
+      "finding": "Online means connected to the Paradev relay. Runs fail when the target device is not relay-connected at fire time; use Retry all once it is back. Cloud workspaces work without keeping your own computer connected.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "b06-pricing",
+      "kind": "documented",
+      "url": "https://paradev.com/pricing",
+      "title": "Paradev pricing",
+      "locator": "Plan cards; Compare plans: Usage",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-21",
+      "finding": "Workspaces and Projects are Unlimited on Free, Pro, Team, Ultra and Enterprise; cloud usage is metered per GB-hour. Ultra is billed monthly; Enterprise is custom pricing with annual billing only.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "b06-evaluate",
+      "kind": "source-inspected",
+      "url": "https://github.com/ParadevAI/Paradev/blob/23c193a326a9be449f35bf3a97372cd1c2175e50/apps/api/src/app/api/automations/evaluate/route.ts",
+      "title": "Paradev apps/api automations evaluate route (desktop-v2.0.11)",
+      "locator": "POST handler, lines 104-240",
+      "sourceDate": "2026-11-20",
+      "retrievedAt": "2026-11-21",
+      "finding": "A QStash-verified per-minute tick in the cloud API selects enabled schedule triggers whose next_run_at is due from the server database, skips plans without schedules, enqueues dispatch and advances next_run_at. The schedule is evaluated server-side, not on a desktop client.",
+      "visibility": "public",
+      "commit": "23c193a326a9be449f35bf3a97372cd1c2175e50",
+      "path": "apps/api/src/app/api/automations/evaluate/route.ts"
+    },
+    {
+      "id": "b06-license-tree",
+      "kind": "source-inspected",
+      "url": "https://github.com/ParadevAI/Paradev/tree/23c193a326a9be449f35bf3a97372cd1c2175e50",
+      "title": "Paradev repository tree and LICENSE.md (desktop-v2.0.11)",
+      "locator": "LICENSE.md; apps/api, apps/relay, apps/realtime package.json; README 'License & what's free forever'",
+      "sourceDate": "2026-11-20",
+      "retrievedAt": "2026-11-21",
+      "finding": "Root LICENSE.md is MIT (Superset Inc.). The server apps apps/api, apps/relay and apps/realtime are in the same repository with private package manifests and no separate license file; the only other LICENSE files are packages/sdk (MIT) and vendored utilities. README says the whole app is in the repo under MIT.",
+      "visibility": "public",
+      "commit": "23c193a326a9be449f35bf3a97372cd1c2175e50",
+      "path": "LICENSE.md"
     }
   ],
   "changes": [
@@ -16774,6 +16842,130 @@
       "evidenceIds": [
         "gaps41-cloud-vm"
       ]
+    },
+    {
+      "date": "2026-11-21",
+      "author": "researcher-ade-128",
+      "type": "research-correction",
+      "summary": "2026-11-21 backfill re-verification of 5 inherited legacy leads against current docs.paradev.com, paradev.com/pricing and pinned desktop-v2.0.11 source (23c193a). The missed/failed label conflict between the Automations page and FAQ is recorded in limitations; both pages agree an offline target device does not run the automation.",
+      "claimIds": [
+        "superset:COORD-04"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Current automations combine schedules and provider-event triggers, up to 25 per automation, on selected hosts or cloud. A created run records workspace creation, not verified task completion.",
+        "checkedAt": "2026-11-07",
+        "nextReviewAt": "2026-11-21",
+        "subanswers": {
+          "scheduler_location": "unknown",
+          "client_independence": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Current automations combine schedules and provider-event triggers, up to 25 per automation, on selected hosts or cloud. A created run records workspace creation, not verified task completion. Schedules are evaluated by the cloud API from its database (desktop-v2.0.11 code); a run needs its target device online through the relay, or a Cloud target, and an offline device misses the run.",
+        "checkedAt": "2026-11-07",
+        "nextReviewAt": "2026-11-21",
+        "subanswers": {
+          "scheduler_location": "supported",
+          "client_independence": "partial"
+        }
+      },
+      "evidenceIds": [
+        "b06-evaluate",
+        "b06-automations",
+        "b06-faq"
+      ]
+    },
+    {
+      "date": "2026-11-21",
+      "author": "researcher-ade-128",
+      "type": "research-correction",
+      "summary": "2026-11-21 backfill re-verification of 5 inherited legacy leads against current docs.paradev.com, paradev.com/pricing and pinned desktop-v2.0.11 source (23c193a).",
+      "claimIds": [
+        "superset:OWN-01"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Current desktop-v2.0.5 root repository code is MIT-licensed. This does not establish hosted-service parity or licenses for every component.",
+        "checkedAt": "2026-11-07",
+        "nextReviewAt": "2026-12-07",
+        "subanswers": {
+          "server_license": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Current desktop-v2.0.5 root repository code is MIT-licensed. This does not establish hosted-service parity or licenses for every component. At desktop-v2.0.11 the server apps (apps/api, apps/relay, apps/realtime) sit in the same MIT repository with no separate license.",
+        "checkedAt": "2026-11-07",
+        "nextReviewAt": "2026-12-07",
+        "subanswers": {
+          "server_license": "supported"
+        }
+      },
+      "evidenceIds": [
+        "b06-license-tree"
+      ]
+    },
+    {
+      "date": "2026-11-21",
+      "author": "researcher-ade-128",
+      "type": "research-correction",
+      "summary": "2026-11-21 backfill re-verification of 5 inherited legacy leads against current docs.paradev.com, paradev.com/pricing and pinned desktop-v2.0.11 source (23c193a).",
+      "claimIds": [
+        "superset:OWN-04"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Per-seat Pro $20 monthly/$192 yearly; Team $60/$648 yearly; Ultra $200 monthly. Team/Ultra include pooled Cloud GB-hours with $0.06/GB-hour extra usage. Model accounts are separate.",
+        "checkedAt": "2026-11-07",
+        "nextReviewAt": "2026-11-21",
+        "subanswers": {
+          "workspace_fees": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Per-seat Pro $20 monthly/$192 yearly; Team $60/$648 yearly; Ultra $200 monthly. Team/Ultra include pooled Cloud GB-hours with $0.06/GB-hour extra usage. Model accounts are separate. Workspaces and projects are unlimited on every plan; cloud compute is metered per GB-hour instead.",
+        "checkedAt": "2026-11-07",
+        "nextReviewAt": "2026-11-21",
+        "subanswers": {
+          "workspace_fees": "supported"
+        }
+      },
+      "evidenceIds": [
+        "b06-pricing"
+      ]
+    },
+    {
+      "date": "2026-11-21",
+      "author": "researcher-ade-128",
+      "type": "research-correction",
+      "summary": "2026-11-21 backfill re-verification of 5 inherited legacy leads against current docs.paradev.com, paradev.com/pricing and pinned desktop-v2.0.11 source (23c193a).",
+      "claimIds": [
+        "superset:OWN-09"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Seat prices, pooled Cloud GB-hours and $0.06/GB-hour extras are public. Enterprise is custom annual; cancellation applies at period end.",
+        "checkedAt": "2026-11-07",
+        "nextReviewAt": "2026-11-21",
+        "subanswers": {
+          "minimum_commitment": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Seat prices, pooled Cloud GB-hours and $0.06/GB-hour extras are public. Enterprise is custom annual; cancellation applies at period end. Enterprise is annual billing only; Pro and Team bill monthly or yearly and Ultra monthly, with no published seat minimum.",
+        "checkedAt": "2026-11-07",
+        "nextReviewAt": "2026-11-21",
+        "subanswers": {
+          "minimum_commitment": "partial"
+        }
+      },
+      "evidenceIds": [
+        "b06-pricing"
+      ]
     }
   ],
   "context": {
@@ -16922,6 +17114,14 @@
         {
           "url": "https://github.com/ParadevAI/Paradev/issues",
           "result": "Checked recent issues concerning PR history and chat recovery. No open request used as shipped evidence."
+        },
+        {
+          "url": "https://github.com/ParadevAI/Paradev/releases",
+          "result": "researcher-ade-128 2026-11-21 backfill: latest stable desktop-v2.0.11 (2026-11-20, commit 23c193a); newer entries are canary and CLI prereleases. Used only to pin scheduler and license code; no new dated announcement affecting the five backfilled atoms."
+        },
+        {
+          "url": "https://docs.paradev.com/automations",
+          "result": "researcher-ade-128 2026-11-21 backfill: current automations docs read for device targeting, run statuses and limits."
         }
       ],
       "announced": [
