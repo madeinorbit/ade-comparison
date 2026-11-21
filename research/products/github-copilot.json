@@ -3362,7 +3362,7 @@
     {
       "id": "github-copilot:TEAM-02",
       "criterionId": "TEAM-02",
-      "answer": "Enterprise owners and AI managers manage enterprise agent policies; organization owners control repository and organization settings. CLI OAuth includes authorization for organizations using SAML SSO. Without repository write access the cloud session is read-only; organization policies and SSO requirements apply. Repository read or write access sets session and automation rights. The requester cannot approve their own Copilot PR; personal vs shared automations differ in visibility, editing and identity. Seats are assigned; for card or PayPal customers seats are paid upfront and revoking a seat gives no prorated refund. Owners can suspend or uninstall apps and revoke seats. Content exclusion and organization policy management are only in Business and Enterprise.",
+      "answer": "Enterprise owners set the Copilot in the cloud and third-party agent policies; organization owners block repositories, configure the cloud agent firewall and choose which enabled agents to allow. GitHub documents enterprise roles with permissions (enterprise owner, billing manager, app manager, security manager in public preview, custom roles); the current pages name no AI manager role. CLI OAuth includes authorization for organizations using SAML SSO. Without repository write access the cloud session is read-only; organization policies and SSO requirements apply. Repository read or write access sets session and automation rights. The requester cannot approve their own Copilot PR; personal vs shared automations differ in visibility, editing and identity. Seats are assigned; for card or PayPal customers seats are paid upfront and revoking a seat gives no prorated refund. Owners can suspend or uninstall apps and revoke seats. Content exclusion and organization policy management are only in Business and Enterprise.",
       "support": "partial",
       "availability": "unknown",
       "delivery": "native",
@@ -3371,7 +3371,7 @@
           "cloud",
           "mobile"
         ],
-        "version": "Public sources checked 2026-11-07; no installed release tested",
+        "version": "Public sources checked 2026-11-07, organization_roles rechecked 2026-11-21; no installed release tested",
         "plan": "Plan restrictions and client/mode boundaries are stated per atomic answer; unlisted parity remains unknown.",
         "os": [],
         "executionModes": [
@@ -3383,9 +3383,10 @@
       "subanswers": {
         "organization_roles": {
           "support": "supported",
-          "answer": "Enterprise owners and AI managers manage enterprise agent policies; organization owners control repository and organization settings.",
+          "answer": "Enterprise owners set the Copilot in the cloud and third-party agent policies; organization owners block repositories, configure the cloud agent firewall and choose which enabled agents to allow. GitHub documents enterprise roles with permissions (enterprise owner, billing manager, app manager, security manager in public preview, custom roles); the current pages name no AI manager role.",
           "evidenceIds": [
-            "gap07-management"
+            "nov21-enterprise-agent-policy",
+            "nov21-enterprise-roles"
           ]
         },
         "project_roles": {
@@ -3452,14 +3453,15 @@
       "unknownReason": "Unknown after the targeted first-party documentation, release and repository pass: provisioning. No configured product fixture was run; documentation does not establish successful hands-on behavior.",
       "evidenceIds": [
         "nov07-cloud",
-        "gap07-management",
         "gap07-offline",
         "nov21-billing-changes",
         "nov21-plans",
         "nov21-automations",
         "nov21-cloud-overview",
         "nov21-s2s-auth",
-        "nov21-risks"
+        "nov21-risks",
+        "nov21-enterprise-agent-policy",
+        "nov21-enterprise-roles"
       ],
       "checkedAt": "2026-11-07",
       "nextReviewAt": "2026-11-21",
@@ -6763,6 +6765,32 @@
       "sourceDate": null,
       "retrievedAt": "2026-11-21",
       "finding": "Usage metrics API reports distinct and top custom agents, skills and MCP servers used per user and per enterprise or organization.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "nov21-enterprise-agent-policy",
+      "kind": "documented",
+      "url": "https://docs.github.com/en/copilot/concepts/enterprise/agent-management",
+      "title": "Managing GitHub Copilot in the cloud for your enterprise or organization",
+      "locator": "Managing the Copilot in the cloud policy; firewall; third-party agents",
+      "finding": "Enterprise owners set the Copilot in the cloud policy for all or selected organizations and enable third-party agents; organization owners block the cloud agent in repositories, configure the agent firewall and choose which enabled agents to allow. The page no longer names an AI manager role.",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-21",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "nov21-enterprise-roles",
+      "kind": "documented",
+      "url": "https://docs.github.com/en/enterprise-cloud@latest/admin/managing-accounts-and-repositories/managing-roles-in-your-enterprise/abilities-of-roles",
+      "title": "Abilities of roles in an enterprise",
+      "locator": "About roles in an enterprise (table); Enterprise owners",
+      "finding": "Predefined enterprise roles with stated permissions: enterprise owner (all settings, members and policies, including enforcing policy across organizations), billing manager, enterprise open-source license manager, app manager, security manager (public preview), user and guest collaborator, plus custom roles. No AI manager role is listed.",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-21",
       "visibility": "public",
       "commit": null,
       "path": null
@@ -11633,6 +11661,39 @@
         "nov21-code-review-max",
         "nov21-session-limits",
         "nov21-third-party-agents"
+      ]
+    },
+    {
+      "date": "2026-11-21",
+      "author": "researcher-ade-151",
+      "type": "research-correction",
+      "summary": "Counterevidence correction (PDM-257 via ADE-151): TEAM-02 organization_roles no longer claims an AI manager role. The cited agent-management page, rechecked 2026-11-21, does not name it, and the current enterprise roles page lists the predefined roles without it. The atom is re-sourced to both pages; other TEAM-02 atoms and the claim check dates are unchanged.",
+      "claimIds": [
+        "github-copilot:TEAM-02"
+      ],
+      "before": {
+        "organization_roles": {
+          "answer": "Enterprise owners and AI managers manage enterprise agent policies; organization owners control repository and organization settings.",
+          "evidenceIds": [
+            "gap07-management"
+          ],
+          "scopeVersion": "Public sources checked 2026-11-07; no installed release tested"
+        }
+      },
+      "after": {
+        "organization_roles": {
+          "answer": "Enterprise owners set the Copilot in the cloud and third-party agent policies; organization owners block repositories, configure the cloud agent firewall and choose which enabled agents to allow. GitHub documents enterprise roles with permissions (enterprise owner, billing manager, app manager, security manager in public preview, custom roles); the current pages name no AI manager role.",
+          "evidenceIds": [
+            "nov21-enterprise-agent-policy",
+            "nov21-enterprise-roles"
+          ],
+          "scopeVersion": "Public sources checked 2026-11-07, organization_roles rechecked 2026-11-21; no installed release tested"
+        }
+      },
+      "evidenceIds": [
+        "gap07-management",
+        "nov21-enterprise-agent-policy",
+        "nov21-enterprise-roles"
       ]
     }
   ],
