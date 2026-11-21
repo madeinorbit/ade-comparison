@@ -1588,7 +1588,7 @@
     {
       "id": "unpeel:COORD-03",
       "criterionId": "COORD-03",
-      "answer": "In the pinned v0.7.6 core, a session granted Create & remove can create worker sessions, inspect transcripts/state, wait and send instructions through Unpeel MCP. The 0.7.5 release note and implemented permission checks resolve the earlier documentation-parity gap. The Sessions capability is turned on in Settings, where docs mark it Experimental. Writes into another session follow Agent access: Ask for approval (default; remembered per direction, revocable), Never allow or Always allow, answered on the Mac or a paired phone. Per-session access is Read, Write or Create & remove.",
+      "answer": "In the pinned v0.7.6 and v0.7.7 core, a session granted Create & remove can create worker sessions, inspect transcripts/state, wait and send instructions through Unpeel MCP, as the 0.7.5 release note describes. Current sources conflict: the Sessions docs (\"Agents cannot create or close Sessions\") and the v0.7.7 README (\"created and closed by people, never by agents\"; \"session creation stays user-only\") contradict the 0.7.5 release note and the create_session tool in the v0.7.6 and v0.7.7 code. The Sessions capability is turned on in Settings, where docs mark it Experimental. Writes into another session follow Agent access: Ask for approval (default; remembered per direction, revocable), Never allow or Always allow, answered on the Mac or a paired phone. Per-session access is Read, Write or Create & remove.",
       "support": "partial",
       "availability": "generally-available",
       "delivery": "native",
@@ -1598,7 +1598,7 @@
           "ios",
           "headless-host"
         ],
-        "version": "Targeted first-party source check 2026-11-13. New implementation findings are pinned to ce8ce94b64c88dadf56ef3c10f2118a3f034972d. Unchanged atomic answers retain the individual source dates and revisions in their cited evidence.",
+        "version": "Targeted first-party source check 2026-11-13; documentation conflict rechecked 2026-11-21. Implementation findings are pinned to ce8ce94b64c88dadf56ef3c10f2118a3f034972d (v0.7.6) and 9056836523f709e499e8ff6cd5202354c876b58c (v0.7.7). Unchanged atomic answers retain the individual source dates and revisions in their cited evidence.",
         "plan": null,
         "os": [],
         "executionModes": [],
@@ -1610,7 +1610,9 @@
           "support": "supported",
           "answer": "Product-owned Create & remove session role enables delegation; scoped MCP tools identify the caller and its peers.",
           "evidenceIds": [
-            "gaps41-mcp-manage"
+            "gaps41-mcp-manage",
+            "nov21-mcp-create-077",
+            "nov21-changelog-075-manage"
           ]
         },
         "model_harness_effort": {
@@ -1647,7 +1649,9 @@
           "support": "supported",
           "answer": "Unpeel supplies the elevated session role, start/inspection/wait and messaging tools.",
           "evidenceIds": [
-            "gaps41-mcp-manage"
+            "gaps41-mcp-manage",
+            "nov21-mcp-create-077",
+            "nov21-changelog-075-manage"
           ]
         },
         "activation": {
@@ -1693,7 +1697,7 @@
         }
       },
       "limitations": [
-        "Some current web documentation still says agents cannot create/close sessions. This answer is bounded to the published 0.7.5 change and pinned v0.7.6 implementation with explicit Create & remove permission; no hands-on run was performed."
+        "The delegation answer is bounded to the published 0.7.5 change and the pinned v0.7.6/v0.7.7 implementation with explicit Create & remove permission. Current Sessions docs and the v0.7.7 README still say agents cannot create or close sessions; that documentation conflict is unresolved. No hands-on run was performed."
       ],
       "unknownReason": "The 2026-11-07 pass checked this product's official documentation, release/roadmap locations and repository availability for Inspectable delegation and communication. No explicit first-party answer was found for: roles, model_harness_effort, retained_results, followup, invocation. No hands-on fixture was run.",
       "evidenceIds": [
@@ -1702,11 +1706,15 @@
         "nov07-changes",
         "gaps41-mcp-manage",
         "nov21-sessions-mcp",
-        "nov21-changelog"
+        "nov21-changelog",
+        "nov21-sessions-docs-conflict",
+        "nov21-readme-sessions",
+        "nov21-changelog-075-manage",
+        "nov21-mcp-create-077"
       ],
       "checkedAt": "2026-11-07",
       "nextReviewAt": "2026-11-21",
-      "researcher": "researcher-ade-124",
+      "researcher": "researcher-ade-152",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -3460,7 +3468,7 @@
     {
       "id": "unpeel:TEAM-05",
       "criterionId": "TEAM-05",
-      "answer": "Unpeel's optional first-party Git sidebar App displays proposed working-tree code changes and commit patches in native/terminal renderers. Image-gallery markup remains a separate review path. On the phone, the Session gallery opens from the terminal view and lists the session's agent screenshots, downloads and user uploads newest-first, with zoom, crop, arrows and attach-to-composer. Images only.",
+      "answer": "Unpeel's optional first-party Git sidebar App displays proposed working-tree code changes and commit patches in native/terminal renderers. Image-gallery markup remains a separate review path. On the phone, the Session gallery opens from the terminal view and lists the session's agent screenshots, downloads and user uploads newest-first, with zoom, crop, arrows and attach-to-composer. Images only. Upload, edit and delete apply to Mac-served workspaces; a terminal-only (headless) workspace supports only list/read and agent-created screenshots, with upload and delete hidden.",
       "support": "partial",
       "availability": "generally-available",
       "delivery": "native",
@@ -3491,10 +3499,11 @@
           ]
         },
         "evidence_navigation": {
-          "support": "supported",
-          "answer": "On the phone, the Session gallery opens from the terminal view and lists the session's agent screenshots, downloads and user uploads newest-first, with zoom, crop, arrows and attach-to-composer. Images only.",
+          "support": "partial",
+          "answer": "On the phone, the Session gallery opens from the terminal view and lists the session's agent screenshots, downloads and user uploads newest-first, with zoom, crop, arrows and attach-to-composer. Images only. Upload, edit and delete apply to Mac-served workspaces; a terminal-only (headless) workspace supports only list/read and agent-created screenshots, with upload and delete hidden.",
           "evidenceIds": [
-            "nov21-gallery"
+            "nov21-gallery",
+            "nov21-gallery-hosts"
           ]
         },
         "comments": {
@@ -3557,17 +3566,19 @@
         }
       },
       "limitations": [
-        "This source pass establishes only the named atomic answers. Other parts retain their documented source gaps; no hands-on test was performed."
+        "This source pass establishes only the named atomic answers. Other parts retain their documented source gaps; no hands-on test was performed.",
+        "Gallery markup and uploads require a Mac-served workspace; terminal-only workspaces expose only list/read and agent screenshots."
       ],
       "unknownReason": "The 2026-11-07 pass checked this product's official documentation, release/roadmap locations and repository availability for Review experience and guidance. No explicit first-party answer was found for: pending_reviews, shipping_guidance, effort, missed_evidence, keyboard, context_switching, roles. No hands-on fixture was run.",
       "evidenceIds": [
         "nov07-gallery",
         "gaps41-diff-app",
-        "nov21-gallery"
+        "nov21-gallery",
+        "nov21-gallery-hosts"
       ],
       "checkedAt": "2026-11-07",
       "nextReviewAt": "2026-11-21",
-      "researcher": "researcher-ade-124",
+      "researcher": "researcher-ade-152",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -5616,16 +5627,16 @@
     },
     {
       "id": "gaps41-mcp-manage",
-      "kind": "source-inspected",
+      "kind": "documented",
       "url": "https://github.com/unpeel-com/unpeel/blob/ce8ce94b64c88dadf56ef3c10f2118a3f034972d/crates/unpeel-core/src/mcp_host.rs#L715-L745",
       "title": "Unpeel released MCP delegation role",
       "locator": "mcp_host.rs SESSIONS_ACTIONS, AGENTS_ACTIONS and tool_create_session; state.rs McpRole Manage; changelog 0.7.5 Create & remove",
       "sourceDate": null,
-      "retrievedAt": "2026-11-13",
-      "finding": "The pinned core exposes create_session, list/inspect peers, read_screen/read_output/read_transcript, waits and send_text/send_keys. A session granted Create & remove, represented by McpRole::Manage, can create workers and communicate with them. Release 0.7.5 introduced this access; the older docs prohibition on agent-created sessions is stale for this implementation.",
+      "retrievedAt": "2026-11-21",
+      "finding": "The pinned v0.7.6 core exposes create_session, list/inspect peers, read_screen/read_output/read_transcript, waits and send_text/send_keys. A session granted Create & remove, represented by McpRole::Manage, can create workers and communicate with them. Release 0.7.5 introduced this access. Current web docs and the README still say agents cannot create sessions, which contradicts this implementation.",
       "visibility": "public",
-      "commit": "ce8ce94b64c88dadf56ef3c10f2118a3f034972d",
-      "path": "crates/unpeel-core/src/mcp_host.rs"
+      "commit": null,
+      "path": null
     },
     {
       "id": "gaps41-diff-app",
@@ -5795,6 +5806,71 @@
       "visibility": "public",
       "commit": null,
       "path": null
+    },
+    {
+      "kind": "documented",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-21",
+      "visibility": "public",
+      "commit": null,
+      "path": null,
+      "id": "nov21-sessions-docs-conflict",
+      "url": "https://unpeel.com/docs/sessions-mcp",
+      "title": "Unpeel MCP: Sessions",
+      "locator": "Three rules (\"Lifecycle stays yours\"); Sessions stay user-created; Approvals",
+      "finding": "The current Sessions docs say \"Agents cannot create or close Sessions\" and \"Agents do not get a general start-session action\"; Session creation remains with the user."
+    },
+    {
+      "kind": "documented",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-21",
+      "visibility": "public",
+      "commit": "9056836523f709e499e8ff6cd5202354c876b58c",
+      "path": "README.md",
+      "id": "nov21-readme-sessions",
+      "url": "https://github.com/unpeel-com/unpeel/blob/9056836523f709e499e8ff6cd5202354c876b58c/README.md",
+      "title": "Unpeel README at v0.7.7",
+      "locator": "Why this multiplexer (\"Agents can talk to each other\"); Unpeel MCP capabilities",
+      "finding": "The v0.7.7 README says sessions are \"created and closed by people, never by agents\" and \"session creation stays user-only\"."
+    },
+    {
+      "kind": "documented",
+      "sourceDate": "2026-10-14",
+      "retrievedAt": "2026-11-21",
+      "visibility": "public",
+      "commit": null,
+      "path": null,
+      "id": "nov21-changelog-075-manage",
+      "url": "https://unpeel.com/changelog",
+      "title": "Unpeel changelog",
+      "locator": "0.7.5 (2026-10-14): Agent access per session",
+      "finding": "Release 0.7.5 adds per-session Agent access: Read (default), Write, or Create & remove, which \"can also start sessions and close the ones it started\"."
+    },
+    {
+      "kind": "source-inspected",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-21",
+      "visibility": "public",
+      "commit": "9056836523f709e499e8ff6cd5202354c876b58c",
+      "path": "crates/unpeel-core/src/mcp_host.rs",
+      "id": "nov21-mcp-create-077",
+      "url": "https://github.com/unpeel-com/unpeel/blob/9056836523f709e499e8ff6cd5202354c876b58c/crates/unpeel-core/src/mcp_host.rs#L3408-L3479",
+      "title": "Unpeel create_session gate at v0.7.7",
+      "locator": "mcp_host.rs require_manage_caller (L3408-3418), tool_create_session (L3478-3479), tool dispatch \"create_session\" (L1210), v0.7.7",
+      "finding": "The v0.7.7 core, the same tag as the README above, still dispatches a create_session MCP tool. It runs only when the calling session's effective role manages sessions (Create & remove) and otherwise returns the creation-disabled refusal."
+    },
+    {
+      "kind": "documented",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-21",
+      "visibility": "public",
+      "commit": null,
+      "path": null,
+      "id": "nov21-gallery-hosts",
+      "url": "https://unpeel.com/docs/session-gallery",
+      "title": "Session gallery",
+      "locator": "Where the images come from (workspace support paragraph)",
+      "finding": "A workspace served by the Mac app supports gallery list, read, upload, edit and delete. A terminal-only workspace supports list/read and agent-created screenshots only; the Host capability descriptor keeps upload and delete hidden until those routes reach parity. Request screenshot is described as part of a build still being prepared."
     }
   ],
   "changes": [
@@ -6762,6 +6838,116 @@
       },
       "evidenceIds": [
         "nov21-gallery"
+      ]
+    },
+    {
+      "date": "2026-11-21",
+      "author": "researcher-ade-152",
+      "type": "research-correction",
+      "summary": "Second batch correction (ADE-152, UP-1 from ADE-139 review): removed the claim that the documentation gap is resolved. The answer now keeps the conflict between current Sessions docs and the v0.7.7 README versus the 0.7.5 release note and the v0.7.6/v0.7.7 create_session code visible; added the v0.7.7 code pin.",
+      "claimIds": [
+        "unpeel:COORD-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "In the pinned v0.7.6 core, a session granted Create & remove can create worker sessions, inspect transcripts/state, wait and send instructions through Unpeel MCP. The 0.7.5 release note and implemented permission checks resolve the earlier documentation-parity gap. The Sessions capability is turned on in Settings, where docs mark it Experimental. Writes into another session follow Agent access: Ask for approval (default; remembered per direction, revocable), Never allow or Always allow, answered on the Mac or a paired phone. Per-session access is Read, Write or Create & remove.",
+        "checkedAt": "2026-11-07",
+        "nextReviewAt": "2026-11-21",
+        "subanswers": {
+          "roles": "supported",
+          "model_harness_effort": "unknown",
+          "messages": "supported",
+          "results_return": "supported",
+          "cross_harness": "supported",
+          "orchestration_owner": "supported",
+          "activation": "supported",
+          "authentication": "supported",
+          "live_progress": "supported",
+          "retained_results": "unknown",
+          "followup": "unknown",
+          "invocation": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "In the pinned v0.7.6 and v0.7.7 core, a session granted Create & remove can create worker sessions, inspect transcripts/state, wait and send instructions through Unpeel MCP, as the 0.7.5 release note describes. Current sources conflict: the Sessions docs (\"Agents cannot create or close Sessions\") and the v0.7.7 README (\"created and closed by people, never by agents\"; \"session creation stays user-only\") contradict the 0.7.5 release note and the create_session tool in the v0.7.6 and v0.7.7 code. The Sessions capability is turned on in Settings, where docs mark it Experimental. Writes into another session follow Agent access: Ask for approval (default; remembered per direction, revocable), Never allow or Always allow, answered on the Mac or a paired phone. Per-session access is Read, Write or Create & remove.",
+        "checkedAt": "2026-11-07",
+        "nextReviewAt": "2026-11-21",
+        "subanswers": {
+          "roles": "supported",
+          "model_harness_effort": "unknown",
+          "messages": "supported",
+          "results_return": "supported",
+          "cross_harness": "supported",
+          "orchestration_owner": "supported",
+          "activation": "supported",
+          "authentication": "supported",
+          "live_progress": "supported",
+          "retained_results": "unknown",
+          "followup": "unknown",
+          "invocation": "unknown"
+        }
+      },
+      "evidenceIds": [
+        "nov21-sessions-docs-conflict",
+        "nov21-readme-sessions",
+        "nov21-changelog-075-manage",
+        "nov21-mcp-create-077",
+        "gaps41-mcp-manage"
+      ]
+    },
+    {
+      "date": "2026-11-21",
+      "author": "researcher-ade-152",
+      "type": "research-correction",
+      "summary": "Second batch correction (ADE-152, UP-2): recorded that terminal-only (headless) workspaces support only gallery list/read and agent screenshots, with upload and delete hidden; evidence_navigation is partial.",
+      "claimIds": [
+        "unpeel:TEAM-05"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Unpeel's optional first-party Git sidebar App displays proposed working-tree code changes and commit patches in native/terminal renderers. Image-gallery markup remains a separate review path. On the phone, the Session gallery opens from the terminal view and lists the session's agent screenshots, downloads and user uploads newest-first, with zoom, crop, arrows and attach-to-composer. Images only.",
+        "checkedAt": "2026-11-07",
+        "nextReviewAt": "2026-11-21",
+        "subanswers": {
+          "pending_reviews": "unknown",
+          "change_understanding": "supported",
+          "evidence_navigation": "supported",
+          "comments": "partial",
+          "request_changes": "supported",
+          "shipping_guidance": "unknown",
+          "effort": "unknown",
+          "missed_evidence": "unknown",
+          "keyboard": "unknown",
+          "narrow_screen": "supported",
+          "context_switching": "unknown",
+          "roles": "unknown",
+          "retained_context": "supported"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Unpeel's optional first-party Git sidebar App displays proposed working-tree code changes and commit patches in native/terminal renderers. Image-gallery markup remains a separate review path. On the phone, the Session gallery opens from the terminal view and lists the session's agent screenshots, downloads and user uploads newest-first, with zoom, crop, arrows and attach-to-composer. Images only. Upload, edit and delete apply to Mac-served workspaces; a terminal-only (headless) workspace supports only list/read and agent-created screenshots, with upload and delete hidden.",
+        "checkedAt": "2026-11-07",
+        "nextReviewAt": "2026-11-21",
+        "subanswers": {
+          "pending_reviews": "unknown",
+          "change_understanding": "supported",
+          "evidence_navigation": "partial",
+          "comments": "partial",
+          "request_changes": "supported",
+          "shipping_guidance": "unknown",
+          "effort": "unknown",
+          "missed_evidence": "unknown",
+          "keyboard": "unknown",
+          "narrow_screen": "supported",
+          "context_switching": "unknown",
+          "roles": "unknown",
+          "retained_context": "supported"
+        }
+      },
+      "evidenceIds": [
+        "nov21-gallery-hosts"
       ]
     }
   ],
