@@ -646,7 +646,7 @@
   {
    "id": "rookery:PLAN-01",
    "criterionId": "PLAN-01",
-   "answer": "Prompt, spawn dialog, GitHub issue or Linear ticket can initiate worker.",
+   "answer": "Prompt, spawn dialog, GitHub issue or Linear ticket can initiate worker. Slack messages trigger automations (filtered by channel, sender and keyword) and a Slack thread maps to a session. The v1.0.1 trigger types are cron, interval, once, Slack and worker-settled; no Git-event trigger exists.",
    "support": "partial",
    "availability": "source-only",
    "delivery": "native",
@@ -689,9 +689,13 @@
      ]
     },
     "chat_git_triggers": {
-     "support": "unknown",
-     "answer": "Chat git triggers: no explicit product-scoped answer found in the checked first-party material.",
-     "evidenceIds": []
+     "support": "partial",
+     "answer": "Slack messages trigger automations (filtered by channel, sender and keyword) and a Slack thread maps to a session. The v1.0.1 trigger types are cron, interval, once, Slack and worker-settled; no Git-event trigger exists.",
+     "evidenceIds": [
+      "nov21-slack-trigger",
+      "nov21-trigger-kinds",
+      "nov21-readme"
+     ]
     },
     "authoritative_tracker": {
      "support": "unknown",
@@ -723,22 +727,21 @@
     }
    },
    "limitations": [
-    "Not established by this source pass: chat_git_triggers, authoritative_tracker, sync, supported_edits, external_roundtrips."
+    "Not established by this source pass: authoritative_tracker, sync, supported_edits, external_roundtrips."
    ],
-   "unknownReason": "Remaining atomic questions lack an explicit first-party answer in the checked material: chat_git_triggers, authoritative_tracker, sync, supported_edits, external_roundtrips.",
+   "unknownReason": "Remaining atomic questions lack an explicit first-party answer in the checked material: authoritative_tracker, sync, supported_edits, external_roundtrips.",
    "evidenceIds": [
     "nov07-readme",
-    "nov07-fleet"
+    "nov07-fleet",
+    "nov21-slack-trigger",
+    "nov21-trigger-kinds",
+    "nov21-readme"
    ],
    "checkedAt": "2026-11-07",
    "nextReviewAt": "2026-12-07",
-   "researcher": "researcher-66",
-   "publication": "public-reviewed",
-   "review": {
-    "reviewer": "reviewer-52",
-    "date": "2026-11-07",
-    "contentHash": "ba9c82a6ac6d61669acd5a2cbfe62b26b24121e01d1990154723dc1bd7e01b8e"
-   },
+   "researcher": "researcher-ade-123",
+   "publication": "public-candidate",
+   "review": null,
    "contradictions": []
   },
   {
@@ -5609,6 +5612,45 @@
    "visibility": "public",
    "commit": "47c63c742ee92be40ee76fc72645b82f82a0c649",
    "path": "src/core/settings.ts"
+  },
+  {
+   "id": "nov21-trigger-kinds",
+   "kind": "source-inspected",
+   "url": "https://github.com/CChuYong/rookery/blob/81336a6cac73bf821d7567a405c4fcfe438b30ce/src/persistence/repositories.ts",
+   "title": "Rookery v1.0.1 automation trigger types",
+   "locator": "src/persistence/repositories.ts AutomationTrigger union (lines 132-140)",
+   "sourceDate": null,
+   "retrievedAt": "2026-11-21",
+   "finding": "The AutomationTrigger union at v1.0.1 has cron, interval, once, slack and worker-settled kinds; it has no Git or pull-request event trigger.",
+   "visibility": "public",
+   "commit": "81336a6cac73bf821d7567a405c4fcfe438b30ce",
+   "path": "src/persistence/repositories.ts"
+  },
+  {
+   "id": "nov21-readme",
+   "kind": "documented",
+   "url": "https://github.com/CChuYong/rookery/blob/81336a6cac73bf821d7567a405c4fcfe438b30ce/README.md",
+   "title": "Rookery README at v1.0.1",
+   "locator": "Why rookery; Automation",
+   "sourceDate": null,
+   "retrievedAt": "2026-11-21",
+   "finding": "Automations fire on cron, every N minutes, Slack messages or when a worker settles; a Slack thread maps to a session. v1.0.1 released 2026-11-19.",
+   "visibility": "public",
+   "commit": null,
+   "path": null
+  },
+  {
+   "id": "nov21-slack-trigger",
+   "kind": "source-inspected",
+   "url": "https://github.com/CChuYong/rookery/blob/81336a6cac73bf821d7567a405c4fcfe438b30ce/src/slack/trigger-source.ts",
+   "title": "Rookery v1.0.1 Slack trigger source",
+   "locator": "src/slack/trigger-source.ts lines 7-23; src/core/automation-match.ts lines 5-10",
+   "sourceDate": null,
+   "retrievedAt": "2026-11-21",
+   "finding": "At v1.0.1 (81336a6) an incoming Slack message runs every enabled automation whose Slack trigger matches its channel, sender and keyword filters, re-reading the rule before dispatching a master turn or worker spawn.",
+   "visibility": "public",
+   "commit": "81336a6cac73bf821d7567a405c4fcfe438b30ce",
+   "path": "src/slack/trigger-source.ts"
   }
  ],
  "changes": [
@@ -6766,6 +6808,38 @@
      }
     }
    }
+  },
+  {
+   "date": "2026-11-21",
+   "author": "researcher-ade-123",
+   "type": "research-correction",
+   "summary": "Backfill source batch 01 (ADE-123): re-verified 1 inherited legacy lead against pinned v1.0.1 source (81336a6), inspected 2026-11-21. The answered atom is a new public candidate; untouched atoms and claim dates are preserved.",
+   "claimIds": [
+    "rookery:PLAN-01"
+   ],
+   "before": {
+    "support": "partial",
+    "answer": "Prompt, spawn dialog, GitHub issue or Linear ticket can initiate worker.",
+    "checkedAt": "2026-11-07",
+    "nextReviewAt": "2026-12-07",
+    "subanswers": {
+     "chat_git_triggers": "unknown"
+    }
+   },
+   "after": {
+    "support": "partial",
+    "answer": "Prompt, spawn dialog, GitHub issue or Linear ticket can initiate worker. Slack messages trigger automations (filtered by channel, sender and keyword) and a Slack thread maps to a session. The v1.0.1 trigger types are cron, interval, once, Slack and worker-settled; no Git-event trigger exists.",
+    "checkedAt": "2026-11-07",
+    "nextReviewAt": "2026-12-07",
+    "subanswers": {
+     "chat_git_triggers": "partial"
+    }
+   },
+   "evidenceIds": [
+    "nov21-slack-trigger",
+    "nov21-trigger-kinds",
+    "nov21-readme"
+   ]
   }
  ],
  "context": {
