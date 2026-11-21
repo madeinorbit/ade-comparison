@@ -22,6 +22,11 @@
    "id": "ssh-remote",
    "name": "ssh-remote",
    "type": "ssh-remote"
+  },
+  {
+   "id": "ios",
+   "name": "iPhone and iPad app (TestFlight build)",
+   "type": "mobile"
   }
  ],
  "claims": [
@@ -314,7 +319,7 @@
   {
    "id": "super-engineering:ACC-04",
    "criterionId": "ACC-04",
-   "answer": "Git-free local folders and managed SSH helpers have explicit prerequisites. GitHub, GitHub Enterprise, GitLab (including self-managed) and Bitbucket Cloud are supported through locally authenticated gh, glab or the third-party bkt CLI. Bitbucket Cloud has documented gaps, and other remotes get local Git workflows only.",
+   "answer": "Experimental, opt-in Git-free local folders and SSH workspaces have explicit prerequisites and managed SSH helpers. GitHub, GitHub Enterprise, GitLab and Bitbucket Cloud are supported through locally authenticated gh, glab or the third-party bkt CLI (bkt needs an active Cloud context). Self-managed GitLab is detected only when the remote hostname looks like GitLab, resolves through SSH config or is known to glab. Bitbucket detection is limited to bitbucket.org; Data Center is not detected, and Bitbucket Cloud has documented gaps. Other remotes get local Git workflows only.",
    "support": "partial",
    "availability": "generally-available",
    "delivery": "native",
@@ -357,8 +362,8 @@
      ]
     },
     "hosted_git": {
-     "support": "supported",
-     "answer": "GitHub, GitHub Enterprise, GitLab (including self-managed) and Bitbucket Cloud are supported through locally authenticated gh, glab or the third-party bkt CLI. Bitbucket Cloud has documented gaps, and other remotes get local Git workflows only.",
+     "support": "partial",
+     "answer": "GitHub, GitHub Enterprise, GitLab and Bitbucket Cloud are supported through locally authenticated gh, glab or the third-party bkt CLI (bkt needs an active Cloud context). Self-managed GitLab is detected only when the remote hostname looks like GitLab, resolves through SSH config or is known to glab. Bitbucket detection is limited to bitbucket.org; Data Center is not detected, and Bitbucket Cloud has documented gaps. Other remotes get local Git workflows only.",
      "evidenceIds": [
       "nov21-supported-forges"
      ]
@@ -396,11 +401,12 @@
     "nov07-remote-workspaces",
     "nov07-docs",
     "nov07-settings-privacy-local-data",
-    "nov21-supported-forges"
+    "nov21-supported-forges",
+    "nov21-experimental-features"
    ],
    "checkedAt": "2026-11-07",
    "nextReviewAt": "2026-11-21",
-   "researcher": "researcher-ade-124",
+   "researcher": "researcher-ade-152",
    "publication": "public-candidate",
    "review": null,
    "contradictions": []
@@ -3289,16 +3295,17 @@
   {
    "id": "super-engineering:TEAM-05",
    "criterionId": "TEAM-05",
-   "answer": "Native diff comments route findings back to an agent. The iPhone app reviews changes for the working tree, branch range or latest turn and leaves review comments; iPad and wide iPhone windows add the project sidebar in landscape. PR creation and merge are Mac-only.",
+   "answer": "Native diff comments route findings back to an agent. The iPhone app, distributed as a TestFlight build and connected to the running Mac app, reviews changes for the working tree, branch range or latest turn and leaves review comments; iPad and wide iPhone windows add the project sidebar in landscape. The phone has no controls for creating or merging pull requests; the docs say to use the Mac or ask an agent in chat.",
    "support": "partial",
    "availability": "generally-available",
    "delivery": "native",
    "scope": {
     "surfaceIds": [
      "desktop",
-     "ssh-remote"
+     "ssh-remote",
+     "ios"
     ],
-    "version": null,
+    "version": "Desktop review per 2026-11-07 docs; iPhone/iPad app is a TestFlight build per the Mobile app page retrieved 2026-11-21.",
     "plan": null,
     "os": [],
     "executionModes": [],
@@ -3371,8 +3378,8 @@
      ]
     },
     "narrow_screen": {
-     "support": "supported",
-     "answer": "The iPhone app reviews changes for the working tree, branch range or latest turn and leaves review comments; iPad and wide iPhone windows add the project sidebar in landscape. PR creation and merge are Mac-only.",
+     "support": "partial",
+     "answer": "The iPhone app, distributed as a TestFlight build and connected to the running Mac app, reviews changes for the working tree, branch range or latest turn and leaves review comments; iPad and wide iPhone windows add the project sidebar in landscape. The phone has no controls for creating or merging pull requests; the docs say to use the Mac or ask an agent in chat.",
      "evidenceIds": [
       "nov21-mobile-app"
      ]
@@ -3397,7 +3404,8 @@
     }
    },
    "limitations": [
-    "Documentation establishes only the named atomic answers; remaining questions and hands-on behavior are unverified."
+    "Documentation establishes only the named atomic answers; remaining questions and hands-on behavior are unverified.",
+    "The phone app is a TestFlight distribution that depends on the running Mac app and lacks pull request create and merge controls."
    ],
    "unknownReason": "The 2026-11-07 pass checked this product's official documentation, release/roadmap locations and repository availability for Review experience and guidance. No explicit first-party answer was found for: evidence_navigation, effort, missed_evidence, context_switching, roles. No hands-on fixture was run.",
    "evidenceIds": [
@@ -3408,7 +3416,7 @@
    ],
    "checkedAt": "2026-11-07",
    "nextReviewAt": "2026-11-21",
-   "researcher": "researcher-ade-124",
+   "researcher": "researcher-ade-152",
    "publication": "public-candidate",
    "review": null,
    "contradictions": []
@@ -4177,7 +4185,7 @@
   {
    "id": "super-engineering:OWN-02",
    "criterionId": "OWN-02",
-   "answer": "The complete core desktop ADE runs on user-controlled hardware without a vendor account. Optional SSH workspaces run code and agents on owned Linux/macOS hosts; provider services remain separate. App data lives under ~/.super.engineering, and CLI status, chat, workspace and history commands emit JSON. No export file format for tasks or history is documented.",
+   "answer": "The complete core desktop ADE runs on user-controlled hardware without a vendor account, and provider requests go directly from the device to the configured provider. Experimental SSH workspaces run code and agents on owned Linux/macOS hosts; provider services remain separate. App data lives under ~/.super.engineering. Status, chat, workspace, section, worktree and tab commands emit --json, orchestration commands use --output json, and se history search/read results come back as JSON. The checked pages (CLI automation, CLI command reference, settings and privacy) document no export file format for tasks or history.",
    "support": "partial",
    "availability": "generally-available",
    "delivery": "native",
@@ -4220,9 +4228,10 @@
     },
     "formats": {
      "support": "partial",
-     "answer": "App data lives under ~/.super.engineering, and CLI status, chat, workspace and history commands emit JSON. No export file format for tasks or history is documented.",
+     "answer": "App data lives under ~/.super.engineering. Status, chat, workspace, section, worktree and tab commands emit --json, orchestration commands use --output json, and se history search/read results come back as JSON. The checked pages (CLI automation, CLI command reference, settings and privacy) document no export file format for tasks or history.",
      "evidenceIds": [
-      "nov21-cli-local-api"
+      "nov21-cli-local-api",
+      "nov21-cli-reference"
      ]
     },
     "cancellation": {
@@ -4232,9 +4241,10 @@
     },
     "account_independence": {
      "support": "supported",
-     "answer": "No desktop vendor account is required.",
+     "answer": "No desktop vendor account is required; the privacy page says the desktop application does not require user accounts.",
      "evidenceIds": [
-      "gaps41-local-ownership"
+      "gaps41-local-ownership",
+      "nov21-privacy"
      ]
     },
     "history_portability": {
@@ -4246,15 +4256,18 @@
    "limitations": [
     "This source pass establishes only the named atomic answers. Other parts retain their documented source gaps; no hands-on test was performed."
    ],
-   "unknownReason": "The 2026-11-07 pass checked this product's official documentation, release/roadmap locations and repository availability for Hosting and exit. No explicit first-party answer was found for: self_hosting, export, import, cancellation, history_portability. No hands-on fixture was run.",
+   "unknownReason": "The 2026-11-07 pass checked this product's official documentation, release/roadmap locations and repository availability for Hosting and exit. No explicit first-party answer was found for: export, import, cancellation, history_portability. No hands-on fixture was run.",
    "evidenceIds": [
     "nov07-privacy",
     "gaps41-local-ownership",
-    "nov21-cli-local-api"
+    "nov21-cli-local-api",
+    "nov21-cli-reference",
+    "nov21-privacy",
+    "nov21-experimental-features"
    ],
    "checkedAt": "2026-11-07",
    "nextReviewAt": "2026-11-21",
-   "researcher": "researcher-ade-124",
+   "researcher": "researcher-ade-152",
    "publication": "public-candidate",
    "review": null,
    "contradictions": []
@@ -5341,10 +5354,10 @@
    "kind": "documented",
    "url": "https://super.engineering/docs/supported-forges/",
    "title": "Supported forges",
-   "locator": "Forge support; Getting started requirements; Bitbucket Cloud limits; Unsupported providers",
+   "locator": "Forge support; Getting started requirements; Remote detection; Bitbucket Cloud limits; Unsupported providers",
    "sourceDate": null,
    "retrievedAt": "2026-11-21",
-   "finding": "Built-in forge support for GitHub, GitHub Enterprise, GitLab including self-managed hosts, and Bitbucket Cloud. The app runs gh, glab or the third-party bkt CLI locally with credentials the user configured and stores none of its own. Bitbucket Cloud lacks review-thread replies, fork PRs, branch updates, fast-forward merges and pre-merge conflict detection; Data Center is not detected. Other remotes keep local Git workflows without PR metadata.",
+   "finding": "Built-in forge support for GitHub, GitHub Enterprise hosts, GitLab, self-managed GitLab hosts when the remote hostname looks like GitLab, resolves through SSH config or is known to the GitLab CLI, and Bitbucket Cloud for repositories on bitbucket.org. The app runs gh, glab or the third-party bkt CLI locally with credentials the user configured and stores none of its own; bkt needs an active Cloud context. Bitbucket detection is limited to bitbucket.org and Data Center hosts are not detected. Bitbucket Cloud lacks review-thread replies, fork PRs, branch updates from the forge, fast-forward merges, pre-merge conflict detection and merge tracking across restarts. Other remotes keep local Git workflows without PR metadata.",
    "visibility": "public",
    "commit": null,
    "path": null
@@ -5367,13 +5380,52 @@
    "kind": "documented",
    "url": "https://super.engineering/docs/mobile-app/",
    "title": "Mobile app",
-   "locator": "What you can do from your phone; Install the app",
+   "locator": "Overview; What you can do from your phone; Install the app",
    "sourceDate": null,
    "retrievedAt": "2026-11-21",
-   "finding": "The iPhone app (TestFlight) connects directly to the running Mac app. It browses files and reviews changes for the working tree, the branch range or the latest turn, leaves review comments, commits and pushes. iPad and wide iPhone windows work in landscape with the project sidebar. The phone cannot create or merge pull requests.",
+   "finding": "The iPhone app connects directly to the super.engineering app running on the Mac, which must be awake with mobile access on. It browses files, reviews changes for the working tree, the branch range or the latest turn, leaves review comments, commits and pushes. iPad and wide iPhone windows work in landscape with the project sidebar. The phone has no controls for creating or merging pull requests; the page says to use the Mac or ask an agent in chat. Installation is a TestFlight build from Settings → Devices or a TestFlight invitation.",
    "visibility": "public",
    "commit": null,
    "path": null
+  },
+  {
+   "kind": "documented",
+   "sourceDate": null,
+   "retrievedAt": "2026-11-21",
+   "visibility": "public",
+   "commit": null,
+   "path": null,
+   "id": "nov21-cli-reference",
+   "url": "https://super.engineering/docs/cli-reference/",
+   "title": "CLI command reference",
+   "locator": "Conversation history",
+   "finding": "se history search, read and stats query conversation history; results come back as JSON labeled as past evidence. se history list and get read a provider's own session history offline. Most commands accept --json or --output json."
+  },
+  {
+   "kind": "documented",
+   "sourceDate": "2026-10-28",
+   "retrievedAt": "2026-11-21",
+   "visibility": "public",
+   "commit": null,
+   "path": null,
+   "id": "nov21-privacy",
+   "url": "https://super.engineering/privacy/",
+   "title": "Privacy Policy | super.engineering",
+   "locator": "Desktop Application; AI Providers; Data Storage (last updated October 28, 2026)",
+   "finding": "The desktop application does not require user accounts. The device sends requests directly to the configured AI provider; super.engineering does not proxy, inspect, store or retain prompts, source code, files, conversations or model responses. Customer content stays on the device."
+  },
+  {
+   "kind": "documented",
+   "sourceDate": null,
+   "retrievedAt": "2026-11-21",
+   "visibility": "public",
+   "commit": null,
+   "path": null,
+   "id": "nov21-experimental-features",
+   "url": "https://super.engineering/docs/remote-workspaces/",
+   "title": "Remote workspaces (SSH) | super.engineering Docs",
+   "locator": "Experimental; Setup (also Non-Git projects page, Experimental)",
+   "finding": "Remote workspaces are experimental and must be enabled in Settings → Experimental; setup offers Test Connection and Install SSH key. The Non-Git projects page likewise says non-Git projects are experimental and enabled under Settings → Experimental."
   }
  ],
  "changes": [
@@ -6091,6 +6143,150 @@
    },
    "evidenceIds": [
     "nov21-mobile-app"
+   ]
+  },
+  {
+   "date": "2026-11-21",
+   "author": "researcher-ade-152",
+   "type": "research-correction",
+   "summary": "Second batch correction (ADE-152, SE-1 from ADE-139 review): labelled the iPhone app as a TestFlight build, added its surface to scope, replaced \"PR creation and merge are Mac-only\" with the page's wording and set narrow_screen to partial.",
+   "claimIds": [
+    "super-engineering:TEAM-05"
+   ],
+   "before": {
+    "support": "partial",
+    "answer": "Native diff comments route findings back to an agent. The iPhone app reviews changes for the working tree, branch range or latest turn and leaves review comments; iPad and wide iPhone windows add the project sidebar in landscape. PR creation and merge are Mac-only.",
+    "checkedAt": "2026-11-07",
+    "nextReviewAt": "2026-11-21",
+    "subanswers": {
+     "pending_reviews": "supported",
+     "change_understanding": "supported",
+     "evidence_navigation": "unknown",
+     "comments": "supported",
+     "request_changes": "supported",
+     "shipping_guidance": "supported",
+     "effort": "unknown",
+     "missed_evidence": "unknown",
+     "keyboard": "supported",
+     "narrow_screen": "supported",
+     "context_switching": "unknown",
+     "roles": "unknown",
+     "retained_context": "supported"
+    }
+   },
+   "after": {
+    "support": "partial",
+    "answer": "Native diff comments route findings back to an agent. The iPhone app, distributed as a TestFlight build and connected to the running Mac app, reviews changes for the working tree, branch range or latest turn and leaves review comments; iPad and wide iPhone windows add the project sidebar in landscape. The phone has no controls for creating or merging pull requests; the docs say to use the Mac or ask an agent in chat.",
+    "checkedAt": "2026-11-07",
+    "nextReviewAt": "2026-11-21",
+    "subanswers": {
+     "pending_reviews": "supported",
+     "change_understanding": "supported",
+     "evidence_navigation": "unknown",
+     "comments": "supported",
+     "request_changes": "supported",
+     "shipping_guidance": "supported",
+     "effort": "unknown",
+     "missed_evidence": "unknown",
+     "keyboard": "supported",
+     "narrow_screen": "partial",
+     "context_switching": "unknown",
+     "roles": "unknown",
+     "retained_context": "supported"
+    }
+   },
+   "evidenceIds": [
+    "nov21-mobile-app"
+   ]
+  },
+  {
+   "date": "2026-11-21",
+   "author": "researcher-ade-152",
+   "type": "research-correction",
+   "summary": "Second batch correction (ADE-152, SE-2): attributed history JSON to the CLI command reference, limited the export-format gap to the pages checked, removed the stale self_hosting gap and cited the current privacy page.",
+   "claimIds": [
+    "super-engineering:OWN-02"
+   ],
+   "before": {
+    "support": "partial",
+    "answer": "The complete core desktop ADE runs on user-controlled hardware without a vendor account. Optional SSH workspaces run code and agents on owned Linux/macOS hosts; provider services remain separate. App data lives under ~/.super.engineering, and CLI status, chat, workspace and history commands emit JSON. No export file format for tasks or history is documented.",
+    "checkedAt": "2026-11-07",
+    "nextReviewAt": "2026-11-21",
+    "subanswers": {
+     "self_hosting": "supported",
+     "vendor_dependencies": "supported",
+     "export": "unknown",
+     "import": "unknown",
+     "formats": "partial",
+     "cancellation": "unknown",
+     "account_independence": "supported",
+     "history_portability": "unknown"
+    }
+   },
+   "after": {
+    "support": "partial",
+    "answer": "The complete core desktop ADE runs on user-controlled hardware without a vendor account, and provider requests go directly from the device to the configured provider. Experimental SSH workspaces run code and agents on owned Linux/macOS hosts; provider services remain separate. App data lives under ~/.super.engineering. Status, chat, workspace, section, worktree and tab commands emit --json, orchestration commands use --output json, and se history search/read results come back as JSON. The checked pages (CLI automation, CLI command reference, settings and privacy) document no export file format for tasks or history.",
+    "checkedAt": "2026-11-07",
+    "nextReviewAt": "2026-11-21",
+    "subanswers": {
+     "self_hosting": "supported",
+     "vendor_dependencies": "supported",
+     "export": "unknown",
+     "import": "unknown",
+     "formats": "partial",
+     "cancellation": "unknown",
+     "account_independence": "supported",
+     "history_portability": "unknown"
+    }
+   },
+   "evidenceIds": [
+    "nov21-cli-local-api",
+    "nov21-cli-reference",
+    "nov21-privacy",
+    "nov21-experimental-features"
+   ]
+  },
+  {
+   "date": "2026-11-21",
+   "author": "researcher-ade-152",
+   "type": "research-correction",
+   "summary": "Second batch correction (ADE-152, SE-3): added the self-managed GitLab detection conditions, the bitbucket.org-only detection and the experimental status of non-Git folders and SSH workspaces; hosted_git is partial.",
+   "claimIds": [
+    "super-engineering:ACC-04"
+   ],
+   "before": {
+    "support": "partial",
+    "answer": "Git-free local folders and managed SSH helpers have explicit prerequisites. GitHub, GitHub Enterprise, GitLab (including self-managed) and Bitbucket Cloud are supported through locally authenticated gh, glab or the third-party bkt CLI. Bitbucket Cloud has documented gaps, and other remotes get local Git workflows only.",
+    "checkedAt": "2026-11-07",
+    "nextReviewAt": "2026-11-21",
+    "subanswers": {
+     "first_task_setup": "partial",
+     "no_git": "supported",
+     "local_git_without_remote": "supported",
+     "hosted_git": "supported",
+     "prerequisite_guidance": "supported",
+     "managed_cloud_setup": "unknown",
+     "byo_vps_onboarding": "supported"
+    }
+   },
+   "after": {
+    "support": "partial",
+    "answer": "Experimental, opt-in Git-free local folders and SSH workspaces have explicit prerequisites and managed SSH helpers. GitHub, GitHub Enterprise, GitLab and Bitbucket Cloud are supported through locally authenticated gh, glab or the third-party bkt CLI (bkt needs an active Cloud context). Self-managed GitLab is detected only when the remote hostname looks like GitLab, resolves through SSH config or is known to glab. Bitbucket detection is limited to bitbucket.org; Data Center is not detected, and Bitbucket Cloud has documented gaps. Other remotes get local Git workflows only.",
+    "checkedAt": "2026-11-07",
+    "nextReviewAt": "2026-11-21",
+    "subanswers": {
+     "first_task_setup": "partial",
+     "no_git": "supported",
+     "local_git_without_remote": "supported",
+     "hosted_git": "partial",
+     "prerequisite_guidance": "supported",
+     "managed_cloud_setup": "unknown",
+     "byo_vps_onboarding": "supported"
+    }
+   },
+   "evidenceIds": [
+    "nov21-supported-forges",
+    "nov21-experimental-features"
    ]
   }
  ],
