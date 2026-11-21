@@ -12,7 +12,7 @@
 // Nothing here edits research files: evidence keeps its recorded dates.
 
 import { execFileSync } from 'node:child_process';
-import { mkdtempSync, readdirSync, readFileSync, rmSync } from 'node:fs';
+import { mkdtempSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -194,12 +194,18 @@ export class PodiumTracker {
     } catch { return null; } finally { rmSync(dir, { recursive: true, force: true }); }
   }
   addArtifact(ref, name, content, title) {
-    this.call(['artifact', ref, '--content', content, '--name', name, '--title', title], { json: false });
+    const dir = mkdtempSync(join(tmpdir(), 'ade-recheck-upload-'));
+    try {
+      const path = join(dir, 'payload.json');
+      writeFileSync(path, content);
+      this.call(['artifact', ref, '--add', path, '--name', name, '--title', title], { json: false });
+    } finally { rmSync(dir, { recursive: true, force: true }); }
   }
   start(ref) { this.call(['start', ref], { json: false }); }
 }
 
 const refOf = (issue) => issue.displayRef ?? issue.id;
+const isClosed = (issue) => Boolean(issue.closedReason || issue.deletedAt || ['done', 'closed'].includes(issue.stage ?? issue.status));
 
 // Resume-or-file. Every step is keyed by title so a retry never duplicates work.
 export function runMonth({ plan, tracker, parentId = CONFIG.parentId, start = false, dryRun = false, log = console.log }) {
@@ -211,10 +217,11 @@ export function runMonth({ plan, tracker, parentId = CONFIG.parentId, start = fa
   if (existing.length > 1) throw new Error(`more than one issue carries ${plan.key}: ${existing.map(refOf).join(', ')}; resolve the duplicate before rerunning`);
   let month = existing[0];
   let resumed = Boolean(month);
-  if (month && ['done', 'closed'].includes(month.stage ?? month.status)) {
+  if (month && isClosed(month)) {
     log(`${plan.key}: ${refOf(month)} is already closed; nothing to do`);
     return { issue: refOf(month), resumed, closed: true, actions };
   }
+  if (month?.archived) throw new BlockedError(`Monthly campaign ${refOf(month)} is archived; leave it unchanged`);
   if (month?.stage === 'proposed') throw new BlockedError(`Monthly campaign ${refOf(month)} is Proposed and requires an operator to activate it`);
   if (month?.stage === 'review') {
     log(`${refOf(month)} is already ready for review; leaving it unchanged`);
@@ -224,7 +231,7 @@ export function runMonth({ plan, tracker, parentId = CONFIG.parentId, start = fa
     log(`${refOf(month)} already has this month's title without the idempotency key; leaving it unchanged instead of duplicating it`);
     return { issue: refOf(month), resumed: true, needsAdoption: true, actions };
   }
-  const current = tracker.currentIssue?.() ?? null;
+  const current = !parentId || (start && !dryRun) ? tracker.currentIssue?.() ?? null : null;
   const fields = {
     title: plan.title, parentId,
     description: `Monthly recheck of every adecomparison.com profile and register entry for ${plan.month}.`,
@@ -295,15 +302,35 @@ export function runMonth({ plan, tracker, parentId = CONFIG.parentId, start = fa
   return { issue: ref, resumed, closed: false, actions, tasks: effective.tasks.length };
 }
 
-// Snapshot sync, filed only for a verified upstream commit.
+export function assertProductionDeployment(run, deployRun) {
+  if (run.conclusion !== 'success') throw new Error(`deploy run ${deployRun} concluded ${run.conclusion}; not syncing`);
+  if (run.workflowName !== 'Deploy' || run.headBranch !== 'main' || !['push', 'schedule', 'workflow_dispatch'].includes(run.event)) {
+    throw new Error(`run ${deployRun} is not a production Deploy run on main; not syncing`);
+  }
+  if (!/^[0-9a-f]{40}$/.test(run.headSha ?? '')) throw new Error(`deploy run ${deployRun} has no full commit SHA; not syncing`);
+}
+
+export function assertSyncParent(parent, campaign, month) {
+  const key = monthKey(month);
+  if (!parent || parent.draft || isClosed(parent) || parent.archived || parent.stage === 'proposed'
+    || parent.title !== 'Independent recheck review' || !(parent.brief ?? '').startsWith(`${key} / review.`)
+    || !campaign || parent.parentId !== campaign.id || campaign.draft || isClosed(campaign) || campaign.archived
+    || campaign.stage === 'proposed' || campaign.title !== monthTitle(month) || !(campaign.brief ?? '').includes(`Idempotency key: ${key}`)) {
+    throw new BlockedError('Snapshot sync needs the active independent review task under this monthly campaign');
+  }
+}
+
+// Snapshot sync, filed only for a verified production deployment from main.
 export function syncSnapshot({ month, commit, deployRun, root = REPO_ROOT, tracker, dryRun = false, log = console.log, gh = execFileSync }) {
   monthKey(month);
   if (!/^[0-9a-f]{7,40}$/.test(commit)) throw new Error('commit must be a hex SHA');
   git(root, ['fetch', '--quiet', 'origin', 'main']);
   try { git(root, ['merge-base', '--is-ancestor', commit, 'origin/main']); }
   catch { throw new Error(`${commit} is not on origin/main; not syncing`); }
-  const run = JSON.parse(gh('gh', ['run', 'view', String(deployRun), '--repo', CONFIG.repository, '--json', 'conclusion,headSha,workflowName'], { encoding: 'utf8' }));
-  if (run.conclusion !== 'success') throw new Error(`deploy run ${deployRun} concluded ${run.conclusion}; not syncing`);
+  const run = JSON.parse(gh('gh', ['run', 'view', String(deployRun), '--repo', CONFIG.repository, '--json', 'conclusion,headSha,workflowName,headBranch,event'], { encoding: 'utf8' }));
+  assertProductionDeployment(run, deployRun);
+  try { git(root, ['merge-base', '--is-ancestor', run.headSha, 'origin/main']); }
+  catch { throw new Error(`deploy run ${deployRun} is not on origin/main; not syncing`); }
   try { git(root, ['merge-base', '--is-ancestor', commit, run.headSha]); }
   catch { throw new Error(`deploy run ${deployRun} (${run.headSha}) does not contain ${commit}`); }
   const title = `ADE snapshot sync ${month}`;
@@ -312,10 +339,11 @@ export function syncSnapshot({ month, commit, deployRun, root = REPO_ROOT, track
   const existing = syncTracker.findByTitle(title, key);
   if (existing.length) { log(`${key}: ${refOf(existing[0])} already filed`); return { issue: refOf(existing[0]), created: false }; }
   const brief = `Idempotency key: ${key}\nUpdate the vendored ADE comparison snapshot to ${CONFIG.repository}@${commit} (deploy run ${deployRun} succeeded). Do not edit snapshot content by hand and do not approve human comparison pages automatically.`;
+  const parent = tracker.currentIssue();
+  const campaign = parent.parentId ? tracker.call(['show', parent.parentId]) : null;
+  assertSyncParent(parent, campaign, month);
   log(`${dryRun ? '[dry-run] ' : ''}file "${title}" in ${CONFIG.syncRepoPath} for ${commit}`);
   if (dryRun) return { issue: null, created: false };
-  const parent = tracker.currentIssue();
-  if (parent.draft || ['done', 'closed'].includes(parent.stage)) throw new BlockedError('Snapshot sync needs an active monthly review issue as its parent');
   const issue = syncTracker.create({ title, parentId: refOf(parent), description: `Bring the ${month} ADE catalog recheck into podium-cloud.`, brief });
   return { issue: refOf(issue), created: true };
 }

@@ -23,6 +23,6 @@ A fresh scheduled session names its current user-assigned draft as the monthly i
 
 The first durable catalog manifest freezes the product enumeration for retries. Next month enumerates again. All tasks, the independent review and its dependency edges are filed before research starts. The scheduled session itself coordinates; it does not spawn a second copy of itself. New tasks inherit the requested agent/model/effort and start from current remote main.
 
-The snapshot-sync command requires a commit on origin/main and a successful deploy containing it. Its task is a child of the active review issue, so it can run after this setup issue is closed. Human-page editorial approvals remain separate.
+The snapshot-sync command requires a commit on origin/main and a successful production `Deploy` run from main containing it. Passing CI or a dry run on another branch is insufficient. Its task is a child of that month’s active independent review issue, so it can run after this setup issue is closed. Human-page editorial approvals remain separate.
 
 Focused tests cover enumeration, source dates, dry runs, interrupted retries, closed campaigns, duplicate and legacy titles, draft ownership, proposal refusal, the real CLI context envelope and model preferences. A native runtime connection and actual next-run metadata are still required before this trigger can be called operational.

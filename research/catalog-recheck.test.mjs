@@ -1,10 +1,10 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
-import { mkdtempSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdtempSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { buildPlan, chunk, monthKey, runMonth, PodiumTracker, BlockedError, main, CONFIG } from './catalog-recheck.mjs';
+import { buildPlan, chunk, monthKey, runMonth, PodiumTracker, BlockedError, main, CONFIG, assertProductionDeployment, assertSyncParent } from './catalog-recheck.mjs';
 
 const runManual = (opts) => runMonth({ parentId: 'PDM-257', ...opts });
 
@@ -58,6 +58,61 @@ class FakeTracker {
 }
 
 const quiet = () => {};
+
+test('snapshot gate rejects CI and non-main dry runs even when they succeed', () => {
+  const run = { conclusion: 'success', workflowName: 'Deploy', headBranch: 'main', event: 'push', headSha: 'a'.repeat(40) };
+  for (const event of ['push', 'schedule', 'workflow_dispatch']) assert.doesNotThrow(() => assertProductionDeployment({ ...run, event }, 1));
+  for (const changes of [{ workflowName: 'CI' }, { headBranch: 'research-branch', event: 'workflow_dispatch' }, { event: 'pull_request' }, { conclusion: 'failure' }, { headSha: 'abc' }]) {
+    assert.throws(() => assertProductionDeployment({ ...run, ...changes }, 1));
+  }
+});
+
+test('snapshot parent must be this month’s active independent review task', () => {
+  const campaign = { id: 'month-id', title: 'Catalog recheck 2026-12', stage: 'in_progress', brief: 'Idempotency key: ade-catalog-recheck:2026-12' };
+  const parent = { id: 'review-id', parentId: campaign.id, title: 'Independent recheck review', stage: 'in_progress', brief: 'ade-catalog-recheck:2026-12 / review. Verify facts.' };
+  assert.doesNotThrow(() => assertSyncParent(parent, campaign, '2026-12'));
+  for (const changes of [{ draft: true }, { stage: 'proposed' }, { stage: 'done' }, { closedReason: 'done' }, { archived: true }, { title: 'Source batch 01' }, { brief: 'ade-catalog-recheck:2027-01 / review.' }, { parentId: 'other-month' }]) {
+    assert.throws(() => assertSyncParent({ ...parent, ...changes }, campaign, '2026-12'), BlockedError);
+  }
+  assert.throws(() => assertSyncParent(parent, { ...campaign, closedReason: 'done' }, '2026-12'), BlockedError);
+});
+
+test('large manifests upload by file instead of a size-limited argv string', () => {
+  const content = JSON.stringify({ catalog: 'x'.repeat(200_000) });
+  let uploaded;
+  const tracker = new PodiumTracker({ exec: (bin, args) => {
+    assert.ok(!args.includes('--content'));
+    uploaded = args[args.indexOf('--add') + 1];
+    assert.equal(readFileSync(uploaded, 'utf8'), content);
+    return 'attached';
+  } });
+  tracker.addArtifact('ADE-800', 'catalog-manifest.json', content, 'Catalog enumeration');
+  assert.equal(existsSync(uploaded), false, 'owned temporary upload is removed after the CLI copies it');
+});
+
+test('archived months stay untouched and closure metadata prevents reopening', () => {
+  const root = fixture({ profiles: 1, register: 0 });
+  try {
+    const plan = buildPlan({ root, month: '2026-12', now: NOW, commit: 'abc1234' });
+    const tracker = new FakeTracker();
+    tracker.issues.push({ id: 'old', title: plan.title, brief: `Idempotency key: ${plan.key}`, stage: 'backlog', archived: true });
+    assert.throws(() => runManual({ plan, tracker, start: true, log: quiet }), BlockedError);
+    Object.assign(tracker.issues[0], { archived: false, closedReason: 'done' });
+    assert.equal(runManual({ plan, tracker, start: true, log: quiet }).closed, true);
+    assert.equal(tracker.started.length, 0);
+  } finally { rmSync(root, { recursive: true, force: true }); }
+});
+
+test('explicit-parent dry runs work without a managed current session', () => {
+  const root = fixture({ profiles: 1, register: 0 });
+  try {
+    const tracker = new FakeTracker();
+    tracker.currentIssue = () => { throw new Error('No session in a plain shell'); };
+    const result = runManual({ plan: buildPlan({ root, month: '2026-12', now: NOW, commit: 'abc1234' }), tracker, start: true, dryRun: true, log: quiet });
+    assert.equal(result.tasks, 1);
+    assert.equal(tracker.issues.length, 0);
+  } finally { rmSync(root, { recursive: true, force: true }); }
+});
 
 test('month keys and batch limits', () => {
   assert.equal(monthKey('2026-12'), 'ade-catalog-recheck:2026-12');
