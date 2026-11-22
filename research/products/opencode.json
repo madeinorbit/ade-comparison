@@ -4553,7 +4553,7 @@
     {
       "id": "opencode:OWN-06",
       "criterionId": "OWN-06",
-      "answer": "Desktop README labels the app beta; mobile is an iPhone public TestFlight beta plus an Android app on Google Play.",
+      "answer": "Desktop README labels the app beta; mobile is an iPhone public TestFlight beta plus an Android app on Google Play. Sessions export as JSON from the CLI; the V2 migration guide documents V1 deprecations.",
       "support": "partial",
       "availability": "beta",
       "delivery": "native",
@@ -4611,34 +4611,46 @@
           "evidenceIds": []
         },
         "deprecation": {
-          "support": "unknown",
-          "answer": "Deprecation: The November first-party documentation and repository pass did not establish availability and support at the rubric's required scope. No installed-product fixture was run.",
-          "evidenceIds": []
+          "support": "partial",
+          "answer": "The V1 migration guide lists three intentional V2 breaking changes and keeps deprecated V1 config fields and agent frontmatter working through automatic translation; repository rules keep @deprecated aliases for moved SDK or plugin APIs until the next minor, while experimental routes change without aliases. No product end-of-life policy was found in the inspected repository and docs.",
+          "evidenceIds": [
+            "b134-doc-migrate-v1",
+            "b134-doc-agents-deprecation"
+          ]
         },
         "export_options": {
-          "support": "unknown",
-          "answer": "Export options: The November first-party documentation and repository pass did not establish availability and support at the rubric's required scope. No installed-product fixture was run.",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "opencode session export writes a session as JSON (optionally redacted with --sanitize) and opencode session import loads one from a file or URL; opencode auth export/import moves saved credentials between machines.",
+          "evidenceIds": [
+            "b134-code-session-export",
+            "b134-code-session-export-handler",
+            "b134-doc-cli-commands"
+          ]
         }
       },
       "limitations": [
-        "The remaining atomic questions and the rubric scenario are unverified. Documentation is not a successful product test."
+        "Support, response commitments and status history remain unestablished. Deprecation covers the documented V1-to-V2 migration and API alias rules, not a product end-of-life policy."
       ],
-      "unknownReason": "See unknown atomic answers for the source and test gaps.",
+      "unknownReason": "Support, response_commitments and status_history were not established by the November first-party documentation and repository pass and were outside the 2026-11-22 export and deprecation source inspection.",
       "evidenceIds": [
         "nov07-readme",
         "nov07-mobile",
         "nov12-releases",
-        "b08r-mobile"
+        "b08r-mobile",
+        "b134-code-session-export",
+        "b134-code-session-export-handler",
+        "b134-doc-cli-commands",
+        "b134-doc-migrate-v1",
+        "b134-doc-agents-deprecation"
       ],
       "checkedAt": "2026-11-07",
       "nextReviewAt": "2026-11-21",
-      "researcher": "researcher-ade164",
+      "researcher": "researcher-ade134",
       "publication": "public-reviewed",
       "review": {
-        "reviewer": "reviewer-ade145",
+        "reviewer": "reviewer-ade133",
         "date": "2026-11-22",
-        "contentHash": "a83fbbcaefb3776db7db9fa72aeb694dfc842950e948b43cb126221fd0e8d350"
+        "contentHash": "81239b76459698c9b780a084a211a37fb1a9c56c6d37a475f431f427d4cb1a5f"
       },
       "contradictions": []
     },
@@ -5904,6 +5916,71 @@
       "visibility": "public",
       "commit": "c0ad18b402eb2827fc1ee71c171b1177b3fc02d1",
       "path": "opencode-desktop-linux-amd64.deb:/opt/OpenCode/resources/app.asar"
+    },
+    {
+      "id": "b134-code-session-export",
+      "kind": "source-inspected",
+      "url": "https://github.com/anomalyco/opencode/blob/fedc6f208aa2bd54c1019227214568083f6380ad/packages/cli/src/commands/commands.ts",
+      "title": "OpenCode CLI command spec (session export/import)",
+      "locator": "L477-L500 session export (optional session ID, --sanitize) and session import (file or URL, --directory)",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-22",
+      "finding": "At v2.2.7 the CLI declares opencode session export, \"Export session data as JSON\", with an optional session ID and a --sanitize flag that redacts sensitive transcript and file data, and opencode session import, which imports session data from a JSON file or URL into an optional directory.",
+      "visibility": "public",
+      "commit": "fedc6f208aa2bd54c1019227214568083f6380ad",
+      "path": "packages/cli/src/commands/commands.ts"
+    },
+    {
+      "id": "b134-code-session-export-handler",
+      "kind": "source-inspected",
+      "url": "https://github.com/anomalyco/opencode/blob/fedc6f208aa2bd54c1019227214568083f6380ad/packages/cli/src/commands/handlers/session/export.ts",
+      "title": "OpenCode session export handler",
+      "locator": "L15-L74 session picker, client.experimental.session.export call and stdout JSON write",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-22",
+      "finding": "The v2.2.7 handler resolves the local server, lets an interactive user pick one of the latest 50 top-level sessions (a session ID is required without a TTY), calls the server experimental session-export endpoint with the sanitize option and writes the result to stdout as indented JSON.",
+      "visibility": "public",
+      "commit": "fedc6f208aa2bd54c1019227214568083f6380ad",
+      "path": "packages/cli/src/commands/handlers/session/export.ts"
+    },
+    {
+      "id": "b134-doc-cli-commands",
+      "kind": "documented",
+      "url": "https://github.com/anomalyco/opencode/blob/fedc6f208aa2bd54c1019227214568083f6380ad/services/site/src/docs/content/cli/commands.mdx",
+      "title": "CLI commands (docs source at v2.2.7)",
+      "locator": "session: L141-L162 export, --sanitize and import; auth: L209-L214 export and import",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-22",
+      "finding": "Documents opencode session export <id> (JSON), --sanitize for redacted exports, opencode session import from a JSON file or URL with --directory, and opencode auth export/import to move saved credentials to another machine, noting the file contains secrets.",
+      "visibility": "public",
+      "commit": "fedc6f208aa2bd54c1019227214568083f6380ad",
+      "path": "services/site/src/docs/content/cli/commands.mdx"
+    },
+    {
+      "id": "b134-doc-migrate-v1",
+      "kind": "documented",
+      "url": "https://github.com/anomalyco/opencode/blob/fedc6f208aa2bd54c1019227214568083f6380ad/services/site/src/docs/content/migrate-v1.mdx",
+      "title": "Migrate from V1 (docs source at v2.2.7)",
+      "locator": "L1-L25 breaking changes and compatibility; L144 deprecated mode map; L468 accepted but unsupported fields; L507 deprecated V1 agent frontmatter",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-22",
+      "finding": "V2 lists three intentional breaking changes (plugin API, server API and clients, terminal client configuration, auto-migrated); other supported V1 functionality is intended to stay compatible and a break is treated as a bug. Deprecated V1 config maps and agent frontmatter are still translated automatically; V1 fields without a V2 equivalent are accepted and ignored.",
+      "visibility": "public",
+      "commit": "fedc6f208aa2bd54c1019227214568083f6380ad",
+      "path": "services/site/src/docs/content/migrate-v1.mdx"
+    },
+    {
+      "id": "b134-doc-agents-deprecation",
+      "kind": "documented",
+      "url": "https://github.com/anomalyco/opencode/blob/fedc6f208aa2bd54c1019227214568083f6380ad/AGENTS.md",
+      "title": "OpenCode repository AGENTS.md (API change rules)",
+      "locator": "L177-L180 experimental endpoints and deprecated aliases",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-22",
+      "finding": "Repository rules at v2.2.7: experimental HTTP routes change without aliases; a breaking move of shipped SDK or plugin API keeps the old path and type names as @deprecated aliases until the next minor release, marked \"Removed in the next minor\".",
+      "visibility": "public",
+      "commit": "fedc6f208aa2bd54c1019227214568083f6380ad",
+      "path": "AGENTS.md"
     }
   ],
   "changes": [
@@ -9249,6 +9326,132 @@
       "evidenceIds": [
         "b08r-release-sentry"
       ]
+    },
+    {
+      "date": "2026-11-22",
+      "author": "researcher-ade134",
+      "type": "research-correction",
+      "summary": "ADE-25/ADE-27 follow-up (PDM-257, ADE-134): answered OWN-06 export_options and deprecation from the public repository at v2.2.7 (fedc6f2), matching the claim scope. export_options: session export/import commands and handler, documented CLI commands. deprecation: V1 migration guide and repository API alias rules. Removed stale unrun-fixture wording from this claim's limitations and unknownReason; support, response_commitments and status_history stay unknown and their atomic texts are unchanged. Review cleared; awaits a different reviewer.",
+      "claimIds": [
+        "opencode:OWN-06"
+      ],
+      "before": {
+        "opencode:OWN-06": {
+          "publication": "public-candidate",
+          "support": "partial",
+          "availability": "beta",
+          "version": "opencode v2.2.7 (releases retrieved 2026-11-12)",
+          "researcher": "researcher-ade164",
+          "answer": "Desktop README labels the app beta; mobile is an iPhone public TestFlight beta plus an Android app on Google Play.",
+          "subanswers": {
+            "release_stage": "supported",
+            "access_restrictions": "supported",
+            "support": "unknown",
+            "response_commitments": "unknown",
+            "release_activity": "supported",
+            "status_history": "unknown",
+            "deprecation": "unknown",
+            "export_options": "unknown"
+          },
+          "unknownReason": "See unknown atomic answers for the source and test gaps.",
+          "limitations": [
+            "The remaining atomic questions and the rubric scenario are unverified. Documentation is not a successful product test."
+          ],
+          "evidenceIds": [
+            "nov07-readme",
+            "nov07-mobile",
+            "nov12-releases",
+            "b08r-mobile",
+            "b134-code-session-export",
+            "b134-code-session-export-handler",
+            "b134-doc-cli-commands",
+            "b134-doc-migrate-v1",
+            "b134-doc-agents-deprecation"
+          ]
+        }
+      },
+      "after": {
+        "opencode:OWN-06": {
+          "publication": "public-candidate",
+          "support": "partial",
+          "availability": "beta",
+          "version": "opencode v2.2.7 (releases retrieved 2026-11-12)",
+          "researcher": "researcher-ade134",
+          "answer": "Desktop README labels the app beta; mobile is an iPhone public TestFlight beta plus an Android app on Google Play. Sessions export as JSON from the CLI; the V2 migration guide documents V1 deprecations.",
+          "subanswers": {
+            "release_stage": "supported",
+            "access_restrictions": "supported",
+            "support": "unknown",
+            "response_commitments": "unknown",
+            "release_activity": "supported",
+            "status_history": "unknown",
+            "deprecation": "partial",
+            "export_options": "supported"
+          },
+          "unknownReason": "Support, response_commitments and status_history were not established by the November first-party documentation and repository pass and were outside the 2026-11-22 export and deprecation source inspection.",
+          "limitations": [
+            "Support, response commitments and status history remain unestablished. Deprecation covers the documented V1-to-V2 migration and API alias rules, not a product end-of-life policy."
+          ],
+          "evidenceIds": [
+            "nov07-readme",
+            "nov07-mobile",
+            "nov12-releases",
+            "b08r-mobile",
+            "b134-code-session-export",
+            "b134-code-session-export-handler",
+            "b134-doc-cli-commands",
+            "b134-doc-migrate-v1",
+            "b134-doc-agents-deprecation"
+          ]
+        }
+      },
+      "evidenceIds": [
+        "b134-code-session-export",
+        "b134-code-session-export-handler",
+        "b134-doc-cli-commands",
+        "b134-doc-migrate-v1",
+        "b134-doc-agents-deprecation"
+      ]
+    },
+    {
+      "date": "2026-11-22",
+      "author": "integrator-pdm257",
+      "type": "research-correction",
+      "summary": "Apply the separately authored ADE-134 OWN-06 candidate from 8b6ae7eb98b29d73bc6f1ac4cbebffeb485017db, preserving other genuine peer reviews. Archive the prior review as history; new independent ADE-133 acceptance remains pending.",
+      "claimIds": [
+        "opencode:OWN-06"
+      ],
+      "evidenceIds": [
+        "nov07-readme",
+        "nov07-mobile",
+        "nov12-releases",
+        "b08r-mobile",
+        "b134-code-session-export",
+        "b134-code-session-export-handler",
+        "b134-doc-cli-commands",
+        "b134-doc-migrate-v1",
+        "b134-doc-agents-deprecation"
+      ],
+      "before": {
+        "OWN-06": {
+          "researcher": "researcher-ade164",
+          "publication": "public-reviewed",
+          "review": {
+            "reviewer": "reviewer-ade145",
+            "date": "2026-11-22",
+            "contentHash": "a83fbbcaefb3776db7db9fa72aeb694dfc842950e948b43cb126221fd0e8d350"
+          },
+          "claimHash": "a83fbbcaefb3776db7db9fa72aeb694dfc842950e948b43cb126221fd0e8d350"
+        }
+      },
+      "after": {
+        "OWN-06": {
+          "researcher": "researcher-ade134",
+          "publication": "public-candidate",
+          "review": null,
+          "claimHash": "81239b76459698c9b780a084a211a37fb1a9c56c6d37a475f431f427d4cb1a5f"
+        }
+      }
     }
   ],
   "context": {
