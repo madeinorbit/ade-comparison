@@ -275,7 +275,7 @@
   {
    "id": "orca:ACC-03",
    "criterionId": "ACC-03",
-   "answer": "Orca reuses the installed coding-agent native subscription logins, including Claude Code and Codex. Orca account policy is a separate unresolved source conflict.",
+   "answer": "Orca reuses the installed coding-agent native subscription logins, including Claude Code and Codex. Core desktop use needs no Orca account; Relay pairing and publishing artifacts or shared skills do.",
    "support": "partial",
    "availability": "generally-available",
    "delivery": "native",
@@ -283,8 +283,8 @@
     "surfaceIds": [
      "desktop"
     ],
-    "version": "Live docs reread 2026-11-07 through v1.4.251; pinned source v1.4.222 at 4bb6f20",
-    "plan": "Native coding-agent credential reuse only; Orca account policy unestablished",
+    "version": "Live docs reread 2026-11-07 through v1.4.251; pinned source v1.4.222 at 4bb6f20 Batch 08 recheck 2026-11-21: live docs through v1.4.268; code at main 9cd9b2b (after v1.4.269).",
+    "plan": "Native coding-agent credential reuse; an Orca account is needed only for Relay pairing, publishing artifact links and publishing shared skills",
     "os": [],
     "executionModes": [
      "local"
@@ -299,7 +299,9 @@
      "evidenceIds": [
       "website-nov07",
       "d-claude-nov07",
-      "d-codex-nov07"
+      "d-codex-nov07",
+      "b08r-claude",
+      "b08r-codex"
      ]
     },
     "api_accounts": {
@@ -336,13 +338,14 @@
      ]
     },
     "vendor_account_requirement": {
-     "support": "unknown",
-     "answer": "Orca account requirements remain unresolved: telemetry says there is no account system, while mobile/settings/skills require an Orca account for selected features. This conflict does not establish or refute native coding-agent subscription reuse.",
+     "support": "supported",
+     "answer": "Core desktop use (add repo, create worktrees, launch agents) has no Orca sign-in step; Relay mobile pairing, publishing artifact links and publishing shared skills need an Orca account. Each agent still needs its own provider login. The telemetry page no longer says Orca has no account system, so the earlier conflict is gone.",
      "evidenceIds": [
-      "d-mobile-nov07",
-      "d-settings-nov07",
-      "d-skills-nov07",
-      "d-telemetry-nov07"
+      "b08-first-session",
+      "b08-mobile",
+      "b08-settings",
+      "b08-skills",
+      "b08-telemetry"
      ]
     },
     "provider_restrictions": {
@@ -353,10 +356,10 @@
    },
    "limitations": [
     "Documentation and pinned source inspection only; no hands-on scenario was run.",
-    "Other atomic questions remain unestablished: vendor_credits, local_models, provider_restrictions.",
-    "The earlier Orca account-system contradiction is retained explicitly in the unknown vendor_account_requirement answer; no Orca account-policy assertion is made by this narrowed subscription finding."
+    "Unknown after the 2026-11-21 first-party documentation, release and public-code recheck: vendor_credits, local_models, provider_restrictions.",
+    "Documentation, release and public-code recheck only (2026-11-21); no configured product fixture was run."
    ],
-   "unknownReason": "Other atomic questions remain unestablished: vendor_credits, local_models, provider_restrictions.",
+   "unknownReason": "Unknown after the 2026-11-21 recheck of first-party docs, releases and public code: vendor_credits, local_models, provider_restrictions. Each unknown atomic answer names its source or access gap.",
    "evidenceIds": [
     "d-claude-nov07",
     "d-codex-nov07",
@@ -368,13 +371,24 @@
     "d-supported-nov07",
     "d-mobile-nov07",
     "d-skills-nov07",
-    "d-telemetry-nov07"
+    "d-telemetry-nov07",
+    "b08-first-session",
+    "b08-mobile",
+    "b08-settings",
+    "b08-skills",
+    "b08-telemetry",
+    "b08r-claude",
+    "b08r-codex"
    ],
-   "checkedAt": "2026-11-07",
-   "nextReviewAt": "2026-11-21",
-   "researcher": "researcher-facet-gaps-batch6",
-   "publication": "public-candidate",
-   "review": null,
+   "checkedAt": "2026-11-21",
+   "nextReviewAt": "2027-03-21",
+   "researcher": "researcher-ade164",
+   "publication": "public-reviewed",
+   "review": {
+    "reviewer": "reviewer-ade145",
+    "date": "2026-11-22",
+    "contentHash": "677babb7d6e7411c2797a63be4774063a49b0e76e853cb8856b951a8ec4eca6b"
+   },
    "contradictions": []
   },
   {
@@ -2930,7 +2944,7 @@
      "desktop",
      "cli"
     ],
-    "version": "Live docs reread 2026-11-07 through v1.4.251; pinned source v1.4.222 at 4bb6f20",
+    "version": "Live docs reread 2026-11-07 through v1.4.251; pinned source v1.4.222 at 4bb6f20 Batch 08 recheck 2026-11-21: live docs through v1.4.268; code at main 9cd9b2b (after v1.4.269).",
     "plan": null,
     "os": [],
     "executionModes": [
@@ -2979,9 +2993,14 @@
      ]
     },
     "provider_failures": {
-     "support": "unknown",
-     "answer": "Current usage docs show unavailable balances and usage windows but do not establish the previously claimed provider-failure/rejection messages. No provider-outage scenario was tested.",
-     "evidenceIds": []
+     "support": "partial",
+     "answer": "In Chat UI sessions Orca shows typed rows for provider unavailable, response failed, safety stop, model unavailable, rate-limited/retrying (with the provider's attempt n of m and cause) and usage limit reached (with reset time). Retries come from the agent harness, not Orca. Terminal agents show only their own CLI output.",
+     "evidenceIds": [
+      "b08-code-failure-kinds",
+      "b08-code-failure-copy",
+      "b08-code-retry-words",
+      "b08-usage"
+     ]
     },
     "enforcement": {
      "support": "partial",
@@ -2995,24 +3014,30 @@
     "Documentation only; no failure or budget test was run.",
     "The 80% chip is a warning, not an enforced stop.",
     "Structured chat and usage facts come from live docs reread 2026-11-07; the pinned 4bb6f20 docs have no such sections, so they are not v1.4.222 code-inspected facts.",
-    "The current orchestration guide says to enable orchestration under Experimental but also says that panel and switch are temporarily unavailable. CLI activation was not tested; command documentation does not settle present availability."
+    "The current orchestration guide says to enable orchestration under Experimental but also says that panel and switch are temporarily unavailable. CLI activation was not tested; command documentation does not settle present availability.",
+    "Unknown after the 2026-11-21 first-party documentation, release and public-code recheck: time_limits, turn_limits, token_limits, spend_limits.",
+    "Documentation, release and public-code recheck only (2026-11-21); no configured product fixture was run."
    ],
-   "unknownReason": "Reread the cited first-party sources on 2026-11-07. Remaining atomic questions are not established for the named surface and version; no installed-client or authenticated scenario was run.",
+   "unknownReason": "Unknown after the 2026-11-21 recheck of first-party docs, releases and public code: time_limits, turn_limits, token_limits, spend_limits. Each unknown atomic answer names its source or access gap.",
    "evidenceIds": [
     "d-usage-nov07",
     "d-orch-nov07",
     "d-auto-nov07",
     "d-chat-nov07",
-    "d-cliref-nov07"
+    "d-cliref-nov07",
+    "b08-code-failure-kinds",
+    "b08-code-failure-copy",
+    "b08-code-retry-words",
+    "b08-usage"
    ],
-   "checkedAt": "2026-11-07",
-   "nextReviewAt": "2026-11-21",
-   "researcher": "reviewer-45",
+   "checkedAt": "2026-11-21",
+   "nextReviewAt": "2027-03-21",
+   "researcher": "researcher-ade130",
    "publication": "public-reviewed",
    "review": {
-    "reviewer": "researcher-69",
-    "date": "2026-11-07",
-    "contentHash": "e91f7ae40a73c1778bdc62fa3ea2464885ba160b241f03a470bae11412bce49b"
+    "reviewer": "reviewer-ade145",
+    "date": "2026-11-22",
+    "contentHash": "c1cca858a5379db7219c52090a9411e82ed9da915a37dc876d75f0973422ec27"
    },
    "contradictions": []
   },
@@ -4907,7 +4932,7 @@
   {
    "id": "orca:OWN-03",
    "criterionId": "OWN-03",
-   "answer": "Vendor policy describes local code/provider credentials and anonymous opt-out telemetry. The old hook-install raw-error field is sanitized in release v1.4.251; only that code path was inspected, not all telemetry.",
+   "answer": "Vendor policy describes local code and provider credentials, pseudonymous opt-out product telemetry and a vendor statement that customer code and prompts are not used to train Orca models. Hosted features (accounts, Relay, push, sharing, plugins, connectors, Cloud Sandboxes) process their own data. The old hook-install raw-error field is sanitized in release v1.4.251; only that code path was inspected, not all telemetry.",
    "support": "partial",
    "availability": "generally-available",
    "delivery": "native",
@@ -4915,7 +4940,7 @@
     "surfaceIds": [
      "desktop"
     ],
-    "version": "Telemetry code v1.4.251 at a162e08; policy October 22, 2026; docs reread November 7",
+    "version": "Telemetry code v1.4.251 at a162e08; policy October 22, 2026; docs reread November 7 Batch 08 recheck 2026-11-21: live docs through v1.4.268; code at main 9cd9b2b (after v1.4.269).",
     "plan": null,
     "os": [],
     "executionModes": [
@@ -4933,9 +4958,12 @@
      ]
     },
     "prompts": {
-     "support": "unknown",
-     "answer": "Not established by the first-party sources reread November 7; no configured or authenticated scenario was tested.",
-     "evidenceIds": []
+     "support": "supported",
+     "answer": "Prompts go directly to the AI providers the user configures; Orca says it does not inspect or store them, and product telemetry excludes prompts, responses and terminal output. Content sent through an enabled hosted feature (accounts, Mobile and Relay, push notifications, sharing, plugins, connectors, Cloud Sandboxes) is processed by that feature.",
+     "evidenceIds": [
+      "b08-telemetry",
+      "b08-enterprise"
+     ]
     },
     "credentials": {
      "support": "partial",
@@ -4954,14 +4982,19 @@
      ]
     },
     "artifacts": {
-     "support": "unknown",
-     "answer": "Not established by the first-party sources reread November 7; no configured or authenticated scenario was tested.",
-     "evidenceIds": []
+     "support": "partial",
+     "answer": "Publishing public artifact links is off by default and needs an Orca account; when enabled, HTML/Markdown up to 10 MiB is uploaded to Orca's sharing feature, which processes the uploaded content, and a public link is readable by anyone who has it. Disabling publishing does not delete existing links; account-owned links can be deleted. Storage location and retention for shared artifacts are not stated.",
+     "evidenceIds": [
+      "b08r-telemetry",
+      "b08r-settings"
+     ]
     },
     "retention": {
-     "support": "unknown",
-     "answer": "Not established by the first-party sources reread November 7; no configured or authenticated scenario was tested.",
-     "evidenceIds": []
+     "support": "partial",
+     "answer": "Telemetry retention follows the PostHog project settings and no maximum period is stated; disabling telemetry does not erase events already sent. Retention for hosted features is not stated.",
+     "evidenceIds": [
+      "b08-telemetry"
+     ]
     },
     "deletion": {
      "support": "partial",
@@ -4971,14 +5004,19 @@
      ]
     },
     "training": {
-     "support": "unknown",
-     "answer": "Not established by the first-party sources reread November 7; no configured or authenticated scenario was tested.",
-     "evidenceIds": []
+     "support": "partial",
+     "answer": "Vendor statement: Orca does not use customer code or prompts to train its own models, and Orca telemetry settings do not change a configured provider's training or retention settings. Provider training follows each provider's terms. Not independently verifiable.",
+     "evidenceIds": [
+      "b08r-telemetry"
+     ]
     },
     "residency": {
-     "support": "unknown",
-     "answer": "Not established by the first-party sources reread November 7; no configured or authenticated scenario was tested.",
-     "evidenceIds": []
+     "support": "partial",
+     "answer": "Product telemetry goes to PostHog Cloud's United States endpoint; local work stays on user machines. No residency is stated for accounts, Relay, sharing or Cloud Sandboxes.",
+     "evidenceIds": [
+      "b08-telemetry",
+      "b08-enterprise"
+     ]
     },
     "subprocessors": {
      "support": "partial",
@@ -4989,15 +5027,22 @@
     },
     "telemetry_disclosure": {
      "support": "partial",
-     "answer": "Packaged-build product telemetry is documented, using PostHog Cloud US and a local random identifier.",
+     "answer": "Packaged-build product telemetry is documented: PostHog Cloud US, random installation and session identifiers (described as pseudonymous, not anonymous) and a pseudonymous conversation identifier on usage summaries.",
      "evidenceIds": [
-      "d-telemetry-nov07"
+      "d-telemetry-nov07",
+      "b08r-telemetry"
      ]
     },
     "telemetry_defaults": {
-     "support": "unknown",
-     "answer": "Not established by the first-party sources reread November 7; no configured or authenticated scenario was tested.",
-     "evidenceIds": []
+     "support": "supported",
+     "answer": "Fresh installs are opted in (opt-out model); profiles that predate telemetry send nothing until the first-launch notice is resolved. Only official stable/rc builds transmit, and DO_NOT_TRACK, ORCA_TELEMETRY_DISABLED or common CI variables disable it.",
+     "evidenceIds": [
+      "b08-code-migration",
+      "b08-code-settings-type",
+      "b08-code-consent",
+      "b08-code-client",
+      "b08-telemetry"
+     ]
     },
     "telemetry_controls": {
      "support": "supported",
@@ -5007,9 +5052,13 @@
      ]
     },
     "consent_prompt": {
-     "support": "unknown",
-     "answer": "Not established by the first-party sources reread November 7; no configured or authenticated scenario was tested.",
-     "evidenceIds": []
+     "support": "partial",
+     "answer": "A first-launch notice ('Help us decide what to build next', Opt out / Got it) appears only for profiles that predate telemetry, which send nothing until it is resolved. Fresh installs start opted in; a bounded search of the onboarding components found no in-app consent step for them.",
+     "evidenceIds": [
+      "b08-code-banner",
+      "b08-code-banner-copy",
+      "b08-code-migration"
+     ]
     },
     "provider_separation": {
      "support": "supported",
@@ -5021,25 +5070,38 @@
    },
    "limitations": [
     "No network capture, installed-build or first-run test.",
-    "Only the named hook-install producer/schema/helper was inspected; no blanket audit of Relay, artifacts or other events."
+    "Only the named hook-install producer/schema/helper was inspected; no blanket audit of Relay, artifacts or other events.",
+    "Training and data-handling answers rest on vendor statements; they were not independently verified.",
+    "Residency and retention for hosted features (accounts, Relay, sharing, Cloud Sandboxes) are not documented.",
+    "Documentation, release and public-code recheck only (2026-11-21, telemetry and settings pages reread 2026-11-22); no configured product fixture was run."
    ],
-   "unknownReason": "Reread the cited first-party sources on 2026-11-07. Remaining atomic questions are not established for the named surface and version; no installed-client or authenticated scenario was run.",
+   "unknownReason": null,
    "evidenceIds": [
     "d-privacy-nov07",
     "current-hook",
     "current-schema",
     "current-errno",
     "d-telemetry-nov07",
-    "gap07-privacy"
+    "gap07-privacy",
+    "b08-code-banner",
+    "b08-code-banner-copy",
+    "b08-code-migration",
+    "b08-telemetry",
+    "b08-enterprise",
+    "b08-code-settings-type",
+    "b08-code-consent",
+    "b08-code-client",
+    "b08r-telemetry",
+    "b08r-settings"
    ],
-   "checkedAt": "2026-11-07",
-   "nextReviewAt": "2026-11-21",
-   "researcher": "researcher-63",
+   "checkedAt": "2026-11-21",
+   "nextReviewAt": "2027-03-21",
+   "researcher": "researcher-ade164",
    "publication": "public-reviewed",
    "review": {
-    "reviewer": "researcher-69",
-    "date": "2026-11-07",
-    "contentHash": "44090a302d3ee48fae38649110221008c3bbfc54a73370a6ea57c4bf521148e9"
+    "reviewer": "reviewer-ade145",
+    "date": "2026-11-22",
+    "contentHash": "af475eb3ad459f5b41cf729ef5e8915093f2cb170bd62afa2cad4639c2f962f6"
    },
    "contradictions": []
   },
@@ -7476,6 +7538,266 @@
    "sourceDate": null,
    "retrievedAt": "2026-11-13",
    "finding": "The current first-party guide requires enabling orchestration under Settings Experimental and explicitly says the panel and switch are temporarily unavailable. It documents native Run/Task/Dispatch objects and worker delegation tools, but those definitions do not establish a currently enableable native issue tracker or coordinator. Retired run/coordinator commands have no effects.",
+   "visibility": "public",
+   "commit": null,
+   "path": null
+  },
+  {
+   "id": "b08-telemetry",
+   "kind": "documented",
+   "url": "https://www.onorca.dev/docs/telemetry",
+   "title": "Privacy & Telemetry",
+   "locator": "Summary; What is separate from product telemetry; How to opt out; Where product telemetry goes",
+   "sourceDate": null,
+   "retrievedAt": "2026-11-21",
+   "finding": "Product telemetry in packaged desktop builds excludes file contents, prompts, agent responses and terminal output; customer-selected AI providers receive the context for inference under their own terms; accounts, Relay, push, sharing, plugins, connectors and Cloud Sandboxes process their own data. Opt out in Settings > Privacy, DO_NOT_TRACK=1, ORCA_TELEMETRY_DISABLED=1 or CI markers. Destination is PostHog Cloud's United States ingestion endpoint; retention is set by the PostHog project settings and no maximum is stated; disabling does not erase sent events.",
+   "visibility": "public",
+   "commit": null,
+   "path": null
+  },
+  {
+   "id": "b08-enterprise",
+   "kind": "documented",
+   "url": "https://www.onorca.dev/enterprise",
+   "title": "Orca Enterprise",
+   "locator": "Designed around your existing workflow: No model in the middle",
+   "sourceDate": null,
+   "retrievedAt": "2026-11-21",
+   "finding": "Prompts and code go straight to the providers the team configures; Orca says it does not inspect or store them. Repositories, worktrees, terminals and agent sessions run on machines the user controls.",
+   "visibility": "public",
+   "commit": null,
+   "path": null
+  },
+  {
+   "id": "b08-first-session",
+   "kind": "documented",
+   "url": "https://www.onorca.dev/docs/first-session",
+   "title": "Your first 3-agent session",
+   "locator": "Steps 1-4",
+   "sourceDate": null,
+   "retrievedAt": "2026-11-21",
+   "finding": "The first-session walkthrough adds a local repo, creates worktrees and launches Claude Code, Codex or Cursor CLI with no Orca sign-in step.",
+   "visibility": "public",
+   "commit": null,
+   "path": null
+  },
+  {
+   "id": "b08-mobile",
+   "kind": "documented",
+   "url": "https://www.onorca.dev/docs/mobile",
+   "title": "Mobile companion",
+   "locator": "Pairing; Troubleshooting",
+   "sourceDate": null,
+   "retrievedAt": "2026-11-21",
+   "finding": "Relay pairing requires sign-in (Relay only); LAN pairing uses a one-time code and address. Troubleshooting tells users to sign desktop and phone into the same Orca account when pairing fails.",
+   "visibility": "public",
+   "commit": null,
+   "path": null
+  },
+  {
+   "id": "b08-settings",
+   "kind": "documented",
+   "url": "https://www.onorca.dev/docs/settings",
+   "title": "Settings reference",
+   "locator": "Accounts; Artifacts",
+   "sourceDate": null,
+   "retrievedAt": "2026-11-21",
+   "finding": "Account lists hold provider logins for Claude, Codex, OpenCode, Devin, Antigravity and GLM Coding Plan. Publishing shared artifacts needs an Orca account (same account family as Orca Relay).",
+   "visibility": "public",
+   "commit": null,
+   "path": null
+  },
+  {
+   "id": "b08-skills",
+   "kind": "documented",
+   "url": "https://www.onorca.dev/docs/cli/skills",
+   "title": "Orca CLI & Skills",
+   "locator": "Share private skills between hosts",
+   "sourceDate": null,
+   "retrievedAt": "2026-11-21",
+   "finding": "Publishing a shared skill link requires an Orca account; recipients can inspect and install from an active link without signing in.",
+   "visibility": "public",
+   "commit": null,
+   "path": null
+  },
+  {
+   "id": "b08-usage",
+   "kind": "documented",
+   "url": "https://www.onorca.dev/docs/agents/usage-tracking",
+   "title": "Usage & rate-limit tracking",
+   "locator": "How it works; Usage roster",
+   "sourceDate": null,
+   "retrievedAt": "2026-11-21",
+   "finding": "Usage rows without live numbers show Loading usage, not signed in, Usage unavailable, No usage data or a provider-specific error; a refused Cursor usage request reads as a usage failure. These describe usage polling, not agent turns.",
+   "visibility": "public",
+   "commit": null,
+   "path": null
+  },
+  {
+   "id": "b08-code-consent",
+   "kind": "source-inspected",
+   "url": "https://github.com/stablyai/orca/blob/9cd9b2bf03673899a2834b5f9b1b5aba084923df/src/main/telemetry/consent.ts",
+   "title": "Telemetry consent resolution",
+   "locator": "L9-L18 CI_ENV_VARS; L52-L64 resolveEnvOverride; L72-L91 resolveConsent",
+   "sourceDate": null,
+   "retrievedAt": "2026-11-21",
+   "finding": "DO_NOT_TRACK, ORCA_TELEMETRY_DISABLED or any of eight CI variables disable telemetry before stored settings are read; optedIn true enables, false disables, and missing or null consent resolves to pending_banner.",
+   "visibility": "public",
+   "commit": "9cd9b2bf03673899a2834b5f9b1b5aba084923df",
+   "path": "src/main/telemetry/consent.ts"
+  },
+  {
+   "id": "b08-code-migration",
+   "kind": "source-inspected",
+   "url": "https://github.com/stablyai/orca/blob/9cd9b2bf03673899a2834b5f9b1b5aba084923df/src/main/persistence/loading-store/profile-loading/loaded-cohort-migrations.ts",
+   "title": "Telemetry identity migration",
+   "locator": "L165-L205 migrateTelemetryIdentity",
+   "sourceDate": null,
+   "retrievedAt": "2026-11-21",
+   "finding": "When a profile has no telemetry block, optedIn becomes true for a fresh install and null for a profile that existed before telemetry shipped; explicit choices are preserved.",
+   "visibility": "public",
+   "commit": "9cd9b2bf03673899a2834b5f9b1b5aba084923df",
+   "path": "src/main/persistence/loading-store/profile-loading/loaded-cohort-migrations.ts"
+  },
+  {
+   "id": "b08-code-settings-type",
+   "kind": "source-inspected",
+   "url": "https://github.com/stablyai/orca/blob/9cd9b2bf03673899a2834b5f9b1b5aba084923df/src/shared/telemetry/telemetry-settings-types.ts",
+   "title": "Telemetry settings type",
+   "locator": "L17-L23",
+   "sourceDate": null,
+   "retrievedAt": "2026-11-21",
+   "finding": "Type comment: new users are opted in (true) at install; existing users stay null until they resolve the first-launch banner.",
+   "visibility": "public",
+   "commit": "9cd9b2bf03673899a2834b5f9b1b5aba084923df",
+   "path": "src/shared/telemetry/telemetry-settings-types.ts"
+  },
+  {
+   "id": "b08-code-client",
+   "kind": "source-inspected",
+   "url": "https://github.com/stablyai/orca/blob/9cd9b2bf03673899a2834b5f9b1b5aba084923df/src/main/telemetry/client.ts",
+   "title": "Telemetry client",
+   "locator": "L26-L38 build identity; L65 initTelemetry guard",
+   "sourceDate": null,
+   "retrievedAt": "2026-11-21",
+   "finding": "Telemetry starts only in CI-built official stable or rc builds with a write key; contributor builds send nothing.",
+   "visibility": "public",
+   "commit": "9cd9b2bf03673899a2834b5f9b1b5aba084923df",
+   "path": "src/main/telemetry/client.ts"
+  },
+  {
+   "id": "b08-code-banner",
+   "kind": "source-inspected",
+   "url": "https://github.com/stablyai/orca/blob/9cd9b2bf03673899a2834b5f9b1b5aba084923df/src/renderer/src/components/onboarding/telemetry/TelemetryFirstLaunchSurface.tsx",
+   "title": "Telemetry first-launch surface",
+   "locator": "L1 comment; L24-L28",
+   "sourceDate": null,
+   "retrievedAt": "2026-11-21",
+   "finding": "The telemetry notice renders only for profiles that existed before telemetry and have optedIn null; no events transmit until those users resolve it. A bounded search of renderer onboarding components found no separate in-app consent step for fresh installs.",
+   "visibility": "public",
+   "commit": "9cd9b2bf03673899a2834b5f9b1b5aba084923df",
+   "path": "src/renderer/src/components/onboarding/telemetry/TelemetryFirstLaunchSurface.tsx"
+  },
+  {
+   "id": "b08-code-banner-copy",
+   "kind": "source-inspected",
+   "url": "https://github.com/stablyai/orca/blob/9cd9b2bf03673899a2834b5f9b1b5aba084923df/src/renderer/src/components/onboarding/telemetry/FirstLaunchBanner.tsx",
+   "title": "First-launch telemetry banner",
+   "locator": "L60-L110 banner copy and actions",
+   "sourceDate": null,
+   "retrievedAt": "2026-11-21",
+   "finding": "Banner titled 'Help us decide what to build next' explains anonymous feature counts with no file contents, prompts or terminal output, links the privacy policy and offers Opt out or Got it.",
+   "visibility": "public",
+   "commit": "9cd9b2bf03673899a2834b5f9b1b5aba084923df",
+   "path": "src/renderer/src/components/onboarding/telemetry/FirstLaunchBanner.tsx"
+  },
+  {
+   "id": "b08-code-failure-kinds",
+   "kind": "source-inspected",
+   "url": "https://github.com/stablyai/orca/blob/9cd9b2bf03673899a2834b5f9b1b5aba084923df/src/shared/agent-session/failures/agent-session-failure.ts",
+   "title": "Agent session failure kinds",
+   "locator": "L55-L94 AGENT_SESSION_FAILURE_KINDS",
+   "sourceDate": null,
+   "retrievedAt": "2026-11-21",
+   "finding": "Chat sessions classify providerUnavailable, providerSafetyStopped, providerResponseFailed, modelUnavailable, providerRetrying (provider retrying a refused request, not yet a failure) and usageLimitReached (turn ended until the limit resets).",
+   "visibility": "public",
+   "commit": "9cd9b2bf03673899a2834b5f9b1b5aba084923df",
+   "path": "src/shared/agent-session/failures/agent-session-failure.ts"
+  },
+  {
+   "id": "b08-code-failure-copy",
+   "kind": "source-inspected",
+   "url": "https://github.com/stablyai/orca/blob/9cd9b2bf03673899a2834b5f9b1b5aba084923df/src/shared/agent-session/failures/agent-session-failure-copy.ts",
+   "title": "Agent session failure copy",
+   "locator": "L122-L128; L190-L202",
+   "sourceDate": null,
+   "retrievedAt": "2026-11-21",
+   "finding": "User-facing rows: agent is rate-limited and retrying; hit a temporary problem and is retrying; Retry n of m; couldn't finish this response; hit its usage/session/weekly limit with reset time.",
+   "visibility": "public",
+   "commit": "9cd9b2bf03673899a2834b5f9b1b5aba084923df",
+   "path": "src/shared/agent-session/failures/agent-session-failure-copy.ts"
+  },
+  {
+   "id": "b08-code-retry-words",
+   "kind": "source-inspected",
+   "url": "https://github.com/stablyai/orca/blob/9cd9b2bf03673899a2834b5f9b1b5aba084923df/src/shared/agent-session/failures/agent-session-provider-retry-words.ts",
+   "title": "Provider retry wording",
+   "locator": "L15-L47",
+   "sourceDate": null,
+   "retrievedAt": "2026-11-21",
+   "finding": "Retry rows come from the provider's own retry fields (rate_limit or HTTP 429 vs other errors, attempt and maxRetries) and append the provider's cause; Orca reports the harness's retries rather than retrying itself.",
+   "visibility": "public",
+   "commit": "9cd9b2bf03673899a2834b5f9b1b5aba084923df",
+   "path": "src/shared/agent-session/failures/agent-session-provider-retry-words.ts"
+  },
+  {
+   "id": "b08r-telemetry",
+   "kind": "documented",
+   "url": "https://www.onorca.dev/docs/telemetry",
+   "title": "Privacy & Telemetry",
+   "locator": "Summary (Pseudonymous identifiers); What is separate from product telemetry (Sharing, plugins and connectors; Customer-selected AI providers and agents)",
+   "sourceDate": null,
+   "retrievedAt": "2026-11-22",
+   "finding": "Product telemetry uses random installation and session identifiers and is described as pseudonymous rather than anonymous. Accounts, Mobile and Relay, push notifications, sharing, plugins and connectors, Cloud Sandboxes and support each process their own data; sharing processes uploaded content and publicly shared content can be accessible to anyone with its public link. Vendor statement: \"We do not use customer code or prompts to train our own models; Orca telemetry settings do not change another provider's training or retention settings.\"",
+   "visibility": "public",
+   "commit": null,
+   "path": null
+  },
+  {
+   "id": "b08r-settings",
+   "kind": "documented",
+   "url": "https://www.onorca.dev/docs/settings",
+   "title": "Settings reference",
+   "locator": "Artifacts",
+   "sourceDate": null,
+   "retrievedAt": "2026-11-22",
+   "finding": "Publishing shared files needs an Orca account (same account family as Orca Relay). \"Allow publishing public artifact links\" is off by default; when on, the user, agents and the orca CLI on that machine can upload HTML/Markdown up to 10 MiB and mint public view links. Turning it off does not delete existing links; account-owned links can be deleted from the Artifacts list.",
+   "visibility": "public",
+   "commit": null,
+   "path": null
+  },
+  {
+   "id": "b08r-claude",
+   "kind": "documented",
+   "url": "https://www.onorca.dev/docs/agents/claude-code",
+   "title": "Claude Code in Orca",
+   "locator": "Setup; Usage & rate limits; Account hot-swap",
+   "sourceDate": null,
+   "retrievedAt": "2026-11-22",
+   "finding": "Log in to Claude Code once from any terminal; Orca picks up ~/.claude automatically with no extra config, reads the local usage state for the status bar and supports multiple Claude accounts with one-click swap.",
+   "visibility": "public",
+   "commit": null,
+   "path": null
+  },
+  {
+   "id": "b08r-codex",
+   "kind": "documented",
+   "url": "https://www.onorca.dev/docs/agents/codex",
+   "title": "Codex in Orca",
+   "locator": "Setup; Account hot-swap; System default vs extra accounts",
+   "sourceDate": null,
+   "retrievedAt": "2026-11-22",
+   "finding": "Log in to Codex from any terminal; Orca launches codex with the worktree as cwd and routes auth through the selected account. The system default account uses the real ~/.codex login; extra accounts get isolated homes; running sessions keep their account until restarted.",
    "visibility": "public",
    "commit": null,
    "path": null
@@ -17141,6 +17463,232 @@
      }
     }
    }
+  },
+  {
+   "date": "2026-11-21",
+   "author": "researcher-ade130",
+   "type": "research-correction",
+   "summary": "Re-verify inherited unknown-answer leads against current first-party docs and public code at 9cd9b2bf03673899a2834b5f9b1b5aba084923df (batch 08 backfill).",
+   "claimIds": [
+    "orca:ACC-03"
+   ],
+   "before": {
+    "support": "partial",
+    "answer": "Orca reuses the installed coding-agent native subscription logins, including Claude Code and Codex. Orca account policy is a separate unresolved source conflict.",
+    "subanswers": {
+     "vendor_account_requirement": "unknown"
+    },
+    "scopeVersion": "Live docs reread 2026-11-07 through v1.4.251; pinned source v1.4.222 at 4bb6f20"
+   },
+   "after": {
+    "subanswers": {
+     "vendor_account_requirement": "supported"
+    },
+    "support": "partial",
+    "answer": "Orca reuses the installed coding-agent native subscription logins, including Claude Code and Codex. Core desktop use needs no Orca account; Relay pairing and publishing artifacts or shared skills do.",
+    "scopeVersion": "Live docs reread 2026-11-07 through v1.4.251; pinned source v1.4.222 at 4bb6f20 Batch 08 recheck 2026-11-21: live docs through v1.4.268; code at main 9cd9b2b (after v1.4.269)."
+   },
+   "evidenceIds": [
+    "b08-first-session",
+    "b08-mobile",
+    "b08-settings",
+    "b08-skills",
+    "b08-telemetry"
+   ]
+  },
+  {
+   "date": "2026-11-21",
+   "author": "researcher-ade130",
+   "type": "research-correction",
+   "summary": "Re-verify inherited unknown-answer leads against current first-party docs and public code at 9cd9b2bf03673899a2834b5f9b1b5aba084923df (batch 08 backfill).",
+   "claimIds": [
+    "orca:OWN-03"
+   ],
+   "before": {
+    "support": "partial",
+    "answer": "Vendor policy describes local code/provider credentials and anonymous opt-out telemetry. The old hook-install raw-error field is sanitized in release v1.4.251; only that code path was inspected, not all telemetry.",
+    "subanswers": {
+     "consent_prompt": "unknown",
+     "prompts": "unknown",
+     "residency": "unknown",
+     "retention": "unknown",
+     "telemetry_defaults": "unknown"
+    },
+    "scopeVersion": "Telemetry code v1.4.251 at a162e08; policy October 22, 2026; docs reread November 7"
+   },
+   "after": {
+    "subanswers": {
+     "consent_prompt": "partial",
+     "prompts": "supported",
+     "residency": "partial",
+     "retention": "partial",
+     "telemetry_defaults": "supported"
+    },
+    "support": "partial",
+    "answer": "Vendor policy describes local code/provider credentials and anonymous opt-out telemetry. The old hook-install raw-error field is sanitized in release v1.4.251; only that code path was inspected, not all telemetry.",
+    "scopeVersion": "Telemetry code v1.4.251 at a162e08; policy October 22, 2026; docs reread November 7 Batch 08 recheck 2026-11-21: live docs through v1.4.268; code at main 9cd9b2b (after v1.4.269)."
+   },
+   "evidenceIds": [
+    "b08-code-banner",
+    "b08-code-banner-copy",
+    "b08-code-migration",
+    "b08-telemetry",
+    "b08-enterprise",
+    "b08-code-settings-type",
+    "b08-code-consent",
+    "b08-code-client"
+   ]
+  },
+  {
+   "date": "2026-11-21",
+   "author": "researcher-ade130",
+   "type": "research-correction",
+   "summary": "Re-verify inherited unknown-answer leads against current first-party docs and public code at 9cd9b2bf03673899a2834b5f9b1b5aba084923df (batch 08 backfill).",
+   "claimIds": [
+    "orca:RUN-05"
+   ],
+   "before": {
+    "support": "partial",
+    "answer": "No enforced time, turn, token or spend limit was found. Orca warns at 80% of provider usage limits, supports explicit timeouts for orchestration waits and questions, and offers manual retry for failed runs and unsent chat messages.",
+    "subanswers": {
+     "provider_failures": "unknown"
+    },
+    "scopeVersion": "Live docs reread 2026-11-07 through v1.4.251; pinned source v1.4.222 at 4bb6f20"
+   },
+   "after": {
+    "subanswers": {
+     "provider_failures": "partial"
+    },
+    "support": "partial",
+    "answer": "No enforced time, turn, token or spend limit was found. Orca warns at 80% of provider usage limits, supports explicit timeouts for orchestration waits and questions, and offers manual retry for failed runs and unsent chat messages.",
+    "scopeVersion": "Live docs reread 2026-11-07 through v1.4.251; pinned source v1.4.222 at 4bb6f20 Batch 08 recheck 2026-11-21: live docs through v1.4.268; code at main 9cd9b2b (after v1.4.269)."
+   },
+   "evidenceIds": [
+    "b08-code-failure-kinds",
+    "b08-code-failure-copy",
+    "b08-code-retry-words",
+    "b08-usage"
+   ]
+  },
+  {
+   "date": "2026-11-22",
+   "author": "researcher-ade164",
+   "type": "research-correction",
+   "summary": "Correct ACC-03 and OWN-03 after independent review (ADE-145). ACC-03 plan bound restated to match the supported vendor_account_requirement answer. OWN-03: prompts hosted-feature list now uses the cited telemetry page list (accounts, Mobile/Relay, push, sharing, plugins, connectors, Cloud Sandboxes) and drops the unsourced \"Bots\"; training answered partial from the vendor statement on the telemetry page; artifacts answered partial from the telemetry page (sharing processes uploaded content, public links readable by anyone) and the settings reference (publishing off by default, Orca account required); telemetry described as pseudonymous, as the current page states. Telemetry and settings pages reread live 2026-11-22 (new evidence b08r-telemetry, b08r-settings); ACC-03 agent_subscriptions also cites the Claude Code and Codex pages reread 2026-11-22 (b08r-claude, b08r-codex); earlier evidence and dates unchanged.",
+   "claimIds": [
+    "orca:ACC-03",
+    "orca:OWN-03"
+   ],
+   "before": {
+    "orca:ACC-03": {
+     "publication": "public-candidate",
+     "support": "partial",
+     "availability": "generally-available",
+     "surfaceIds": [
+      "desktop"
+     ],
+     "plan": "Native coding-agent credential reuse only; Orca account policy unestablished",
+     "version": "Live docs reread 2026-11-07 through v1.4.251; pinned source v1.4.222 at 4bb6f20 Batch 08 recheck 2026-11-21: live docs through v1.4.268; code at main 9cd9b2b (after v1.4.269).",
+     "researcher": "researcher-ade130",
+     "answer": "Orca reuses the installed coding-agent native subscription logins, including Claude Code and Codex. Core desktop use needs no Orca account; Relay pairing and publishing artifacts or shared skills do.",
+     "subanswers": {
+      "agent_subscriptions": "supported",
+      "api_accounts": "partial",
+      "vendor_credits": "unknown",
+      "local_models": "unknown",
+      "account_switching": "supported",
+      "vendor_account_requirement": "supported",
+      "provider_restrictions": "unknown"
+     }
+    },
+    "orca:OWN-03": {
+     "publication": "public-candidate",
+     "support": "partial",
+     "availability": "generally-available",
+     "surfaceIds": [
+      "desktop"
+     ],
+     "plan": null,
+     "version": "Telemetry code v1.4.251 at a162e08; policy October 22, 2026; docs reread November 7 Batch 08 recheck 2026-11-21: live docs through v1.4.268; code at main 9cd9b2b (after v1.4.269).",
+     "researcher": "researcher-ade130",
+     "answer": "Vendor policy describes local code/provider credentials and anonymous opt-out telemetry. The old hook-install raw-error field is sanitized in release v1.4.251; only that code path was inspected, not all telemetry.",
+     "subanswers": {
+      "code_data": "partial",
+      "prompts": "supported",
+      "credentials": "partial",
+      "logs": "partial",
+      "artifacts": "unknown",
+      "retention": "partial",
+      "deletion": "partial",
+      "training": "unknown",
+      "residency": "partial",
+      "subprocessors": "partial",
+      "telemetry_disclosure": "partial",
+      "telemetry_defaults": "supported",
+      "telemetry_controls": "supported",
+      "consent_prompt": "partial",
+      "provider_separation": "supported"
+     }
+    }
+   },
+   "after": {
+    "orca:ACC-03": {
+     "publication": "public-candidate",
+     "support": "partial",
+     "availability": "generally-available",
+     "surfaceIds": [
+      "desktop"
+     ],
+     "plan": "Native coding-agent credential reuse; an Orca account is needed only for Relay pairing, publishing artifact links and publishing shared skills",
+     "version": "Live docs reread 2026-11-07 through v1.4.251; pinned source v1.4.222 at 4bb6f20 Batch 08 recheck 2026-11-21: live docs through v1.4.268; code at main 9cd9b2b (after v1.4.269).",
+     "researcher": "researcher-ade164",
+     "answer": "Orca reuses the installed coding-agent native subscription logins, including Claude Code and Codex. Core desktop use needs no Orca account; Relay pairing and publishing artifacts or shared skills do.",
+     "subanswers": {
+      "agent_subscriptions": "supported",
+      "api_accounts": "partial",
+      "vendor_credits": "unknown",
+      "local_models": "unknown",
+      "account_switching": "supported",
+      "vendor_account_requirement": "supported",
+      "provider_restrictions": "unknown"
+     }
+    },
+    "orca:OWN-03": {
+     "publication": "public-candidate",
+     "support": "partial",
+     "availability": "generally-available",
+     "surfaceIds": [
+      "desktop"
+     ],
+     "plan": null,
+     "version": "Telemetry code v1.4.251 at a162e08; policy October 22, 2026; docs reread November 7 Batch 08 recheck 2026-11-21: live docs through v1.4.268; code at main 9cd9b2b (after v1.4.269).",
+     "researcher": "researcher-ade164",
+     "answer": "Vendor policy describes local code and provider credentials, pseudonymous opt-out product telemetry and a vendor statement that customer code and prompts are not used to train Orca models. Hosted features (accounts, Relay, push, sharing, plugins, connectors, Cloud Sandboxes) process their own data. The old hook-install raw-error field is sanitized in release v1.4.251; only that code path was inspected, not all telemetry.",
+     "subanswers": {
+      "code_data": "partial",
+      "prompts": "supported",
+      "credentials": "partial",
+      "logs": "partial",
+      "artifacts": "partial",
+      "retention": "partial",
+      "deletion": "partial",
+      "training": "partial",
+      "residency": "partial",
+      "subprocessors": "partial",
+      "telemetry_disclosure": "partial",
+      "telemetry_defaults": "supported",
+      "telemetry_controls": "supported",
+      "consent_prompt": "partial",
+      "provider_separation": "supported"
+     }
+    }
+   },
+   "evidenceIds": [
+    "b08r-telemetry",
+    "b08r-settings",
+    "b08r-claude",
+    "b08r-codex"
+   ]
   }
  ],
  "context": {
@@ -17181,8 +17729,16 @@
   ],
   "sourceRevision": "4bb6f2072b07c1f0664b809551f77754700570e4",
   "roadmapReview": {
-   "checkedAt": "2026-11-13",
+   "checkedAt": "2026-11-21",
    "locations": [
+    {
+     "url": "https://www.onorca.dev/changelog",
+     "result": "2026-11-21: read entries through v1.4.268 (November 21); no change to telemetry consent, account policy or provider-failure handling announced."
+    },
+    {
+     "url": "https://github.com/stablyai/orca/tree/9cd9b2bf03673899a2834b5f9b1b5aba084923df",
+     "result": "2026-11-21: inspected main at 9cd9b2bf03673899a2834b5f9b1b5aba084923df (after v1.4.269) for telemetry consent, migration, first-launch banner and agent-session failure classification."
+    },
     {
      "url": "https://orca.dev/changelog",
      "result": "November 12 v1.4.257 and November 10/9 notes checked; saved drafts and phone changes do not remove the documented orchestration activation restriction."
@@ -17202,7 +17758,8 @@
    ],
    "announced": [],
    "gaps": [
-    "No separate dated official roadmap commitment was established. Browser-client support on phone and distinct-human co-prompting remain unestablished."
+    "No separate dated official roadmap commitment was established. Browser-client support on phone and distinct-human co-prompting remain unestablished.",
+    "2026-11-21 recheck: residency and retention for accounts, Relay, sharing and Cloud Sandboxes are not stated in the public docs; hosted services are not in the public repository."
    ]
   },
   "gapFillReview": {
