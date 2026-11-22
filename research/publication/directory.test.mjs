@@ -853,8 +853,22 @@ test('returned launch interpretations retain their corrected scope and citations
     const cell = conductor.facets[facet]
     assert.equal(cell.value, 'yes', facet)
     assert.deepEqual(cell.evidenceIds, evidenceIds, facet)
-    assert.equal(cell.verificationStatus, 'sourced', facet)
-    assert.equal(cell.crossCheckedAt, null, facet)
+    if (facet === 'roles') {
+      // The later independent review accepts this corrected interpretation.
+      // Its status still requires the actual current mapping and finding receipts.
+      const mapping = loadFacetMappings().conductor.roles
+      const source = catalogPublication({ date: packageDate, format: 'products', directory: true })
+        .products.find(product => product.id === 'conductor')
+      assert.equal(mapping.review.state, 'accepted')
+      assert.notEqual(mapping.review.reviewer.trim().toLowerCase(), mapping.researcher.trim().toLowerCase())
+      assert.equal(mapping.review.contentHash, facetReviewHash(source, 'roles', null, mapping, definition('roles')))
+      assert.equal(source.claims.find(claim => claim.claimId === mapping.claimId).verificationStatus, 'agent-cross-checked')
+      assert.equal(cell.verificationStatus, 'agent-cross-checked', facet)
+      assert.equal(cell.crossCheckedAt, mapping.review.date, facet)
+    } else {
+      assert.equal(cell.verificationStatus, 'sourced', facet)
+      assert.equal(cell.crossCheckedAt, null, facet)
+    }
   }
   const continuation = conductor.sources.find(source => source.id === 'conductor:cloud-20261113')
   assert.equal(continuation.url, 'https://www.conductor.build/docs/cloud')
