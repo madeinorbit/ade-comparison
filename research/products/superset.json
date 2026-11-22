@@ -5170,7 +5170,7 @@
     {
       "id": "superset:OWN-06",
       "criterionId": "OWN-06",
-      "answer": "Superset became Paradev on October 26, 2026; the latest stable GitHub release is desktop-v2.0.8 (Nov 10, 2026). Desktop macOS and experimental Linux; mobile Pro+ and managed Cloud Team/Ultra have separate requirements.",
+      "answer": "Superset became Paradev on October 26, 2026; the latest stable GitHub release is desktop-v2.0.8 (Nov 10, 2026). Desktop macOS and experimental Linux; mobile Pro+ and managed Cloud Team/Ultra have separate requirements. The legacy v1 MCP server is removed (410 Gone); agent transcripts read out as JSON from the CLI.",
       "support": "partial",
       "availability": "generally-available",
       "delivery": "native",
@@ -5235,20 +5235,28 @@
           "evidenceIds": []
         },
         "deprecation": {
-          "support": "unknown",
-          "answer": "Deprecation: not established. Searched docs.superset.sh pages (overview, install, workspaces, tasks, remote access, automations, usage, MCP, CLI, SDK, FAQ, troubleshooting, skills), superset.sh home, pricing, roadmap, changelog and GitHub source at fc44d32 for this question.",
-          "evidenceIds": []
+          "support": "partial",
+          "answer": "The legacy v1 MCP server has been removed and returns 410 Gone while the versioned v2 URL keeps working; the v1 desktop interface is labelled legacy and the CLI works only with v2; the legacy presets command remains an alias. No product end-of-life policy was found in the inspected docs and source.",
+          "evidenceIds": [
+            "b134-doc-mcp-v1-removed",
+            "b134-code-mcp-v1-gone",
+            "b134-doc-faq-v1-legacy",
+            "b134-doc-cli-agents-read"
+          ]
         },
         "export_options": {
-          "support": "unknown",
-          "answer": "Export options: not established. Searched docs.superset.sh pages (overview, install, workspaces, tasks, remote access, automations, usage, MCP, CLI, SDK, FAQ, troubleshooting, skills), superset.sh home, pricing, roadmap, changelog and GitHub source at fc44d32 for this question.",
-          "evidenceIds": []
+          "support": "partial",
+          "answer": "superset agents read returns an agent's saved transcript as JSON per terminal, theme definitions export as JSON, and local workspace files stay in the user's git worktrees. No account-wide or cloud-workspace data export was found in the inspected docs and source.",
+          "evidenceIds": [
+            "b134-doc-cli-agents-read",
+            "d-faq-nov07"
+          ]
         }
       },
       "limitations": [
-        "SLA numbers unpublished; status history not read."
+        "SLA numbers unpublished; status history not read. Export is per-terminal transcript and theme JSON; no account-wide export or product end-of-life policy was found."
       ],
-      "unknownReason": "Reread the cited first-party sources on 2026-11-07. Remaining atomic questions are not established for the named surface and version; no installed-client or authenticated scenario was run.",
+      "unknownReason": "status_history was not established in the cited first-party sources reread on 2026-11-07; deprecation and export_options were answered from docs source and code at desktop-v2.0.8 on 2026-11-22.",
       "evidenceIds": [
         "d-cli-nov07",
         "d-faq-nov07",
@@ -5259,16 +5267,20 @@
         "cloud-current-nov07",
         "gap07-rename-effective-date",
         "nov12-cl-206",
-        "nov12r-releases"
+        "nov12r-releases",
+        "b134-doc-cli-agents-read",
+        "b134-doc-mcp-v1-removed",
+        "b134-code-mcp-v1-gone",
+        "b134-doc-faq-v1-legacy"
       ],
       "checkedAt": "2026-11-07",
       "nextReviewAt": "2026-11-21",
-      "researcher": "reviewer-ade-25",
+      "researcher": "researcher-ade134",
       "publication": "public-reviewed",
       "review": {
-        "reviewer": "reviewer2-ade-25",
-        "date": "2026-11-12",
-        "contentHash": "bc6c5fa8e47dc57e8cae3e307addf8881e055d577a0c6d27959f2bf625f18a06"
+        "reviewer": "reviewer-ade133",
+        "date": "2026-11-22",
+        "contentHash": "b61d3b29ae811b22aa5b8cb5d470bdf57eb3482091137dcf2971f00e6c792397"
       },
       "contradictions": []
     },
@@ -7703,6 +7715,58 @@
       "visibility": "public",
       "commit": "23c193a326a9be449f35bf3a97372cd1c2175e50",
       "path": "LICENSE.md"
+    },
+    {
+      "id": "b134-doc-cli-agents-read",
+      "kind": "documented",
+      "url": "https://github.com/ParadevAI/Paradev/blob/1282cb770925461f0d1b9ae86dc2a50690f6a6f8/apps/docs/content/docs/cli/cli-reference.mdx",
+      "title": "Paradev CLI reference (docs source at desktop-v2.0.8)",
+      "locator": "L1415-L1436 superset agents read; L2886-L2905 superset settings theme export; L36-L39 legacy presets alias",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-22",
+      "finding": "superset agents read --workspace <id> --terminal <id> [--local|--host] returns the agent's saved transcript as a JSON object in JSON mode or as text; superset settings theme export <id> [--out] writes a theme's full JSON definition. The legacy presets command name remains an alias for terminal scripts.",
+      "visibility": "public",
+      "commit": "1282cb770925461f0d1b9ae86dc2a50690f6a6f8",
+      "path": "apps/docs/content/docs/cli/cli-reference.mdx"
+    },
+    {
+      "id": "b134-doc-mcp-v1-removed",
+      "kind": "documented",
+      "url": "https://github.com/ParadevAI/Paradev/blob/1282cb770925461f0d1b9ae86dc2a50690f6a6f8/apps/docs/content/docs/mcp-server.mdx",
+      "title": "MCP server (docs source at desktop-v2.0.8)",
+      "locator": "L5-L7 callout on current, versioned and legacy v1 MCP URLs",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-22",
+      "finding": "The MCP server lives at https://api.superset.sh/mcp; the versioned /api/v2/agent/mcp URL keeps working for existing configurations; the legacy v1 server /api/agent/mcp has been removed and returns 410 Gone.",
+      "visibility": "public",
+      "commit": "1282cb770925461f0d1b9ae86dc2a50690f6a6f8",
+      "path": "apps/docs/content/docs/mcp-server.mdx"
+    },
+    {
+      "id": "b134-code-mcp-v1-gone",
+      "kind": "source-inspected",
+      "url": "https://github.com/ParadevAI/Paradev/blob/1282cb770925461f0d1b9ae86dc2a50690f6a6f8/apps/api/src/app/api/agent/%5Btransport%5D/route.ts",
+      "title": "Legacy v1 MCP route",
+      "locator": "L3-L16 gone() handler for GET, POST and DELETE",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-22",
+      "finding": "At desktop-v2.0.8 the legacy /api/agent/[transport] route answers GET, POST and DELETE with HTTP 410 and error code GONE, \"The v1 MCP server has been removed.\", with a hint to connect to <API URL>/mcp.",
+      "visibility": "public",
+      "commit": "1282cb770925461f0d1b9ae86dc2a50690f6a6f8",
+      "path": "apps/api/src/app/api/agent/[transport]/route.ts"
+    },
+    {
+      "id": "b134-doc-faq-v1-legacy",
+      "kind": "documented",
+      "url": "https://github.com/ParadevAI/Paradev/blob/1282cb770925461f0d1b9ae86dc2a50690f6a6f8/apps/docs/content/docs/faq.mdx",
+      "title": "FAQ (docs source at desktop-v2.0.8)",
+      "locator": "L110-L113 CLI and the legacy v1 interface",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-22",
+      "finding": "The CLI works against the v2 local-first model only; projects in the legacy v1 interface are not visible to it until v2 is enabled under Settings > Experimental.",
+      "visibility": "public",
+      "commit": "1282cb770925461f0d1b9ae86dc2a50690f6a6f8",
+      "path": "apps/docs/content/docs/faq.mdx"
     }
   ],
   "changes": [
@@ -16982,6 +17046,146 @@
       "evidenceIds": [
         "b06-pricing"
       ]
+    },
+    {
+      "date": "2026-11-22",
+      "author": "researcher-ade134",
+      "type": "research-correction",
+      "summary": "ADE-25/ADE-27 follow-up (PDM-257, ADE-134): answered Paradev OWN-06 export_options and deprecation from the public repository at desktop-v2.0.8 (1282cb7), matching the claim scope. deprecation: legacy v1 MCP server removed (docs and 410 route), legacy v1 interface and presets alias. export_options: agents read transcript JSON, theme export, local worktrees (existing d-faq-nov07). Removed stale unrun-scenario wording from unknownReason. Review cleared; awaits a different reviewer.",
+      "claimIds": [
+        "superset:OWN-06"
+      ],
+      "before": {
+        "superset:OWN-06": {
+          "publication": "public-reviewed",
+          "support": "partial",
+          "availability": "generally-available",
+          "version": "Paradev desktop-v2.0.8 (GitHub releases and changelog source retrieved 2026-11-12)",
+          "researcher": "reviewer-ade-25",
+          "answer": "Superset became Paradev on October 26, 2026; the latest stable GitHub release is desktop-v2.0.8 (Nov 10, 2026). Desktop macOS and experimental Linux; mobile Pro+ and managed Cloud Team/Ultra have separate requirements.",
+          "subanswers": {
+            "release_stage": "partial",
+            "access_restrictions": "supported",
+            "support": "partial",
+            "response_commitments": "partial",
+            "release_activity": "supported",
+            "status_history": "unknown",
+            "deprecation": "unknown",
+            "export_options": "unknown"
+          },
+          "unknownReason": "Reread the cited first-party sources on 2026-11-07. Remaining atomic questions are not established for the named surface and version; no installed-client or authenticated scenario was run.",
+          "limitations": [
+            "SLA numbers unpublished; status history not read."
+          ],
+          "evidenceIds": [
+            "d-cli-nov07",
+            "d-faq-nov07",
+            "d-install-20261107",
+            "mobile-nov07",
+            "pricing-nov07",
+            "releases-nov07",
+            "cloud-current-nov07",
+            "gap07-rename-effective-date",
+            "nov12-cl-206",
+            "nov12r-releases",
+            "b134-doc-cli-agents-read",
+            "b134-doc-mcp-v1-removed",
+            "b134-code-mcp-v1-gone",
+            "b134-doc-faq-v1-legacy"
+          ]
+        }
+      },
+      "after": {
+        "superset:OWN-06": {
+          "publication": "public-candidate",
+          "support": "partial",
+          "availability": "generally-available",
+          "version": "Paradev desktop-v2.0.8 (GitHub releases and changelog source retrieved 2026-11-12)",
+          "researcher": "researcher-ade134",
+          "answer": "Superset became Paradev on October 26, 2026; the latest stable GitHub release is desktop-v2.0.8 (Nov 10, 2026). Desktop macOS and experimental Linux; mobile Pro+ and managed Cloud Team/Ultra have separate requirements. The legacy v1 MCP server is removed (410 Gone); agent transcripts read out as JSON from the CLI.",
+          "subanswers": {
+            "release_stage": "partial",
+            "access_restrictions": "supported",
+            "support": "partial",
+            "response_commitments": "partial",
+            "release_activity": "supported",
+            "status_history": "unknown",
+            "deprecation": "partial",
+            "export_options": "partial"
+          },
+          "unknownReason": "status_history was not established in the cited first-party sources reread on 2026-11-07; deprecation and export_options were answered from docs source and code at desktop-v2.0.8 on 2026-11-22.",
+          "limitations": [
+            "SLA numbers unpublished; status history not read. Export is per-terminal transcript and theme JSON; no account-wide export or product end-of-life policy was found."
+          ],
+          "evidenceIds": [
+            "d-cli-nov07",
+            "d-faq-nov07",
+            "d-install-20261107",
+            "mobile-nov07",
+            "pricing-nov07",
+            "releases-nov07",
+            "cloud-current-nov07",
+            "gap07-rename-effective-date",
+            "nov12-cl-206",
+            "nov12r-releases",
+            "b134-doc-cli-agents-read",
+            "b134-doc-mcp-v1-removed",
+            "b134-code-mcp-v1-gone",
+            "b134-doc-faq-v1-legacy"
+          ]
+        }
+      },
+      "evidenceIds": [
+        "b134-doc-cli-agents-read",
+        "b134-doc-mcp-v1-removed",
+        "b134-code-mcp-v1-gone",
+        "b134-doc-faq-v1-legacy"
+      ]
+    },
+    {
+      "date": "2026-11-22",
+      "author": "integrator-pdm257",
+      "type": "research-correction",
+      "summary": "Apply the separately authored ADE-134 OWN-06 candidate from a4129887788a4598dc8d3d7670f62d4919ababbc, preserving other genuine peer reviews. Archive the prior review as history; new independent ADE-133 acceptance remains pending.",
+      "claimIds": [
+        "superset:OWN-06"
+      ],
+      "evidenceIds": [
+        "d-cli-nov07",
+        "d-faq-nov07",
+        "d-install-20261107",
+        "mobile-nov07",
+        "pricing-nov07",
+        "releases-nov07",
+        "cloud-current-nov07",
+        "gap07-rename-effective-date",
+        "nov12-cl-206",
+        "nov12r-releases",
+        "b134-doc-cli-agents-read",
+        "b134-doc-mcp-v1-removed",
+        "b134-code-mcp-v1-gone",
+        "b134-doc-faq-v1-legacy"
+      ],
+      "before": {
+        "OWN-06": {
+          "researcher": "reviewer-ade-25",
+          "publication": "public-reviewed",
+          "review": {
+            "reviewer": "reviewer2-ade-25",
+            "date": "2026-11-12",
+            "contentHash": "bc6c5fa8e47dc57e8cae3e307addf8881e055d577a0c6d27959f2bf625f18a06"
+          },
+          "claimHash": "bc6c5fa8e47dc57e8cae3e307addf8881e055d577a0c6d27959f2bf625f18a06"
+        }
+      },
+      "after": {
+        "OWN-06": {
+          "researcher": "researcher-ade134",
+          "publication": "public-candidate",
+          "review": null,
+          "claimHash": "b61d3b29ae811b22aa5b8cb5d470bdf57eb3482091137dcf2971f00e6c792397"
+        }
+      }
     }
   ],
   "context": {
