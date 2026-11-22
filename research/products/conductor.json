@@ -33,24 +33,26 @@
     {
       "id": "conductor:ACC-01",
       "criterionId": "ACC-01",
-      "answer": "Conductor documents a macOS app and an iPhone app requiring iOS 26.0+. Release 0.92.0 adds experimental remote control of local Mac workspaces from iPhone. Current installation instructions provide Mac download steps; the announcement no longer states a signup closure.",
+      "answer": "Conductor documents a macOS app and an iPhone app requiring iOS 26.0+. Release 0.92.0 adds experimental remote control of local Mac workspaces from iPhone. Conductor Cloud workspaces come with a conductor CLI preinstalled, which drives Cloud through the beta API; no CLI for local Mac workspaces is documented. Current installation instructions provide Mac download steps; the announcement no longer states a signup closure.",
       "support": "partial",
       "availability": "unknown",
       "delivery": "unknown",
       "scope": {
         "surfaceIds": [
           "desktop",
+          "cloud",
           "ios"
         ],
-        "version": "macOS capability evidence through 0.93.0 and lifecycle notes through 0.94.2; App Store 1.1.3 checked 2026-11-13",
-        "plan": "Current plan entitlements are not fully established by the public pages.",
+        "version": "macOS capability evidence through 0.93.0 and lifecycle notes through 0.94.2; Conductor Cloud CLI in cloud workspaces from 0.80.0 and sidebar-section CLI commands from 0.87.0; App Store 1.1.3 checked 2026-11-13",
+        "plan": "Conductor Cloud, including its CLI, is offered on Pro, Teams and Enterprise; other current plan entitlements are not fully established by the public pages.",
         "os": [
           "macOS",
           "iOS"
         ],
         "executionModes": [
           "local",
-          "remote-control"
+          "remote-control",
+          "managed-cloud"
         ],
         "region": null,
         "harness": null
@@ -83,10 +85,13 @@
           "evidenceIds": []
         },
         "cli": {
-          "support": "unknown",
-          "answer": "The documented conductor CLI is a client of the Conductor API for cloud workspaces (Cloud API key, routines, messages). A CLI for the local Mac app is not established.",
+          "support": "partial",
+          "answer": "Conductor Cloud only: a conductor CLI is preinstalled in cloud workspaces (0.80.0) and, with a user API key, drives Conductor Cloud through the beta API (routines, messages, sidebar sections from 0.87.0). No standalone install or CLI for local Mac workspaces or iOS is documented.",
           "evidenceIds": [
-            "api-nov07"
+            "b05-changelog-0800",
+            "b05-changelog-0870",
+            "b05-docs-api",
+            "cloud-faq-nov07"
           ]
         },
         "editor_extensions": {
@@ -123,9 +128,10 @@
       },
       "limitations": [
         "Windows/Linux are explicitly unavailable; Android remains undocumented.",
-        "Remote Control requires the Mac and experimental setting. No app or authenticated Cloud test was run."
+        "Remote Control requires the Mac and experimental setting. No app or authenticated Cloud test was run.",
+        "The CLI is documented only inside Conductor Cloud workspaces and against the beta Cloud API."
       ],
-      "unknownReason": "Reread the cited first-party sources on 2026-11-07. Remaining atomic questions are not established for the named surface and version; no installed-client or authenticated scenario was run. Targeted lifecycle-dependent correction on 2026-11-13; unrelated capability observations retain their original source dates. No installed-client, signup or billing test was performed.",
+      "unknownReason": "Not established in the checked first-party sources: browser, mobile_browser, editor_extensions.",
       "evidenceIds": [
         "install-nov07",
         "home-nov07",
@@ -144,13 +150,20 @@
         "api-nov07",
         "conductor-remote-control-chk1",
         "changelog-0942-20261113",
-        "install-20261113"
+        "install-20261113",
+        "b05-changelog-0800",
+        "b05-changelog-0870",
+        "b05-docs-api"
       ],
       "checkedAt": "2026-11-13",
       "nextReviewAt": "2026-12-13",
-      "researcher": "ade44-conductor-source-pass",
-      "publication": "public-candidate",
-      "review": null,
+      "researcher": "researcher-ade159",
+      "publication": "public-reviewed",
+      "review": {
+        "reviewer": "claude-opus-ade142-independent-reviewer",
+        "date": "2026-11-22",
+        "contentHash": "b40531fe942d7517c660851c857d530c43ec7e87a0f9889295f16520ff458251"
+      },
       "contradictions": []
     },
     {
@@ -3264,9 +3277,11 @@
           ]
         },
         "sso": {
-          "support": "unknown",
-          "answer": "No current explicit SSO protocol/plan statement was reestablished after the announcement reversal; the earlier pricing-page SAML statement is historical.",
-          "evidenceIds": []
+          "support": "partial",
+          "answer": "Since 0.80.0, organizations that require single sign-on show an SSO badge and prompt sign-in. The SSO protocol and eligible plan are not stated on current public pages.",
+          "evidenceIds": [
+            "b05-changelog-0800"
+          ]
         },
         "provisioning": {
           "support": "partial",
@@ -3296,20 +3311,25 @@
       "limitations": [
         "First-party documentation review only; no multi-account permission or enterprise-login scenario was run. Retained task-role findings keep their older cited scope."
       ],
-      "unknownReason": "Role permissions are documented. Current SSO protocol, enterprise entitlement and access-revocation behavior remain unestablished.",
+      "unknownReason": "Still not established in the checked first-party sources (the 2026-11-21 recheck covered inherited leads only): project_roles, unauthorized_access, revocation. Earlier gap note: Role permissions are documented. Current SSO protocol, enterprise entitlement and access-revocation behavior remain unestablished.",
       "evidenceIds": [
         "release",
         "pricing",
         "cloud-faq",
         "cloud-start",
         "gap37-cloud-org-permissions",
-        "gap37-cloud-platform"
+        "gap37-cloud-platform",
+        "b05-changelog-0800"
       ],
       "checkedAt": "2026-10-09",
       "nextReviewAt": "2026-11-08",
-      "researcher": "facet-gap-researcher-37",
-      "publication": "public-candidate",
-      "review": null,
+      "researcher": "researcher-ade127",
+      "publication": "public-reviewed",
+      "review": {
+        "reviewer": "claude-opus-ade142-independent-reviewer",
+        "date": "2026-11-22",
+        "contentHash": "26581f622bcb9138effdb76af1af544ad8cdafc449a951e639af918b5cbcc8e0"
+      },
       "contradictions": []
     },
     {
@@ -4515,11 +4535,10 @@
           ]
         },
         "cancellation": {
-          "support": "unknown",
-          "answer": "The revised announcement no longer states transition refund terms. Current cancellation and refund conditions are not established by the checked public pages.",
+          "support": "partial",
+          "answer": "Customer terms: subscriptions auto-renew unless written notice of non-renewal is given at least 30 days before the term ends, and fees are non-refundable. Self-service cancellation steps are not documented; the earlier transition-refund statement is no longer on the revised announcement.",
           "evidenceIds": [
-            "announcement-reversal-20261113",
-            "pricing-redirect-20261113"
+            "b05-terms"
           ]
         },
         "account_independence": {
@@ -4539,7 +4558,7 @@
       "limitations": [
         "Archive format, whether Export data includes Mac-only local chats, import behaviour and account independence are not established."
       ],
-      "unknownReason": "Searched 2026-10-08, with the cited sources re-read 2026-10-09: Conductor docs (installation, concepts, Cloud, API/MCP, reference, guides, privacy, security), pricing, FAQ, changelog 0.77-0.90, and the public conductor-releases repository and issues. The remaining atomic questions are not documented there; no installed-app or authenticated Cloud scenario was run, and absence of text is not negative evidence. Targeted lifecycle-dependent correction on 2026-11-13; unrelated capability observations retain their original source dates. No installed-client, signup or billing test was performed.",
+      "unknownReason": "Still not established in the checked first-party sources (the 2026-11-21 recheck covered inherited leads only): import, account_independence. Earlier gap note: Searched 2026-10-08, with the cited sources re-read 2026-10-09: Conductor docs (installation, concepts, Cloud, API/MCP, reference, guides, privacy, security), pricing, FAQ, changelog 0.77-0.90, and the public conductor-releases repository and issues. The remaining atomic questions are not documented there; no installed-app or authenticated Cloud scenario was run, and absence of text is not negative evidence. Targeted lifecycle-dependent correction on 2026-11-13; unrelated capability observations retain their original source dates. No installed-client, signup or billing test was performed.",
       "evidenceIds": [
         "cloud-faq",
         "faq",
@@ -4549,16 +4568,17 @@
         "providers",
         "changelog-0942-20261113",
         "pricing-redirect-20261113",
-        "faq-20261113"
+        "faq-20261113",
+        "b05-terms"
       ],
       "checkedAt": "2026-11-13",
       "nextReviewAt": "2026-12-13",
-      "researcher": "ade44-conductor-source-pass",
+      "researcher": "researcher-ade127",
       "publication": "public-reviewed",
       "review": {
-        "reviewer": "codex-ade53-independent-reviewer",
-        "date": "2026-11-13",
-        "contentHash": "5b58ecfdd710913d13068df37c1c3fa4fa4de45c09ca84f044950aa00c5e3afe"
+        "reviewer": "claude-opus-ade142-independent-reviewer",
+        "date": "2026-11-22",
+        "contentHash": "1e8c7b5308c35bf1ab971646cf64376e20b959104e5a0caf5d95bd7efdc82ca3"
       },
       "contradictions": []
     },
@@ -4603,8 +4623,10 @@
         },
         "credentials": {
           "support": "unknown",
-          "answer": "Local credential storage is not described beyond reuse of the harness logins and API-key modes; Cloud secret handling is out of scope.",
-          "evidenceIds": []
+          "answer": "Not established for local Conductor: storage of credentials on the Mac is not described beyond reuse of harness logins and API keys. Conductor Cloud organization secrets are documented separately and fall outside this local-scope claim.",
+          "evidenceIds": [
+            "b05-cloud-computer"
+          ]
         },
         "logs": {
           "support": "partial",
@@ -4689,9 +4711,10 @@
         }
       },
       "limitations": [
-        "A telemetry opt-out, consent flow, general retention period and deletion procedure were not established. Model-provider policies remain separate."
+        "A telemetry opt-out, consent flow, general retention period and deletion procedure were not established. Model-provider policies remain separate.",
+        "Local credential storage is not described; Conductor Cloud secrets handling is outside this local-scope claim."
       ],
-      "unknownReason": "Searched 2026-10-08: Conductor docs (installation, concepts, Cloud, API/MCP, reference, guides, privacy, security), pricing, FAQ, changelog 0.77-0.90, and the public conductor-releases repository and issues. The remaining atomic questions are not documented there; no installed-app or authenticated Cloud scenario was run, and absence of text is not negative evidence. Targeted lifecycle-dependent correction on 2026-11-13; unrelated capability observations retain their original source dates. No installed-client, signup or billing test was performed.",
+      "unknownReason": "Not established in the checked first-party sources for local Conductor: credentials, artifacts, deletion, telemetry_controls, consent_prompt.",
       "evidenceIds": [
         "security",
         "cloud-computer",
@@ -4701,16 +4724,17 @@
         "announcement-reversal-20261113",
         "gap07-privacy",
         "changelog-0942-20261113",
-        "privacy-20261113"
+        "privacy-20261113",
+        "b05-cloud-computer"
       ],
       "checkedAt": "2026-11-13",
       "nextReviewAt": "2026-12-13",
-      "researcher": "ade44-conductor-source-pass",
+      "researcher": "researcher-ade159",
       "publication": "public-reviewed",
       "review": {
-        "reviewer": "codex-ade53-independent-reviewer",
-        "date": "2026-11-13",
-        "contentHash": "9fb1c6d781515913be17e97ac400e6bc58f9a64641942b423d9e34f1b2dbfd18"
+        "reviewer": "claude-opus-ade142-independent-reviewer",
+        "date": "2026-11-22",
+        "contentHash": "90d752f550b9cf42f269adf126acfc3ead722922a1ef1e85a4e1944ffda6d17b"
       },
       "contradictions": []
     },
@@ -4735,18 +4759,21 @@
       },
       "subanswers": {
         "currency": {
-          "support": "unknown",
-          "answer": "Not established by the public pricing, announcement and plan documentation checked on 2026-11-13; no authenticated billing or measured workload test was performed.",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "Customer terms require payment in US dollars. No public price list is currently shown.",
+          "evidenceIds": [
+            "b05-terms",
+            "b05-pricing-redirect"
+          ]
         },
         "interval": {
           "support": "unknown",
-          "answer": "Not established by the public pricing, announcement and plan documentation checked on 2026-11-13; no authenticated billing or measured workload test was performed.",
+          "answer": "The pricing URL now redirects to the homepage, which lists no plan interval; the terms only say fees follow the cadence in the Order (e.g. monthly or annually). The inherited Monthly listing could not be re-verified.",
           "evidenceIds": []
         },
         "seats": {
           "support": "unknown",
-          "answer": "Not established by the public pricing, announcement and plan documentation checked on 2026-11-13; no authenticated billing or measured workload test was performed.",
+          "answer": "No current public page states per-user pricing; Teams is invite-only through a contact form. The inherited per-user listing could not be re-verified.",
           "evidenceIds": []
         },
         "seat_minimum": {
@@ -4755,9 +4782,11 @@
           "evidenceIds": []
         },
         "workspace_fees": {
-          "support": "unknown",
-          "answer": "Not established by the public pricing, announcement and plan documentation checked on 2026-11-13; no authenticated billing or measured workload test was performed.",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "Cloud FAQ: there is no additional fee for cloud workspaces right now; usage-based cloud compute pricing is planned.",
+          "evidenceIds": [
+            "b05-cloud-faq"
+          ]
         },
         "included_usage": {
           "support": "partial",
@@ -4804,23 +4833,26 @@
       "limitations": [
         "Public download and plan documentation does not establish signup completion, current charges or upgrade eligibility. No authenticated billing test was performed."
       ],
-      "unknownReason": "Reread the cited first-party sources on 2026-11-07. Remaining atomic questions are not established for the named surface and version; no installed-client or authenticated scenario was run. Targeted lifecycle-dependent correction on 2026-11-13; unrelated capability observations retain their original source dates. No installed-client, signup or billing test was performed.",
+      "unknownReason": "Still not established in the checked first-party sources (the 2026-11-21 recheck covered inherited leads only): interval, seats, seat_minimum, credits, trial, overages, taxes. Earlier gap note: Reread the cited first-party sources on 2026-11-07. Remaining atomic questions are not established for the named surface and version; no installed-client or authenticated scenario was run. Targeted lifecycle-dependent correction on 2026-11-13; unrelated capability observations retain their original source dates. No installed-client, signup or billing test was performed.",
       "evidenceIds": [
         "announcement-reversal-20261113",
         "providers-nov07",
         "pricing-redirect-20261113",
         "changelog-0942-20261113",
         "cloud-faq-20261113",
-        "providers-20261113"
+        "providers-20261113",
+        "b05-terms",
+        "b05-pricing-redirect",
+        "b05-cloud-faq"
       ],
       "checkedAt": "2026-11-13",
       "nextReviewAt": "2026-12-13",
-      "researcher": "ade44-conductor-source-pass",
+      "researcher": "researcher-ade127",
       "publication": "public-reviewed",
       "review": {
-        "reviewer": "codex-ade53-independent-reviewer",
-        "date": "2026-11-13",
-        "contentHash": "1230bad796cc57811f2168bfd20b665adc5eddb9af92a6762d2e36edf48e790f"
+        "reviewer": "claude-opus-ade142-independent-reviewer",
+        "date": "2026-11-22",
+        "contentHash": "c4f3e51c626bd128e1b34e7bb1b7183fa4bce83b2b2ef659cdb8d7483fb1291d"
       },
       "contradictions": []
     },
@@ -4846,17 +4878,17 @@
       "subanswers": {
         "one_person": {
           "support": "unknown",
-          "answer": "Not established by the public pricing, announcement and plan documentation checked on 2026-11-13; no authenticated billing or measured workload test was performed.",
+          "answer": "No current public plan price: the pricing URL redirects to the homepage. The inherited $50/month Pro listing could not be re-verified.",
           "evidenceIds": []
         },
         "two_people": {
           "support": "unknown",
-          "answer": "Not established by the public pricing, announcement and plan documentation checked on 2026-11-13; no authenticated billing or measured workload test was performed.",
+          "answer": "No current public plan price; Teams is invite-only. The inherited Teams per-seat total could not be re-verified.",
           "evidenceIds": []
         },
         "five_people": {
           "support": "unknown",
-          "answer": "Not established by the public pricing, announcement and plan documentation checked on 2026-11-13; no authenticated billing or measured workload test was performed.",
+          "answer": "No current public plan price; Teams is invite-only. The inherited five-seat total could not be re-verified.",
           "evidenceIds": []
         },
         "task_assumptions": {
@@ -4880,11 +4912,11 @@
           "evidenceIds": []
         },
         "fixed_cost": {
-          "support": "unknown",
-          "answer": "Current subscription prices are not established by the pricing redirect or plan documentation.",
+          "support": "partial",
+          "answer": "No cloud compute fee is charged today, so cost is the subscription plus the user's own model usage; the subscription prices themselves are not currently published.",
           "evidenceIds": [
-            "pricing-redirect-20261113",
-            "cloud-faq-20261113"
+            "b05-cloud-faq",
+            "b05-pricing-redirect"
           ]
         },
         "variable_cost": {
@@ -4909,23 +4941,25 @@
       "limitations": [
         "Public download and plan documentation does not establish signup completion, current charges or upgrade eligibility. No authenticated billing test was performed."
       ],
-      "unknownReason": "Reread the cited first-party sources on 2026-11-07. Remaining atomic questions are not established for the named surface and version; no installed-client or authenticated scenario was run. Targeted lifecycle-dependent correction on 2026-11-13; unrelated capability observations retain their original source dates. No installed-client, signup or billing test was performed.",
+      "unknownReason": "Still not established in the checked first-party sources (the 2026-11-21 recheck covered inherited leads only): one_person, two_people, five_people, task_assumptions, concurrency, tokens, compute_hours, included_cost, unknown_cost. Earlier gap note: Reread the cited first-party sources on 2026-11-07. Remaining atomic questions are not established for the named surface and version; no installed-client or authenticated scenario was run. Targeted lifecycle-dependent correction on 2026-11-13; unrelated capability observations retain their original source dates. No installed-client, signup or billing test was performed.",
       "evidenceIds": [
         "announcement-reversal-20261113",
         "providers-nov07",
         "changelog-0942-20261113",
         "pricing-redirect-20261113",
         "cloud-faq-20261113",
-        "providers-20261113"
+        "providers-20261113",
+        "b05-cloud-faq",
+        "b05-pricing-redirect"
       ],
       "checkedAt": "2026-11-13",
       "nextReviewAt": "2026-12-13",
-      "researcher": "ade44-conductor-source-pass",
+      "researcher": "researcher-ade127",
       "publication": "public-reviewed",
       "review": {
-        "reviewer": "codex-ade53-independent-reviewer",
-        "date": "2026-11-13",
-        "contentHash": "6a41acde0cb64090a3151701edd5797ab0e6187d59adda54d622a0deef464891"
+        "reviewer": "claude-opus-ade142-independent-reviewer",
+        "date": "2026-11-22",
+        "contentHash": "3f7e2818d5338c131d60b068afdf068ace0dd80763faf3277769753f55765975"
       },
       "contradictions": []
     },
@@ -5280,12 +5314,12 @@
       "subanswers": {
         "units": {
           "support": "unknown",
-          "answer": "Not established by the public pricing, announcement and plan documentation checked on 2026-11-13; no authenticated billing or measured workload test was performed.",
+          "answer": "No current public price list states billing units; the terms defer cadence to the Order.",
           "evidenceIds": []
         },
         "included_limits": {
           "support": "unknown",
-          "answer": "Not established by the public pricing, announcement and plan documentation checked on 2026-11-13; no authenticated billing or measured workload test was performed.",
+          "answer": "No current public page quantifies included cloud hours or other plan limits; the pricing URL redirects to the homepage.",
           "evidenceIds": []
         },
         "overages": {
@@ -5294,9 +5328,11 @@
           "evidenceIds": []
         },
         "compute_markup": {
-          "support": "unknown",
-          "answer": "Not established by the public pricing, announcement and plan documentation checked on 2026-11-13; no authenticated billing or measured workload test was performed.",
-          "evidenceIds": []
+          "support": "partial",
+          "answer": "No cloud compute fee is charged now and no compute rate or markup is published; usage-based compute pricing is planned.",
+          "evidenceIds": [
+            "b05-cloud-faq"
+          ]
         },
         "model_markup": {
           "support": "supported",
@@ -5319,9 +5355,13 @@
           ]
         },
         "sales_only_unknowns": {
-          "support": "unknown",
-          "answer": "Not established by the public pricing, announcement and plan documentation checked on 2026-11-13; no authenticated billing or measured workload test was performed.",
-          "evidenceIds": []
+          "support": "partial",
+          "answer": "Teams is invite-only via a contact form and Enterprise terms are not public; no plan prices are currently published, and the pricing URL redirects to the homepage.",
+          "evidenceIds": [
+            "b05-team-plan",
+            "b05-cloud-faq",
+            "b05-pricing-redirect"
+          ]
         },
         "transparency_classification": {
           "support": "partial",
@@ -5336,22 +5376,25 @@
       "limitations": [
         "Public download and plan documentation does not establish signup completion, current charges or upgrade eligibility. No authenticated billing test was performed."
       ],
-      "unknownReason": "Reread the cited first-party sources on 2026-11-07. Remaining atomic questions are not established for the named surface and version; no installed-client or authenticated scenario was run. Targeted lifecycle-dependent correction on 2026-11-13; unrelated capability observations retain their original source dates. No installed-client, signup or billing test was performed.",
+      "unknownReason": "Still not established in the checked first-party sources (the 2026-11-21 recheck covered inherited leads only): units, included_limits, overages, minimum_commitment, cancellation. Earlier gap note: Reread the cited first-party sources on 2026-11-07. Remaining atomic questions are not established for the named surface and version; no installed-client or authenticated scenario was run. Targeted lifecycle-dependent correction on 2026-11-13; unrelated capability observations retain their original source dates. No installed-client, signup or billing test was performed.",
       "evidenceIds": [
         "announcement-reversal-20261113",
         "pricing-redirect-20261113",
         "changelog-0942-20261113",
         "cloud-faq-20261113",
-        "providers-20261113"
+        "providers-20261113",
+        "b05-cloud-faq",
+        "b05-team-plan",
+        "b05-pricing-redirect"
       ],
       "checkedAt": "2026-11-13",
       "nextReviewAt": "2026-12-13",
-      "researcher": "ade44-conductor-source-pass",
+      "researcher": "researcher-ade127",
       "publication": "public-reviewed",
       "review": {
-        "reviewer": "codex-ade53-independent-reviewer",
-        "date": "2026-11-13",
-        "contentHash": "9003a0ec8acae508593247cba27ea5a159040d92f0e7fab5b4d967a848103ec1"
+        "reviewer": "claude-opus-ade142-independent-reviewer",
+        "date": "2026-11-22",
+        "contentHash": "d2e6b79da89f95d75807700a72dd4a4a023ece2dabf81f0d718576b8e44f93b2"
       },
       "contradictions": []
     }
@@ -6686,6 +6729,110 @@
       "title": "Conductor 0.94.0",
       "locator": "Release notes",
       "finding": "0.94.0 dated November 9, 2026: Claude Fable 5.2, more reliable update checks, Codex follow-up and Artifacts fixes, Cloud shutdown banner link fix, bundled Claude Code 2.1.321 and Codex 0.166.0. No newer release linked."
+    },
+    {
+      "kind": "documented",
+      "sourceDate": "2026-08-10",
+      "retrievedAt": "2026-11-21",
+      "visibility": "public",
+      "commit": null,
+      "path": null,
+      "id": "b05-changelog-0800",
+      "url": "https://www.conductor.build/changelog/0.80.0-stacks",
+      "title": "0.80.0 Stacks",
+      "locator": "Cloud workspaces paragraph; Improvements (CLI, SSO badge)",
+      "finding": "Cloud workspaces come with the Conductor CLI preinstalled so agents can create workspaces, start chats, send follow-ups and monitor work; cloud agents can list models with conductor models. Organizations that require single sign-on show an SSO badge and prompt sign-in when necessary. No SSO protocol or plan is named."
+    },
+    {
+      "kind": "documented",
+      "sourceDate": "2026-09-18",
+      "retrievedAt": "2026-11-21",
+      "visibility": "public",
+      "commit": null,
+      "path": null,
+      "id": "b05-changelog-0870",
+      "url": "https://www.conductor.build/changelog/0.87.0-search-across-files-opencode-2-0",
+      "title": "0.87.0 Search across files, OpenCode 2.0",
+      "locator": "Improvements",
+      "finding": "Sidebar sections can be created and deleted from the CLI, API and MCP in cloud organizations."
+    },
+    {
+      "kind": "documented",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-21",
+      "visibility": "public",
+      "commit": null,
+      "path": null,
+      "id": "b05-docs-api",
+      "url": "https://www.conductor.build/docs/api",
+      "title": "Conductor API",
+      "locator": "Routines; Messages with attachments; environment variables table",
+      "finding": "The beta Conductor API manages cloud workspaces; the same flows are shown with the conductor CLI (conductor routine create, conductor message create --attach) after setting CONDUCTOR_API_KEY to a user API key. No install instructions for a standalone local CLI or a CLI that drives local Mac workspaces are given."
+    },
+    {
+      "kind": "documented",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-21",
+      "visibility": "public",
+      "commit": null,
+      "path": null,
+      "id": "b05-cloud-computer",
+      "url": "https://www.conductor.build/docs/cloud/cloud-computer",
+      "title": "Cloud Computer",
+      "locator": "Environment variables and secrets",
+      "finding": "Organization-wide environment variables and secrets are set in Settings > Cloud computer; values are hidden after saving, the Admin workspace agent's tools cannot read or change them, and the values are present as environment variables inside cloud workspaces. Storage encryption is not described."
+    },
+    {
+      "kind": "documented",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-21",
+      "visibility": "public",
+      "commit": null,
+      "path": null,
+      "id": "b05-cloud-faq",
+      "url": "https://www.conductor.build/docs/cloud/faq",
+      "title": "Cloud FAQ",
+      "locator": "Features and plans",
+      "finding": "Cloud workspaces require Pro, Teams or Enterprise. Team plans are invite-only via contact; Enterprise adds automated provisioning, SLA and security controls. There is no additional fee for cloud workspaces right now; usage-based pricing for cloud compute is planned. No plan prices are stated."
+    },
+    {
+      "kind": "documented",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-21",
+      "visibility": "public",
+      "commit": null,
+      "path": null,
+      "id": "b05-pricing-redirect",
+      "url": "https://www.conductor.build/pricing",
+      "title": "Conductor homepage (pricing URL redirect)",
+      "locator": "Whole page after redirect",
+      "finding": "On 2026-11-21 the pricing URL redirects to the homepage, which shows no plan prices, units, currency or included limits."
+    },
+    {
+      "kind": "documented",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-21",
+      "visibility": "public",
+      "commit": null,
+      "path": null,
+      "id": "b05-team-plan",
+      "url": "https://www.conductor.build/team-plan",
+      "title": "Conductor Teams",
+      "locator": "Page body",
+      "finding": "Team plans are currently invite-only; companies fill out a contact form. No price is shown."
+    },
+    {
+      "kind": "documented",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-21",
+      "visibility": "public",
+      "commit": null,
+      "path": null,
+      "id": "b05-terms",
+      "url": "https://www.conductor.build/terms",
+      "title": "Customer Terms and Conditions",
+      "locator": "6.1 Fees; 12.1 Subscription Period; 12.2 Termination",
+      "finding": "Fees are paid at the cadence in the Order (e.g. monthly or annually), are non-refundable and payable in US dollars. Subscriptions auto-renew for equal terms unless either party gives written notice of non-renewal at least 30 days before the current term ends. No last-modified date was visible in the extracted text."
     }
   ],
   "changes": [
@@ -20889,6 +21036,381 @@
         "changelog-0942-20261113",
         "changelog-0930-historical-20261113"
       ]
+    },
+    {
+      "date": "2026-11-21",
+      "author": "researcher-ade127",
+      "type": "research-correction",
+      "summary": "Re-verify inherited unknown-answer leads against current Conductor docs, changelog and customer terms (batch 05 backfill).",
+      "claimIds": [
+        "conductor:ACC-01"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Conductor documents a macOS app and an iPhone app requiring iOS 26.0+. Release 0.92.0 adds experimental remote control of local Mac workspaces from iPhone. Current installation instructions provide Mac download steps; the announcement no longer states a signup closure.",
+        "subanswers": {
+          "cli": "unknown"
+        }
+      },
+      "after": {
+        "subanswers": {
+          "cli": "partial"
+        },
+        "support": "partial",
+        "answer": "Conductor documents a macOS app and an iPhone app requiring iOS 26.0+. Release 0.92.0 adds experimental remote control of local Mac workspaces from iPhone. Current installation instructions provide Mac download steps; the announcement no longer states a signup closure."
+      },
+      "evidenceIds": [
+        "b05-changelog-0800",
+        "b05-changelog-0870",
+        "b05-docs-api"
+      ]
+    },
+    {
+      "date": "2026-11-21",
+      "author": "researcher-ade127",
+      "type": "research-correction",
+      "summary": "Re-verify inherited unknown-answer leads against current Conductor docs, changelog and customer terms (batch 05 backfill).",
+      "claimIds": [
+        "conductor:OWN-02"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "The local app keeps chats and files on the Mac (~/Library/Application Support/com.conductor.app and ~/conductor), which can be moved with Migration Assistant or manual copying; the revised announcement also documents Settings > Account > Export data. Archive format, import and account independence remain unestablished.",
+        "subanswers": {
+          "cancellation": "unknown"
+        }
+      },
+      "after": {
+        "subanswers": {
+          "cancellation": "partial"
+        },
+        "support": "partial",
+        "answer": "The local app keeps chats and files on the Mac (~/Library/Application Support/com.conductor.app and ~/conductor), which can be moved with Migration Assistant or manual copying; the revised announcement also documents Settings > Account > Export data. Archive format, import and account independence remain unestablished."
+      },
+      "evidenceIds": [
+        "b05-terms"
+      ]
+    },
+    {
+      "date": "2026-11-21",
+      "author": "researcher-ade127",
+      "type": "research-correction",
+      "summary": "Re-verify inherited unknown-answer leads against current Conductor docs, changelog and customer terms (batch 05 backfill).",
+      "claimIds": [
+        "conductor:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Local workspaces and chats stay on the Mac, model requests go to the configured provider, and analytics go to PostHog. The revised announcement retains the no-sale/no-training statement and no longer gives shutdown deletion dates.",
+        "subanswers": {
+          "credentials": "unknown"
+        }
+      },
+      "after": {
+        "subanswers": {
+          "credentials": "partial"
+        },
+        "support": "partial",
+        "answer": "Local workspaces and chats stay on the Mac, model requests go to the configured provider, and analytics go to PostHog. The revised announcement retains the no-sale/no-training statement and no longer gives shutdown deletion dates."
+      },
+      "evidenceIds": [
+        "b05-cloud-computer"
+      ]
+    },
+    {
+      "date": "2026-11-21",
+      "author": "researcher-ade127",
+      "type": "research-correction",
+      "summary": "Re-verify inherited unknown-answer leads against current Conductor docs, changelog and customer terms (batch 05 backfill).",
+      "claimIds": [
+        "conductor:OWN-04"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "The pricing URL redirects to the homepage without a price table. Cloud FAQ describes plan gates and no additional compute fee for now; model charges stay with the provider. Current subscription prices and allowances remain unestablished.",
+        "subanswers": {
+          "currency": "unknown",
+          "interval": "unknown",
+          "seats": "unknown",
+          "workspace_fees": "unknown"
+        }
+      },
+      "after": {
+        "subanswers": {
+          "currency": "supported",
+          "interval": "unknown",
+          "seats": "unknown",
+          "workspace_fees": "supported"
+        },
+        "support": "partial",
+        "answer": "The pricing URL redirects to the homepage without a price table. Cloud FAQ describes plan gates and no additional compute fee for now; model charges stay with the provider. Current subscription prices and allowances remain unestablished."
+      },
+      "evidenceIds": [
+        "b05-terms",
+        "b05-pricing-redirect",
+        "b05-cloud-faq"
+      ]
+    },
+    {
+      "date": "2026-11-21",
+      "author": "researcher-ade127",
+      "type": "research-correction",
+      "summary": "Re-verify inherited unknown-answer leads against current Conductor docs, changelog and customer terms (batch 05 backfill).",
+      "claimIds": [
+        "conductor:OWN-05"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "One-, two- and five-person scenarios cannot be priced from the checked public pages because current subscription prices, allowances and workloads are not established. Model costs remain separate.",
+        "subanswers": {
+          "one_person": "unknown",
+          "two_people": "unknown",
+          "five_people": "unknown",
+          "fixed_cost": "unknown"
+        }
+      },
+      "after": {
+        "subanswers": {
+          "one_person": "unknown",
+          "two_people": "unknown",
+          "five_people": "unknown",
+          "fixed_cost": "partial"
+        },
+        "support": "partial",
+        "answer": "One-, two- and five-person scenarios cannot be priced from the checked public pages because current subscription prices, allowances and workloads are not established. Model costs remain separate."
+      },
+      "evidenceIds": [
+        "b05-cloud-faq",
+        "b05-pricing-redirect"
+      ]
+    },
+    {
+      "date": "2026-11-21",
+      "author": "researcher-ade127",
+      "type": "research-correction",
+      "summary": "Re-verify inherited unknown-answer leads against current Conductor docs, changelog and customer terms (batch 05 backfill).",
+      "claimIds": [
+        "conductor:OWN-09"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Pricing is partially specified: model billing stays with the provider and Cloud FAQ states no additional compute fee currently. The pricing URL redirects without a table; subscription units, allowances, rates and cancellation terms remain unknown.",
+        "subanswers": {
+          "compute_markup": "unknown",
+          "included_limits": "unknown",
+          "sales_only_unknowns": "unknown",
+          "units": "unknown"
+        }
+      },
+      "after": {
+        "subanswers": {
+          "compute_markup": "partial",
+          "included_limits": "unknown",
+          "sales_only_unknowns": "partial",
+          "units": "unknown"
+        },
+        "support": "partial",
+        "answer": "Pricing is partially specified: model billing stays with the provider and Cloud FAQ states no additional compute fee currently. The pricing URL redirects without a table; subscription units, allowances, rates and cancellation terms remain unknown."
+      },
+      "evidenceIds": [
+        "b05-cloud-faq",
+        "b05-team-plan",
+        "b05-pricing-redirect"
+      ]
+    },
+    {
+      "date": "2026-11-21",
+      "author": "researcher-ade127",
+      "type": "research-correction",
+      "summary": "Re-verify inherited unknown-answer leads against current Conductor docs, changelog and customer terms (batch 05 backfill).",
+      "claimIds": [
+        "conductor:TEAM-02"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Cloud organizations have admins and members. Organization admins can configure shared agent API keys, while members provide personal credentials. Current SSO protocol and enterprise provisioning details are not reestablished by this pass.",
+        "subanswers": {
+          "sso": "unknown"
+        }
+      },
+      "after": {
+        "subanswers": {
+          "sso": "partial"
+        },
+        "support": "partial",
+        "answer": "Cloud organizations have admins and members. Organization admins can configure shared agent API keys, while members provide personal credentials. Current SSO protocol and enterprise provisioning details are not reestablished by this pass."
+      },
+      "evidenceIds": [
+        "b05-changelog-0800"
+      ]
+    },
+    {
+      "date": "2026-11-22",
+      "author": "researcher-ade159",
+      "type": "research-correction",
+      "summary": "Add the Conductor Cloud surface and its CLI versions (0.80.0, 0.87.0) to the scope, because the cli atom describes the CLI preinstalled in cloud workspaces and the cloud API (ADE-142 correction 10).",
+      "claimIds": [
+        "conductor:ACC-01"
+      ],
+      "before": {
+        "answer": "Conductor documents a macOS app and an iPhone app requiring iOS 26.0+. Release 0.92.0 adds experimental remote control of local Mac workspaces from iPhone. Current installation instructions provide Mac download steps; the announcement no longer states a signup closure.",
+        "scope": {
+          "surfaceIds": [
+            "desktop",
+            "ios"
+          ],
+          "version": "macOS capability evidence through 0.93.0 and lifecycle notes through 0.94.2; App Store 1.1.3 checked 2026-11-13",
+          "plan": "Current plan entitlements are not fully established by the public pages.",
+          "os": [
+            "macOS",
+            "iOS"
+          ],
+          "executionModes": [
+            "local",
+            "remote-control"
+          ],
+          "region": null,
+          "harness": null
+        },
+        "subanswers": {
+          "cli": {
+            "support": "partial",
+            "answer": "A conductor CLI is preinstalled in cloud workspaces (0.80.0) and, with a user API key, drives Conductor Cloud through the API (routines, messages, sidebar sections). No standalone install or a CLI for local Mac workspaces is documented.",
+            "evidenceIds": [
+              "b05-changelog-0800",
+              "b05-changelog-0870",
+              "b05-docs-api"
+            ]
+          }
+        },
+        "limitations": [
+          "Windows/Linux are explicitly unavailable; Android remains undocumented.",
+          "Remote Control requires the Mac and experimental setting. No app or authenticated Cloud test was run."
+        ],
+        "unknownReason": "Still not established in the checked first-party sources (the 2026-11-21 recheck covered inherited leads only): browser, mobile_browser, editor_extensions. Earlier gap note: Reread the cited first-party sources on 2026-11-07. Remaining atomic questions are not established for the named surface and version; no installed-client or authenticated scenario was run. Targeted lifecycle-dependent correction on 2026-11-13; unrelated capability observations retain their original source dates. No installed-client, signup or billing test was performed."
+      },
+      "after": {
+        "answer": "Conductor documents a macOS app and an iPhone app requiring iOS 26.0+. Release 0.92.0 adds experimental remote control of local Mac workspaces from iPhone. Conductor Cloud workspaces come with a conductor CLI preinstalled, which drives Cloud through the beta API; no CLI for local Mac workspaces is documented. Current installation instructions provide Mac download steps; the announcement no longer states a signup closure.",
+        "scope": {
+          "surfaceIds": [
+            "desktop",
+            "cloud",
+            "ios"
+          ],
+          "version": "macOS capability evidence through 0.93.0 and lifecycle notes through 0.94.2; Conductor Cloud CLI in cloud workspaces from 0.80.0 and sidebar-section CLI commands from 0.87.0; App Store 1.1.3 checked 2026-11-13",
+          "plan": "Conductor Cloud, including its CLI, is offered on Pro, Teams and Enterprise; other current plan entitlements are not fully established by the public pages.",
+          "os": [
+            "macOS",
+            "iOS"
+          ],
+          "executionModes": [
+            "local",
+            "remote-control",
+            "managed-cloud"
+          ],
+          "region": null,
+          "harness": null
+        },
+        "subanswers": {
+          "cli": {
+            "support": "partial",
+            "answer": "Conductor Cloud only: a conductor CLI is preinstalled in cloud workspaces (0.80.0) and, with a user API key, drives Conductor Cloud through the beta API (routines, messages, sidebar sections from 0.87.0). No standalone install or CLI for local Mac workspaces or iOS is documented.",
+            "evidenceIds": [
+              "b05-changelog-0800",
+              "b05-changelog-0870",
+              "b05-docs-api",
+              "cloud-faq-nov07"
+            ]
+          }
+        },
+        "limitations": [
+          "Windows/Linux are explicitly unavailable; Android remains undocumented.",
+          "Remote Control requires the Mac and experimental setting. No app or authenticated Cloud test was run.",
+          "The CLI is documented only inside Conductor Cloud workspaces and against the beta Cloud API."
+        ],
+        "unknownReason": "Not established in the checked first-party sources: browser, mobile_browser, editor_extensions."
+      },
+      "evidenceIds": [
+        "b05-changelog-0800",
+        "b05-changelog-0870",
+        "b05-docs-api",
+        "cloud-faq-nov07"
+      ]
+    },
+    {
+      "date": "2026-11-22",
+      "author": "researcher-ade159",
+      "type": "research-correction",
+      "summary": "Return the credentials atom to unknown for this local-scope claim: Conductor Cloud secrets handling cannot answer local credential storage (ADE-142 correction 11).",
+      "claimIds": [
+        "conductor:OWN-03"
+      ],
+      "before": {
+        "answer": "Local workspaces and chats stay on the Mac, model requests go to the configured provider, and analytics go to PostHog. The revised announcement retains the no-sale/no-training statement and no longer gives shutdown deletion dates.",
+        "scope": {
+          "surfaceIds": [
+            "desktop"
+          ],
+          "version": null,
+          "plan": null,
+          "os": [
+            "macOS"
+          ],
+          "executionModes": [
+            "local"
+          ],
+          "region": null,
+          "harness": null
+        },
+        "subanswers": {
+          "credentials": {
+            "support": "partial",
+            "answer": "Local credential storage is not described beyond reuse of harness logins and API keys. For Conductor Cloud (outside this claim's local scope), organization secrets are hidden after saving, unreadable by the Admin agent's tools, and exposed as environment variables in cloud workspaces; encryption is not stated.",
+            "evidenceIds": [
+              "b05-cloud-computer"
+            ]
+          }
+        },
+        "limitations": [
+          "A telemetry opt-out, consent flow, general retention period and deletion procedure were not established. Model-provider policies remain separate."
+        ],
+        "unknownReason": "Still not established in the checked first-party sources (the 2026-11-21 recheck covered inherited leads only): artifacts, deletion, telemetry_controls, consent_prompt. Earlier gap note: Searched 2026-10-08: Conductor docs (installation, concepts, Cloud, API/MCP, reference, guides, privacy, security), pricing, FAQ, changelog 0.77-0.90, and the public conductor-releases repository and issues. The remaining atomic questions are not documented there; no installed-app or authenticated Cloud scenario was run, and absence of text is not negative evidence. Targeted lifecycle-dependent correction on 2026-11-13; unrelated capability observations retain their original source dates. No installed-client, signup or billing test was performed."
+      },
+      "after": {
+        "answer": "Local workspaces and chats stay on the Mac, model requests go to the configured provider, and analytics go to PostHog. The revised announcement retains the no-sale/no-training statement and no longer gives shutdown deletion dates.",
+        "scope": {
+          "surfaceIds": [
+            "desktop"
+          ],
+          "version": null,
+          "plan": null,
+          "os": [
+            "macOS"
+          ],
+          "executionModes": [
+            "local"
+          ],
+          "region": null,
+          "harness": null
+        },
+        "subanswers": {
+          "credentials": {
+            "support": "unknown",
+            "answer": "Not established for local Conductor: storage of credentials on the Mac is not described beyond reuse of harness logins and API keys. Conductor Cloud organization secrets are documented separately and fall outside this local-scope claim.",
+            "evidenceIds": [
+              "b05-cloud-computer"
+            ]
+          }
+        },
+        "limitations": [
+          "A telemetry opt-out, consent flow, general retention period and deletion procedure were not established. Model-provider policies remain separate.",
+          "Local credential storage is not described; Conductor Cloud secrets handling is outside this local-scope claim."
+        ],
+        "unknownReason": "Not established in the checked first-party sources for local Conductor: credentials, artifacts, deletion, telemetry_controls, consent_prompt."
+      },
+      "evidenceIds": [
+        "b05-cloud-computer"
+      ]
     }
   ],
   "context": {
@@ -21017,8 +21539,28 @@
       "note": "Historical record of the 2026-09-23 review; superseded by the 2026-10-08 re-research which reset reviews to public-candidate."
     },
     "roadmapReview": {
-      "checkedAt": "2026-11-13",
+      "checkedAt": "2026-11-21",
       "locations": [
+        {
+          "url": "https://www.conductor.build/changelog",
+          "result": "2026-11-21: latest releases 0.96.0 (Nov 18), 0.97.0 (Nov 19) and 0.98.0 (Nov 20, 2026) add spend/usage views for model usage, not plan prices. 0.80.0 (CLI in cloud workspaces, SSO badge) and 0.87.0 (CLI/API/MCP sidebar sections) re-read for inherited leads."
+        },
+        {
+          "url": "https://www.conductor.build/pricing",
+          "result": "2026-11-21: still redirects to the homepage with no price table; inherited plan prices, units, seats and Cloud hours remain unverifiable."
+        },
+        {
+          "url": "https://www.conductor.build/terms",
+          "result": "2026-11-21: Fees and Subscription Period sections read: US-dollar payment, non-refundable fees, Order-defined cadence, auto-renewal with 30-day written non-renewal notice."
+        },
+        {
+          "url": "https://www.conductor.build/team-plan",
+          "result": "2026-11-21: Teams remains invite-only via a contact form; no price."
+        },
+        {
+          "url": "https://www.conductor.build/announcement",
+          "result": "2026-11-21: revised announcement unchanged in substance: development continues, transfer to local and account export documented; no refund terms."
+        },
         {
           "url": "https://www.conductor.build/docs/reference/harnesses",
           "result": "Read Overview; Harness comparison. The complete harness comparison lists Claude Code, Codex, Cursor and OpenCode. Claude Code, Codex and OpenCode are bundled; Cursor uses the Cursor API. Conductor is explicitly free to use and does not bill or resell model usage; provider accounts or keys pay inference."
@@ -21026,14 +21568,6 @@
         {
           "url": "https://www.conductor.build/",
           "result": "Read Conduct from anywhere; Bring your own subscriptions; Multiplayer. The client selector offers macOS, iOS and API access. The page names the fixed four harnesses and explicitly describes teammates prompting agents together in real time. It does not offer Android or a browser ADE client in this complete client selector."
-        },
-        {
-          "url": "https://www.conductor.build/announcement",
-          "result": "Read Revised announcement; FAQ. The earlier shutdown paragraph is struck through. The updated announcement says development will continue and the FAQ says Conductor keeps working as normal. The previous wind-down deadlines are not a basis for new capability or price mappings."
-        },
-        {
-          "url": "https://www.conductor.build/terms",
-          "result": "Read Definitions: Platform; Intellectual Property Ownership. The terms explicitly define the Platform as proprietary hosted AI automation software including client-side and hosted software. They retain vendor intellectual property and grant restricted platform access."
         },
         {
           "url": "https://www.conductor.build/docs/cloud/faq",
@@ -21048,14 +21582,6 @@
           "result": "Read Create or select the organization; Add an agent. Members joining an already configured organization add their agent credentials as needed. Organization admins can additionally configure shared agent API keys for the organization; those keys override a member personal key for the same agent. Organization creation includes optional teammate invitations."
         },
         {
-          "url": "https://www.conductor.build/changelog",
-          "result": "Read release 0.94.0 and patch 0.94.2, including removal of the Cloud shutdown banner. /roadmap returned 404; the updated announcement reverses wind-down. The separate lifecycle correction remains outstanding."
-        },
-        {
-          "url": "https://www.conductor.build/announcement",
-          "result": "The shutdown paragraph is struck through. Its replacement says development will continue; the FAQ says normal operation continues. Transfer to local and account export remain documented. The FAQ retains the no-sale/no-training statement but no longer sets deletion dates. The revision has no displayed date."
-        },
-        {
           "url": "https://www.conductor.build/changelog/0.94.0-claude-fable-5-2",
           "result": "The 0.94.0 release is listed November 9, 2026. Its page adds an undated 0.94.2 subsection recording removal of the Cloud shutdown banner. The parent entry also records model and bug-fix updates. November 9 is not an established date for the 0.94.2 subsection."
         },
@@ -21066,10 +21592,6 @@
         {
           "url": "https://www.conductor.build/docs/installation",
           "result": "The install guide provides Mac download/setup steps, explicitly excludes Windows/Linux, and requires GitHub and an agent provider. It does not state an existing-account-only restriction."
-        },
-        {
-          "url": "https://www.conductor.build/pricing",
-          "result": "The pricing URL redirects to the homepage, which advertises Cloud, desktop and mobile and links Get Conductor. No plan price table appears. This does not establish signup completion, upgrade eligibility or free-tier entitlements."
         },
         {
           "url": "https://www.conductor.build/docs/cloud/faq",
@@ -21109,7 +21631,8 @@
         "No displayed date for the announcement revision or 0.94.2 subsection; no exact reversal day inferred.",
         "The historical 0.93.0 dates are superseded by the explicit reversal and banner removal.",
         "No dedicated roadmap could be read. No signup, authenticated Cloud, billing or export test was run.",
-        "General FAQ free-tool wording and Cloud plan gates do not establish current prices, free entitlements or upgrade eligibility. Cloud FAQ still calls the already released mobile app coming soon."
+        "General FAQ free-tool wording and Cloud plan gates do not establish current prices, free entitlements or upgrade eligibility. Cloud FAQ still calls the already released mobile app coming soon.",
+        "2026-11-21 lead recheck: no current public price list exists, so inherited Pro/Teams prices, per-user units, interval and included Cloud hours could not be re-verified and stay unknown; /roadmap returns 404."
       ]
     },
     "gapFillReview": {
