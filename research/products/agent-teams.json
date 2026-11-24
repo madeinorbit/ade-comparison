@@ -4324,10 +4324,10 @@
           "evidenceIds": []
         },
         "telemetry_defaults": {
-          "support": "partial",
-          "answer": "Anonymous crash, performance and product usage telemetry is on by default in builds that include it.",
+          "support": "supported",
+          "answer": "On by default: release builds ship Sentry and PostHog keys and the default config sets telemetryEnabled to true, so anonymous crash, performance and usage telemetry runs until turned off.",
           "evidenceIds": [
-            "src1-telemetry-gate"
+            "tel-2611-src"
           ]
         },
         "telemetry_controls": {
@@ -4339,9 +4339,11 @@
           ]
         },
         "telemetry_off_switch": {
-          "support": "unknown",
-          "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "In the app: Settings > General > Privacy > Send anonymous telemetry turns it off.",
+          "evidenceIds": [
+            "tel-2611-src"
+          ]
         },
         "consent_prompt": {
           "support": "unknown",
@@ -4363,11 +4365,12 @@
       "evidenceIds": [
         "readme",
         "src1-telemetry-gate",
-        "src1-telemetry-toggle"
+        "src1-telemetry-toggle",
+        "tel-2611-src"
       ],
       "checkedAt": "2026-11-08",
       "nextReviewAt": "2026-12-08",
-      "researcher": "researcher-09",
+      "researcher": "telemetry-researcher-a",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -5156,6 +5159,19 @@
       "visibility": "public",
       "commit": null,
       "path": null
+    },
+    {
+      "id": "tel-2611-src",
+      "kind": "source-inspected",
+      "url": "https://github.com/777genius/agent-teams-ai/blob/d317ceeb28e22d52d2b03e3b0bfa471e8fa6e2f1/src/renderer/components/settings/sections/GeneralSection.tsx#L620-L637",
+      "title": "Agent Teams privacy settings and telemetry default at v2.18.7",
+      "locator": "GeneralSection.tsx L620-L637; src/main/services/infrastructure/ConfigManager.ts L403; .github/workflows/build-linux-windows-draft.yml L122-L130",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-24",
+      "finding": "At v2.18.7 the default config sets telemetryEnabled: true and release workflows inject SENTRY_DSN and POSTHOG_KEY, so Sentry and PostHog run in release builds without a prompt. Settings > General > Privacy has a Send anonymous telemetry toggle bound to telemetryEnabled.",
+      "visibility": "public",
+      "commit": "d317ceeb28e22d52d2b03e3b0bfa471e8fa6e2f1",
+      "path": "src/renderer/components/settings/sections/GeneralSection.tsx"
     }
   ],
   "changes": [
@@ -5727,6 +5743,38 @@
         "reviewed": false
       },
       "evidenceIds": []
+    },
+    {
+      "date": "2026-11-24",
+      "author": "telemetry-researcher-a",
+      "type": "research-correction",
+      "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+      "claimIds": [
+        "agent-teams:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "App says it does not upload/sync project code to Agent Teams servers. External coding runtimes talk to their own providers.",
+        "checkedAt": "2026-11-08",
+        "nextReviewAt": "2026-12-08",
+        "subanswers": {
+          "telemetry_defaults": "partial",
+          "telemetry_off_switch": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "App says it does not upload/sync project code to Agent Teams servers. External coding runtimes talk to their own providers.",
+        "checkedAt": "2026-11-08",
+        "nextReviewAt": "2026-12-08",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "supported"
+        }
+      },
+      "evidenceIds": [
+        "tel-2611-src"
+      ]
     }
   ],
   "context": {
