@@ -5108,7 +5108,7 @@
     {
       "id": "claude-command-center-ccc:OWN-03",
       "criterionId": "OWN-03",
-      "answer": "Data stays on the host; one anonymous daily beacon; model prompts go to each provider; CCC Cloud stores routing metadata.",
+      "answer": "Data stays on the host; one anonymous daily beacon; model prompts go to each provider; CCC Cloud stores routing metadata. Telemetry (atomic revision 2): on by default (daily anonymous open beacon); the only off switch is the CCC_TELEMETRY_DISABLED environment variable.",
       "support": "partial",
       "availability": "generally-available",
       "delivery": "native",
@@ -5206,10 +5206,9 @@
         },
         "telemetry_defaults": {
           "support": "supported",
-          "answer": "Telemetry defaults: On by default.",
+          "answer": "On by default: an anonymous open beacon fires at most once per UTC day with no consent step.",
           "evidenceIds": [
-            "telemetry",
-            "readme"
+            "tel-2611-docs"
           ]
         },
         "telemetry_controls": {
@@ -5220,9 +5219,11 @@
           ]
         },
         "telemetry_off_switch": {
-          "support": "unknown",
-          "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "Config only: CCC_TELEMETRY_DISABLED=1 at launch is the only switch; docs say there is no second, consent-based switch.",
+          "evidenceIds": [
+            "tel-2611-docs"
+          ]
         },
         "consent_prompt": {
           "support": "supported",
@@ -5253,11 +5254,12 @@
         "share",
         "features",
         "cloudsec",
-        "telemetry"
+        "telemetry",
+        "tel-2611-docs"
       ],
       "checkedAt": "2026-11-17",
       "nextReviewAt": "2027-03-17",
-      "researcher": "researcher-batch15",
+      "researcher": "telemetry-researcher-b",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -6496,6 +6498,19 @@
       "visibility": "public",
       "commit": "43739d27a23b54b917b84f6dd928fca33c6dba83",
       "path": "docs/images/ccc-v5-43-hero.png"
+    },
+    {
+      "id": "tel-2611-docs",
+      "kind": "source-inspected",
+      "url": "https://github.com/amirfish1/claude-command-center/blob/f4074bd07bbf18cebb13eef5ef54e9b18dc04c1d/docs/telemetry.md",
+      "title": "CCC v7.0.0 docs/telemetry.md and server.py",
+      "locator": "telemetry.md lines 23-24 and 'Kill switch'; server.py line 51146",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-24",
+      "finding": "Anonymous open beacon 'on by default'; 'CCC_TELEMETRY_DISABLED=1 is the only switch'; server.py starts the beacon thread with no consent step.",
+      "visibility": "public",
+      "commit": "f4074bd07bbf18cebb13eef5ef54e9b18dc04c1d",
+      "path": "docs/telemetry.md"
     }
   ],
   "changes": [
@@ -6576,6 +6591,38 @@
         "reviewed": false
       },
       "evidenceIds": []
+    },
+    {
+      "date": "2026-11-24",
+      "author": "telemetry-researcher-b",
+      "type": "research-correction",
+      "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+      "claimIds": [
+        "claude-command-center-ccc:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Data stays on the host; one anonymous daily beacon; model prompts go to each provider; CCC Cloud stores routing metadata.",
+        "checkedAt": "2026-11-17",
+        "nextReviewAt": "2027-03-17",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Data stays on the host; one anonymous daily beacon; model prompts go to each provider; CCC Cloud stores routing metadata. Telemetry (atomic revision 2): on by default (daily anonymous open beacon); the only off switch is the CCC_TELEMETRY_DISABLED environment variable.",
+        "checkedAt": "2026-11-17",
+        "nextReviewAt": "2027-03-17",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "supported"
+        }
+      },
+      "evidenceIds": [
+        "tel-2611-docs"
+      ]
     }
   ],
   "context": {
