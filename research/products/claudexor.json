@@ -4842,7 +4842,7 @@
     {
       "id": "claudexor:OWN-03",
       "criterionId": "OWN-03",
-      "answer": "No telemetry, analytics or crash reports; outbound traffic is the configured harness routes, quota/status sources (Anthropic oauth/usage, Cursor dashboard), release and update checks; prompts are retained exactly in local run records; telemetry/ files are local only.",
+      "answer": "No telemetry, analytics or crash reports; outbound traffic is the configured harness routes, quota/status sources (Anthropic oauth/usage, Cursor dashboard), release and update checks; prompts are retained exactly in local run records; telemetry/ files are local only. Telemetry (atomic revision 2): no ADE telemetry: the README states none and the v6.3.0 source has no analytics client; its telemetry/ files stay local.",
       "support": "partial",
       "availability": "generally-available",
       "delivery": "native",
@@ -4937,9 +4937,9 @@
         },
         "telemetry_defaults": {
           "support": "supported",
-          "answer": "No telemetry; no update timer.",
+          "answer": "No telemetry: the README Privacy section states Claudexor collects no telemetry, analytics or crash reports and that files named telemetry/ are local cost and latency records; a search of the v6.3.0 packages for posthog, sentry, segment, amplitude and mixpanel finds no client. Update checks and registry lookups are not usage telemetry.",
           "evidenceIds": [
-            "readme"
+            "tel-2611-readme"
           ]
         },
         "telemetry_controls": {
@@ -4950,9 +4950,11 @@
           ]
         },
         "telemetry_off_switch": {
-          "support": "unknown",
-          "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-          "evidenceIds": []
+          "support": "not-applicable",
+          "answer": "Nothing to switch off: no ADE telemetry.",
+          "evidenceIds": [
+            "tel-2611-readme"
+          ]
         },
         "consent_prompt": {
           "support": "unsupported",
@@ -4975,11 +4977,12 @@
       "unknownReason": "Provider training and retention policies are provider facts.",
       "evidenceIds": [
         "readme",
-        "features"
+        "features",
+        "tel-2611-readme"
       ],
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
-      "researcher": "researcher-batch09",
+      "researcher": "telemetry-researcher-b",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -5826,6 +5829,19 @@
       "visibility": "public",
       "commit": "7a87c337b5b54f28f6038a4a7c5138da7cc87c4a",
       "path": "apps/macos/ClaudexorApp/Sources/ClaudexorApp/Notifier.swift"
+    },
+    {
+      "id": "tel-2611-readme",
+      "kind": "source-inspected",
+      "url": "https://github.com/razzant/claudexor/blob/0ff3df717c2e807fdbd3a233487e35d81993fdea/README.md",
+      "title": "Claudexor v6.3.0 README and packages",
+      "locator": "README.md Privacy (line 1228); packages/orchestrator/src/runFacts.ts line 125",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-24",
+      "finding": "README: 'Claudexor collects no telemetry, analytics or crash reports'; telemetry/ files are local only. Search of packages for posthog, sentry, segment, amplitude and mixpanel finds no analytics client; runFacts writes telemetry.yaml to the local run directory.",
+      "visibility": "public",
+      "commit": "0ff3df717c2e807fdbd3a233487e35d81993fdea",
+      "path": "README.md"
     }
   ],
   "changes": [
@@ -6012,6 +6028,38 @@
         "reviewed": false
       },
       "evidenceIds": []
+    },
+    {
+      "date": "2026-11-24",
+      "author": "telemetry-researcher-b",
+      "type": "research-correction",
+      "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+      "claimIds": [
+        "claudexor:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "No telemetry, analytics or crash reports; outbound traffic is the configured harness routes, quota/status sources (Anthropic oauth/usage, Cursor dashboard), release and update checks; prompts are retained exactly in local run records; telemetry/ files are local only.",
+        "checkedAt": "2026-11-16",
+        "nextReviewAt": "2027-03-16",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "No telemetry, analytics or crash reports; outbound traffic is the configured harness routes, quota/status sources (Anthropic oauth/usage, Cursor dashboard), release and update checks; prompts are retained exactly in local run records; telemetry/ files are local only. Telemetry (atomic revision 2): no ADE telemetry: the README states none and the v6.3.0 source has no analytics client; its telemetry/ files stay local.",
+        "checkedAt": "2026-11-16",
+        "nextReviewAt": "2027-03-16",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "not-applicable"
+        }
+      },
+      "evidenceIds": [
+        "tel-2611-readme"
+      ]
     }
   ],
   "context": {
