@@ -5134,9 +5134,10 @@
       "delivery": "native",
       "scope": {
         "surfaceIds": [
-          "dashboard"
+          "dashboard",
+          "mobile-app"
         ],
-        "version": "v0.106.98 (commit 3acb573, released 2026-11-07)",
+        "version": "Dashboard v0.106.98 (commit 3acb573, released 2026-11-07); iPhone app as described by the mobile privacy policy last updated 2026-10-30",
         "plan": "Open source (MIT)",
         "os": [],
         "executionModes": [],
@@ -5225,9 +5226,9 @@
         },
         "telemetry_defaults": {
           "support": "supported",
-          "answer": "On by default (iPhone app only): the iPhone app sends Sentry crash and error reports without names or accounts until the user turns them off. The self-hosted dashboard sends no vendor telemetry, and its Claude Code metrics export goes only to the user's own receiver and is opt-in.",
+          "answer": "On by default (iPhone app): per the mobile privacy policy last updated 2026-10-30, the iPhone app sends Sentry crash and error reports without names or accounts until the user turns them off. The self-hosted dashboard sends no vendor telemetry; its Claude Code metrics export goes only to the user's own receiver and is opt-in.",
           "evidenceIds": [
-            "tel-2611-mobile-policy",
+            "tel-2611-mobile-policy-dated",
             "tel-2611-src"
           ]
         },
@@ -5241,9 +5242,9 @@
         },
         "telemetry_off_switch": {
           "support": "supported",
-          "answer": "In the app: Settings > Privacy > Send crash reports in the iPhone app turns crash reports off.",
+          "answer": "In the app: Settings > Privacy > Send crash reports in the iPhone app turns crash reports off (mobile privacy policy, 2026-10-30). The dashboard has no vendor telemetry to switch off.",
           "evidenceIds": [
-            "tel-2611-mobile-policy"
+            "tel-2611-mobile-policy-dated"
           ]
         },
         "consent_prompt": {
@@ -5277,11 +5278,12 @@
         "memroute",
         "memviewer",
         "tel-2611-mobile-policy",
-        "tel-2611-src"
+        "tel-2611-src",
+        "tel-2611-mobile-policy-dated"
       ],
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
-      "researcher": "telemetry-researcher-a",
+      "researcher": "telemetry-researcher-f",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -6849,6 +6851,19 @@
       "visibility": "public",
       "commit": "ead48472b0ff7d966c62eba6cd90a5c413951482",
       "path": "services/telemetry-service.ts"
+    },
+    {
+      "id": "tel-2611-mobile-policy-dated",
+      "kind": "documented",
+      "url": "https://23blocks.com/policies/ai-maestro-mobile/",
+      "title": "AI Maestro mobile app privacy policy (last updated 2026-10-30)",
+      "locator": "Short version; Crash reports; What we do not do",
+      "sourceDate": "2026-10-30",
+      "retrievedAt": "2026-11-24",
+      "finding": "The iPhone app policy, last updated 2026-10-30, says the app sends crash and error reports to Sentry (error, code location, app version, phone model, iOS version; host addresses removed), uses no analytics, and that users turn reports off in Settings > Privacy > Send crash reports.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
     }
   ],
   "changes": [
@@ -7296,6 +7311,39 @@
       },
       "evidenceIds": [
         "tel-2611-mobile-policy",
+        "tel-2611-src"
+      ]
+    },
+    {
+      "date": "2026-11-24",
+      "author": "telemetry-researcher-f",
+      "type": "research-correction",
+      "summary": "Bring the iPhone app into OWN-03 scope, since the telemetry default and off switch rest on its crash reports, and cite the dated mobile privacy policy.",
+      "claimIds": [
+        "ai-maestro:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Everything stays on your hosts; the README states no telemetry, no account and no phone-home; Claude telemetry export is opt-in to your own receiver; optional TTS and push call third parties; the iPhone app sends crash reports unless disabled.",
+        "checkedAt": "2026-11-16",
+        "nextReviewAt": "2027-03-16",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "supported"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Everything stays on your hosts; the README states no telemetry, no account and no phone-home; Claude telemetry export is opt-in to your own receiver; optional TTS and push call third parties; the iPhone app sends crash reports unless disabled.",
+        "checkedAt": "2026-11-16",
+        "nextReviewAt": "2027-03-16",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "supported"
+        }
+      },
+      "evidenceIds": [
+        "tel-2611-mobile-policy-dated",
         "tel-2611-src"
       ]
     }
