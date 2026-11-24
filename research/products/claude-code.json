@@ -5064,9 +5064,9 @@
         },
         "telemetry_defaults": {
           "support": "supported",
-          "answer": "Metrics default on for the Claude API; error reports on for Pro/Max/Ultra sign-ins on v2.1.198+; both off by default on Bedrock, Foundry, Agent Platform.",
+          "answer": "On by default: usage metrics with the Claude API, and error reports for Pro, Max and Ultra sign-ins on v2.1.198+; both are off by default on Bedrock, Agent Platform, Foundry and Claude Platform on AWS.",
           "evidenceIds": [
-            "data-usage-second-review-nov07"
+            "tel-2611-data-usage"
           ]
         },
         "telemetry_controls": {
@@ -5077,9 +5077,11 @@
           ]
         },
         "telemetry_off_switch": {
-          "support": "unknown",
-          "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "Config only: DISABLE_TELEMETRY=1, DISABLE_ERROR_REPORTING=1 or CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1, set in the environment or settings.json env or managed settings; no interactive toggle is documented.",
+          "evidenceIds": [
+            "tel-2611-data-usage"
+          ]
         },
         "consent_prompt": {
           "support": "unknown",
@@ -5105,11 +5107,12 @@
         "web",
         "pricing",
         "costs",
-        "selfhost"
+        "selfhost",
+        "tel-2611-data-usage"
       ],
       "checkedAt": "2026-11-07",
       "nextReviewAt": "2026-11-21",
-      "researcher": "reviewer-45",
+      "researcher": "telemetry-researcher-a",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -7576,6 +7579,19 @@
       "sourceDate": null,
       "retrievedAt": "2026-11-21",
       "finding": "API prices per million tokens: Fable 5.2 $8 input / $40 output; Opus 5.5 $4 / $20; Sonnet 5.5 $2 / $10; Haiku 5.5 $0.10 / $0.50 for prompts up to 100K tokens and $0.50 / $2.50 above, with separate prompt-caching rates. Batch processing saves 50%; US-only inference costs 1.1x; fast mode for Opus 5.5 and Fable 5.2 costs 2x. Only the Team/Enterprise plan comparison has a Trials row: No for Team and self-serve Enterprise, Yes for sales-assisted Enterprise. The Free, Pro, Max and Ultra cards and comparison mention no trial.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "tel-2611-data-usage",
+      "kind": "documented",
+      "url": "https://code.claude.com/docs/en/data-usage",
+      "title": "Claude Code data usage: telemetry services and defaults by provider",
+      "locator": "Telemetry services; Default behaviors by API provider",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-24",
+      "finding": "Usage metrics are on by default with the Claude API (DISABLE_TELEMETRY=1 to disable). Error reports are on for Pro, Max and Ultra sign-ins on v2.1.198+ (DISABLE_ERROR_REPORTING=1). CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC disables all nonessential traffic. Everything is off by default on Bedrock, Agent Platform, Foundry and Claude Platform on AWS. The documented controls are environment variables only.",
       "visibility": "public",
       "commit": null,
       "path": null
@@ -16871,6 +16887,38 @@
         "reviewed": false
       },
       "evidenceIds": []
+    },
+    {
+      "date": "2026-11-24",
+      "author": "telemetry-researcher-a",
+      "type": "research-correction",
+      "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+      "claimIds": [
+        "claude-code:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Prompts and outputs go to Anthropic (or the chosen provider) over TLS 1.2+; consumer plans train on data only when the setting is on, commercial plans do not by default; standard retention is 30 days for commercial and 30 days or 5 years for consumers. Usage metrics default on for the Claude API and off on Amazon Bedrock, Google Cloud's Agent Platform and Microsoft Foundry; error reports default on only for Pro, Max and Ultra sign-ins on v2.1.198+; both have documented opt-outs.",
+        "checkedAt": "2026-11-07",
+        "nextReviewAt": "2026-11-21",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Prompts and outputs go to Anthropic (or the chosen provider) over TLS 1.2+; consumer plans train on data only when the setting is on, commercial plans do not by default; standard retention is 30 days for commercial and 30 days or 5 years for consumers. Usage metrics default on for the Claude API and off on Amazon Bedrock, Google Cloud's Agent Platform and Microsoft Foundry; error reports default on only for Pro, Max and Ultra sign-ins on v2.1.198+; both have documented opt-outs.",
+        "checkedAt": "2026-11-07",
+        "nextReviewAt": "2026-11-21",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "supported"
+        }
+      },
+      "evidenceIds": [
+        "tel-2611-data-usage"
+      ]
     }
   ],
   "context": {
