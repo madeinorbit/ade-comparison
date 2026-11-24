@@ -4684,7 +4684,7 @@
     {
       "id": "cline:OWN-03",
       "criterionId": "OWN-03",
-      "answer": "Cline/ClinePass inference telemetry can contain prompts and responses; other providers do not send prompt contents to Cline telemetry. Usage events cover features, tasks, errors, tokens, timing, model/provider, version, OS and installation identity. Telemetry is enabled by default in extensions, Desktop and CLI, including with own keys. Extensions have Allow error and usage reporting; CLI uses telemetryOptOut=true and Desktop has a Telemetry switch. Desktop/CLI require a hub restart for all non-prompt events. With other providers, prompts go to the configured provider. Telemetry opt-out does not stop sign-in, feature-flag or Cline-provider network requests.",
+      "answer": "Cline/ClinePass inference telemetry can contain prompts and responses; other providers do not send prompt contents to Cline telemetry. Usage events cover features, tasks, errors, tokens, timing, model/provider, version, OS and installation identity. Telemetry is enabled by default in extensions, Desktop and CLI, including with own keys. Extensions have Allow error and usage reporting; CLI uses telemetryOptOut=true and Desktop has a Telemetry switch. Desktop/CLI require a hub restart for all non-prompt events. With other providers, prompts go to the configured provider. Telemetry opt-out does not stop sign-in, feature-flag or Cline-provider network requests. Telemetry (atomic revision 2): on by default; turned off with the Allow error and usage reporting switch in Settings.",
       "support": "partial",
       "availability": "unknown",
       "delivery": "unknown",
@@ -4772,9 +4772,9 @@
         },
         "telemetry_defaults": {
           "support": "supported",
-          "answer": "Telemetry is enabled by default in extensions, Desktop and CLI, including with own keys.",
+          "answer": "On by default: telemetrySetting defaults to 'unset' and the General settings switch shows reporting on unless it is 'disabled'.",
           "evidenceIds": [
-            "gap07-telemetry"
+            "tel-2611-settings"
           ]
         },
         "telemetry_controls": {
@@ -4785,9 +4785,11 @@
           ]
         },
         "telemetry_off_switch": {
-          "support": "unknown",
-          "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "In the app: the extension's Settings, General has an 'Allow error and usage reporting' switch that sets telemetrySetting to disabled; remote config can lock it. Desktop has a Telemetry switch; the CLI uses telemetryOptOut.",
+          "evidenceIds": [
+            "tel-2611-settings"
+          ]
         },
         "consent_prompt": {
           "support": "unknown",
@@ -4811,11 +4813,12 @@
         "b07-enterprise",
         "b07-cloud",
         "b07-prompt-storage",
-        "b07-free"
+        "b07-free",
+        "tel-2611-settings"
       ],
       "checkedAt": "2026-11-07",
       "nextReviewAt": "2026-11-21",
-      "researcher": "researcher-ade129",
+      "researcher": "telemetry-researcher-b",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -6490,6 +6493,19 @@
       "visibility": "public",
       "commit": null,
       "path": null
+    },
+    {
+      "id": "tel-2611-settings",
+      "kind": "source-inspected",
+      "url": "https://github.com/cline/cline/blob/8075d2e35cf5cad67c24f180c80a05d311b74a3e/apps/vscode/webview-ui/src/components/settings/sections/GeneralSettingsSection.tsx",
+      "title": "Cline v4.1.27 general settings and state keys",
+      "locator": "GeneralSettingsSection.tsx lines 13-51; src/shared/storage/state-keys.ts line 277",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-24",
+      "finding": "telemetrySetting defaults to 'unset'; the settings switch is checked unless the value is 'disabled' and writes enabled or disabled.",
+      "visibility": "public",
+      "commit": "8075d2e35cf5cad67c24f180c80a05d311b74a3e",
+      "path": "apps/vscode/webview-ui/src/components/settings/sections/GeneralSettingsSection.tsx"
     }
   ],
   "changes": [
@@ -11244,6 +11260,38 @@
         "reviewed": false
       },
       "evidenceIds": []
+    },
+    {
+      "date": "2026-11-24",
+      "author": "telemetry-researcher-b",
+      "type": "research-correction",
+      "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+      "claimIds": [
+        "cline:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Cline/ClinePass inference telemetry can contain prompts and responses; other providers do not send prompt contents to Cline telemetry. Usage events cover features, tasks, errors, tokens, timing, model/provider, version, OS and installation identity. Telemetry is enabled by default in extensions, Desktop and CLI, including with own keys. Extensions have Allow error and usage reporting; CLI uses telemetryOptOut=true and Desktop has a Telemetry switch. Desktop/CLI require a hub restart for all non-prompt events. With other providers, prompts go to the configured provider. Telemetry opt-out does not stop sign-in, feature-flag or Cline-provider network requests.",
+        "checkedAt": "2026-11-07",
+        "nextReviewAt": "2026-11-21",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Cline/ClinePass inference telemetry can contain prompts and responses; other providers do not send prompt contents to Cline telemetry. Usage events cover features, tasks, errors, tokens, timing, model/provider, version, OS and installation identity. Telemetry is enabled by default in extensions, Desktop and CLI, including with own keys. Extensions have Allow error and usage reporting; CLI uses telemetryOptOut=true and Desktop has a Telemetry switch. Desktop/CLI require a hub restart for all non-prompt events. With other providers, prompts go to the configured provider. Telemetry opt-out does not stop sign-in, feature-flag or Cline-provider network requests. Telemetry (atomic revision 2): on by default; turned off with the Allow error and usage reporting switch in Settings.",
+        "checkedAt": "2026-11-07",
+        "nextReviewAt": "2026-11-21",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "supported"
+        }
+      },
+      "evidenceIds": [
+        "tel-2611-settings"
+      ]
     }
   ],
   "context": {
