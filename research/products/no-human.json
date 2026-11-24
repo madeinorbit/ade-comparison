@@ -5140,9 +5140,9 @@
         },
         "telemetry_defaults": {
           "support": "supported",
-          "answer": "On by default (opt-out).",
+          "answer": "On by default: v0.2.4 ships telemetry.enabled true with a bundled PostHog token, sending server-side usage events and browser-side PostHog capture and masked session replay unless the user opts out.",
           "evidenceIds": [
-            "config"
+            "tel-2611-config-defaults"
           ]
         },
         "telemetry_controls": {
@@ -5154,9 +5154,11 @@
           ]
         },
         "telemetry_off_switch": {
-          "support": "unknown",
-          "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "Config only: config.yaml telemetry.enabled false is the one opt-out; the onboarding consent step and the Settings > Usage insights pane were removed (the local consent API endpoint remains but has no UI).",
+          "evidenceIds": [
+            "tel-2611-config-defaults"
+          ]
         },
         "consent_prompt": {
           "support": "unsupported",
@@ -5184,11 +5186,12 @@
         "email",
         "api",
         "telem-web",
-        "telem-doc"
+        "telem-doc",
+        "tel-2611-config-defaults"
       ],
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
-      "researcher": "agent:ADE-95",
+      "researcher": "telemetry-researcher-d",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -6389,6 +6392,19 @@
       "visibility": "public",
       "commit": "a00adde993bcf96a12b41b13b2b54c69f9feed92",
       "path": "docs/security.md"
+    },
+    {
+      "id": "tel-2611-config-defaults",
+      "kind": "source-inspected",
+      "url": "https://github.com/no-human-ai/no_human/blob/a00adde993bcf96a12b41b13b2b54c69f9feed92/src/no_human/config.py",
+      "title": "no_human v0.2.4 config.py telemetry defaults",
+      "locator": "DEFAULTS telemetry block and TELEMETRY_CONSENT_QUESTION comment (around lines 2407-2455)",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-24",
+      "finding": "At v0.2.4 the telemetry block defaults enabled: True with a bundled PostHog publishable token and host; the comment states the onboarding consent step and the Settings > Usage insights pane were removed on 2026-08-26 and config.yaml telemetry.enabled: false is the one opt-out.",
+      "visibility": "public",
+      "commit": "a00adde993bcf96a12b41b13b2b54c69f9feed92",
+      "path": "src/no_human/config.py"
     }
   ],
   "changes": [
@@ -6567,6 +6583,38 @@
         "reviewed": false
       },
       "evidenceIds": []
+    },
+    {
+      "date": "2026-11-24",
+      "author": "telemetry-researcher-d",
+      "type": "research-correction",
+      "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+      "claimIds": [
+        "no-human:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Code and prompts go to the chosen model providers and your git host; state stays in local SQLite; credentials in a 0600 .env; telemetry is on by default through two channels: server-side usage events with a closed documented allowlist, and browser-side PostHog autocapture, dead clicks, heatmaps, performance, exceptions and masked session replay of the app's own interface (a masked-surface guarantee the docs say is not a claim that replay cannot capture content); the one opt-out is telemetry.enabled false in config.yaml, with no onboarding prompt or Settings toggle; official builds forward the onboarding email to a hosted intake; the coder can send anything its commands send.",
+        "checkedAt": "2026-11-16",
+        "nextReviewAt": "2027-03-16",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Code and prompts go to the chosen model providers and your git host; state stays in local SQLite; credentials in a 0600 .env; telemetry is on by default through two channels: server-side usage events with a closed documented allowlist, and browser-side PostHog autocapture, dead clicks, heatmaps, performance, exceptions and masked session replay of the app's own interface (a masked-surface guarantee the docs say is not a claim that replay cannot capture content); the one opt-out is telemetry.enabled false in config.yaml, with no onboarding prompt or Settings toggle; official builds forward the onboarding email to a hosted intake; the coder can send anything its commands send.",
+        "checkedAt": "2026-11-16",
+        "nextReviewAt": "2027-03-16",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "supported"
+        }
+      },
+      "evidenceIds": [
+        "tel-2611-config-defaults"
+      ]
     }
   ],
   "context": {
