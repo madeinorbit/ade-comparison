@@ -4922,7 +4922,7 @@
     {
       "id": "gemini-cli:OWN-03",
       "criterionId": "OWN-03",
-      "answer": "Prompts and code go to Google models under authentication-specific privacy notices; sessions stay local; usage statistics are controlled by privacy.usageStatisticsEnabled; OpenTelemetry export is opt-in; retention, training and residency are Google policy matters.",
+      "answer": "Prompts and code go to Google models under authentication-specific privacy notices; sessions stay local; usage statistics are controlled by privacy.usageStatisticsEnabled; OpenTelemetry export is opt-in; retention, training and residency are Google policy matters. Telemetry (atomic revision 2): usage statistics on by default; off only through privacy.usageStatisticsEnabled in settings.json.",
       "support": "partial",
       "availability": "generally-available",
       "delivery": "native",
@@ -5012,10 +5012,9 @@
         },
         "telemetry_defaults": {
           "support": "supported",
-          "answer": "privacy.usageStatisticsEnabled defaults to true.",
+          "answer": "On by default: privacy.usageStatisticsEnabled defaults to true.",
           "evidenceIds": [
-            "config",
-            "settingsschema"
+            "tel-2611-schema"
           ]
         },
         "telemetry_controls": {
@@ -5026,9 +5025,11 @@
           ]
         },
         "telemetry_off_switch": {
-          "support": "unknown",
-          "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "Config only: set privacy.usageStatisticsEnabled to false in settings.json; the setting is marked showInDialog: false, so the /settings dialog does not offer it.",
+          "evidenceIds": [
+            "tel-2611-schema"
+          ]
         },
         "consent_prompt": {
           "support": "unsupported",
@@ -5056,11 +5057,12 @@
         "sessions",
         "telemetrydoc",
         "config",
-        "settingsschema"
+        "settingsschema",
+        "tel-2611-schema"
       ],
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
-      "researcher": "researcher-gemini-cli",
+      "researcher": "telemetry-researcher-b",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -6212,6 +6214,19 @@
       "visibility": "public",
       "commit": "387c8ddb7a72078825da941758b811b9153c71e8",
       "path": ".github/commands/gemini-issue-fixer.toml"
+    },
+    {
+      "id": "tel-2611-schema",
+      "kind": "source-inspected",
+      "url": "https://github.com/google-gemini/gemini-cli/blob/7059de513d5987eba0f3a89932ff5cb8d66aa8f0/packages/cli/src/config/settingsSchema.ts",
+      "title": "Gemini CLI v0.71.1 settings schema",
+      "locator": "settingsSchema.ts lines 970-984; docs/resources/tos-privacy.md 'Usage statistics opt-out'",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-24",
+      "finding": "usageStatisticsEnabled: default true, showInDialog false, under a Privacy group also hidden from the dialog; the ToS page points to the configuration docs for the opt-out.",
+      "visibility": "public",
+      "commit": "7059de513d5987eba0f3a89932ff5cb8d66aa8f0",
+      "path": "packages/cli/src/config/settingsSchema.ts"
     }
   ],
   "changes": [
@@ -6285,6 +6300,38 @@
         "reviewed": false
       },
       "evidenceIds": []
+    },
+    {
+      "date": "2026-11-24",
+      "author": "telemetry-researcher-b",
+      "type": "research-correction",
+      "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+      "claimIds": [
+        "gemini-cli:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Prompts and code go to Google models under authentication-specific privacy notices; sessions stay local; usage statistics are controlled by privacy.usageStatisticsEnabled; OpenTelemetry export is opt-in; retention, training and residency are Google policy matters.",
+        "checkedAt": "2026-11-16",
+        "nextReviewAt": "2027-03-16",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Prompts and code go to Google models under authentication-specific privacy notices; sessions stay local; usage statistics are controlled by privacy.usageStatisticsEnabled; OpenTelemetry export is opt-in; retention, training and residency are Google policy matters. Telemetry (atomic revision 2): usage statistics on by default; off only through privacy.usageStatisticsEnabled in settings.json.",
+        "checkedAt": "2026-11-16",
+        "nextReviewAt": "2027-03-16",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "supported"
+        }
+      },
+      "evidenceIds": [
+        "tel-2611-schema"
+      ]
     }
   ],
   "context": {
