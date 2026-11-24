@@ -3932,7 +3932,7 @@
     {
       "id": "ghostex:OWN-03",
       "criterionId": "OWN-03",
-      "answer": "Settings document an analytics toggle and its default. Telemetry (atomic revision 2): anonymous analytics on by default; off only with GHOSTEX_TELEMETRY_DISABLED, DO_NOT_TRACK, --no-analytics or the settings-file key. This corrects the earlier claim of a Settings switch.",
+      "answer": "Settings document an analytics toggle and its default. Telemetry (atomic revision 2): anonymous analytics on by default; at the scoped d26825d (11.1.0) off only with GHOSTEX_TELEMETRY_DISABLED, DO_NOT_TRACK or the settings-file key (11.6.0 later added --no-analytics). This corrects the earlier claim of a Settings switch.",
       "support": "partial",
       "availability": "generally-available",
       "delivery": "native",
@@ -4007,22 +4007,25 @@
         },
         "telemetry_defaults": {
           "support": "supported",
-          "answer": "On by default: analyticsEnabled defaults to true.",
+          "answer": "On by default: analyticsEnabled defaults to true at d26825d (11.1.0), unchanged in v12.0.0.",
           "evidenceIds": [
+            "tel-2611-gate-d26825d",
             "tel-2611-settings"
           ]
         },
         "telemetry_controls": {
           "support": "supported",
-          "answer": "GHOSTEX_TELEMETRY_DISABLED=1, DO_NOT_TRACK=1, the --no-analytics flag or analyticsEnabled=false in the settings file. Correction: the v12.0.0 guide and the 11.6.0 changelog say Settings has no analytics switch.",
+          "answer": "At d26825d (11.1.0): GHOSTEX_TELEMETRY_DISABLED=1, DO_NOT_TRACK=1 or analyticsEnabled=false in the settings file. The --no-analytics flag arrived only in 11.6.0. Correction: the v12.0.0 guide and the 11.6.0 changelog say Settings has no analytics switch.",
           "evidenceIds": [
+            "tel-2611-gate-d26825d",
             "tel-2611-settings"
           ]
         },
         "telemetry_off_switch": {
           "support": "supported",
-          "answer": "Config only: start Ghostex or gxserver with GHOSTEX_TELEMETRY_DISABLED=1, DO_NOT_TRACK=1 or --no-analytics (or set analyticsEnabled false in the settings file). The v12.0.0 settings guide says 'Settings has no switch for it'.",
+          "answer": "Config only: at d26825d (11.1.0) start Ghostex or gxserver with GHOSTEX_TELEMETRY_DISABLED=1 or DO_NOT_TRACK=1, or set analyticsEnabled false in the settings file; release 11.6.0 added a --no-analytics flag. The v12.0.0 settings guide says 'Settings has no switch for it'.",
           "evidenceIds": [
+            "tel-2611-gate-d26825d",
             "tel-2611-settings"
           ]
         },
@@ -4043,11 +4046,12 @@
       "unknownReason": "Unanswered atomic questions remain open after the cited source pass. No live coding-agent, cross-device, collaboration or failure fixture was run unless explicitly recorded as observed.",
       "evidenceIds": [
         "settings",
-        "tel-2611-settings"
+        "tel-2611-settings",
+        "tel-2611-gate-d26825d"
       ],
       "checkedAt": "2026-11-08",
       "nextReviewAt": "2026-11-22",
-      "researcher": "telemetry-researcher-b",
+      "researcher": "telemetry-researcher-f",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -4700,6 +4704,19 @@
       "visibility": "public",
       "commit": "264905fe319cec797cebe778799c26fe1f70de28",
       "path": "server/src/ghostex_cli/guide/settings.md"
+    },
+    {
+      "id": "tel-2611-gate-d26825d",
+      "kind": "source-inspected",
+      "url": "https://github.com/maddada/Ghostex/blob/d26825da04e160f89b3923c740c313be3933ca64/server/src/telemetry/gate.rs#L75-L80",
+      "title": "Ghostex telemetry gate at d26825d (11.1.0)",
+      "locator": "env checks (lines 75-80); analyticsEnabled settings-file read (lines 120-159); packages/settings-catalog/src/data/defaults.rs lines 236-240",
+      "sourceDate": "2026-11-08",
+      "retrievedAt": "2026-11-24",
+      "finding": "At the scoped d26825d (11.1.0) usage analytics are on by default (defaults.rs: analyticsEnabled true, 'on by default and opt-out'); the gate turns them off when GHOSTEX_TELEMETRY_DISABLED or DO_NOT_TRACK is truthy or analyticsEnabled is false in the shared settings file. No --no-analytics flag exists at this commit.",
+      "visibility": "public",
+      "commit": "d26825da04e160f89b3923c740c313be3933ca64",
+      "path": "server/src/telemetry/gate.rs"
     }
   ],
   "changes": [
@@ -5130,6 +5147,41 @@
         }
       },
       "evidenceIds": [
+        "tel-2611-settings"
+      ]
+    },
+    {
+      "date": "2026-11-24",
+      "author": "telemetry-researcher-f",
+      "type": "research-correction",
+      "summary": "Drop --no-analytics from the scoped off switch: it arrived in 11.6.0, after the scoped d26825d (11.1.0); cite the analytics gate at d26825d.",
+      "claimIds": [
+        "ghostex:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Settings document an analytics toggle and its default. Telemetry (atomic revision 2): anonymous analytics on by default; off only with GHOSTEX_TELEMETRY_DISABLED, DO_NOT_TRACK, --no-analytics or the settings-file key. This corrects the earlier claim of a Settings switch.",
+        "checkedAt": "2026-11-08",
+        "nextReviewAt": "2026-11-22",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_controls": "supported",
+          "telemetry_off_switch": "supported"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Settings document an analytics toggle and its default. Telemetry (atomic revision 2): anonymous analytics on by default; at the scoped d26825d (11.1.0) off only with GHOSTEX_TELEMETRY_DISABLED, DO_NOT_TRACK or the settings-file key (11.6.0 later added --no-analytics). This corrects the earlier claim of a Settings switch.",
+        "checkedAt": "2026-11-08",
+        "nextReviewAt": "2026-11-22",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_controls": "supported",
+          "telemetry_off_switch": "supported"
+        }
+      },
+      "evidenceIds": [
+        "tel-2611-gate-d26825d",
         "tel-2611-settings"
       ]
     }
