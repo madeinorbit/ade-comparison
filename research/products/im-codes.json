@@ -5105,9 +5105,9 @@
         },
         "telemetry_defaults": {
           "support": "supported",
-          "answer": "No telemetry: bounded search of the pinned source (799fa96) found no analytics, telemetry or crash-reporting client. Matches are audio \"amplitude\" fields and a DO_NOT_TRACK=1 value the daemon passes to child npm processes (src/daemon/agent-skills.ts); consistent with the privacy page stating no third-party analytics.",
+          "answer": "No ADE telemetry: a bounded search of the pinned source (799fa96) found no analytics or crash-reporting client sending data to the vendor. The telemetry matches are not vendor telemetry: shared/memory-telemetry.ts and shared/timeline-delivery-telemetry.ts only feed in-process, non-persisted counters inside the user's own daemon and server; X-Platform/X-App-Version headers go into the auth audit_log of the server the user signs in to (self-hosted or the hosted account service) as login audit records; and --disable-telemetry is passed to the third-party Antigravity CLI to switch its telemetry off. Other matches are audio amplitude fields and DO_NOT_TRACK=1 for child npm processes. Consistent with the privacy page stating no third-party analytics.",
           "evidenceIds": [
-            "tel-2611-im-codes-src"
+            "tel-2611-im-codes-bounded"
           ]
         },
         "telemetry_controls": {
@@ -5122,7 +5122,7 @@
           "support": "not-applicable",
           "answer": "Nothing to switch off: no ADE telemetry.",
           "evidenceIds": [
-            "tel-2611-im-codes-src"
+            "tel-2611-im-codes-bounded"
           ]
         },
         "consent_prompt": {
@@ -5148,11 +5148,12 @@
         "privacy",
         "readme",
         "claude",
-        "tel-2611-im-codes-src"
+        "tel-2611-im-codes-src",
+        "tel-2611-im-codes-bounded"
       ],
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
-      "researcher": "telemetry-researcher-c",
+      "researcher": "telemetry-researcher-f",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -6092,6 +6093,19 @@
       "visibility": "public",
       "commit": "799fa96ccc7168e101fa3af8378c30a5de1b1f14",
       "path": "."
+    },
+    {
+      "id": "tel-2611-im-codes-bounded",
+      "kind": "source-inspected",
+      "url": "https://github.com/im4codes/imcodes/tree/799fa96ccc7168e101fa3af8378c30a5de1b1f14",
+      "title": "IM.codes source at 799fa96: bounded telemetry inspection",
+      "locator": "shared/memory-telemetry.ts; shared/timeline-delivery-telemetry.ts; shared/metrics.ts lines 1-15; server/src/routes/auth.ts lines 96-115 (getAuthRequestMetadata, logAuthAudit); shared/agy-agent.ts line 70 and src/agent/agy-incognito-isolation.ts line 824; search terms posthog, segment, amplitude, mixpanel, sentry, aptabase, telemetry, DO_NOT_TRACK, google-analytics, gtag, firebase/analytics, opentelemetry, X-Platform, X-App-Version",
+      "sourceDate": "2026-11-16",
+      "retrievedAt": "2026-11-24",
+      "finding": "No ADE analytics or crash-reporting client sends data to the vendor. shared/memory-telemetry.ts and shared/timeline-delivery-telemetry.ts define label sets and counter names fed to shared/metrics.ts, an in-process, non-persisted Map in the user's own daemon and server. The X-Platform, X-App-Version and X-Bundle-Version request headers are written by server/src/routes/auth.ts into the audit_log table of whichever server the user signs in to (their self-hosted server or the hosted app.im.codes account service), as auth audit records rather than an analytics feed. shared/agy-agent.ts defines --disable-telemetry, which the daemon passes to the third-party Google Antigravity (agy) CLI to turn that tool's telemetry off. Other matches are audio amplitude fields and a DO_NOT_TRACK=1 value passed to child npm processes.",
+      "visibility": "public",
+      "commit": "799fa96ccc7168e101fa3af8378c30a5de1b1f14",
+      "path": "."
     }
   ],
   "changes": [
@@ -6150,6 +6164,38 @@
       },
       "evidenceIds": [
         "tel-2611-im-codes-src"
+      ]
+    },
+    {
+      "date": "2026-11-24",
+      "author": "telemetry-researcher-f",
+      "type": "research-correction",
+      "summary": "Expand the bounded-inspection finding to name the internal telemetry counters, the X-Platform/X-App-Version auth audit headers and the AGY --disable-telemetry flag, and say why none is vendor telemetry.",
+      "claimIds": [
+        "im-codes:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Self-hosted: code, chat, terminal output and memory stay on your server/daemon (raw and processed memory always local; processed summaries can sync to a user cloud pool); hosted app.im.codes stores credentials, session config, relayed chat/terminal output and push tokens; no sale or third-party sharing; no third-party analytics; bot secrets AES-256-GCM; no telemetry opt-out control found because no analytics are collected; training use and subprocessors not stated.",
+        "checkedAt": "2026-11-16",
+        "nextReviewAt": "2027-03-16",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "not-applicable"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Self-hosted: code, chat, terminal output and memory stay on your server/daemon (raw and processed memory always local; processed summaries can sync to a user cloud pool); hosted app.im.codes stores credentials, session config, relayed chat/terminal output and push tokens; no sale or third-party sharing; no third-party analytics; bot secrets AES-256-GCM; no telemetry opt-out control found because no analytics are collected; training use and subprocessors not stated.",
+        "checkedAt": "2026-11-16",
+        "nextReviewAt": "2027-03-16",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "not-applicable"
+        }
+      },
+      "evidenceIds": [
+        "tel-2611-im-codes-bounded"
       ]
     }
   ],
