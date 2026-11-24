@@ -5003,7 +5003,7 @@
           "cli",
           "integrations"
         ],
-        "version": "v0.2.78 (tag 2026-11-12, release 2026-11-13, commit bbcc964a8af06a55ea9b75939dc69890762304b9); source pass 2026-11-16",
+        "version": "v0.2.85 (tag 2026-11-24, commit da90887284cb8e301ab90c993485bfb94e2886ff); source pass 2026-11-24",
         "plan": null,
         "os": [],
         "executionModes": [],
@@ -5015,7 +5015,7 @@
           "support": "partial",
           "answer": "Local worktrees in self-hosted; cloud unknown.",
           "evidenceIds": [
-            "selfhost",
+            "v0285-selfhost",
             "faq"
           ]
         },
@@ -5030,22 +5030,22 @@
           "support": "partial",
           "answer": "Env file and OAuth tokens; scrubbing in error reports.",
           "evidenceIds": [
-            "errrep",
-            "selfhost"
+            "v0285-errrep",
+            "v0285-selfhost"
           ]
         },
         "logs": {
           "support": "partial",
           "answer": "Local logs; optional Sentry with scrubbers.",
           "evidenceIds": [
-            "errrep"
+            "v0285-errrep"
           ]
         },
         "artifacts": {
           "support": "partial",
           "answer": "Linear uploads.",
           "evidenceIds": [
-            "mcptools"
+            "v0285-mcptools"
           ]
         },
         "retention": {
@@ -5079,35 +5079,37 @@
           "support": "partial",
           "answer": "Error reporting described in code comments.",
           "evidenceIds": [
-            "errrep"
+            "v0285-errrep"
           ]
         },
         "telemetry_defaults": {
           "support": "partial",
-          "answer": "On by default: for installs connected to Cyrus with cyrus auth (which writes CYRUS_TEAM_ID), Sentry error reporting runs against a DSN compiled into release builds; installs without CYRUS_TEAM_ID send nothing.",
+          "answer": "On by default for Pro-connected installs at v0.2.85 (da90887): cyrus auth writes CYRUS_TEAM_ID, which turns on Sentry error reporting against a DSN compiled into release builds. Free self-hosted installs set up without cyrus auth leave CYRUS_TEAM_ID unset and send nothing.",
           "evidenceIds": [
-            "tel-2611-sentry"
+            "v0285-errrep",
+            "v0285-auth",
+            "v0285-selfhost"
           ]
         },
         "telemetry_controls": {
           "support": "supported",
           "answer": "CYRUS_SENTRY_DISABLED=1.",
           "evidenceIds": [
-            "errrep"
+            "v0285-errrep"
           ]
         },
         "telemetry_off_switch": {
           "support": "supported",
-          "answer": "Config only: CYRUS_SENTRY_DISABLED=1 disables reporting; there is no settings toggle.",
+          "answer": "Config only: CYRUS_SENTRY_DISABLED=1 in the environment disables reporting at v0.2.85; there is no settings toggle.",
           "evidenceIds": [
-            "tel-2611-sentry"
+            "v0285-errrep"
           ]
         },
         "consent_prompt": {
           "support": "unsupported",
           "answer": "No consent prompt documented.",
           "evidenceIds": [
-            "errrep"
+            "v0285-errrep"
           ]
         },
         "provider_separation": {
@@ -5128,11 +5130,15 @@
         "soc2",
         "selfhost",
         "mcptools",
-        "tel-2611-sentry"
+        "tel-2611-sentry",
+        "v0285-errrep",
+        "v0285-selfhost",
+        "v0285-mcptools",
+        "v0285-auth"
       ],
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
-      "researcher": "telemetry-researcher-b",
+      "researcher": "telemetry-researcher-f",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -6128,6 +6134,58 @@
       "visibility": "public",
       "commit": "da90887284cb8e301ab90c993485bfb94e2886ff",
       "path": "apps/cli/src/services/createErrorReporter.ts"
+    },
+    {
+      "id": "v0285-errrep",
+      "kind": "source-inspected",
+      "url": "https://github.com/cyrusagents/cyrus/blob/da90887284cb8e301ab90c993485bfb94e2886ff/apps/cli/src/services/createErrorReporter.ts",
+      "title": "Cyrus createErrorReporter at v0.2.85",
+      "locator": "DEFAULT_SENTRY_DSN (lines 8-17); createErrorReporter gates (lines 44-60); beforeSend scrubSentryEvent (lines 88-92)",
+      "sourceDate": "2026-11-24",
+      "retrievedAt": "2026-11-24",
+      "finding": "At v0.2.85 a Sentry DSN is compiled in; reporting is a no-op when CYRUS_SENTRY_DISABLED is truthy or CYRUS_TEAM_ID is unset, and otherwise sends error Issues and logs through scrubbers (scrubSentryEvent, scrubSentryLog). No consent prompt is shown.",
+      "visibility": "public",
+      "commit": "da90887284cb8e301ab90c993485bfb94e2886ff",
+      "path": "apps/cli/src/services/createErrorReporter.ts"
+    },
+    {
+      "id": "v0285-auth",
+      "kind": "source-inspected",
+      "url": "https://github.com/cyrusagents/cyrus/blob/da90887284cb8e301ab90c993485bfb94e2886ff/apps/cli/src/commands/AuthCommand.ts#L84",
+      "title": "Cyrus AuthCommand at v0.2.85",
+      "locator": "usage text (lines 14-28); env file write (lines 75-84)",
+      "sourceDate": "2026-11-24",
+      "retrievedAt": "2026-11-24",
+      "finding": "cyrus auth <auth-key> authenticates a Cyrus Pro plan device and writes CYRUS_TEAM_ID (with CYRUS_API_KEY, CYRUS_DEVICE_ID and CYRUS_APP_URL) into the env file, which switches the compiled-in Sentry reporting on.",
+      "visibility": "public",
+      "commit": "da90887284cb8e301ab90c993485bfb94e2886ff",
+      "path": "apps/cli/src/commands/AuthCommand.ts"
+    },
+    {
+      "id": "v0285-selfhost",
+      "kind": "documented",
+      "url": "https://github.com/cyrusagents/cyrus/blob/da90887284cb8e301ab90c993485bfb94e2886ff/docs/SELF_HOSTING.md",
+      "title": "Cyrus End-to-End Self-Hosting Guide at v0.2.85",
+      "locator": "intro (line 23); public URL options (lines 76-77); credentials (lines 93-101, 191); install (line 172)",
+      "sourceDate": "2026-11-24",
+      "retrievedAt": "2026-11-24",
+      "finding": "The free self-hosted setup uses the user's own Linear OAuth app, a public URL (Cloudflare Tunnel or ngrok), ANTHROPIC_API_KEY or CLAUDE_CODE_OAUTH_TOKEN in an env file and npm install -g cyrus-ai; it does not use cyrus auth, so CYRUS_TEAM_ID stays unset.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "v0285-mcptools",
+      "kind": "source-inspected",
+      "url": "https://github.com/cyrusagents/cyrus/blob/da90887284cb8e301ab90c993485bfb94e2886ff/packages/mcp-tools/src/tools/cyrus-tools/index.ts",
+      "title": "Cyrus MCP tools at v0.2.85",
+      "locator": "registerTool calls: linear_upload_file, linear_agent_give_feedback, linear_set_issue_relation, linear_get_child_issues, linear_get_agent_sessions",
+      "sourceDate": "2026-11-24",
+      "retrievedAt": "2026-11-24",
+      "finding": "Cyrus injects MCP tools that upload files to Linear, give feedback to agent sessions, set issue relations and read child issues and agent sessions.",
+      "visibility": "public",
+      "commit": "da90887284cb8e301ab90c993485bfb94e2886ff",
+      "path": "packages/mcp-tools/src/tools/cyrus-tools/index.ts"
     }
   ],
   "changes": [
@@ -6220,6 +6278,56 @@
       },
       "evidenceIds": [
         "tel-2611-sentry"
+      ]
+    },
+    {
+      "date": "2026-11-24",
+      "author": "telemetry-researcher-f",
+      "type": "research-correction",
+      "summary": "Rescope OWN-03 to v0.2.85 (da90887), where cyrus auth writes CYRUS_TEAM_ID and turns Sentry on; v0.2.78 never wrote it. Re-cite the code-based answers at v0.2.85.",
+      "claimIds": [
+        "cyrus:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Code and prompts stay on your host and go to your chosen model providers; Linear receives activities; Sentry error reporting is active only when CYRUS_TEAM_ID is set (hosted-connected installs) and can be disabled with CYRUS_SENTRY_DISABLED; hosted plans process data in Cyrus cloud under a trust center and SOC 2 Type II; retention, training and subprocessors are not documented here. Telemetry (atomic revision 2): Sentry error reporting on by default for installs connected with cyrus auth (CYRUS_TEAM_ID); off only with CYRUS_SENTRY_DISABLED=1.",
+        "checkedAt": "2026-11-16",
+        "nextReviewAt": "2027-03-16",
+        "subanswers": {
+          "credentials": "partial",
+          "logs": "partial",
+          "code_data": "partial",
+          "artifacts": "partial",
+          "consent_prompt": "unsupported",
+          "telemetry_disclosure": "partial",
+          "telemetry_controls": "supported",
+          "telemetry_defaults": "partial",
+          "telemetry_off_switch": "supported"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Code and prompts stay on your host and go to your chosen model providers; Linear receives activities; Sentry error reporting is active only when CYRUS_TEAM_ID is set (hosted-connected installs) and can be disabled with CYRUS_SENTRY_DISABLED; hosted plans process data in Cyrus cloud under a trust center and SOC 2 Type II; retention, training and subprocessors are not documented here. Telemetry (atomic revision 2): Sentry error reporting on by default for installs connected with cyrus auth (CYRUS_TEAM_ID); off only with CYRUS_SENTRY_DISABLED=1.",
+        "checkedAt": "2026-11-16",
+        "nextReviewAt": "2027-03-16",
+        "subanswers": {
+          "credentials": "partial",
+          "logs": "partial",
+          "code_data": "partial",
+          "artifacts": "partial",
+          "consent_prompt": "unsupported",
+          "telemetry_disclosure": "partial",
+          "telemetry_controls": "supported",
+          "telemetry_defaults": "partial",
+          "telemetry_off_switch": "supported"
+        }
+      },
+      "evidenceIds": [
+        "v0285-errrep",
+        "v0285-selfhost",
+        "faq",
+        "v0285-mcptools",
+        "v0285-auth"
       ]
     }
   ],
