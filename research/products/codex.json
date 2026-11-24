@@ -4513,7 +4513,7 @@
   {
    "id": "codex:OWN-03",
    "criterionId": "OWN-03",
-   "answer": "The Business plan states no training on business data by default; consumer routes are not covered by this statement. Built-in Statsig analytics and independently configured OTel exporters have distinct controls. The default Statsig metrics exporter follows analytics.enabled; the reference says unset analytics uses the client default. OTel log export is separately opt-in. Set analytics.enabled=false for built-in Statsig metrics, and set OTel log, metrics and trace exporters to none to disable explicitly configured telemetry exports. OTel prompt and response logging default to off and need opt-in. Credentials can be stored in a file, the OS keyring or keyring with fallback, and are masked in supported remote shells. ChatGPT workspace routing reports us, us_cr or NO_CONSTRAINT.",
+   "answer": "The Business plan states no training on business data by default; consumer routes are not covered by this statement. Built-in Statsig analytics and independently configured OTel exporters have distinct controls. The default Statsig metrics exporter follows analytics.enabled; the reference says unset analytics uses the client default. OTel log export is separately opt-in. Set analytics.enabled=false for built-in Statsig metrics, and set OTel log, metrics and trace exporters to none to disable explicitly configured telemetry exports. OTel prompt and response logging default to off and need opt-in. Credentials can be stored in a file, the OS keyring or keyring with fallback, and are masked in supported remote shells. ChatGPT workspace routing reports us, us_cr or NO_CONSTRAINT. Telemetry (atomic revision 2): in the CLI, OpenAI analytics are on by default and off only with analytics.enabled = false in config.toml; app and IDE surfaces were not inspected.",
    "support": "partial",
    "availability": "unknown",
    "delivery": "native",
@@ -4600,9 +4600,9 @@
     },
     "telemetry_defaults": {
      "support": "partial",
-     "answer": "The default Statsig metrics exporter follows analytics.enabled; the reference says unset analytics uses the client default. OTel log export is separately opt-in.",
+     "answer": "On by default: in the Codex CLI and TUI, built-in OpenAI analytics default to enabled when analytics.enabled is unset (default_analytics_enabled true). Scoped to the open-source CLI; the desktop app and IDE extension were not inspected.",
      "evidenceIds": [
-      "gap07-config"
+      "tel-2611-config"
      ]
     },
     "telemetry_controls": {
@@ -4613,9 +4613,11 @@
      ]
     },
     "telemetry_off_switch": {
-     "support": "unknown",
-     "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-     "evidenceIds": []
+     "support": "partial",
+     "answer": "Config only: set analytics.enabled = false in config.toml (and otel exporters to none for self-configured OTel); no TUI toggle was found. Scoped to the CLI.",
+     "evidenceIds": [
+      "tel-2611-config"
+     ]
     },
     "consent_prompt": {
      "support": "unknown",
@@ -4638,11 +4640,12 @@
     "gap07-config",
     "b10c-cred-store",
     "b10c-rel-0164",
-    "b10c-as-accounts"
+    "b10c-as-accounts",
+    "tel-2611-config"
    ],
    "checkedAt": "2026-11-07",
    "nextReviewAt": "2026-11-21",
-   "researcher": "researcher-ade132",
+   "researcher": "telemetry-researcher-b",
    "publication": "public-candidate",
    "review": null,
    "contradictions": []
@@ -6418,6 +6421,19 @@
    "title": "Codex pricing: usage limits",
    "locator": "usage-limit estimates introduction and footnotes below the table",
    "finding": "The five-hour estimates cover Plus and Standard Business; Pro plans currently have no five-hour limit; weekly limits may also apply; Enterprise/Edu users with flexible pricing have no fixed rate limits and usage scales with credits, while Enterprise and Edu plans without flexible pricing have the same per-seat limits as Plus for most features."
+  },
+  {
+   "id": "tel-2611-config",
+   "kind": "source-inspected",
+   "url": "https://github.com/openai/codex/blob/3d86e43b075adeba2193ec5c22ac92f55afd82e6/codex-rs/config/src/config_toml.rs",
+   "title": "Codex rust-v0.172.0 analytics config",
+   "locator": "config_toml.rs lines 556-559; codex-rs/core/src/otel_init.rs line 79; codex-rs/tui/src/startup_orchestration.rs line 703",
+   "sourceDate": null,
+   "retrievedAt": "2026-11-24",
+   "finding": "analytics.enabled=false 'disables OpenAI analytics across Codex product surfaces on this machine'; unset falls back to the client default, which the TUI passes as true.",
+   "visibility": "public",
+   "commit": "3d86e43b075adeba2193ec5c22ac92f55afd82e6",
+   "path": "codex-rs/config/src/config_toml.rs"
   }
  ],
  "changes": [
@@ -9815,6 +9831,38 @@
     "reviewed": false
    },
    "evidenceIds": []
+  },
+  {
+   "date": "2026-11-24",
+   "author": "telemetry-researcher-b",
+   "type": "research-correction",
+   "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+   "claimIds": [
+    "codex:OWN-03"
+   ],
+   "before": {
+    "support": "partial",
+    "answer": "The Business plan states no training on business data by default; consumer routes are not covered by this statement. Built-in Statsig analytics and independently configured OTel exporters have distinct controls. The default Statsig metrics exporter follows analytics.enabled; the reference says unset analytics uses the client default. OTel log export is separately opt-in. Set analytics.enabled=false for built-in Statsig metrics, and set OTel log, metrics and trace exporters to none to disable explicitly configured telemetry exports. OTel prompt and response logging default to off and need opt-in. Credentials can be stored in a file, the OS keyring or keyring with fallback, and are masked in supported remote shells. ChatGPT workspace routing reports us, us_cr or NO_CONSTRAINT.",
+    "checkedAt": "2026-11-07",
+    "nextReviewAt": "2026-11-21",
+    "subanswers": {
+     "telemetry_defaults": "partial",
+     "telemetry_off_switch": "unknown"
+    }
+   },
+   "after": {
+    "support": "partial",
+    "answer": "The Business plan states no training on business data by default; consumer routes are not covered by this statement. Built-in Statsig analytics and independently configured OTel exporters have distinct controls. The default Statsig metrics exporter follows analytics.enabled; the reference says unset analytics uses the client default. OTel log export is separately opt-in. Set analytics.enabled=false for built-in Statsig metrics, and set OTel log, metrics and trace exporters to none to disable explicitly configured telemetry exports. OTel prompt and response logging default to off and need opt-in. Credentials can be stored in a file, the OS keyring or keyring with fallback, and are masked in supported remote shells. ChatGPT workspace routing reports us, us_cr or NO_CONSTRAINT. Telemetry (atomic revision 2): in the CLI, OpenAI analytics are on by default and off only with analytics.enabled = false in config.toml; app and IDE surfaces were not inspected.",
+    "checkedAt": "2026-11-07",
+    "nextReviewAt": "2026-11-21",
+    "subanswers": {
+     "telemetry_defaults": "partial",
+     "telemetry_off_switch": "partial"
+    }
+   },
+   "evidenceIds": [
+    "tel-2611-config"
+   ]
   }
  ],
  "context": {
