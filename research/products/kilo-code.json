@@ -5158,9 +5158,9 @@
         },
         "telemetry_defaults": {
           "support": "supported",
-          "answer": "On by default.",
+          "answer": "On by default: Kilo telemetry is enabled unless experimental.openTelemetry is false.",
           "evidenceIds": [
-            "settingsdoc"
+            "tel-2611-kilo-code-toggle"
           ]
         },
         "telemetry_controls": {
@@ -5171,9 +5171,11 @@
           ]
         },
         "telemetry_off_switch": {
-          "support": "unknown",
-          "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "In the app: the VS Code extension Settings > About Kilo Code telemetry toggle (and VS Code telemetry level); CLI users set experimental.openTelemetry=false in config.",
+          "evidenceIds": [
+            "tel-2611-kilo-code-toggle"
+          ]
         },
         "consent_prompt": {
           "support": "partial",
@@ -5202,11 +5204,12 @@
         "cpdoc",
         "settingsdoc",
         "idx",
-        "freedoc"
+        "freedoc",
+        "tel-2611-kilo-code-toggle"
       ],
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
-      "researcher": "researcher-kilo-code",
+      "researcher": "telemetry-researcher-c",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -6536,6 +6539,19 @@
       "visibility": "public",
       "commit": null,
       "path": null
+    },
+    {
+      "id": "tel-2611-kilo-code-toggle",
+      "kind": "source-inspected",
+      "url": "https://github.com/Kilo-Org/kilocode/blob/2aa002cc0ab69d89f591f8174631152efa720877/packages/kilo-vscode/webview-ui/src/components/settings/AboutKiloCodeTab.tsx",
+      "title": "Kilo Code telemetry client and settings toggle",
+      "locator": "kilo-telemetry/src/client.ts enabled=true; opencode kilocode/cli/setup.ts experimental.openTelemetry !== false; AboutKiloCodeTab.tsx telemetry toggle; telemetry-proxy.ts vscode.env.isTelemetryEnabled",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-24",
+      "finding": "PostHog telemetry is enabled unless experimental.openTelemetry is false; the VS Code extension Settings > About Kilo Code tab has a telemetry toggle that persists that key through the telemetry API, and the extension also honours VS Code telemetry settings.",
+      "visibility": "public",
+      "commit": "2aa002cc0ab69d89f591f8174631152efa720877",
+      "path": "packages/kilo-vscode/webview-ui/src/components/settings/AboutKiloCodeTab.tsx"
     }
   ],
   "changes": [
@@ -6602,6 +6618,38 @@
         "reviewed": false
       },
       "evidenceIds": []
+    },
+    {
+      "date": "2026-11-24",
+      "author": "telemetry-researcher-c",
+      "type": "research-correction",
+      "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+      "claimIds": [
+        "kilo-code:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Code and prompts go to the chosen model provider; the CLI privacy policy says Kilo does not store them for local use, while Gateway and Cloud Agent traffic passes through Kilo; Auto Free may route to providers that log prompts; telemetry (OpenTelemetry) is on by default with opt-out through experimental.openTelemetry=false; memory auto-save sends redacted turn context to the provider.",
+        "checkedAt": "2026-11-16",
+        "nextReviewAt": "2027-03-16",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Code and prompts go to the chosen model provider; the CLI privacy policy says Kilo does not store them for local use, while Gateway and Cloud Agent traffic passes through Kilo; Auto Free may route to providers that log prompts; telemetry (OpenTelemetry) is on by default with opt-out through experimental.openTelemetry=false; memory auto-save sends redacted turn context to the provider.",
+        "checkedAt": "2026-11-16",
+        "nextReviewAt": "2027-03-16",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "supported"
+        }
+      },
+      "evidenceIds": [
+        "tel-2611-kilo-code-toggle"
+      ]
     }
   ],
   "context": {
