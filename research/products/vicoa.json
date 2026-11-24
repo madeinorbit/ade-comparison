@@ -4949,21 +4949,24 @@
         },
         "telemetry_defaults": {
           "support": "supported",
-          "answer": "Web and desktop renderer init PostHog when a token is baked in; Sentry in backend.",
+          "answer": "On by default: hosted web and desktop release builds initialize PostHog with the baked-in token; the backend reports errors to Sentry.",
           "evidenceIds": [
-            "posthog",
-            "telemetry"
+            "tel-2611-posthog"
           ]
         },
         "telemetry_controls": {
-          "support": "unknown",
-          "answer": "No documented opt-out found in the client settings.",
-          "evidenceIds": []
+          "support": "unsupported",
+          "answer": "No user control found in v0.2.3 settings or source; self-hosters can omit the PostHog token at build time.",
+          "evidenceIds": [
+            "tel-2611-posthog"
+          ]
         },
         "telemetry_off_switch": {
-          "support": "unknown",
-          "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "No off switch: no settings control or opt-out call exists in v0.2.3 (bounded search of settings pages for analytics, telemetry, opt_out and optOut).",
+          "evidenceIds": [
+            "tel-2611-posthog"
+          ]
         },
         "consent_prompt": {
           "support": "unknown",
@@ -4990,11 +4993,12 @@
         "selfhost",
         "posthog",
         "telemetry",
-        "readme"
+        "readme",
+        "tel-2611-posthog"
       ],
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
-      "researcher": "researcher-batch09",
+      "researcher": "telemetry-researcher-e",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -5938,6 +5942,19 @@
       "visibility": "public",
       "commit": "c5d8d97a1f54a30725396b5ffab9ccdf482a5d3b",
       "path": "skills/vicoa-cli/SKILL.md"
+    },
+    {
+      "id": "tel-2611-posthog",
+      "kind": "source-inspected",
+      "url": "https://github.com/vicoa-ai/vicoa/blob/029355d027c7d6d7a536446a3a50be552b6c3389/apps/web/instrumentation-client.ts#L4-L16",
+      "title": "vicoa-ai/vicoa v0.2.3: apps/web/instrumentation-client.ts",
+      "locator": "posthog.init guarded on token",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-24",
+      "finding": "PostHog initializes whenever a project token is baked in, and .github/workflows/desktop-release.yml passes NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN to release builds; the same bundle serves web and desktop. A bounded search of apps/web settings pages and source for opt_out, optOut and analytics/telemetry settings found no user control.",
+      "visibility": "public",
+      "commit": "029355d027c7d6d7a536446a3a50be552b6c3389",
+      "path": "apps/web/instrumentation-client.ts"
     }
   ],
   "changes": [
@@ -6207,6 +6224,40 @@
         "reviewed": false
       },
       "evidenceIds": []
+    },
+    {
+      "date": "2026-11-24",
+      "author": "telemetry-researcher-e",
+      "type": "research-correction",
+      "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+      "claimIds": [
+        "vicoa:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Hosted: transcripts and messages are stored on Vicoa servers (code stays on your machine, sessions and messages sync), analytics and Sentry errors are collected; deletion by email; self-host keeps data in your Postgres.",
+        "checkedAt": "2026-11-16",
+        "nextReviewAt": "2027-03-16",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "unknown",
+          "telemetry_controls": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Hosted: transcripts and messages are stored on Vicoa servers (code stays on your machine, sessions and messages sync), analytics and Sentry errors are collected; deletion by email; self-host keeps data in your Postgres.",
+        "checkedAt": "2026-11-16",
+        "nextReviewAt": "2027-03-16",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "supported",
+          "telemetry_controls": "unsupported"
+        }
+      },
+      "evidenceIds": [
+        "tel-2611-posthog"
+      ]
     }
   ],
   "context": {
