@@ -5394,10 +5394,9 @@
         },
         "telemetry_defaults": {
           "support": "supported",
-          "answer": "No telemetry code; the updater checks release channels.",
+          "answer": "No telemetry: a bounded search of the v0.5.16 source found no analytics or crash-reporting client and no outbound telemetry. Telemetry matches are probe scripts that disable harness telemetry; the desktop updater checks release channels.",
           "evidenceIds": [
-            "srch-tele",
-            "updates"
+            "tel-2611-source-search"
           ]
         },
         "telemetry_controls": {
@@ -5408,9 +5407,11 @@
           ]
         },
         "telemetry_off_switch": {
-          "support": "unknown",
-          "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-          "evidenceIds": []
+          "support": "not-applicable",
+          "answer": "Nothing to switch off: no ADE telemetry in the inspected source.",
+          "evidenceIds": [
+            "tel-2611-source-search"
+          ]
         },
         "consent_prompt": {
           "support": "supported",
@@ -5446,11 +5447,12 @@
         "security",
         "w-agent-setup",
         "w-remote",
-        "w-channels"
+        "w-channels",
+        "tel-2611-source-search"
       ],
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
-      "researcher": "researcher-batch13",
+      "researcher": "telemetry-researcher-d",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -6815,6 +6817,19 @@
       "visibility": "public",
       "commit": "120af14d89b14b7de9083b36a6cdc1cdc20f289a",
       "path": "crates"
+    },
+    {
+      "id": "tel-2611-source-search",
+      "kind": "source-inspected",
+      "url": "https://github.com/murray17/rovai-ai/tree/7e7d2e7da356efbbb9e28779aeb6a87ccc51b3c4",
+      "title": "Rovai v0.5.16 repository",
+      "locator": "Search of crates/, apps/desktop/ and the web UI and all package manifests (package.json and workspace manifests) for posthog, sentry, segment, amplitude, mixpanel, plausible, umami, telemetry, analytics, captureException, DO_NOT_TRACK",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-24",
+      "finding": "At v0.5.16 no analytics, crash-reporting or usage-telemetry SDK is declared and no outbound telemetry call exists. Telemetry matches are probe scripts that disable harness telemetry; the desktop updater checks release channels.",
+      "visibility": "public",
+      "commit": "7e7d2e7da356efbbb9e28779aeb6a87ccc51b3c4",
+      "path": "package.json"
     }
   ],
   "changes": [
@@ -6927,6 +6942,38 @@
         "reviewed": false
       },
       "evidenceIds": []
+    },
+    {
+      "date": "2026-11-24",
+      "author": "telemetry-researcher-d",
+      "type": "research-correction",
+      "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+      "claimIds": [
+        "rovai-ai:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Projects, credentials and Agent configuration stay on the host; model requests follow each Agent's provider (\"a local workspace is not a guarantee that all inputs stay on the computer\"); no telemetry or analytics code was found; Desktop checks GitHub for updates; usage metrics exclude prompts, completions and credentials; Memory has an open opt-out request.",
+        "checkedAt": "2026-11-16",
+        "nextReviewAt": "2027-03-16",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Projects, credentials and Agent configuration stay on the host; model requests follow each Agent's provider (\"a local workspace is not a guarantee that all inputs stay on the computer\"); no telemetry or analytics code was found; Desktop checks GitHub for updates; usage metrics exclude prompts, completions and credentials; Memory has an open opt-out request.",
+        "checkedAt": "2026-11-16",
+        "nextReviewAt": "2027-03-16",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "not-applicable"
+        }
+      },
+      "evidenceIds": [
+        "tel-2611-source-search"
+      ]
     }
   ],
   "context": {
