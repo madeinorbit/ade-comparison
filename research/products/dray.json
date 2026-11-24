@@ -4960,7 +4960,7 @@
     {
       "id": "dray:OWN-03",
       "criterionId": "OWN-03",
-      "answer": "Prompts, code and transcripts stay on your machine or servers and go to the providers your agents use; anonymous PostHog analytics (no prompts, code, paths or error text) are on by default with no Settings switch and are disabled only with DRAY_NO_ANALYTICS; optional OpenTunnel, update and model-download connections are listed.",
+      "answer": "Prompts, code and transcripts stay on your machine or servers and go to the providers your agents use; anonymous PostHog analytics (no prompts, code, paths or error text) are on by default with no Settings switch and are disabled only with DRAY_NO_ANALYTICS; optional OpenTunnel, update and model-download connections are listed. Telemetry (atomic revision 2): usage events on by default; the only off switch is the DRAY_NO_ANALYTICS environment variable (the Settings switch was removed in 0.29.8).",
       "support": "partial",
       "availability": "generally-available",
       "delivery": "native",
@@ -5057,9 +5057,9 @@
         },
         "telemetry_defaults": {
           "support": "supported",
-          "answer": "Analytics on by default.",
+          "answer": "On by default: Dray sends anonymous usage events and may load PostHog surveys.",
           "evidenceIds": [
-            "docs-privacy"
+            "tel-2611-privacy"
           ]
         },
         "telemetry_controls": {
@@ -5070,9 +5070,11 @@
           ]
         },
         "telemetry_off_switch": {
-          "support": "unknown",
-          "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "Config only: set DRAY_NO_ANALYTICS before starting Dray; since 0.29.8 Settings no longer has an analytics switch and a saved choice is ignored.",
+          "evidenceIds": [
+            "tel-2611-privacy"
+          ]
         },
         "consent_prompt": {
           "support": "partial",
@@ -5095,11 +5097,12 @@
       "unknownReason": "Provider retention, training and residency are third-party facts outside the repository.",
       "evidenceIds": [
         "docs-privacy",
-        "docs-data"
+        "docs-data",
+        "tel-2611-privacy"
       ],
       "checkedAt": "2026-11-17",
       "nextReviewAt": "2027-03-17",
-      "researcher": "researcher-batch19",
+      "researcher": "telemetry-researcher-b",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -6238,6 +6241,19 @@
       "visibility": "public",
       "commit": "8798e886c083713ccacb6ddbd7c5b9daa5e4ef49",
       "path": "crates/dray-proto/src/lib.rs"
+    },
+    {
+      "id": "tel-2611-privacy",
+      "kind": "source-inspected",
+      "url": "https://github.com/monorepo-labs/dray/blob/01262ce8c8b32bd693eee0d0000ce87d199b6ce1/apps/docs/content/reference/privacy.mdx",
+      "title": "Dray privacy reference and desktop changelog",
+      "locator": "privacy.mdx lines 22-28; apps/desktop/CHANGELOG.md 0.29.8 (2026-10-26)",
+      "sourceDate": "2026-10-26",
+      "retrievedAt": "2026-11-24",
+      "finding": "Dray sends anonymous usage events; set DRAY_NO_ANALYTICS to send nothing. 'Older versions had a Share basic analytics switch in Settings. A choice saved there is no longer read.'",
+      "visibility": "public",
+      "commit": "01262ce8c8b32bd693eee0d0000ce87d199b6ce1",
+      "path": "apps/docs/content/reference/privacy.mdx"
     }
   ],
   "changes": [
@@ -6386,6 +6402,38 @@
         "reviewed": false
       },
       "evidenceIds": []
+    },
+    {
+      "date": "2026-11-24",
+      "author": "telemetry-researcher-b",
+      "type": "research-correction",
+      "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+      "claimIds": [
+        "dray:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Prompts, code and transcripts stay on your machine or servers and go to the providers your agents use; anonymous PostHog analytics (no prompts, code, paths or error text) are on by default with no Settings switch and are disabled only with DRAY_NO_ANALYTICS; optional OpenTunnel, update and model-download connections are listed.",
+        "checkedAt": "2026-11-17",
+        "nextReviewAt": "2027-03-17",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Prompts, code and transcripts stay on your machine or servers and go to the providers your agents use; anonymous PostHog analytics (no prompts, code, paths or error text) are on by default with no Settings switch and are disabled only with DRAY_NO_ANALYTICS; optional OpenTunnel, update and model-download connections are listed. Telemetry (atomic revision 2): usage events on by default; the only off switch is the DRAY_NO_ANALYTICS environment variable (the Settings switch was removed in 0.29.8).",
+        "checkedAt": "2026-11-17",
+        "nextReviewAt": "2027-03-17",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "supported"
+        }
+      },
+      "evidenceIds": [
+        "tel-2611-privacy"
+      ]
     }
   ],
   "context": {
