@@ -5035,9 +5035,9 @@
         },
         "telemetry_defaults": {
           "support": "supported",
-          "answer": "Backend health reports are off unless NUPHOS_TELEMETRY_KEY is set; Desktop and iOS send usage analytics only while connected to Nuphos Cloud.",
+          "answer": "On by default: the v0.136.0 desktop app sends PostHog usage analytics while connected to Nuphos Cloud and crash reports to its backend unless the user opts out; self-hosted backend health reports stay off unless NUPHOS_TELEMETRY_KEY is set.",
           "evidenceIds": [
-            "compose"
+            "tel-2611-desktop-diagnostics"
           ]
         },
         "telemetry_controls": {
@@ -5049,9 +5049,11 @@
           ]
         },
         "telemetry_off_switch": {
-          "support": "unknown",
-          "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "In the app: a Settings > Privacy switch turns off desktop usage analytics and crash uploads; backend health reports use nuphos-admin telemetry off or the admin API. iOS controls were not inspected in this pass.",
+          "evidenceIds": [
+            "tel-2611-desktop-diagnostics"
+          ]
         },
         "consent_prompt": {
           "support": "unknown",
@@ -5076,11 +5078,12 @@
         "telrep",
         "shared",
         "runtime",
-        "cli"
+        "cli",
+        "tel-2611-desktop-diagnostics"
       ],
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
-      "researcher": "researcher-batch11",
+      "researcher": "telemetry-researcher-d",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -6097,6 +6100,19 @@
       "visibility": "public",
       "commit": "7a8258452246895b2e0ebd078af3bfd6ada99467",
       "path": "deploy/helm/README.md"
+    },
+    {
+      "id": "tel-2611-desktop-diagnostics",
+      "kind": "source-inspected",
+      "url": "https://github.com/nuphos/nuphos/blob/5ef7419a08c911f360c19701a6f82d51354e9c69/apps/desktop/electron/crash-reporter.ts",
+      "title": "Nuphos v0.136.0 desktop crash-reporter.ts and analytics.ts",
+      "locator": "readSendDiagnostics()/sendsUsage() in apps/desktop/electron/crash-reporter.ts; initAnalytics() in apps/desktop/src/lib/analytics.ts; toggle in apps/desktop/src/views/settings/PrivacySection.tsx",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-24",
+      "finding": "At v0.136.0 the desktop diagnostics setting defaults to send=true when diagnostics.json is absent. With it on, Crashpad uploads crash reports to the configured backend, and usage analytics (posthog-js with a bundled production key, autocapture with masked text, no replay) are sent while the backend is Nuphos Cloud. setSendDiagnostics() is wired to a Settings > Privacy section and turns off crash uploads and both PostHog clients.",
+      "visibility": "public",
+      "commit": "5ef7419a08c911f360c19701a6f82d51354e9c69",
+      "path": "apps/desktop/electron/crash-reporter.ts"
     }
   ],
   "changes": [
@@ -6243,6 +6259,38 @@
         "reviewed": false
       },
       "evidenceIds": []
+    },
+    {
+      "date": "2026-11-24",
+      "author": "telemetry-researcher-d",
+      "type": "research-correction",
+      "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+      "claimIds": [
+        "nuphos:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Cloud processing by Zeabur, Inc. with model-provider subprocessors that must not train on Customer Data absent consent; self-hosted keeps data in your MongoDB/S3; backend health telemetry is off by default and controllable; apps send analytics only to Nuphos Cloud; crash reports go to your backend when self-hosted.",
+        "checkedAt": "2026-11-16",
+        "nextReviewAt": "2027-03-16",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Cloud processing by Zeabur, Inc. with model-provider subprocessors that must not train on Customer Data absent consent; self-hosted keeps data in your MongoDB/S3; backend health telemetry is off by default and controllable; apps send analytics only to Nuphos Cloud; crash reports go to your backend when self-hosted.",
+        "checkedAt": "2026-11-16",
+        "nextReviewAt": "2027-03-16",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "supported"
+        }
+      },
+      "evidenceIds": [
+        "tel-2611-desktop-diagnostics"
+      ]
     }
   ],
   "context": {
