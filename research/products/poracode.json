@@ -5271,11 +5271,9 @@
         },
         "telemetry_defaults": {
           "support": "supported",
-          "answer": "Release builds send allowlisted product events when a key is configured; Sentry in non-dev builds with DSN; extension sends none.",
+          "answer": "On by default: v1.8.2 release builds embed the PostHog key with analytics enabled and the Sentry DSN, so allowlisted product events and scrubbed crash reports are sent; the browser extension sends none.",
           "evidenceIds": [
-            "posthog",
-            "sentry",
-            "privacy"
+            "tel-2611-build-analytics"
           ]
         },
         "telemetry_controls": {
@@ -5287,9 +5285,11 @@
           ]
         },
         "telemetry_off_switch": {
-          "support": "unknown",
-          "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-          "evidenceIds": []
+          "support": "partial",
+          "answer": "Config only: launching the desktop app with POSTHOG_ENABLED=0 disables product analytics; no in-app toggle exists. Limitation: no runtime control for Sentry crash reports was found.",
+          "evidenceIds": [
+            "tel-2611-build-analytics"
+          ]
         },
         "consent_prompt": {
           "support": "unsupported",
@@ -5317,11 +5317,12 @@
         "sentry",
         "readme",
         "security",
-        "posthogenv"
+        "posthogenv",
+        "tel-2611-build-analytics"
       ],
       "checkedAt": "2026-11-17",
       "nextReviewAt": "2027-03-17",
-      "researcher": "researcher-batch20",
+      "researcher": "telemetry-researcher-d",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -6624,6 +6625,19 @@
       "title": "Copy ignored files into a new worktree",
       "locator": "copyIgnoredFilesIntoWorktree, matchIgnoredCopyEntries",
       "finding": "When a worktree is created, gitignored files and directories from the main project that match user-configured gitignore-style patterns are copied into it; existing files are not overwritten. This is a copy, not a shared cache."
+    },
+    {
+      "id": "tel-2611-build-analytics",
+      "kind": "source-inspected",
+      "url": "https://github.com/Porabuild/Poracode/blob/e606be0004fcecc08fe6b55bdc5c9d51b375f106/.github/workflows/_build.yml",
+      "title": "Poracode v1.8.2 release build analytics wiring",
+      "locator": ".github/workflows/_build.yml 'Build app' env (POSTHOG_ENABLED default '1', POSTHOG_KEY, SENTRY_DSN from repository vars); src/main/main.ts lines ~208-209; src/renderer/analytics/productAnalytics.ts resolvePostHogConfig(); src/main/diagnostics/sentry.ts; SettingsOverlay searched for an analytics toggle",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-24",
+      "finding": "At v1.8.2 the release build injects the repository's PostHog key with POSTHOG_ENABLED defaulting to '1' and the Sentry DSN, so official builds send allowlisted product events and scrubbed crash reports. At runtime the main process disables PostHog only when the POSTHOG_ENABLED environment variable is '0'; Sentry reads the build DSN with no runtime off setting. The Settings overlay tracks views but has no analytics or crash-report toggle.",
+      "visibility": "public",
+      "commit": "e606be0004fcecc08fe6b55bdc5c9d51b375f106",
+      "path": ".github/workflows/_build.yml"
     }
   ],
   "changes": [
@@ -6876,6 +6890,38 @@
         "reviewed": false
       },
       "evidenceIds": []
+    },
+    {
+      "date": "2026-11-24",
+      "author": "telemetry-researcher-d",
+      "type": "research-correction",
+      "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+      "claimIds": [
+        "poracode:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Code, prompts and credentials stay on the user host and go directly to chosen providers; allowlisted PostHog events and scrubbed Sentry crashes when configured; optional push via poracode.com.",
+        "checkedAt": "2026-11-17",
+        "nextReviewAt": "2027-03-17",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Code, prompts and credentials stay on the user host and go directly to chosen providers; allowlisted PostHog events and scrubbed Sentry crashes when configured; optional push via poracode.com.",
+        "checkedAt": "2026-11-17",
+        "nextReviewAt": "2027-03-17",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "partial"
+        }
+      },
+      "evidenceIds": [
+        "tel-2611-build-analytics"
+      ]
     }
   ],
   "context": {
