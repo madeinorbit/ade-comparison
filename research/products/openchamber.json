@@ -4284,9 +4284,11 @@
      ]
     },
     "telemetry_defaults": {
-     "support": "unknown",
-     "answer": "Telemetry defaults remains unestablished in the recorded documentation, release and issue pass; no bounded hands-on test.",
-     "evidenceIds": []
+     "support": "supported",
+     "answer": "On by default: reportUsage defaults to true at v2.8.0, so update checks carry an anonymous install id with version, platform and runtime until the user turns it off; no other analytics or crash client ships.",
+     "evidenceIds": [
+      "tel-2611-report-usage"
+     ]
     },
     "telemetry_controls": {
      "support": "supported",
@@ -4297,9 +4299,11 @@
      ]
     },
     "telemetry_off_switch": {
-     "support": "unknown",
-     "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-     "evidenceIds": []
+     "support": "supported",
+     "answer": "In the app: the 'Send anonymous usage reports' checkbox in Settings > General > Privacy turns it off; Enterprise mode forces it off.",
+     "evidenceIds": [
+      "tel-2611-report-usage"
+     ]
     },
     "consent_prompt": {
      "support": "unknown",
@@ -4322,11 +4326,12 @@
     "nov08-own-03-1",
     "src3-usage-toggle",
     "src3-usage-check",
-    "src3-usage-copy"
+    "src3-usage-copy",
+    "tel-2611-report-usage"
    ],
    "checkedAt": "2026-11-08",
    "nextReviewAt": "2026-12-08",
-   "researcher": "researcher-03",
+   "researcher": "telemetry-researcher-d",
    "publication": "public-candidate",
    "review": null,
    "contradictions": []
@@ -5561,6 +5566,19 @@
    "visibility": "public",
    "commit": "651a0564880633fbcdc2ac3f84d08e42c7748a64",
    "path": "packages/web/server/lib/opencode/server-startup-runtime.js"
+  },
+  {
+   "id": "tel-2611-report-usage",
+   "kind": "source-inspected",
+   "url": "https://github.com/openchamber/openchamber/blob/30c70496a5ca0105e04e60a783964576973edc8f/packages/ui/src/stores/ui/initialState.ts",
+   "title": "OpenChamber v2.8.0 reportUsage preference",
+   "locator": "initialState.ts reportUsage: true (line ~469); useUpdateStore.ts update-check params; packages/web/server/lib/package-manager.ts installId gating; Settings > General > Privacy checkbox in GeneralWorkspaceSettings.tsx",
+   "sourceDate": null,
+   "retrievedAt": "2026-11-24",
+   "finding": "At v2.8.0 the reportUsage preference defaults to true. The update check then sends an install id with app version, platform and runtime ('anonymous usage reports'); package-manager.ts omits the install id when reportUsage is false or Enterprise mode is on. Settings > General > Privacy has a 'Send anonymous usage reports' checkbox bound to it. No PostHog or Sentry client ships; those names appear only in the integrations catalog.",
+   "visibility": "public",
+   "commit": "30c70496a5ca0105e04e60a783964576973edc8f",
+   "path": "packages/ui/src/stores/ui/initialState.ts"
   }
  ],
  "changes": [
@@ -6215,6 +6233,38 @@
     "reviewed": false
    },
    "evidenceIds": []
+  },
+  {
+   "date": "2026-11-24",
+   "author": "telemetry-researcher-d",
+   "type": "research-correction",
+   "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+   "claimIds": [
+    "openchamber:OWN-03"
+   ],
+   "before": {
+    "support": "partial",
+    "answer": "A Send anonymous usage reports switch in Settings turns off usage reporting, and Enterprise mode forces it off. Enterprise mode also restricts conversation-content features to configured OpenCode providers and can pin relay endpoints and trusted extension repositories through an administrator policy file.",
+    "checkedAt": "2026-11-08",
+    "nextReviewAt": "2026-12-08",
+    "subanswers": {
+     "telemetry_defaults": "unknown",
+     "telemetry_off_switch": "unknown"
+    }
+   },
+   "after": {
+    "support": "partial",
+    "answer": "A Send anonymous usage reports switch in Settings turns off usage reporting, and Enterprise mode forces it off. Enterprise mode also restricts conversation-content features to configured OpenCode providers and can pin relay endpoints and trusted extension repositories through an administrator policy file.",
+    "checkedAt": "2026-11-08",
+    "nextReviewAt": "2026-12-08",
+    "subanswers": {
+     "telemetry_defaults": "supported",
+     "telemetry_off_switch": "supported"
+    }
+   },
+   "evidenceIds": [
+    "tel-2611-report-usage"
+   ]
   }
  ],
  "context": {
