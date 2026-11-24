@@ -4533,9 +4533,11 @@
      ]
     },
     "telemetry_defaults": {
-     "support": "unknown",
-     "answer": "The checked first-party sources do not establish telemetry defaults for this scoped product.",
-     "evidenceIds": []
+     "support": "supported",
+     "answer": "On by default: anonymous PostHog analytics are enabled unless turned off.",
+     "evidenceIds": [
+      "tel-2611-nimbalyst-store"
+     ]
     },
     "telemetry_controls": {
      "support": "supported",
@@ -4546,9 +4548,12 @@
      ]
     },
     "telemetry_off_switch": {
-     "support": "unknown",
-     "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-     "evidenceIds": []
+     "support": "supported",
+     "answer": "In the app: Settings > Advanced analytics opt-out.",
+     "evidenceIds": [
+      "tel-2611-nimbalyst-store",
+      "readme"
+     ]
     },
     "consent_prompt": {
      "support": "unknown",
@@ -4570,11 +4575,12 @@
    "unknownReason": "First-party README, relevant documentation, license, release notes and public issue pass at 826adb4f93db did not establish data handling and telemetry beyond any facts stated here. No installed-product or multi-user test was run.",
    "evidenceIds": [
     "readme",
-    "inventory"
+    "inventory",
+    "tel-2611-nimbalyst-store"
    ],
    "checkedAt": "2026-11-08",
    "nextReviewAt": "2026-12-08",
-   "researcher": "researcher-72",
+   "researcher": "telemetry-researcher-c",
    "publication": "public-candidate",
    "review": null,
    "contradictions": []
@@ -5291,6 +5297,19 @@
    "visibility": "public",
    "commit": null,
    "path": null
+  },
+  {
+   "id": "tel-2611-nimbalyst-store",
+   "kind": "source-inspected",
+   "url": "https://github.com/nimbalyst/nimbalyst/blob/980bb9d1c7641bfab5e9b1d44bab9c76da9b1a20/packages/electron/src/main/utils/store.ts",
+   "title": "Nimbalyst analytics setting",
+   "locator": "store.ts isAnalyticsEnabled default true; ipc/SettingsHandlers.ts analytics:set-enabled; renderer/store/atoms/appSettings.ts",
+   "sourceDate": null,
+   "retrievedAt": "2026-11-24",
+   "finding": "isAnalyticsEnabled() defaults to true (\"Default to enabled\"); the renderer app settings persist analyticsEnabled through analytics:set-enabled, which opts the PostHog client out.",
+   "visibility": "public",
+   "commit": "980bb9d1c7641bfab5e9b1d44bab9c76da9b1a20",
+   "path": "packages/electron/src/main/utils/store.ts"
   }
  ],
  "changes": [
@@ -5684,6 +5703,39 @@
     "reviewed": false
    },
    "evidenceIds": []
+  },
+  {
+   "date": "2026-11-24",
+   "author": "telemetry-researcher-c",
+   "type": "research-correction",
+   "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+   "claimIds": [
+    "nimbalyst:OWN-03"
+   ],
+   "before": {
+    "support": "partial",
+    "answer": "PostHog anonymous analytics can be disabled. Team data uses server-managed encryption, while personal phone sync remains zero-knowledge.",
+    "checkedAt": "2026-11-08",
+    "nextReviewAt": "2026-12-08",
+    "subanswers": {
+     "telemetry_defaults": "unknown",
+     "telemetry_off_switch": "unknown"
+    }
+   },
+   "after": {
+    "support": "partial",
+    "answer": "PostHog anonymous analytics can be disabled. Team data uses server-managed encryption, while personal phone sync remains zero-knowledge.",
+    "checkedAt": "2026-11-08",
+    "nextReviewAt": "2026-12-08",
+    "subanswers": {
+     "telemetry_defaults": "supported",
+     "telemetry_off_switch": "supported"
+    }
+   },
+   "evidenceIds": [
+    "tel-2611-nimbalyst-store",
+    "readme"
+   ]
   }
  ],
  "context": {
