@@ -5035,13 +5035,9 @@
     },
     "telemetry_defaults": {
      "support": "supported",
-     "answer": "Fresh installs are opted in (opt-out model); profiles that predate telemetry send nothing until the first-launch notice is resolved. Only official stable/rc builds transmit, and DO_NOT_TRACK, ORCA_TELEMETRY_DISABLED or common CI variables disable it.",
+     "answer": "On by default: fresh v1.4.273 installs start with optedIn true and send pseudonymous product telemetry from official builds; profiles that predate telemetry send nothing until the first-launch notice is resolved.",
      "evidenceIds": [
-      "b08-code-migration",
-      "b08-code-settings-type",
-      "b08-code-consent",
-      "b08-code-client",
-      "b08-telemetry"
+      "tel-2611-consent-default"
      ]
     },
     "telemetry_controls": {
@@ -5052,9 +5048,11 @@
      ]
     },
     "telemetry_off_switch": {
-     "support": "unknown",
-     "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-     "evidenceIds": []
+     "support": "supported",
+     "answer": "In the app: the Settings > Privacy switch turns telemetry off; DO_NOT_TRACK, ORCA_TELEMETRY_DISABLED and CI variables also disable it.",
+     "evidenceIds": [
+      "tel-2611-consent-default"
+     ]
     },
     "consent_prompt": {
      "support": "partial",
@@ -5097,11 +5095,12 @@
     "b08-code-consent",
     "b08-code-client",
     "b08r-telemetry",
-    "b08r-settings"
+    "b08r-settings",
+    "tel-2611-consent-default"
    ],
    "checkedAt": "2026-11-21",
    "nextReviewAt": "2027-03-21",
-   "researcher": "researcher-ade164",
+   "researcher": "telemetry-researcher-d",
    "publication": "public-candidate",
    "review": null,
    "contradictions": []
@@ -7802,6 +7801,19 @@
    "visibility": "public",
    "commit": null,
    "path": null
+  },
+  {
+   "id": "tel-2611-consent-default",
+   "kind": "source-inspected",
+   "url": "https://github.com/stablyai/orca/blob/7027c7ecce594d2295c47e9afc9004b1eb6c83bb/src/main/persistence/loading-store/profile-loading/loaded-cohort-migrations.ts",
+   "title": "Orca v1.4.273 telemetry cohort default, consent precedence and Privacy pane",
+   "locator": "migrateTelemetryIdentity() (optedIn cohort default); src/main/telemetry/consent.ts env/CI precedence; src/renderer/src/components/settings/privacy/PrivacyPane.tsx Switch bound to settings.telemetry.optedIn",
+   "sourceDate": null,
+   "retrievedAt": "2026-11-24",
+   "finding": "At v1.4.273 a profile created after the telemetry release gets optedIn: true, so fresh installs send product telemetry; profiles that predate it get null and wait for the first-launch notice. consent.ts lets DO_NOT_TRACK, ORCA_TELEMETRY_DISABLED and CI variables override without changing the stored choice. Settings > Privacy has a Switch that calls telemetrySetOptIn to turn it off.",
+   "visibility": "public",
+   "commit": "7027c7ecce594d2295c47e9afc9004b1eb6c83bb",
+   "path": "src/main/persistence/loading-store/profile-loading/loaded-cohort-migrations.ts"
   }
  ],
  "changes": [
@@ -17708,6 +17720,38 @@
     "reviewed": false
    },
    "evidenceIds": []
+  },
+  {
+   "date": "2026-11-24",
+   "author": "telemetry-researcher-d",
+   "type": "research-correction",
+   "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+   "claimIds": [
+    "orca:OWN-03"
+   ],
+   "before": {
+    "support": "partial",
+    "answer": "Vendor policy describes local code and provider credentials, pseudonymous opt-out product telemetry and a vendor statement that customer code and prompts are not used to train Orca models. Hosted features (accounts, Relay, push, sharing, plugins, connectors, Cloud Sandboxes) process their own data. The old hook-install raw-error field is sanitized in release v1.4.251; only that code path was inspected, not all telemetry.",
+    "checkedAt": "2026-11-21",
+    "nextReviewAt": "2027-03-21",
+    "subanswers": {
+     "telemetry_defaults": "supported",
+     "telemetry_off_switch": "unknown"
+    }
+   },
+   "after": {
+    "support": "partial",
+    "answer": "Vendor policy describes local code and provider credentials, pseudonymous opt-out product telemetry and a vendor statement that customer code and prompts are not used to train Orca models. Hosted features (accounts, Relay, push, sharing, plugins, connectors, Cloud Sandboxes) process their own data. The old hook-install raw-error field is sanitized in release v1.4.251; only that code path was inspected, not all telemetry.",
+    "checkedAt": "2026-11-21",
+    "nextReviewAt": "2027-03-21",
+    "subanswers": {
+     "telemetry_defaults": "supported",
+     "telemetry_off_switch": "supported"
+    }
+   },
+   "evidenceIds": [
+    "tel-2611-consent-default"
+   ]
   }
  ],
  "context": {
