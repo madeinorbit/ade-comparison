@@ -5025,7 +5025,7 @@
   {
    "id": "code-layer:OWN-03",
    "criterionId": "OWN-03",
-   "answer": "Agents execute on user hosts while events/task artifacts sync through HumanLayer APIs/storage; model traffic can use configured provider gateways. Retention, residency and training policies were not audited. Saved daemon login includes a refresh token; host credentials/history volumes require persistence and limited access. Further scoped facts are recorded in the atomic answers.",
+   "answer": "Agents execute on user hosts while events/task artifacts sync through HumanLayer APIs/storage; model traffic can use configured provider gateways. Retention, residency and training policies were not audited. Saved daemon login includes a refresh token; host credentials/history volumes require persistence and limited access. Further scoped facts are recorded in the atomic answers. Telemetry (atomic revision 2): official builds and the hosted app send PostHog analytics and Sentry errors without a consent step; no user-facing off switch was found in the source (builds from source send nothing).",
    "support": "partial",
    "availability": "unknown",
    "delivery": "native",
@@ -5122,22 +5122,24 @@
     },
     "telemetry_defaults": {
      "support": "partial",
-     "answer": "For builds from the current source, Sentry/PostHog are disabled unless environment keys are set. This establishes self-build controls, not hosted-app defaults or observed first-run consent.",
+     "answer": "On by default: official HumanLayer builds and the hosted app bake in Sentry DSNs and PostHog keys (the self-host reference tells others to replace 'HumanLayer's DSNs and keys'). PostHog initialises whenever a key is present and Sentry whenever a DSN is set outside local environments, with no consent check. Builds from source send nothing because the keys are unset.",
      "evidenceIds": [
-      "nov07-repo"
+      "tel-2611-src"
      ]
     },
     "telemetry_controls": {
      "support": "partial",
-     "answer": "For builds from the current source, Sentry/PostHog are disabled unless environment keys are set. This establishes self-build controls, not hosted-app defaults or observed first-run consent.",
+     "answer": "Only build-time keys gate PostHog and Sentry: unset keys in a build from source disable both. No runtime control for official builds was found.",
      "evidenceIds": [
-      "nov07-repo"
+      "tel-2611-src"
      ]
     },
     "telemetry_off_switch": {
-     "support": "unknown",
-     "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-     "evidenceIds": []
+     "support": "partial",
+     "answer": "No off switch: a bounded search of apps and packages at main (posthog.ts, sentry.ts, riptide-electron instrument.ts; terms opt out, optIn, telemetry setting, DO_NOT_TRACK) finds no user setting or runtime variable that stops PostHog or Sentry in an official build; the only control is leaving the build-time keys unset when building from source.",
+     "evidenceIds": [
+      "tel-2611-src"
+     ]
     },
     "consent_prompt": {
      "support": "unknown",
@@ -5163,11 +5165,12 @@
     "nov07-remote",
     "nov07-tasks",
     "nov07-gateway",
-    "nov07-repo"
+    "nov07-repo",
+    "tel-2611-src"
    ],
    "checkedAt": "2026-11-07",
    "nextReviewAt": "2026-11-14",
-   "researcher": "researcher-68",
+   "researcher": "telemetry-researcher-b",
    "publication": "public-candidate",
    "review": null,
    "contradictions": []
@@ -6660,6 +6663,19 @@
    "visibility": "public",
    "commit": "8e1e3f159a78d7c81f6e1abc0dcc2e70d8828d48",
    "path": "packages/schemas/coding-agent/coding-agent.ts"
+  },
+  {
+   "id": "tel-2611-src",
+   "kind": "source-inspected",
+   "url": "https://github.com/humanlayer/humanlayer/blob/fb899cd8cba767f0392708efc20d00938dec6a87/apps/riptide-ui/src/integrations/posthog/posthog.ts",
+   "title": "HumanLayer main: PostHog, Sentry gating and self-host build config",
+   "locator": "posthog.ts lines 1-60; apps/riptide-electron/src/instrument.ts lines 33-46; .claude/skills/self-host-humanlayer/references/build-config.md lines 25-28; README line 38",
+   "sourceDate": null,
+   "retrievedAt": "2026-11-24",
+   "finding": "PostHog is 'Fully gated on VITE_PUBLIC_POSTHOG_KEY'; Sentry is enabled when a DSN is set outside local environments; the self-host reference lists HumanLayer's baked-in DSNs and PostHog keys; README says builds from source send nothing. No user opt-out found.",
+   "visibility": "public",
+   "commit": "fb899cd8cba767f0392708efc20d00938dec6a87",
+   "path": "apps/riptide-ui/src/integrations/posthog/posthog.ts"
   }
  ],
  "changes": [
@@ -11103,6 +11119,40 @@
     "reviewed": false
    },
    "evidenceIds": []
+  },
+  {
+   "date": "2026-11-24",
+   "author": "telemetry-researcher-b",
+   "type": "research-correction",
+   "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+   "claimIds": [
+    "code-layer:OWN-03"
+   ],
+   "before": {
+    "support": "partial",
+    "answer": "Agents execute on user hosts while events/task artifacts sync through HumanLayer APIs/storage; model traffic can use configured provider gateways. Retention, residency and training policies were not audited. Saved daemon login includes a refresh token; host credentials/history volumes require persistence and limited access. Further scoped facts are recorded in the atomic answers.",
+    "checkedAt": "2026-11-07",
+    "nextReviewAt": "2026-11-14",
+    "subanswers": {
+     "telemetry_defaults": "partial",
+     "telemetry_off_switch": "unknown",
+     "telemetry_controls": "partial"
+    }
+   },
+   "after": {
+    "support": "partial",
+    "answer": "Agents execute on user hosts while events/task artifacts sync through HumanLayer APIs/storage; model traffic can use configured provider gateways. Retention, residency and training policies were not audited. Saved daemon login includes a refresh token; host credentials/history volumes require persistence and limited access. Further scoped facts are recorded in the atomic answers. Telemetry (atomic revision 2): official builds and the hosted app send PostHog analytics and Sentry errors without a consent step; no user-facing off switch was found in the source (builds from source send nothing).",
+    "checkedAt": "2026-11-07",
+    "nextReviewAt": "2026-11-14",
+    "subanswers": {
+     "telemetry_defaults": "partial",
+     "telemetry_off_switch": "partial",
+     "telemetry_controls": "partial"
+    }
+   },
+   "evidenceIds": [
+    "tel-2611-src"
+   ]
   }
  ],
  "context": {
