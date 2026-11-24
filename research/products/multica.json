@@ -5035,10 +5035,9 @@
         },
         "telemetry_defaults": {
           "support": "supported",
-          "answer": "Self-host snapshot is on by default; Cloud uses PostHog analytics and crash reports.",
+          "answer": "On by default: Multica Cloud clients send PostHog analytics and exception reports; self-hosted servers send a daily deployment snapshot by default.",
           "evidenceIds": [
-            "d-env",
-            "privacy"
+            "tel-2611-multica-analytics"
           ]
         },
         "telemetry_controls": {
@@ -5049,9 +5048,11 @@
           ]
         },
         "telemetry_off_switch": {
-          "support": "unknown",
-          "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-          "evidenceIds": []
+          "support": "partial",
+          "answer": "Config only: self-hosters set DO_NOT_TRACK=1 or ANALYTICS_DISABLED=true on the server; no user-facing control was found for Cloud users.",
+          "evidenceIds": [
+            "tel-2611-multica-analytics"
+          ]
         },
         "consent_prompt": {
           "support": "unknown",
@@ -5078,11 +5079,12 @@
         "d-env",
         "s-selfhost",
         "d-install",
-        "d-ws"
+        "d-ws",
+        "tel-2611-multica-analytics"
       ],
       "checkedAt": "2026-10-09",
       "nextReviewAt": "2026-11-08",
-      "researcher": "researcher-29",
+      "researcher": "telemetry-researcher-c",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -7300,6 +7302,19 @@
       "visibility": "public",
       "commit": null,
       "path": null
+    },
+    {
+      "id": "tel-2611-multica-analytics",
+      "kind": "source-inspected",
+      "url": "https://github.com/multica-ai/multica/blob/fc8028d761707b506cec498385f31fcebbbff598/SELF_HOSTING.md",
+      "title": "Multica self-host telemetry and client analytics",
+      "locator": "SELF_HOSTING.md telemetry; .env.example DO_NOT_TRACK/ANALYTICS_DISABLED; packages/core/analytics/index.ts initAnalytics",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-24",
+      "finding": "Self-hosted servers send a daily anonymous deployment snapshot by default (DO_NOT_TRACK=1 stops it; ANALYTICS_DISABLED=true for analytics). The web/desktop client initialises PostHog whenever a key is configured, with no user opt-out call in apps/ or packages/.",
+      "visibility": "public",
+      "commit": "fc8028d761707b506cec498385f31fcebbbff598",
+      "path": "SELF_HOSTING.md"
     }
   ],
   "changes": [
@@ -14739,6 +14754,38 @@
         "reviewed": false
       },
       "evidenceIds": []
+    },
+    {
+      "date": "2026-11-24",
+      "author": "telemetry-researcher-c",
+      "type": "research-correction",
+      "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+      "claimIds": [
+        "multica:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Workspace content (issues, comments, run records, attachments) is stored by Multica; code and tool credentials stay on the connected computer except what agents write back; tools send prompts and code to their model providers. The privacy policy states no training use and lists subprocessors; telemetry is documented with opt-outs.",
+        "checkedAt": "2026-10-09",
+        "nextReviewAt": "2026-11-08",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Workspace content (issues, comments, run records, attachments) is stored by Multica; code and tool credentials stay on the connected computer except what agents write back; tools send prompts and code to their model providers. The privacy policy states no training use and lists subprocessors; telemetry is documented with opt-outs.",
+        "checkedAt": "2026-10-09",
+        "nextReviewAt": "2026-11-08",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "partial"
+        }
+      },
+      "evidenceIds": [
+        "tel-2611-multica-analytics"
+      ]
     }
   ],
   "context": {
