@@ -5062,7 +5062,7 @@
     {
       "id": "codeg:OWN-03",
       "criterionId": "OWN-03",
-      "answer": "No analytics or telemetry of any kind; network use is limited to user actions plus update checks about every six hours; agents have their own telemetry, and Codeg disables it for Claude Code by default.",
+      "answer": "No analytics or telemetry of any kind; network use is limited to user actions plus update checks about every six hours; agents have their own telemetry, and Codeg disables it for Claude Code by default. Telemetry (atomic revision 2): no ADE telemetry: the privacy page says so and the v0.48.1 source has no analytics client.",
       "support": "partial",
       "availability": "generally-available",
       "delivery": "native",
@@ -5159,9 +5159,9 @@
         },
         "telemetry_defaults": {
           "support": "supported",
-          "answer": "No telemetry by default; Claude Code ships with telemetry disabled.",
+          "answer": "No telemetry: the existing privacy page states no telemetry, and a bounded search of the v0.48.1 source and manifests (terms posthog, sentry, segment, amplitude, mixpanel, aptabase, telemetry, analytics) finds no analytics client; 'telemetry' hits are bundled Codex catalog data and a browser-page data type.",
           "evidenceIds": [
-            "privacy"
+            "tel-2611-src"
           ]
         },
         "telemetry_controls": {
@@ -5172,9 +5172,11 @@
           ]
         },
         "telemetry_off_switch": {
-          "support": "unknown",
-          "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-          "evidenceIds": []
+          "support": "not-applicable",
+          "answer": "Nothing to switch off: no ADE telemetry.",
+          "evidenceIds": [
+            "tel-2611-src"
+          ]
         },
         "consent_prompt": {
           "support": "not-applicable",
@@ -5200,11 +5202,12 @@
       "evidenceIds": [
         "privacy",
         "install",
-        "client-privacy"
+        "client-privacy",
+        "tel-2611-src"
       ],
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
-      "researcher": "researcher-batch03-codeg",
+      "researcher": "telemetry-researcher-b",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -6349,6 +6352,19 @@
       "visibility": "public",
       "commit": "bd88b9dac0417057342fca13234b9c19a8b8093d",
       "path": "src-tauri/src/commands/folders.rs"
+    },
+    {
+      "id": "tel-2611-src",
+      "kind": "source-inspected",
+      "url": "https://github.com/spacering-net/codeg/blob/adffb18d3a5f4190eb990b63e9d17d0169179df1/package.json",
+      "title": "Codeg v0.48.1 source",
+      "locator": "repo-wide search of src, src-tauri and package manifests",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-24",
+      "finding": "Bounded search finds no analytics or crash-reporting client or dependency in package.json or Cargo manifests; telemetry matches are bundled harness catalog JSON and the BrowserTelemetryPayload type for page data.",
+      "visibility": "public",
+      "commit": "adffb18d3a5f4190eb990b63e9d17d0169179df1",
+      "path": "package.json"
     }
   ],
   "changes": [
@@ -6406,6 +6422,38 @@
         "reviewed": false
       },
       "evidenceIds": []
+    },
+    {
+      "date": "2026-11-24",
+      "author": "telemetry-researcher-b",
+      "type": "research-correction",
+      "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+      "claimIds": [
+        "codeg:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "No analytics or telemetry of any kind; network use is limited to user actions plus update checks about every six hours; agents have their own telemetry, and Codeg disables it for Claude Code by default.",
+        "checkedAt": "2026-11-16",
+        "nextReviewAt": "2027-03-16",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "No analytics or telemetry of any kind; network use is limited to user actions plus update checks about every six hours; agents have their own telemetry, and Codeg disables it for Claude Code by default. Telemetry (atomic revision 2): no ADE telemetry: the privacy page says so and the v0.48.1 source has no analytics client.",
+        "checkedAt": "2026-11-16",
+        "nextReviewAt": "2027-03-16",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "not-applicable"
+        }
+      },
+      "evidenceIds": [
+        "tel-2611-src"
+      ]
     }
   ],
   "context": {
