@@ -4550,7 +4550,7 @@
   {
    "id": "synara:OWN-03",
    "criterionId": "OWN-03",
-   "answer": "Local state, connectors and diagnostics have separate boundaries. At v1.5.0 Share product analytics is off by default in Stable and Beta; Stable never sends release diagnostics, while Beta release diagnostics are automatic.",
+   "answer": "Local state, connectors and diagnostics have separate boundaries. From Stable 1.6.6 (after 1.6.5) Share product analytics is on by default in Stable desktop and Remote, and off by default in Beta; Settings > Privacy turns it off. Stable never sends release diagnostics, while Beta release diagnostics are automatic.",
    "support": "partial",
    "availability": "generally-available",
    "delivery": "native",
@@ -4638,30 +4638,35 @@
     },
     "telemetry_disclosure": {
      "support": "supported",
-     "answer": "The privacy page lists collected analytics fields and exclusions: desktop Stable/Beta analytics off by default, Remote desktop and iOS apps on by default with a switch, Beta crash diagnostics always on.",
+     "answer": "The privacy page lists collected analytics fields and exclusions and the per-channel defaults: Stable after 1.6.5 and Remote/iOS on by default, Beta off; Beta crash diagnostics always on.",
      "evidenceIds": [
-      "b07-privacy"
+      "tel-2611-privacy",
+      "tel-2611-default"
      ]
     },
     "telemetry_defaults": {
      "support": "supported",
-     "answer": "Share product analytics is off by default in Stable and Beta; Stable never constructs the release-diagnostics sender, while Beta sends release diagnostics automatically.",
+     "answer": "On by default: Stable desktop releases after 1.6.5, including v1.6.6, share limited product analytics by default (defaultEnabled for the production flavor); Beta defaults to off and still sends release diagnostics automatically.",
      "evidenceIds": [
-      "b4-diagnostics",
-      "nov07-beta"
+      "tel-2611-privacy",
+      "tel-2611-default"
      ]
     },
     "telemetry_controls": {
      "support": "supported",
-     "answer": "Settings, General, Privacy offers Share product analytics (off by default in Stable and Beta); Stable never sends release diagnostics, while Beta release diagnostics stay automatic.",
+     "answer": "Settings > Privacy > Share product analytics turns analytics off; on by default in Stable from 1.6.6 and Remote, off by default in Beta. Beta release diagnostics have no switch.",
      "evidenceIds": [
-      "b4-diagnostics"
+      "tel-2611-privacy",
+      "tel-2611-default"
      ]
     },
     "telemetry_off_switch": {
-     "support": "unknown",
-     "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-     "evidenceIds": []
+     "support": "supported",
+     "answer": "In the app: Settings > Privacy > Share product analytics.",
+     "evidenceIds": [
+      "tel-2611-privacy",
+      "tel-2611-default"
+     ]
     },
     "consent_prompt": {
      "support": "unknown",
@@ -4689,11 +4694,13 @@
     "nov07-headless",
     "b4-diagnostics",
     "b07-privacy",
-    "b07-tasks"
+    "b07-tasks",
+    "tel-2611-privacy",
+    "tel-2611-default"
    ],
    "checkedAt": "2026-11-07",
    "nextReviewAt": "2026-11-21",
-   "researcher": "researcher-ade129",
+   "researcher": "telemetry-researcher-e",
    "publication": "public-candidate",
    "review": null,
    "contradictions": []
@@ -5974,6 +5981,32 @@
    "visibility": "public",
    "commit": null,
    "path": null
+  },
+  {
+   "id": "tel-2611-privacy",
+   "kind": "documented",
+   "url": "https://github.com/Emanuele-web04/synara/blob/9d9d992284eca4c0fda56a6ddd393d83cc3dd7bd/apps/marketing/src/app/privacy/page.tsx#L115-L120",
+   "title": "Synara privacy page source at v1.6.6",
+   "locator": "lines 115-120",
+   "sourceDate": null,
+   "retrievedAt": "2026-11-24",
+   "finding": "Stable desktop releases after 1.6.5 share limited product analytics by default; earlier Stable releases and Beta desktop default to off; Remote and the iPhone/iPad apps share by default. To turn sharing off, open Settings > Privacy and turn off Share product analytics.",
+   "visibility": "public",
+   "commit": null,
+   "path": null
+  },
+  {
+   "id": "tel-2611-default",
+   "kind": "source-inspected",
+   "url": "https://github.com/Emanuele-web04/synara/blob/9d9d992284eca4c0fda56a6ddd393d83cc3dd7bd/apps/desktop/src/main.ts#L486-L492",
+   "title": "Emanuele-web04/synara v1.6.6: apps/desktop/src/main.ts",
+   "locator": "new ProductAnalytics({ defaultEnabled })",
+   "sourceDate": null,
+   "retrievedAt": "2026-11-24",
+   "finding": "defaultEnabled is true for the production (Stable) and remote flavors and false for Beta; ProductAnalytics applies it until the user makes a choice. Diagnostics are constructed only for Beta and Remote.",
+   "visibility": "public",
+   "commit": "9d9d992284eca4c0fda56a6ddd393d83cc3dd7bd",
+   "path": "apps/desktop/src/main.ts"
   }
  ],
  "changes": [
@@ -7532,6 +7565,43 @@
     "reviewed": false
    },
    "evidenceIds": []
+  },
+  {
+   "date": "2026-11-24",
+   "author": "telemetry-researcher-e",
+   "type": "research-correction",
+   "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+   "claimIds": [
+    "synara:OWN-03"
+   ],
+   "before": {
+    "support": "partial",
+    "answer": "Local state, connectors and diagnostics have separate boundaries. At v1.5.0 Share product analytics is off by default in Stable and Beta; Stable never sends release diagnostics, while Beta release diagnostics are automatic.",
+    "checkedAt": "2026-11-07",
+    "nextReviewAt": "2026-11-21",
+    "subanswers": {
+     "telemetry_defaults": "supported",
+     "telemetry_off_switch": "unknown",
+     "telemetry_controls": "supported",
+     "telemetry_disclosure": "supported"
+    }
+   },
+   "after": {
+    "support": "partial",
+    "answer": "Local state, connectors and diagnostics have separate boundaries. From Stable 1.6.6 (after 1.6.5) Share product analytics is on by default in Stable desktop and Remote, and off by default in Beta; Settings > Privacy turns it off. Stable never sends release diagnostics, while Beta release diagnostics are automatic.",
+    "checkedAt": "2026-11-07",
+    "nextReviewAt": "2026-11-21",
+    "subanswers": {
+     "telemetry_defaults": "supported",
+     "telemetry_off_switch": "supported",
+     "telemetry_controls": "supported",
+     "telemetry_disclosure": "supported"
+    }
+   },
+   "evidenceIds": [
+    "tel-2611-privacy",
+    "tel-2611-default"
+   ]
   }
  ],
  "context": {
