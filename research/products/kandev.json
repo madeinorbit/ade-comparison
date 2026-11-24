@@ -5420,9 +5420,9 @@
     },
     "telemetry_defaults": {
      "support": "supported",
-     "answer": "Nothing to disable: no telemetry exists in any shipped profile.",
+     "answer": "No telemetry: bounded search of the pinned source (67c463f) found no analytics, telemetry or crash-reporting client. OpenTelemetry tracing is a no-op unless the operator sets OTEL_EXPORTER_OTLP_ENDPOINT to their own collector (apps/backend/internal/agentctl/tracing/otel.go, internal/common/config/catalog.go default \"\"); nothing is sent to the Kandev vendor. Consistent with the README stating no telemetry.",
      "evidenceIds": [
-      "readme"
+      "tel-2611-kandev-src"
      ]
     },
     "telemetry_controls": {
@@ -5434,9 +5434,11 @@
      ]
     },
     "telemetry_off_switch": {
-     "support": "unknown",
-     "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-     "evidenceIds": []
+     "support": "not-applicable",
+     "answer": "Nothing to switch off: no ADE telemetry.",
+     "evidenceIds": [
+      "tel-2611-kandev-src"
+     ]
     },
     "consent_prompt": {
      "support": "supported",
@@ -5465,11 +5467,12 @@
     "executors",
     "config",
     "plugins",
-    "fstatus"
+    "fstatus",
+    "tel-2611-kandev-src"
    ],
    "checkedAt": "2026-11-13",
    "nextReviewAt": "2027-03-13",
-   "researcher": "researcher-kandev",
+   "researcher": "telemetry-researcher-c",
    "publication": "public-candidate",
    "review": null,
    "contradictions": []
@@ -6712,6 +6715,19 @@
    "visibility": "public",
    "commit": "3c2f7e98689aab4e7bc97ece277c4f5abe04e951",
    "path": "apps/backend/internal/notifications/providers/webhook.go"
+  },
+  {
+   "id": "tel-2611-kandev-src",
+   "kind": "source-inspected",
+   "url": "https://github.com/kdlbs/kandev/tree/67c463f2248eae5107cb80bddfd4775bebb6718d",
+   "title": "kandev pinned source, bounded telemetry search",
+   "locator": "Recursive search of apps/backend for posthog, segment, amplitude, mixpanel, sentry, aptabase, telemetry, DO_NOT_TRACK, google-analytics, gtag, firebase/analytics, opentelemetry",
+   "sourceDate": null,
+   "retrievedAt": "2026-11-24",
+   "finding": "No ADE analytics, telemetry or crash-reporting client in the pinned source. OpenTelemetry tracing is a no-op unless the operator sets OTEL_EXPORTER_OTLP_ENDPOINT to their own collector (apps/backend/internal/agentctl/tracing/otel.go, internal/common/config/catalog.go default \"\"); nothing is sent to the Kandev vendor. Consistent with the README stating no telemetry.",
+   "visibility": "public",
+   "commit": "67c463f2248eae5107cb80bddfd4775bebb6718d",
+   "path": "apps/backend"
   }
  ],
  "changes": [
@@ -6756,6 +6772,38 @@
     "reviewed": false
    },
    "evidenceIds": []
+  },
+  {
+   "date": "2026-11-24",
+   "author": "telemetry-researcher-c",
+   "type": "research-correction",
+   "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+   "claimIds": [
+    "kandev:OWN-03"
+   ],
+   "before": {
+    "support": "partial",
+    "answer": "Self-hosted data stays local with encrypted secret store, scoped credential leases and redacted sharing; no telemetry is collected so no opt-out or consent prompt exists; provider-side model data use follows the CLI vendors, not Kandev.",
+    "checkedAt": "2026-11-13",
+    "nextReviewAt": "2027-03-13",
+    "subanswers": {
+     "telemetry_defaults": "supported",
+     "telemetry_off_switch": "unknown"
+    }
+   },
+   "after": {
+    "support": "partial",
+    "answer": "Self-hosted data stays local with encrypted secret store, scoped credential leases and redacted sharing; no telemetry is collected so no opt-out or consent prompt exists; provider-side model data use follows the CLI vendors, not Kandev.",
+    "checkedAt": "2026-11-13",
+    "nextReviewAt": "2027-03-13",
+    "subanswers": {
+     "telemetry_defaults": "supported",
+     "telemetry_off_switch": "not-applicable"
+    }
+   },
+   "evidenceIds": [
+    "tel-2611-kandev-src"
+   ]
   }
  ],
  "context": {
