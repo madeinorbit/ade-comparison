@@ -4161,22 +4161,24 @@
     },
     "telemetry_defaults": {
      "support": "supported",
-     "answer": "Production app starts/thread/message counts and public plugin installs send anonymous telemetry by default; source dev modes do not.",
+     "answer": "On by default: production runs send anonymous usage events (app starts, thread and message counts, public plugin installs); development runs do not.",
      "evidenceIds": [
-      "readme"
+      "tel-2611-telemetry"
      ]
     },
     "telemetry_controls": {
      "support": "supported",
-     "answer": "BB_TELEMETRY=false disables anonymous bb usage events.",
+     "answer": "Settings switch Share anonymous usage data, and BB_TELEMETRY=false.",
      "evidenceIds": [
-      "readme"
+      "tel-2611-telemetry"
      ]
     },
     "telemetry_off_switch": {
-     "support": "unknown",
-     "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-     "evidenceIds": []
+     "support": "supported",
+     "answer": "In the app: Settings > Share anonymous usage data turns it off immediately; BB_TELEMETRY=false also opts out.",
+     "evidenceIds": [
+      "tel-2611-telemetry"
+     ]
     },
     "consent_prompt": {
      "support": "unsupported",
@@ -4200,11 +4202,12 @@
     "config",
     "readme",
     "v049-readme-telemetry",
-    "v049-telemetry-ui"
+    "v049-telemetry-ui",
+    "tel-2611-telemetry"
    ],
    "checkedAt": "2026-11-08",
    "nextReviewAt": "2026-11-22",
-   "researcher": "researcher-ade81",
+   "researcher": "telemetry-researcher-a",
    "publication": "public-candidate",
    "review": null,
    "contradictions": []
@@ -5360,6 +5363,19 @@
    "visibility": "public",
    "commit": null,
    "path": null
+  },
+  {
+   "id": "tel-2611-telemetry",
+   "kind": "source-inspected",
+   "url": "https://github.com/get-bb/bb/blob/a08e116566d1785bc04578a866df8a0359157dd4/README.md#L89-L103",
+   "title": "bb README telemetry section and settings toggle at desktop-v0.50.1",
+   "locator": "README.md L89-L103; apps/app/src/views/SettingsView.tsx L1119-L1125",
+   "sourceDate": null,
+   "retrievedAt": "2026-11-24",
+   "finding": "At desktop-v0.50.1 production runs (desktop app, npx bb-app, pnpm start) send anonymous usage telemetry by default; development runs never send. Settings has a Share anonymous usage data switch that takes effect immediately; BB_TELEMETRY=false opts out any run.",
+   "visibility": "public",
+   "commit": "a08e116566d1785bc04578a866df8a0359157dd4",
+   "path": "apps/app/src/views/SettingsView.tsx"
   }
  ],
  "changes": [
@@ -5944,6 +5960,40 @@
     "reviewed": false
    },
    "evidenceIds": []
+  },
+  {
+   "date": "2026-11-24",
+   "author": "telemetry-researcher-a",
+   "type": "research-correction",
+   "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+   "claimIds": [
+    "bb:OWN-03"
+   ],
+   "before": {
+    "support": "partial",
+    "answer": "Optional storage-retention plugin sets archive/delete policies and defaults to disabled. Production app starts/thread/message counts and public plugin installs send anonymous telemetry by default; source dev modes do not. BB_TELEMETRY=false disables anonymous bb usage events.",
+    "checkedAt": "2026-11-08",
+    "nextReviewAt": "2026-11-22",
+    "subanswers": {
+     "telemetry_defaults": "supported",
+     "telemetry_off_switch": "unknown",
+     "telemetry_controls": "supported"
+    }
+   },
+   "after": {
+    "support": "partial",
+    "answer": "Optional storage-retention plugin sets archive/delete policies and defaults to disabled. Production app starts/thread/message counts and public plugin installs send anonymous telemetry by default; source dev modes do not. BB_TELEMETRY=false disables anonymous bb usage events.",
+    "checkedAt": "2026-11-08",
+    "nextReviewAt": "2026-11-22",
+    "subanswers": {
+     "telemetry_defaults": "supported",
+     "telemetry_off_switch": "supported",
+     "telemetry_controls": "supported"
+    }
+   },
+   "evidenceIds": [
+    "tel-2611-telemetry"
+   ]
   }
  ],
  "context": {
