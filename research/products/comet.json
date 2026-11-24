@@ -4260,7 +4260,7 @@
     {
       "id": "comet:OWN-03",
       "criterionId": "OWN-03",
-      "answer": "Native apps have no analytics/crash SDKs, and the pinned app settings/engine exposes no app telemetry opt-out control. Website PostHog honors browser GPC/DNT separately; optional hosted sync and Cloud processing retain their own documented data policies.",
+      "answer": "Native apps have no analytics/crash SDKs, and the pinned app settings/engine exposes no app telemetry opt-out control. Website PostHog honors browser GPC/DNT separately; optional hosted sync and Cloud processing retain their own documented data policies. Telemetry (atomic revision 2): no app telemetry in the v0.3.19 source; only the marketing website counts page views.",
       "support": "partial",
       "availability": "beta",
       "delivery": "native",
@@ -4356,9 +4356,9 @@
         },
         "telemetry_defaults": {
           "support": "supported",
-          "answer": "Apps contain no analytics or crash SDKs; the website counts page views with PostHog without cookies and honors Global Privacy Control and Do Not Track.",
+          "answer": "No telemetry: a bounded search of the v0.3.19 app crates and native apps (terms posthog, sentry, segment, amplitude, mixpanel, telemetry, analytics) finds no app analytics client: hits are MCP OAuth presets for PostHog and Sentry servers, sound scripts and the landing site's telemetry.js. The website's own page-view analytics are not the app.",
           "evidenceIds": [
-            "v037-privacy"
+            "tel-2611-src"
           ]
         },
         "telemetry_controls": {
@@ -4370,9 +4370,11 @@
           ]
         },
         "telemetry_off_switch": {
-          "support": "unknown",
-          "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-          "evidenceIds": []
+          "support": "not-applicable",
+          "answer": "Nothing to switch off: no ADE telemetry.",
+          "evidenceIds": [
+            "tel-2611-src"
+          ]
         },
         "consent_prompt": {
           "support": "unsupported",
@@ -4397,11 +4399,12 @@
         "privacy",
         "architecture",
         "gap37-app-telemetry",
-        "v037-privacy"
+        "v037-privacy",
+        "tel-2611-src"
       ],
       "checkedAt": "2026-11-08",
       "nextReviewAt": "2026-11-22",
-      "researcher": "researcher-ade81",
+      "researcher": "telemetry-researcher-b",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -5971,6 +5974,19 @@
       "visibility": "public",
       "commit": "55a5c392199ca0f7907c485b57b6a4252cc42e98",
       "path": "crates/engine/src/change_requests.rs"
+    },
+    {
+      "id": "tel-2611-src",
+      "kind": "source-inspected",
+      "url": "https://github.com/zeronsh/zeron/blob/82a58c5f6b100dabd6363118c9f7e5272cec3d78/apps/landing/src/layouts/Base.astro",
+      "title": "Zeron (Comet) v0.3.19 source",
+      "locator": "Base.astro line 44; crates/engine/src/mcp_servers/oauth.rs line 1192; repo-wide search",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-24",
+      "finding": "The only analytics script loads on the landing site; app crates reference PostHog and Sentry only as MCP server presets. No analytics or crash dependency in Cargo or package manifests.",
+      "visibility": "public",
+      "commit": "82a58c5f6b100dabd6363118c9f7e5272cec3d78",
+      "path": "apps/landing/src/layouts/Base.astro"
     }
   ],
   "changes": [
@@ -7561,6 +7577,38 @@
         "reviewed": false
       },
       "evidenceIds": []
+    },
+    {
+      "date": "2026-11-24",
+      "author": "telemetry-researcher-b",
+      "type": "research-correction",
+      "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+      "claimIds": [
+        "comet:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Native apps have no analytics/crash SDKs, and the pinned app settings/engine exposes no app telemetry opt-out control. Website PostHog honors browser GPC/DNT separately; optional hosted sync and Cloud processing retain their own documented data policies.",
+        "checkedAt": "2026-11-08",
+        "nextReviewAt": "2026-11-22",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Native apps have no analytics/crash SDKs, and the pinned app settings/engine exposes no app telemetry opt-out control. Website PostHog honors browser GPC/DNT separately; optional hosted sync and Cloud processing retain their own documented data policies. Telemetry (atomic revision 2): no app telemetry in the v0.3.19 source; only the marketing website counts page views.",
+        "checkedAt": "2026-11-08",
+        "nextReviewAt": "2026-11-22",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "not-applicable"
+        }
+      },
+      "evidenceIds": [
+        "tel-2611-src"
+      ]
     }
   ],
   "context": {
