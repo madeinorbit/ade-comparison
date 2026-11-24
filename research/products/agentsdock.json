@@ -5032,8 +5032,9 @@
         },
         "telemetry_off_switch": {
           "support": "partial",
-          "answer": "Config only (desktop): v1.0.11 desktop Settings has no analytics switch, removed on purpose per a source test; only the undocumented AGENTSDOCK_DISABLE_ANALYTICS=1 environment variable stops it. The Android app has an in-app Usage analytics setting. The privacy policy claims a Settings switch on every platform, which the desktop source contradicts.",
+          "answer": "In the app on Android only: the v1.0.11 Android app's Settings has a Usage analytics switch, matching the privacy policy. Desktop v1.0.11 has no in-app switch (removed on purpose per a source test, though the policy still claims one); there only the undocumented AGENTSDOCK_DISABLE_ANALYTICS=1 environment variable stops analytics. iOS sends none.",
           "evidenceIds": [
+            "tel-2611-android-toggle",
             "tel-2611-src"
           ]
         },
@@ -5061,17 +5062,14 @@
         "analytics",
         "analyticssrc",
         "dialogtest",
-        "tel-2611-src"
+        "tel-2611-src",
+        "tel-2611-android-toggle"
       ],
       "checkedAt": "2026-11-17",
       "nextReviewAt": "2027-03-17",
-      "researcher": "telemetry-researcher-a",
-      "publication": "public-reviewed",
-      "review": {
-        "reviewer": "telemetry-reviewer-w",
-        "date": "2026-11-24",
-        "contentHash": "1ae0432494c76af2ee25d7e83f91ab768dd06516492cfba5b10e295850dd2051"
-      },
+      "researcher": "telemetry-researcher-f",
+      "publication": "public-candidate",
+      "review": null,
       "contradictions": []
     },
     {
@@ -6117,6 +6115,19 @@
       "visibility": "public",
       "commit": "f9823e0da915a82d0a2974c9894e11e4c591444b",
       "path": "electron/src/renderer/src/lib/analytics.ts"
+    },
+    {
+      "id": "tel-2611-android-toggle",
+      "kind": "source-inspected",
+      "url": "https://github.com/ZhengyiLuo/AgentsDock/blob/f9823e0da915a82d0a2974c9894e11e4c591444b/mobile-react/src/components/AnalyticsSettings.android.tsx",
+      "title": "AgentsDock Android analytics settings at v1.0.11",
+      "locator": "AnalyticsSettings: 'Usage analytics' label and Switch testID settings-analytics-toggle calling setAndroidAnalyticsEnabled",
+      "sourceDate": "2026-10-27",
+      "retrievedAt": "2026-11-24",
+      "finding": "At v1.0.11 the Android app's Settings shows a 'Usage analytics' switch (accessibility label 'Share usage analytics') that stores the user's choice through setAndroidAnalyticsEnabled, turning Mixpanel analytics off in the app.",
+      "visibility": "public",
+      "commit": "f9823e0da915a82d0a2974c9894e11e4c591444b",
+      "path": "mobile-react/src/components/AnalyticsSettings.android.tsx"
     }
   ],
   "changes": [
@@ -6259,6 +6270,37 @@
         }
       },
       "evidenceIds": [
+        "tel-2611-src"
+      ]
+    },
+    {
+      "date": "2026-11-24",
+      "author": "telemetry-researcher-f",
+      "type": "research-correction",
+      "summary": "Re-map the telemetry off switch to in-app: the desktop env var is undocumented, and the in-scope Android app has a Usage analytics settings toggle.",
+      "claimIds": [
+        "agentsdock:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Chats, files and credentials stay on your server; desktop and Android apps send Mixpanel usage events by default (random per-install ID on desktop). The privacy policy claims a Settings opt-out on every platform, but the v1.0.11 desktop source removed it on purpose and exposes only the undocumented AGENTSDOCK_DISABLE_ANALYTICS=1 environment variable; the source decides, and Android has an in-app setting.",
+        "checkedAt": "2026-11-17",
+        "nextReviewAt": "2027-03-17",
+        "subanswers": {
+          "telemetry_off_switch": "partial"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Chats, files and credentials stay on your server; desktop and Android apps send Mixpanel usage events by default (random per-install ID on desktop). The privacy policy claims a Settings opt-out on every platform, but the v1.0.11 desktop source removed it on purpose and exposes only the undocumented AGENTSDOCK_DISABLE_ANALYTICS=1 environment variable; the source decides, and Android has an in-app setting.",
+        "checkedAt": "2026-11-17",
+        "nextReviewAt": "2027-03-17",
+        "subanswers": {
+          "telemetry_off_switch": "partial"
+        }
+      },
+      "evidenceIds": [
+        "tel-2611-android-toggle",
         "tel-2611-src"
       ]
     }
