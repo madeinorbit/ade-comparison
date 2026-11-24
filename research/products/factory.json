@@ -4733,7 +4733,7 @@
     {
       "id": "factory:OWN-03",
       "criterionId": "OWN-03",
-      "answer": "Airgap execution and files remain inside the customer network, subject to its infrastructure egress rules. Model traffic can go directly to configured enterprise provider APIs or gateways. The hosted control plane can retain authentication, administrative and operational logs. Operational log retention and residency depend on the customer engagement; customer sandbox logs use customer policy. Retention and residency for Factory-hosted logs are documented in the Trust Center and can be tuned per engagement; Factory Private keeps sandbox code and telemetry in the customer environment. This page names no specific regions. In the Enterprise airgap build, Factory telemetry and crash reports are disabled; with no customer collector configured, the telemetry pipeline does not run. This does not establish a complete connected-build opt-out. Airgap model requests go only to user-configured model endpoints.",
+      "answer": "Airgap execution and files remain inside the customer network, subject to its infrastructure egress rules. Model traffic can go directly to configured enterprise provider APIs or gateways. The hosted control plane can retain authentication, administrative and operational logs. Operational log retention and residency depend on the customer engagement; customer sandbox logs use customer policy. Retention and residency for Factory-hosted logs are documented in the Trust Center and can be tuned per engagement; Factory Private keeps sandbox code and telemetry in the customer environment. This page names no specific regions. In the Enterprise airgap build, Factory telemetry and crash reports are disabled; with no customer collector configured, the telemetry pipeline does not run. This does not establish a complete connected-build opt-out. Airgap model requests go only to user-configured model endpoints. Telemetry (atomic revision 2): OpenTelemetry metrics go to Factory by default in connected deployments; no off switch is documented outside airgapped Enterprise builds, so its location is unknown.",
       "support": "partial",
       "availability": "unknown",
       "delivery": "unknown",
@@ -4829,10 +4829,9 @@
         },
         "telemetry_defaults": {
           "support": "supported",
-          "answer": "OpenTelemetry metrics go to Factory by default (not in airgapped deployments), with per-user identity by default.",
+          "answer": "On by default: in connected deployments Droid sends OpenTelemetry metrics to Factory's collector by default (never in airgapped deployments); spans and message content never reach Factory.",
           "evidenceIds": [
-            "nov21-telemetry",
-            "nov21-data-flows"
+            "tel-2611-telemetry"
           ]
         },
         "telemetry_controls": {
@@ -4844,8 +4843,10 @@
         },
         "telemetry_off_switch": {
           "support": "unknown",
-          "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-          "evidenceIds": []
+          "answer": "Unknown: telemetry.enabled and OTEL_CUSTOMER_ENABLED control only the customer pipeline, and no setting, env var or policy is documented for the Factory-bound metrics in connected deployments. Only Enterprise airgap builds disable Factory telemetry and crash reporting.",
+          "evidenceIds": [
+            "tel-2611-telemetry"
+          ]
         },
         "consent_prompt": {
           "support": "unknown",
@@ -4873,11 +4874,12 @@
         "nov21-compliance",
         "nov21-telemetry",
         "nov21-data-flows",
-        "ade157-security"
+        "ade157-security",
+        "tel-2611-telemetry"
       ],
       "checkedAt": "2026-11-07",
       "nextReviewAt": "2026-11-21",
-      "researcher": "researcher-ade-157",
+      "researcher": "telemetry-researcher-b",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -6683,6 +6685,19 @@
       "sourceDate": "2026-11-21",
       "retrievedAt": "2026-11-21",
       "finding": "The droid CLI package (repository Factory-AI/factory, directory apps/cli) has latest version 1.17.1, published 2026-11-21, with license UNLICENSED.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "tel-2611-telemetry",
+      "kind": "documented",
+      "url": "https://docs.factory.com/enterprise/telemetry",
+      "title": "Factory docs: Telemetry & Analytics",
+      "locator": "'Self-hosted OTEL metrics export'; 'Org-managed telemetry settings'; 'Machine environment variables'",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-24",
+      "finding": "'In connected deployments, metrics are sent to both Factory's collector and yours'; telemetry.enabled 'configures your sink only. Factory's own collector is not affected by it'; OTEL_CUSTOMER_ENABLED covers customer telemetry only.",
       "visibility": "public",
       "commit": null,
       "path": null
@@ -12282,6 +12297,38 @@
         "reviewed": false
       },
       "evidenceIds": []
+    },
+    {
+      "date": "2026-11-24",
+      "author": "telemetry-researcher-b",
+      "type": "research-correction",
+      "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+      "claimIds": [
+        "factory:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Airgap execution and files remain inside the customer network, subject to its infrastructure egress rules. Model traffic can go directly to configured enterprise provider APIs or gateways. The hosted control plane can retain authentication, administrative and operational logs. Operational log retention and residency depend on the customer engagement; customer sandbox logs use customer policy. Retention and residency for Factory-hosted logs are documented in the Trust Center and can be tuned per engagement; Factory Private keeps sandbox code and telemetry in the customer environment. This page names no specific regions. In the Enterprise airgap build, Factory telemetry and crash reports are disabled; with no customer collector configured, the telemetry pipeline does not run. This does not establish a complete connected-build opt-out. Airgap model requests go only to user-configured model endpoints.",
+        "checkedAt": "2026-11-07",
+        "nextReviewAt": "2026-11-21",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Airgap execution and files remain inside the customer network, subject to its infrastructure egress rules. Model traffic can go directly to configured enterprise provider APIs or gateways. The hosted control plane can retain authentication, administrative and operational logs. Operational log retention and residency depend on the customer engagement; customer sandbox logs use customer policy. Retention and residency for Factory-hosted logs are documented in the Trust Center and can be tuned per engagement; Factory Private keeps sandbox code and telemetry in the customer environment. This page names no specific regions. In the Enterprise airgap build, Factory telemetry and crash reports are disabled; with no customer collector configured, the telemetry pipeline does not run. This does not establish a complete connected-build opt-out. Airgap model requests go only to user-configured model endpoints. Telemetry (atomic revision 2): OpenTelemetry metrics go to Factory by default in connected deployments; no off switch is documented outside airgapped Enterprise builds, so its location is unknown.",
+        "checkedAt": "2026-11-07",
+        "nextReviewAt": "2026-11-21",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "unknown"
+        }
+      },
+      "evidenceIds": [
+        "tel-2611-telemetry"
+      ]
     }
   ],
   "context": {
