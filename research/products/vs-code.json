@@ -5170,10 +5170,10 @@
         },
         "telemetry_defaults": {
           "support": "supported",
-          "answer": "Telemetry defaults to enabled; free Copilot telemetry enabled by default.",
+          "answer": "On by default: telemetry.telemetryLevel defaults to on (usage data, errors and crash reports).",
           "evidenceIds": [
-            "tel",
-            "setupcopilot"
+            "tel-2611-setting",
+            "tel-2611-docs"
           ]
         },
         "telemetry_controls": {
@@ -5184,9 +5184,12 @@
           ]
         },
         "telemetry_off_switch": {
-          "support": "unknown",
-          "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "In the app: the telemetry.telemetryLevel entry in the Settings editor (or settings.json, or an enterprise policy).",
+          "evidenceIds": [
+            "tel-2611-setting",
+            "tel-2611-docs"
+          ]
         },
         "consent_prompt": {
           "support": "unknown",
@@ -5215,11 +5218,13 @@
         "memory",
         "history",
         "tel",
-        "setupcopilot"
+        "setupcopilot",
+        "tel-2611-setting",
+        "tel-2611-docs"
       ],
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
-      "researcher": "researcher-vs-code",
+      "researcher": "telemetry-researcher-e",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -6542,6 +6547,32 @@
       "visibility": "public",
       "commit": null,
       "path": null
+    },
+    {
+      "id": "tel-2611-setting",
+      "kind": "source-inspected",
+      "url": "https://github.com/microsoft/vscode/blob/8a14f0cc1b08d531eb83255ea3764ae22aa932b5/src/vs/platform/telemetry/common/telemetryService.ts#L337-L351",
+      "title": "microsoft/vscode 1.147.0: src/vs/platform/telemetry/common/telemetryService.ts",
+      "locator": "telemetry.telemetryLevel configuration",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-24",
+      "finding": "telemetry.telemetryLevel defaults to on (\"Sends usage data, errors, and crash reports\") and is a Settings editor entry with a TelemetryLevel enterprise policy.",
+      "visibility": "public",
+      "commit": "8a14f0cc1b08d531eb83255ea3764ae22aa932b5",
+      "path": "src/vs/platform/telemetry/common/telemetryService.ts"
+    },
+    {
+      "id": "tel-2611-docs",
+      "kind": "documented",
+      "url": "https://code.visualstudio.com/docs/configure/telemetry",
+      "title": "Telemetry (VS Code docs)",
+      "locator": "Disable telemetry reporting",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-24",
+      "finding": "Setting telemetry.telemetryLevel to off in user settings silences all VS Code telemetry; data may have been sent before the change; managed devices can use the enterprise policy.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
     }
   ],
   "changes": [
@@ -6673,6 +6704,39 @@
         "reviewed": false
       },
       "evidenceIds": []
+    },
+    {
+      "date": "2026-11-24",
+      "author": "telemetry-researcher-e",
+      "type": "research-correction",
+      "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+      "claimIds": [
+        "vs-code:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Prompts and code go to the selected model provider (GitHub Copilot, Anthropic, OpenAI or a BYOK endpoint); memory and session sync store data on GitHub when enabled; telemetry is controlled by telemetry.telemetryLevel with the free Copilot telemetry note; retention, training use, residency and subprocessors are Copilot Trust Center matters.",
+        "checkedAt": "2026-11-16",
+        "nextReviewAt": "2027-03-16",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Prompts and code go to the selected model provider (GitHub Copilot, Anthropic, OpenAI or a BYOK endpoint); memory and session sync store data on GitHub when enabled; telemetry is controlled by telemetry.telemetryLevel with the free Copilot telemetry note; retention, training use, residency and subprocessors are Copilot Trust Center matters.",
+        "checkedAt": "2026-11-16",
+        "nextReviewAt": "2027-03-16",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "supported"
+        }
+      },
+      "evidenceIds": [
+        "tel-2611-setting",
+        "tel-2611-docs"
+      ]
     }
   ],
   "context": {
