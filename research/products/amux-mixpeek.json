@@ -5193,7 +5193,7 @@
     {
       "id": "amux-mixpeek:OWN-03",
       "criterionId": "OWN-03",
-      "answer": "Self-hosted: code, prompts and logs stay on your machine and nothing is sent to amux; agent CLIs talk to their own providers. Cloud: dedicated Hetzner server in Germany/Finland, counts-only hourly usage report, daily backups, Stripe for payment. Website uses PostHog; apps have no analytics.",
+      "answer": "Self-hosted: code, prompts and logs stay on your machine and nothing is sent to amux (PostHog hooks in the source are no-ops without a key); agent CLIs talk to their own providers. Cloud: dedicated Hetzner server in Germany/Finland, counts-only hourly usage report on by default, a gateway-injected PostHog key for server and browser events that the privacy policy does not mention, daily backups, Stripe for payment. Website uses PostHog; the iOS app has no analytics.",
       "support": "partial",
       "availability": "generally-available",
       "delivery": "native",
@@ -5292,11 +5292,11 @@
           ]
         },
         "telemetry_defaults": {
-          "support": "supported",
-          "answer": "Self-hosted: none; iOS app: none; Cloud: hourly counts-only usage report on by default.",
+          "support": "partial",
+          "answer": "On by default (amux Cloud only): Cloud servers send an hourly counts-only usage report, and the Cloud gateway injects a PostHog key that turns on the server and browser PostHog hooks. Self-hosted amux and the iOS app send no telemetry; the PostHog hooks are no-ops without a key.",
           "evidenceIds": [
-            "privacy",
-            "security"
+            "tel-2611-privacy",
+            "tel-2611-src"
           ]
         },
         "telemetry_controls": {
@@ -5308,8 +5308,11 @@
         },
         "telemetry_off_switch": {
           "support": "unknown",
-          "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-          "evidenceIds": []
+          "answer": "Unknown: the privacy policy offers no opt-out for the Cloud usage report, and whether Cloud customers can unset the injected PostHog key is not documented. Self-hosted has nothing to switch off.",
+          "evidenceIds": [
+            "tel-2611-privacy",
+            "tel-2611-src"
+          ]
         },
         "consent_prompt": {
           "support": "unknown",
@@ -5332,11 +5335,13 @@
         "privacy",
         "security",
         "credentials",
-        "selfhost"
+        "selfhost",
+        "tel-2611-privacy",
+        "tel-2611-src"
       ],
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
-      "researcher": "researcher-batch09",
+      "researcher": "telemetry-researcher-a",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -7058,6 +7063,32 @@
       "visibility": "public",
       "commit": "fdb1f7148442aa438554d50cb2e4649cb07aea90",
       "path": "crates/amux-server/src/runtime_jobs/deploy_wake.rs"
+    },
+    {
+      "id": "tel-2611-privacy",
+      "kind": "documented",
+      "url": "https://amux.io/privacy/",
+      "title": "amux privacy policy",
+      "locator": "Self-hosted; iOS app; amux Cloud usage counts",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-24",
+      "finding": "Self-hosted: no telemetry, analytics, crash reports or usage data. iOS app: no analytics SDKs. amux Cloud: the signup service reads an hourly counts-only usage report from each customer server to help stuck customers and catch problems; no opt-out is described.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "tel-2611-src",
+      "kind": "source-inspected",
+      "url": "https://github.com/mixpeek/amux/blob/f3923258842b19c254bacd207dc7b2511b599929/amux-server.py#L217-L226",
+      "title": "amux PostHog hooks at v0.9.108",
+      "locator": "amux-server.py L217-L226, L12842-L12886, L41894-L41895; cloud/gateway/gateway.py L21-L22, L833-L834; cloud/docker/docker-compose.template.yml L20-L21",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-24",
+      "finding": "At v0.9.108 the server has PostHog server events (rate limits, auto-answers, crashes) and browser frustration and error tracking, both no-ops when POSTHOG_KEY is unset. No key ships in the self-hosted package. The Cloud gateway injects POSTHOG_KEY into each Cloud server's compose file, so Cloud servers can send PostHog events. The privacy policy names only website PostHog and the Cloud usage report.",
+      "visibility": "public",
+      "commit": "f3923258842b19c254bacd207dc7b2511b599929",
+      "path": "amux-server.py"
     }
   ],
   "changes": [
@@ -7301,6 +7332,39 @@
         "reviewed": false
       },
       "evidenceIds": []
+    },
+    {
+      "date": "2026-11-24",
+      "author": "telemetry-researcher-a",
+      "type": "research-correction",
+      "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+      "claimIds": [
+        "amux-mixpeek:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Self-hosted: code, prompts and logs stay on your machine and nothing is sent to amux; agent CLIs talk to their own providers. Cloud: dedicated Hetzner server in Germany/Finland, counts-only hourly usage report, daily backups, Stripe for payment. Website uses PostHog; apps have no analytics.",
+        "checkedAt": "2026-11-16",
+        "nextReviewAt": "2027-03-16",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Self-hosted: code, prompts and logs stay on your machine and nothing is sent to amux (PostHog hooks in the source are no-ops without a key); agent CLIs talk to their own providers. Cloud: dedicated Hetzner server in Germany/Finland, counts-only hourly usage report on by default, a gateway-injected PostHog key for server and browser events that the privacy policy does not mention, daily backups, Stripe for payment. Website uses PostHog; the iOS app has no analytics.",
+        "checkedAt": "2026-11-16",
+        "nextReviewAt": "2027-03-16",
+        "subanswers": {
+          "telemetry_defaults": "partial",
+          "telemetry_off_switch": "unknown"
+        }
+      },
+      "evidenceIds": [
+        "tel-2611-privacy",
+        "tel-2611-src"
+      ]
     }
   ],
   "context": {

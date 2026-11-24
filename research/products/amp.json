@@ -4985,8 +4985,10 @@
         },
         "telemetry_defaults": {
           "support": "unknown",
-          "answer": "Not established for telemetry defaults in the named first-party source pass. Product access and scenario tests were not run.",
-          "evidenceIds": []
+          "answer": "Unknown: Amp's security page confirms telemetry is stored on Amp Server, but no first-party source says what the client sends or whether it is on by default; the privacy policy covers only website analytics. The CLI ships as a closed binary.",
+          "evidenceIds": [
+            "tel-2611-security"
+          ]
         },
         "telemetry_controls": {
           "support": "unknown",
@@ -4995,8 +4997,10 @@
         },
         "telemetry_off_switch": {
           "support": "unknown",
-          "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-          "evidenceIds": []
+          "answer": "Unknown: no first-party source documents a setting, flag or environment variable that stops Amp client telemetry.",
+          "evidenceIds": [
+            "tel-2611-security"
+          ]
         },
         "consent_prompt": {
           "support": "partial",
@@ -5021,11 +5025,12 @@
         "gap07-security",
         "b02-files",
         "b02-security",
-        "b02-routing"
+        "b02-routing",
+        "tel-2611-security"
       ],
       "checkedAt": "2026-11-07",
       "nextReviewAt": "2026-11-21",
-      "researcher": "researcher-ade-124",
+      "researcher": "telemetry-researcher-a",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -6821,6 +6826,19 @@
       "title": "Workspaces | Amp Docs",
       "locator": "Member tiers; Pay for Members",
       "finding": "Team workspace admins can change a member's tier and set an optional base tier of Megawatt or Gigawatt for all members; service accounts never get a base tier seat and do not count toward its price. A Team workspace pays for its members' usage and paid tiers by default (Pay for Members); admins can turn this off so members pay for themselves, which removes the base tier. Enterprise workspaces always pay for their members."
+    },
+    {
+      "id": "tel-2611-security",
+      "kind": "documented",
+      "url": "https://ampcode.com/security",
+      "title": "Amp security page",
+      "locator": "Data storage",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-24",
+      "finding": "Threads, user information and telemetry on Amp Server are stored in a multi-tenant Google Cloud project. The page does not describe what client telemetry is collected, its default, or any opt-out. The Amp privacy policy (ampcode.com/privacy-policy) covers website analytics and advertising pixels, not client telemetry.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
     }
   ],
   "changes": [
@@ -11902,6 +11920,38 @@
         "reviewed": false
       },
       "evidenceIds": []
+    },
+    {
+      "date": "2026-11-24",
+      "author": "telemetry-researcher-a",
+      "type": "research-correction",
+      "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+      "claimIds": [
+        "amp:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Local code snippets and context can be sent to Amp Server and model providers. Prompts and conversation history are sent to Amp Server and then inference providers. Authentication audit logs are available to Enterprise admins; internal application logs are not exposed to admins. Enterprise workspace threads remain until the enterprise contract ends, including after the author leaves. Deleting a thread also deletes its associated Orb, usually within seconds. Training can be toggled in Settings Privacy; workspace enabling requires admin approval. Amp Server stores data in a multi-tenant Google Cloud Platform project; its primary infrastructure is hosted in the US, and no narrower region is stated. Personal provider subscription terms and data controls apply independently of Amp training settings. Attachments stay private to the thread under access checks; deleted threads and their data are removed within 30 days. Training requires explicit opt-in and workspace admin approval, never on Enterprise; no first-run consent dialog is documented. Best-effort secret redaction before content reaches threads or providers; stored secrets are encrypted; the CLI keeps credentials in ~/.local/share/amp/secrets.json. The security reference lists GCP, Anthropic, OpenAI, SpaceXAI, Meta, Vertex, Bedrock, Baseten, TypeSafe, e2b, Pierre, LiveKit, Parallel, Cloudflare Email, WorkOS, Stripe and others, with what each sees. Telemetry is stored with thread and user data in a GCP project; what is collected and opt-out controls are not described.",
+        "checkedAt": "2026-11-07",
+        "nextReviewAt": "2026-11-21",
+        "subanswers": {
+          "telemetry_defaults": "unknown",
+          "telemetry_off_switch": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Local code snippets and context can be sent to Amp Server and model providers. Prompts and conversation history are sent to Amp Server and then inference providers. Authentication audit logs are available to Enterprise admins; internal application logs are not exposed to admins. Enterprise workspace threads remain until the enterprise contract ends, including after the author leaves. Deleting a thread also deletes its associated Orb, usually within seconds. Training can be toggled in Settings Privacy; workspace enabling requires admin approval. Amp Server stores data in a multi-tenant Google Cloud Platform project; its primary infrastructure is hosted in the US, and no narrower region is stated. Personal provider subscription terms and data controls apply independently of Amp training settings. Attachments stay private to the thread under access checks; deleted threads and their data are removed within 30 days. Training requires explicit opt-in and workspace admin approval, never on Enterprise; no first-run consent dialog is documented. Best-effort secret redaction before content reaches threads or providers; stored secrets are encrypted; the CLI keeps credentials in ~/.local/share/amp/secrets.json. The security reference lists GCP, Anthropic, OpenAI, SpaceXAI, Meta, Vertex, Bedrock, Baseten, TypeSafe, e2b, Pierre, LiveKit, Parallel, Cloudflare Email, WorkOS, Stripe and others, with what each sees. Telemetry is stored with thread and user data in a GCP project; what is collected and opt-out controls are not described.",
+        "checkedAt": "2026-11-07",
+        "nextReviewAt": "2026-11-21",
+        "subanswers": {
+          "telemetry_defaults": "unknown",
+          "telemetry_off_switch": "unknown"
+        }
+      },
+      "evidenceIds": [
+        "tel-2611-security"
+      ]
     }
   ],
   "context": {

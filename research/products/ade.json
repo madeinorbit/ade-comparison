@@ -5232,7 +5232,7 @@
     {
       "id": "ade:OWN-03",
       "criterionId": "OWN-03",
-      "answer": "Code and prompts stay on your machines and go to your providers; Sentry error tracking and PostHog product analytics (closed event list, allowlisted properties, hashed ids, session replay of ADE UI) are on by default on every surface with no consent prompt and no Settings control; DO_NOT_TRACK=1 and ADE_DISABLE_PRODUCT_ANALYTICS=1 stop them; the account and relay are hosted.",
+      "answer": "Code and prompts stay on your machines and go to your providers; Sentry error tracking and PostHog product analytics (closed event list, allowlisted properties, hashed ids, session replay of ADE UI) are on by default on every surface with no consent prompt and no Settings control for analytics; DO_NOT_TRACK=1 and ADE_DISABLE_PRODUCT_ANALYTICS=1 stop them, and a Settings Diagnostics sharing switch stops only automatic diagnostic reports; the account and relay are hosted.",
       "support": "partial",
       "availability": "generally-available",
       "delivery": "native",
@@ -5336,9 +5336,9 @@
         },
         "telemetry_defaults": {
           "support": "supported",
-          "answer": "Product analytics and diagnostic reports are on by default on every surface.",
+          "answer": "On by default: PostHog product analytics, Sentry error reports and automatic diagnostic reports run in release builds on every surface without a prompt (v1.2.134).",
           "evidenceIds": [
-            "analytics-policy"
+            "tel-2611-logging"
           ]
         },
         "telemetry_controls": {
@@ -5349,9 +5349,11 @@
           ]
         },
         "telemetry_off_switch": {
-          "support": "unknown",
-          "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "Config only: the desktop has no analytics settings UI; DO_NOT_TRACK=1 or ADE_DISABLE_PRODUCT_ANALYTICS=1 stop analytics and DO_NOT_TRACK or ADE_SENTRY_DISABLED stop Sentry. The Settings Diagnostics sharing switch stops only automatic diagnostic reports.",
+          "evidenceIds": [
+            "tel-2611-logging"
+          ]
         },
         "consent_prompt": {
           "support": "unsupported",
@@ -5382,11 +5384,12 @@
         "cfgoverview",
         "analyticssvc",
         "analytics",
-        "analytics-policy"
+        "analytics-policy",
+        "tel-2611-logging"
       ],
       "checkedAt": "2026-11-17",
       "nextReviewAt": "2027-03-17",
-      "researcher": "agent:ADE-101",
+      "researcher": "telemetry-researcher-a",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -6914,6 +6917,19 @@
       "visibility": "public",
       "commit": null,
       "path": null
+    },
+    {
+      "id": "tel-2611-logging",
+      "kind": "source-inspected",
+      "url": "https://github.com/arul28/ADE/blob/f5d9b59538737a1a1e25464af25cec23698f7a30/docs/logging.md",
+      "title": "ADE logging and telemetry document at v1.2.134",
+      "locator": "L66, L597, L2744-L2745; apps/desktop/src/main/services/analytics/productAnalyticsService.ts L818-L823",
+      "sourceDate": "2026-11-24",
+      "retrievedAt": "2026-11-24",
+      "finding": "At v1.2.134 PostHog product analytics and Sentry run in packaged release builds without a prompt. The document states the desktop has no analytics settings UI; ADE_DISABLE_PRODUCT_ANALYTICS=1, DO_NOT_TRACK=1 or a persisted opt-out marker stop analytics, and DO_NOT_TRACK or ADE_SENTRY_DISABLED stop Sentry. The CHANGELOG (1.2.62) adds a Settings Diagnostics sharing switch that stops only automatic diagnostic reports.",
+      "visibility": "public",
+      "commit": "f5d9b59538737a1a1e25464af25cec23698f7a30",
+      "path": "docs/logging.md"
     }
   ],
   "changes": [
@@ -7334,6 +7350,38 @@
         "reviewed": false
       },
       "evidenceIds": []
+    },
+    {
+      "date": "2026-11-24",
+      "author": "telemetry-researcher-a",
+      "type": "research-correction",
+      "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+      "claimIds": [
+        "ade:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Code and prompts stay on your machines and go to your providers; Sentry error tracking and PostHog product analytics (closed event list, allowlisted properties, hashed ids, session replay of ADE UI) are on by default on every surface with no consent prompt and no Settings control; DO_NOT_TRACK=1 and ADE_DISABLE_PRODUCT_ANALYTICS=1 stop them; the account and relay are hosted.",
+        "checkedAt": "2026-11-17",
+        "nextReviewAt": "2027-03-17",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Code and prompts stay on your machines and go to your providers; Sentry error tracking and PostHog product analytics (closed event list, allowlisted properties, hashed ids, session replay of ADE UI) are on by default on every surface with no consent prompt and no Settings control for analytics; DO_NOT_TRACK=1 and ADE_DISABLE_PRODUCT_ANALYTICS=1 stop them, and a Settings Diagnostics sharing switch stops only automatic diagnostic reports; the account and relay are hosted.",
+        "checkedAt": "2026-11-17",
+        "nextReviewAt": "2027-03-17",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "supported"
+        }
+      },
+      "evidenceIds": [
+        "tel-2611-logging"
+      ]
     }
   ],
   "context": {

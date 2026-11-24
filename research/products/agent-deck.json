@@ -4151,9 +4151,9 @@
     },
     "telemetry_defaults": {
      "support": "supported",
-     "answer": "Off until one-time consent.",
+     "answer": "Opt-in: nothing is recorded or sent until the user says yes in a one-time TUI prompt; crash reports are off unless the user configures a Sentry DSN.",
      "evidenceIds": [
-      "readme"
+      "tel-2611-telemetry"
      ]
     },
     "telemetry_controls": {
@@ -4164,14 +4164,18 @@
      ]
     },
     "telemetry_off_switch": {
-     "support": "unknown",
-     "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-     "evidenceIds": []
+     "support": "supported",
+     "answer": "In the app: the first-run TUI prompt is the opt-in choice; afterwards agent-deck telemetry off or DO_NOT_TRACK=1 turns it off.",
+     "evidenceIds": [
+      "tel-2611-telemetry"
+     ]
     },
     "consent_prompt": {
-     "support": "unknown",
-     "answer": "Consent prompt remains unknown after the first-party source pass; no direct statement or bounded test was found.",
-     "evidenceIds": []
+     "support": "supported",
+     "answer": "A one-time TUI question on first interactive start asks Share anonymous data or No thanks.",
+     "evidenceIds": [
+      "tel-2611-telemetry"
+     ]
     },
     "provider_separation": {
      "support": "supported",
@@ -4186,11 +4190,12 @@
    ],
    "unknownReason": "Unanswered atomic questions remain open after the cited source pass. No live coding-agent, cross-device, collaboration or failure fixture was run unless explicitly recorded as observed.",
    "evidenceIds": [
-    "readme"
+    "readme",
+    "tel-2611-telemetry"
    ],
    "checkedAt": "2026-11-08",
    "nextReviewAt": "2026-11-22",
-   "researcher": "researcher-73",
+   "researcher": "telemetry-researcher-a",
    "publication": "public-candidate",
    "review": null,
    "contradictions": []
@@ -5015,6 +5020,19 @@
    "visibility": "public",
    "commit": "d62c2898d623e5353392a06f9a77c19f97b33438",
    "path": "docs/ROADMAP.md"
+  },
+  {
+   "id": "tel-2611-telemetry",
+   "kind": "source-inspected",
+   "url": "https://github.com/asheshgoplani/agent-deck/blob/6b984a1e08968975b1e2643b0339374e0ed6afb3/TELEMETRY.md",
+   "title": "agent-deck TELEMETRY.md at v1.16.40",
+   "locator": "TELEMETRY.md L1-L40; internal/ui/telemetry_dialog.go; internal/telemetry/consent.go L34; internal/crashreport/crashreport.go header",
+   "sourceDate": null,
+   "retrievedAt": "2026-11-24",
+   "finding": "At v1.16.40 usage telemetry to PostHog EU is off until the user answers yes in a one-time TUI prompt (Share anonymous data / No thanks). agent-deck telemetry off or DO_NOT_TRACK=1 turns it off later, and telemetry preview shows the payload. Crash reporting is off unless a Sentry DSN is configured at run time; none is compiled in.",
+   "visibility": "public",
+   "commit": "6b984a1e08968975b1e2643b0339374e0ed6afb3",
+   "path": "TELEMETRY.md"
   }
  ],
  "changes": [
@@ -5692,6 +5710,40 @@
     "reviewed": false
    },
    "evidenceIds": []
+  },
+  {
+   "date": "2026-11-24",
+   "author": "telemetry-researcher-a",
+   "type": "research-correction",
+   "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+   "claimIds": [
+    "agent-deck:OWN-03"
+   ],
+   "before": {
+    "support": "partial",
+    "answer": "Usage telemetry is opt-in and has CLI preview/disable controls.",
+    "checkedAt": "2026-11-08",
+    "nextReviewAt": "2026-11-22",
+    "subanswers": {
+     "telemetry_defaults": "supported",
+     "telemetry_off_switch": "unknown",
+     "consent_prompt": "unknown"
+    }
+   },
+   "after": {
+    "support": "partial",
+    "answer": "Usage telemetry is opt-in and has CLI preview/disable controls.",
+    "checkedAt": "2026-11-08",
+    "nextReviewAt": "2026-11-22",
+    "subanswers": {
+     "telemetry_defaults": "supported",
+     "telemetry_off_switch": "supported",
+     "consent_prompt": "supported"
+    }
+   },
+   "evidenceIds": [
+    "tel-2611-telemetry"
+   ]
   }
  ],
  "context": {
