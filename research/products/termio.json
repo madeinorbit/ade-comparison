@@ -5039,7 +5039,7 @@
     {
       "id": "termio:OWN-03",
       "criterionId": "OWN-03",
-      "answer": "Code and sessions stay on your machines (termiod, SSH, your tunnel); the app sends an anonymous once-per-day active-install ping to PostHog when its key is set, with an opt-out in Settings General Privacy; Sparkle sees IP and version; no relay of Termio.",
+      "answer": "Code and sessions stay on your machines (termiod, SSH, your tunnel). The app contains a once-per-day anonymous PostHog active-install ping with a Settings General Privacy switch that defaults on, but the v0.77.0 source has an empty PostHog key and the privacy policy says there is no telemetry; whether release binaries send the ping is not established. Sparkle sees IP and version; no relay of Termio.",
       "support": "partial",
       "availability": "generally-available",
       "delivery": "native",
@@ -5139,10 +5139,10 @@
         },
         "telemetry_defaults": {
           "support": "partial",
-          "answer": "Default analyticsEnabled is true, but the PostHog project key is empty in the pinned source, so a build without a key sends nothing; whether release builds inject a key is not shown.",
+          "answer": "Default not established: the ping setting defaults to on, but the tagged v0.77.0 source has an empty PostHog key (so it sends nothing) and the privacy policy says there is no telemetry, while the docs describe a Privacy switch for daily usage statistics. Whether official binaries embed a key is not shown.",
           "evidenceIds": [
-            "analytics",
-            "settings"
+            "tel-2611-analytics",
+            "tel-2611-privacy"
           ]
         },
         "telemetry_controls": {
@@ -5154,9 +5154,12 @@
           ]
         },
         "telemetry_off_switch": {
-          "support": "unknown",
-          "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "In the app: Settings > General > Privacy switch for anonymous daily usage statistics.",
+          "evidenceIds": [
+            "tel-2611-analytics",
+            "tel-2611-privacy"
+          ]
         },
         "consent_prompt": {
           "support": "unsupported",
@@ -5179,7 +5182,7 @@
         "training: No model.",
         "subprocessors: PostHog for the anonymous ping if enabled; Sparkle download host; optional tunnel provider."
       ],
-      "unknownReason": "Whether released binaries carry a PostHog key, and scrollback retention, are not documented.",
+      "unknownReason": "Whether official release binaries embed a PostHog key is not visible in the public source or release workflow.",
       "evidenceIds": [
         "devices",
         "iphone",
@@ -5189,11 +5192,13 @@
         "analytics",
         "appearance",
         "settings",
-        "agentsdoc"
+        "agentsdoc",
+        "tel-2611-analytics",
+        "tel-2611-privacy"
       ],
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
-      "researcher": "researcher-batch07",
+      "researcher": "telemetry-researcher-e",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -6579,6 +6584,32 @@
       "visibility": "public",
       "commit": "3b861e54a48acf216ae64f6b3d4856ebb3f74fbe",
       "path": "web/landing/content/docs/agents.mdx"
+    },
+    {
+      "id": "tel-2611-analytics",
+      "kind": "source-inspected",
+      "url": "https://github.com/termio-sh/termio/blob/da65473cc6377bd34b762bbee6313aea5837bbbf/Sources/termio/App/Analytics.swift#L24-L35",
+      "title": "termio-sh/termio v0.77.0: Sources/termio/App/Analytics.swift",
+      "locator": "projectAPIKey",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-24",
+      "finding": "The PostHog project key is an empty string in the tagged source (\"Empty disables every path below\"), so a build of this source sends nothing; Settings.swift line 620 registers privacy.analyticsEnabled = true and GeneralSettingsTab.swift line 41 renders the toggle. No release workflow injects a key.",
+      "visibility": "public",
+      "commit": "da65473cc6377bd34b762bbee6313aea5837bbbf",
+      "path": "Sources/termio/App/Analytics.swift"
+    },
+    {
+      "id": "tel-2611-privacy",
+      "kind": "documented",
+      "url": "https://termio.sh/privacy",
+      "title": "Termio Privacy Policy (last updated 2026-07-04)",
+      "locator": "Overview; What we don't collect",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-24",
+      "finding": "States there is no analytics SDK and no telemetry and no usage analytics of any kind, while the v0.77.0 docs (appearance.mdx line 79) describe a Privacy switch for anonymous daily usage statistics.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
     }
   ],
   "changes": [
@@ -6893,6 +6924,39 @@
         "reviewed": false
       },
       "evidenceIds": []
+    },
+    {
+      "date": "2026-11-24",
+      "author": "telemetry-researcher-e",
+      "type": "research-correction",
+      "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+      "claimIds": [
+        "termio:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Code and sessions stay on your machines (termiod, SSH, your tunnel); the app sends an anonymous once-per-day active-install ping to PostHog when its key is set, with an opt-out in Settings General Privacy; Sparkle sees IP and version; no relay of Termio.",
+        "checkedAt": "2026-11-16",
+        "nextReviewAt": "2027-03-16",
+        "subanswers": {
+          "telemetry_defaults": "partial",
+          "telemetry_off_switch": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Code and sessions stay on your machines (termiod, SSH, your tunnel). The app contains a once-per-day anonymous PostHog active-install ping with a Settings General Privacy switch that defaults on, but the v0.77.0 source has an empty PostHog key and the privacy policy says there is no telemetry; whether release binaries send the ping is not established. Sparkle sees IP and version; no relay of Termio.",
+        "checkedAt": "2026-11-16",
+        "nextReviewAt": "2027-03-16",
+        "subanswers": {
+          "telemetry_defaults": "partial",
+          "telemetry_off_switch": "supported"
+        }
+      },
+      "evidenceIds": [
+        "tel-2611-analytics",
+        "tel-2611-privacy"
+      ]
     }
   ],
   "context": {

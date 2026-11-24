@@ -4157,9 +4157,10 @@
         },
         "telemetry_defaults": {
           "support": "supported",
-          "answer": "Help improve Warp permits high-level usage data and AI interactions/console inputs; Free AI requires telemetry.",
+          "answer": "On by default: Help improve Warp (analytics) and Send crash reports default to enabled.",
           "evidenceIds": [
-            "gap07-privacy"
+            "tel-2611-default",
+            "tel-2611-privacy"
           ]
         },
         "telemetry_controls": {
@@ -4170,9 +4171,12 @@
           ]
         },
         "telemetry_off_switch": {
-          "support": "unknown",
-          "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "In the app: Settings > Privacy toggles for Help improve Warp and Send crash reports.",
+          "evidenceIds": [
+            "tel-2611-default",
+            "tel-2611-privacy"
+          ]
         },
         "consent_prompt": {
           "support": "unknown",
@@ -4193,11 +4197,13 @@
       "unknownReason": "Unknown after the targeted first-party documentation, release and repository pass: prompts, logs, training, residency, subprocessors, consent_prompt. No configured product fixture was run; documentation does not establish successful hands-on behavior.",
       "evidenceIds": [
         "gap07-privacy",
-        "gap07-sharing"
+        "gap07-sharing",
+        "tel-2611-default",
+        "tel-2611-privacy"
       ],
       "checkedAt": "2026-11-07",
       "nextReviewAt": "2026-11-21",
-      "researcher": "researcher-64",
+      "researcher": "telemetry-researcher-e",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -5292,6 +5298,32 @@
       "title": "Warp changelog 2026",
       "locator": "Release list",
       "finding": "The 2026 changelog lists releases through 2026.11.12 (v0.2026.11.11.08.17)."
+    },
+    {
+      "id": "tel-2611-default",
+      "kind": "source-inspected",
+      "url": "https://github.com/warpdotdev/warp/blob/2249469e5d24e472cee6ce97d3d324293f67db71/app/src/settings/privacy.rs#L92-L104",
+      "title": "warpdotdev/warp v0.2026.06.03.09.49.stable_00: app/src/settings/privacy.rs",
+      "locator": "IsTelemetryEnabled and IsCrashReportingEnabled",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-24",
+      "finding": "Both privacy settings default to true. Issue #15595 (closed as completed 2026-09-01) reported that a server-controlled AgentModeAnalytics experiment flag could keep telemetry on after opt-out.",
+      "visibility": "public",
+      "commit": "2249469e5d24e472cee6ce97d3d324293f67db71",
+      "path": "app/src/settings/privacy.rs"
+    },
+    {
+      "id": "tel-2611-privacy",
+      "kind": "documented",
+      "url": "https://docs.warp.dev/support-and-community/privacy-and-security/privacy/",
+      "title": "Privacy and data control (Warp docs, last updated 2026-11-23)",
+      "locator": "How to disable telemetry and crash reporting",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-24",
+      "finding": "In the Warp app open Settings > Privacy and toggle off Help improve Warp to stop analytics and content collection; Send crash reports is a separate toggle.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
     }
   ],
   "changes": [
@@ -7928,6 +7960,39 @@
         "reviewed": false
       },
       "evidenceIds": []
+    },
+    {
+      "date": "2026-11-24",
+      "author": "telemetry-researcher-e",
+      "type": "research-correction",
+      "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+      "claimIds": [
+        "warp:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "With telemetry disabled no console interactions are persisted on Warp servers, according to the privacy documentation. Secret redaction is not applied to Session Sharing; visible secrets remain visible to authorized viewers. Session sharing uploads scrollback and live output to Warp servers. Shared-session data expires approximately one week after sharing. Stop sharing ends live access, but no per-session immediate-delete control is available before expiry; account-deletion jobs run every twenty-four hours. Warp documents Rudderstack analytics, Sentry crashes and an exhaustive event table. Help improve Warp permits high-level usage data and AI interactions/console inputs; Free AI requires telemetry. Settings > Privacy separately disables Help improve Warp and Send crash reports. Paid plans retain AI after opting out; Free AI requires telemetry. Business and Enterprise ZDR excludes AI interaction and console-data collection.",
+        "checkedAt": "2026-11-07",
+        "nextReviewAt": "2026-11-21",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "With telemetry disabled no console interactions are persisted on Warp servers, according to the privacy documentation. Secret redaction is not applied to Session Sharing; visible secrets remain visible to authorized viewers. Session sharing uploads scrollback and live output to Warp servers. Shared-session data expires approximately one week after sharing. Stop sharing ends live access, but no per-session immediate-delete control is available before expiry; account-deletion jobs run every twenty-four hours. Warp documents Rudderstack analytics, Sentry crashes and an exhaustive event table. Help improve Warp permits high-level usage data and AI interactions/console inputs; Free AI requires telemetry. Settings > Privacy separately disables Help improve Warp and Send crash reports. Paid plans retain AI after opting out; Free AI requires telemetry. Business and Enterprise ZDR excludes AI interaction and console-data collection.",
+        "checkedAt": "2026-11-07",
+        "nextReviewAt": "2026-11-21",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "supported"
+        }
+      },
+      "evidenceIds": [
+        "tel-2611-default",
+        "tel-2611-privacy"
+      ]
     }
   ],
   "context": {

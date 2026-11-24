@@ -4945,9 +4945,9 @@
         },
         "telemetry_defaults": {
           "support": "supported",
-          "answer": "Telemetry defaults: off by default.",
+          "answer": "Opt-in: telemetryEnabled defaults to false and PostHog loads only after the user turns it on.",
           "evidenceIds": [
-            "telemetry"
+            "tel-2611-telemetry"
           ]
         },
         "telemetry_controls": {
@@ -4958,9 +4958,11 @@
           ]
         },
         "telemetry_off_switch": {
-          "support": "unknown",
-          "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "In the app: the Security settings toggle turns telemetry on and back off.",
+          "evidenceIds": [
+            "tel-2611-telemetry"
+          ]
         },
         "consent_prompt": {
           "support": "partial",
@@ -4987,11 +4989,12 @@
         "architecture",
         "workspaces",
         "telemetry",
-        "ui"
+        "ui",
+        "tel-2611-telemetry"
       ],
       "checkedAt": "2026-11-17",
       "nextReviewAt": "2027-03-17",
-      "researcher": "researcher-batch15",
+      "researcher": "telemetry-researcher-e",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -5981,6 +5984,19 @@
       "visibility": "public",
       "commit": "1981ad989d4e9ebc532329df3b741de324da4aaa",
       "path": "media/tempest.png"
+    },
+    {
+      "id": "tel-2611-telemetry",
+      "kind": "source-inspected",
+      "url": "https://github.com/tempestai-dev/tempest/blob/1981ad989d4e9ebc532329df3b741de324da4aaa/src/lib/telemetry.ts#L1-L20",
+      "title": "tempestai-dev/tempest v0.1.25: src/lib/telemetry.ts",
+      "locator": "telemetry choke point header",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-24",
+      "finding": "PostHog is not loaded until explicit opt-in: telemetryEnabled defaults to false (src/store/appSettings.ts line 68), the library is dynamic-imported only after consent, and every event rechecks consent; the toggle is in src/components/SettingsPanel/SecuritySection.tsx.",
+      "visibility": "public",
+      "commit": "1981ad989d4e9ebc532329df3b741de324da4aaa",
+      "path": "src/lib/telemetry.ts"
     }
   ],
   "changes": [
@@ -6061,6 +6077,38 @@
         "reviewed": false
       },
       "evidenceIds": []
+    },
+    {
+      "date": "2026-11-24",
+      "author": "telemetry-researcher-e",
+      "type": "research-correction",
+      "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+      "claimIds": [
+        "tempest:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Code and graph stay local; anonymous usage telemetry is opt-in (off by default) via PostHog.",
+        "checkedAt": "2026-11-17",
+        "nextReviewAt": "2027-03-17",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Code and graph stay local; anonymous usage telemetry is opt-in (off by default) via PostHog.",
+        "checkedAt": "2026-11-17",
+        "nextReviewAt": "2027-03-17",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "supported"
+        }
+      },
+      "evidenceIds": [
+        "tel-2611-telemetry"
+      ]
     }
   ],
   "context": {

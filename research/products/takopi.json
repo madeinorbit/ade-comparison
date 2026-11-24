@@ -5252,9 +5252,9 @@
         },
         "telemetry_defaults": {
           "support": "supported",
-          "answer": "No telemetry found in src/takopi (bounded search for telemetry, analytics and sentry).",
+          "answer": "No telemetry: a bounded inspection of v0.23.4 found no analytics, telemetry or crash-reporting client. The only hit is a field name in the event model; there is no outbound analytics client.",
           "evidenceIds": [
-            "env"
+            "tel-2611-src"
           ]
         },
         "telemetry_controls": {
@@ -5265,9 +5265,11 @@
           ]
         },
         "telemetry_off_switch": {
-          "support": "unknown",
-          "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-          "evidenceIds": []
+          "support": "not-applicable",
+          "answer": "Nothing to switch off: no ADE telemetry.",
+          "evidenceIds": [
+            "tel-2611-src"
+          ]
         },
         "consent_prompt": {
           "support": "unsupported",
@@ -5307,11 +5309,12 @@
         "readme",
         "files",
         "config",
-        "commands"
+        "commands",
+        "tel-2611-src"
       ],
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
-      "researcher": "researcher-ade63",
+      "researcher": "telemetry-researcher-e",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -6256,6 +6259,19 @@
       "visibility": "public",
       "commit": "e0123d4f9b2588bf45ec7250ad648c324e20ce20",
       "path": "src/takopi/runners/claude.py"
+    },
+    {
+      "id": "tel-2611-src",
+      "kind": "source-inspected",
+      "url": "https://github.com/banteg/takopi/tree/e0123d4f9b2588bf45ec7250ad648c324e20ce20/src/takopi",
+      "title": "banteg/takopi v0.23.4 source tree",
+      "locator": "src/takopi; search terms: posthog, amplitude, mixpanel, @sentry/, sentry_sdk, segment.io, rudderstack, aptabase, bugsnag, datadog, plausible, umami, google-analytics, DO_NOT_TRACK, TELEMETRY (case-insensitive git grep over source and manifests, excluding docs, tests, lockfiles and vendored code), then telemetry/analytics hits read individually",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-24",
+      "finding": "Bounded inspection of v0.23.4 (e0123d4) found no analytics, telemetry or crash-reporting client sending data to the vendor. The only hit is a field name in the event model; there is no outbound analytics client.",
+      "visibility": "public",
+      "commit": "e0123d4f9b2588bf45ec7250ad648c324e20ce20",
+      "path": "src/takopi"
     }
   ],
   "changes": [
@@ -6304,6 +6320,38 @@
         "reviewed": false
       },
       "evidenceIds": []
+    },
+    {
+      "date": "2026-11-24",
+      "author": "telemetry-researcher-e",
+      "type": "research-correction",
+      "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+      "claimIds": [
+        "takopi:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "No telemetry or analytics in the package; messages flow through Telegram servers (not end-to-end encrypted bot chats), prompts go to the engines providers, and voice notes optionally to an OpenAI-compatible endpoint; files transfer through Telegram.",
+        "checkedAt": "2026-11-16",
+        "nextReviewAt": "2027-03-16",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "No telemetry or analytics in the package; messages flow through Telegram servers (not end-to-end encrypted bot chats), prompts go to the engines providers, and voice notes optionally to an OpenAI-compatible endpoint; files transfer through Telegram.",
+        "checkedAt": "2026-11-16",
+        "nextReviewAt": "2027-03-16",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "not-applicable"
+        }
+      },
+      "evidenceIds": [
+        "tel-2611-src"
+      ]
     }
   ],
   "context": {

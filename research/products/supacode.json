@@ -4981,9 +4981,9 @@
         },
         "telemetry_defaults": {
           "support": "supported",
-          "answer": "Analytics and crash reports are enabled in the default settings. Source inspection at v0.11.7.",
+          "answer": "On by default: analytics and crash reports are enabled in the default settings of v0.11.9.",
           "evidenceIds": [
-            "src1-analytics-client"
+            "tel-2611-settings"
           ]
         },
         "telemetry_controls": {
@@ -4995,9 +4995,11 @@
           ]
         },
         "telemetry_off_switch": {
-          "support": "unknown",
-          "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "In the app: Settings toggles turn off analytics and crash reports.",
+          "evidenceIds": [
+            "tel-2611-settings"
+          ]
         },
         "consent_prompt": {
           "support": "partial",
@@ -5025,11 +5027,12 @@
         "site",
         "sc-zmx",
         "sc-settings",
-        "sc-analytics"
+        "sc-analytics",
+        "tel-2611-settings"
       ],
       "checkedAt": "2026-11-10",
       "nextReviewAt": "2026-12-10",
-      "researcher": "source-depth-researcher-g1",
+      "researcher": "telemetry-researcher-e",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -6078,6 +6081,19 @@
       "visibility": "public",
       "commit": "309e6df8123b7c129dbf81c039d47a178a697a45",
       "path": "."
+    },
+    {
+      "id": "tel-2611-settings",
+      "kind": "source-inspected",
+      "url": "https://github.com/supabitapp/supacode/blob/39fe93bdfd9ee9507e1669e9cf6e3d7663082ac8/SupacodeSettingsShared/Models/GlobalSettings.swift#L205-L206",
+      "title": "supabitapp/supacode v0.11.9: SupacodeSettingsShared/Models/GlobalSettings.swift",
+      "locator": "default GlobalSettings",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-24",
+      "finding": "analyticsEnabled and crashReportsEnabled default to true; SupacodeSettingsFeature/Views/AppearanceSettingsView.swift line 125 renders toggles for both, and AnalyticsClient checks analyticsEnabled before capture.",
+      "visibility": "public",
+      "commit": "39fe93bdfd9ee9507e1669e9cf6e3d7663082ac8",
+      "path": "SupacodeSettingsShared/Models/GlobalSettings.swift"
     }
   ],
   "changes": [
@@ -8987,6 +9003,38 @@
         "reviewed": false
       },
       "evidenceIds": []
+    },
+    {
+      "date": "2026-11-24",
+      "author": "telemetry-researcher-e",
+      "type": "research-correction",
+      "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+      "claimIds": [
+        "supacode:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "The macOS app sends anonymous PostHog usage analytics and crash reports by default; Settings has toggles to turn each off. Other data handling was not established.",
+        "checkedAt": "2026-11-10",
+        "nextReviewAt": "2026-12-10",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "The macOS app sends anonymous PostHog usage analytics and crash reports by default; Settings has toggles to turn each off. Other data handling was not established.",
+        "checkedAt": "2026-11-10",
+        "nextReviewAt": "2026-12-10",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "supported"
+        }
+      },
+      "evidenceIds": [
+        "tel-2611-settings"
+      ]
     }
   ],
   "context": {

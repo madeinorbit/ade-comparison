@@ -5109,10 +5109,9 @@
         },
         "telemetry_defaults": {
           "support": "supported",
-          "answer": "No export unless OTEL endpoint set; update check on by default.",
+          "answer": "No telemetry: a bounded inspection of v3.20.22 found no analytics, telemetry or crash-reporting client. OpenTelemetry export is a no-op unless the user sets OTEL_* variables to their own collector (crates/architecture.toml); that is user observability, not data sent to the vendor. Update checks are not usage telemetry.",
           "evidenceIds": [
-            "obs",
-            "features"
+            "tel-2611-src"
           ]
         },
         "telemetry_controls": {
@@ -5125,9 +5124,11 @@
           ]
         },
         "telemetry_off_switch": {
-          "support": "unknown",
-          "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-          "evidenceIds": []
+          "support": "not-applicable",
+          "answer": "Nothing to switch off: no ADE telemetry.",
+          "evidenceIds": [
+            "tel-2611-src"
+          ]
         },
         "consent_prompt": {
           "support": "unsupported",
@@ -5156,11 +5157,12 @@
         "agents",
         "board",
         "taskctl",
-        "config-doc"
+        "config-doc",
+        "tel-2611-src"
       ],
       "checkedAt": "2026-11-17",
       "nextReviewAt": "2027-03-17",
-      "researcher": "researcher-batch20",
+      "researcher": "telemetry-researcher-e",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -6245,6 +6247,19 @@
       "title": "README: Use v2 for now",
       "locator": "section 'Use v2 for now' and 'Install v3 (not yet recommended)'",
       "finding": "After the v3.5.2 tag the README states that the maintainers recommend thurbox v2 (v2.89.0) over v3 for now because v3 is not yet fully stable. The README at the pinned v3.5.2 commit 67bec8c does not contain this notice."
+    },
+    {
+      "id": "tel-2611-src",
+      "kind": "source-inspected",
+      "url": "https://github.com/Thurbeen/thurbox/tree/219c68a6686f7cc20e15e21a80c70932c4f92e40",
+      "title": "Thurbeen/thurbox v3.20.22 source tree",
+      "locator": "repository root; search terms: posthog, amplitude, mixpanel, @sentry/, sentry_sdk, segment.io, rudderstack, aptabase, bugsnag, datadog, plausible, umami, google-analytics, DO_NOT_TRACK, TELEMETRY (case-insensitive git grep over source and manifests, excluding docs, tests, lockfiles and vendored code), then telemetry/analytics hits read individually",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-24",
+      "finding": "Bounded inspection of v3.20.22 (219c68a) found no analytics, telemetry or crash-reporting client sending data to the vendor. OpenTelemetry export is a no-op unless the user sets OTEL_* variables to their own collector (crates/architecture.toml); that is user observability, not data sent to the vendor. Update checks are not usage telemetry.",
+      "visibility": "public",
+      "commit": "219c68a6686f7cc20e15e21a80c70932c4f92e40",
+      "path": "."
     }
   ],
   "changes": [
@@ -6437,6 +6452,38 @@
         "reviewed": false
       },
       "evidenceIds": []
+    },
+    {
+      "date": "2026-11-24",
+      "author": "telemetry-researcher-e",
+      "type": "research-correction",
+      "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+      "claimIds": [
+        "thurbox:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "No thurbox servers receive code or prompts; update checks hit GitHub; OpenTelemetry export only to an endpoint the user sets.",
+        "checkedAt": "2026-11-17",
+        "nextReviewAt": "2027-03-17",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "No thurbox servers receive code or prompts; update checks hit GitHub; OpenTelemetry export only to an endpoint the user sets.",
+        "checkedAt": "2026-11-17",
+        "nextReviewAt": "2027-03-17",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "not-applicable"
+        }
+      },
+      "evidenceIds": [
+        "tel-2611-src"
+      ]
     }
   ],
   "context": {

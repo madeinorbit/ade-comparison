@@ -4210,9 +4210,12 @@
           ]
         },
         "telemetry_defaults": {
-          "support": "unknown",
-          "answer": "Not established for telemetry defaults in the named first-party source pass. Product access and scenario tests were not run.",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "On by default: client diagnostics and metrics default to true in v1.29.3.",
+          "evidenceIds": [
+            "tel-2611-defaults",
+            "tel-2611-docs"
+          ]
         },
         "telemetry_controls": {
           "support": "supported",
@@ -4222,9 +4225,12 @@
           ]
         },
         "telemetry_off_switch": {
-          "support": "unknown",
-          "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "In the app: the Settings UI telemetry entries (or settings.json) turn diagnostics and metrics off; hosted-service metadata stays required.",
+          "evidenceIds": [
+            "tel-2611-defaults",
+            "tel-2611-docs"
+          ]
         },
         "consent_prompt": {
           "support": "supported",
@@ -4249,11 +4255,13 @@
         "nov07-privacy",
         "nov07-telemetry",
         "gap07-privacy",
-        "gap07-telemetry"
+        "gap07-telemetry",
+        "tel-2611-defaults",
+        "tel-2611-docs"
       ],
       "checkedAt": "2026-11-07",
       "nextReviewAt": "2026-11-21",
-      "researcher": "researcher-64",
+      "researcher": "telemetry-researcher-e",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -5587,6 +5595,32 @@
       "sourceDate": null,
       "retrievedAt": "2026-11-21",
       "finding": "The welcome page offers opening a folder or cloning a repository; a project opens with zed <path> or Cmd/Ctrl+O.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "tel-2611-defaults",
+      "kind": "source-inspected",
+      "url": "https://github.com/zed-industries/zed/blob/d01b134cddf5e4f71964deb2d6f81cdb38fcf1e7/assets/settings/default.json#L1731-L1739",
+      "title": "zed-industries/zed v1.29.3: assets/settings/default.json",
+      "locator": "\"telemetry\" defaults",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-24",
+      "finding": "telemetry.diagnostics (crash reports) and telemetry.metrics (anonymized usage) both default to true.",
+      "visibility": "public",
+      "commit": "d01b134cddf5e4f71964deb2d6f81cdb38fcf1e7",
+      "path": "assets/settings/default.json"
+    },
+    {
+      "id": "tel-2611-docs",
+      "kind": "documented",
+      "url": "https://zed.dev/docs/telemetry.md",
+      "title": "Telemetry in Zed",
+      "locator": "Configuring Telemetry Settings",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-24",
+      "finding": "Client-side usage metrics and crash reports can be disabled: open Settings and search for \"telemetry\", or set diagnostics and metrics to false in the settings file. Server-side metadata for hosted services is required.",
       "visibility": "public",
       "commit": null,
       "path": null
@@ -8705,6 +8739,39 @@
         "reviewed": false
       },
       "evidenceIds": []
+    },
+    {
+      "date": "2026-11-24",
+      "author": "telemetry-researcher-e",
+      "type": "research-correction",
+      "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+      "claimIds": [
+        "zed:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Zed does not retain prompt or code context by default; opt-in feedback/data sharing is separate. Hosted model requests route through Zed to its providers under no-training contracts. Provider keys saved through Zed are stored in the system keychain, not settings.json. Users inspect client telemetry through zed: open telemetry log. Most hosted inference has ZDR; provider-designated safety-retention models retain prompts/outputs under provider rules, including at least thirty days for named Anthropic Covered Models. Zed-hosted providers commit not to train on prompts/code; optional feedback or edit-prediction training requires explicit sharing. Telemetry documentation names Sentry, Snowflake, Hex and Amplitude for diagnostics/analytics. Zed documents client diagnostics and metrics separately from required hosted-service metadata. telemetry.diagnostics=false and telemetry.metrics=false disable client reports; hosted-service rate-limit/billing metadata is required. Conversation feedback and eligible edit-prediction data are retained only through explicit sharing/opt-in. BYOK, subscription, gateway, local-model, external-agent and terminal paths use their own provider handling.",
+        "checkedAt": "2026-11-07",
+        "nextReviewAt": "2026-11-21",
+        "subanswers": {
+          "telemetry_defaults": "unknown",
+          "telemetry_off_switch": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Zed does not retain prompt or code context by default; opt-in feedback/data sharing is separate. Hosted model requests route through Zed to its providers under no-training contracts. Provider keys saved through Zed are stored in the system keychain, not settings.json. Users inspect client telemetry through zed: open telemetry log. Most hosted inference has ZDR; provider-designated safety-retention models retain prompts/outputs under provider rules, including at least thirty days for named Anthropic Covered Models. Zed-hosted providers commit not to train on prompts/code; optional feedback or edit-prediction training requires explicit sharing. Telemetry documentation names Sentry, Snowflake, Hex and Amplitude for diagnostics/analytics. Zed documents client diagnostics and metrics separately from required hosted-service metadata. telemetry.diagnostics=false and telemetry.metrics=false disable client reports; hosted-service rate-limit/billing metadata is required. Conversation feedback and eligible edit-prediction data are retained only through explicit sharing/opt-in. BYOK, subscription, gateway, local-model, external-agent and terminal paths use their own provider handling.",
+        "checkedAt": "2026-11-07",
+        "nextReviewAt": "2026-11-21",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "supported"
+        }
+      },
+      "evidenceIds": [
+        "tel-2611-defaults",
+        "tel-2611-docs"
+      ]
     }
   ],
   "context": {

@@ -4584,7 +4584,7 @@
     {
       "id": "solenta:OWN-03",
       "criterionId": "OWN-03",
-      "answer": "Local storage and provider requests have different boundaries.",
+      "answer": "Local storage and provider requests have different boundaries. Release builds send a daily anonymous usage ping by default; only DO_NOT_TRACK=1 or SOLENTA_TELEMETRY=0 turns it off.",
       "support": "partial",
       "availability": "generally-available",
       "delivery": "native",
@@ -4669,9 +4669,9 @@
         },
         "telemetry_defaults": {
           "support": "supported",
-          "answer": "Release builds send the ping unless it is turned off.",
+          "answer": "On by default: release builds send one anonymous usage ping a day (install id, version, OS, arch, agent CLIs used) unless an opt-out variable is set.",
           "evidenceIds": [
-            "nov07-changelog"
+            "tel-2611-telemetry"
           ]
         },
         "telemetry_controls": {
@@ -4682,9 +4682,11 @@
           ]
         },
         "telemetry_off_switch": {
-          "support": "unknown",
-          "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "Config only: DO_NOT_TRACK=1 or SOLENTA_TELEMETRY=0 in the environment; no in-app toggle exists in v0.29.0.",
+          "evidenceIds": [
+            "tel-2611-telemetry"
+          ]
         },
         "consent_prompt": {
           "support": "unknown",
@@ -4707,11 +4709,12 @@
       "evidenceIds": [
         "nov07-memory",
         "nov07-changelog",
-        "src1-telemetry"
+        "src1-telemetry",
+        "tel-2611-telemetry"
       ],
       "checkedAt": "2026-11-07",
       "nextReviewAt": "2026-11-21",
-      "researcher": "researcher-08",
+      "researcher": "telemetry-researcher-e",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -5809,6 +5812,19 @@
       "title": "Solenta GitHub releases",
       "locator": "Latest stable release and nightlies",
       "finding": "v0.29.0 (2026-11-05) is the latest stable release; nightly pre-releases continue through 2026-11-18."
+    },
+    {
+      "id": "tel-2611-telemetry",
+      "kind": "source-inspected",
+      "url": "https://github.com/currentbits/solenta/blob/f46d23844d50b85c50b2a98020a3c763ea676540/electron/telemetry.js#L9-L23",
+      "title": "currentbits/solenta v0.29.0: electron/telemetry.js",
+      "locator": "telemetryDisabled() and startTelemetry()",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-24",
+      "finding": "startTelemetry returns early only when DO_NOT_TRACK=1 or SOLENTA_TELEMETRY=0 (and in unpackaged dev runs); README lines 338-341 describe the daily anonymous usage ping in release builds and the same two variables as the opt-out. No settings toggle references telemetry.",
+      "visibility": "public",
+      "commit": "f46d23844d50b85c50b2a98020a3c763ea676540",
+      "path": "electron/telemetry.js"
     }
   ],
   "changes": [
@@ -6857,6 +6873,38 @@
         "reviewed": false
       },
       "evidenceIds": []
+    },
+    {
+      "date": "2026-11-24",
+      "author": "telemetry-researcher-e",
+      "type": "research-correction",
+      "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+      "claimIds": [
+        "solenta:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Local storage and provider requests have different boundaries.",
+        "checkedAt": "2026-11-07",
+        "nextReviewAt": "2026-11-21",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Local storage and provider requests have different boundaries. Release builds send a daily anonymous usage ping by default; only DO_NOT_TRACK=1 or SOLENTA_TELEMETRY=0 turns it off.",
+        "checkedAt": "2026-11-07",
+        "nextReviewAt": "2026-11-21",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "supported"
+        }
+      },
+      "evidenceIds": [
+        "tel-2611-telemetry"
+      ]
     }
   ],
   "context": {

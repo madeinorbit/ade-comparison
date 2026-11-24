@@ -4882,12 +4882,10 @@
           ]
         },
         "telemetry_defaults": {
-          "support": "partial",
-          "answer": "Desktop analytics events are sent only for a signed-in user (track() returns when no user ID is set) and only when a PostHog key is configured. DEFAULT_TELEMETRY_ENABLED is true at the pinned commit (constants line 67).",
+          "support": "supported",
+          "answer": "On by default: desktop-v2.0.11 sends PostHog analytics for every signed-in user from a compile-time true default.",
           "evidenceIds": [
-            "src-telemetry",
-            "src-constants",
-            "src-analytics-track"
+            "tel-2611-track"
           ]
         },
         "telemetry_controls": {
@@ -4899,9 +4897,11 @@
           ]
         },
         "telemetry_off_switch": {
-          "support": "unknown",
-          "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "No off switch: the desktop telemetry setting procedures are no-ops (get always returns true, set changes nothing), so a desktop user cannot turn analytics off.",
+          "evidenceIds": [
+            "tel-2611-track"
+          ]
         },
         "consent_prompt": {
           "support": "unknown",
@@ -4937,11 +4937,12 @@
         "gap07-byoc",
         "gap07-sdk",
         "home-security-chk1",
-        "gaps41-telemetry"
+        "gaps41-telemetry",
+        "tel-2611-track"
       ],
       "checkedAt": "2026-11-07",
       "nextReviewAt": "2026-11-21",
-      "researcher": "researcher-ade41",
+      "researcher": "telemetry-researcher-e",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -7772,6 +7773,19 @@
       "visibility": "public",
       "commit": "1282cb770925461f0d1b9ae86dc2a50690f6a6f8",
       "path": "apps/docs/content/docs/faq.mdx"
+    },
+    {
+      "id": "tel-2611-track",
+      "kind": "source-inspected",
+      "url": "https://github.com/superset-sh/superset/blob/23c193a326a9be449f35bf3a97372cd1c2175e50/apps/desktop/src/main/lib/analytics/index.ts#L24-L37",
+      "title": "superset-sh/superset desktop-v2.0.11: apps/desktop/src/main/lib/analytics/index.ts",
+      "locator": "isTelemetryEnabled() and track()",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-24",
+      "finding": "isTelemetryEnabled returns the compile-time DEFAULT_TELEMETRY_ENABLED (true, shared/constants.ts line 51); track() sends PostHog events for any signed-in user. In apps/desktop/src/lib/trpc/routers/settings/index.ts lines 663-672 getTelemetryEnabled always returns true and setTelemetryEnabled changes nothing (marked for removal).",
+      "visibility": "public",
+      "commit": "23c193a326a9be449f35bf3a97372cd1c2175e50",
+      "path": "apps/desktop/src/main/lib/analytics/index.ts"
     }
   ],
   "changes": [
@@ -17209,6 +17223,38 @@
         "reviewed": false
       },
       "evidenceIds": []
+    },
+    {
+      "date": "2026-11-24",
+      "author": "telemetry-researcher-e",
+      "type": "research-correction",
+      "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+      "claimIds": [
+        "superset:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Paradev discloses desktop analytics. In desktop-v2.0.5 the telemetry settings procedures are no-ops and desktop analytics uses a true compile-time default, so there is no effective desktop-user opt-out. SUPERSET_TELEMETRY=0 controls SDK method-call events only.",
+        "checkedAt": "2026-11-07",
+        "nextReviewAt": "2026-11-21",
+        "subanswers": {
+          "telemetry_defaults": "partial",
+          "telemetry_off_switch": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Paradev discloses desktop analytics. In desktop-v2.0.5 the telemetry settings procedures are no-ops and desktop analytics uses a true compile-time default, so there is no effective desktop-user opt-out. SUPERSET_TELEMETRY=0 controls SDK method-call events only.",
+        "checkedAt": "2026-11-07",
+        "nextReviewAt": "2026-11-21",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "supported"
+        }
+      },
+      "evidenceIds": [
+        "tel-2611-track"
+      ]
     }
   ],
   "context": {

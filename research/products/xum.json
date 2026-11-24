@@ -4634,7 +4634,7 @@
     {
       "id": "xum:OWN-03",
       "criterionId": "OWN-03",
-      "answer": "Anonymous telemetry has a documented backend-off control.",
+      "answer": "Anonymous telemetry is on by default; the only documented control is the XUM_DISABLE_TELEMETRY=1 environment variable.",
       "support": "partial",
       "availability": "generally-available",
       "delivery": "native",
@@ -4721,11 +4721,9 @@
         },
         "telemetry_defaults": {
           "support": "supported",
-          "answer": "Anonymous telemetry collected by default.",
+          "answer": "On by default: anonymous usage telemetry is collected unless disabled.",
           "evidenceIds": [
-            "nov07-telemetry",
-            "nov07-providers",
-            "nov07-secrets"
+            "tel-2611-service"
           ]
         },
         "telemetry_controls": {
@@ -4738,9 +4736,11 @@
           ]
         },
         "telemetry_off_switch": {
-          "support": "unknown",
-          "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "Config only: XUM_DISABLE_TELEMETRY=1 before starting the app; no in-app toggle.",
+          "evidenceIds": [
+            "tel-2611-service"
+          ]
         },
         "consent_prompt": {
           "support": "unknown",
@@ -4764,11 +4764,12 @@
       "evidenceIds": [
         "nov07-telemetry",
         "nov07-providers",
-        "nov07-secrets"
+        "nov07-secrets",
+        "tel-2611-service"
       ],
       "checkedAt": "2026-11-07",
       "nextReviewAt": "2026-11-21",
-      "researcher": "researcher-67",
+      "researcher": "telemetry-researcher-e",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -6149,6 +6150,19 @@
       "visibility": "public",
       "commit": "75fee6dc2322cee8aafdedd8c937d8a03af7e5aa",
       "path": "src"
+    },
+    {
+      "id": "tel-2611-service",
+      "kind": "source-inspected",
+      "url": "https://github.com/coder/mux/blob/d158f9641330609a70e5c0f83bd540c39c37002e/src/node/services/telemetryService.ts#L10-L78",
+      "title": "coder/mux v0.32.5: src/node/services/telemetryService.ts",
+      "locator": "telemetry disable check",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-24",
+      "finding": "Telemetry is sent unless XUM_DISABLE_TELEMETRY=1 (resolveXumEnvironmentValue(\"DISABLE_TELEMETRY\")); src/common/orpc/schemas/telemetry.ts says the backend environment variable controls it, and the docs (xum.cdr.dev/reference/telemetry) list the same variable as the way to disable it.",
+      "visibility": "public",
+      "commit": "d158f9641330609a70e5c0f83bd540c39c37002e",
+      "path": "src/node/services/telemetryService.ts"
     }
   ],
   "changes": [
@@ -6910,6 +6924,38 @@
         "reviewed": false
       },
       "evidenceIds": []
+    },
+    {
+      "date": "2026-11-24",
+      "author": "telemetry-researcher-e",
+      "type": "research-correction",
+      "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+      "claimIds": [
+        "xum:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Anonymous telemetry has a documented backend-off control.",
+        "checkedAt": "2026-11-07",
+        "nextReviewAt": "2026-11-21",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Anonymous telemetry is on by default; the only documented control is the XUM_DISABLE_TELEMETRY=1 environment variable.",
+        "checkedAt": "2026-11-07",
+        "nextReviewAt": "2026-11-21",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "supported"
+        }
+      },
+      "evidenceIds": [
+        "tel-2611-service"
+      ]
     }
   ],
   "context": {

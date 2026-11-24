@@ -4815,10 +4815,9 @@
         },
         "telemetry_defaults": {
           "support": "supported",
-          "answer": "The live privacy policy says T3 Code sends anonymous usage data by default. The v0.1.7 telemetry guide says events go to ingest.t3.codes and PostHog, associated with hashed account or installation identifiers.",
+          "answer": "On by default: v0.1.11 sends product usage events to T3 Code's ingest endpoint and PostHog unless disabled.",
           "evidenceIds": [
-            "privacy-policy",
-            "gap07-diagnostics"
+            "tel-2611-telemetry"
           ]
         },
         "telemetry_controls": {
@@ -4830,9 +4829,11 @@
           ]
         },
         "telemetry_off_switch": {
-          "support": "unknown",
-          "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "Config only: T3CODE_TELEMETRY_ENABLED=false in the server or desktop environment, or a managed policy; no in-app switch.",
+          "evidenceIds": [
+            "tel-2611-telemetry"
+          ]
         },
         "consent_prompt": {
           "support": "unknown",
@@ -4867,11 +4868,12 @@
         "gap07-acp",
         "security-policy-nov07",
         "gap07-terminal-retention",
-        "gap07-diagnostics"
+        "gap07-diagnostics",
+        "tel-2611-telemetry"
       ],
       "checkedAt": "2026-11-07",
       "nextReviewAt": "2026-11-21",
-      "researcher": "researcher-69",
+      "researcher": "telemetry-researcher-e",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -6871,6 +6873,19 @@
       "sourceDate": null,
       "retrievedAt": "2026-11-13",
       "finding": "Provider instances can configure the user's OpenRouter API key through ANTHROPIC_AUTH_TOKEN. The README says T3 Code is not selling an app plan, and current terms impose no T3 Tools subscription fee while assigning provider and host charges to the user.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "tel-2611-telemetry",
+      "kind": "documented",
+      "url": "https://github.com/pingdotgg/t3code/blob/59651c1761f6c63e9b6056839067066968e6a406/docs/user/telemetry.md#L1-L30",
+      "title": "T3 Code v0.1.11 product usage data guide",
+      "locator": "Product usage data; Relay connection diagnostics, lines 1-30",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-24",
+      "finding": "The server sends product usage events to ingest.t3.codes and PostHog with hashed identifiers; set T3CODE_TELEMETRY_ENABLED=false before starting (desktop reads it from the shell profile) or use a managed policy to disable product events and relay tracing. The browser web app has no toggle. The only telemetry-named settings UI (TelemetryExportSettings) configures the user's own OTLP endpoints.",
       "visibility": "public",
       "commit": null,
       "path": null
@@ -17454,6 +17469,38 @@
         "reviewed": false
       },
       "evidenceIds": []
+    },
+    {
+      "date": "2026-11-24",
+      "author": "telemetry-researcher-e",
+      "type": "research-correction",
+      "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+      "claimIds": [
+        "t3-code:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "The live privacy policy describes anonymous usage data sent by default; the pinned telemetry guide describes a hashed account or installation identifier. Telemetry can be disabled with an environment variable, and prompts go to configured providers. The policy states no model training and names subprocessors. Operational diagnostic traces are configured to expire after 30 days, with longer retention possible in backups or for security, fraud prevention or legal compliance.",
+        "checkedAt": "2026-11-07",
+        "nextReviewAt": "2026-11-21",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "The live privacy policy describes anonymous usage data sent by default; the pinned telemetry guide describes a hashed account or installation identifier. Telemetry can be disabled with an environment variable, and prompts go to configured providers. The policy states no model training and names subprocessors. Operational diagnostic traces are configured to expire after 30 days, with longer retention possible in backups or for security, fraud prevention or legal compliance.",
+        "checkedAt": "2026-11-07",
+        "nextReviewAt": "2026-11-21",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "supported"
+        }
+      },
+      "evidenceIds": [
+        "tel-2611-telemetry"
+      ]
     }
   ],
   "context": {

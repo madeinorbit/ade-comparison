@@ -4809,9 +4809,9 @@
         },
         "telemetry_defaults": {
           "support": "supported",
-          "answer": "Engine consent defaults on; without an ingest token nothing is sent; Expo is opt-in.",
+          "answer": "On by default: new installs start with PostHog analytics enabled and distribution builds embed the key.",
           "evidenceIds": [
-            "analytics"
+            "tel-2611-analytics"
           ]
         },
         "telemetry_controls": {
@@ -4823,9 +4823,11 @@
           ]
         },
         "telemetry_off_switch": {
-          "support": "unknown",
-          "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "In the app: the Settings analytics toggle; ZUSE_ANALYTICS_ENABLED=0 also disables it.",
+          "evidenceIds": [
+            "tel-2611-analytics"
+          ]
         },
         "consent_prompt": {
           "support": "partial",
@@ -4851,11 +4853,12 @@
         "analytics-src",
         "readme",
         "accounts",
-        "archive"
+        "archive",
+        "tel-2611-analytics"
       ],
       "checkedAt": "2026-11-17",
       "nextReviewAt": "2027-03-17",
-      "researcher": "researcher-batch14",
+      "researcher": "telemetry-researcher-e",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -5827,6 +5830,19 @@
       "visibility": "public",
       "commit": "c135b5f0075d9d0b7843ec22419b2c99c1e31a17",
       "path": "crates/ui/src/transcript.rs"
+    },
+    {
+      "id": "tel-2611-analytics",
+      "kind": "source-inspected",
+      "url": "https://github.com/opcodehq/zuse/blob/df7cbe2ffbbc6f8b7368b90d6763327d4eab5fb5/crates/analytics/src/lib.rs#L66-L96",
+      "title": "opcodehq/zuse v0.27.8: crates/analytics/src/lib.rs",
+      "locator": "Analytics::new and start",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-24",
+      "finding": "A new install with no analytics.json starts enabled; sending needs a PostHog key, which .github/workflows/distributions.yml embeds via ZUSE_POSTHOG_KEY; ZUSE_ANALYTICS_ENABLED=0 disables it. crates/ui/src/settings/analytics.rs renders the analytics-enabled toggle.",
+      "visibility": "public",
+      "commit": "df7cbe2ffbbc6f8b7368b90d6763327d4eab5fb5",
+      "path": "crates/analytics/src/lib.rs"
     }
   ],
   "changes": [
@@ -6031,6 +6047,38 @@
         "reviewed": false
       },
       "evidenceIds": []
+    },
+    {
+      "date": "2026-11-24",
+      "author": "telemetry-researcher-e",
+      "type": "research-correction",
+      "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+      "claimIds": [
+        "zuse:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Local profile data stays on the host; prompts go to the chosen provider; PostHog product analytics are on by default for new engine installs (toggle in Settings, env override) and only deliver when a public ingest token is configured; hosted features add cloud data paths.",
+        "checkedAt": "2026-11-17",
+        "nextReviewAt": "2027-03-17",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Local profile data stays on the host; prompts go to the chosen provider; PostHog product analytics are on by default for new engine installs (toggle in Settings, env override) and only deliver when a public ingest token is configured; hosted features add cloud data paths.",
+        "checkedAt": "2026-11-17",
+        "nextReviewAt": "2027-03-17",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "supported"
+        }
+      },
+      "evidenceIds": [
+        "tel-2611-analytics"
+      ]
     }
   ],
   "context": {

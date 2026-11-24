@@ -5526,9 +5526,9 @@
         },
         "telemetry_defaults": {
           "support": "supported",
-          "answer": "Anonymous telemetry is enabled by default in the control plane and records startup, registration, SDK language, runtime and execution status buckets.",
+          "answer": "On by default: the AgentField control plane that runs SWE-AF sends installation and lifecycle telemetry by default; SWE-AF node code itself has no telemetry client.",
           "evidenceIds": [
-            "afenv"
+            "tel-2611-config"
           ]
         },
         "telemetry_controls": {
@@ -5539,9 +5539,11 @@
           ]
         },
         "telemetry_off_switch": {
-          "support": "unknown",
-          "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "Config only: AGENTFIELD_TELEMETRY_ENABLED=false (or truthy CI/DO_NOT_TRACK); no setting in the control-plane UI.",
+          "evidenceIds": [
+            "tel-2611-config"
+          ]
         },
         "consent_prompt": {
           "support": "unsupported",
@@ -5575,11 +5577,12 @@
         "creds",
         "manifest",
         "deploy",
-        "afreadme"
+        "afreadme",
+        "tel-2611-config"
       ],
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
-      "researcher": "researcher-ade63",
+      "researcher": "telemetry-researcher-e",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -6703,6 +6706,19 @@
       "visibility": "public",
       "commit": null,
       "path": null
+    },
+    {
+      "id": "tel-2611-config",
+      "kind": "source-inspected",
+      "url": "https://github.com/Agent-Field/agentfield/blob/a9ed6a03c0e1894f6ec33459b29c5e8de94c59de/control-plane/internal/config/config.go#L1101-L1105",
+      "title": "Agent-Field/agentfield v0.1.146: control-plane/internal/config/config.go",
+      "locator": "AGENTFIELD_TELEMETRY_ENABLED override",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-24",
+      "finding": "Telemetry is enabled unless AGENTFIELD_TELEMETRY_ENABLED is false (CI or DO_NOT_TRACK also turn it off); README line 555 states default-on privacy-minimized telemetry with that opt-out. The control-plane web client has no telemetry setting (only a lockfile and a test match).",
+      "visibility": "public",
+      "commit": "a9ed6a03c0e1894f6ec33459b29c5e8de94c59de",
+      "path": "control-plane/internal/config/config.go"
     }
   ],
   "changes": [
@@ -6731,6 +6747,38 @@
         "reviewed": false
       },
       "evidenceIds": []
+    },
+    {
+      "date": "2026-11-24",
+      "author": "telemetry-researcher-e",
+      "type": "research-correction",
+      "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+      "claimIds": [
+        "swe-af:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "SWE-AF code sends no telemetry (no matches for telemetry, analytics, posthog or sentry in node code). Code, prompts and diffs go to the chosen model provider and GitHub. The AgentField control plane sends anonymous usage telemetry by default with documented opt-out. Retention and residency are the operator's.",
+        "checkedAt": "2026-11-16",
+        "nextReviewAt": "2027-03-16",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "SWE-AF code sends no telemetry (no matches for telemetry, analytics, posthog or sentry in node code). Code, prompts and diffs go to the chosen model provider and GitHub. The AgentField control plane sends anonymous usage telemetry by default with documented opt-out. Retention and residency are the operator's.",
+        "checkedAt": "2026-11-16",
+        "nextReviewAt": "2027-03-16",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "supported"
+        }
+      },
+      "evidenceIds": [
+        "tel-2611-config"
+      ]
     }
   ],
   "context": {

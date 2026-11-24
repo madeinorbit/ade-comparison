@@ -3899,7 +3899,7 @@
     {
       "id": "waku:OWN-03",
       "criterionId": "OWN-03",
-      "answer": "App state remains local. Release builds send anonymous Umami analytics by default, with a settings toggle and an environment variable to turn them off; the homepage nonetheless says no telemetry. Provider data handling needs separate evidence.",
+      "answer": "App state remains local. Release builds send anonymous Umami analytics by default, with a settings toggle and an environment variable to turn them off. The homepage says no telemetry, but the released v0.1.20 source sends it, and under the telemetry rule the code decides. Provider data handling needs separate evidence.",
       "support": "partial",
       "availability": "generally-available",
       "delivery": "native",
@@ -3979,9 +3979,10 @@
         },
         "telemetry_defaults": {
           "support": "supported",
-          "answer": "Analytics defaults to enabled in release builds. Source inspection at v0.1.20, not tested.",
+          "answer": "On by default: release builds send anonymous analytics with a true default, although the homepage says no telemetry; the code decides.",
           "evidenceIds": [
-            "src1-analytics-core"
+            "tel-2611-analytics",
+            "tel-2611-home"
           ]
         },
         "telemetry_controls": {
@@ -3993,9 +3994,12 @@
           ]
         },
         "telemetry_off_switch": {
-          "support": "unknown",
-          "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "In the app: a General settings toggle turns anonymous analytics off; WAKU_DISABLE_ANALYTICS=1 also does.",
+          "evidenceIds": [
+            "tel-2611-analytics",
+            "tel-2611-home"
+          ]
         },
         "consent_prompt": {
           "support": "unknown",
@@ -4018,16 +4022,16 @@
         "readme",
         "src1-analytics-core",
         "src1-home-local",
-        "src1-analytics-toggle"
+        "src1-analytics-toggle",
+        "tel-2611-analytics",
+        "tel-2611-home"
       ],
       "checkedAt": "2026-11-08",
       "nextReviewAt": "2026-11-22",
-      "researcher": "researcher-08",
+      "researcher": "telemetry-researcher-e",
       "publication": "public-candidate",
       "review": null,
-      "contradictions": [
-        "The homepage says no telemetry, while released source at v0.1.20 sends opt-out anonymous analytics in release builds."
-      ]
+      "contradictions": []
     },
     {
       "id": "waku:OWN-04",
@@ -4999,6 +5003,32 @@
       "visibility": "public",
       "commit": "10bcd728c9b2f07d664cfece3c8c870d3418ddd2",
       "path": "README.md"
+    },
+    {
+      "id": "tel-2611-analytics",
+      "kind": "source-inspected",
+      "url": "https://github.com/egoist/waku/blob/10bcd728c9b2f07d664cfece3c8c870d3418ddd2/crates/waku-core/src/persistence.rs#L65-L67",
+      "title": "egoist/waku v0.1.20: crates/waku-core/src/persistence.rs",
+      "locator": "default_analytics_enabled",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-24",
+      "finding": "analytics_enabled defaults to true; src/analytics.rs embeds the endpoint in release builds, which .github/workflows/release.yml supplies from secrets, and honours WAKU_DISABLE_ANALYTICS=1; src/app/settings.rs line 432 renders the anonymous-analytics toggle.",
+      "visibility": "public",
+      "commit": "10bcd728c9b2f07d664cfece3c8c870d3418ddd2",
+      "path": "crates/waku-core/src/persistence.rs"
+    },
+    {
+      "id": "tel-2611-home",
+      "kind": "documented",
+      "url": "https://waku.sh/",
+      "title": "Waku homepage",
+      "locator": "\"Local by architecture\" section",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-24",
+      "finding": "The homepage says \"No account, no telemetry, no Waku cloud\", which conflicts with the analytics the release source sends.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
     }
   ],
   "changes": [
@@ -5738,6 +5768,39 @@
         "reviewed": false
       },
       "evidenceIds": []
+    },
+    {
+      "date": "2026-11-24",
+      "author": "telemetry-researcher-e",
+      "type": "research-correction",
+      "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+      "claimIds": [
+        "waku:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "App state remains local. Release builds send anonymous Umami analytics by default, with a settings toggle and an environment variable to turn them off; the homepage nonetheless says no telemetry. Provider data handling needs separate evidence.",
+        "checkedAt": "2026-11-08",
+        "nextReviewAt": "2026-11-22",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "App state remains local. Release builds send anonymous Umami analytics by default, with a settings toggle and an environment variable to turn them off. The homepage says no telemetry, but the released v0.1.20 source sends it, and under the telemetry rule the code decides. Provider data handling needs separate evidence.",
+        "checkedAt": "2026-11-08",
+        "nextReviewAt": "2026-11-22",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "supported"
+        }
+      },
+      "evidenceIds": [
+        "tel-2611-analytics",
+        "tel-2611-home"
+      ]
     }
   ],
   "context": {

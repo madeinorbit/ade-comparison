@@ -5278,10 +5278,9 @@
         },
         "telemetry_defaults": {
           "support": "supported",
-          "answer": "Update check on by default; usage reads and push off by default; no analytics in the app.",
+          "answer": "No telemetry: a bounded inspection of v4.17.0 found no analytics, telemetry or crash-reporting client. Telemetry hits are a local accessibility-read status recorder in native/agent-desktop; no package manifest declares an analytics or crash-reporting SDK. Update checks are not usage telemetry.",
           "evidenceIds": [
-            "privacy",
-            "srch-tele"
+            "tel-2611-src"
           ]
         },
         "telemetry_controls": {
@@ -5293,9 +5292,11 @@
           ]
         },
         "telemetry_off_switch": {
-          "support": "unknown",
-          "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-          "evidenceIds": []
+          "support": "not-applicable",
+          "answer": "Nothing to switch off: no ADE telemetry.",
+          "evidenceIds": [
+            "tel-2611-src"
+          ]
         },
         "consent_prompt": {
           "support": "unknown",
@@ -5324,11 +5325,12 @@
         "relay",
         "srch-tele",
         "security",
-        "readme"
+        "readme",
+        "tel-2611-src"
       ],
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
-      "researcher": "researcher-batch10",
+      "researcher": "telemetry-researcher-e",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -6404,6 +6406,19 @@
       "visibility": "public",
       "commit": "e3f63c892bea5292a967d5c9785eaa201787e2e6",
       "path": "src/shared/bot.ts"
+    },
+    {
+      "id": "tel-2611-src",
+      "kind": "source-inspected",
+      "url": "https://github.com/openwong2kim/wmux/tree/2ca1209d360ba846ce09a840e85232d4872646f1",
+      "title": "openwong2kim/wmux v4.17.0 source tree",
+      "locator": "repository root; search terms: posthog, amplitude, mixpanel, @sentry/, sentry_sdk, segment.io, rudderstack, aptabase, bugsnag, datadog, plausible, umami, google-analytics, DO_NOT_TRACK, TELEMETRY (case-insensitive git grep over source and manifests, excluding docs, tests, lockfiles and vendored code), then telemetry/analytics hits read individually",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-24",
+      "finding": "Bounded inspection of v4.17.0 (2ca1209) found no analytics, telemetry or crash-reporting client sending data to the vendor. Telemetry hits are a local accessibility-read status recorder in native/agent-desktop; no package manifest declares an analytics or crash-reporting SDK. Update checks are not usage telemetry.",
+      "visibility": "public",
+      "commit": "2ca1209d360ba846ce09a840e85232d4872646f1",
+      "path": "."
     }
   ],
   "changes": [
@@ -6529,6 +6544,38 @@
         "reviewed": false
       },
       "evidenceIds": []
+    },
+    {
+      "date": "2026-11-24",
+      "author": "telemetry-researcher-e",
+      "type": "research-correction",
+      "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+      "claimIds": [
+        "wmux:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "wmux operates no backend holding user data; no accounts; code and terminal output never sent to the project; update checks, optional quota reads, gh calls and optional push relay are the network uses; website uses cookieless Vercel analytics.",
+        "checkedAt": "2026-11-16",
+        "nextReviewAt": "2027-03-16",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "wmux operates no backend holding user data; no accounts; code and terminal output never sent to the project; update checks, optional quota reads, gh calls and optional push relay are the network uses; website uses cookieless Vercel analytics.",
+        "checkedAt": "2026-11-16",
+        "nextReviewAt": "2027-03-16",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "not-applicable"
+        }
+      },
+      "evidenceIds": [
+        "tel-2611-src"
+      ]
     }
   ],
   "context": {

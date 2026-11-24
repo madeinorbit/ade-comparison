@@ -5544,11 +5544,10 @@
      ]
     },
     "telemetry_defaults": {
-     "support": "unsupported",
-     "answer": "No documented collection defaults exist for product telemetry.",
+     "support": "supported",
+     "answer": "On by default: in the hosted SuperPlane web app the server sends Factory lifecycle analytics to PostHog for every account; self-hosted installs send nothing unless the operator sets their own POSTHOG_KEY.",
      "evidenceIds": [
-      "privacy",
-      "security"
+      "tel-2611-analytics"
      ]
     },
     "telemetry_controls": {
@@ -5559,9 +5558,11 @@
      ]
     },
     "telemetry_off_switch": {
-     "support": "unknown",
-     "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-     "evidenceIds": []
+     "support": "supported",
+     "answer": "No off switch: hosted users have no setting to stop the server-side lifecycle events (bounded search of docs and pkg for opt-out and analytics settings); only a self-hosting operator controls it, by leaving POSTHOG_KEY unset.",
+     "evidenceIds": [
+      "tel-2611-analytics"
+     ]
     },
     "consent_prompt": {
      "support": "unsupported",
@@ -5590,11 +5591,12 @@
     "pricing",
     "agenttools",
     "done",
-    "gaps41-analytics"
+    "gaps41-analytics",
+    "tel-2611-analytics"
    ],
    "checkedAt": "2026-11-12",
    "nextReviewAt": "2027-03-12",
-   "researcher": "researcher-ade41",
+   "researcher": "telemetry-researcher-e",
    "publication": "public-candidate",
    "review": null,
    "contradictions": []
@@ -7319,6 +7321,19 @@
    "visibility": "public",
    "commit": null,
    "path": null
+  },
+  {
+   "id": "tel-2611-analytics",
+   "kind": "source-inspected",
+   "url": "https://github.com/superplanehq/superplane/blob/86823df0db8e73c1f7ed82e947b02254accfc9f8/docs/product-analytics.md#L1-L10",
+   "title": "superplanehq/superplane main@86823df: docs/product-analytics.md",
+   "locator": "Factory product analytics",
+   "sourceDate": null,
+   "retrievedAt": "2026-11-24",
+   "finding": "The SaaS server sends Factory lifecycle events to PostHog whenever POSTHOG_KEY is set and the browser sends the signup event; the self-hosted Helm chart ships posthog.enabled: false. A bounded search of docs and pkg for opt-out or analytics settings found no user-facing control.",
+   "visibility": "public",
+   "commit": "86823df0db8e73c1f7ed82e947b02254accfc9f8",
+   "path": "docs/product-analytics.md"
   }
  ],
  "changes": [
@@ -7658,6 +7673,38 @@
     "reviewed": false
    },
    "evidenceIds": []
+  },
+  {
+   "date": "2026-11-24",
+   "author": "telemetry-researcher-e",
+   "type": "research-correction",
+   "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+   "claimIds": [
+    "superplane:OWN-03"
+   ],
+   "before": {
+    "support": "partial",
+    "answer": "SuperPlane discloses cloud data handling and product analytics. Self-hosted operators can disable product analytics by leaving POSTHOG_KEY unset; both browser and server skip PostHog without a key. Hosted-user controls and operational tracing are separate.",
+    "checkedAt": "2026-11-12",
+    "nextReviewAt": "2027-03-12",
+    "subanswers": {
+     "telemetry_defaults": "unsupported",
+     "telemetry_off_switch": "unknown"
+    }
+   },
+   "after": {
+    "support": "partial",
+    "answer": "SuperPlane discloses cloud data handling and product analytics. Self-hosted operators can disable product analytics by leaving POSTHOG_KEY unset; both browser and server skip PostHog without a key. Hosted-user controls and operational tracing are separate.",
+    "checkedAt": "2026-11-12",
+    "nextReviewAt": "2027-03-12",
+    "subanswers": {
+     "telemetry_defaults": "supported",
+     "telemetry_off_switch": "supported"
+    }
+   },
+   "evidenceIds": [
+    "tel-2611-analytics"
+   ]
   }
  ],
  "context": {
