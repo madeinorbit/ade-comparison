@@ -5533,15 +5533,17 @@
         },
         "telemetry_controls": {
           "support": "supported",
-          "answer": "AGENTFIELD_TELEMETRY_ENABLED=false disables it; the AgentField CodeAF engine honors DO_NOT_TRACK and CI.",
+          "answer": "AGENTFIELD_TELEMETRY_ENABLED=false, or telemetry.enabled: false in the control-plane config file, disables control-plane telemetry. CI and DO_NOT_TRACK do not gate it; DO_NOT_TRACK is read only by the separate CodeAF harness provider.",
           "evidenceIds": [
+            "tel-2611-config-gate",
             "afenv"
           ]
         },
         "telemetry_off_switch": {
           "support": "supported",
-          "answer": "Config only: AGENTFIELD_TELEMETRY_ENABLED=false (or truthy CI/DO_NOT_TRACK); no setting in the control-plane UI.",
+          "answer": "Config only: at a9ed6a0 the AgentField control plane's telemetry stops only with AGENTFIELD_TELEMETRY_ENABLED=false (config.go line 1102) or telemetry.enabled: false in its config file; CI and DO_NOT_TRACK do not turn it off, and the control-plane UI has no setting.",
           "evidenceIds": [
+            "tel-2611-config-gate",
             "tel-2611-config"
           ]
         },
@@ -5578,11 +5580,12 @@
         "manifest",
         "deploy",
         "afreadme",
-        "tel-2611-config"
+        "tel-2611-config",
+        "tel-2611-config-gate"
       ],
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
-      "researcher": "telemetry-researcher-e",
+      "researcher": "telemetry-researcher-f",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -6719,6 +6722,19 @@
       "visibility": "public",
       "commit": "a9ed6a03c0e1894f6ec33459b29c5e8de94c59de",
       "path": "control-plane/internal/config/config.go"
+    },
+    {
+      "id": "tel-2611-config-gate",
+      "kind": "source-inspected",
+      "url": "https://github.com/Agent-Field/agentfield/blob/a9ed6a03c0e1894f6ec33459b29c5e8de94c59de/control-plane/internal/config/config.go#L1101-L1105",
+      "title": "AgentField control-plane telemetry config at a9ed6a0",
+      "locator": "TelemetryConfig and IsEnabled (lines 46-63); AGENTFIELD_TELEMETRY_ENABLED override (lines 1101-1105); repository search for DO_NOT_TRACK",
+      "sourceDate": "2026-11-18",
+      "retrievedAt": "2026-11-24",
+      "finding": "Control-plane anonymous usage telemetry is on unless telemetry.enabled is false in the config file or AGENTFIELD_TELEMETRY_ENABLED is set to something other than true/1. Nothing in the control-plane config reads CI or DO_NOT_TRACK; in the repository DO_NOT_TRACK appears only in the CodeAF harness provider code, its docs and .env.example.",
+      "visibility": "public",
+      "commit": "a9ed6a03c0e1894f6ec33459b29c5e8de94c59de",
+      "path": "control-plane/internal/config/config.go"
     }
   ],
   "changes": [
@@ -6777,6 +6793,40 @@
         }
       },
       "evidenceIds": [
+        "tel-2611-config"
+      ]
+    },
+    {
+      "date": "2026-11-24",
+      "author": "telemetry-researcher-f",
+      "type": "research-correction",
+      "summary": "Correct the off switch: control-plane telemetry stops only through AGENTFIELD_TELEMETRY_ENABLED or the config file's telemetry.enabled; CI and DO_NOT_TRACK do not gate it.",
+      "claimIds": [
+        "swe-af:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "SWE-AF code sends no telemetry (no matches for telemetry, analytics, posthog or sentry in node code). Code, prompts and diffs go to the chosen model provider and GitHub. The AgentField control plane sends anonymous usage telemetry by default with documented opt-out. Retention and residency are the operator's.",
+        "checkedAt": "2026-11-16",
+        "nextReviewAt": "2027-03-16",
+        "subanswers": {
+          "telemetry_controls": "supported",
+          "telemetry_off_switch": "supported"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "SWE-AF code sends no telemetry (no matches for telemetry, analytics, posthog or sentry in node code). Code, prompts and diffs go to the chosen model provider and GitHub. The AgentField control plane sends anonymous usage telemetry by default with documented opt-out. Retention and residency are the operator's.",
+        "checkedAt": "2026-11-16",
+        "nextReviewAt": "2027-03-16",
+        "subanswers": {
+          "telemetry_controls": "supported",
+          "telemetry_off_switch": "supported"
+        }
+      },
+      "evidenceIds": [
+        "tel-2611-config-gate",
+        "afenv",
         "tel-2611-config"
       ]
     }
