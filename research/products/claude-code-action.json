@@ -5174,10 +5174,10 @@
     },
     "telemetry_defaults": {
      "support": "partial",
-     "answer": "The action enables no OpenTelemetry export unless the user sets variables; the input-presence map is always passed to the CLI, whose own defaults are in the closed binary.",
+     "answer": "On by default (through the bundled Claude Code CLI): the action has no analytics client of its own, but it runs the Claude Code CLI, whose usage metrics go to Anthropic (the same vendor) by default with the Claude API, and it passes the CLI a map of which action inputs were set. Whether the closed CLI includes that map in its telemetry cannot be inspected. Off by default on Bedrock and Vertex.",
      "evidenceIds": [
-      "v276-otel",
-      "v276-inenv"
+      "tel-2611-src",
+      "tel-2611-cc-data-usage"
      ]
     },
     "telemetry_controls": {
@@ -5188,9 +5188,12 @@
      ]
     },
     "telemetry_off_switch": {
-     "support": "unknown",
-     "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-     "evidenceIds": []
+     "support": "supported",
+     "answer": "Config only: set DISABLE_TELEMETRY=1 or CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1 in the workflow env; no action input controls telemetry.",
+     "evidenceIds": [
+      "tel-2611-src",
+      "tel-2611-cc-data-usage"
+     ]
     },
     "consent_prompt": {
      "support": "unsupported",
@@ -5222,11 +5225,13 @@
     "v276-sdk",
     "v276-yml",
     "v276-run",
-    "v276-dcloud"
+    "v276-dcloud",
+    "tel-2611-src",
+    "tel-2611-cc-data-usage"
    ],
    "checkedAt": "2026-11-08",
    "nextReviewAt": "2026-11-22",
-   "researcher": "researcher-ade81",
+   "researcher": "telemetry-researcher-a",
    "publication": "public-candidate",
    "review": null,
    "contradictions": []
@@ -6943,6 +6948,32 @@
    "visibility": "public",
    "commit": "f3b070c88125d33dbae5653df5f143101d4ea9dc",
    "path": "src/entrypoints/update-comment-link.ts"
+  },
+  {
+   "id": "tel-2611-src",
+   "kind": "source-inspected",
+   "url": "https://github.com/anthropics/claude-code-action/blob/eb56b6666facdbd501035f4a0269d8caee2e7a8b/src/entrypoints/run.ts#L235-L372",
+   "title": "claude-code-action telemetry wiring at v1.0.289",
+   "locator": "src/entrypoints/run.ts L235, L371-L372; base-action/src/parse-sdk-options.ts L299-L300; action.yml L400-L404; whole-tree search for posthog, segment, amplitude, mixpanel, sentry, statsig, datadog, telemetry",
+   "sourceDate": null,
+   "retrievedAt": "2026-11-24",
+   "finding": "At v1.0.289 the action ships no analytics or crash-reporting client of its own. It sets CLAUDE_CODE_ACTION=1 and passes a map of which action inputs were set to the Claude Code CLI as GITHUB_ACTION_INPUTS, and forwards CLAUDE_CODE_ENABLE_TELEMETRY and OTEL variables. Telemetry to Anthropic comes from the bundled Claude Code CLI.",
+   "visibility": "public",
+   "commit": "eb56b6666facdbd501035f4a0269d8caee2e7a8b",
+   "path": "src/entrypoints/run.ts"
+  },
+  {
+   "id": "tel-2611-cc-data-usage",
+   "kind": "documented",
+   "url": "https://code.claude.com/docs/en/data-usage",
+   "title": "Claude Code data usage: telemetry defaults",
+   "locator": "Telemetry services; Default behaviors by API provider",
+   "sourceDate": null,
+   "retrievedAt": "2026-11-24",
+   "finding": "Claude Code usage metrics are on by default with the Claude API and are disabled with DISABLE_TELEMETRY=1 or CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1; off by default on Bedrock, Agent Platform and Foundry.",
+   "visibility": "public",
+   "commit": null,
+   "path": null
   }
  ],
  "changes": [
@@ -9988,6 +10019,39 @@
     "reviewed": false
    },
    "evidenceIds": []
+  },
+  {
+   "date": "2026-11-24",
+   "author": "telemetry-researcher-a",
+   "type": "research-correction",
+   "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+   "claimIds": [
+    "claude-code-action:OWN-03"
+   ],
+   "before": {
+    "support": "partial",
+    "answer": "Full debug output may include sensitive context, tokens and tool content and requires access restrictions.",
+    "checkedAt": "2026-11-08",
+    "nextReviewAt": "2026-11-22",
+    "subanswers": {
+     "telemetry_defaults": "partial",
+     "telemetry_off_switch": "unknown"
+    }
+   },
+   "after": {
+    "support": "partial",
+    "answer": "Full debug output may include sensitive context, tokens and tool content and requires access restrictions.",
+    "checkedAt": "2026-11-08",
+    "nextReviewAt": "2026-11-22",
+    "subanswers": {
+     "telemetry_defaults": "partial",
+     "telemetry_off_switch": "supported"
+    }
+   },
+   "evidenceIds": [
+    "tel-2611-src",
+    "tel-2611-cc-data-usage"
+   ]
   }
  ],
  "context": {
