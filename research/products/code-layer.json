@@ -5122,23 +5122,23 @@
     },
     "telemetry_defaults": {
      "support": "partial",
-     "answer": "On by default: official HumanLayer builds and the hosted app bake in Sentry DSNs and PostHog keys (the self-host reference tells others to replace 'HumanLayer's DSNs and keys'). PostHog initialises whenever a key is present and Sentry whenever a DSN is set outside local environments, with no consent check. Builds from source send nothing because the keys are unset.",
+     "answer": "On by default: per the self-host build reference, the source holds no DSNs or analytics keys and HumanLayer's release workflows supply HumanLayer's own values at build time, so official HumanLayer builds and the hosted app carry Sentry DSNs and PostHog keys (the public table shows them only as PLACEHOLDER_* values). PostHog initialises whenever a key is present and Sentry whenever a DSN is set outside local environments, with no consent check. Builds from source send nothing because the keys are unset.",
      "evidenceIds": [
-      "tel-2611-src"
+      "tel-2611-src-buildcfg"
      ]
     },
     "telemetry_controls": {
      "support": "partial",
      "answer": "Only build-time keys gate PostHog and Sentry: unset keys in a build from source disable both. No runtime control for official builds was found.",
      "evidenceIds": [
-      "tel-2611-src"
+      "tel-2611-src-buildcfg"
      ]
     },
     "telemetry_off_switch": {
      "support": "partial",
      "answer": "No off switch: a bounded search of apps and packages at main (posthog.ts, sentry.ts, riptide-electron instrument.ts; terms opt out, optIn, telemetry setting, DO_NOT_TRACK) finds no user setting or runtime variable that stops PostHog or Sentry in an official build; the only control is leaving the build-time keys unset when building from source.",
      "evidenceIds": [
-      "tel-2611-src"
+      "tel-2611-src-buildcfg"
      ]
     },
     "consent_prompt": {
@@ -5166,11 +5166,12 @@
     "nov07-tasks",
     "nov07-gateway",
     "nov07-repo",
-    "tel-2611-src"
+    "tel-2611-src",
+    "tel-2611-src-buildcfg"
    ],
    "checkedAt": "2026-11-07",
    "nextReviewAt": "2026-11-14",
-   "researcher": "telemetry-researcher-b",
+   "researcher": "telemetry-researcher-f",
    "publication": "public-candidate",
    "review": null,
    "contradictions": []
@@ -6676,6 +6677,19 @@
    "visibility": "public",
    "commit": "fb899cd8cba767f0392708efc20d00938dec6a87",
    "path": "apps/riptide-ui/src/integrations/posthog/posthog.ts"
+  },
+  {
+   "id": "tel-2611-src-buildcfg",
+   "kind": "source-inspected",
+   "url": "https://github.com/humanlayer/humanlayer/blob/fb899cd8cba767f0392708efc20d00938dec6a87/.claude/skills/self-host-humanlayer/references/build-config.md#L3",
+   "title": "HumanLayer source at fb899cd: build configuration reference and telemetry gates",
+   "locator": "build-config.md line 3 and the Desktop apps and CLI table (Sentry and PostHog rows); apps/riptide-ui/src/integrations/posthog/posthog.ts lines 1-60; apps/riptide-electron/src/instrument.ts lines 33-46; README line 38",
+   "sourceDate": "2026-11-23",
+   "retrievedAt": "2026-11-24",
+   "finding": "build-config.md line 3 says the repository source holds no cloud URLs, client IDs, DSNs or analytics keys, that each build receives them at build time, and that HumanLayer's release workflows pass in HumanLayer's own values. In the public reference table the Sentry DSN and PostHog key sources appear only as PLACEHOLDER_* values, so the actual keys are not shown. PostHog initialises whenever VITE_PUBLIC_POSTHOG_KEY is set and Sentry whenever a DSN is set outside local environments, with no consent check or user opt-out; README says builds from source send nothing.",
+   "visibility": "public",
+   "commit": "fb899cd8cba767f0392708efc20d00938dec6a87",
+   "path": ".claude/skills/self-host-humanlayer/references/build-config.md"
   }
  ],
  "changes": [
@@ -11152,6 +11166,40 @@
    },
    "evidenceIds": [
     "tel-2611-src"
+   ]
+  },
+  {
+   "date": "2026-11-24",
+   "author": "telemetry-researcher-f",
+   "type": "research-correction",
+   "summary": "Remove the invented quotation about HumanLayer's DSNs and keys, paraphrase build-config.md line 3, and replace the source finding that misread the reference table, which shows PLACEHOLDER_* values.",
+   "claimIds": [
+    "code-layer:OWN-03"
+   ],
+   "before": {
+    "support": "partial",
+    "answer": "Agents execute on user hosts while events/task artifacts sync through HumanLayer APIs/storage; model traffic can use configured provider gateways. Retention, residency and training policies were not audited. Saved daemon login includes a refresh token; host credentials/history volumes require persistence and limited access. Further scoped facts are recorded in the atomic answers. Telemetry (atomic revision 2): official builds and the hosted app send PostHog analytics and Sentry errors without a consent step; no user-facing off switch was found in the source (builds from source send nothing).",
+    "checkedAt": "2026-11-07",
+    "nextReviewAt": "2026-11-14",
+    "subanswers": {
+     "telemetry_defaults": "partial",
+     "telemetry_controls": "partial",
+     "telemetry_off_switch": "partial"
+    }
+   },
+   "after": {
+    "support": "partial",
+    "answer": "Agents execute on user hosts while events/task artifacts sync through HumanLayer APIs/storage; model traffic can use configured provider gateways. Retention, residency and training policies were not audited. Saved daemon login includes a refresh token; host credentials/history volumes require persistence and limited access. Further scoped facts are recorded in the atomic answers. Telemetry (atomic revision 2): official builds and the hosted app send PostHog analytics and Sentry errors without a consent step; no user-facing off switch was found in the source (builds from source send nothing).",
+    "checkedAt": "2026-11-07",
+    "nextReviewAt": "2026-11-14",
+    "subanswers": {
+     "telemetry_defaults": "partial",
+     "telemetry_controls": "partial",
+     "telemetry_off_switch": "partial"
+    }
+   },
+   "evidenceIds": [
+    "tel-2611-src-buildcfg"
    ]
   }
  ],
