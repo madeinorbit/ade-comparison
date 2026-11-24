@@ -5053,7 +5053,7 @@
     {
       "id": "stagewise:OWN-03",
       "criterionId": "OWN-03",
-      "answer": "Code goes to the chosen model provider; stagewise account routing uses Vercel AI Gateway without zero-retention guarantee; PostHog telemetry has off, anonymous (default) and full levels.",
+      "answer": "Code goes to the chosen model provider; stagewise account routing uses Vercel AI Gateway without zero-retention guarantee; PostHog telemetry has off, anonymous (default) and full levels. The privacy policy calls PostHog analytics opt-in, but the 1.31.1 code defaults to anonymous, and the off level still sends lifecycle and survey events.",
       "support": "partial",
       "availability": "generally-available",
       "delivery": "native",
@@ -5151,9 +5151,10 @@
         },
         "telemetry_defaults": {
           "support": "supported",
-          "answer": "On by default: telemetryLevel defaults to anonymous PostHog telemetry.",
+          "answer": "On by default: in 1.31.1 telemetryLevel defaults to anonymous PostHog telemetry. The privacy policy describes PostHog analytics as opt-in and subject to consent; the shipped code decides.",
           "evidenceIds": [
-            "tel-2611-default"
+            "tel-2611-default",
+            "tel-2611-privacy-mdx"
           ]
         },
         "telemetry_controls": {
@@ -5165,10 +5166,11 @@
           ]
         },
         "telemetry_off_switch": {
-          "support": "supported",
-          "answer": "In the app: the settings telemetry control sets off, anonymous or full.",
+          "support": "partial",
+          "answer": "In the app, partly: the settings telemetry control sets off, anonymous or full, but at off 1.31.1 still sends bypassOptOut events (app-launched, telemetry-level-changed, onboarding-completed and four experience-survey events) to PostHog.",
           "evidenceIds": [
-            "tel-2611-default"
+            "tel-2611-default",
+            "tel-2611-bypass"
           ]
         },
         "consent_prompt": {
@@ -5200,11 +5202,13 @@
         "provider-model",
         "telemetry-ui",
         "onboarding",
-        "tel-2611-default"
+        "tel-2611-default",
+        "tel-2611-privacy-mdx",
+        "tel-2611-bypass"
       ],
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
-      "researcher": "telemetry-researcher-e",
+      "researcher": "telemetry-researcher-f",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -6603,6 +6607,32 @@
       "visibility": "public",
       "commit": "17a0123a0e896885465df36169457199d5225eb5",
       "path": "apps/browser/src/shared/karton-contracts/ui/shared-types.ts"
+    },
+    {
+      "id": "tel-2611-bypass",
+      "kind": "source-inspected",
+      "url": "https://github.com/stagewise-io/stagewise/blob/17a0123a0e896885465df36169457199d5225eb5/apps/browser/src/backend/services/telemetry.ts#L1044-L1055",
+      "title": "stagewise TelemetryService.capture at 1.31.1",
+      "locator": "capture(): bypassOptOut list and level check, lines 1044-1055",
+      "sourceDate": "2026-11-04",
+      "retrievedAt": "2026-11-24",
+      "finding": "When telemetryLevel is off, capture() still sends the bypassOptOut events app-launched, telemetry-level-changed, onboarding-completed, experience-survey-answered, experience-survey-feedback-submitted, experience-founder-call-survey-opened and experience-founder-call-survey-dismissed to PostHog; a code comment says this measures opt-out rates and keeps funnels intact.",
+      "visibility": "public",
+      "commit": "17a0123a0e896885465df36169457199d5225eb5",
+      "path": "apps/browser/src/backend/services/telemetry.ts"
+    },
+    {
+      "id": "tel-2611-privacy-mdx",
+      "kind": "source-inspected",
+      "url": "https://github.com/stagewise-io/stagewise/blob/17a0123a0e896885465df36169457199d5225eb5/apps/website/content/legal/privacy.mdx#L64-L65",
+      "title": "stagewise privacy policy source at 1.31.1",
+      "locator": "Usage & Analytics Data, lines 64-65; Cookies, line 127",
+      "sourceDate": "2026-11-04",
+      "retrievedAt": "2026-11-24",
+      "finding": "The privacy policy says PostHog usage and analytics data is collected depending on the user's opt-in configuration and subject to cookie consent, with consent as the legal basis; this conflicts with the app schema default telemetryLevel anonymous.",
+      "visibility": "public",
+      "commit": "17a0123a0e896885465df36169457199d5225eb5",
+      "path": "apps/website/content/legal/privacy.mdx"
     }
   ],
   "changes": [
@@ -6757,6 +6787,40 @@
       },
       "evidenceIds": [
         "tel-2611-default"
+      ]
+    },
+    {
+      "date": "2026-11-24",
+      "author": "telemetry-researcher-f",
+      "type": "research-correction",
+      "summary": "Record that telemetry level off still sends bypassOptOut lifecycle and survey events, and that the privacy policy calls PostHog analytics opt-in while the 1.31.1 code defaults to anonymous.",
+      "claimIds": [
+        "stagewise:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Code goes to the chosen model provider; stagewise account routing uses Vercel AI Gateway without zero-retention guarantee; PostHog telemetry has off, anonymous (default) and full levels.",
+        "checkedAt": "2026-11-16",
+        "nextReviewAt": "2027-03-16",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "supported"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Code goes to the chosen model provider; stagewise account routing uses Vercel AI Gateway without zero-retention guarantee; PostHog telemetry has off, anonymous (default) and full levels. The privacy policy calls PostHog analytics opt-in, but the 1.31.1 code defaults to anonymous, and the off level still sends lifecycle and survey events.",
+        "checkedAt": "2026-11-16",
+        "nextReviewAt": "2027-03-16",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "partial"
+        }
+      },
+      "evidenceIds": [
+        "tel-2611-default",
+        "tel-2611-privacy-mdx",
+        "tel-2611-bypass"
       ]
     }
   ],
