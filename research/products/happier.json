@@ -5226,23 +5226,26 @@
           ]
         },
         "telemetry_defaults": {
-          "support": "partial",
-          "answer": "Analytics are described with an opt-out available; default state not stated.",
+          "support": "supported",
+          "answer": "On by default: the Happier apps send PostHog analytics with anonymized IDs unless the user opts out (analyticsOptOut defaults to false).",
           "evidenceIds": [
-            "privacy"
+            "tel-2611-happier-tracking"
           ]
         },
         "telemetry_controls": {
           "support": "supported",
-          "answer": "Disable analytics in app settings.",
+          "answer": "Settings > Account analytics switch; separate crash-report opt-out.",
           "evidenceIds": [
+            "tel-2611-happier-tracking",
             "privacy"
           ]
         },
         "telemetry_off_switch": {
-          "support": "unknown",
-          "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "In the app: Settings > Account analytics switch (crash reports have their own opt-out setting).",
+          "evidenceIds": [
+            "tel-2611-happier-tracking"
+          ]
         },
         "consent_prompt": {
           "support": "unknown",
@@ -5271,11 +5274,12 @@
         "privacy",
         "retention",
         "selfhost",
-        "notif"
+        "notif",
+        "tel-2611-happier-tracking"
       ],
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
-      "researcher": "researcher-batch03-happier",
+      "researcher": "telemetry-researcher-c",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -6704,6 +6708,19 @@
       "visibility": "public",
       "commit": "f6f4032ffe21310f83a652c0c7dc07a205e66ee8",
       "path": "apps/cli/src/scm/backends/git/operations/branchIntegrationOperations.ts"
+    },
+    {
+      "id": "tel-2611-happier-tracking",
+      "kind": "source-inspected",
+      "url": "https://github.com/happier-dev/happier/blob/e992e049ffa7a98ab60740ac60f94918f022ff24/apps/ui/sources/track/tracking.ts",
+      "title": "Happier UI PostHog tracking and account analytics setting",
+      "locator": "tracking.ts; sync/domains/settings/registry/account/accountCoreSettingDefinitions.ts analyticsOptOut default false; app/(app)/settings/account.tsx analytics switch",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-24",
+      "finding": "At ui-desktop-v0.2.22 the UI creates a PostHog client when a key is built in and the app.analytics feature is not denied; analyticsOptOut defaults to false, and Settings > Account has an analytics switch bound to it (crash reports have a separate crashReportsOptOut).",
+      "visibility": "public",
+      "commit": "e992e049ffa7a98ab60740ac60f94918f022ff24",
+      "path": "apps/ui/sources/track/tracking.ts"
     }
   ],
   "changes": [
@@ -6764,6 +6781,41 @@
         "reviewed": false
       },
       "evidenceIds": []
+    },
+    {
+      "date": "2026-11-24",
+      "author": "telemetry-researcher-c",
+      "type": "research-correction",
+      "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+      "claimIds": [
+        "happier:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Content is end-to-end encrypted on devices by default; the relay cannot read it unless a plaintext policy is chosen; PostHog analytics with anonymized IDs and an opt-out; RevenueCat account ID for subscriptions; provider data goes to the agents own providers.",
+        "checkedAt": "2026-11-16",
+        "nextReviewAt": "2027-03-16",
+        "subanswers": {
+          "telemetry_defaults": "partial",
+          "telemetry_off_switch": "unknown",
+          "telemetry_controls": "supported"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Content is end-to-end encrypted on devices by default; the relay cannot read it unless a plaintext policy is chosen; PostHog analytics with anonymized IDs and an opt-out; RevenueCat account ID for subscriptions; provider data goes to the agents own providers.",
+        "checkedAt": "2026-11-16",
+        "nextReviewAt": "2027-03-16",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "supported",
+          "telemetry_controls": "supported"
+        }
+      },
+      "evidenceIds": [
+        "tel-2611-happier-tracking",
+        "privacy"
+      ]
     }
   ],
   "context": {
