@@ -4804,9 +4804,9 @@
         },
         "telemetry_defaults": {
           "support": "supported",
-          "answer": "Anonymous update statistics are on by default; there is no product analytics or crash reporting.",
+          "answer": "On by default: anonymous update statistics are counted at updates.intentapp.dev; there is no product analytics or crash reporting.",
           "evidenceIds": [
-            "b05-readme"
+            "tel-2611-intent-readme"
           ]
         },
         "telemetry_controls": {
@@ -4817,9 +4817,11 @@
           ]
         },
         "telemetry_off_switch": {
-          "support": "unknown",
-          "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "In the app: Settings > General > Updates > \"Share anonymous update statistics\"; standalone intentd uses DO_NOT_TRACK=1, INTENTD_DISABLE_TELEMETRY=1 or a config key.",
+          "evidenceIds": [
+            "tel-2611-intent-readme"
+          ]
         },
         "consent_prompt": {
           "support": "unknown",
@@ -4842,11 +4844,12 @@
         "nov07-remote",
         "nov07-transfer",
         "facet38-update-statistics",
-        "b05-readme"
+        "b05-readme",
+        "tel-2611-intent-readme"
       ],
       "checkedAt": "2026-11-07",
       "nextReviewAt": "2026-12-07",
-      "researcher": "researcher-ade127",
+      "researcher": "telemetry-researcher-c",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -5996,6 +5999,19 @@
       "sourceDate": "2026-11-19",
       "retrievedAt": "2026-11-22",
       "finding": "Desktop v2.318.0 and intentd v0.11.188 (both 2026-11-11) are marked Pre-release. Desktop v2.357.2 (2026-11-19) is the latest full desktop release and intentd v0.11.176 (2026-11-10) the latest full daemon release; most other recent releases of both are pre-releases.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "tel-2611-intent-readme",
+      "kind": "documented",
+      "url": "https://github.com/intent-hq/intent/blob/04336da0fa7ff2ff19a4d29421a543c9612c09a1/README.md#network--privacy",
+      "title": "Intent README Network & privacy",
+      "locator": "## Network & privacy, Anonymous update statistics",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-24",
+      "finding": "Update checks go through updates.intentapp.dev, which counts each check (platform, version, install source, trigger, first-of-day/week/month, install-age bucket). \"It is on by default; turn it off in Settings > General > Updates > Share anonymous update statistics\", or for standalone intentd with DO_NOT_TRACK=1, INTENTD_DISABLE_TELEMETRY=1 or telemetry = false. No product analytics or crash reporting.",
       "visibility": "public",
       "commit": null,
       "path": null
@@ -8768,6 +8784,38 @@
         "reviewed": false
       },
       "evidenceIds": []
+    },
+    {
+      "date": "2026-11-24",
+      "author": "telemetry-researcher-c",
+      "type": "research-correction",
+      "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+      "claimIds": [
+        "intent:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Remote docs disclose plaintext web machine-token storage; iOS uses Keychain. Desktop update statistics can be disabled with Share anonymous update statistics or DO_NOT_TRACK, leaving direct GitHub update checks.",
+        "checkedAt": "2026-11-07",
+        "nextReviewAt": "2026-12-07",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Remote docs disclose plaintext web machine-token storage; iOS uses Keychain. Desktop update statistics can be disabled with Share anonymous update statistics or DO_NOT_TRACK, leaving direct GitHub update checks.",
+        "checkedAt": "2026-11-07",
+        "nextReviewAt": "2026-12-07",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "supported"
+        }
+      },
+      "evidenceIds": [
+        "tel-2611-intent-readme"
+      ]
     }
   ],
   "context": {

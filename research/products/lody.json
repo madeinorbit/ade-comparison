@@ -5409,9 +5409,11 @@
      ]
     },
     "telemetry_defaults": {
-     "support": "unknown",
-     "answer": "Data handling and telemetry, telemetry_defaults: collection defaults are not stated; a business fact.",
-     "evidenceIds": []
+     "support": "supported",
+     "answer": "On by default: published desktop and app builds send PostHog product analytics and error reports; the local CLI sends none.",
+     "evidenceIds": [
+      "tel-2611-lody-posthog"
+     ]
     },
     "telemetry_controls": {
      "support": "unsupported",
@@ -5422,9 +5424,11 @@
      ]
     },
     "telemetry_off_switch": {
-     "support": "unknown",
-     "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-     "evidenceIds": []
+     "support": "supported",
+     "answer": "No off switch: a bounded search of the pinned source found no analytics setting, opt-out call or env-var gate for the desktop/app builds.",
+     "evidenceIds": [
+      "tel-2611-lody-posthog"
+     ]
     },
     "consent_prompt": {
      "support": "unsupported",
@@ -5456,11 +5460,12 @@
     "src-e2ee-cli",
     "src-mcp",
     "support",
-    "mobile"
+    "mobile",
+    "tel-2611-lody-posthog"
    ],
    "checkedAt": "2026-11-13",
    "nextReviewAt": "2027-03-13",
-   "researcher": "researcher-lody",
+   "researcher": "telemetry-researcher-c",
    "publication": "public-candidate",
    "review": null,
    "contradictions": []
@@ -6855,6 +6860,19 @@
    "visibility": "public",
    "commit": "e7b7ab7aacf17f3ee056a6d708ad5ac3c18fb60f",
    "path": "packages"
+  },
+  {
+   "id": "tel-2611-lody-posthog",
+   "kind": "source-inspected",
+   "url": "https://github.com/LodyAI/Lody/blob/30d60724827742155b35187eaa907608f692cb96/apps/electron/src/main/posthog-error-reporting.ts",
+   "title": "Lody PostHog analytics and error reporting",
+   "locator": "posthog-error-reporting.ts resolveApiKey; .github/workflows/publish-electron.yml VITE_PUBLIC_POSTHOG_KEY; packages/components/src/lib/posthog-analytics.ts; apps/cli/src/instrument.ts",
+   "sourceDate": null,
+   "retrievedAt": "2026-11-24",
+   "finding": "Published desktop builds embed a PostHog key at build time (publish-electron.yml) for product analytics (posthog-js) and error reporting; a search of apps/ and packages/ for opt_out_capturing, optOut, analyticsEnabled, telemetry/analytics settings found no user control. The local CLI (LODY_PLATFORM unset = local) sends no PostHog events.",
+   "visibility": "public",
+   "commit": "30d60724827742155b35187eaa907608f692cb96",
+   "path": "apps/electron/src/main/posthog-error-reporting.ts"
   }
  ],
  "changes": [
@@ -7072,6 +7090,38 @@
     "reviewed": false
    },
    "evidenceIds": []
+  },
+  {
+   "date": "2026-11-24",
+   "author": "telemetry-researcher-c",
+   "type": "research-correction",
+   "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+   "claimIds": [
+    "lody:OWN-03"
+   ],
+   "before": {
+    "support": "partial",
+    "answer": "LoroHub LLC collects account, device, log and conversation data processed by named subprocessors with export/deletion rights; E2E workspaces restrict reads to authorized devices, while standard workspaces are readable by members and Lody servers. Telemetry is disclosed (PostHog/Sentry/GA) with no documented opt-out or first-run consent.",
+    "checkedAt": "2026-11-13",
+    "nextReviewAt": "2027-03-13",
+    "subanswers": {
+     "telemetry_defaults": "unknown",
+     "telemetry_off_switch": "unknown"
+    }
+   },
+   "after": {
+    "support": "partial",
+    "answer": "LoroHub LLC collects account, device, log and conversation data processed by named subprocessors with export/deletion rights; E2E workspaces restrict reads to authorized devices, while standard workspaces are readable by members and Lody servers. Telemetry is disclosed (PostHog/Sentry/GA) with no documented opt-out or first-run consent.",
+    "checkedAt": "2026-11-13",
+    "nextReviewAt": "2027-03-13",
+    "subanswers": {
+     "telemetry_defaults": "supported",
+     "telemetry_off_switch": "supported"
+    }
+   },
+   "evidenceIds": [
+    "tel-2611-lody-posthog"
+   ]
   }
  ],
  "context": {

@@ -5151,10 +5151,9 @@
         },
         "telemetry_defaults": {
           "support": "supported",
-          "answer": "No analytics found; update check hits GitHub.",
+          "answer": "No telemetry: bounded search of the pinned source (2eaf639) found no analytics, telemetry or crash-reporting client. The only matches are Windows build/validation scripts under Tools/windows that set .NET CLI telemetry opt-out variables; update checks go to GitHub releases, not a GraphCode endpoint.",
           "evidenceIds": [
-            "srch-telemetry",
-            "update"
+            "tel-2611-graphcode-src"
           ]
         },
         "telemetry_controls": {
@@ -5165,9 +5164,11 @@
           ]
         },
         "telemetry_off_switch": {
-          "support": "unknown",
-          "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-          "evidenceIds": []
+          "support": "not-applicable",
+          "answer": "Nothing to switch off: no ADE telemetry.",
+          "evidenceIds": [
+            "tel-2611-graphcode-src"
+          ]
         },
         "consent_prompt": {
           "support": "unsupported",
@@ -5201,11 +5202,12 @@
         "nod",
         "site",
         "srch-telemetry",
-        "update"
+        "update",
+        "tel-2611-graphcode-src"
       ],
       "checkedAt": "2026-11-17",
       "nextReviewAt": "2027-03-17",
-      "researcher": "researcher-batch17",
+      "researcher": "telemetry-researcher-c",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -6350,6 +6352,19 @@
       "finding": "The New Node dialog accepts pasted or dropped images, stores them under the draft and substitutes their paths into the loop prompt; remote loops get them copied to the host.",
       "commit": "999fcf0c3ebef778f06aa86540cdd27afcc01bdb",
       "path": "graphcode/Sources/Features/Project/ProjectFeature+Attachments.swift"
+    },
+    {
+      "id": "tel-2611-graphcode-src",
+      "kind": "source-inspected",
+      "url": "https://github.com/scgopi/GraphCode/tree/2eaf639ec9749d42079555f873792eff89f72f6c",
+      "title": "graphcode pinned source, bounded telemetry search",
+      "locator": "Recursive search of . for posthog, segment, amplitude, mixpanel, sentry, aptabase, telemetry, DO_NOT_TRACK, google-analytics, gtag, firebase/analytics, opentelemetry",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-24",
+      "finding": "No ADE analytics, telemetry or crash-reporting client in the pinned source. The only matches are Windows build/validation scripts under Tools/windows that set .NET CLI telemetry opt-out variables; update checks go to GitHub releases, not a GraphCode endpoint.",
+      "visibility": "public",
+      "commit": "2eaf639ec9749d42079555f873792eff89f72f6c",
+      "path": "."
     }
   ],
   "changes": [
@@ -6678,6 +6693,38 @@
         "reviewed": false
       },
       "evidenceIds": []
+    },
+    {
+      "date": "2026-11-24",
+      "author": "telemetry-researcher-c",
+      "type": "research-correction",
+      "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+      "claimIds": [
+        "graphcode:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "State stays in ~/.graphcode and nothing is written inside project folders; prompts go to the agent CLIs or SDKs chosen; no telemetry SDK found; outbound product calls are GitHub release checks and Copilot device sign-in.",
+        "checkedAt": "2026-11-17",
+        "nextReviewAt": "2027-03-17",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "State stays in ~/.graphcode and nothing is written inside project folders; prompts go to the agent CLIs or SDKs chosen; no telemetry SDK found; outbound product calls are GitHub release checks and Copilot device sign-in.",
+        "checkedAt": "2026-11-17",
+        "nextReviewAt": "2027-03-17",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "not-applicable"
+        }
+      },
+      "evidenceIds": [
+        "tel-2611-graphcode-src"
+      ]
     }
   ],
   "context": {

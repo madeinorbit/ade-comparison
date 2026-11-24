@@ -4527,10 +4527,10 @@
           ]
         },
         "telemetry_defaults": {
-          "support": "partial",
-          "answer": "Launch/daily check-in with update checking; first-run consent was not observed.",
+          "support": "supported",
+          "answer": "On by default: Sentry crash reports, plus a launch/daily check-in with update checking.",
           "evidenceIds": [
-            "nov07-config"
+            "tel-2611-maestro-crash"
           ]
         },
         "telemetry_controls": {
@@ -4541,14 +4541,18 @@
           ]
         },
         "telemetry_off_switch": {
-          "support": "unknown",
-          "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "In the app: the first-run Updates choice and Settings toggles for crash reporting and Check for updates on startup.",
+          "evidenceIds": [
+            "tel-2611-maestro-crash"
+          ]
         },
         "consent_prompt": {
-          "support": "unknown",
-          "answer": "Consent prompt: The November first-party documentation and repository pass did not establish data handling and telemetry at the rubric's required scope. No installed-product fixture was run.",
-          "evidenceIds": []
+          "support": "partial",
+          "answer": "The onboarding Updates choice modal shows crash-reporting and update toggles, pre-set to on.",
+          "evidenceIds": [
+            "tel-2611-maestro-crash"
+          ]
         },
         "provider_separation": {
           "support": "supported",
@@ -4566,11 +4570,12 @@
       "unknownReason": "Remaining unknown atomic answers were checked against the first-party locations in context.gapFillReview. Sources did not establish those answers; no installed-product fixture was run.",
       "evidenceIds": [
         "nov07-config",
-        "gap-config"
+        "gap-config",
+        "tel-2611-maestro-crash"
       ],
       "checkedAt": "2026-11-07",
       "nextReviewAt": "2026-12-07",
-      "researcher": "reviewer-51",
+      "researcher": "telemetry-researcher-c",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -6427,6 +6432,19 @@
       "visibility": "public",
       "commit": null,
       "path": null
+    },
+    {
+      "id": "tel-2611-maestro-crash",
+      "kind": "source-inspected",
+      "url": "https://github.com/RunMaestro/Maestro/blob/508ef1201846f16fdf79f3b75ce17db838aa2dbc/src/shared/settingsMetadataConnectivity.ts",
+      "title": "Maestro crash reporting setting and onboarding choice",
+      "locator": "settingsMetadataConnectivity.ts crashReportingEnabled default true; main/index.ts Sentry init; renderer/components/OnboardingSeriesHost.tsx UpdatesChoiceModal",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-24",
+      "finding": "Sentry crash reporting is on by default (crashReportingEnabled default true) and is initialised in production builds; the onboarding Updates choice modal and Settings expose crash reporting and update-check toggles.",
+      "visibility": "public",
+      "commit": "508ef1201846f16fdf79f3b75ce17db838aa2dbc",
+      "path": "src/shared/settingsMetadataConnectivity.ts"
     }
   ],
   "changes": [
@@ -10333,6 +10351,40 @@
         "reviewed": false
       },
       "evidenceIds": []
+    },
+    {
+      "date": "2026-11-24",
+      "author": "telemetry-researcher-c",
+      "type": "research-correction",
+      "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+      "claimIds": [
+        "maestro:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Anonymous check-in and optional folder sync have explicit data and conflict limits.",
+        "checkedAt": "2026-11-07",
+        "nextReviewAt": "2026-12-07",
+        "subanswers": {
+          "telemetry_defaults": "partial",
+          "telemetry_off_switch": "unknown",
+          "consent_prompt": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Anonymous check-in and optional folder sync have explicit data and conflict limits.",
+        "checkedAt": "2026-11-07",
+        "nextReviewAt": "2026-12-07",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "supported",
+          "consent_prompt": "partial"
+        }
+      },
+      "evidenceIds": [
+        "tel-2611-maestro-crash"
+      ]
     }
   ],
   "context": {

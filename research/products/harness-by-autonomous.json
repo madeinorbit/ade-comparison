@@ -5340,7 +5340,7 @@
   {
    "id": "harness-by-autonomous:OWN-03",
    "criterionId": "OWN-03",
-   "answer": "Code and prompts stay E2EE-sealed with keys the relay never holds; credentials live in tmux env/0600 files with redacted handoffs; push goes through Apple/Google and transport over Cloudflare. Training use of Harness data, retention windows, residency, subprocessors beyond those named and telemetry controls are not disclosed.",
+   "answer": "Code and prompts stay E2EE-sealed with keys the relay never holds; credentials live in tmux env/0600 files with redacted handoffs; push goes through Apple/Google and transport over Cloudflare. The backend counts product usage per account by default, with a desktop \"Share product usage data\" switch to stop it. Training use of Harness data, retention windows, residency and subprocessors beyond those named are not disclosed.",
    "support": "partial",
    "availability": "generally-available",
    "delivery": "native",
@@ -5431,24 +5431,33 @@
      ]
     },
     "telemetry_disclosure": {
-     "support": "unknown",
-     "answer": "Harness's checked sources did not establish this atomic requirement. No telemetry disclosure was found in product docs or policy.",
-     "evidenceIds": []
+     "support": "partial",
+     "answer": "The desktop Privacy/Experimental setting describes product usage sharing; no standalone telemetry document was found.",
+     "evidenceIds": [
+      "tel-2611-harness-by-autonomous-setting"
+     ]
     },
     "telemetry_defaults": {
-     "support": "unknown",
-     "answer": "Harness's checked sources did not establish this atomic requirement. Telemetry defaults are not disclosed.",
-     "evidenceIds": []
+     "support": "supported",
+     "answer": "On by default: the Harness backend counts product usage (relay opens, activity days, phone opens by release) for signed-in accounts unless sharing is turned off; no third-party analytics SDK ships.",
+     "evidenceIds": [
+      "tel-2611-harness-by-autonomous-usage",
+      "tel-2611-harness-by-autonomous-setting"
+     ]
     },
     "telemetry_controls": {
-     "support": "unknown",
-     "answer": "Harness's checked sources did not establish this atomic requirement. A documented telemetry control was not found (privacy policy alone is insufficient).",
-     "evidenceIds": []
+     "support": "supported",
+     "answer": "Share product usage data switch in desktop settings.",
+     "evidenceIds": [
+      "tel-2611-harness-by-autonomous-setting"
+     ]
     },
     "telemetry_off_switch": {
-     "support": "unknown",
-     "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-     "evidenceIds": []
+     "support": "supported",
+     "answer": "In the app: desktop Settings > Experimental \"Share product usage data\" switch (available after sign-in).",
+     "evidenceIds": [
+      "tel-2611-harness-by-autonomous-setting"
+     ]
     },
     "consent_prompt": {
      "support": "unknown",
@@ -5474,11 +5483,13 @@
     "engines",
     "notify",
     "privacy",
-    "security"
+    "security",
+    "tel-2611-harness-by-autonomous-usage",
+    "tel-2611-harness-by-autonomous-setting"
    ],
    "checkedAt": "2026-11-13",
    "nextReviewAt": "2027-05-12",
-   "researcher": "researcher-harness",
+   "researcher": "telemetry-researcher-c",
    "publication": "public-candidate",
    "review": null,
    "contradictions": []
@@ -6678,6 +6689,32 @@
    "visibility": "public",
    "commit": "edd86652117e1adf469aaaa761963295f071e156",
    "path": "cli/src"
+  },
+  {
+   "id": "tel-2611-harness-by-autonomous-usage",
+   "kind": "source-inspected",
+   "url": "https://github.com/autonomous-ai/openharness/blob/54977dc9aa6a42fcfdbe9f4e822549c8c2a1f4e3/backend/src/lib/productUsage.ts",
+   "title": "Harness backend product-usage choice",
+   "locator": "productUsageChoice(): enabled unless an explicit off choice exists; lib/dailyTracking.ts relay usage counts",
+   "sourceDate": null,
+   "retrievedAt": "2026-11-24",
+   "finding": "The Harness backend records product-usage data (daily relay opens, a 10-day activity mark, per-release phone open counts) for each account; productUsageChoice returns enabled: true unless the user saved an off choice.",
+   "visibility": "public",
+   "commit": "54977dc9aa6a42fcfdbe9f4e822549c8c2a1f4e3",
+   "path": "backend/src/lib/productUsage.ts"
+  },
+  {
+   "id": "tel-2611-harness-by-autonomous-setting",
+   "kind": "source-inspected",
+   "url": "https://github.com/autonomous-ai/openharness/blob/54977dc9aa6a42fcfdbe9f4e822549c8c2a1f4e3/desktop/lib/settings/sections/privacy_section.dart",
+   "title": "Harness desktop \"Share product usage data\" setting",
+   "locator": "ProductUsageSetting; settings_section.dart Experimental keywords privacy/product usage data",
+   "sourceDate": null,
+   "retrievedAt": "2026-11-24",
+   "finding": "The desktop app shows a \"Share product usage data\" switch (Settings > Experimental, after sign-in) that writes the choice through /api/product-usage/settings. No third-party analytics or crash SDK appears in the pinned package manifests.",
+   "visibility": "public",
+   "commit": "54977dc9aa6a42fcfdbe9f4e822549c8c2a1f4e3",
+   "path": "desktop/lib/settings/sections/privacy_section.dart"
   }
  ],
  "changes": [
@@ -6802,6 +6839,43 @@
     "reviewed": false
    },
    "evidenceIds": []
+  },
+  {
+   "date": "2026-11-24",
+   "author": "telemetry-researcher-c",
+   "type": "research-correction",
+   "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+   "claimIds": [
+    "harness-by-autonomous:OWN-03"
+   ],
+   "before": {
+    "support": "partial",
+    "answer": "Code and prompts stay E2EE-sealed with keys the relay never holds; credentials live in tmux env/0600 files with redacted handoffs; push goes through Apple/Google and transport over Cloudflare. Training use of Harness data, retention windows, residency, subprocessors beyond those named and telemetry controls are not disclosed.",
+    "checkedAt": "2026-11-13",
+    "nextReviewAt": "2027-05-12",
+    "subanswers": {
+     "telemetry_defaults": "unknown",
+     "telemetry_off_switch": "unknown",
+     "telemetry_disclosure": "unknown",
+     "telemetry_controls": "unknown"
+    }
+   },
+   "after": {
+    "support": "partial",
+    "answer": "Code and prompts stay E2EE-sealed with keys the relay never holds; credentials live in tmux env/0600 files with redacted handoffs; push goes through Apple/Google and transport over Cloudflare. The backend counts product usage per account by default, with a desktop \"Share product usage data\" switch to stop it. Training use of Harness data, retention windows, residency and subprocessors beyond those named are not disclosed.",
+    "checkedAt": "2026-11-13",
+    "nextReviewAt": "2027-05-12",
+    "subanswers": {
+     "telemetry_defaults": "supported",
+     "telemetry_off_switch": "supported",
+     "telemetry_disclosure": "partial",
+     "telemetry_controls": "supported"
+    }
+   },
+   "evidenceIds": [
+    "tel-2611-harness-by-autonomous-usage",
+    "tel-2611-harness-by-autonomous-setting"
+   ]
   }
  ],
  "context": {

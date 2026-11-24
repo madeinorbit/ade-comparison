@@ -4700,7 +4700,7 @@
     {
       "id": "jean:OWN-03",
       "criterionId": "OWN-03",
-      "answer": "Jean keeps working state on its host and documents archive deletion and saved-secret handling separately from provider traffic. The inspected application implements no product telemetry opt-out control; provider settings remain separate.",
+      "answer": "Jean keeps working state on its host and documents archive deletion and saved-secret handling separately from provider traffic. Bounded source inspection of v1.0.16 found no product analytics, telemetry or crash-reporting client, so there is nothing to opt out of; provider settings remain separate.",
       "support": "partial",
       "availability": "generally-available",
       "delivery": "native",
@@ -4780,13 +4780,15 @@
         },
         "telemetry_disclosure": {
           "support": "unknown",
-          "answer": "Telemetry disclosure: The November first-party documentation and repository pass did not establish data handling and telemetry at the rubric's required scope. No installed-product fixture was run.",
+          "answer": "Telemetry disclosure: no first-party telemetry statement found; the source inspection shows none is sent.",
           "evidenceIds": []
         },
         "telemetry_defaults": {
-          "support": "unknown",
-          "answer": "Telemetry defaults: The November first-party documentation and repository pass did not establish data handling and telemetry at the rubric's required scope. No installed-product fixture was run.",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "No telemetry: bounded search of the pinned source (f10c98c) found no analytics, telemetry or crash-reporting client. Matches are the Sentry-issues integration (jean-core/src/projects/sentry_issues.rs, user-supplied token) and minified browser-helper code; the only coollabs/jean.build URLs are an optional MCP server entry and a sponsorship link.",
+          "evidenceIds": [
+            "tel-2611-jean-src"
+          ]
         },
         "telemetry_controls": {
           "support": "unsupported",
@@ -4796,9 +4798,11 @@
           ]
         },
         "telemetry_off_switch": {
-          "support": "unknown",
-          "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-          "evidenceIds": []
+          "support": "not-applicable",
+          "answer": "Nothing to switch off: no ADE telemetry.",
+          "evidenceIds": [
+            "tel-2611-jean-src"
+          ]
         },
         "consent_prompt": {
           "support": "unknown",
@@ -4821,11 +4825,12 @@
         "nov07-security",
         "gap-archive",
         "gap-mcp",
-        "facet38-telemetry-controls"
+        "facet38-telemetry-controls",
+        "tel-2611-jean-src"
       ],
       "checkedAt": "2026-11-07",
       "nextReviewAt": "2026-12-07",
-      "researcher": "researcher-ade38",
+      "researcher": "telemetry-researcher-c",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -6328,6 +6333,19 @@
       "visibility": "public",
       "commit": null,
       "path": null
+    },
+    {
+      "id": "tel-2611-jean-src",
+      "kind": "source-inspected",
+      "url": "https://github.com/coollabsio/jean/tree/f10c98c65d3931b9f7b11188292f3c48e66f199f",
+      "title": "jean pinned source, bounded telemetry search",
+      "locator": "Recursive search of . for posthog, segment, amplitude, mixpanel, sentry, aptabase, telemetry, DO_NOT_TRACK, google-analytics, gtag, firebase/analytics, opentelemetry",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-24",
+      "finding": "No ADE analytics, telemetry or crash-reporting client in the pinned source. Matches are the Sentry-issues integration (jean-core/src/projects/sentry_issues.rs, user-supplied token) and minified browser-helper code; the only coollabs/jean.build URLs are an optional MCP server entry and a sponsorship link.",
+      "visibility": "public",
+      "commit": "f10c98c65d3931b9f7b11188292f3c48e66f199f",
+      "path": "."
     }
   ],
   "changes": [
@@ -13032,6 +13050,40 @@
         "reviewed": false
       },
       "evidenceIds": []
+    },
+    {
+      "date": "2026-11-24",
+      "author": "telemetry-researcher-c",
+      "type": "research-correction",
+      "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+      "claimIds": [
+        "jean:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Jean keeps working state on its host and documents archive deletion and saved-secret handling separately from provider traffic. The inspected application implements no product telemetry opt-out control; provider settings remain separate.",
+        "checkedAt": "2026-11-07",
+        "nextReviewAt": "2026-12-07",
+        "subanswers": {
+          "telemetry_defaults": "unknown",
+          "telemetry_off_switch": "unknown",
+          "telemetry_disclosure": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Jean keeps working state on its host and documents archive deletion and saved-secret handling separately from provider traffic. Bounded source inspection of v1.0.16 found no product analytics, telemetry or crash-reporting client, so there is nothing to opt out of; provider settings remain separate.",
+        "checkedAt": "2026-11-07",
+        "nextReviewAt": "2026-12-07",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "not-applicable",
+          "telemetry_disclosure": "unknown"
+        }
+      },
+      "evidenceIds": [
+        "tel-2611-jean-src"
+      ]
     }
   ],
   "context": {

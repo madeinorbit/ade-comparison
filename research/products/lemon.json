@@ -5204,10 +5204,9 @@
         },
         "telemetry_defaults": {
           "support": "supported",
-          "answer": "No external telemetry by default; Sentry disabled without DSN.",
+          "answer": "No telemetry: bounded search of the pinned source (4d94b3c) found no analytics, telemetry or crash-reporting client. Sentry is configured only when the operator sets SENTRY_DSN to their own project (config/runtime.exs; docs/error-reporting.md says dsn nil is the default and sends nothing); telemetry events stay local.",
           "evidenceIds": [
-            "errrep",
-            "srch-analytics"
+            "tel-2611-lemon-src"
           ]
         },
         "telemetry_controls": {
@@ -5218,9 +5217,11 @@
           ]
         },
         "telemetry_off_switch": {
-          "support": "unknown",
-          "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-          "evidenceIds": []
+          "support": "not-applicable",
+          "answer": "Nothing to switch off: no ADE telemetry.",
+          "evidenceIds": [
+            "tel-2611-lemon-src"
+          ]
         },
         "consent_prompt": {
           "support": "partial",
@@ -5249,11 +5250,12 @@
         "botreadme",
         "errrep",
         "telemetry",
-        "srch-analytics"
+        "srch-analytics",
+        "tel-2611-lemon-src"
       ],
       "checkedAt": "2026-11-17",
       "nextReviewAt": "2027-03-17",
-      "researcher": "researcher-batch19",
+      "researcher": "telemetry-researcher-c",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -6450,6 +6452,19 @@
       "visibility": "public",
       "commit": "4d94b3c8e20586ff04c0a06ce2ee42c0ea1e52e7",
       "path": "apps/coding_agent/README.md"
+    },
+    {
+      "id": "tel-2611-lemon-src",
+      "kind": "source-inspected",
+      "url": "https://github.com/z80dev/lemon/tree/4d94b3c8e20586ff04c0a06ce2ee42c0ea1e52e7",
+      "title": "lemon pinned source, bounded telemetry search",
+      "locator": "Recursive search of config/runtime.exs for posthog, segment, amplitude, mixpanel, sentry, aptabase, telemetry, DO_NOT_TRACK, google-analytics, gtag, firebase/analytics, opentelemetry",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-24",
+      "finding": "No ADE analytics, telemetry or crash-reporting client in the pinned source. Sentry is configured only when the operator sets SENTRY_DSN to their own project (config/runtime.exs; docs/error-reporting.md says dsn nil is the default and sends nothing); telemetry events stay local.",
+      "visibility": "public",
+      "commit": "4d94b3c8e20586ff04c0a06ce2ee42c0ea1e52e7",
+      "path": "config/runtime.exs"
     }
   ],
   "changes": [
@@ -6606,6 +6621,38 @@
         "reviewed": false
       },
       "evidenceIds": []
+    },
+    {
+      "date": "2026-11-24",
+      "author": "telemetry-researcher-c",
+      "type": "research-correction",
+      "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+      "claimIds": [
+        "lemon:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Data stays on your machine except what your configured model providers receive; no analytics SDK; Sentry error reporting only when SENTRY_DSN is set; telemetry events are local; push notifications are content-free end-to-end encrypted in Lemon Bot; secrets in an encrypted store with a Keychain-held master key.",
+        "checkedAt": "2026-11-17",
+        "nextReviewAt": "2027-03-17",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Data stays on your machine except what your configured model providers receive; no analytics SDK; Sentry error reporting only when SENTRY_DSN is set; telemetry events are local; push notifications are content-free end-to-end encrypted in Lemon Bot; secrets in an encrypted store with a Keychain-held master key.",
+        "checkedAt": "2026-11-17",
+        "nextReviewAt": "2027-03-17",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "not-applicable"
+        }
+      },
+      "evidenceIds": [
+        "tel-2611-lemon-src"
+      ]
     }
   ],
   "context": {

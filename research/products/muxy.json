@@ -4963,7 +4963,7 @@
     {
       "id": "muxy:OWN-03",
       "criterionId": "OWN-03",
-      "answer": "No analytics, advertising or tracking SDKs and no usage or crash analytics; the only Muxy-operated service is an encrypted push relay.",
+      "answer": "No advertising or tracking SDKs; the privacy policy states no usage or crash analytics, but the v2.5.0 app sends a once-a-day anonymous install ping (version, OS, architecture) to muxy.app, on by default and switchable in Settings > Privacy or with DO_NOT_TRACK=1. The other Muxy-operated service is an encrypted push relay.",
       "support": "partial",
       "availability": "generally-available",
       "delivery": "native",
@@ -5061,22 +5061,24 @@
         },
         "telemetry_defaults": {
           "support": "supported",
-          "answer": "None collected.",
+          "answer": "On by default: v2.5.0 sends an anonymous daily install ping (version, OS, CPU architecture) to muxy.app; the setting defaults to on. The privacy policy states no analytics or usage tracking; the code decides, so this records the ping as telemetry.",
           "evidenceIds": [
-            "privacy"
+            "tel-2611-muxy-ping"
           ]
         },
         "telemetry_controls": {
-          "support": "not-applicable",
-          "answer": "No telemetry to control; push can be paused.",
+          "support": "supported",
+          "answer": "Settings > General > Privacy toggle for the daily ping, plus DO_NOT_TRACK=1.",
           "evidenceIds": [
-            "mobile"
+            "tel-2611-muxy-ping"
           ]
         },
         "telemetry_off_switch": {
-          "support": "unknown",
-          "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "In the app: Settings > General > Privacy \"Send an anonymous daily ping\" turns it off; DO_NOT_TRACK=1 at launch also disables it.",
+          "evidenceIds": [
+            "tel-2611-muxy-ping"
+          ]
         },
         "consent_prompt": {
           "support": "partial",
@@ -5104,11 +5106,12 @@
         "privacy",
         "remote",
         "server",
-        "mobile"
+        "mobile",
+        "tel-2611-muxy-ping"
       ],
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
-      "researcher": "researcher-batch03-muxy",
+      "researcher": "telemetry-researcher-c",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -6073,6 +6076,19 @@
       "visibility": "public",
       "commit": "97b321b1af1c71393a343d70ddb75c4c30bd9df0",
       "path": "crates/muxy-app/src/model/ai.rs"
+    },
+    {
+      "id": "tel-2611-muxy-ping",
+      "kind": "source-inspected",
+      "url": "https://github.com/muxy-app/muxy/blob/97b321b1af1c71393a343d70ddb75c4c30bd9df0/crates/muxy-app/src/usage_ping.rs",
+      "title": "Muxy usage_ping module and Privacy setting",
+      "locator": "usage_ping.rs ENDPOINT/send; muxy-app-core settings/config.rs usage_ping default true; views/settings/catalog.rs \"usage-ping\"",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-24",
+      "finding": "v2.5.0 posts a once-a-day anonymous ping (version, OS, architecture) to https://muxy.app/api/ping. PrivacySettings.usage_ping defaults to true; Settings > General > Privacy \"Send an anonymous daily ping\" turns it off, and DO_NOT_TRACK=1 also suppresses it.",
+      "visibility": "public",
+      "commit": "97b321b1af1c71393a343d70ddb75c4c30bd9df0",
+      "path": "crates/muxy-app/src/usage_ping.rs"
     }
   ],
   "changes": [
@@ -6165,6 +6181,40 @@
         "reviewed": false
       },
       "evidenceIds": []
+    },
+    {
+      "date": "2026-11-24",
+      "author": "telemetry-researcher-c",
+      "type": "research-correction",
+      "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+      "claimIds": [
+        "muxy:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "No analytics, advertising or tracking SDKs and no usage or crash analytics; the only Muxy-operated service is an encrypted push relay.",
+        "checkedAt": "2026-11-16",
+        "nextReviewAt": "2027-03-16",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "unknown",
+          "telemetry_controls": "not-applicable"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "No advertising or tracking SDKs; the privacy policy states no usage or crash analytics, but the v2.5.0 app sends a once-a-day anonymous install ping (version, OS, architecture) to muxy.app, on by default and switchable in Settings > Privacy or with DO_NOT_TRACK=1. The other Muxy-operated service is an encrypted push relay.",
+        "checkedAt": "2026-11-16",
+        "nextReviewAt": "2027-03-16",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "supported",
+          "telemetry_controls": "supported"
+        }
+      },
+      "evidenceIds": [
+        "tel-2611-muxy-ping"
+      ]
     }
   ],
   "context": {

@@ -4195,9 +4195,9 @@
     },
     "telemetry_defaults": {
      "support": "supported",
-     "answer": "Happy apps send product usage events to PostHog and offer a Settings opt-out that stops analytics events. Happy Agent itself sends no analytics. Provider/model work still follows provider policies.",
+     "answer": "On by default: Happy apps send PostHog usage events unless the user opts out (analyticsOptOut defaults to false). Happy Agent itself sends no analytics.",
      "evidenceIds": [
-      "nov08-own-03-1"
+      "tel-2611-happy-tracking"
      ]
     },
     "telemetry_controls": {
@@ -4208,9 +4208,11 @@
      ]
     },
     "telemetry_off_switch": {
-     "support": "unknown",
-     "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-     "evidenceIds": []
+     "support": "supported",
+     "answer": "In the app: Settings > Account > Analytics switch opts out.",
+     "evidenceIds": [
+      "tel-2611-happy-tracking"
+     ]
     },
     "consent_prompt": {
      "support": "unknown",
@@ -4228,11 +4230,12 @@
    ],
    "unknownReason": "The checked first-party sources do not establish all parts of Data handling and telemetry. No authenticated scenario test was run.",
    "evidenceIds": [
-    "nov08-own-03-1"
+    "nov08-own-03-1",
+    "tel-2611-happy-tracking"
    ],
    "checkedAt": "2026-11-08",
    "nextReviewAt": "2026-12-08",
-   "researcher": "reviewer-57",
+   "researcher": "telemetry-researcher-c",
    "publication": "public-candidate",
    "review": null,
    "contradictions": []
@@ -5429,6 +5432,19 @@
    "visibility": "public",
    "commit": null,
    "path": null
+  },
+  {
+   "id": "tel-2611-happy-tracking",
+   "kind": "source-inspected",
+   "url": "https://github.com/slopus/happy/blob/4beb3543cfdeb507be838016996f7a0f65cf7b49/packages/happy-app/sources/track/tracking.ts",
+   "title": "Happy app PostHog tracking and analytics setting",
+   "locator": "tracking.ts PostHog client; sync/settings.ts analyticsOptOut default false; app/(app)/settings/account.tsx Analytics section; sync/sync.ts optOut",
+   "sourceDate": null,
+   "retrievedAt": "2026-11-24",
+   "finding": "The Happy app constructs a PostHog client whenever a key is built in (only a build-time EXPO_PUBLIC_DISABLE_ANALYTICS disables it); analyticsOptOut defaults to false and the Settings > Account Analytics switch calls tracking.optOut().",
+   "visibility": "public",
+   "commit": "4beb3543cfdeb507be838016996f7a0f65cf7b49",
+   "path": "packages/happy-app/sources/track/tracking.ts"
   }
  ],
  "changes": [
@@ -6066,6 +6082,38 @@
     "reviewed": false
    },
    "evidenceIds": []
+  },
+  {
+   "date": "2026-11-24",
+   "author": "telemetry-researcher-c",
+   "type": "research-correction",
+   "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+   "claimIds": [
+    "happy:OWN-03"
+   ],
+   "before": {
+    "support": "partial",
+    "answer": "Happy apps send pseudonymous usage events to PostHog, excluding message content, prompts, code and file names, and offer a Settings opt-out that stops them; the desktop app has its own switch. Happy Agent itself sends no analytics.",
+    "checkedAt": "2026-11-08",
+    "nextReviewAt": "2026-12-08",
+    "subanswers": {
+     "telemetry_defaults": "supported",
+     "telemetry_off_switch": "unknown"
+    }
+   },
+   "after": {
+    "support": "partial",
+    "answer": "Happy apps send pseudonymous usage events to PostHog, excluding message content, prompts, code and file names, and offer a Settings opt-out that stops them; the desktop app has its own switch. Happy Agent itself sends no analytics.",
+    "checkedAt": "2026-11-08",
+    "nextReviewAt": "2026-12-08",
+    "subanswers": {
+     "telemetry_defaults": "supported",
+     "telemetry_off_switch": "supported"
+    }
+   },
+   "evidenceIds": [
+    "tel-2611-happy-tracking"
+   ]
   }
  ],
  "context": {
