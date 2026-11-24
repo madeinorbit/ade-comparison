@@ -3932,7 +3932,7 @@
     {
       "id": "ghostex:OWN-03",
       "criterionId": "OWN-03",
-      "answer": "Settings document an analytics toggle and its default.",
+      "answer": "Settings document an analytics toggle and its default. Telemetry (atomic revision 2): anonymous analytics on by default; off only with GHOSTEX_TELEMETRY_DISABLED, DO_NOT_TRACK, --no-analytics or the settings-file key. This corrects the earlier claim of a Settings switch.",
       "support": "partial",
       "availability": "generally-available",
       "delivery": "native",
@@ -4007,22 +4007,24 @@
         },
         "telemetry_defaults": {
           "support": "supported",
-          "answer": "Enabled by default.",
+          "answer": "On by default: analyticsEnabled defaults to true.",
           "evidenceIds": [
-            "settings"
+            "tel-2611-settings"
           ]
         },
         "telemetry_controls": {
           "support": "supported",
-          "answer": "Anonymous analytics can be disabled in Settings > About > Privacy.",
+          "answer": "GHOSTEX_TELEMETRY_DISABLED=1, DO_NOT_TRACK=1, the --no-analytics flag or analyticsEnabled=false in the settings file. Correction: the v12.0.0 guide and the 11.6.0 changelog say Settings has no analytics switch.",
           "evidenceIds": [
-            "settings"
+            "tel-2611-settings"
           ]
         },
         "telemetry_off_switch": {
-          "support": "unknown",
-          "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "Config only: start Ghostex or gxserver with GHOSTEX_TELEMETRY_DISABLED=1, DO_NOT_TRACK=1 or --no-analytics (or set analyticsEnabled false in the settings file). The v12.0.0 settings guide says 'Settings has no switch for it'.",
+          "evidenceIds": [
+            "tel-2611-settings"
+          ]
         },
         "consent_prompt": {
           "support": "unknown",
@@ -4040,11 +4042,12 @@
       ],
       "unknownReason": "Unanswered atomic questions remain open after the cited source pass. No live coding-agent, cross-device, collaboration or failure fixture was run unless explicitly recorded as observed.",
       "evidenceIds": [
-        "settings"
+        "settings",
+        "tel-2611-settings"
       ],
       "checkedAt": "2026-11-08",
       "nextReviewAt": "2026-11-22",
-      "researcher": "researcher-73",
+      "researcher": "telemetry-researcher-b",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -4684,6 +4687,19 @@
       "visibility": "public",
       "commit": "be391fdb92364f9358ea09a4f73658af364ff528",
       "path": "skills/ghostex-help/references/settings.md"
+    },
+    {
+      "id": "tel-2611-settings",
+      "kind": "source-inspected",
+      "url": "https://github.com/maddada/Ghostex/blob/264905fe319cec797cebe778799c26fe1f70de28/server/src/ghostex_cli/guide/settings.md",
+      "title": "Ghostex v12.0.0 settings guide, defaults and changelog",
+      "locator": "settings.md line 371; packages/settings-catalog/src/data/defaults.rs line 322; server/src/telemetry/gate.rs lines 156-195; CHANGELOG.md 11.6.0",
+      "sourceDate": "2026-11-13",
+      "retrievedAt": "2026-11-24",
+      "finding": "analyticsEnabled defaults to true; 'Settings has no switch for it: to turn analytics off, start Ghostex or gxserver with GHOSTEX_TELEMETRY_DISABLED=1 (or DO_NOT_TRACK=1, or the --no-analytics flag)'. The 11.6.0 changelog removed setup's pointer to a Settings switch 'that did not exist'.",
+      "visibility": "public",
+      "commit": "264905fe319cec797cebe778799c26fe1f70de28",
+      "path": "server/src/ghostex_cli/guide/settings.md"
     }
   ],
   "changes": [
@@ -5082,6 +5098,40 @@
         "reviewed": false
       },
       "evidenceIds": []
+    },
+    {
+      "date": "2026-11-24",
+      "author": "telemetry-researcher-b",
+      "type": "research-correction",
+      "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+      "claimIds": [
+        "ghostex:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Settings document an analytics toggle and its default.",
+        "checkedAt": "2026-11-08",
+        "nextReviewAt": "2026-11-22",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "unknown",
+          "telemetry_controls": "supported"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Settings document an analytics toggle and its default. Telemetry (atomic revision 2): anonymous analytics on by default; off only with GHOSTEX_TELEMETRY_DISABLED, DO_NOT_TRACK, --no-analytics or the settings-file key. This corrects the earlier claim of a Settings switch.",
+        "checkedAt": "2026-11-08",
+        "nextReviewAt": "2026-11-22",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "supported",
+          "telemetry_controls": "supported"
+        }
+      },
+      "evidenceIds": [
+        "tel-2611-settings"
+      ]
     }
   ],
   "context": {

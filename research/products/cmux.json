@@ -4549,7 +4549,7 @@
   {
    "id": "cmux:OWN-03",
    "criterionId": "OWN-03",
-   "answer": "cmux documents local snapshot and hook-state files and strips sensitive resume environment keys. A Settings toggle turns off anonymous analytics, crash reporting and the remote feature-flag fetch, and administrators can lock it off with the DisableTelemetry managed policy.",
+   "answer": "cmux documents local snapshot and hook-state files and strips sensitive resume environment keys. A Settings toggle turns off anonymous analytics, crash reporting and the remote feature-flag fetch, and administrators can lock it off with the DisableTelemetry managed policy. Telemetry (atomic revision 2): on by default; the Send anonymous telemetry toggle in Settings turns it off.",
    "support": "partial",
    "availability": "unknown",
    "delivery": "unknown",
@@ -4645,10 +4645,9 @@
     },
     "telemetry_defaults": {
      "support": "supported",
-     "answer": "app.sendAnonymousTelemetry defaults to true; analytics and crash reports are on by default and can be turned off in Settings.",
+     "answer": "On by default: app.sendAnonymousTelemetry defaults to true, enabling PostHog analytics and Sentry crash reports.",
      "evidenceIds": [
-      "b08-code-telemetry",
-      "b08-privacy"
+      "tel-2611-settings"
      ]
     },
     "telemetry_controls": {
@@ -4660,9 +4659,11 @@
      ]
     },
     "telemetry_off_switch": {
-     "support": "unknown",
-     "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-     "evidenceIds": []
+     "support": "supported",
+     "answer": "In the app: Settings, App has a 'Send anonymous telemetry' toggle; admins can lock it off with the DisableTelemetry managed policy.",
+     "evidenceIds": [
+      "tel-2611-settings"
+     ]
     },
     "consent_prompt": {
      "support": "unknown",
@@ -4695,11 +4696,12 @@
     "b08r-live-machines",
     "b08-cr",
     "b08-code-telemetry",
-    "b08r-live-pricing"
+    "b08r-live-pricing",
+    "tel-2611-settings"
    ],
    "checkedAt": "2026-11-21",
    "nextReviewAt": "2027-03-21",
-   "researcher": "researcher-ade164",
+   "researcher": "telemetry-researcher-b",
    "publication": "public-candidate",
    "review": null,
    "contradictions": []
@@ -6376,6 +6378,19 @@
    "commit": null,
    "path": null,
    "finding": "The FAQ describes agents cloning repositories, running commands and opening pull requests on Cloud machines independently of the Mac. It does not name a particular pull-request command. This is a vendor documentation statement, not an installed-product demonstration."
+  },
+  {
+   "id": "tel-2611-settings",
+   "kind": "source-inspected",
+   "url": "https://github.com/manaflow-ai/cmux/blob/12023d89feb5425c766ba05e8d8e4cfc176e3991/Packages/macOS/CmuxSettingsUI/Sources/CmuxSettingsUI/Sections/AppSection.swift",
+   "title": "cmux v0.65.2.2 settings UI",
+   "locator": "AppSection.swift line 873; Sources/SettingsSearchAliases.swift line 102",
+   "sourceDate": null,
+   "retrievedAt": "2026-11-24",
+   "finding": "The App settings section renders a 'Send anonymous telemetry' toggle for app.sendAnonymousTelemetry, which covers analytics, crash reports, Sentry and PostHog.",
+   "visibility": "public",
+   "commit": "12023d89feb5425c766ba05e8d8e4cfc176e3991",
+   "path": "Packages/macOS/CmuxSettingsUI/Sources/CmuxSettingsUI/Sections/AppSection.swift"
   }
  ],
  "changes": [
@@ -14075,6 +14090,38 @@
     "reviewed": false
    },
    "evidenceIds": []
+  },
+  {
+   "date": "2026-11-24",
+   "author": "telemetry-researcher-b",
+   "type": "research-correction",
+   "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+   "claimIds": [
+    "cmux:OWN-03"
+   ],
+   "before": {
+    "support": "partial",
+    "answer": "cmux documents local snapshot and hook-state files and strips sensitive resume environment keys. A Settings toggle turns off anonymous analytics, crash reporting and the remote feature-flag fetch, and administrators can lock it off with the DisableTelemetry managed policy.",
+    "checkedAt": "2026-11-21",
+    "nextReviewAt": "2027-03-21",
+    "subanswers": {
+     "telemetry_defaults": "supported",
+     "telemetry_off_switch": "unknown"
+    }
+   },
+   "after": {
+    "support": "partial",
+    "answer": "cmux documents local snapshot and hook-state files and strips sensitive resume environment keys. A Settings toggle turns off anonymous analytics, crash reporting and the remote feature-flag fetch, and administrators can lock it off with the DisableTelemetry managed policy. Telemetry (atomic revision 2): on by default; the Send anonymous telemetry toggle in Settings turns it off.",
+    "checkedAt": "2026-11-21",
+    "nextReviewAt": "2027-03-21",
+    "subanswers": {
+     "telemetry_defaults": "supported",
+     "telemetry_off_switch": "supported"
+    }
+   },
+   "evidenceIds": [
+    "tel-2611-settings"
+   ]
   }
  ],
  "context": {

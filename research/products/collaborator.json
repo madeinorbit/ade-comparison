@@ -4920,7 +4920,7 @@
     {
       "id": "collaborator:OWN-03",
       "criterionId": "OWN-03",
-      "answer": "The application collects anonymous usage events with PostHog. The pinned analytics and configuration code exposes no end-user telemetry disable setting.",
+      "answer": "The application collects anonymous usage events with PostHog. The pinned analytics and configuration code exposes no end-user telemetry disable setting. Telemetry (atomic revision 2): PostHog usage analytics on by default in keyed builds, with no runtime off switch.",
       "support": "partial",
       "availability": "generally-available",
       "delivery": "native",
@@ -5019,9 +5019,9 @@
         },
         "telemetry_defaults": {
           "support": "supported",
-          "answer": "Telemetry is on whenever the build includes a PostHog key and cannot be turned off at runtime.",
+          "answer": "On by default: the README says anonymous usage analytics are collected via PostHog; initMainAnalytics starts PostHog whenever the build has a key.",
           "evidenceIds": [
-            "sd-analytics"
+            "tel-2611-src"
           ]
         },
         "telemetry_controls": {
@@ -5032,9 +5032,11 @@
           ]
         },
         "telemetry_off_switch": {
-          "support": "unknown",
-          "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "No off switch: PostHog starts from a build-time key alone; a search of collab-electron/src finds no settings switch, environment variable or preference that stops it.",
+          "evidenceIds": [
+            "tel-2611-src"
+          ]
         },
         "consent_prompt": {
           "support": "unsupported",
@@ -5063,11 +5065,12 @@
         "sd-analytics",
         "sd-track",
         "sd-scan",
-        "sd-chatpanel"
+        "sd-chatpanel",
+        "tel-2611-src"
       ],
       "checkedAt": "2026-11-08",
       "nextReviewAt": "2026-12-08",
-      "researcher": "source-depth-researcher-g1",
+      "researcher": "telemetry-researcher-b",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -6145,6 +6148,19 @@
       "visibility": "public",
       "commit": "476b8efc942ee5f430a9b8bf832b8560a8cf76c2",
       "path": "collab-electron"
+    },
+    {
+      "id": "tel-2611-src",
+      "kind": "source-inspected",
+      "url": "https://github.com/collabs-inc/collab-public/blob/476b8efc942ee5f430a9b8bf832b8560a8cf76c2/collab-electron/src/main/analytics.ts",
+      "title": "Collaborator v0.8.4 analytics and README",
+      "locator": "analytics.ts lines 29-48; README.md line 65",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-24",
+      "finding": "initMainAnalytics creates a PostHog client whenever MAIN_VITE_POSTHOG_KEY is set and captures events with a device ID; no preference or env check gates it. README: anonymous usage analytics are collected via PostHog.",
+      "visibility": "public",
+      "commit": "476b8efc942ee5f430a9b8bf832b8560a8cf76c2",
+      "path": "collab-electron/src/main/analytics.ts"
     }
   ],
   "changes": [
@@ -9113,6 +9129,38 @@
         "reviewed": false
       },
       "evidenceIds": []
+    },
+    {
+      "date": "2026-11-24",
+      "author": "telemetry-researcher-b",
+      "type": "research-correction",
+      "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+      "claimIds": [
+        "collaborator:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "The application collects anonymous usage events with PostHog. The pinned analytics and configuration code exposes no end-user telemetry disable setting.",
+        "checkedAt": "2026-11-08",
+        "nextReviewAt": "2026-12-08",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "The application collects anonymous usage events with PostHog. The pinned analytics and configuration code exposes no end-user telemetry disable setting. Telemetry (atomic revision 2): PostHog usage analytics on by default in keyed builds, with no runtime off switch.",
+        "checkedAt": "2026-11-08",
+        "nextReviewAt": "2026-12-08",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "supported"
+        }
+      },
+      "evidenceIds": [
+        "tel-2611-src"
+      ]
     }
   ],
   "context": {

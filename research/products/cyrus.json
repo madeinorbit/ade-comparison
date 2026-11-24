@@ -4994,7 +4994,7 @@
     {
       "id": "cyrus:OWN-03",
       "criterionId": "OWN-03",
-      "answer": "Code and prompts stay on your host and go to your chosen model providers; Linear receives activities; Sentry error reporting is active only when CYRUS_TEAM_ID is set (hosted-connected installs) and can be disabled with CYRUS_SENTRY_DISABLED; hosted plans process data in Cyrus cloud under a trust center and SOC 2 Type II; retention, training and subprocessors are not documented here.",
+      "answer": "Code and prompts stay on your host and go to your chosen model providers; Linear receives activities; Sentry error reporting is active only when CYRUS_TEAM_ID is set (hosted-connected installs) and can be disabled with CYRUS_SENTRY_DISABLED; hosted plans process data in Cyrus cloud under a trust center and SOC 2 Type II; retention, training and subprocessors are not documented here. Telemetry (atomic revision 2): Sentry error reporting on by default for installs connected with cyrus auth (CYRUS_TEAM_ID); off only with CYRUS_SENTRY_DISABLED=1.",
       "support": "partial",
       "availability": "generally-available",
       "delivery": "native",
@@ -5084,9 +5084,9 @@
         },
         "telemetry_defaults": {
           "support": "partial",
-          "answer": "Reporting only when CYRUS_TEAM_ID set.",
+          "answer": "On by default: for installs connected to Cyrus with cyrus auth (which writes CYRUS_TEAM_ID), Sentry error reporting runs against a DSN compiled into release builds; installs without CYRUS_TEAM_ID send nothing.",
           "evidenceIds": [
-            "errrep"
+            "tel-2611-sentry"
           ]
         },
         "telemetry_controls": {
@@ -5097,9 +5097,11 @@
           ]
         },
         "telemetry_off_switch": {
-          "support": "unknown",
-          "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "Config only: CYRUS_SENTRY_DISABLED=1 disables reporting; there is no settings toggle.",
+          "evidenceIds": [
+            "tel-2611-sentry"
+          ]
         },
         "consent_prompt": {
           "support": "unsupported",
@@ -5125,11 +5127,12 @@
         "faq",
         "soc2",
         "selfhost",
-        "mcptools"
+        "mcptools",
+        "tel-2611-sentry"
       ],
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
-      "researcher": "researcher-cyrus",
+      "researcher": "telemetry-researcher-b",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -6112,6 +6115,19 @@
       "visibility": "public",
       "commit": "bbcc964a8af06a55ea9b75939dc69890762304b9",
       "path": "packages/edge-worker/src/GitService.ts"
+    },
+    {
+      "id": "tel-2611-sentry",
+      "kind": "source-inspected",
+      "url": "https://github.com/cyrusagents/cyrus/blob/da90887284cb8e301ab90c993485bfb94e2886ff/apps/cli/src/services/createErrorReporter.ts",
+      "title": "Cyrus v0.2.85 error reporter and auth command",
+      "locator": "createErrorReporter.ts lines 8-60; apps/cli/src/commands/AuthCommand.ts line 84",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-24",
+      "finding": "A default Sentry DSN is compiled in; reporting is a no-op if CYRUS_SENTRY_DISABLED is truthy or CYRUS_TEAM_ID is unset. cyrus auth writes CYRUS_TEAM_ID into the env file.",
+      "visibility": "public",
+      "commit": "da90887284cb8e301ab90c993485bfb94e2886ff",
+      "path": "apps/cli/src/services/createErrorReporter.ts"
     }
   ],
   "changes": [
@@ -6173,6 +6189,38 @@
         "reviewed": false
       },
       "evidenceIds": []
+    },
+    {
+      "date": "2026-11-24",
+      "author": "telemetry-researcher-b",
+      "type": "research-correction",
+      "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+      "claimIds": [
+        "cyrus:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Code and prompts stay on your host and go to your chosen model providers; Linear receives activities; Sentry error reporting is active only when CYRUS_TEAM_ID is set (hosted-connected installs) and can be disabled with CYRUS_SENTRY_DISABLED; hosted plans process data in Cyrus cloud under a trust center and SOC 2 Type II; retention, training and subprocessors are not documented here.",
+        "checkedAt": "2026-11-16",
+        "nextReviewAt": "2027-03-16",
+        "subanswers": {
+          "telemetry_defaults": "partial",
+          "telemetry_off_switch": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Code and prompts stay on your host and go to your chosen model providers; Linear receives activities; Sentry error reporting is active only when CYRUS_TEAM_ID is set (hosted-connected installs) and can be disabled with CYRUS_SENTRY_DISABLED; hosted plans process data in Cyrus cloud under a trust center and SOC 2 Type II; retention, training and subprocessors are not documented here. Telemetry (atomic revision 2): Sentry error reporting on by default for installs connected with cyrus auth (CYRUS_TEAM_ID); off only with CYRUS_SENTRY_DISABLED=1.",
+        "checkedAt": "2026-11-16",
+        "nextReviewAt": "2027-03-16",
+        "subanswers": {
+          "telemetry_defaults": "partial",
+          "telemetry_off_switch": "supported"
+        }
+      },
+      "evidenceIds": [
+        "tel-2611-sentry"
+      ]
     }
   ],
   "context": {

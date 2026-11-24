@@ -5052,7 +5052,7 @@
     {
       "id": "cli-agent-orchestrator:OWN-03",
       "criterionId": "OWN-03",
-      "answer": "Everything stays on the user's host except what the chosen provider CLIs send to their model vendors; OpenTelemetry is off by default and exports only to an operator-chosen collector; no CAO analytics sender found.",
+      "answer": "Everything stays on the user's host except what the chosen provider CLIs send to their model vendors; OpenTelemetry is off by default and exports only to an operator-chosen collector; no CAO analytics sender found. Telemetry (atomic revision 2): no vendor telemetry: optional OpenTelemetry export (off by default) goes only to a collector the operator configures.",
       "support": "partial",
       "availability": "generally-available",
       "delivery": "native",
@@ -5151,22 +5151,24 @@
         },
         "telemetry_defaults": {
           "support": "supported",
-          "answer": "Off by default (OTEL_SDK_DISABLED).",
+          "answer": "No telemetry: no data goes to AWS or another vendor processor. CAO's only telemetry is optional OpenTelemetry export, shipped as an extra and active only with OTEL_SDK_DISABLED=false, to the operator's own collector (default endpoint localhost). A search of src for posthog, sentry and segment finds no analytics client.",
           "evidenceIds": [
-            "otel"
+            "tel-2611-otel"
           ]
         },
         "telemetry_controls": {
           "support": "supported",
-          "answer": "OTEL_SDK_DISABLED and standard OTEL env vars.",
+          "answer": "Self-directed OpenTelemetry export is enabled only with OTEL_SDK_DISABLED=false plus the [otel] extra; standard OTEL_* variables pick the operator's collector. There is no vendor telemetry to control.",
           "evidenceIds": [
-            "otel"
+            "tel-2611-otel"
           ]
         },
         "telemetry_off_switch": {
-          "support": "unknown",
-          "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-          "evidenceIds": []
+          "support": "not-applicable",
+          "answer": "Nothing to switch off: no ADE telemetry.",
+          "evidenceIds": [
+            "tel-2611-otel"
+          ]
         },
         "consent_prompt": {
           "support": "unsupported",
@@ -5196,11 +5198,12 @@
         "lifecycle",
         "mcp",
         "memory",
-        "srch-vendor"
+        "srch-vendor",
+        "tel-2611-otel"
       ],
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
-      "researcher": "researcher-batch04",
+      "researcher": "telemetry-researcher-b",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -6449,6 +6452,19 @@
       "visibility": "public",
       "commit": "0373d161a973792545aa2e702ac8a279a4749a1c",
       "path": "web/src"
+    },
+    {
+      "id": "tel-2611-otel",
+      "kind": "source-inspected",
+      "url": "https://github.com/awslabs/cli-agent-orchestrator/blob/d094b4baaf4900f59178e06134550cc5e16031ce/src/cli_agent_orchestrator/telemetry/__init__.py",
+      "title": "CAO v2.5.5 telemetry module and OTel deployment doc",
+      "locator": "telemetry/__init__.py docstring lines 1-14; docs/otel-deployment.md line 20",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-24",
+      "finding": "Telemetry is 'opt-in twice over' (optional extra and OTEL_SDK_DISABLED=false); export goes to an OTLP collector the operator names, defaulting to localhost. No vendor analytics client in src.",
+      "visibility": "public",
+      "commit": "d094b4baaf4900f59178e06134550cc5e16031ce",
+      "path": "src/cli_agent_orchestrator/telemetry/__init__.py"
     }
   ],
   "changes": [
@@ -6575,6 +6591,40 @@
         "reviewed": false
       },
       "evidenceIds": []
+    },
+    {
+      "date": "2026-11-24",
+      "author": "telemetry-researcher-b",
+      "type": "research-correction",
+      "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+      "claimIds": [
+        "cli-agent-orchestrator:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Everything stays on the user's host except what the chosen provider CLIs send to their model vendors; OpenTelemetry is off by default and exports only to an operator-chosen collector; no CAO analytics sender found.",
+        "checkedAt": "2026-11-16",
+        "nextReviewAt": "2027-03-16",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "unknown",
+          "telemetry_controls": "supported"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Everything stays on the user's host except what the chosen provider CLIs send to their model vendors; OpenTelemetry is off by default and exports only to an operator-chosen collector; no CAO analytics sender found. Telemetry (atomic revision 2): no vendor telemetry: optional OpenTelemetry export (off by default) goes only to a collector the operator configures.",
+        "checkedAt": "2026-11-16",
+        "nextReviewAt": "2027-03-16",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "not-applicable",
+          "telemetry_controls": "supported"
+        }
+      },
+      "evidenceIds": [
+        "tel-2611-otel"
+      ]
     }
   ],
   "context": {

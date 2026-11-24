@@ -4504,7 +4504,7 @@
     {
       "id": "gh-aw:OWN-03",
       "criterionId": "OWN-03",
-      "answer": "gh-aw workflow OTLP telemetry export is configurable and can be disabled by removing workflow/import endpoints and clearing default endpoint secrets/variables. GitHub platform and coding-engine data policies remain separate.",
+      "answer": "gh-aw workflow OTLP telemetry export is configurable and can be disabled by removing workflow/import endpoints and clearing default endpoint secrets/variables. GitHub platform and coding-engine data policies remain separate. Telemetry (atomic revision 2): no gh-aw telemetry of its own: OTLP export goes only to operator-configured endpoints; gh CLI and engine telemetry are separate.",
       "support": "partial",
       "availability": "unknown",
       "delivery": "unknown",
@@ -4584,9 +4584,11 @@
           ]
         },
         "telemetry_defaults": {
-          "support": "unknown",
-          "answer": "Data handling and telemetry, telemetry_defaults: GitHub Agentic Workflows's checked sources did not establish this requirement or its rubric scenario. No installed-product fixture was run.",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "No telemetry: gh-aw itself sends nothing to GitHub as product telemetry. Its OTLP export goes to endpoints from workflow frontmatter or operator-set enterprise default variables, and a search of pkg and cmd for posthog, sentry and segment finds no analytics client. The gh CLI (GH_TELEMETRY) and the engines it runs keep their own telemetry; dry runs set their opt-outs.",
+          "evidenceIds": [
+            "tel-2611-otlp"
+          ]
         },
         "telemetry_controls": {
           "support": "supported",
@@ -4596,9 +4598,11 @@
           ]
         },
         "telemetry_off_switch": {
-          "support": "unknown",
-          "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-          "evidenceIds": []
+          "support": "not-applicable",
+          "answer": "Nothing to switch off: no ADE telemetry.",
+          "evidenceIds": [
+            "tel-2611-otlp"
+          ]
         },
         "consent_prompt": {
           "support": "unknown",
@@ -4622,11 +4626,12 @@
         "d80-engines",
         "d80-threat",
         "d80-ent",
-        "d80-otel"
+        "d80-otel",
+        "tel-2611-otlp"
       ],
       "checkedAt": "2026-11-13",
       "nextReviewAt": "2027-03-13",
-      "researcher": "researcher-ade80",
+      "researcher": "telemetry-researcher-b",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -5956,6 +5961,19 @@
       "visibility": "public",
       "commit": "399a445fe2d8926c616b54b1b82a16b5b2be4445",
       "path": "pkg"
+    },
+    {
+      "id": "tel-2611-otlp",
+      "kind": "source-inspected",
+      "url": "https://github.com/github/gh-aw/blob/399a445fe2d8926c616b54b1b82a16b5b2be4445/pkg/workflow/compiler_development_telemetry.go",
+      "title": "gh-aw v1.2.2 OTLP and telemetry handling",
+      "locator": "compiler_development_telemetry.go lines 157-180; pkg/cli/env_command.go lines 49-50",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-24",
+      "finding": "OTLP endpoints come from frontmatter or operator default_otlp_endpoint variables; dry runs set DO_NOT_TRACK, GH_TELEMETRY=false and engine opt-outs. No vendor analytics client in pkg or cmd.",
+      "visibility": "public",
+      "commit": "399a445fe2d8926c616b54b1b82a16b5b2be4445",
+      "path": "pkg/workflow/compiler_development_telemetry.go"
     }
   ],
   "changes": [
@@ -8225,6 +8243,38 @@
         "reviewed": false
       },
       "evidenceIds": []
+    },
+    {
+      "date": "2026-11-24",
+      "author": "telemetry-researcher-b",
+      "type": "research-correction",
+      "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+      "claimIds": [
+        "gh-aw:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "gh-aw workflow OTLP telemetry export is configurable and can be disabled by removing workflow/import endpoints and clearing default endpoint secrets/variables. GitHub platform and coding-engine data policies remain separate.",
+        "checkedAt": "2026-11-13",
+        "nextReviewAt": "2027-03-13",
+        "subanswers": {
+          "telemetry_defaults": "unknown",
+          "telemetry_off_switch": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "gh-aw workflow OTLP telemetry export is configurable and can be disabled by removing workflow/import endpoints and clearing default endpoint secrets/variables. GitHub platform and coding-engine data policies remain separate. Telemetry (atomic revision 2): no gh-aw telemetry of its own: OTLP export goes only to operator-configured endpoints; gh CLI and engine telemetry are separate.",
+        "checkedAt": "2026-11-13",
+        "nextReviewAt": "2027-03-13",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "not-applicable"
+        }
+      },
+      "evidenceIds": [
+        "tel-2611-otlp"
+      ]
     }
   ],
   "context": {

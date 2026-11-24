@@ -5044,7 +5044,7 @@
     {
       "id": "clideck:OWN-03",
       "criterionId": "OWN-03",
-      "answer": "Data stays local; prompts go to the agent providers chosen by the user; the only outbound product request found is an npm update check; no analytics code found; optional plugins (voice) may download models or call speech providers.",
+      "answer": "Data stays local; prompts go to the agent providers chosen by the user; the only outbound product request found is an npm update check; no analytics code found; optional plugins (voice) may download models or call speech providers. Telemetry (atomic revision 2): no ADE telemetry in the v2.6.0 source; its 'telemetry' code is local session status.",
       "support": "partial",
       "availability": "generally-available",
       "delivery": "native",
@@ -5140,10 +5140,9 @@
         },
         "telemetry_defaults": {
           "support": "supported",
-          "answer": "No analytics found; update check hits registry.npmjs.org.",
+          "answer": "No telemetry: a bounded search of the v2.6.0 source and package.json (terms posthog, segment, amplitude, mixpanel, sentry, telemetry, analytics, aptabase) finds no analytics client or dependency; 'telemetry' hits are local session context and model display in the UI. The npm update check is not usage telemetry.",
           "evidenceIds": [
-            "srch-cost",
-            "update"
+            "tel-2611-src"
           ]
         },
         "telemetry_controls": {
@@ -5154,9 +5153,11 @@
           ]
         },
         "telemetry_off_switch": {
-          "support": "unknown",
-          "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-          "evidenceIds": []
+          "support": "not-applicable",
+          "answer": "Nothing to switch off: no ADE telemetry.",
+          "evidenceIds": [
+            "tel-2611-src"
+          ]
         },
         "consent_prompt": {
           "support": "unsupported",
@@ -5192,11 +5193,12 @@
         "archive",
         "upgrading",
         "srch-cost",
-        "update"
+        "update",
+        "tel-2611-src"
       ],
       "checkedAt": "2026-11-17",
       "nextReviewAt": "2027-03-17",
-      "researcher": "researcher-batch17",
+      "researcher": "telemetry-researcher-b",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -6317,6 +6319,19 @@
       "finding": "The UI stylesheet has 18 @media rules, so layouts adapt to width; README documents no narrow-screen or phone support and the engine binds localhost only.",
       "commit": "c0bd3354d23b7147f2354d4ae068547b18b761af",
       "path": "public/css/app.css"
+    },
+    {
+      "id": "tel-2611-src",
+      "kind": "source-inspected",
+      "url": "https://github.com/rustykuntz/clideck/blob/c0bd3354d23b7147f2354d4ae068547b18b761af/public/js/store.js",
+      "title": "CliDeck v2.6.0 source",
+      "locator": "repo-wide search; public/js/store.js lines 95-105",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-24",
+      "finding": "No analytics or crash-reporting client or dependency in v2.6.0; applySessionTelemetry only copies agent context usage and model name into local UI state.",
+      "visibility": "public",
+      "commit": "c0bd3354d23b7147f2354d4ae068547b18b761af",
+      "path": "public/js/store.js"
     }
   ],
   "changes": [
@@ -6477,6 +6492,38 @@
         "reviewed": false
       },
       "evidenceIds": []
+    },
+    {
+      "date": "2026-11-24",
+      "author": "telemetry-researcher-b",
+      "type": "research-correction",
+      "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+      "claimIds": [
+        "clideck:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Data stays local; prompts go to the agent providers chosen by the user; the only outbound product request found is an npm update check; no analytics code found; optional plugins (voice) may download models or call speech providers.",
+        "checkedAt": "2026-11-17",
+        "nextReviewAt": "2027-03-17",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Data stays local; prompts go to the agent providers chosen by the user; the only outbound product request found is an npm update check; no analytics code found; optional plugins (voice) may download models or call speech providers. Telemetry (atomic revision 2): no ADE telemetry in the v2.6.0 source; its 'telemetry' code is local session status.",
+        "checkedAt": "2026-11-17",
+        "nextReviewAt": "2027-03-17",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "not-applicable"
+        }
+      },
+      "evidenceIds": [
+        "tel-2611-src"
+      ]
     }
   ],
   "context": {

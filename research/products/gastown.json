@@ -4156,7 +4156,7 @@
     {
       "id": "gastown:OWN-03",
       "criterionId": "OWN-03",
-      "answer": "Telemetry is off unless an operator sets a GT_OTEL endpoint; events are then exported over OTLP and correlated by run ID. Agent conversation streaming is opt-in and truncated to 512 bytes by default; GT_LOG_AGENT_CONTENT_LIMIT=0 removes the truncation (experts only).",
+      "answer": "Telemetry is off unless an operator sets a GT_OTEL endpoint; events are then exported over OTLP and correlated by run ID. Agent conversation streaming is opt-in and truncated to 512 bytes by default; GT_LOG_AGENT_CONTENT_LIMIT=0 removes the truncation (experts only). Telemetry (atomic revision 2): no vendor telemetry: OTLP export runs only to endpoints the operator sets.",
       "support": "partial",
       "availability": "generally-available",
       "delivery": "native",
@@ -4237,10 +4237,9 @@
         },
         "telemetry_defaults": {
           "support": "supported",
-          "answer": "Telemetry is exported to configured OTLP backends and correlated by run ID. Agent conversation streaming is opt-in (GT_LOG_AGENT_OUTPUT) and truncated to 512 bytes by default; GT_LOG_AGENT_CONTENT_LIMIT=0 removes that truncation.",
+          "answer": "No telemetry: no data goes to the vendor. Gas Town only exports OpenTelemetry to OTLP endpoints the operator sets (GT_OTEL_METRICS_URL, GT_OTEL_LOGS_URL); with both unset nothing is exported. A search for posthog, sentry and segment finds no analytics client and go.mod has none.",
           "evidenceIds": [
-            "nov08-own-03-1",
-            "src1-otel-limit"
+            "tel-2611-otel"
           ]
         },
         "telemetry_controls": {
@@ -4251,9 +4250,11 @@
           ]
         },
         "telemetry_off_switch": {
-          "support": "unknown",
-          "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-          "evidenceIds": []
+          "support": "not-applicable",
+          "answer": "Nothing to switch off: no ADE telemetry.",
+          "evidenceIds": [
+            "tel-2611-otel"
+          ]
         },
         "consent_prompt": {
           "support": "unknown",
@@ -4273,11 +4274,12 @@
       "evidenceIds": [
         "nov08-own-03-1",
         "src1-telemetry-init",
-        "src1-otel-limit"
+        "src1-otel-limit",
+        "tel-2611-otel"
       ],
       "checkedAt": "2026-11-08",
       "nextReviewAt": "2026-12-08",
-      "researcher": "researcher-03",
+      "researcher": "telemetry-researcher-b",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -5456,6 +5458,19 @@
       "visibility": "public",
       "commit": "319d33a91b2deca59bba6dd26be6b9daf8eaacf6",
       "path": "internal/config/types.go"
+    },
+    {
+      "id": "tel-2611-otel",
+      "kind": "source-inspected",
+      "url": "https://github.com/gastownhall/gastown/blob/319d33a91b2deca59bba6dd26be6b9daf8eaacf6/internal/telemetry/subprocess.go",
+      "title": "Gas Town v1.2.1 telemetry package",
+      "locator": "subprocess.go lines 54-61",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-24",
+      "finding": "Telemetry is a no-op when GT_OTEL_METRICS_URL is unset and exports only to operator-configured OTLP URLs; no vendor analytics client or module in v1.2.1.",
+      "visibility": "public",
+      "commit": "319d33a91b2deca59bba6dd26be6b9daf8eaacf6",
+      "path": "internal/telemetry/subprocess.go"
     }
   ],
   "changes": [
@@ -5948,6 +5963,38 @@
         "reviewed": false
       },
       "evidenceIds": []
+    },
+    {
+      "date": "2026-11-24",
+      "author": "telemetry-researcher-b",
+      "type": "research-correction",
+      "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+      "claimIds": [
+        "gastown:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Telemetry is off unless an operator sets a GT_OTEL endpoint; events are then exported over OTLP and correlated by run ID. Agent conversation streaming is opt-in and truncated to 512 bytes by default; GT_LOG_AGENT_CONTENT_LIMIT=0 removes the truncation (experts only).",
+        "checkedAt": "2026-11-08",
+        "nextReviewAt": "2026-12-08",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Telemetry is off unless an operator sets a GT_OTEL endpoint; events are then exported over OTLP and correlated by run ID. Agent conversation streaming is opt-in and truncated to 512 bytes by default; GT_LOG_AGENT_CONTENT_LIMIT=0 removes the truncation (experts only). Telemetry (atomic revision 2): no vendor telemetry: OTLP export runs only to endpoints the operator sets.",
+        "checkedAt": "2026-11-08",
+        "nextReviewAt": "2026-12-08",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "not-applicable"
+        }
+      },
+      "evidenceIds": [
+        "tel-2611-otel"
+      ]
     }
   ],
   "context": {
