@@ -4093,10 +4093,9 @@
         },
         "telemetry_defaults": {
           "support": "supported",
-          "answer": "Release builds with a PostHog key start product analytics automatically, linked to the Traycer account, with automatic capture, session recording and content off. No user-facing opt-out was found in docs or this code path.",
+          "answer": "On by default: keyed release builds initialize PostHog product analytics automatically, linked to the Traycer account, and send Sentry crash reports.",
           "evidenceIds": [
-            "src2-traycer-analytics-code",
-            "src2-traycer-analytics-changelog"
+            "tel-2611-analytics"
           ]
         },
         "telemetry_controls": {
@@ -4107,9 +4106,11 @@
           ]
         },
         "telemetry_off_switch": {
-          "support": "unknown",
-          "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "No off switch: the analytics constructor reads no user preference and a bounded search found no settings control.",
+          "evidenceIds": [
+            "tel-2611-analytics"
+          ]
         },
         "consent_prompt": {
           "support": "unknown",
@@ -4132,11 +4133,12 @@
         "readme",
         "src2-traycer-analytics-code",
         "src2-traycer-analytics-changelog",
-        "gaps41-telemetry-control"
+        "gaps41-telemetry-control",
+        "tel-2611-analytics"
       ],
       "checkedAt": "2026-11-08",
       "nextReviewAt": "2026-11-22",
-      "researcher": "researcher-ade41",
+      "researcher": "telemetry-researcher-e",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -5042,6 +5044,19 @@
       "visibility": "public",
       "commit": null,
       "path": null
+    },
+    {
+      "id": "tel-2611-analytics",
+      "kind": "source-inspected",
+      "url": "https://github.com/traycerai/traycer/blob/b7a5f5ca2dae93bdb127482822651815e9136e87/clients/gui-app/src/lib/analytics.ts#L3182-L3200",
+      "title": "traycerai/traycer desktop-v1.5.4: clients/gui-app/src/lib/analytics.ts",
+      "locator": "Analytics constructor",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-24",
+      "finding": "Analytics is enabled whenever the build has VITE_POSTHOG_KEY and is not a test build, then posthog.init runs; no user preference is read. Bounded search for opt_out, optOut, analyticsEnabled and telemetry settings found only a performance-telemetry flag, and clients/desktop/src/electron-main/app/crash-reporter.ts initializes Sentry.",
+      "visibility": "public",
+      "commit": "b7a5f5ca2dae93bdb127482822651815e9136e87",
+      "path": "clients/gui-app/src/lib/analytics.ts"
     }
   ],
   "changes": [
@@ -5518,6 +5533,38 @@
         "reviewed": false
       },
       "evidenceIds": []
+    },
+    {
+      "date": "2026-11-24",
+      "author": "telemetry-researcher-e",
+      "type": "research-correction",
+      "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+      "claimIds": [
+        "traycer:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Traycer discloses product analytics and separate provider requests. In the scoped release, PostHog initializes from the build key without a user telemetry switch in settings; privacy mode does not disable analytics.",
+        "checkedAt": "2026-11-08",
+        "nextReviewAt": "2026-11-22",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Traycer discloses product analytics and separate provider requests. In the scoped release, PostHog initializes from the build key without a user telemetry switch in settings; privacy mode does not disable analytics.",
+        "checkedAt": "2026-11-08",
+        "nextReviewAt": "2026-11-22",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "supported"
+        }
+      },
+      "evidenceIds": [
+        "tel-2611-analytics"
+      ]
     }
   ],
   "context": {
