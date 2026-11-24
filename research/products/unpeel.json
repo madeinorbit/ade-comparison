@@ -4453,7 +4453,7 @@
     {
       "id": "unpeel:OWN-03",
       "criterionId": "OWN-03",
-      "answer": "Host content stays local; relay and notifications have different metadata paths.",
+      "answer": "Host content stays local; relay and notifications have different metadata paths. Automatic update checks send an anonymous install UUID used for active-install counts; the terminal UI skips them with UNPEEL_NO_UPDATE, and no Mac app switch was found.",
       "support": "partial",
       "availability": "generally-available",
       "delivery": "native",
@@ -4548,9 +4548,12 @@
           ]
         },
         "telemetry_defaults": {
-          "support": "unknown",
-          "answer": "Not established for telemetry defaults in the official sources checked on 2026-11-07; see context.roadmapReview for search and access gaps.",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "On by default: automatic update checks send an anonymous install UUID and version that Unpeel stores for active-install counts; there is no behavioral analytics.",
+          "evidenceIds": [
+            "tel-2611-privacy",
+            "tel-2611-updater"
+          ]
         },
         "telemetry_controls": {
           "support": "partial",
@@ -4561,9 +4564,12 @@
           ]
         },
         "telemetry_off_switch": {
-          "support": "unknown",
-          "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-          "evidenceIds": []
+          "support": "partial",
+          "answer": "Config only, terminal UI: UNPEEL_NO_UPDATE skips the check and the record. Mac app: no documented control; release builds enable automatic Sparkle checks and no settings switch was found.",
+          "evidenceIds": [
+            "tel-2611-privacy",
+            "tel-2611-updater"
+          ]
         },
         "consent_prompt": {
           "support": "unknown",
@@ -4585,11 +4591,13 @@
       "unknownReason": "The 2026-11-07 pass checked this product's official documentation, release/roadmap locations and repository availability for Data handling and telemetry. No explicit first-party answer was found for: credentials, logs, training, residency, telemetry_defaults, consent_prompt. No hands-on fixture was run.",
       "evidenceIds": [
         "nov07-privacy",
-        "nov07-link"
+        "nov07-link",
+        "tel-2611-privacy",
+        "tel-2611-updater"
       ],
       "checkedAt": "2026-11-07",
       "nextReviewAt": "2026-11-21",
-      "researcher": "researcher-67",
+      "researcher": "telemetry-researcher-e",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -5902,6 +5910,32 @@
       "title": "Session gallery",
       "locator": "Where the images come from (workspace support paragraph)",
       "finding": "A workspace served by the Mac app supports gallery list, read, upload, edit and delete. A terminal-only workspace supports list/read and agent-created screenshots only; the Host capability descriptor keeps upload and delete hidden until those routes reach parity. Request screenshot is described as part of a build still being prepared."
+    },
+    {
+      "id": "tel-2611-privacy",
+      "kind": "documented",
+      "url": "https://unpeel.com/privacy",
+      "title": "Unpeel Privacy",
+      "locator": "What the app does not collect; Anonymous update counting",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-24",
+      "finding": "The app has no behavioral analytics, but when the Mac app or terminal UI checks for updates it sends a random install UUID and version, stored with first/last-seen dates for aggregate active-install counts; the terminal UI skips the check and record when UNPEEL_NO_UPDATE is set.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "tel-2611-updater",
+      "kind": "source-inspected",
+      "url": "https://github.com/unpeel-com/unpeel/blob/64826f3673e7f10a757590767277471db4d7f138/clients/native/UnpeelNative/Sources/UnpeelNative/AppDelegate.swift#L826-L856",
+      "title": "unpeel-com/unpeel main@64826f3: clients/native/UnpeelNative/Sources/UnpeelNative/AppDelegate.swift",
+      "locator": "update-check headers and installID",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-24",
+      "finding": "The Mac app attaches X-Unpeel-Install-ID to Sparkle update checks, and clients/native/build-app.sh line 398 sets SUEnableAutomaticChecks true in release builds; no settings control for automatic checks was found.",
+      "visibility": "public",
+      "commit": "64826f3673e7f10a757590767277471db4d7f138",
+      "path": "clients/native/UnpeelNative/Sources/UnpeelNative/AppDelegate.swift"
     }
   ],
   "changes": [
@@ -7022,6 +7056,39 @@
         "reviewed": false
       },
       "evidenceIds": []
+    },
+    {
+      "date": "2026-11-24",
+      "author": "telemetry-researcher-e",
+      "type": "research-correction",
+      "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+      "claimIds": [
+        "unpeel:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Host content stays local; relay and notifications have different metadata paths.",
+        "checkedAt": "2026-11-07",
+        "nextReviewAt": "2026-11-21",
+        "subanswers": {
+          "telemetry_defaults": "unknown",
+          "telemetry_off_switch": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Host content stays local; relay and notifications have different metadata paths. Automatic update checks send an anonymous install UUID used for active-install counts; the terminal UI skips them with UNPEEL_NO_UPDATE, and no Mac app switch was found.",
+        "checkedAt": "2026-11-07",
+        "nextReviewAt": "2026-11-21",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "partial"
+        }
+      },
+      "evidenceIds": [
+        "tel-2611-privacy",
+        "tel-2611-updater"
+      ]
     }
   ],
   "context": {
