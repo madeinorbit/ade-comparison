@@ -4236,10 +4236,9 @@
         },
         "telemetry_defaults": {
           "support": "supported",
-          "answer": "On by default: unset telemetry.enabled means on; disabled automatically in CI and by OPENSPEC_TELEMETRY=0 or DO_NOT_TRACK. Collects command names and version only, without IP.",
+          "answer": "On by default: v2.2.0 sends anonymous command telemetry outside CI unless the user opts out; a one-time stderr notice announces it.",
           "evidenceIds": [
-            "b06-telemetry-code",
-            "b06-readme-telemetry"
+            "tel-2611-telemetry-index"
           ]
         },
         "telemetry_controls": {
@@ -4250,9 +4249,11 @@
           ]
         },
         "telemetry_off_switch": {
-          "support": "unknown",
-          "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "Config only: OPENSPEC_TELEMETRY=0, DO_NOT_TRACK=1 or 'openspec config set telemetry.enabled false'; there is no interactive prompt or settings screen.",
+          "evidenceIds": [
+            "tel-2611-telemetry-index"
+          ]
         },
         "consent_prompt": {
           "support": "unsupported",
@@ -4274,11 +4275,12 @@
       "evidenceIds": [
         "nov07-telemetry",
         "b06-telemetry-code",
-        "b06-readme-telemetry"
+        "b06-readme-telemetry",
+        "tel-2611-telemetry-index"
       ],
       "checkedAt": "2026-11-07",
       "nextReviewAt": "2026-12-07",
-      "researcher": "researcher-ade-162",
+      "researcher": "telemetry-researcher-d",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -5355,6 +5357,19 @@
       "visibility": "public",
       "commit": null,
       "path": null
+    },
+    {
+      "id": "tel-2611-telemetry-index",
+      "kind": "source-inspected",
+      "url": "https://github.com/Fission-AI/OpenSpec/blob/f1cd852f4edce22b8df9548a4df889172ca8ff25/src/telemetry/index.ts",
+      "title": "OpenSpec v2.2.0 src/telemetry/index.ts",
+      "locator": "header comment and enablement precedence (lines ~1-75); src/telemetry/config.ts; src/telemetry/opt-out.ts",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-24",
+      "finding": "At v2.2.0 the CLI sends anonymous command telemetry unless OPENSPEC_TELEMETRY is set to a non-on value, DO_NOT_TRACK is set, CI is detected, or 'openspec config set telemetry.enabled false' stored the opt-out. OpenSpec is a CLI with no settings interface; the first run prints a one-time stderr notice with these opt-out instructions.",
+      "visibility": "public",
+      "commit": "f1cd852f4edce22b8df9548a4df889172ca8ff25",
+      "path": "src/telemetry/index.ts"
     }
   ],
   "changes": [
@@ -7102,6 +7117,38 @@
         "reviewed": false
       },
       "evidenceIds": []
+    },
+    {
+      "date": "2026-11-24",
+      "author": "telemetry-researcher-d",
+      "type": "research-correction",
+      "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+      "claimIds": [
+        "openspec:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "OpenSpec documents telemetry identifiers and opt-out controls. Telemetry is on by default outside CI, announced by a one-time stderr notice without a consent prompt.",
+        "checkedAt": "2026-11-07",
+        "nextReviewAt": "2026-12-07",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "OpenSpec documents telemetry identifiers and opt-out controls. Telemetry is on by default outside CI, announced by a one-time stderr notice without a consent prompt.",
+        "checkedAt": "2026-11-07",
+        "nextReviewAt": "2026-12-07",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "supported"
+        }
+      },
+      "evidenceIds": [
+        "tel-2611-telemetry-index"
+      ]
     }
   ],
   "context": {
