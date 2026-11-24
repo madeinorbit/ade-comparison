@@ -5331,10 +5331,9 @@
         },
         "telemetry_defaults": {
           "support": "supported",
-          "answer": "No telemetry; update check on by default.",
+          "answer": "No telemetry: bounded search of the pinned source (54003ce) found no analytics, telemetry or crash-reporting client. Matches are a UI panel named telemetry and agent hook scripts; the update check fetches a static manifest (src/update.rs, https://luvus.dev/latest.json) and can be disabled with check_updates. Consistent with the security doc stating no telemetry.",
           "evidenceIds": [
-            "security",
-            "updsrc"
+            "tel-2611-luvus-src"
           ]
         },
         "telemetry_controls": {
@@ -5346,9 +5345,11 @@
           ]
         },
         "telemetry_off_switch": {
-          "support": "unknown",
-          "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-          "evidenceIds": []
+          "support": "not-applicable",
+          "answer": "Nothing to switch off: no ADE telemetry.",
+          "evidenceIds": [
+            "tel-2611-luvus-src"
+          ]
         },
         "consent_prompt": {
           "support": "unsupported",
@@ -5376,11 +5377,12 @@
         "updsrc",
         "config",
         "faq",
-        "concepts"
+        "concepts",
+        "tel-2611-luvus-src"
       ],
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
-      "researcher": "researcher-luvus",
+      "researcher": "telemetry-researcher-c",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -6608,6 +6610,19 @@
       "visibility": "public",
       "commit": null,
       "path": null
+    },
+    {
+      "id": "tel-2611-luvus-src",
+      "kind": "source-inspected",
+      "url": "https://github.com/RizRiyz/luvus/tree/54003ce9568acb2977e4bbdbb30a61f99faa0465",
+      "title": "luvus pinned source, bounded telemetry search",
+      "locator": "Recursive search of src for posthog, segment, amplitude, mixpanel, sentry, aptabase, telemetry, DO_NOT_TRACK, google-analytics, gtag, firebase/analytics, opentelemetry",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-24",
+      "finding": "No ADE analytics, telemetry or crash-reporting client in the pinned source. Matches are a UI panel named telemetry and agent hook scripts; the update check fetches a static manifest (src/update.rs, https://luvus.dev/latest.json) and can be disabled with check_updates. Consistent with the security doc stating no telemetry.",
+      "visibility": "public",
+      "commit": "54003ce9568acb2977e4bbdbb30a61f99faa0465",
+      "path": "src"
     }
   ],
   "changes": [
@@ -6649,6 +6664,38 @@
         "reviewed": false
       },
       "evidenceIds": []
+    },
+    {
+      "date": "2026-11-24",
+      "author": "telemetry-researcher-c",
+      "type": "research-correction",
+      "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+      "claimIds": [
+        "luvus:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Prompts, code and terminal content stay on the user's machine; the project receives none (privacy policy) and states Luvus has no telemetry; only update checks to luvus.dev and requested HTTPS/GitHub theme/module fetches use the network. Logs omit pane output; saved pane screens can be disabled. Data sent to model providers is each agent's.",
+        "checkedAt": "2026-11-16",
+        "nextReviewAt": "2027-03-16",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Prompts, code and terminal content stay on the user's machine; the project receives none (privacy policy) and states Luvus has no telemetry; only update checks to luvus.dev and requested HTTPS/GitHub theme/module fetches use the network. Logs omit pane output; saved pane screens can be disabled. Data sent to model providers is each agent's.",
+        "checkedAt": "2026-11-16",
+        "nextReviewAt": "2027-03-16",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "not-applicable"
+        }
+      },
+      "evidenceIds": [
+        "tel-2611-luvus-src"
+      ]
     }
   ],
   "context": {
