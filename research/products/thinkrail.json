@@ -5326,7 +5326,7 @@
   {
    "id": "thinkrail:OWN-03",
    "criterionId": "OWN-03",
-   "answer": "Code, prompts and credentials stay with the user: in-process pi sends them to the user’s own providers, never to ThinkRail servers. Telemetry is basic install-ID events plus always-on error reports via PostHog; extra sharing is opt-in at first run and in Settings Privacy (or --no-analytics). Retention beyond a 30-day link expiry, training use and residency are unstated business facts.",
+   "answer": "Code, prompts and credentials stay with the user: in-process pi sends them to the user’s own providers, never to ThinkRail servers. At v0.4.0 telemetry is basic install-ID events plus always-on error reports via PostHog, and additional usage sharing is also on by default: the first-run switch starts on and is persisted before the user confirms; Settings Privacy, the first-run switch or --no-analytics turn only the additional sharing off. Retention beyond a 30-day link expiry, training use and residency are unstated business facts.",
    "support": "partial",
    "availability": "beta",
    "delivery": "native",
@@ -5422,8 +5422,9 @@
     },
     "telemetry_defaults": {
      "support": "supported",
-     "answer": "On by default: basic usage events and error reports are always sent in keyed release runs; additional usage is off unless chosen at first run.",
+     "answer": "On by default at v0.4.0 (d32c6a1; scope v0.3.2 not separately checked): basic usage events and error reports are always sent in keyed release runs, and additional usage sharing is on too, because the first-run dialog's switch starts on and persists analyticsEnabled: true as soon as it mounts, before the user presses Done. The README describes the additional tier as a choice; the code decides.",
      "evidenceIds": [
+      "tel-2611-spec-prime",
       "tel-2611-readme",
       "tel-2611-service"
      ]
@@ -5437,8 +5438,9 @@
     },
     "telemetry_off_switch": {
      "support": "supported",
-     "answer": "No off switch: basic usage events and error reports cannot be turned off; the first-run choice, Settings > Privacy switch and --no-analytics control only additional usage sharing.",
+     "answer": "No off switch at v0.4.0 (d32c6a1): basic usage events and error reports cannot be turned off; the first-run switch, Settings > Privacy switch and --no-analytics control only additional usage sharing.",
      "evidenceIds": [
+      "tel-2611-spec-prime",
       "tel-2611-readme",
       "tel-2611-service"
      ]
@@ -5469,11 +5471,12 @@
     "goal",
     "readme",
     "tel-2611-readme",
-    "tel-2611-service"
+    "tel-2611-service",
+    "tel-2611-spec-prime"
    ],
    "checkedAt": "2026-11-12",
    "nextReviewAt": "2027-03-12",
-   "researcher": "telemetry-researcher-e",
+   "researcher": "telemetry-researcher-f",
    "publication": "public-candidate",
    "review": null,
    "contradictions": []
@@ -6812,6 +6815,19 @@
    "visibility": "public",
    "commit": "d32c6a13ff98109b916321113cbe08eaf2502677",
    "path": "packages/server/src/analytics/service.ts"
+  },
+  {
+   "id": "tel-2611-spec-prime",
+   "kind": "source-inspected",
+   "url": "https://github.com/JetBrains/thinkrail/blob/d32c6a13ff98109b916321113cbe08eaf2502677/packages/server/src/analytics/SPEC.md#L190-L199",
+   "title": "ThinkRail analytics SPEC.md at v0.4.0 (d32c6a1)",
+   "locator": "Preference and delivery, lines 190-199; Basic events, line 30; Error tracking, lines 128-129",
+   "sourceDate": "2026-11-12",
+   "retrievedAt": "2026-11-24",
+   "finding": "At v0.4.0 the first-run dialog's default-on mount prime persists analyticsEnabled: true without confirmation and enables additional-event delivery as soon as the settings update applies, before the user presses Done; changing the switch applies immediately. Basic events and PostHog $exception events are always on in keyed human runs, unaffected by analyticsEnabled, --no-analytics or THINKRAIL_NO_ANALYTICS.",
+   "visibility": "public",
+   "commit": "d32c6a13ff98109b916321113cbe08eaf2502677",
+   "path": "packages/server/src/analytics/SPEC.md"
   }
  ],
  "changes": [
@@ -7037,6 +7053,40 @@
     }
    },
    "evidenceIds": [
+    "tel-2611-readme",
+    "tel-2611-service"
+   ]
+  },
+  {
+   "date": "2026-11-24",
+   "author": "telemetry-researcher-f",
+   "type": "research-correction",
+   "summary": "Correct the telemetry default: at v0.4.0 the first-run dialog persists additional usage sharing as on before the user confirms, so extra sharing is on by default too; name v0.4.0 in the telemetry answers, which rest on d32c6a1 rather than the scoped v0.3.2.",
+   "claimIds": [
+    "thinkrail:OWN-03"
+   ],
+   "before": {
+    "support": "partial",
+    "answer": "Code, prompts and credentials stay with the user: in-process pi sends them to the user’s own providers, never to ThinkRail servers. Telemetry is basic install-ID events plus always-on error reports via PostHog; extra sharing is opt-in at first run and in Settings Privacy (or --no-analytics). Retention beyond a 30-day link expiry, training use and residency are unstated business facts.",
+    "checkedAt": "2026-11-12",
+    "nextReviewAt": "2027-03-12",
+    "subanswers": {
+     "telemetry_defaults": "supported",
+     "telemetry_off_switch": "supported"
+    }
+   },
+   "after": {
+    "support": "partial",
+    "answer": "Code, prompts and credentials stay with the user: in-process pi sends them to the user’s own providers, never to ThinkRail servers. At v0.4.0 telemetry is basic install-ID events plus always-on error reports via PostHog, and additional usage sharing is also on by default: the first-run switch starts on and is persisted before the user confirms; Settings Privacy, the first-run switch or --no-analytics turn only the additional sharing off. Retention beyond a 30-day link expiry, training use and residency are unstated business facts.",
+    "checkedAt": "2026-11-12",
+    "nextReviewAt": "2027-03-12",
+    "subanswers": {
+     "telemetry_defaults": "supported",
+     "telemetry_off_switch": "supported"
+    }
+   },
+   "evidenceIds": [
+    "tel-2611-spec-prime",
     "tel-2611-readme",
     "tel-2611-service"
    ]
