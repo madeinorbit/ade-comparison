@@ -5137,11 +5137,10 @@
      ]
     },
     "telemetry_defaults": {
-     "support": "unsupported",
-     "answer": "No telemetry exists, so no collection defaults exist.",
+     "support": "supported",
+     "answer": "No telemetry: a bounded search of release v4.4.11 found no analytics, crash-reporting or usage client that sends data to the vendor.",
      "evidenceIds": [
-      "sessionmgr",
-      "pkg"
+      "tel-2611-src"
      ]
     },
     "telemetry_controls": {
@@ -5153,9 +5152,11 @@
      ]
     },
     "telemetry_off_switch": {
-     "support": "unknown",
-     "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-     "evidenceIds": []
+     "support": "not-applicable",
+     "answer": "Nothing to switch off: no ADE telemetry.",
+     "evidenceIds": [
+      "tel-2611-src"
+     ]
     },
     "consent_prompt": {
      "support": "unsupported",
@@ -5191,11 +5192,12 @@
     "cli-src",
     "repo",
     "release",
-    "autoapproval"
+    "autoapproval",
+    "tel-2611-src"
    ],
    "checkedAt": "2026-11-13",
    "nextReviewAt": "2027-03-13",
-   "researcher": "researcher-ccmanager",
+   "researcher": "telemetry-researcher-a",
    "publication": "public-candidate",
    "review": null,
    "contradictions": []
@@ -6142,6 +6144,19 @@
    "visibility": "public",
    "commit": "395271cc5893bdc0113501e77af561e57935dcb4",
    "path": "main.go"
+  },
+  {
+   "id": "tel-2611-src",
+   "kind": "source-inspected",
+   "url": "https://github.com/kbwo/ccmanager/tree/4720468ebdf316c862bd87f2400b632880a8d0f5",
+   "title": "Bounded telemetry search of kbwo/ccmanager at v4.4.11",
+   "locator": "whole tree at v4.4.11 excluding node_modules and lockfiles; terms: posthog, segment, amplitude, mixpanel, sentry, telemetry, DO_NOT_TRACK, aptabase, telemetrydeck, statsig, datadog, plausible, google-analytics/gtag",
+   "sourceDate": null,
+   "retrievedAt": "2026-11-24",
+   "finding": "Bounded search of the pinned release v4.4.11 for posthog, segment, amplitude, mixpanel, sentry, telemetry, DO_NOT_TRACK, aptabase, telemetrydeck, statsig, datadog, plausible, google-analytics/gtag. The only hit is a statsig domain in the devcontainer firewall script; the app ships no analytics or crash-reporting client.",
+   "visibility": "public",
+   "commit": "4720468ebdf316c862bd87f2400b632880a8d0f5",
+   "path": "."
   }
  ],
  "changes": [
@@ -6253,6 +6268,38 @@
     "reviewed": false
    },
    "evidenceIds": []
+  },
+  {
+   "date": "2026-11-24",
+   "author": "telemetry-researcher-a",
+   "type": "research-correction",
+   "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+   "claimIds": [
+    "ccmanager:OWN-03"
+   ],
+   "before": {
+    "support": "partial",
+    "answer": "Local-first handling: CCManager transmits nothing itself (no network code; bounded grep for fetch/telemetry/analytics/upload found no hits). Prompts and code reach providers only through the user agent CLI; the experimental verifier sends terminal excerpts to the local CLI/custom command; hooks run user commands. Logs/config/records stay on disk with documented log rotation. Provider-side training, residency, subprocessors and deletion are closed to this pass, and no telemetry statement is published.",
+    "checkedAt": "2026-11-13",
+    "nextReviewAt": "2027-03-13",
+    "subanswers": {
+     "telemetry_defaults": "unsupported",
+     "telemetry_off_switch": "unknown"
+    }
+   },
+   "after": {
+    "support": "partial",
+    "answer": "Local-first handling: CCManager transmits nothing itself (no network code; bounded grep for fetch/telemetry/analytics/upload found no hits). Prompts and code reach providers only through the user agent CLI; the experimental verifier sends terminal excerpts to the local CLI/custom command; hooks run user commands. Logs/config/records stay on disk with documented log rotation. Provider-side training, residency, subprocessors and deletion are closed to this pass, and no telemetry statement is published.",
+    "checkedAt": "2026-11-13",
+    "nextReviewAt": "2027-03-13",
+    "subanswers": {
+     "telemetry_defaults": "supported",
+     "telemetry_off_switch": "not-applicable"
+    }
+   },
+   "evidenceIds": [
+    "tel-2611-src"
+   ]
   }
  ],
  "context": {
