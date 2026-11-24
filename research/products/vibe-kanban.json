@@ -4449,7 +4449,7 @@
     {
       "id": "vibe-kanban:OWN-03",
       "criterionId": "OWN-03",
-      "answer": "Local telemetry has a settings toggle and a released source default of enabled, but a successful sign-in turns analytics back on, so the opt-out does not survive a login. Workspace deletion is documented separately.",
+      "answer": "From v0.1.46 Vibe Kanban sends no usage analytics or crash reports: the PostHog and Sentry clients are disabled in source and the settings Privacy card says so. The analytics_enabled config field and the sign-in reset remain but have no effect. Workspace deletion is documented separately.",
       "support": "partial",
       "availability": "generally-available",
       "delivery": "native",
@@ -4524,31 +4524,35 @@
         },
         "telemetry_disclosure": {
           "support": "supported",
-          "answer": "General settings document telemetry collection and its toggle.",
+          "answer": "The settings Privacy card states this version collects no usage analytics or crash reports; source comments confirm both clients are disabled.",
           "evidenceIds": [
-            "general"
+            "tel-2611-analytics",
+            "tel-2611-privacy-ui"
           ]
         },
         "telemetry_defaults": {
           "support": "supported",
-          "answer": "Released Config aliases v8; default analytics_enabled is true. This is a source default, not an observed consent or traffic result.",
+          "answer": "No telemetry: in v0.1.46 the PostHog analytics config and Sentry DSN functions return None regardless of build keys, the web client initializes neither, and the settings page states no usage analytics or crash reports are collected.",
           "evidenceIds": [
-            "config-version",
-            "telemetry-default"
+            "tel-2611-analytics",
+            "tel-2611-privacy-ui"
           ]
         },
         "telemetry_controls": {
-          "support": "partial",
-          "answer": "General settings let users disable telemetry, but a successful sign-in sets analytics back to enabled, so the opt-out does not persist across a login.",
+          "support": "unsupported",
+          "answer": "No telemetry control: the v0.1.46 settings Privacy card replaces the toggle with a statement that nothing is collected.",
           "evidenceIds": [
-            "general",
-            "src2-vk-telemetry-login"
+            "tel-2611-analytics",
+            "tel-2611-privacy-ui"
           ]
         },
         "telemetry_off_switch": {
-          "support": "unknown",
-          "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-          "evidenceIds": []
+          "support": "not-applicable",
+          "answer": "Nothing to switch off: no ADE telemetry.",
+          "evidenceIds": [
+            "tel-2611-analytics",
+            "tel-2611-privacy-ui"
+          ]
         },
         "consent_prompt": {
           "support": "unknown",
@@ -4576,11 +4580,13 @@
         "src2-vk-telemetry-gate",
         "src2-vk-telemetry-web",
         "src2-vk-telemetry-login",
-        "src2-vk-telemetry-doc"
+        "src2-vk-telemetry-doc",
+        "tel-2611-analytics",
+        "tel-2611-privacy-ui"
       ],
       "checkedAt": "2026-11-07",
       "nextReviewAt": "2026-12-07",
-      "researcher": "researcher-03",
+      "researcher": "telemetry-researcher-e",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -5886,6 +5892,32 @@
       "visibility": "public",
       "commit": "4deb7eca8f381f7cbc1f9d15515a9ab8f8009053",
       "path": ".github/workflows/pre-release.yml"
+    },
+    {
+      "id": "tel-2611-analytics",
+      "kind": "source-inspected",
+      "url": "https://github.com/BloopAI/vibe-kanban/blob/a072d91db2e9f860a21821c4f3cbc74e860a4fdd/crates/services/src/services/analytics.rs#L21-L27",
+      "title": "BloopAI/vibe-kanban v0.1.46.1794744340: crates/services/src/services/analytics.rs",
+      "locator": "AnalyticsConfig::new",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-24",
+      "finding": "Returns None: \"this version of Vibe Kanban sends no PostHog events, whatever keys are set at build or run time\". crates/utils/src/sentry.rs dsn() also returns None, so Sentry never initializes, and packages/local-web/src/app/entry/Bootstrap.tsx says neither client is initialized. Search terms: posthog, sentry, analytics_enabled, telemetry.",
+      "visibility": "public",
+      "commit": "a072d91db2e9f860a21821c4f3cbc74e860a4fdd",
+      "path": "crates/services/src/services/analytics.rs"
+    },
+    {
+      "id": "tel-2611-privacy-ui",
+      "kind": "source-inspected",
+      "url": "https://github.com/BloopAI/vibe-kanban/blob/a072d91db2e9f860a21821c4f3cbc74e860a4fdd/packages/web-core/src/i18n/locales/en/settings.json#L228",
+      "title": "BloopAI/vibe-kanban v0.1.46.1794744340: packages/web-core/src/i18n/locales/en/settings.json",
+      "locator": "settings.general.privacy.noAnalytics",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-24",
+      "finding": "The General settings Privacy card now shows \"This version of Vibe Kanban doesn't collect usage analytics or crash reports.\" in place of a telemetry toggle.",
+      "visibility": "public",
+      "commit": "a072d91db2e9f860a21821c4f3cbc74e860a4fdd",
+      "path": "packages/web-core/src/i18n/locales/en/settings.json"
     }
   ],
   "changes": [
@@ -8630,6 +8662,43 @@
         "reviewed": false
       },
       "evidenceIds": []
+    },
+    {
+      "date": "2026-11-24",
+      "author": "telemetry-researcher-e",
+      "type": "research-correction",
+      "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+      "claimIds": [
+        "vibe-kanban:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Local telemetry has a settings toggle and a released source default of enabled, but a successful sign-in turns analytics back on, so the opt-out does not survive a login. Workspace deletion is documented separately.",
+        "checkedAt": "2026-11-07",
+        "nextReviewAt": "2026-12-07",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "unknown",
+          "telemetry_controls": "partial",
+          "telemetry_disclosure": "supported"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "From v0.1.46 Vibe Kanban sends no usage analytics or crash reports: the PostHog and Sentry clients are disabled in source and the settings Privacy card says so. The analytics_enabled config field and the sign-in reset remain but have no effect. Workspace deletion is documented separately.",
+        "checkedAt": "2026-11-07",
+        "nextReviewAt": "2026-12-07",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "not-applicable",
+          "telemetry_controls": "unsupported",
+          "telemetry_disclosure": "supported"
+        }
+      },
+      "evidenceIds": [
+        "tel-2611-analytics",
+        "tel-2611-privacy-ui"
+      ]
     }
   ],
   "context": {
