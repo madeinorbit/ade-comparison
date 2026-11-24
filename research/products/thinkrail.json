@@ -5422,9 +5422,10 @@
     },
     "telemetry_defaults": {
      "support": "supported",
-     "answer": "Additional sharing defaults to the first-run choice (off unless enabled); error reports are always sent.",
+     "answer": "On by default: basic usage events and error reports are always sent in keyed release runs; additional usage is off unless chosen at first run.",
      "evidenceIds": [
-      "readme"
+      "tel-2611-readme",
+      "tel-2611-service"
      ]
     },
     "telemetry_controls": {
@@ -5435,9 +5436,12 @@
      ]
     },
     "telemetry_off_switch": {
-     "support": "unknown",
-     "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-     "evidenceIds": []
+     "support": "supported",
+     "answer": "No off switch: basic usage events and error reports cannot be turned off; the first-run choice, Settings > Privacy switch and --no-analytics control only additional usage sharing.",
+     "evidenceIds": [
+      "tel-2611-readme",
+      "tel-2611-service"
+     ]
     },
     "consent_prompt": {
      "support": "supported",
@@ -5463,11 +5467,13 @@
     "blog-031",
     "code-nouser",
     "goal",
-    "readme"
+    "readme",
+    "tel-2611-readme",
+    "tel-2611-service"
    ],
    "checkedAt": "2026-11-12",
    "nextReviewAt": "2027-03-12",
-   "researcher": "researcher-thinkrail",
+   "researcher": "telemetry-researcher-e",
    "publication": "public-candidate",
    "review": null,
    "contradictions": []
@@ -6780,6 +6786,32 @@
    "visibility": "public",
    "commit": "1bc1a9bc5b0bb9d2c029da32125fadf0bd29d544",
    "path": "packages/server/src/agent/anthropicExtraUsage.ts"
+  },
+  {
+   "id": "tel-2611-readme",
+   "kind": "documented",
+   "url": "https://github.com/JetBrains/thinkrail/blob/d32c6a13ff98109b916321113cbe08eaf2502677/README.md#L166-L170",
+   "title": "ThinkRail v0.4.0 README, Analytics & privacy",
+   "locator": "lines 166-170",
+   "sourceDate": null,
+   "retrievedAt": "2026-11-24",
+   "finding": "Apps collect basic usage events (launches, chat creation, message sends, provider connections) and always send error reports, both tied to a random installation ID; only additional usage sharing follows the Share additional usage data switch (first-run setup and Settings > Privacy) or --no-analytics / THINKRAIL_NO_ANALYTICS.",
+   "visibility": "public",
+   "commit": null,
+   "path": null
+  },
+  {
+   "id": "tel-2611-service",
+   "kind": "source-inspected",
+   "url": "https://github.com/JetBrains/thinkrail/blob/d32c6a13ff98109b916321113cbe08eaf2502677/packages/server/src/analytics/service.ts#L141",
+   "title": "JetBrains/thinkrail v0.4.0: packages/server/src/analytics/service.ts",
+   "locator": "createAdditionalSink",
+   "sourceDate": null,
+   "retrievedAt": "2026-11-24",
+   "finding": "THINKRAIL_NO_ANALYTICS and mute remove only the additional sink; packages/server/src/analytics/SPEC.md says basic events and PostHog $exception events are always on in keyed human runs.",
+   "visibility": "public",
+   "commit": "d32c6a13ff98109b916321113cbe08eaf2502677",
+   "path": "packages/server/src/analytics/service.ts"
   }
  ],
  "changes": [
@@ -6975,6 +7007,39 @@
     "reviewed": false
    },
    "evidenceIds": []
+  },
+  {
+   "date": "2026-11-24",
+   "author": "telemetry-researcher-e",
+   "type": "research-correction",
+   "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+   "claimIds": [
+    "thinkrail:OWN-03"
+   ],
+   "before": {
+    "support": "partial",
+    "answer": "Code, prompts and credentials stay with the user: in-process pi sends them to the user’s own providers, never to ThinkRail servers. Telemetry is basic install-ID events plus always-on error reports via PostHog; extra sharing is opt-in at first run and in Settings Privacy (or --no-analytics). Retention beyond a 30-day link expiry, training use and residency are unstated business facts.",
+    "checkedAt": "2026-11-12",
+    "nextReviewAt": "2027-03-12",
+    "subanswers": {
+     "telemetry_defaults": "supported",
+     "telemetry_off_switch": "unknown"
+    }
+   },
+   "after": {
+    "support": "partial",
+    "answer": "Code, prompts and credentials stay with the user: in-process pi sends them to the user’s own providers, never to ThinkRail servers. Telemetry is basic install-ID events plus always-on error reports via PostHog; extra sharing is opt-in at first run and in Settings Privacy (or --no-analytics). Retention beyond a 30-day link expiry, training use and residency are unstated business facts.",
+    "checkedAt": "2026-11-12",
+    "nextReviewAt": "2027-03-12",
+    "subanswers": {
+     "telemetry_defaults": "supported",
+     "telemetry_off_switch": "supported"
+    }
+   },
+   "evidenceIds": [
+    "tel-2611-readme",
+    "tel-2611-service"
+   ]
   }
  ],
  "context": {
