@@ -4276,13 +4276,10 @@
           ]
         },
         "telemetry_defaults": {
-          "support": "partial",
-          "answer": "The official v2.3.2 Linux desktop package embeds a Sentry DSN, so error reporting is on by default in that build. macOS and Windows desktop packages are built by the same workflow step from the same repository DSN variable but were not inspected. The web client and builds without a DSN do not initialize Sentry.",
+          "support": "supported",
+          "answer": "On by default: official v2.4.1 desktop builds embed the project's Sentry DSN and send error reports from startup; the terminal CLI and server ship no analytics client, and the web client sends nothing unless built with a DSN.",
           "evidenceIds": [
-            "gap39-sentry-build",
-            "b08r-code-release-sentry",
-            "b08r-code-desktop-sentry",
-            "b08r-release-sentry"
+            "tel-2611-desktop-sentry"
           ]
         },
         "telemetry_controls": {
@@ -4294,9 +4291,11 @@
           ]
         },
         "telemetry_off_switch": {
-          "support": "unknown",
-          "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "No off switch: bounded inspection of v2.4.1 packages/desktop and packages/app found no setting, environment variable or flag that stops desktop Sentry error reporting; it is gated only on the build-time DSN.",
+          "evidenceIds": [
+            "tel-2611-desktop-sentry"
+          ]
         },
         "consent_prompt": {
           "support": "unknown",
@@ -4328,11 +4327,12 @@
         "b08r-code-release-sentry",
         "b08r-code-desktop-sentry",
         "b08r-code-app-sentry",
-        "b08r-release-sentry"
+        "b08r-release-sentry",
+        "tel-2611-desktop-sentry"
       ],
       "checkedAt": "2026-11-21",
       "nextReviewAt": "2027-03-21",
-      "researcher": "researcher-ade164",
+      "researcher": "telemetry-researcher-d",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -5982,6 +5982,19 @@
       "visibility": "public",
       "commit": "fedc6f208aa2bd54c1019227214568083f6380ad",
       "path": "AGENTS.md"
+    },
+    {
+      "id": "tel-2611-desktop-sentry",
+      "kind": "source-inspected",
+      "url": "https://github.com/anomalyco/opencode/blob/6f0514052a3c859894ad01bb14cc14dda1e44b96/packages/desktop/src/renderer/startup/sentry.ts",
+      "title": "OpenCode v2.4.1 desktop Sentry startup and release workflow",
+      "locator": "initializeSentry() in packages/desktop/src/renderer/startup/sentry.ts, called unconditionally from packages/desktop/src/renderer/index.tsx; .github/workflows/release.yml desktop Build step (VITE_SENTRY_DSN: vars.WEB_SENTRY_DSN); packages/app/src/shell/errors/error.tsx; packages/desktop and packages/app searched for telemetry, DO_NOT_TRACK, DISABLE_TELEMETRY",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-24",
+      "finding": "At v2.4.1 the desktop renderer calls initializeSentry() at startup, which checks only the build-time VITE_SENTRY_DSN, and the release workflow injects the repository's Sentry DSN into every desktop build. The error boundary sends captureException whenever Sentry is enabled. No settings key, environment variable or flag that disables it exists in packages/desktop or packages/app (a 'telemetry' settings row appears only in a session-ui story fixture). The CLI/server packages ship no analytics client; openTelemetry config is user-directed OTel export.",
+      "visibility": "public",
+      "commit": "6f0514052a3c859894ad01bb14cc14dda1e44b96",
+      "path": "packages/desktop/src/renderer/startup/sentry.ts"
     }
   ],
   "changes": [
@@ -9471,6 +9484,38 @@
         "reviewed": false
       },
       "evidenceIds": []
+    },
+    {
+      "date": "2026-11-24",
+      "author": "telemetry-researcher-d",
+      "type": "research-correction",
+      "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+      "claimIds": [
+        "opencode:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "OpenCode stores best-effort local snapshots that can contain full file contents; undo does not securely erase them. The official v2.3.2 Linux desktop package embeds a Sentry DSN, so it sends error reports, and other desktop release builds are wired to the same repository DSN; no end-user control was found in the inspected v2.3.2 code, and the web client sends none unless built with a DSN. Console model routing has its own retention, training and region rules, including a Global region allowed by default for requests from China.",
+        "checkedAt": "2026-11-21",
+        "nextReviewAt": "2027-03-21",
+        "subanswers": {
+          "telemetry_defaults": "partial",
+          "telemetry_off_switch": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "OpenCode stores best-effort local snapshots that can contain full file contents; undo does not securely erase them. The official v2.3.2 Linux desktop package embeds a Sentry DSN, so it sends error reports, and other desktop release builds are wired to the same repository DSN; no end-user control was found in the inspected v2.3.2 code, and the web client sends none unless built with a DSN. Console model routing has its own retention, training and region rules, including a Global region allowed by default for requests from China.",
+        "checkedAt": "2026-11-21",
+        "nextReviewAt": "2027-03-21",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "supported"
+        }
+      },
+      "evidenceIds": [
+        "tel-2611-desktop-sentry"
+      ]
     }
   ],
   "context": {
