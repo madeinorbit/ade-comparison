@@ -5127,9 +5127,9 @@
         },
         "telemetry_defaults": {
           "support": "supported",
-          "answer": "No product telemetry.",
+          "answer": "No telemetry: a bounded search of the commit 751bba8ede10 (no tagged release) source found no analytics or crash-reporting client and no outbound telemetry. OpenTelemetry and Erlang :telemetry are operator-side observability inside the operator's own deployment, not data sent to the vendor.",
           "evidenceIds": [
-            "srch-tele"
+            "tel-2611-source-search"
           ]
         },
         "telemetry_controls": {
@@ -5140,9 +5140,11 @@
           ]
         },
         "telemetry_off_switch": {
-          "support": "unknown",
-          "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-          "evidenceIds": []
+          "support": "not-applicable",
+          "answer": "Nothing to switch off: no ADE telemetry in the inspected source.",
+          "evidenceIds": [
+            "tel-2611-source-search"
+          ]
         },
         "consent_prompt": {
           "support": "unsupported",
@@ -5173,11 +5175,12 @@
         "agentsdomain",
         "quickstart",
         "notif-doc",
-        "srch-tele"
+        "srch-tele",
+        "tel-2611-source-search"
       ],
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
-      "researcher": "researcher-batch04",
+      "researcher": "telemetry-researcher-d",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -6489,6 +6492,19 @@
       "visibility": "public",
       "commit": "3e6a2f214bcc9489734252a4e33a316f8c2a262f",
       "path": "marshall/lib"
+    },
+    {
+      "id": "tel-2611-source-search",
+      "kind": "source-inspected",
+      "url": "https://github.com/ghuntley/overalls/tree/751bba8ede10cb1f1a9546be6feb8d6b2c721fa4",
+      "title": "Overalls commit 751bba8ede10 (no tagged release) repository",
+      "locator": "Search of the monorepo (Marshall, Lilly, Lyra, Mila, Porsche, services, nix) and all package manifests (Cargo.toml and workspace manifests) for posthog, sentry, segment, amplitude, mixpanel, plausible, umami, telemetry, analytics, captureException, DO_NOT_TRACK",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-24",
+      "finding": "At commit 751bba8ede10 (no tagged release) no analytics, crash-reporting or usage-telemetry SDK is declared and no outbound telemetry call exists. OpenTelemetry and Erlang :telemetry are operator-side observability inside the operator's own deployment, not data sent to the vendor.",
+      "visibility": "public",
+      "commit": "751bba8ede10cb1f1a9546be6feb8d6b2c721fa4",
+      "path": "Cargo.toml"
     }
   ],
   "changes": [
@@ -6620,6 +6636,38 @@
         "reviewed": false
       },
       "evidenceIds": []
+    },
+    {
+      "date": "2026-11-24",
+      "author": "telemetry-researcher-d",
+      "type": "research-correction",
+      "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+      "claimIds": [
+        "overalls:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Code and prompts stay on operator infrastructure; inference goes through the operator's Ziggy to OpenAI/Anthropic; credentials never in guests; push is content-free; no product telemetry found.",
+        "checkedAt": "2026-11-16",
+        "nextReviewAt": "2027-03-16",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Code and prompts stay on operator infrastructure; inference goes through the operator's Ziggy to OpenAI/Anthropic; credentials never in guests; push is content-free; no product telemetry found.",
+        "checkedAt": "2026-11-16",
+        "nextReviewAt": "2027-03-16",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "not-applicable"
+        }
+      },
+      "evidenceIds": [
+        "tel-2611-source-search"
+      ]
     }
   ],
   "context": {
