@@ -4850,7 +4850,7 @@
     {
       "id": "corgi:OWN-03",
       "criterionId": "OWN-03",
-      "answer": "Data stays local; crash reports go to Sentry only in release builds configured with a DSN.",
+      "answer": "Data stays local; crash reports go to Sentry only in release builds configured with a DSN. Telemetry (atomic revision 2): crash reporting depends on whether official release builds carry a Sentry DSN, which the public source does not show; default and off switch stay unknown.",
       "support": "partial",
       "availability": "generally-available",
       "delivery": "native",
@@ -4946,9 +4946,9 @@
         },
         "telemetry_defaults": {
           "support": "unknown",
-          "answer": "whether the release build sets a DSN is not stated.",
+          "answer": "Unknown: crash reporting to Sentry runs only when a release build is configured with a DSN (HACKING.md; build option sentry-dsn; publish config sentry). Whether the official releases set one lives in private publisher config. src/crash.ts has no consent or opt-out gate once a DSN is compiled in.",
           "evidenceIds": [
-            "crashsrc"
+            "tel-2611-crash"
           ]
         },
         "telemetry_controls": {
@@ -4960,8 +4960,10 @@
         },
         "telemetry_off_switch": {
           "support": "unknown",
-          "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-          "evidenceIds": []
+          "answer": "Unknown until the default is established: src/crash.ts shows no runtime control, but the official builds' DSN is not public.",
+          "evidenceIds": [
+            "tel-2611-crash"
+          ]
         },
         "consent_prompt": {
           "support": "unknown",
@@ -4987,11 +4989,12 @@
         "agents",
         "launcher",
         "hacking",
-        "crashsrc"
+        "crashsrc",
+        "tel-2611-crash"
       ],
       "checkedAt": "2026-11-17",
       "nextReviewAt": "2027-03-17",
-      "researcher": "researcher-batch15",
+      "researcher": "telemetry-researcher-b",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -5868,6 +5871,19 @@
       "visibility": "public",
       "commit": "03c72b7175269a6b4f0c2b3451202c462f72aa3e",
       "path": "docs/images/localization/ru-review.png"
+    },
+    {
+      "id": "tel-2611-crash",
+      "kind": "source-inspected",
+      "url": "https://github.com/tals/corgi/blob/07b1c23ca6e2636c3c9c14d7d68a55082f9562c7/src/crash.ts",
+      "title": "corgi crash reporting and HACKING.md",
+      "locator": "crash.ts lines 42-53; HACKING.md line 733; scripts/publish.ts lines 698-705",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-24",
+      "finding": "Release builds configured with Sentry report daemon/viewer crashes; development builds have no DSN. The DSN comes from build config, and crash.ts has no consent or opt-out check.",
+      "visibility": "public",
+      "commit": "07b1c23ca6e2636c3c9c14d7d68a55082f9562c7",
+      "path": "src/crash.ts"
     }
   ],
   "changes": [
@@ -5948,6 +5964,38 @@
         "reviewed": false
       },
       "evidenceIds": []
+    },
+    {
+      "date": "2026-11-24",
+      "author": "telemetry-researcher-b",
+      "type": "research-correction",
+      "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+      "claimIds": [
+        "corgi:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Data stays local; crash reports go to Sentry only in release builds configured with a DSN.",
+        "checkedAt": "2026-11-17",
+        "nextReviewAt": "2027-03-17",
+        "subanswers": {
+          "telemetry_defaults": "unknown",
+          "telemetry_off_switch": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Data stays local; crash reports go to Sentry only in release builds configured with a DSN. Telemetry (atomic revision 2): crash reporting depends on whether official release builds carry a Sentry DSN, which the public source does not show; default and off switch stay unknown.",
+        "checkedAt": "2026-11-17",
+        "nextReviewAt": "2027-03-17",
+        "subanswers": {
+          "telemetry_defaults": "unknown",
+          "telemetry_off_switch": "unknown"
+        }
+      },
+      "evidenceIds": [
+        "tel-2611-crash"
+      ]
     }
   ],
   "context": {
