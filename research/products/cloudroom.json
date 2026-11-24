@@ -5564,7 +5564,7 @@
   {
    "id": "cloudroom:OWN-03",
    "criterionId": "OWN-03",
-   "answer": "Code/prompts/credentials/logs/artifacts stay in workspace/journal on own disk or vendor object storage (managed); retention 7d-5y by plan, diagnostics 90d/7d; no training/residency/subprocessor statements. Telemetry disclosed with opt-out (Settings/BB_TELEMETRY=false); no first-run prompt described. Orchestration-vendor vs model-provider separation via native logins.",
+   "answer": "Code/prompts/credentials/logs/artifacts stay in workspace/journal on own disk or vendor object storage (managed); retention 7d-5y by plan, diagnostics 90d/7d; no training/residency/subprocessor statements. Telemetry disclosed with opt-out (Settings/BB_TELEMETRY=false); no first-run prompt described. Orchestration-vendor vs model-provider separation via native logins. Telemetry (atomic revision 2): on by default; the Share usage data and setup errors switch in Settings turns it off.",
    "support": "partial",
    "availability": "beta",
    "delivery": "native",
@@ -5672,10 +5672,9 @@
     },
     "telemetry_defaults": {
      "support": "supported",
-     "answer": "Defaults: usage sharing on (Share anonymous usage data), diagnostics on; Pi/Kimi telemetry disabled via flags.",
+     "answer": "On by default: usage and setup-error sharing is on unless the user or environment opts out.",
      "evidenceIds": [
-      "config",
-      "harnesses"
+      "tel-2611-settings"
      ]
     },
     "telemetry_controls": {
@@ -5686,9 +5685,11 @@
      ]
     },
     "telemetry_off_switch": {
-     "support": "unknown",
-     "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-     "evidenceIds": []
+     "support": "supported",
+     "answer": "In the app: Settings has a 'Share usage data and setup errors' switch; BB_TELEMETRY=false, CLOUDROOM_TELEMETRY=false or DO_NOT_TRACK=1 also disable it.",
+     "evidenceIds": [
+      "tel-2611-settings"
+     ]
     },
     "consent_prompt": {
      "support": "unsupported",
@@ -5720,11 +5721,12 @@
     "observability",
     "config",
     "site-pricing",
-    "harnesses"
+    "harnesses",
+    "tel-2611-settings"
    ],
    "checkedAt": "2026-11-13",
    "nextReviewAt": "2027-03-13",
-   "researcher": "researcher-cloudroom",
+   "researcher": "telemetry-researcher-b",
    "publication": "public-candidate",
    "review": null,
    "contradictions": []
@@ -6734,6 +6736,19 @@
    "visibility": "public",
    "commit": "850947f5b2c24c5d8aa62843bfb889145c742cb4",
    "path": "core/src/session/automation.rs"
+  },
+  {
+   "id": "tel-2611-settings",
+   "kind": "source-inspected",
+   "url": "https://github.com/davidondrej/cloudroom/blob/a8be31f0e46268ef60b94a7778acbf8a6d889597/gui/apps/app/src/views/SettingsView.tsx",
+   "title": "Cloudroom gui-v166 settings view and server types",
+   "locator": "SettingsView.tsx lines 1174-1199; gui/apps/server/src/types.ts line 42",
+   "sourceDate": null,
+   "retrievedAt": "2026-11-24",
+   "finding": "SettingsView renders a 'Share usage data and setup errors' switch bound to telemetryEnabled; the server notes opt-out via BB_TELEMETRY=false, CLOUDROOM_TELEMETRY=false or DO_NOT_TRACK=1.",
+   "visibility": "public",
+   "commit": "a8be31f0e46268ef60b94a7778acbf8a6d889597",
+   "path": "gui/apps/app/src/views/SettingsView.tsx"
   }
  ],
  "changes": [
@@ -6813,6 +6828,38 @@
     "reviewed": false
    },
    "evidenceIds": []
+  },
+  {
+   "date": "2026-11-24",
+   "author": "telemetry-researcher-b",
+   "type": "research-correction",
+   "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+   "claimIds": [
+    "cloudroom:OWN-03"
+   ],
+   "before": {
+    "support": "partial",
+    "answer": "Code/prompts/credentials/logs/artifacts stay in workspace/journal on own disk or vendor object storage (managed); retention 7d-5y by plan, diagnostics 90d/7d; no training/residency/subprocessor statements. Telemetry disclosed with opt-out (Settings/BB_TELEMETRY=false); no first-run prompt described. Orchestration-vendor vs model-provider separation via native logins.",
+    "checkedAt": "2026-11-13",
+    "nextReviewAt": "2027-03-13",
+    "subanswers": {
+     "telemetry_defaults": "supported",
+     "telemetry_off_switch": "unknown"
+    }
+   },
+   "after": {
+    "support": "partial",
+    "answer": "Code/prompts/credentials/logs/artifacts stay in workspace/journal on own disk or vendor object storage (managed); retention 7d-5y by plan, diagnostics 90d/7d; no training/residency/subprocessor statements. Telemetry disclosed with opt-out (Settings/BB_TELEMETRY=false); no first-run prompt described. Orchestration-vendor vs model-provider separation via native logins. Telemetry (atomic revision 2): on by default; the Share usage data and setup errors switch in Settings turns it off.",
+    "checkedAt": "2026-11-13",
+    "nextReviewAt": "2027-03-13",
+    "subanswers": {
+     "telemetry_defaults": "supported",
+     "telemetry_off_switch": "supported"
+    }
+   },
+   "evidenceIds": [
+    "tel-2611-settings"
+   ]
   }
  ],
  "context": {
