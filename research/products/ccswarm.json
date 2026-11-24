@@ -5212,9 +5212,9 @@
         },
         "telemetry_defaults": {
           "support": "supported",
-          "answer": "No default telemetry found; OTLP export only when OTEL_EXPORTER_OTLP_ENDPOINT is set in an otel build.",
+          "answer": "No telemetry: a bounded search of release v0.10.2 found no analytics, crash-reporting or usage client that sends data to the vendor.",
           "evidenceIds": [
-            "crate-cargo"
+            "tel-2611-src"
           ]
         },
         "telemetry_controls": {
@@ -5225,9 +5225,11 @@
           ]
         },
         "telemetry_off_switch": {
-          "support": "unknown",
-          "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-          "evidenceIds": []
+          "support": "not-applicable",
+          "answer": "Nothing to switch off: no ADE telemetry.",
+          "evidenceIds": [
+            "tel-2611-src"
+          ]
         },
         "consent_prompt": {
           "support": "unsupported",
@@ -5262,11 +5264,12 @@
         "claude",
         "codex",
         "events",
-        "crate-cargo"
+        "crate-cargo",
+        "tel-2611-src"
       ],
       "checkedAt": "2026-11-17",
       "nextReviewAt": "2027-03-17",
-      "researcher": "researcher-batch17",
+      "researcher": "telemetry-researcher-a",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -6401,6 +6404,19 @@
       "visibility": "public",
       "commit": "611bf153e4378c5abf8fd2515388ecbeee6a8357",
       "path": "crates/ccswarm"
+    },
+    {
+      "id": "tel-2611-src",
+      "kind": "source-inspected",
+      "url": "https://github.com/nwiizo/ccswarm/tree/611bf153e4378c5abf8fd2515388ecbeee6a8357",
+      "title": "Bounded telemetry search of nwiizo/ccswarm at v0.10.2",
+      "locator": "whole tree at v0.10.2 excluding node_modules and lockfiles; terms: posthog, segment, amplitude, mixpanel, sentry, telemetry, DO_NOT_TRACK, aptabase, telemetrydeck, statsig, datadog, plausible, google-analytics/gtag",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-24",
+      "finding": "Bounded search of the pinned release v0.10.2 for posthog, segment, amplitude, mixpanel, sentry, telemetry, DO_NOT_TRACK, aptabase, telemetrydeck, statsig, datadog, plausible, google-analytics/gtag. Hits are the optional otel Cargo feature, which exports only when OTEL_EXPORTER_OTLP_ENDPOINT points at the user's own collector; no vendor telemetry.",
+      "visibility": "public",
+      "commit": "611bf153e4378c5abf8fd2515388ecbeee6a8357",
+      "path": "."
     }
   ],
   "changes": [
@@ -6516,6 +6532,38 @@
         "reviewed": false
       },
       "evidenceIds": []
+    },
+    {
+      "date": "2026-11-24",
+      "author": "telemetry-researcher-a",
+      "type": "research-correction",
+      "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+      "claimIds": [
+        "ccswarm:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Everything stays on the machine; prompts and code go to the Claude Code and Codex providers; telemetry is not collected, with optional OTLP export only when an endpoint is configured.",
+        "checkedAt": "2026-11-17",
+        "nextReviewAt": "2027-03-17",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Everything stays on the machine; prompts and code go to the Claude Code and Codex providers; telemetry is not collected, with optional OTLP export only when an endpoint is configured.",
+        "checkedAt": "2026-11-17",
+        "nextReviewAt": "2027-03-17",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "not-applicable"
+        }
+      },
+      "evidenceIds": [
+        "tel-2611-src"
+      ]
     }
   ],
   "context": {
