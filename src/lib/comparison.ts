@@ -12,7 +12,7 @@ const sections: [string, string[]][] = [
   ['Where it runs', ['execution', 'laptop-independent']],
   ['How it works', ['isolation', 'parallel-runs', 'coordinator', 'issue-tracking', 'unattended-triggers']],
   ['Team and shipping', ['multiplayer', 'roles', 'sso', 'pr-workflow', 'review-ui']],
-  ['Ownership', ['license', 'self-hosting', 'telemetry-opt-out']],
+  ['Ownership', ['license', 'self-hosting', 'telemetry-default', 'telemetry-off-switch']],
   ['Price', ['free-tier', 'pricing-model', 'paid-from']],
   ['Status', ['lifecycle-status']],
 ]

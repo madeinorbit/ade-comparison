@@ -106,7 +106,7 @@ function fixture() {
 
 test('defines 26 typed filters without a false unknown/no equivalence', () => {
   validateDefinitions(definitions)
-  assert.equal(definitions.facets.length, 26)
+  assert.equal(definitions.facets.length, 27)
   assert.deepEqual(definitions.booleanValues, ['yes', 'no', 'unknown'])
   for (const mutate of [
     copy => copy.facets.push(copy.facets[0]),

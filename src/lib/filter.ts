@@ -13,6 +13,7 @@ export const presets: Preset[] = [
   { id: 'laptop-closed', label: 'Laptop closed', must: ['laptop-independent'], nice: ['execution:own-server', 'execution:vendor-cloud'] },
   { id: 'phone', label: 'From my phone', must: ['any-phone-client'], nice: ['laptop-independent'] },
   { id: 'open-source', label: 'Open source', must: ['open-source-license'], nice: ['self-hosting'] },
+  { id: 'privacy', label: 'No telemetry by default', must: ['no-default-telemetry'], nice: ['telemetry-easy-off', 'open-source-license', 'self-hosting'] },
   { id: 'team', label: 'Team with SSO and roles', must: ['sso', 'roles'], nice: ['multiplayer', 'issue-tracking'] },
 ]
 export const emptyState = (): FinderState => ({ must: [], nice: [], query: '', preset: null, sort: 'fit' })
@@ -24,6 +25,8 @@ export function requirementsFrom(facets: Facet[]): Requirement[] {
     { key: 'any-desktop', label: 'Any desktop app', facetId: 'desktop-os', option: null, description: 'A desktop app for macOS, Windows or Linux. Any one of them confirms this requirement.', anyOf: ['desktop-os:macos', 'desktop-os:windows', 'desktop-os:linux'] },
     { key: 'paid-up-to-20', label: 'Paid plan up to $20/month', facetId: 'paid-from', option: null, description: 'The lowest public paid plan costs $20 a month or less at monthly billing. Either bracket confirms this requirement.', anyOf: ['paid-from:up-to-10-usd-month', 'paid-from:11-to-20-usd-month'] },
     { key: 'paid-up-to-40', label: 'Paid plan up to $40/month', facetId: 'paid-from', option: null, description: 'The lowest public paid plan costs $40 a month or less at monthly billing. Any of the three brackets confirms this requirement.', anyOf: ['paid-from:up-to-10-usd-month', 'paid-from:11-to-20-usd-month', 'paid-from:21-to-40-usd-month'] },
+    { key: 'no-default-telemetry', label: 'No telemetry by default', facetId: 'telemetry-default', option: null, description: 'The ADE sends no telemetry, or sends it only after you opt in. Either confirms this requirement.', anyOf: ['telemetry-default:none', 'telemetry-default:opt-in'] },
+    { key: 'telemetry-easy-off', label: 'Telemetry off in the app', facetId: 'telemetry-off-switch', option: null, description: 'The ADE sends no telemetry, or a settings toggle, first-run choice or opt-in prompt in the app turns it off. A config file, environment variable or flag alone does not confirm this requirement.', anyOf: ['telemetry-default:none', 'telemetry-off-switch:in-app'] },
     { key: 'any-phone-client', label: 'Any phone client', facetId: 'phone-client', option: null, description: 'A native iPhone app, a native Android app or a phone browser client. Any one of them confirms this requirement.', anyOf: ['phone-client:ios', 'phone-client:android', 'phone-client:mobile-web'] }]
 }
 export function parseState(search: string, requirements: FilterRequirement[]): FinderState {

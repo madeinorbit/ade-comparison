@@ -9,7 +9,7 @@ export const wordGroups: { title: string; words: [key: string, label: string][] 
   { title: 'Where you work', words: [['any-desktop', 'Desktop app'], ['any-phone-client', 'Phone'], ['desktop-os:macos', 'Mac app'], ['desktop-os:windows', 'Windows app'], ['desktop-os:linux', 'Linux app'], ['web-client', 'Browser'], ['cli', 'Command line']] },
   { title: 'Where it runs', words: [['execution:local', 'On your computer'], ['execution:own-server', 'On your own server'], ['execution:vendor-cloud', "In the vendor's cloud"], ['laptop-independent', 'Keeps going with laptop closed']] },
   { title: 'Team and shipping', words: [['multiplayer', 'Team sessions'], ['roles', 'Team roles'], ['sso', 'SSO'], ['pr-workflow', 'Pull requests'], ['review-ui', 'Review screen']] },
-  { title: 'Ownership', words: [['open-source-license', 'Open source'], ['self-hosting', 'Self-hosting']] },
+  { title: 'Ownership', words: [['open-source-license', 'Open source'], ['self-hosting', 'Self-hosting'], ['no-default-telemetry', 'No telemetry by default'], ['telemetry-easy-off', 'Telemetry off in the app']] },
   { title: 'Measured', words: [['ademark', 'Benchmarked by ADEMark']] },
   { title: 'Price', words: [['free-tier', 'Has a free plan'], ['pricing-model:no-paid-plan', 'Entirely free'], ['pricing-model:subscription', 'Subscription'], ['pricing-model:per-seat', 'Per seat'], ['pricing-model:usage-based', 'Usage-based'], ['pricing-model:compute', 'Per machine or compute'], ['pricing-model:byok', 'Bring your own key'], ['pricing-model:one-time', 'One-time purchase'], ['paid-up-to-20', 'Paid plan up to $20/month'], ['paid-up-to-40', 'Paid plan up to $40/month']] },
 ]
@@ -46,6 +46,8 @@ export const wordTips: Record<string, string> = {
   'review-ui': 'A screen that shows the agent’s code changes as a diff for you to review.',
   'open-source-license': 'The main app is under an open-source licence: Apache-2.0, MIT, GPL-3.0 or AGPL-3.0.',
   'self-hosting': 'You can run the whole ADE on infrastructure you control.',
+  'no-default-telemetry': 'The ADE sends no usage or crash data to its maker unless you opt in. Data sent to your model provider to run tasks doesn’t count.',
+  'telemetry-easy-off': 'No telemetry, or you can turn it off in the app. An environment variable or config file alone doesn’t count.',
   'ademark': 'ADEMark, a third-party open benchmark, measured its speed, memory, tokens and a team build on the same Mac. Not tested is not a no.',
   'free-tier': 'You can use it without paying: a free plan or a free download. Paid plans may exist too.',
   'pricing-model:no-paid-plan': 'The ADE has no paid tier at all, as with most open-source tools. Agent or model costs can still apply.',
@@ -90,6 +92,17 @@ export function summary(p: Product): string {
   return parts.join(' ') || 'An agent development environment.'
 }
 
+const OFF_SWITCH: Record<string, string> = { 'in-app': 'off in the app', 'config-only': 'off only by config, env var or flag', none: 'no off switch' }
+// Telemetry in one line: the default first, then where it is switched off.
+function telemetry(p: Product): Fact {
+  const d = value(p, 'telemetry-default'), off = value(p, 'telemetry-off-switch')
+  const keys = ['no-default-telemetry', 'telemetry-easy-off', ...(facetOf('telemetry-default')?.options || []).map(o => `telemetry-default:${o.id}`), ...(facetOf('telemetry-off-switch')?.options || []).map(o => `telemetry-off-switch:${o.id}`)]
+  const head = d === 'none' ? 'None' : d === 'opt-in' ? 'Off until you opt in' : d === 'on-by-default' ? 'On by default' : null
+  const tail = d !== 'none' && OFF_SWITCH[off] ? OFF_SWITCH[off] : null
+  const v = head && tail ? `${head}, ${tail}` : head ?? (tail ? `${tail[0].toUpperCase()}${tail.slice(1)}` : null)
+  return { label: 'Telemetry', value: v, no: d === 'on-by-default' && off !== 'in-app', keys }
+}
+
 export interface Fact { label: string; value: string | null; no?: boolean; keys: string[] }
 // Facts for the ADE sheet and Compare. Each lists the requirement keys it answers, so a selection can light it up.
 export function facts(p: Product): Fact[] {
@@ -128,6 +141,7 @@ export function facts(p: Product): Fact[] {
     flag('Review screen', 'review-ui'),
     { label: 'Team', value: team.length ? list(team).replace(/^./, c => c.toUpperCase()) : teamNo ? 'No' : null, no: !team.length && teamNo, keys: ['multiplayer', 'roles', 'sso'] },
     flag('Self-hosting', 'self-hosting'),
+    telemetry(p),
     { label: 'Licence', value: licence, keys: ['open-source-license', ...(facetOf('license')?.options || []).map(o => `license:${o.id}`)] },
     { label: 'Price from', value: from, keys: ['free-tier', ...(facetOf('starting-price')?.options || []).map(o => `starting-price:${o.id}`)] },
     { label: 'How it charges', value: models.length ? list(models) : null, keys: Object.keys(PRICING).map(o => `pricing-model:${o}`) },
