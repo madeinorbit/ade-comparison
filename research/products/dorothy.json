@@ -4781,7 +4781,7 @@
     {
       "id": "dorothy:OWN-03",
       "criterionId": "OWN-03",
-      "answer": "Local state; prompts go to the agent CLIs' providers; the app has no analytics dependency (landing site uses Vercel Analytics); bots send messages through Telegram and Slack; update checks use GitHub; no privacy policy found.",
+      "answer": "Local state; prompts go to the agent CLIs' providers; the app has no analytics dependency (landing site uses Vercel Analytics); bots send messages through Telegram and Slack; update checks use GitHub; no privacy policy found. Telemetry (atomic revision 2): no app telemetry in the 1.2.10 source; only the landing site uses Vercel Analytics.",
       "support": "partial",
       "availability": "generally-available",
       "delivery": "native",
@@ -4877,10 +4877,9 @@
         },
         "telemetry_defaults": {
           "support": "supported",
-          "answer": "Bounded search of package.json, electron/ and src/ found no analytics or telemetry dependency; the landing page uses @vercel/analytics.",
+          "answer": "No telemetry: a bounded search of the 1.2.10 app (electron/, src/, package.json; terms posthog, sentry, segment, amplitude, mixpanel, telemetry, analytics) finds no app analytics client; @vercel/analytics is used only by landing/src/app/layout.tsx and statsig hits are Claude CLI config handling.",
           "evidenceIds": [
-            "pkg",
-            "landing"
+            "tel-2611-src"
           ]
         },
         "telemetry_controls": {
@@ -4891,9 +4890,11 @@
           ]
         },
         "telemetry_off_switch": {
-          "support": "unknown",
-          "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-          "evidenceIds": []
+          "support": "not-applicable",
+          "answer": "Nothing to switch off: no ADE telemetry.",
+          "evidenceIds": [
+            "tel-2611-src"
+          ]
         },
         "consent_prompt": {
           "support": "unsupported",
@@ -4921,11 +4922,12 @@
         "readme",
         "site",
         "apiserver",
-        "hookperm"
+        "hookperm",
+        "tel-2611-src"
       ],
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
-      "researcher": "researcher-batch11",
+      "researcher": "telemetry-researcher-b",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -5807,6 +5809,19 @@
       "visibility": "public",
       "commit": "787568d5bba83b8ef35baa9ac29912d8eecc44cf",
       "path": "screenshots/0.png"
+    },
+    {
+      "id": "tel-2611-src",
+      "kind": "source-inspected",
+      "url": "https://github.com/Charlie85270/Dorothy/blob/787568d5bba83b8ef35baa9ac29912d8eecc44cf/landing/src/app/layout.tsx",
+      "title": "Dorothy 1.2.10 source",
+      "locator": "landing layout; electron/services/claude-service.ts lines 70-83; repo-wide search",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-24",
+      "finding": "Vercel Analytics is imported only by the landing site; the Electron app has no analytics client, and its statsig references manage Claude CLI files.",
+      "visibility": "public",
+      "commit": "787568d5bba83b8ef35baa9ac29912d8eecc44cf",
+      "path": "landing/src/app/layout.tsx"
     }
   ],
   "changes": [
@@ -5908,6 +5923,38 @@
         "reviewed": false
       },
       "evidenceIds": []
+    },
+    {
+      "date": "2026-11-24",
+      "author": "telemetry-researcher-b",
+      "type": "research-correction",
+      "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+      "claimIds": [
+        "dorothy:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Local state; prompts go to the agent CLIs' providers; the app has no analytics dependency (landing site uses Vercel Analytics); bots send messages through Telegram and Slack; update checks use GitHub; no privacy policy found.",
+        "checkedAt": "2026-11-16",
+        "nextReviewAt": "2027-03-16",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Local state; prompts go to the agent CLIs' providers; the app has no analytics dependency (landing site uses Vercel Analytics); bots send messages through Telegram and Slack; update checks use GitHub; no privacy policy found. Telemetry (atomic revision 2): no app telemetry in the 1.2.10 source; only the landing site uses Vercel Analytics.",
+        "checkedAt": "2026-11-16",
+        "nextReviewAt": "2027-03-16",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "not-applicable"
+        }
+      },
+      "evidenceIds": [
+        "tel-2611-src"
+      ]
     }
   ],
   "context": {
