@@ -5215,7 +5215,7 @@
     {
       "id": "sculptor:OWN-03",
       "criterionId": "OWN-03",
-      "answer": "Code, prompts and credentials stay local apart from the harness providers; telemetry is frontend-only PostHog (structure-only autocapture, text masked, session recording off) behind a binary consent with a Settings > Privacy toggle and defaults of false in the config model; backend reports nothing to PostHog or Sentry; the wizard's email is shown in Privacy and a signup event fires from the frontend.",
+      "answer": "Code, prompts and credentials stay local apart from the harness providers; telemetry is frontend-only PostHog (structure-only autocapture, text masked, session recording off) plus Sentry error reporting behind one binary consent. The config model defaults to false, but the first-run wizard starts with telemetry ticked and the terms make it the default, so it is on unless the user unticks it there or later in Settings > Privacy; backend reports nothing to PostHog or Sentry; the wizard's email is shown in Privacy and a signup event fires from the frontend.",
       "support": "partial",
       "availability": "generally-available",
       "delivery": "native",
@@ -5312,11 +5312,11 @@
           ]
         },
         "telemetry_defaults": {
-          "support": "partial",
-          "answer": "Config model defaults analytics and error reporting to false; the frontend falls back to analytics enabled when config is missing; consent is binary and written together.",
+          "support": "supported",
+          "answer": "On by default: the first-run wizard pre-ticks telemetry (PostHog analytics and Sentry error reporting) and the code calls this enabled state the default stipulated by the terms; the false values in the config model apply only before the wizard records a choice.",
           "evidenceIds": [
-            "user-config",
-            "fe-telemetry"
+            "tel-2611-consent",
+            "tel-2611-wizard"
           ]
         },
         "telemetry_controls": {
@@ -5328,9 +5328,12 @@
           ]
         },
         "telemetry_off_switch": {
-          "support": "unknown",
-          "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "In the app: the first-run wizard has a telemetry choice and Settings > Privacy has the telemetry toggle.",
+          "evidenceIds": [
+            "tel-2611-consent",
+            "tel-2611-wizard"
+          ]
         },
         "consent_prompt": {
           "support": "partial",
@@ -5366,11 +5369,13 @@
         "h-settings",
         "h-start",
         "h-harness",
-        "h-ws"
+        "h-ws",
+        "tel-2611-consent",
+        "tel-2611-wizard"
       ],
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
-      "researcher": "researcher-batch13",
+      "researcher": "telemetry-researcher-e",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -6610,6 +6615,32 @@
       "visibility": "public",
       "commit": "c081562eecc3d19a5a5ad8cd2bf4cf2a69747132",
       "path": "sculptor/sculptor"
+    },
+    {
+      "id": "tel-2611-consent",
+      "kind": "source-inspected",
+      "url": "https://github.com/imbue-ai/sculptor/blob/c081562eecc3d19a5a5ad8cd2bf4cf2a69747132/sculptor/sculptor/services/user_config/user_config.py#L158-L171",
+      "title": "imbue-ai/sculptor sculptor-v0.50.0: sculptor/sculptor/services/user_config/user_config.py",
+      "locator": "TELEMETRY_ENABLED_PRIVACY_SETTINGS",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-24",
+      "finding": "Telemetry consent is binary; the enabled state (error reporting and product analytics on) is \"the default, stipulated by our terms and conditions\"; the consent endpoints write both flags together.",
+      "visibility": "public",
+      "commit": "c081562eecc3d19a5a5ad8cd2bf4cf2a69747132",
+      "path": "sculptor/sculptor/services/user_config/user_config.py"
+    },
+    {
+      "id": "tel-2611-wizard",
+      "kind": "source-inspected",
+      "url": "https://github.com/imbue-ai/sculptor/blob/c081562eecc3d19a5a5ad8cd2bf4cf2a69747132/sculptor/frontend/src/pages/onboarding/OnboardingWizard.tsx#L46",
+      "title": "imbue-ai/sculptor sculptor-v0.50.0: sculptor/frontend/src/pages/onboarding/OnboardingWizard.tsx",
+      "locator": "useState(true) for isTelemetryEnabled; saveUserEmail and skipAccountSetup send the choice",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-24",
+      "finding": "The first-run onboarding wizard starts with telemetry enabled and sends that choice whether the user signs up or skips account setup; docs/help/settings.md line 47 puts the telemetry toggle under Settings > Privacy.",
+      "visibility": "public",
+      "commit": "c081562eecc3d19a5a5ad8cd2bf4cf2a69747132",
+      "path": "sculptor/frontend/src/pages/onboarding/OnboardingWizard.tsx"
     }
   ],
   "changes": [
@@ -6735,6 +6766,39 @@
         "reviewed": false
       },
       "evidenceIds": []
+    },
+    {
+      "date": "2026-11-24",
+      "author": "telemetry-researcher-e",
+      "type": "research-correction",
+      "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+      "claimIds": [
+        "sculptor:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Code, prompts and credentials stay local apart from the harness providers; telemetry is frontend-only PostHog (structure-only autocapture, text masked, session recording off) behind a binary consent with a Settings > Privacy toggle and defaults of false in the config model; backend reports nothing to PostHog or Sentry; the wizard's email is shown in Privacy and a signup event fires from the frontend.",
+        "checkedAt": "2026-11-16",
+        "nextReviewAt": "2027-03-16",
+        "subanswers": {
+          "telemetry_defaults": "partial",
+          "telemetry_off_switch": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Code, prompts and credentials stay local apart from the harness providers; telemetry is frontend-only PostHog (structure-only autocapture, text masked, session recording off) plus Sentry error reporting behind one binary consent. The config model defaults to false, but the first-run wizard starts with telemetry ticked and the terms make it the default, so it is on unless the user unticks it there or later in Settings > Privacy; backend reports nothing to PostHog or Sentry; the wizard's email is shown in Privacy and a signup event fires from the frontend.",
+        "checkedAt": "2026-11-16",
+        "nextReviewAt": "2027-03-16",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "supported"
+        }
+      },
+      "evidenceIds": [
+        "tel-2611-consent",
+        "tel-2611-wizard"
+      ]
     }
   ],
   "context": {
