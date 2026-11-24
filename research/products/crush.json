@@ -5261,7 +5261,7 @@
     {
       "id": "crush:OWN-03",
       "criterionId": "OWN-03",
-      "answer": "Code and prompts go to the model provider you choose; local storage in SQLite and logs in .crush; pseudonymous usage metrics (device hash, usage metadata, never prompts or responses per README) go to PostHog, disabled by CRUSH_DISABLE_METRICS=1, DO_NOT_TRACK=1 or options.disable_metrics; metrics are on by default and no first-run consent dialog was found. Hyper policies are separate and not captured.",
+      "answer": "Code and prompts go to the model provider you choose; local storage in SQLite and logs in .crush; pseudonymous usage metrics (device hash, usage metadata, never prompts or responses per README) go to PostHog, disabled by CRUSH_DISABLE_METRICS=1, DO_NOT_TRACK=1 or options.disable_metrics; metrics are on by default and no first-run consent dialog was found. Hyper policies are separate and not captured. Telemetry (atomic revision 2): usage metrics on by default; off via CRUSH_DISABLE_METRICS, DO_NOT_TRACK or the disable_metrics config option.",
       "support": "partial",
       "availability": "generally-available",
       "delivery": "native",
@@ -5352,10 +5352,9 @@
         },
         "telemetry_defaults": {
           "support": "supported",
-          "answer": "On by default with pseudonymous device hash.",
+          "answer": "On by default: Crush records pseudonymous usage metrics tied to a device hash.",
           "evidenceIds": [
-            "readme",
-            "events"
+            "tel-2611-readme"
           ]
         },
         "telemetry_controls": {
@@ -5367,9 +5366,11 @@
           ]
         },
         "telemetry_off_switch": {
-          "support": "unknown",
-          "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "Config only: CRUSH_DISABLE_METRICS=1, DO_NOT_TRACK=1 or the disable_metrics config option (option metrics false); no TUI toggle was found.",
+          "evidenceIds": [
+            "tel-2611-readme"
+          ]
         },
         "consent_prompt": {
           "support": "unsupported",
@@ -5400,11 +5401,12 @@
         "events",
         "schema",
         "search",
-        "hyper"
+        "hyper",
+        "tel-2611-readme"
       ],
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
-      "researcher": "researcher-crush",
+      "researcher": "telemetry-researcher-b",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -6543,6 +6545,19 @@
       "visibility": "public",
       "commit": null,
       "path": null
+    },
+    {
+      "id": "tel-2611-readme",
+      "kind": "source-inspected",
+      "url": "https://github.com/charmbracelet/crush/blob/c62fa029f743047ab70fcc88cef9029be6c5beff/README.md",
+      "title": "Crush v0.102.0 README Metrics and shell config options",
+      "locator": "README.md 'Metrics' lines 1175-1197; internal/shellconfig/options.go line 211",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-24",
+      "finding": "README: pseudonymous usage metrics are recorded; opt out with CRUSH_DISABLE_METRICS=1 or DO_NOT_TRACK=1. The config option metrics maps to disable_metrics.",
+      "visibility": "public",
+      "commit": "c62fa029f743047ab70fcc88cef9029be6c5beff",
+      "path": "README.md"
     }
   ],
   "changes": [
@@ -6570,6 +6585,38 @@
         "reviewed": false
       },
       "evidenceIds": []
+    },
+    {
+      "date": "2026-11-24",
+      "author": "telemetry-researcher-b",
+      "type": "research-correction",
+      "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+      "claimIds": [
+        "crush:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Code and prompts go to the model provider you choose; local storage in SQLite and logs in .crush; pseudonymous usage metrics (device hash, usage metadata, never prompts or responses per README) go to PostHog, disabled by CRUSH_DISABLE_METRICS=1, DO_NOT_TRACK=1 or options.disable_metrics; metrics are on by default and no first-run consent dialog was found. Hyper policies are separate and not captured.",
+        "checkedAt": "2026-11-16",
+        "nextReviewAt": "2027-03-16",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Code and prompts go to the model provider you choose; local storage in SQLite and logs in .crush; pseudonymous usage metrics (device hash, usage metadata, never prompts or responses per README) go to PostHog, disabled by CRUSH_DISABLE_METRICS=1, DO_NOT_TRACK=1 or options.disable_metrics; metrics are on by default and no first-run consent dialog was found. Hyper policies are separate and not captured. Telemetry (atomic revision 2): usage metrics on by default; off via CRUSH_DISABLE_METRICS, DO_NOT_TRACK or the disable_metrics config option.",
+        "checkedAt": "2026-11-16",
+        "nextReviewAt": "2027-03-16",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "supported"
+        }
+      },
+      "evidenceIds": [
+        "tel-2611-readme"
+      ]
     }
   ],
   "context": {
