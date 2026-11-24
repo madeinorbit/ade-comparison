@@ -5268,11 +5268,9 @@
         },
         "telemetry_defaults": {
           "support": "supported",
-          "answer": "No telemetry code; the update check runs by default for released builds.",
+          "answer": "No telemetry: a bounded search of the v0.1.1 source found no analytics or crash-reporting client and no outbound telemetry. The only network call is a GitHub release check, which is an update check, not telemetry.",
           "evidenceIds": [
-            "update",
-            "updui",
-            "s-data"
+            "tel-2611-source-search"
           ]
         },
         "telemetry_controls": {
@@ -5284,9 +5282,11 @@
           ]
         },
         "telemetry_off_switch": {
-          "support": "unknown",
-          "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-          "evidenceIds": []
+          "support": "not-applicable",
+          "answer": "Nothing to switch off: no ADE telemetry in the inspected source.",
+          "evidenceIds": [
+            "tel-2611-source-search"
+          ]
         },
         "consent_prompt": {
           "support": "unsupported",
@@ -5321,11 +5321,12 @@
         "s-data",
         "updui",
         "cfgcode",
-        "appcode"
+        "appcode",
+        "tel-2611-source-search"
       ],
       "checkedAt": "2026-11-17",
       "nextReviewAt": "2027-03-17",
-      "researcher": "researcher-batch18",
+      "researcher": "telemetry-researcher-d",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -6662,6 +6663,19 @@
       "visibility": "public",
       "commit": "02201ed231e37519541e9d92cd1e66316a7e97cb",
       "path": "internal"
+    },
+    {
+      "id": "tel-2611-source-search",
+      "kind": "source-inspected",
+      "url": "https://github.com/TechDufus/openkanban/tree/02201ed231e37519541e9d92cd1e66316a7e97cb",
+      "title": "OpenKanban v0.1.1 repository",
+      "locator": "Search of the whole Go repository and all package manifests (go.mod and workspace manifests) for posthog, sentry, segment, amplitude, mixpanel, plausible, umami, telemetry, analytics, captureException, DO_NOT_TRACK",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-24",
+      "finding": "At v0.1.1 no analytics, crash-reporting or usage-telemetry SDK is declared and no outbound telemetry call exists. The only network call is a GitHub release check, which is an update check, not telemetry.",
+      "visibility": "public",
+      "commit": "02201ed231e37519541e9d92cd1e66316a7e97cb",
+      "path": "go.mod"
     }
   ],
   "changes": [
@@ -6794,6 +6808,38 @@
         "reviewed": false
       },
       "evidenceIds": []
+    },
+    {
+      "date": "2026-11-24",
+      "author": "telemetry-researcher-d",
+      "type": "research-correction",
+      "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+      "claimIds": [
+        "openkanban:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Local-only data; no OpenKanban-side telemetry; the one network call is a GitHub release check with no opt-out; code and prompts go to whichever agent vendor the user runs.",
+        "checkedAt": "2026-11-17",
+        "nextReviewAt": "2027-03-17",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Local-only data; no OpenKanban-side telemetry; the one network call is a GitHub release check with no opt-out; code and prompts go to whichever agent vendor the user runs.",
+        "checkedAt": "2026-11-17",
+        "nextReviewAt": "2027-03-17",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "not-applicable"
+        }
+      },
+      "evidenceIds": [
+        "tel-2611-source-search"
+      ]
     }
   ],
   "context": {

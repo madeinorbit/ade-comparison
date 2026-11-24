@@ -5458,11 +5458,10 @@
           ]
         },
         "telemetry_defaults": {
-          "support": "partial",
-          "answer": "Telemetry ping + project count ON by default; update check + announcements/check always on regardless.",
+          "support": "supported",
+          "answer": "On by default: packaged v0.5.3 builds send an anonymous launch/daily ping and an open-project count to api.nodeterm.dev because settings.telemetryEnabled defaults to true; the update/announcement check runs regardless.",
           "evidenceIds": [
-            "docs-privacy",
-            "docs-faq"
+            "tel-2611-telemetry-gate"
           ]
         },
         "telemetry_controls": {
@@ -5474,9 +5473,11 @@
           ]
         },
         "telemetry_off_switch": {
-          "support": "unknown",
-          "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "In the app: the Settings > Privacy toggle stops the telemetry ping and the project count; DO_NOT_TRACK or NODETERM_TELEMETRY_DISABLED also stop them and are the only way to stop the update/announcement check.",
+          "evidenceIds": [
+            "tel-2611-telemetry-gate"
+          ]
         },
         "consent_prompt": {
           "support": "supported",
@@ -5504,11 +5505,12 @@
         "docs-privacy",
         "docs-faq",
         "kanban-doc",
-        "docs-ssh"
+        "docs-ssh",
+        "tel-2611-telemetry-gate"
       ],
       "checkedAt": "2026-11-12",
       "nextReviewAt": "2027-03-12",
-      "researcher": "researcher-16",
+      "researcher": "telemetry-researcher-d",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -6941,6 +6943,19 @@
       "visibility": "public",
       "commit": "6749cd0b171872d3ced720a27c1339f6eb7f44bf",
       "path": "src/renderer/state/githubIssues.ts"
+    },
+    {
+      "id": "tel-2611-telemetry-gate",
+      "kind": "source-inspected",
+      "url": "https://github.com/eneskirca/nodeterm/blob/d6641fe94841110a2184dd5bb1a1b360666b342d/src/main/telemetry.ts",
+      "title": "nodeterm v0.5.3 src/main/telemetry.ts",
+      "locator": "telemetryAllowed(); defaults in src/shared/types.ts (telemetryEnabled: true); toggle in src/renderer/components/settings/sections/PrivacySection.tsx",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-24",
+      "finding": "At v0.5.3 packaged builds ping api.nodeterm.dev/v1/ping with version/OS and an anonymous device id on launch and daily. telemetryAllowed() returns false under DO_NOT_TRACK or NODETERM_TELEMETRY_DISABLED, otherwise follows settings.telemetryEnabled, which defaults to true and is exposed as a toggle in Settings > Privacy. The toggle also gates the open-project count sent with the update check, but not the check itself.",
+      "visibility": "public",
+      "commit": "d6641fe94841110a2184dd5bb1a1b360666b342d",
+      "path": "src/main/telemetry.ts"
     }
   ],
   "changes": [
@@ -7112,6 +7127,38 @@
         "reviewed": false
       },
       "evidenceIds": []
+    },
+    {
+      "date": "2026-11-24",
+      "author": "telemetry-researcher-d",
+      "type": "research-correction",
+      "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+      "claimIds": [
+        "nodeterm:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Content stays on user machines (code/prompts/credentials/logs/artifacts never collected; only in-transit notification text passes the push server, unstored). Anonymous telemetry ON by default with Settings/env off-switch; update/check calls always on; relay E2EE with metadata visible; subprocessors: Stripe, GitHub CDN, Android FCM/ML Kit, OS speech services.",
+        "checkedAt": "2026-11-12",
+        "nextReviewAt": "2027-03-12",
+        "subanswers": {
+          "telemetry_defaults": "partial",
+          "telemetry_off_switch": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Content stays on user machines (code/prompts/credentials/logs/artifacts never collected; only in-transit notification text passes the push server, unstored). Anonymous telemetry ON by default with Settings/env off-switch; update/check calls always on; relay E2EE with metadata visible; subprocessors: Stripe, GitHub CDN, Android FCM/ML Kit, OS speech services.",
+        "checkedAt": "2026-11-12",
+        "nextReviewAt": "2027-03-12",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "supported"
+        }
+      },
+      "evidenceIds": [
+        "tel-2611-telemetry-gate"
+      ]
     }
   ],
   "context": {

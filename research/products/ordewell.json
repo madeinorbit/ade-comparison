@@ -5094,9 +5094,9 @@
         },
         "telemetry_defaults": {
           "support": "supported",
-          "answer": "Telemetry defaults: daily.",
+          "answer": "On by default: v0.14.11 sends a daily check with version and a random install ID to ordewell.ai after a one-time notice, with no prior consent step; nothing else is sent.",
           "evidenceIds": [
-            "readme"
+            "tel-2611-what-sends"
           ]
         },
         "telemetry_controls": {
@@ -5107,9 +5107,11 @@
           ]
         },
         "telemetry_off_switch": {
-          "support": "unknown",
-          "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "In the app: the desktop app's Settings switch 'Check for new versions' (and VS Code's telemetry setting for the extension) turns it off; ORDEWELL_NO_VERSION_CHECK=1 or DO_NOT_TRACK=1 also do.",
+          "evidenceIds": [
+            "tel-2611-what-sends"
+          ]
         },
         "consent_prompt": {
           "support": "supported",
@@ -5137,11 +5139,12 @@
         "webreadme",
         "help",
         "site",
-        "versioncheck"
+        "versioncheck",
+        "tel-2611-what-sends"
       ],
       "checkedAt": "2026-11-17",
       "nextReviewAt": "2027-03-17",
-      "researcher": "researcher-batch15",
+      "researcher": "telemetry-researcher-d",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -6182,6 +6185,19 @@
       "visibility": "public",
       "commit": "ae1cfd1af6d5d0ed1a2ceea1f1684079a2a18c96",
       "path": "assets/readme/tui-plan-pane.png"
+    },
+    {
+      "id": "tel-2611-what-sends",
+      "kind": "source-inspected",
+      "url": "https://github.com/ordewell/ordewell/blob/9f03b8d653b9f70680d3da698fe0e4a225691055/packages/core/src/services/VersionCheck.ts",
+      "title": "Ordewell v0.14.11 VersionCheck.ts and README 'What Ordewell sends'",
+      "locator": "VersionCheck.ts line ~206 (OFF conditions); README.md section 'What Ordewell sends'",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-24",
+      "finding": "At v0.14.11 Ordewell sends a daily check with its version and a random install ID to ordewell.ai after a one-time notice. VersionCheck returns OFF when the client's telemetry setting is false, ORDEWELL_NO_VERSION_CHECK or DO_NOT_TRACK is set; the README adds that the desktop app's Settings has a 'Check for new versions' switch and VS Code's telemetry setting turns it off for the extension.",
+      "visibility": "public",
+      "commit": "9f03b8d653b9f70680d3da698fe0e4a225691055",
+      "path": "packages/core/src/services/VersionCheck.ts"
     }
   ],
   "changes": [
@@ -6262,6 +6278,38 @@
         "reviewed": false
       },
       "evidenceIds": []
+    },
+    {
+      "date": "2026-11-24",
+      "author": "telemetry-researcher-d",
+      "type": "research-correction",
+      "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+      "claimIds": [
+        "ordewell:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Code, prompts and logs stay local and go to the chosen providers; the daily version check sends version and a random install ID.",
+        "checkedAt": "2026-11-17",
+        "nextReviewAt": "2027-03-17",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Code, prompts and logs stay local and go to the chosen providers; the daily version check sends version and a random install ID.",
+        "checkedAt": "2026-11-17",
+        "nextReviewAt": "2027-03-17",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "supported"
+        }
+      },
+      "evidenceIds": [
+        "tel-2611-what-sends"
+      ]
     }
   ],
   "context": {

@@ -5330,13 +5330,10 @@
           ]
         },
         "telemetry_defaults": {
-          "support": "partial",
-          "answer": "Usage reports are on by default, sent about a minute after first start and then once a day. Crash reports are off unless turned on. Public docs, source and the telemetry document agree. The relay drops IP addresses.",
+          "support": "supported",
+          "answer": "On by default: at v0.3.1 daily usage reports are on unless turned off; crash reports stay off unless turned on.",
           "evidenceIds": [
-            "telemetry-doc",
-            "v030-consent",
-            "nov06b-doc-privacy",
-            "nov06b-doc-availability"
+            "tel-2611-telemetry-doc"
           ]
         },
         "telemetry_controls": {
@@ -5348,9 +5345,11 @@
           ]
         },
         "telemetry_off_switch": {
-          "support": "unknown",
-          "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "In the app: Settings > Privacy turns usage reports off; 'podium telemetry off', DO_NOT_TRACK=1 and PODIUM_TELEMETRY=off are additional controls.",
+          "evidenceIds": [
+            "tel-2611-telemetry-doc"
+          ]
         },
         "consent_prompt": {
           "support": "unsupported",
@@ -5394,11 +5393,12 @@
         "nov06c-config-connect",
         "nov21-feature-availability",
         "nov21-src-event-retention",
-        "nov21-src-quota-backup-retention"
+        "nov21-src-quota-backup-retention",
+        "tel-2611-telemetry-doc"
       ],
       "checkedAt": "2026-11-06",
       "nextReviewAt": "2026-12-06",
-      "researcher": "researcher-ade-126",
+      "researcher": "telemetry-researcher-d",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -7999,6 +7999,19 @@
       "visibility": "public",
       "commit": "ec6ff505f69aeb358eb744596e70e984996c2e42",
       "path": "apps/server/src/modules/quota-history/service.ts"
+    },
+    {
+      "id": "tel-2611-telemetry-doc",
+      "kind": "documented",
+      "url": "https://github.com/madeinorbit/podium/blob/33af45509cbcf32b5eb4553966386f67290c7063/docs/TELEMETRY.md",
+      "title": "Podium v0.3.1 docs/TELEMETRY.md",
+      "locator": "opening summary and settings table (Default, Where, Kill switch); the settings UI is apps/web/src/features/settings/sections/privacy.tsx",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-24",
+      "finding": "At v0.3.1 usage reports are on unless turned off and crash reports are off unless turned on. One switch turns usage reports off: Settings > Privacy, or 'podium telemetry off'. DO_NOT_TRACK=1 or PODIUM_TELEMETRY=off in the server environment disables everything. An absent usage value counts as on.",
+      "visibility": "public",
+      "commit": "33af45509cbcf32b5eb4553966386f67290c7063",
+      "path": "docs/TELEMETRY.md"
     }
   ],
   "changes": [
@@ -25648,6 +25661,38 @@
         "reviewed": false
       },
       "evidenceIds": []
+    },
+    {
+      "date": "2026-11-24",
+      "author": "telemetry-researcher-d",
+      "type": "research-correction",
+      "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+      "claimIds": [
+        "podium:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Docs state repositories and native harness credentials stay on machines you control and server state lives in a documented directory. Since 0.2.0 a daily usage report is on by default and can be turned off; crash reports stay opt-in. Usage reports carry an install id, schema version, Podium version, OS, architecture, bucketed install age and machine count, session counts per harness and whether issues were used. Crash reports carry the same install id, versions, OS and architecture, a fixed error type and up to 20 stack frames, each with a Podium source file path, line and function when there is one; error messages and frames outside Podium are dropped. Neither tier sends prompts, transcripts, your code or paths outside the Podium source tree. Model-provider handling is the harness own. Hosted analytics and website analytics are separate paths.",
+        "checkedAt": "2026-11-06",
+        "nextReviewAt": "2026-12-06",
+        "subanswers": {
+          "telemetry_defaults": "partial",
+          "telemetry_off_switch": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Docs state repositories and native harness credentials stay on machines you control and server state lives in a documented directory. Since 0.2.0 a daily usage report is on by default and can be turned off; crash reports stay opt-in. Usage reports carry an install id, schema version, Podium version, OS, architecture, bucketed install age and machine count, session counts per harness and whether issues were used. Crash reports carry the same install id, versions, OS and architecture, a fixed error type and up to 20 stack frames, each with a Podium source file path, line and function when there is one; error messages and frames outside Podium are dropped. Neither tier sends prompts, transcripts, your code or paths outside the Podium source tree. Model-provider handling is the harness own. Hosted analytics and website analytics are separate paths.",
+        "checkedAt": "2026-11-06",
+        "nextReviewAt": "2026-12-06",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "supported"
+        }
+      },
+      "evidenceIds": [
+        "tel-2611-telemetry-doc"
+      ]
     }
   ],
   "context": {

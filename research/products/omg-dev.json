@@ -4999,9 +4999,10 @@
         },
         "telemetry_defaults": {
           "support": "partial",
-          "answer": "Self-run: no outbound telemetry found; hosted: Umami analytics and replay on by default.",
+          "answer": "On by default (hosted): omg.dev's hosted app runs Umami page/event analytics and sampled masked session replay with no consent step for them. Self-run: no analytics or crash client in the v0.7.13 source, so a self-run install sends no ADE telemetry.",
           "evidenceIds": [
-            "site-privacy"
+            "tel-2611-privacy",
+            "tel-2611-selfrun-source"
           ]
         },
         "telemetry_controls": {
@@ -5013,8 +5014,10 @@
         },
         "telemetry_off_switch": {
           "support": "unknown",
-          "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-          "evidenceIds": []
+          "answer": "Off switch for hosted analytics not established: the privacy policy offers cookie-banner consent and GPC refusal only for advertising tags and describes no control for Umami or session replay; silence is not proof of no control. Self-run has nothing to switch off.",
+          "evidenceIds": [
+            "tel-2611-privacy"
+          ]
         },
         "consent_prompt": {
           "support": "supported",
@@ -5039,11 +5042,13 @@
         "readme",
         "site-privacy",
         "caps",
-        "clireadme"
+        "clireadme",
+        "tel-2611-privacy",
+        "tel-2611-selfrun-source"
       ],
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
-      "researcher": "researcher-batch09",
+      "researcher": "telemetry-researcher-d",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -6284,6 +6289,32 @@
       "visibility": "public",
       "commit": "9983b663a77adb2ff62604cef637bb424d63354d",
       "path": "docs/no-project-chat.md"
+    },
+    {
+      "id": "tel-2611-privacy",
+      "kind": "documented",
+      "url": "https://omg.dev/privacy",
+      "title": "Privacy Policy — omg",
+      "locator": "What we collect > Usage and diagnostics; Advertising and measurement; Your rights",
+      "sourceDate": "2026-10-05",
+      "retrievedAt": "2026-11-24",
+      "finding": "The hosted service runs a self-hosted Umami instance for page and event analytics plus sampled, input-masked session replay (chat, terminal, inspect and secrets panes excluded); server logs and errors go to Axiom. Only the Meta Pixel and Google Ads tags wait for cookie-banner consent in the EEA/UK/Switzerland, and GPC is treated as a refusal of those tags. No opt-out is described for Umami or session replay.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "tel-2611-selfrun-source",
+      "kind": "source-inspected",
+      "url": "https://github.com/BennyKok/omg.dev/tree/e90e1657da48b8486190e9e2edc09235ce33f444",
+      "title": "omg.dev v0.7.13 repository",
+      "locator": "Repository-wide search of src/, web/, packages/, desktop/ for posthog, sentry, segment, amplitude, mixpanel, umami, telemetry, analytics",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-24",
+      "finding": "At v0.7.13 the self-run runtime, web UI and desktop have no analytics or crash-reporting client; web/.env.example says Umami for the embedded onboarding survey is fired by the embedding host, not this app.",
+      "visibility": "public",
+      "commit": "e90e1657da48b8486190e9e2edc09235ce33f444",
+      "path": "web/.env.example"
     }
   ],
   "changes": [
@@ -6543,6 +6574,39 @@
         "reviewed": false
       },
       "evidenceIds": []
+    },
+    {
+      "date": "2026-11-24",
+      "author": "telemetry-researcher-d",
+      "type": "research-correction",
+      "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+      "claimIds": [
+        "omg-dev:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Self-run: code, prompts and transcripts stay on your machine apart from what the chosen agent sends to its provider; no third-party analytics found in the runtime or web UI. Hosted: prompts and code go to Anthropic, OpenAI or xAI, Umami and ad pixels run on omg.dev, each Computer is in its own VM, no training on code.",
+        "checkedAt": "2026-11-16",
+        "nextReviewAt": "2027-03-16",
+        "subanswers": {
+          "telemetry_defaults": "partial",
+          "telemetry_off_switch": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Self-run: code, prompts and transcripts stay on your machine apart from what the chosen agent sends to its provider; no third-party analytics found in the runtime or web UI. Hosted: prompts and code go to Anthropic, OpenAI or xAI, Umami and ad pixels run on omg.dev, each Computer is in its own VM, no training on code.",
+        "checkedAt": "2026-11-16",
+        "nextReviewAt": "2027-03-16",
+        "subanswers": {
+          "telemetry_defaults": "partial",
+          "telemetry_off_switch": "unknown"
+        }
+      },
+      "evidenceIds": [
+        "tel-2611-privacy",
+        "tel-2611-selfrun-source"
+      ]
     }
   ],
   "context": {

@@ -5137,10 +5137,9 @@
         },
         "telemetry_defaults": {
           "support": "supported",
-          "answer": "analyticsEnabled and crashReportsEnabled default true in release builds; Debug sends none.",
+          "answer": "On by default: v2026.11.23 release builds start PostHog usage analytics and Sentry crash reporting because both settings default to true; Debug builds send none.",
           "evidenceIds": [
-            "settingsfields",
-            "readme"
+            "tel-2611-settings-defaults"
           ]
         },
         "telemetry_controls": {
@@ -5152,9 +5151,11 @@
           ]
         },
         "telemetry_off_switch": {
-          "support": "unknown",
-          "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "In the app: Settings > Advanced has separate toggles for analytics and crash reports (crash reporting off takes effect after restart).",
+          "evidenceIds": [
+            "tel-2611-settings-defaults"
+          ]
         },
         "consent_prompt": {
           "support": "unsupported",
@@ -5185,11 +5186,12 @@
         "workflows",
         "settingsfields",
         "profiles",
-        "wf-retention"
+        "wf-retention",
+        "tel-2611-settings-defaults"
       ],
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
-      "researcher": "agent:ADE-90",
+      "researcher": "telemetry-researcher-d",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -6462,6 +6464,19 @@
       "visibility": "public",
       "commit": "ac3c164d8fc0a729161dd512ad6a245e1ae14c93",
       "path": "docs/components/remote-folders.md"
+    },
+    {
+      "id": "tel-2611-settings-defaults",
+      "kind": "source-inspected",
+      "url": "https://github.com/onevcat/Prowl/blob/8cc9ff2fbe0724724ca520737e6aad5df1f1fa36/App/Sources/Features/Settings/Models/GlobalSettings.swift",
+      "title": "Prowl v2026.11.23 analytics and crash-report defaults and toggles",
+      "locator": "GlobalSettings.swift default (analyticsEnabled: true, crashReportsEnabled: true, lines ~79-80); App/Sources/App/ProwlApp.swift Sentry and PostHog setup (lines ~182-210); App/Sources/Features/Settings/Views/AdvancedSettingsView.swift Toggles",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-24",
+      "finding": "At v2026.11.23 the default global settings enable both analytics and crash reports. ProwlApp starts Sentry and PostHog at launch when those settings are on and the release Info.plist carries the keys. Settings > Advanced has a Toggle for each.",
+      "visibility": "public",
+      "commit": "8cc9ff2fbe0724724ca520737e6aad5df1f1fa36",
+      "path": "App/Sources/Features/Settings/Models/GlobalSettings.swift"
     }
   ],
   "changes": [
@@ -6830,6 +6845,38 @@
         "reviewed": false
       },
       "evidenceIds": []
+    },
+    {
+      "date": "2026-11-24",
+      "author": "telemetry-researcher-d",
+      "type": "research-correction",
+      "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+      "claimIds": [
+        "prowl:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Terminals, code and agent sessions stay on your Mac; release builds send PostHog usage analytics (action names, anonymous install ID) and Sentry crash reports, each with a Settings Advanced switch; updates, git remotes, gh, SSH and Remote Mirror traffic go only where you configure.",
+        "checkedAt": "2026-11-16",
+        "nextReviewAt": "2027-03-16",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Terminals, code and agent sessions stay on your Mac; release builds send PostHog usage analytics (action names, anonymous install ID) and Sentry crash reports, each with a Settings Advanced switch; updates, git remotes, gh, SSH and Remote Mirror traffic go only where you configure.",
+        "checkedAt": "2026-11-16",
+        "nextReviewAt": "2027-03-16",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "supported"
+        }
+      },
+      "evidenceIds": [
+        "tel-2611-settings-defaults"
+      ]
     }
   ],
   "context": {

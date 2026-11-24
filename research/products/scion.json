@@ -4259,9 +4259,11 @@
      "evidenceIds": []
     },
     "telemetry_defaults": {
-     "support": "unknown",
-     "answer": "The checked first-party sources do not establish telemetry defaults for this scoped product.",
-     "evidenceIds": []
+     "support": "supported",
+     "answer": "No telemetry: Scion v0.3.0 sends no usage or crash data to its vendor; its telemetry pipeline exports agent traces, metrics and logs only to the operator's own GCP project using the operator's credentials, and no analytics client ships in the CLI, Hub or web dashboard.",
+     "evidenceIds": [
+      "tel-2611-telemetry-pipeline"
+     ]
     },
     "telemetry_controls": {
      "support": "supported",
@@ -4271,9 +4273,11 @@
      ]
     },
     "telemetry_off_switch": {
-     "support": "unknown",
-     "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-     "evidenceIds": []
+     "support": "not-applicable",
+     "answer": "Nothing to switch off: no ADE telemetry to the vendor. The operator's own export pipeline can be disabled with telemetry.enabled false, SCION_TELEMETRY_ENABLED=false or --disable-telemetry.",
+     "evidenceIds": [
+      "tel-2611-telemetry-pipeline"
+     ]
     },
     "consent_prompt": {
      "support": "unknown",
@@ -4296,11 +4300,12 @@
    "evidenceIds": [
     "credentials",
     "security",
-    "gaps41-telemetry"
+    "gaps41-telemetry",
+    "tel-2611-telemetry-pipeline"
    ],
    "checkedAt": "2026-11-08",
    "nextReviewAt": "2026-12-08",
-   "researcher": "researcher-ade41",
+   "researcher": "telemetry-researcher-d",
    "publication": "public-candidate",
    "review": null,
    "contradictions": []
@@ -5168,6 +5173,19 @@
    "visibility": "public",
    "commit": "643a440722c9656f2ab4ad368511c57738643e3b",
    "path": "web/src/components/pages/project-settings.ts"
+  },
+  {
+   "id": "tel-2611-telemetry-pipeline",
+   "kind": "source-inspected",
+   "url": "https://github.com/GoogleCloudPlatform/scion/blob/7035829be4f38efe1ef43faed34404fbd78141e4/docs-site/src/content/docs/glossary.md",
+   "title": "Scion v0.3.0 telemetry pipeline and analytics search",
+   "locator": "docs-site glossary 'Telemetry pipeline'; pkg/telemetrycontract/contract.go package comment; cmd/common.go SCION_TELEMETRY_ENABLED and --disable-telemetry; repository-wide search of cmd/, pkg/ and web/ for posthog, sentry, gtag, google-analytics, segment, amplitude",
+   "sourceDate": null,
+   "retrievedAt": "2026-11-24",
+   "finding": "At v0.3.0 Scion's telemetry is an in-container OTLP pipeline that collects harness traces, metrics and logs and exports them to the operator's own cloud backend (GCP Cloud Monitoring, Trace, Logging) only with the operator's scion-telemetry-gcp-credentials secret; without it nothing is exported. The Hub stores session metrics in its own database. No vendor analytics or crash-reporting client exists in the CLI, Hub or web dashboard. telemetry.enabled, SCION_TELEMETRY_ENABLED and --disable-telemetry control the operator's own pipeline.",
+   "visibility": "public",
+   "commit": "7035829be4f38efe1ef43faed34404fbd78141e4",
+   "path": "docs-site/src/content/docs/glossary.md"
   }
  ],
  "changes": [
@@ -5584,6 +5602,38 @@
     "reviewed": false
    },
    "evidenceIds": []
+  },
+  {
+   "date": "2026-11-24",
+   "author": "telemetry-researcher-d",
+   "type": "research-correction",
+   "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+   "claimIds": [
+    "scion:OWN-03"
+   ],
+   "before": {
+    "support": "partial",
+    "answer": "Scion supports explicit hosted credentials and optional workstation credential injection. Its agent telemetry collection can be disabled through telemetry.enabled, SCION_TELEMETRY_ENABLED or --disable-telemetry, subject to hosted project policy.",
+    "checkedAt": "2026-11-08",
+    "nextReviewAt": "2026-12-08",
+    "subanswers": {
+     "telemetry_defaults": "unknown",
+     "telemetry_off_switch": "unknown"
+    }
+   },
+   "after": {
+    "support": "partial",
+    "answer": "Scion supports explicit hosted credentials and optional workstation credential injection. Its agent telemetry collection can be disabled through telemetry.enabled, SCION_TELEMETRY_ENABLED or --disable-telemetry, subject to hosted project policy.",
+    "checkedAt": "2026-11-08",
+    "nextReviewAt": "2026-12-08",
+    "subanswers": {
+     "telemetry_defaults": "supported",
+     "telemetry_off_switch": "not-applicable"
+    }
+   },
+   "evidenceIds": [
+    "tel-2611-telemetry-pipeline"
+   ]
   }
  ],
  "context": {

@@ -5022,9 +5022,9 @@
         },
         "telemetry_defaults": {
           "support": "supported",
-          "answer": "enableInstallTelemetry defaults true; enableAnalytics defaults false.",
+          "answer": "On by default: v1.6.0 sends an anonymous install/update ping because enableInstallTelemetry defaults to true; broader analytics (enableAnalytics) stays off unless the user opts in.",
           "evidenceIds": [
-            "settings"
+            "tel-2611-install-telemetry"
           ]
         },
         "telemetry_controls": {
@@ -5037,9 +5037,11 @@
           ]
         },
         "telemetry_off_switch": {
-          "support": "unknown",
-          "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "In the app: the interactive settings selector has an 'Install telemetry' row that sets it to false; PI_TELEMETRY=0 and PI_OFFLINE also stop it.",
+          "evidenceIds": [
+            "tel-2611-install-telemetry"
+          ]
         },
         "consent_prompt": {
           "support": "partial",
@@ -5067,11 +5069,12 @@
         "sessions",
         "settings",
         "envvars",
-        "telemetrysrc"
+        "telemetrysrc",
+        "tel-2611-install-telemetry"
       ],
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
-      "researcher": "researcher-pi",
+      "researcher": "telemetry-researcher-d",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -6229,6 +6232,19 @@
       "visibility": "public",
       "commit": "9adbd29b40ee27ff1decf0fc87cbe180b40924f5",
       "path": "src/runtime.ts"
+    },
+    {
+      "id": "tel-2611-install-telemetry",
+      "kind": "source-inspected",
+      "url": "https://github.com/earendil-works/pi/blob/faac585884ae2c013a6b1400f3e9e77f10b34bac/packages/coding-agent/src/core/telemetry.ts",
+      "title": "Pi v1.6.0 install telemetry, defaults and settings selector",
+      "locator": "isInstallTelemetryEnabled() in packages/coding-agent/src/core/telemetry.ts; settings-defaults.ts (enableInstallTelemetry: true, enableAnalytics: false); modes/interactive/components/settings-selector.ts 'Install telemetry' row",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-24",
+      "finding": "At v1.6.0 enableInstallTelemetry defaults to true, so Pi sends an anonymous version/update ping after detected updates; enableAnalytics defaults to false. PI_TELEMETRY overrides the setting when set. The interactive settings selector lists an 'Install telemetry' row with true/false values.",
+      "visibility": "public",
+      "commit": "faac585884ae2c013a6b1400f3e9e77f10b34bac",
+      "path": "packages/coding-agent/src/core/telemetry.ts"
     }
   ],
   "changes": [
@@ -6335,6 +6351,38 @@
         "reviewed": false
       },
       "evidenceIds": []
+    },
+    {
+      "date": "2026-11-24",
+      "author": "telemetry-researcher-d",
+      "type": "research-correction",
+      "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+      "claimIds": [
+        "pi:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Prompts, code and credentials go to the selected model provider; Pi stores sessions and auth.json locally; /share uploads a session to Radius or a private GitHub gist on request; install/update telemetry is on by default (enableInstallTelemetry) with PI_TELEMETRY and a setting to opt out; analytics is opt-in.",
+        "checkedAt": "2026-11-16",
+        "nextReviewAt": "2027-03-16",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Prompts, code and credentials go to the selected model provider; Pi stores sessions and auth.json locally; /share uploads a session to Radius or a private GitHub gist on request; install/update telemetry is on by default (enableInstallTelemetry) with PI_TELEMETRY and a setting to opt out; analytics is opt-in.",
+        "checkedAt": "2026-11-16",
+        "nextReviewAt": "2027-03-16",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "supported"
+        }
+      },
+      "evidenceIds": [
+        "tel-2611-install-telemetry"
+      ]
     }
   ],
   "context": {

@@ -5019,9 +5019,9 @@
         },
         "telemetry_defaults": {
           "support": "supported",
-          "answer": "privacy.usageStatisticsEnabled defaults to true.",
+          "answer": "On by default: v0.28.4 sends usage statistics to Alibaba Cloud RUM because privacy.usageStatisticsEnabled defaults to true; separate OpenTelemetry export (telemetry.enabled) is user-directed and off by default.",
           "evidenceIds": [
-            "settings"
+            "tel-2611-usage-stats"
           ]
         },
         "telemetry_controls": {
@@ -5032,9 +5032,11 @@
           ]
         },
         "telemetry_off_switch": {
-          "support": "unknown",
-          "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "In the app: the /settings dialog's Privacy > 'Enable Usage Statistics' switch turns it off; privacy.usageStatisticsEnabled false in settings.json does the same.",
+          "evidenceIds": [
+            "tel-2611-usage-stats"
+          ]
         },
         "consent_prompt": {
           "support": "unknown",
@@ -5059,11 +5061,12 @@
         "tos",
         "auth",
         "settings",
-        "sessions"
+        "sessions",
+        "tel-2611-usage-stats"
       ],
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
-      "researcher": "researcher-qwen-code",
+      "researcher": "telemetry-researcher-d",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -6294,6 +6297,19 @@
       "visibility": "public",
       "commit": "f35dde84157f992bc324c0a3f59b1119344a683d",
       "path": "packages/qwen-live/src/agent-detector.ts"
+    },
+    {
+      "id": "tel-2611-usage-stats",
+      "kind": "source-inspected",
+      "url": "https://github.com/QwenLM/qwen-code/blob/e8424c88ddd463c56602063efde57c328b917cd4/packages/core/src/telemetry/qwen-logger/qwen-logger.ts",
+      "title": "Qwen Code v0.28.4 usage statistics logger and settings schema",
+      "locator": "qwen-logger.ts USAGE_STATS_HOSTNAME (line ~83) and getUsageStatisticsEnabled() gate (line ~219); packages/cli/src/config/settingsSchema.ts privacy.usageStatisticsEnabled (label 'Enable Usage Statistics', category Privacy, default true, showInDialog true)",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-24",
+      "finding": "At v0.28.4 QwenLogger sends RUM usage events to an Alibaba Cloud RUM endpoint (gb4w8c3ygj-default-sea.rum.aliyuncs.com) whenever usage statistics are enabled. privacy.usageStatisticsEnabled defaults to true and is shown in the interactive /settings dialog as 'Enable Usage Statistics' under Privacy; it can also be set in settings.json.",
+      "visibility": "public",
+      "commit": "e8424c88ddd463c56602063efde57c328b917cd4",
+      "path": "packages/core/src/telemetry/qwen-logger/qwen-logger.ts"
     }
   ],
   "changes": [
@@ -6478,6 +6494,38 @@
         "reviewed": false
       },
       "evidenceIds": []
+    },
+    {
+      "date": "2026-11-24",
+      "author": "telemetry-researcher-d",
+      "type": "research-correction",
+      "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+      "claimIds": [
+        "qwen-code:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Prompts and code go to the selected provider under per-auth terms; transcripts stay local; usage statistics controlled by privacy.usageStatisticsEnabled (also stops the models.dev catalog refresh); telemetry export is configurable; Chrome extension and Browser Use have their own data notes.",
+        "checkedAt": "2026-11-16",
+        "nextReviewAt": "2027-03-16",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Prompts and code go to the selected provider under per-auth terms; transcripts stay local; usage statistics controlled by privacy.usageStatisticsEnabled (also stops the models.dev catalog refresh); telemetry export is configurable; Chrome extension and Browser Use have their own data notes.",
+        "checkedAt": "2026-11-16",
+        "nextReviewAt": "2027-03-16",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "supported"
+        }
+      },
+      "evidenceIds": [
+        "tel-2611-usage-stats"
+      ]
     }
   ],
   "context": {

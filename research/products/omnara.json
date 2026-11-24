@@ -4726,8 +4726,11 @@
         },
         "telemetry_defaults": {
           "support": "unknown",
-          "answer": "Telemetry defaults: no explicit product-scoped answer found in the checked first-party material.",
-          "evidenceIds": []
+          "answer": "Telemetry default not established: the public source (daemon, server and web app at omnarad-v0.2.27) has no analytics or crash client, so self-hosted installs send no ADE telemetry from that code, but the Omnara privacy policy says hosted services collect usage analytics and crash data without saying whether that comes from the Cloud app or the website.",
+          "evidenceIds": [
+            "tel-2611-privacy",
+            "tel-2611-source"
+          ]
         },
         "telemetry_controls": {
           "support": "unknown",
@@ -4736,8 +4739,10 @@
         },
         "telemetry_off_switch": {
           "support": "unknown",
-          "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-          "evidenceIds": []
+          "answer": "Off switch not established: the privacy policy describes no analytics opt-out for Omnara Cloud, and silence is not proof of no control.",
+          "evidenceIds": [
+            "tel-2611-privacy"
+          ]
         },
         "consent_prompt": {
           "support": "unknown",
@@ -4768,11 +4773,13 @@
         "nov07-tools-mcp",
         "nov07-machines-pools",
         "b10-readme",
-        "b10-pricing"
+        "b10-pricing",
+        "tel-2611-privacy",
+        "tel-2611-source"
       ],
       "checkedAt": "2026-11-07",
       "nextReviewAt": "2026-12-07",
-      "researcher": "researcher-ade132",
+      "researcher": "telemetry-researcher-d",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -6136,6 +6143,32 @@
       "title": "omnara-ai/omnara web usage views",
       "locator": "routes/OrganizationUsagePage.tsx, routes/ProjectUsagePage.tsx, routes/AgentProfileView.tsx; components/agents/AgentSidebar.tsx useAgentUsage(orgId, projectId, agentId, includeSubagents); components/usage (searched csv, export, download, blob)",
       "finding": "The web app has organization and project usage pages with a date-range menu and timeseries panel, usage on agent profile pages, and a per-agent usage panel in the agent sidebar with an include-subagents toggle (on by default) that shows provider-reported cost and per-model rows. The usage components contain no CSV or file download (searched csv, export, download, blob)."
+    },
+    {
+      "id": "tel-2611-privacy",
+      "kind": "documented",
+      "url": "https://www.omnara.com/privacy",
+      "title": "Privacy Policy | Omnara",
+      "locator": "2. Information We Collect > Automatically Collected Information; 4. Data Sharing; 8. Your Rights",
+      "sourceDate": "2026-11-12",
+      "retrievedAt": "2026-11-24",
+      "finding": "The policy lists automatically collected 'Analytics: Performance metrics and usage patterns' and log data including features accessed and crashes, shared with service providers for analytics. It names no analytics vendor, does not say which surface (website or app) collects it, and describes no opt-out other than emailing for sale/sharing rights.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "tel-2611-source",
+      "kind": "source-inspected",
+      "url": "https://github.com/omnara-ai/omnara/tree/313ac70cc1991e013c6fc54813cb13eae6be6992",
+      "title": "Omnara omnarad-v0.2.27 repository",
+      "locator": "Repository-wide search (Go services, frontend/apps/web, manifests) for posthog, sentry, segment, amplitude, mixpanel, telemetry, analytics, captureException",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-24",
+      "finding": "At omnarad-v0.2.27 the public source (Go daemon/server and frontend/apps/web) ships no analytics or crash-reporting client; PostHog appears only in a user-built example agent that queries the user's own PostHog project.",
+      "visibility": "public",
+      "commit": "313ac70cc1991e013c6fc54813cb13eae6be6992",
+      "path": "frontend/apps/web/package.json"
     }
   ],
   "changes": [
@@ -8223,6 +8256,39 @@
         "reviewed": false
       },
       "evidenceIds": []
+    },
+    {
+      "date": "2026-11-24",
+      "author": "telemetry-researcher-d",
+      "type": "research-correction",
+      "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+      "claimIds": [
+        "omnara:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Self-hosting controls data stores; machine deletion does not delete agent history/artifacts. Workers send model calls to the provider configured for the project (BYO OpenAI, Anthropic, OpenRouter, Bedrock, LiteLLM, Ollama or compatible endpoints, or Omnara-managed models on Cloud); separate vendor and provider data policies were not read in this pass.",
+        "checkedAt": "2026-11-07",
+        "nextReviewAt": "2026-12-07",
+        "subanswers": {
+          "telemetry_defaults": "unknown",
+          "telemetry_off_switch": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Self-hosting controls data stores; machine deletion does not delete agent history/artifacts. Workers send model calls to the provider configured for the project (BYO OpenAI, Anthropic, OpenRouter, Bedrock, LiteLLM, Ollama or compatible endpoints, or Omnara-managed models on Cloud); separate vendor and provider data policies were not read in this pass.",
+        "checkedAt": "2026-11-07",
+        "nextReviewAt": "2026-12-07",
+        "subanswers": {
+          "telemetry_defaults": "unknown",
+          "telemetry_off_switch": "unknown"
+        }
+      },
+      "evidenceIds": [
+        "tel-2611-privacy",
+        "tel-2611-source"
+      ]
     }
   ],
   "context": {

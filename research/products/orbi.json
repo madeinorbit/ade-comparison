@@ -5179,10 +5179,9 @@
         },
         "telemetry_defaults": {
           "support": "supported",
-          "answer": "Nothing is sent by default in the engine; Telegram is off until configured.",
+          "answer": "No telemetry: a bounded search of the v0.7.62 source found no analytics or crash-reporting client and no outbound telemetry. Telegram notifications stay off until the user configures them.",
           "evidenceIds": [
-            "srch-tele",
-            "cfg"
+            "tel-2611-source-search"
           ]
         },
         "telemetry_controls": {
@@ -5193,9 +5192,11 @@
           ]
         },
         "telemetry_off_switch": {
-          "support": "unknown",
-          "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-          "evidenceIds": []
+          "support": "not-applicable",
+          "answer": "Nothing to switch off: no ADE telemetry in the inspected source.",
+          "evidenceIds": [
+            "tel-2611-source-search"
+          ]
         },
         "consent_prompt": {
           "support": "unsupported",
@@ -5225,11 +5226,12 @@
         "ops",
         "cfg",
         "prov",
-        "c-model"
+        "c-model",
+        "tel-2611-source-search"
       ],
       "checkedAt": "2026-11-17",
       "nextReviewAt": "2027-03-17",
-      "researcher": "researcher-batch14",
+      "researcher": "telemetry-researcher-d",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -6410,6 +6412,19 @@
       "visibility": "public",
       "commit": "892f350cf287eb7321aaa2a82d4cc9471d7a5de0",
       "path": "src/orbi"
+    },
+    {
+      "id": "tel-2611-source-search",
+      "kind": "source-inspected",
+      "url": "https://github.com/orbi-build/orbi/tree/6bf26c9748913a4e104f339c5cd00b0551174181",
+      "title": "Orbi engine v0.7.62 repository",
+      "locator": "Search of the engine source and tests and all package manifests (pyproject.toml and workspace manifests) for posthog, sentry, segment, amplitude, mixpanel, plausible, umami, telemetry, analytics, captureException, DO_NOT_TRACK",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-24",
+      "finding": "At v0.7.62 no analytics, crash-reporting or usage-telemetry SDK is declared and no outbound telemetry call exists. Telegram notifications stay off until the user configures them.",
+      "visibility": "public",
+      "commit": "6bf26c9748913a4e104f339c5cd00b0551174181",
+      "path": "pyproject.toml"
     }
   ],
   "changes": [
@@ -6558,6 +6573,38 @@
         "reviewed": false
       },
       "evidenceIds": []
+    },
+    {
+      "date": "2026-11-24",
+      "author": "telemetry-researcher-d",
+      "type": "research-correction",
+      "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+      "claimIds": [
+        "orbi:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Self-hosted: code and prompts go from your machine to GitHub and your chosen model endpoint; no engine telemetry in code. Cloud: prompts and repository context go to the default DeepSeek model unless BYOK; key AES-256-GCM encrypted; data handled per the Cloud privacy policy.",
+        "checkedAt": "2026-11-17",
+        "nextReviewAt": "2027-03-17",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Self-hosted: code and prompts go from your machine to GitHub and your chosen model endpoint; no engine telemetry in code. Cloud: prompts and repository context go to the default DeepSeek model unless BYOK; key AES-256-GCM encrypted; data handled per the Cloud privacy policy.",
+        "checkedAt": "2026-11-17",
+        "nextReviewAt": "2027-03-17",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "not-applicable"
+        }
+      },
+      "evidenceIds": [
+        "tel-2611-source-search"
+      ]
     }
   ],
   "context": {

@@ -4104,10 +4104,10 @@
           "evidenceIds": []
         },
         "telemetry_defaults": {
-          "support": "partial",
-          "answer": "The documented optional PostHog and Segment integrations send nothing without keys. This does not describe every trace or audit store.",
+          "support": "supported",
+          "answer": "No telemetry: the desktop-v0.3.20 source ships no default analytics keys; PostHog, Segment and Datadog RUM run only when the operator configures their own keys, and the desktop, mobile and CLI packages have no analytics client.",
           "evidenceIds": [
-            "install"
+            "tel-2611-analytics-config"
           ]
         },
         "telemetry_controls": {
@@ -4118,9 +4118,11 @@
           ]
         },
         "telemetry_off_switch": {
-          "support": "unknown",
-          "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-          "evidenceIds": []
+          "support": "not-applicable",
+          "answer": "Nothing to switch off: no ADE telemetry to the vendor by default; operator-added analytics keys are the operator's own and are removed by unsetting them.",
+          "evidenceIds": [
+            "tel-2611-analytics-config"
+          ]
         },
         "consent_prompt": {
           "support": "unknown",
@@ -4138,11 +4140,12 @@
       ],
       "unknownReason": "Checked Robin's pinned README, README.md, desktop/README.md, docs/INSTALLATION.md, docs/CUSTOMIZATION.md, docs/reference/workspaces.md, docs/reference/human-review.md, docs/AUDIT_LOGS.md, docs/MERGE_QUEUE.md, docs/reference/claude-code-sync.md, LICENSE, releases and recent public issues. This pass did not establish the remaining named requirement. No installed-product scenario or authenticated team fixture was run.",
       "evidenceIds": [
-        "install"
+        "install",
+        "tel-2611-analytics-config"
       ],
       "checkedAt": "2026-11-08",
       "nextReviewAt": "2026-11-22",
-      "researcher": "researcher-71",
+      "researcher": "telemetry-researcher-d",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -5081,6 +5084,19 @@
       "visibility": "public",
       "commit": "64dd120b6a2aa7b5f13fef30f97a0e987523c2c6",
       "path": "AGENTS.md"
+    },
+    {
+      "id": "tel-2611-analytics-config",
+      "kind": "source-inspected",
+      "url": "https://github.com/langchain-ai/open-swe/blob/309da92bf53e1fbaceeacc388d0770c197ac129c/openswe/analytics/routes.py",
+      "title": "Open SWE desktop-v0.3.20 openswe/analytics/routes.py and openswe/config.py",
+      "locator": "api_telemetry_config(); ENV.var declarations for POSTHOG_API_KEY, SEGMENT_BROWSER_WRITE_KEY, DD_RUM_* in openswe/config.py (lines ~445-460); ui/src/lib/posthog.ts; desktop/, mobile/, cli/ searched for posthog, sentry, segment, telemetry, analytics",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-24",
+      "finding": "At desktop-v0.3.20 the dashboard's PostHog, Segment and Datadog RUM clients start only when the deployment sets POSTHOG_API_KEY, SEGMENT_BROWSER_WRITE_KEY or DD_RUM_APPLICATION_ID/CLIENT_TOKEN; none has a default key, and ui/src/lib/posthog.ts skips initialization when the config is absent. The desktop, mobile and CLI packages contain no analytics or crash-reporting client. Keys supplied by an operator send to that operator's own projects, not to LangChain.",
+      "visibility": "public",
+      "commit": "309da92bf53e1fbaceeacc388d0770c197ac129c",
+      "path": "openswe/analytics/routes.py"
     }
   ],
   "changes": [
@@ -5583,6 +5599,38 @@
         "reviewed": false
       },
       "evidenceIds": []
+    },
+    {
+      "date": "2026-11-24",
+      "author": "telemetry-researcher-d",
+      "type": "research-correction",
+      "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+      "claimIds": [
+        "open-swe:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "The documented optional PostHog and Segment integrations send nothing without keys. This does not describe every trace or audit store. Leaving POSTHOG_API_KEY and SEGMENT_BROWSER_WRITE_KEY unset disables those optional telemetry integrations.",
+        "checkedAt": "2026-11-08",
+        "nextReviewAt": "2026-11-22",
+        "subanswers": {
+          "telemetry_defaults": "partial",
+          "telemetry_off_switch": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "The documented optional PostHog and Segment integrations send nothing without keys. This does not describe every trace or audit store. Leaving POSTHOG_API_KEY and SEGMENT_BROWSER_WRITE_KEY unset disables those optional telemetry integrations.",
+        "checkedAt": "2026-11-08",
+        "nextReviewAt": "2026-11-22",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "not-applicable"
+        }
+      },
+      "evidenceIds": [
+        "tel-2611-analytics-config"
+      ]
     }
   ],
   "context": {

@@ -4390,9 +4390,9 @@
     },
     "telemetry_defaults": {
      "support": "supported",
-     "answer": "No PostHog key means no analytics; no browser DSN means no browser error reporting. Trace rates default zero.",
+     "answer": "No telemetry: QM v0.1.18 ships no analytics client and no default Sentry DSN; error reporting runs only when the operator configures their own SENTRY_DSN or SENTRY_BROWSER_DSN.",
      "evidenceIds": [
-      "gap-web"
+      "tel-2611-error-reporting"
      ]
     },
     "telemetry_controls": {
@@ -4404,9 +4404,11 @@
      ]
     },
     "telemetry_off_switch": {
-     "support": "unknown",
-     "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-     "evidenceIds": []
+     "support": "not-applicable",
+     "answer": "Nothing to switch off: no ADE telemetry to the vendor by default; operator-configured Sentry is removed by unsetting the DSN.",
+     "evidenceIds": [
+      "tel-2611-error-reporting"
+     ]
     },
     "consent_prompt": {
      "support": "unknown",
@@ -4431,11 +4433,12 @@
     "gap-errors",
     "nov07-readme",
     "b06-security",
-    "b06-readme"
+    "b06-readme",
+    "tel-2611-error-reporting"
    ],
    "checkedAt": "2026-11-07",
    "nextReviewAt": "2026-12-07",
-   "researcher": "researcher-ade-128",
+   "researcher": "telemetry-researcher-d",
    "publication": "public-candidate",
    "review": null,
    "contradictions": []
@@ -5788,6 +5791,19 @@
    "visibility": "public",
    "commit": "9c202190be23f8cc042f27ac1e59a5b4feb47d62",
    "path": "src/api/routes/loop-items.ts"
+  },
+  {
+   "id": "tel-2611-error-reporting",
+   "kind": "source-inspected",
+   "url": "https://github.com/yc-software/qm/blob/9c202190be23f8cc042f27ac1e59a5b4feb47d62/plugins/chassis/src/error-reporting.ts",
+   "title": "QM v0.1.18 error reporting and analytics search",
+   "locator": "plugins/chassis/src/error-reporting.ts (init returns unless SENTRY_DSN, line ~217); plugins/chassis/src/browser-error-config.ts (SENTRY_BROWSER_DSN); repository-wide search for posthog, segment, amplitude, mixpanel, telemetry, analytics, sentry",
+   "sourceDate": null,
+   "retrievedAt": "2026-11-24",
+   "finding": "At v0.1.18 Sentry error reporting starts only when the deployment sets SENTRY_DSN (server) or SENTRY_BROWSER_DSN (browser); no DSN ships by default. PostHog appears only in a seeded design-template skill, so the earlier POSTHOG_API_KEY analytics hook is no longer in the source. Errors reported with an operator's DSN go to the operator's own Sentry project, not the vendor.",
+   "visibility": "public",
+   "commit": "9c202190be23f8cc042f27ac1e59a5b4feb47d62",
+   "path": "plugins/chassis/src/error-reporting.ts"
   }
  ],
  "changes": [
@@ -9160,6 +9176,38 @@
     "reviewed": false
    },
    "evidenceIds": []
+  },
+  {
+   "date": "2026-11-24",
+   "author": "telemetry-researcher-d",
+   "type": "research-correction",
+   "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+   "claimIds": [
+    "qm:OWN-03"
+   ],
+   "before": {
+    "support": "partial",
+    "answer": "QM telemetry is deployment-configured with separate analytics and backend/browser error controls.",
+    "checkedAt": "2026-11-07",
+    "nextReviewAt": "2026-12-07",
+    "subanswers": {
+     "telemetry_defaults": "supported",
+     "telemetry_off_switch": "unknown"
+    }
+   },
+   "after": {
+    "support": "partial",
+    "answer": "QM telemetry is deployment-configured with separate analytics and backend/browser error controls.",
+    "checkedAt": "2026-11-07",
+    "nextReviewAt": "2026-12-07",
+    "subanswers": {
+     "telemetry_defaults": "supported",
+     "telemetry_off_switch": "not-applicable"
+    }
+   },
+   "evidenceIds": [
+    "tel-2611-error-reporting"
+   ]
   }
  ],
  "context": {

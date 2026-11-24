@@ -4085,9 +4085,11 @@
      ]
     },
     "telemetry_defaults": {
-     "support": "unknown",
-     "answer": "Telemetry defaults remains unknown after the first-party source pass; no direct statement or bounded test was found.",
-     "evidenceIds": []
+     "support": "supported",
+     "answer": "No telemetry: a bounded search of the v1.7.0 source found no analytics or crash-reporting client and no outbound telemetry. Telemetry matches are Claude stream retry events parsed locally; optional completion notifications go only where the user configures them.",
+     "evidenceIds": [
+      "tel-2611-source-search"
+     ]
     },
     "telemetry_controls": {
      "support": "unsupported",
@@ -4097,9 +4099,11 @@
      ]
     },
     "telemetry_off_switch": {
-     "support": "unknown",
-     "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-     "evidenceIds": []
+     "support": "not-applicable",
+     "answer": "Nothing to switch off: no ADE telemetry in the inspected source.",
+     "evidenceIds": [
+      "tel-2611-source-search"
+     ]
     },
     "consent_prompt": {
      "support": "unknown",
@@ -4120,11 +4124,12 @@
    ],
    "unknownReason": "Other atomic questions remain unestablished: code_data, prompts, credentials, logs, artifacts, retention, deletion, training, residency, subprocessors, telemetry_defaults, consent_prompt.",
    "evidenceIds": [
-    "gaps-runtime-boundaries"
+    "gaps-runtime-boundaries",
+    "tel-2611-source-search"
    ],
    "checkedAt": "2026-11-13",
    "nextReviewAt": "2027-03-13",
-   "researcher": "researcher-facet-gaps-batch6",
+   "researcher": "telemetry-researcher-d",
    "publication": "public-candidate",
    "review": null,
    "contradictions": []
@@ -4866,6 +4871,19 @@
    "visibility": "public",
    "commit": "dc16f39845b48d8f97a6884622e65d86d60e9040",
    "path": "pkg/web/server.go"
+  },
+  {
+   "id": "tel-2611-source-search",
+   "kind": "source-inspected",
+   "url": "https://github.com/umputun/ralphex/tree/24c19b148c0b4fd3ec0157c5509c254e06c78a16",
+   "title": "Ralphex v1.7.0 repository",
+   "locator": "Search of cmd/ and pkg/ (vendor/ excluded as third-party) and all package manifests (go.mod and workspace manifests) for posthog, sentry, segment, amplitude, mixpanel, plausible, umami, telemetry, analytics, captureException, DO_NOT_TRACK",
+   "sourceDate": null,
+   "retrievedAt": "2026-11-24",
+   "finding": "At v1.7.0 no analytics, crash-reporting or usage-telemetry SDK is declared and no outbound telemetry call exists. Telemetry matches are Claude stream retry events parsed locally; optional completion notifications go only where the user configures them.",
+   "visibility": "public",
+   "commit": "24c19b148c0b4fd3ec0157c5509c254e06c78a16",
+   "path": "go.mod"
   }
  ],
  "changes": [
@@ -5697,6 +5715,38 @@
     "reviewed": false
    },
    "evidenceIds": []
+  },
+  {
+   "date": "2026-11-24",
+   "author": "telemetry-researcher-d",
+   "type": "research-correction",
+   "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+   "claimIds": [
+    "ralphex:OWN-03"
+   ],
+   "before": {
+    "support": "partial",
+    "answer": "The inspected Ralphex configuration/runtime has no ADE analytics reporter or documented analytics opt-out control. Agent-provider traffic and optional user-configured completion notifications are separate.",
+    "checkedAt": "2026-11-13",
+    "nextReviewAt": "2027-03-13",
+    "subanswers": {
+     "telemetry_defaults": "unknown",
+     "telemetry_off_switch": "unknown"
+    }
+   },
+   "after": {
+    "support": "partial",
+    "answer": "The inspected Ralphex configuration/runtime has no ADE analytics reporter or documented analytics opt-out control. Agent-provider traffic and optional user-configured completion notifications are separate.",
+    "checkedAt": "2026-11-13",
+    "nextReviewAt": "2027-03-13",
+    "subanswers": {
+     "telemetry_defaults": "supported",
+     "telemetry_off_switch": "not-applicable"
+    }
+   },
+   "evidenceIds": [
+    "tel-2611-source-search"
+   ]
   }
  ],
  "context": {

@@ -4934,10 +4934,9 @@
     },
     "telemetry_defaults": {
      "support": "supported",
-     "answer": "Enabled from v0.6.0.",
+     "answer": "On by default: since v0.6.0 and still at v0.23.0, anonymous telemetry is sent unless an environment variable, CI marker or config.yaml setting disables it.",
      "evidenceIds": [
-      "nov07-telemetry",
-      "nov07-deploy"
+      "tel-2611-telemetry-client"
      ]
     },
     "telemetry_controls": {
@@ -4949,9 +4948,11 @@
      ]
     },
     "telemetry_off_switch": {
-     "support": "unknown",
-     "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-     "evidenceIds": []
+     "support": "supported",
+     "answer": "Config only: OMNIGENT_ANALYTICS=0, DISABLE_TELEMETRY=true, DO_NOT_TRACK=1 or telemetry: false in ~/.omnigent/config.yaml; no Settings toggle was found in the v0.23.0 web UI.",
+     "evidenceIds": [
+      "tel-2611-telemetry-client"
+     ]
     },
     "consent_prompt": {
      "support": "unknown",
@@ -4976,11 +4977,12 @@
     "nov07-deploy",
     "nov21-models",
     "nov21-cost-blog",
-    "nov21-src-archived-retention"
+    "nov21-src-archived-retention",
+    "tel-2611-telemetry-client"
    ],
    "checkedAt": "2026-11-07",
    "nextReviewAt": "2026-12-07",
-   "researcher": "researcher-ade-157",
+   "researcher": "telemetry-researcher-d",
    "publication": "public-candidate",
    "review": null,
    "contradictions": []
@@ -6407,6 +6409,19 @@
    "visibility": "public",
    "commit": "033963227a3b54803ae00c5ef0f0f6fe97f5549d",
    "path": "omnigent/server/routes/sessions/routes_hooks.py"
+  },
+  {
+   "id": "tel-2611-telemetry-client",
+   "kind": "source-inspected",
+   "url": "https://github.com/omnigent-ai/omnigent/blob/033963227a3b54803ae00c5ef0f0f6fe97f5549d/omnigent/telemetry/client.py",
+   "title": "Omnigent v0.23.0 omnigent/telemetry/client.py",
+   "locator": "is_disabled() and _config_telemetry_disabled(); remote config at config.omnigent-telemetry.io; web/src/lib/analytics.ts and web/src/pages/SettingsPage.tsx searched for a telemetry toggle",
+   "sourceDate": null,
+   "retrievedAt": "2026-11-24",
+   "finding": "At v0.23.0 anonymous telemetry is sent to an ingestion URL fetched from config.omnigent-telemetry.io unless is_disabled() finds OMNIGENT_ANALYTICS=0, DISABLE_TELEMETRY/OMNIGENT_DISABLE_TELEMETRY=true, DO_NOT_TRACK=1, a CI marker, or telemetry: false in ~/.omnigent/config.yaml. The web UI emits analytics through the host sink; a search of the web Settings page found analytics click tracking but no telemetry toggle.",
+   "visibility": "public",
+   "commit": "033963227a3b54803ae00c5ef0f0f6fe97f5549d",
+   "path": "omnigent/telemetry/client.py"
   }
  ],
  "changes": [
@@ -10668,6 +10683,38 @@
     "reviewed": false
    },
    "evidenceIds": []
+  },
+  {
+   "date": "2026-11-24",
+   "author": "telemetry-researcher-d",
+   "type": "research-correction",
+   "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+   "claimIds": [
+    "omnigent:OWN-03"
+   ],
+   "before": {
+    "support": "partial",
+    "answer": "Anonymous telemetry defaults on and has explicit opt-outs; session storage belongs to own server.",
+    "checkedAt": "2026-11-07",
+    "nextReviewAt": "2026-12-07",
+    "subanswers": {
+     "telemetry_defaults": "supported",
+     "telemetry_off_switch": "unknown"
+    }
+   },
+   "after": {
+    "support": "partial",
+    "answer": "Anonymous telemetry defaults on and has explicit opt-outs; session storage belongs to own server.",
+    "checkedAt": "2026-11-07",
+    "nextReviewAt": "2026-12-07",
+    "subanswers": {
+     "telemetry_defaults": "supported",
+     "telemetry_off_switch": "supported"
+    }
+   },
+   "evidenceIds": [
+    "tel-2611-telemetry-client"
+   ]
   }
  ],
  "context": {
