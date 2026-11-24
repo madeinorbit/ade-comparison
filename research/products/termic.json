@@ -5052,10 +5052,9 @@
         },
         "telemetry_defaults": {
           "support": "supported",
-          "answer": "None sent today; the planned telemetry is off by default.",
+          "answer": "No telemetry: a bounded inspection of v2.0.5 found no analytics, telemetry or crash-reporting client. Hits only disable third-party CLI telemetry (AZURE_CORE_COLLECT_TELEMETRY=false) or describe agent files; the README lists opt-in, off-by-default usage telemetry as unbuilt future work.",
           "evidenceIds": [
-            "srch-tele",
-            "readme"
+            "tel-2611-src"
           ]
         },
         "telemetry_controls": {
@@ -5066,9 +5065,11 @@
           ]
         },
         "telemetry_off_switch": {
-          "support": "unknown",
-          "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-          "evidenceIds": []
+          "support": "not-applicable",
+          "answer": "Nothing to switch off: no ADE telemetry.",
+          "evidenceIds": [
+            "tel-2611-src"
+          ]
         },
         "consent_prompt": {
           "support": "unsupported",
@@ -5096,11 +5097,12 @@
         "changelog",
         "accounts",
         "secrets",
-        "data-model"
+        "data-model",
+        "tel-2611-src"
       ],
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
-      "researcher": "researcher-batch12",
+      "researcher": "telemetry-researcher-e",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -6250,6 +6252,19 @@
       "visibility": "public",
       "commit": "31f55a468f308cfc486c18a96d83e75eb9904ffa",
       "path": "src-tauri/src/automation.rs"
+    },
+    {
+      "id": "tel-2611-src",
+      "kind": "source-inspected",
+      "url": "https://github.com/simion/termic/tree/bc6e88a2c3e938fbe095713a38ca465b5a551f03/src-tauri/src",
+      "title": "simion/termic v2.0.5 source tree",
+      "locator": "src-tauri/src; search terms: posthog, amplitude, mixpanel, @sentry/, sentry_sdk, segment.io, rudderstack, aptabase, bugsnag, datadog, plausible, umami, google-analytics, DO_NOT_TRACK, TELEMETRY (case-insensitive git grep over source and manifests, excluding docs, tests, lockfiles and vendored code), then telemetry/analytics hits read individually",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-24",
+      "finding": "Bounded inspection of v2.0.5 (bc6e88a) found no analytics, telemetry or crash-reporting client sending data to the vendor. Hits only disable third-party CLI telemetry (AZURE_CORE_COLLECT_TELEMETRY=false) or describe agent files; the README lists opt-in, off-by-default usage telemetry as unbuilt future work.",
+      "visibility": "public",
+      "commit": "bc6e88a2c3e938fbe095713a38ca465b5a551f03",
+      "path": "src-tauri/src"
     }
   ],
   "changes": [
@@ -6398,6 +6413,38 @@
         "reviewed": false
       },
       "evidenceIds": []
+    },
+    {
+      "date": "2026-11-24",
+      "author": "telemetry-researcher-e",
+      "type": "research-correction",
+      "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+      "claimIds": [
+        "termic:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Code, prompts and artifacts stay on the machine except what the chosen agent CLIs send to their providers; no Termic backend. No telemetry is collected today: opt-in anonymous usage telemetry and crash reports are a planned item, off by default; crash logs are local and the user attaches them to bug reports.",
+        "checkedAt": "2026-11-16",
+        "nextReviewAt": "2027-03-16",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Code, prompts and artifacts stay on the machine except what the chosen agent CLIs send to their providers; no Termic backend. No telemetry is collected today: opt-in anonymous usage telemetry and crash reports are a planned item, off by default; crash logs are local and the user attaches them to bug reports.",
+        "checkedAt": "2026-11-16",
+        "nextReviewAt": "2027-03-16",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "not-applicable"
+        }
+      },
+      "evidenceIds": [
+        "tel-2611-src"
+      ]
     }
   ],
   "context": {
