@@ -4203,9 +4203,9 @@
     },
     "telemetry_defaults": {
      "support": "supported",
-     "answer": "The anonymous usage-data switch defaults on when the user has not chosen; on a Cloud backend it is forced on. Source inspection at v1.38.0, not tested.",
+     "answer": "On by default: v1.45.0 sends an anonymous install event before any choice, the first-run consent modal's analytics box is pre-checked, unanswered settings count as on, and Cloud backends force analytics on.",
      "evidenceIds": [
-      "src1-telemetry-settings"
+      "tel-2611-telemetry-service"
      ]
     },
     "telemetry_controls": {
@@ -4216,9 +4216,11 @@
      ]
     },
     "telemetry_off_switch": {
-     "support": "unknown",
-     "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-     "evidenceIds": []
+     "support": "partial",
+     "answer": "In the app: unchecking the first-run consent box or the analytics switch in app settings stops session telemetry on local and self-hosted backends. Limitation: the install event is stopped only by DO_NOT_TRACK/VITE_DO_NOT_TRACK, and Cloud backends cannot turn analytics off.",
+     "evidenceIds": [
+      "tel-2611-telemetry-service"
+     ]
     },
     "consent_prompt": {
      "support": "supported",
@@ -4243,11 +4245,12 @@
     "gap-acp",
     "gap-conversations",
     "src1-telemetry-settings",
-    "src1-telemetry-consent"
+    "src1-telemetry-consent",
+    "tel-2611-telemetry-service"
    ],
    "checkedAt": "2026-11-07",
    "nextReviewAt": "2026-12-07",
-   "researcher": "researcher-03",
+   "researcher": "telemetry-researcher-d",
    "publication": "public-candidate",
    "review": null,
    "contradictions": []
@@ -5331,6 +5334,19 @@
    "visibility": "public",
    "commit": null,
    "path": null
+  },
+  {
+   "id": "tel-2611-telemetry-service",
+   "kind": "source-inspected",
+   "url": "https://github.com/OpenHands/OpenHands/blob/47eed012171230b059c3f5cbf3798bded74ea248/src/services/telemetry.ts",
+   "title": "OpenHands Canvas v1.45.0 telemetry service, consent modal and app settings",
+   "locator": "header comment and restorePostHogConsent() in src/services/telemetry.ts; src/components/features/analytics/telemetry-consent-banner.tsx (checkbox defaultChecked); src/routes/app-settings.tsx enable-analytics-switch (lines ~51-167); src/root.tsx needsTelemetryChoice",
+   "sourceDate": null,
+   "retrievedAt": "2026-11-24",
+   "finding": "At v1.45.0 Canvas sends an anonymous canvas_install PostHog event to OpenHands' project on first use regardless of consent; session events wait for the first-run consent modal, whose 'send anonymous data' checkbox is pre-checked. App settings offers an analytics switch on local and self-hosted backends (null is treated as on); on a Cloud backend analytics is forced on and the switch does not save. VITE_DO_NOT_TRACK=1, DO_NOT_TRACK=1 or window.__AGENT_CANVAS_DO_NOT_TRACK__ disable all telemetry including the install event.",
+   "visibility": "public",
+   "commit": "47eed012171230b059c3f5cbf3798bded74ea248",
+   "path": "src/services/telemetry.ts"
   }
  ],
  "changes": [
@@ -8141,6 +8157,38 @@
     "reviewed": false
    },
    "evidenceIds": []
+  },
+  {
+   "date": "2026-11-24",
+   "author": "telemetry-researcher-d",
+   "type": "research-correction",
+   "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+   "claimIds": [
+    "openhands:OWN-03"
+   ],
+   "before": {
+    "support": "partial",
+    "answer": "Backend settings/secrets and browser-generated exports have explicit boundaries. At v1.38.0 an anonymous usage-data switch defaults on with a consent prompt and can be turned off on local and self-hosted backends; it is forced on for OpenHands Cloud.",
+    "checkedAt": "2026-11-07",
+    "nextReviewAt": "2026-12-07",
+    "subanswers": {
+     "telemetry_defaults": "supported",
+     "telemetry_off_switch": "unknown"
+    }
+   },
+   "after": {
+    "support": "partial",
+    "answer": "Backend settings/secrets and browser-generated exports have explicit boundaries. At v1.38.0 an anonymous usage-data switch defaults on with a consent prompt and can be turned off on local and self-hosted backends; it is forced on for OpenHands Cloud.",
+    "checkedAt": "2026-11-07",
+    "nextReviewAt": "2026-12-07",
+    "subanswers": {
+     "telemetry_defaults": "supported",
+     "telemetry_off_switch": "partial"
+    }
+   },
+   "evidenceIds": [
+    "tel-2611-telemetry-service"
+   ]
   }
  ],
  "context": {
