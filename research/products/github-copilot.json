@@ -4978,7 +4978,7 @@
     {
       "id": "github-copilot:OWN-03",
       "criterionId": "OWN-03",
-      "answer": "COPILOT_OFFLINE=true fully disables CLI telemetry and GitHub network requests; configured model-provider traffic remains. Offline BYOK can use local or in-network inference; an internet provider still receives prompts and code. Cloud sessions clone repositories into GitHub-hosted sandboxes. Chat and session data in cloud sandbox sessions is kept for the life of the account; Actions-based sessions keep data 28 days. Local sandboxing gives tools credential placeholders and a local proxy supplies real credentials only to approved hosts; personal MCP secrets are stored in Copilot settings. Session logs show the agent's work and tools; session logs and audit log events are available to administrators. Issue artifacts are stored on the issue (public preview). Session data: 28 days (Actions) or account lifetime (cloud sandbox); memories expire after 90 days by default. Memories can be deleted by users and administrators; session deletion was not established in these sources. The app signs in to GHE.com data-residency hosts; the cloud sandbox region is not stated. The OpenTelemetry identity attributes and five capture classes are documented. OpenTelemetry identity capture and all content capture classes are off by default; a separate pseudonymous user identifier exists.",
+      "answer": "COPILOT_OFFLINE=true fully disables CLI telemetry and GitHub network requests; configured model-provider traffic remains. Offline BYOK can use local or in-network inference; an internet provider still receives prompts and code. Cloud sessions clone repositories into GitHub-hosted sandboxes. Chat and session data in cloud sandbox sessions is kept for the life of the account; Actions-based sessions keep data 28 days. Local sandboxing gives tools credential placeholders and a local proxy supplies real credentials only to approved hosts; personal MCP secrets are stored in Copilot settings. Session logs show the agent's work and tools; session logs and audit log events are available to administrators. Issue artifacts are stored on the issue (public preview). Session data: 28 days (Actions) or account lifetime (cloud sandbox); memories expire after 90 days by default. Memories can be deleted by users and administrators; session deletion was not established in these sources. The app signs in to GHE.com data-residency hosts; the cloud sandbox region is not stated. The OpenTelemetry identity attributes and five capture classes are documented. OpenTelemetry identity capture and all content capture classes are off by default; a separate pseudonymous user identifier exists. Telemetry (atomic revision 2): in Copilot CLI, first-party telemetry is on by default and off only with the COPILOT_OFFLINE environment variable; other surfaces are not established.",
       "support": "partial",
       "availability": "unknown",
       "delivery": "unknown",
@@ -5079,9 +5079,9 @@
         },
         "telemetry_defaults": {
           "support": "partial",
-          "answer": "OpenTelemetry identity capture and all content capture classes are off by default; a separate pseudonymous user identifier exists.",
+          "answer": "On by default: in Copilot CLI, first-party client telemetry is sent normally unless offline mode is set, even with BYOK. Scoped to the CLI; the app, IDE and cloud surfaces are not established.",
           "evidenceIds": [
-            "nov21-telemetry-capture"
+            "tel-2611-offline"
           ]
         },
         "telemetry_controls": {
@@ -5092,9 +5092,11 @@
           ]
         },
         "telemetry_off_switch": {
-          "support": "unknown",
-          "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-          "evidenceIds": []
+          "support": "partial",
+          "answer": "Config only: COPILOT_OFFLINE=true disables first-party client telemetry, and also skips GitHub authentication. No CLI settings key or UI toggle for it was found. Scoped to the CLI.",
+          "evidenceIds": [
+            "tel-2611-offline"
+          ]
         },
         "consent_prompt": {
           "support": "unknown",
@@ -5125,11 +5127,12 @@
         "nov21-risks",
         "nov21-billing-changes",
         "nov21-app-start",
-        "nov21-telemetry-capture"
+        "nov21-telemetry-capture",
+        "tel-2611-offline"
       ],
       "checkedAt": "2026-11-07",
       "nextReviewAt": "2026-11-21",
-      "researcher": "researcher-ade-123",
+      "researcher": "telemetry-researcher-b",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -6984,6 +6987,19 @@
       "finding": "Predefined enterprise roles with stated permissions: enterprise owner (all settings, members and policies, including enforcing policy across organizations), billing manager, enterprise open-source license manager, app manager, security manager (public preview), user and guest collaborator, plus custom roles. No AI manager role is listed.",
       "sourceDate": null,
       "retrievedAt": "2026-11-21",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "tel-2611-offline",
+      "kind": "documented",
+      "url": "https://docs.github.com/en/copilot/how-tos/copilot-cli/set-up-copilot-cli/authenticate-copilot-cli",
+      "title": "GitHub Docs: Authenticating Copilot CLI",
+      "locator": "'Using Copilot CLI without GitHub authentication' > 'Offline mode'",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-24",
+      "finding": "With COPILOT_OFFLINE=true, 'First-party client-side telemetry is disabled'; 'Without offline mode, even when using BYOK without GitHub authentication, telemetry is still sent normally.'",
       "visibility": "public",
       "commit": null,
       "path": null
@@ -11906,6 +11922,38 @@
         "reviewed": false
       },
       "evidenceIds": []
+    },
+    {
+      "date": "2026-11-24",
+      "author": "telemetry-researcher-b",
+      "type": "research-correction",
+      "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+      "claimIds": [
+        "github-copilot:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "COPILOT_OFFLINE=true fully disables CLI telemetry and GitHub network requests; configured model-provider traffic remains. Offline BYOK can use local or in-network inference; an internet provider still receives prompts and code. Cloud sessions clone repositories into GitHub-hosted sandboxes. Chat and session data in cloud sandbox sessions is kept for the life of the account; Actions-based sessions keep data 28 days. Local sandboxing gives tools credential placeholders and a local proxy supplies real credentials only to approved hosts; personal MCP secrets are stored in Copilot settings. Session logs show the agent's work and tools; session logs and audit log events are available to administrators. Issue artifacts are stored on the issue (public preview). Session data: 28 days (Actions) or account lifetime (cloud sandbox); memories expire after 90 days by default. Memories can be deleted by users and administrators; session deletion was not established in these sources. The app signs in to GHE.com data-residency hosts; the cloud sandbox region is not stated. The OpenTelemetry identity attributes and five capture classes are documented. OpenTelemetry identity capture and all content capture classes are off by default; a separate pseudonymous user identifier exists.",
+        "checkedAt": "2026-11-07",
+        "nextReviewAt": "2026-11-21",
+        "subanswers": {
+          "telemetry_defaults": "partial",
+          "telemetry_off_switch": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "COPILOT_OFFLINE=true fully disables CLI telemetry and GitHub network requests; configured model-provider traffic remains. Offline BYOK can use local or in-network inference; an internet provider still receives prompts and code. Cloud sessions clone repositories into GitHub-hosted sandboxes. Chat and session data in cloud sandbox sessions is kept for the life of the account; Actions-based sessions keep data 28 days. Local sandboxing gives tools credential placeholders and a local proxy supplies real credentials only to approved hosts; personal MCP secrets are stored in Copilot settings. Session logs show the agent's work and tools; session logs and audit log events are available to administrators. Issue artifacts are stored on the issue (public preview). Session data: 28 days (Actions) or account lifetime (cloud sandbox); memories expire after 90 days by default. Memories can be deleted by users and administrators; session deletion was not established in these sources. The app signs in to GHE.com data-residency hosts; the cloud sandbox region is not stated. The OpenTelemetry identity attributes and five capture classes are documented. OpenTelemetry identity capture and all content capture classes are off by default; a separate pseudonymous user identifier exists. Telemetry (atomic revision 2): in Copilot CLI, first-party telemetry is on by default and off only with the COPILOT_OFFLINE environment variable; other surfaces are not established.",
+        "checkedAt": "2026-11-07",
+        "nextReviewAt": "2026-11-21",
+        "subanswers": {
+          "telemetry_defaults": "partial",
+          "telemetry_off_switch": "partial"
+        }
+      },
+      "evidenceIds": [
+        "tel-2611-offline"
+      ]
     }
   ],
   "context": {
