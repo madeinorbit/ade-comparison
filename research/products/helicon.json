@@ -4973,23 +4973,25 @@
         },
         "telemetry_defaults": {
           "support": "supported",
-          "answer": "Update check on by default; no analytics in installed builds.",
+          "answer": "On by default: installed builds have no analytics, but the scheduled update check to helicon.sh reports platform, version and a weekly-salted IP hash that the vendor uses to count active installs. The hosted web demo uses PostHog page analytics.",
           "evidenceIds": [
-            "readme",
-            "srch-tele"
-          ]
-        },
-        "telemetry_controls": {
-          "support": "unsupported",
-          "answer": "No documented control for the update check found.",
-          "evidenceIds": [
+            "tel-2611-helicon-updcheck",
             "readme"
           ]
         },
+        "telemetry_controls": {
+          "support": "partial",
+          "answer": "Pause updates toggle stops scheduled checks; no telemetry-labelled control.",
+          "evidenceIds": [
+            "tel-2611-helicon-pause"
+          ]
+        },
         "telemetry_off_switch": {
-          "support": "unknown",
-          "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-          "evidenceIds": []
+          "support": "partial",
+          "answer": "In the app: Settings \"Pause updates\" stops the scheduled install-counting check; a manual update check still sends it, and there is no telemetry-specific switch.",
+          "evidenceIds": [
+            "tel-2611-helicon-pause"
+          ]
         },
         "consent_prompt": {
           "support": "unsupported",
@@ -5012,11 +5014,13 @@
       "unknownReason": "Update-service retention and residency are hosted-service facts.",
       "evidenceIds": [
         "readme",
-        "srch-tele"
+        "srch-tele",
+        "tel-2611-helicon-updcheck",
+        "tel-2611-helicon-pause"
       ],
       "checkedAt": "2026-11-17",
       "nextReviewAt": "2027-03-17",
-      "researcher": "researcher-batch20",
+      "researcher": "telemetry-researcher-c",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -6021,6 +6025,32 @@
       "title": "Notifier implementations",
       "locator": "browserNotifier, Tauri notification plugin notifier",
       "finding": "The browser build uses the Notifications API and the desktop shell uses Tauri's OS notification plugin; the settings page has a notifications toggle."
+    },
+    {
+      "id": "tel-2611-helicon-updcheck",
+      "kind": "source-inspected",
+      "url": "https://github.com/HarjjotSinghh/helicon/blob/7c040874029698de2fdd9583aba2b3920df49093/README.md",
+      "title": "Helicon README \"What leaves your machine\"",
+      "locator": "## What leaves your machine",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-24",
+      "finding": "The desktop update check to helicon.sh sends platform, version and a weekly-salted IP hash and is used to count installs in use; the README states there are no analytics in the app.",
+      "visibility": "public",
+      "commit": "7c040874029698de2fdd9583aba2b3920df49093",
+      "path": "README.md"
+    },
+    {
+      "id": "tel-2611-helicon-pause",
+      "kind": "source-inspected",
+      "url": "https://github.com/HarjjotSinghh/helicon/blob/7c040874029698de2fdd9583aba2b3920df49093/packages/ui/src/model/updates.ts",
+      "title": "Helicon update controller and Settings updates rows",
+      "locator": "updates.ts check(): scheduled checks skip while paused; SettingsPage.tsx \"Pause updates\" toggle",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-24",
+      "finding": "Scheduled update checks are skipped while the Settings \"Pause updates\" toggle is on; a manual check still contacts the server.",
+      "visibility": "public",
+      "commit": "7c040874029698de2fdd9583aba2b3920df49093",
+      "path": "packages/ui/src/model/updates.ts"
     }
   ],
   "changes": [
@@ -6206,6 +6236,42 @@
         "reviewed": false
       },
       "evidenceIds": []
+    },
+    {
+      "date": "2026-11-24",
+      "author": "telemetry-researcher-c",
+      "type": "research-correction",
+      "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+      "claimIds": [
+        "helicon:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Code, prompts and threads stay local and go to Muse/Meta under the user plan; no analytics in installed builds; the update check sends platform, version and a weekly-salted IP hash; the hosted web demo uses PostHog page analytics.",
+        "checkedAt": "2026-11-17",
+        "nextReviewAt": "2027-03-17",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "unknown",
+          "telemetry_controls": "unsupported"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Code, prompts and threads stay local and go to Muse/Meta under the user plan; no analytics in installed builds; the update check sends platform, version and a weekly-salted IP hash; the hosted web demo uses PostHog page analytics.",
+        "checkedAt": "2026-11-17",
+        "nextReviewAt": "2027-03-17",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "partial",
+          "telemetry_controls": "partial"
+        }
+      },
+      "evidenceIds": [
+        "tel-2611-helicon-updcheck",
+        "readme",
+        "tel-2611-helicon-pause"
+      ]
     }
   ],
   "context": {
