@@ -4234,9 +4234,9 @@
         },
         "telemetry_defaults": {
           "support": "supported",
-          "answer": "On for ordinary interactive individual installs; auto-off CI/enterprise/air-gap/noninteractive.",
+          "answer": "On by default for interactive individual installs; automatically off in CI, enterprise, air-gapped and non-interactive runs.",
           "evidenceIds": [
-            "privacy"
+            "tel-2611-loki-mode-privacy"
           ]
         },
         "telemetry_controls": {
@@ -4247,9 +4247,11 @@
           ]
         },
         "telemetry_off_switch": {
-          "support": "unknown",
-          "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "In the app: the persistent `loki telemetry off` command; env vars and ~/.loki/config also work.",
+          "evidenceIds": [
+            "tel-2611-loki-mode-privacy"
+          ]
         },
         "consent_prompt": {
           "support": "unknown",
@@ -4269,11 +4271,12 @@
       ],
       "unknownReason": "Unanswered atomic questions remain open after the cited source pass. No live coding-agent, cross-device, collaboration or failure fixture was run unless explicitly recorded as observed.",
       "evidenceIds": [
-        "privacy"
+        "privacy",
+        "tel-2611-loki-mode-privacy"
       ],
       "checkedAt": "2026-11-08",
       "nextReviewAt": "2026-11-22",
-      "researcher": "researcher-73",
+      "researcher": "telemetry-researcher-c",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -5078,6 +5081,19 @@
       "visibility": "public",
       "commit": "e7115330b30d0b0e701db18207a94b99c82b5f6e",
       "path": "loki-ts/src/engine10/supervisor.ts"
+    },
+    {
+      "id": "tel-2611-loki-mode-privacy",
+      "kind": "source-inspected",
+      "url": "https://github.com/asklokesh/loki-mode/blob/3dbe79e0ea25d7e7fbcbcc7bed1c4d48fed1449c/docs/PRIVACY.md",
+      "title": "Loki Mode privacy and telemetry command",
+      "locator": "docs/PRIVACY.md opt-out; autonomy/loki cmd_telemetry; dashboard/telemetry.py",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-24",
+      "finding": "Anonymous PostHog diagnostics are on for interactive individual installs (auto-off in CI, enterprise, air-gapped and non-interactive runs). \"loki telemetry off\" (persistent, cmd_telemetry), LOKI_TELEMETRY=off, DO_NOT_TRACK=1 or TELEMETRY_DISABLED=true in ~/.loki/config disable it.",
+      "visibility": "public",
+      "commit": "3dbe79e0ea25d7e7fbcbcc7bed1c4d48fed1449c",
+      "path": "docs/PRIVACY.md"
     }
   ],
   "changes": [
@@ -5497,6 +5513,38 @@
         "reviewed": false
       },
       "evidenceIds": []
+    },
+    {
+      "date": "2026-11-24",
+      "author": "telemetry-researcher-c",
+      "type": "research-correction",
+      "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+      "claimIds": [
+        "loki-mode:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Diagnostics defaults and opt-out controls are explicitly disclosed.",
+        "checkedAt": "2026-11-08",
+        "nextReviewAt": "2026-11-22",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Diagnostics defaults and opt-out controls are explicitly disclosed.",
+        "checkedAt": "2026-11-08",
+        "nextReviewAt": "2026-11-22",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "supported"
+        }
+      },
+      "evidenceIds": [
+        "tel-2611-loki-mode-privacy"
+      ]
     }
   ],
   "context": {
