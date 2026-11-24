@@ -5153,9 +5153,9 @@
         },
         "telemetry_defaults": {
           "support": "supported",
-          "answer": "On by default for new and undecided installs.",
+          "answer": "On by default: v2.4.253 ships analytics enabled with a bundled PostHog key, and an unset setting counts as on.",
           "evidenceIds": [
-            "analytics"
+            "tel-2611-analytics-config"
           ]
         },
         "telemetry_controls": {
@@ -5166,9 +5166,11 @@
           ]
         },
         "telemetry_off_switch": {
-          "support": "unknown",
-          "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "In the app: Settings > Privacy > 'Allow product analytics' toggle; DO_NOT_TRACK=1 or RUNPANE_TELEMETRY_DISABLED also turn it off.",
+          "evidenceIds": [
+            "tel-2611-analytics-config"
+          ]
         },
         "consent_prompt": {
           "support": "supported",
@@ -5197,11 +5199,12 @@
         "readme",
         "export",
         "secrets",
-        "archive"
+        "archive",
+        "tel-2611-analytics-config"
       ],
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
-      "researcher": "researcher-batch08",
+      "researcher": "telemetry-researcher-d",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -6320,6 +6323,19 @@
       "visibility": "public",
       "commit": "da7ece9c47abd825c39221860b19e8e6d164421a",
       "path": "main/src"
+    },
+    {
+      "id": "tel-2611-analytics-config",
+      "kind": "source-inspected",
+      "url": "https://github.com/greenfield-inc/Pane/blob/7f09edd0803e376aac8eff25a8ca5da31655cf7e/main/src/services/configManager.ts",
+      "title": "Pane v2.4.253 configManager.ts analytics defaults and Privacy settings",
+      "locator": "defaultAnalyticsConfig(), analyticsDisabledByEnvironment(), isAnalyticsEnabled() in main/src/services/configManager.ts; frontend/src/components/settings/categories/PrivacySettings.tsx 'Allow product analytics' toggle",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-24",
+      "finding": "At v2.4.253 the default analytics config is enabled: true with a bundled PostHog key and host, and isAnalyticsEnabled() treats an unset value as on. DO_NOT_TRACK=1 or RUNPANE_TELEMETRY_DISABLED turn all analytics off. Settings > Privacy shows an 'Allow product analytics' toggle that saves analytics.enabled.",
+      "visibility": "public",
+      "commit": "7f09edd0803e376aac8eff25a8ca5da31655cf7e",
+      "path": "main/src/services/configManager.ts"
     }
   ],
   "changes": [
@@ -6437,6 +6453,38 @@
         "reviewed": false
       },
       "evidenceIds": []
+    },
+    {
+      "date": "2026-11-24",
+      "author": "telemetry-researcher-d",
+      "type": "research-correction",
+      "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+      "claimIds": [
+        "pane:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Product analytics (PostHog) are on by default for new installs with a disclosed opt-out and environment kill switches, tied to GitHub or git identity; the relay passes encrypted traffic; agent data flows to providers; update checks contact release servers.",
+        "checkedAt": "2026-11-16",
+        "nextReviewAt": "2027-03-16",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Product analytics (PostHog) are on by default for new installs with a disclosed opt-out and environment kill switches, tied to GitHub or git identity; the relay passes encrypted traffic; agent data flows to providers; update checks contact release servers.",
+        "checkedAt": "2026-11-16",
+        "nextReviewAt": "2027-03-16",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "supported"
+        }
+      },
+      "evidenceIds": [
+        "tel-2611-analytics-config"
+      ]
     }
   ],
   "context": {
