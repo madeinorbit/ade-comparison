@@ -4399,7 +4399,7 @@
     {
       "id": "warp-oz:OWN-03",
       "criterionId": "OWN-03",
-      "answer": "Warp retains control-plane operational logs, configuration, run metadata and billing records. Transcripts, artifacts and prompt attachments use Warp-managed storage unless configured to a customer bucket. Warp Agent inference routes through Warp; Claude Code/Codex call providers directly from the execution environment.",
+      "answer": "Warp retains control-plane operational logs, configuration, run metadata and billing records. Transcripts, artifacts and prompt attachments use Warp-managed storage unless configured to a customer bucket. Warp Agent inference routes through Warp; Claude Code/Codex call providers directly from the execution environment. Usage analytics and crash reports are on by default; the Warp app's Settings > Privacy turns them off, while browser-only users must ask privacy@warp.dev.",
       "support": "partial",
       "availability": "unknown",
       "delivery": "unknown",
@@ -4477,9 +4477,12 @@
           "evidenceIds": []
         },
         "telemetry_defaults": {
-          "support": "unknown",
-          "answer": "Not established for telemetry defaults in the named first-party source pass. Product access and scenario tests were not run.",
-          "evidenceIds": []
+          "support": "supported",
+          "answer": "On by default: Warp collects usage analytics and crash reports unless turned off; the client settings default to enabled.",
+          "evidenceIds": [
+            "tel-2611-privacy",
+            "tel-2611-default"
+          ]
         },
         "telemetry_controls": {
           "support": "unknown",
@@ -4487,9 +4490,12 @@
           "evidenceIds": []
         },
         "telemetry_off_switch": {
-          "support": "unknown",
-          "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-          "evidenceIds": []
+          "support": "partial",
+          "answer": "In the app: Settings > Privacy > Help improve Warp and Send crash reports in the Warp desktop client. Browser-only Oz users have no self-serve switch and must email privacy@warp.dev.",
+          "evidenceIds": [
+            "tel-2611-privacy",
+            "tel-2611-default"
+          ]
         },
         "consent_prompt": {
           "support": "unknown",
@@ -4509,11 +4515,13 @@
       ],
       "unknownReason": "Unknown after the targeted first-party documentation, release and repository pass: code_data, prompts, credentials, retention, deletion, training, residency, subprocessors, telemetry_disclosure, telemetry_defaults, telemetry_controls, consent_prompt. No configured product fixture was run; documentation does not establish successful hands-on behavior.",
       "evidenceIds": [
-        "gap07-workers"
+        "gap07-workers",
+        "tel-2611-privacy",
+        "tel-2611-default"
       ],
       "checkedAt": "2026-11-07",
       "nextReviewAt": "2026-11-21",
-      "researcher": "researcher-64",
+      "researcher": "telemetry-researcher-e",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -5702,6 +5710,32 @@
       "visibility": "public",
       "commit": null,
       "path": null
+    },
+    {
+      "id": "tel-2611-privacy",
+      "kind": "documented",
+      "url": "https://docs.warp.dev/support-and-community/privacy-and-security/privacy/",
+      "title": "Privacy and data control (Warp docs, last updated 2026-11-23)",
+      "locator": "What telemetry data does Warp collect; How to disable telemetry and crash reporting",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-24",
+      "finding": "The page covers Terminal, cloud agents and factories. Warp collects high-level usage analytics (Rudderstack) and crash reports (Sentry) depending on settings; in the Warp app Settings > Privacy > Help improve Warp turns analytics off. A personal browser-only opt-out requires emailing privacy@warp.dev; admins manage team content collection in the Admin Panel.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "tel-2611-default",
+      "kind": "source-inspected",
+      "url": "https://github.com/warpdotdev/warp/blob/2249469e5d24e472cee6ce97d3d324293f67db71/app/src/settings/privacy.rs#L92-L104",
+      "title": "warpdotdev/warp v0.2026.06.03.09.49.stable_00: app/src/settings/privacy.rs",
+      "locator": "IsTelemetryEnabled and IsCrashReportingEnabled",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-24",
+      "finding": "Both privacy settings default to true in the Warp client.",
+      "visibility": "public",
+      "commit": "2249469e5d24e472cee6ce97d3d324293f67db71",
+      "path": "app/src/settings/privacy.rs"
     }
   ],
   "changes": [
@@ -9972,6 +10006,39 @@
         "reviewed": false
       },
       "evidenceIds": []
+    },
+    {
+      "date": "2026-11-24",
+      "author": "telemetry-researcher-e",
+      "type": "research-correction",
+      "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+      "claimIds": [
+        "warp-oz:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Warp retains control-plane operational logs, configuration, run metadata and billing records. Transcripts, artifacts and prompt attachments use Warp-managed storage unless configured to a customer bucket. Warp Agent inference routes through Warp; Claude Code/Codex call providers directly from the execution environment.",
+        "checkedAt": "2026-11-07",
+        "nextReviewAt": "2026-11-21",
+        "subanswers": {
+          "telemetry_defaults": "unknown",
+          "telemetry_off_switch": "unknown"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Warp retains control-plane operational logs, configuration, run metadata and billing records. Transcripts, artifacts and prompt attachments use Warp-managed storage unless configured to a customer bucket. Warp Agent inference routes through Warp; Claude Code/Codex call providers directly from the execution environment. Usage analytics and crash reports are on by default; the Warp app's Settings > Privacy turns them off, while browser-only users must ask privacy@warp.dev.",
+        "checkedAt": "2026-11-07",
+        "nextReviewAt": "2026-11-21",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "partial"
+        }
+      },
+      "evidenceIds": [
+        "tel-2611-privacy",
+        "tel-2611-default"
+      ]
     }
   ],
   "context": {
