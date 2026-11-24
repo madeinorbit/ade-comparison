@@ -4919,7 +4919,7 @@
     {
       "id": "agentsdock:OWN-03",
       "criterionId": "OWN-03",
-      "answer": "Chats, files and credentials stay on your server; desktop apps send Mixpanel usage events by default (random per-install ID); policy claims an opt-out that this release’s source does not expose.",
+      "answer": "Chats, files and credentials stay on your server; desktop and Android apps send Mixpanel usage events by default (random per-install ID on desktop). The privacy policy claims a Settings opt-out on every platform, but the v1.0.11 desktop source removed it on purpose and exposes only the undocumented AGENTSDOCK_DISABLE_ANALYTICS=1 environment variable; the source decides, and Android has an in-app setting.",
       "support": "partial",
       "availability": "generally-available",
       "delivery": "native",
@@ -5018,25 +5018,24 @@
         },
         "telemetry_defaults": {
           "support": "supported",
-          "answer": "On by default without prompt on macOS/Windows/Linux/Android; iOS none.",
+          "answer": "On by default: macOS, Windows, Linux and Android apps send Mixpanel usage events without a prompt; iOS sends none.",
           "evidenceIds": [
-            "privacy",
-            "analyticssrc"
+            "tel-2611-src"
           ]
         },
         "telemetry_controls": {
           "support": "partial",
-          "answer": "Policy says off in Settings; source test says the desktop opt-out was removed; Android/mobile has AnalyticsSettings.",
+          "answer": "Desktop: no settings control in v1.0.11 (policy says otherwise); AGENTSDOCK_DISABLE_ANALYTICS=1 env var; Android: Usage analytics setting.",
           "evidenceIds": [
-            "privacy",
-            "dialogtest",
-            "analyticssrc"
+            "tel-2611-src"
           ]
         },
         "telemetry_off_switch": {
-          "support": "unknown",
-          "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-          "evidenceIds": []
+          "support": "partial",
+          "answer": "Config only (desktop): v1.0.11 desktop Settings has no analytics switch, removed on purpose per a source test; only the undocumented AGENTSDOCK_DISABLE_ANALYTICS=1 environment variable stops it. The Android app has an in-app Usage analytics setting. The privacy policy claims a Settings switch on every platform, which the desktop source contradicts.",
+          "evidenceIds": [
+            "tel-2611-src"
+          ]
         },
         "consent_prompt": {
           "support": "unsupported",
@@ -5061,16 +5060,15 @@
         "privacy",
         "analytics",
         "analyticssrc",
-        "dialogtest"
+        "dialogtest",
+        "tel-2611-src"
       ],
       "checkedAt": "2026-11-17",
       "nextReviewAt": "2027-03-17",
-      "researcher": "researcher-batch20",
+      "researcher": "telemetry-researcher-a",
       "publication": "public-candidate",
       "review": null,
-      "contradictions": [
-        "The privacy policy states usage analytics can be turned off in Settings, while the v1.0.11 desktop source and its settings test state the usage-analytics opt-out was removed on purpose and no settings control calls setAnalyticsConsent."
-      ]
+      "contradictions": []
     },
     {
       "id": "agentsdock:OWN-04",
@@ -6102,6 +6100,19 @@
       "visibility": "public",
       "commit": "f9823e0da915a82d0a2974c9894e11e4c591444b",
       "path": "electron"
+    },
+    {
+      "id": "tel-2611-src",
+      "kind": "source-inspected",
+      "url": "https://github.com/ZhengyiLuo/AgentsDock/blob/f9823e0da915a82d0a2974c9894e11e4c591444b/electron/src/renderer/src/lib/analytics.ts#L43-L64",
+      "title": "AgentsDock desktop analytics gate at v1.0.11",
+      "locator": "electron/src/renderer/src/lib/analytics.ts L43-L64; electron/src/preload/index.ts L438; electron/src/renderer/src/components/Dialogs.test.tsx L177; mobile-react/src/components/AnalyticsSettings.android.tsx; website/privacy.html L61-L69",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-24",
+      "finding": "At v1.0.11 desktop Mixpanel analytics are granted by default without a prompt. Desktop Settings has no opt-out (a test says it was removed on purpose); only the undocumented AGENTSDOCK_DISABLE_ANALYTICS=1 environment variable, or a denial stored by an older version, stops them. The Android app has a Usage analytics settings page. The privacy policy still says analytics can be turned off in Settings on macOS, Windows, Linux and Android.",
+      "visibility": "public",
+      "commit": "f9823e0da915a82d0a2974c9894e11e4c591444b",
+      "path": "electron/src/renderer/src/lib/analytics.ts"
     }
   ],
   "changes": [
@@ -6212,6 +6223,40 @@
         "reviewed": false
       },
       "evidenceIds": []
+    },
+    {
+      "date": "2026-11-24",
+      "author": "telemetry-researcher-a",
+      "type": "research-correction",
+      "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+      "claimIds": [
+        "agentsdock:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Chats, files and credentials stay on your server; desktop apps send Mixpanel usage events by default (random per-install ID); policy claims an opt-out that this release’s source does not expose.",
+        "checkedAt": "2026-11-17",
+        "nextReviewAt": "2027-03-17",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "unknown",
+          "telemetry_controls": "partial"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Chats, files and credentials stay on your server; desktop and Android apps send Mixpanel usage events by default (random per-install ID on desktop). The privacy policy claims a Settings opt-out on every platform, but the v1.0.11 desktop source removed it on purpose and exposes only the undocumented AGENTSDOCK_DISABLE_ANALYTICS=1 environment variable; the source decides, and Android has an in-app setting.",
+        "checkedAt": "2026-11-17",
+        "nextReviewAt": "2027-03-17",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "partial",
+          "telemetry_controls": "partial"
+        }
+      },
+      "evidenceIds": [
+        "tel-2611-src"
+      ]
     }
   ],
   "context": {
