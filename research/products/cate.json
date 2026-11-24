@@ -5326,11 +5326,9 @@
     },
     "telemetry_defaults": {
      "support": "supported",
-     "answer": "Both are on in packaged builds from install.",
+     "answer": "On by default: packaged builds always send usage analytics and Sentry crash reports.",
      "evidenceIds": [
-      "privacy",
-      "analytics",
-      "sentry"
+      "tel-2611-src"
      ]
     },
     "telemetry_controls": {
@@ -5342,9 +5340,11 @@
      ]
     },
     "telemetry_off_switch": {
-     "support": "unknown",
-     "answer": "Telemetry off switch location: not yet researched under atomic revision 2 (added 2026-11-24).",
-     "evidenceIds": []
+     "support": "supported",
+     "answer": "No off switch: v2.1.2 gates analytics and Sentry only on being a packaged build; the first-run notice gives no choice, and the privacy policy says they cannot be disabled.",
+     "evidenceIds": [
+      "tel-2611-src"
+     ]
     },
     "consent_prompt": {
      "support": "partial",
@@ -5374,11 +5374,12 @@
     "github",
     "sentry",
     "welcome",
-    "iosaudit"
+    "iosaudit",
+    "tel-2611-src"
    ],
    "checkedAt": "2026-11-12",
    "nextReviewAt": "2027-03-12",
-   "researcher": "researcher-cate",
+   "researcher": "telemetry-researcher-a",
    "publication": "public-candidate",
    "review": null,
    "contradictions": []
@@ -6426,6 +6427,19 @@
    "retrievedAt": "2026-11-12",
    "finding": "Bounded search at the pinned commit found no implementation for: scheduled/recurring runs (cron, node-schedule, recurrence terms; only timer/debounce/polling hits); webhooks (only a GraphQL language-mode label and the GitHub API client); SSO/SAML/OIDC/SCIM; container/VM isolation for workloads (docker/podman/firecracker/microVM; only Electron/webview sandboxing); a product MCP client or MCP server (only a Claude --strict-mcp-config passthrough); audit-log export; kanban/backlog/sprint/issue entities; workspace export/import; Cate Connect pricing or paid tiers. Search terms: cron, schedule, webhook, sso, saml, oidc, scim, docker, container, sandbox, microvm, firecracker, mcp, audit, kanban, backlog, sprint, export.",
    "visibility": "public"
+  },
+  {
+   "id": "tel-2611-src",
+   "kind": "source-inspected",
+   "url": "https://github.com/0-AI-UG/cate/blob/d233ffdfb515aa308b716c7726879dac26ebd356/src/shells/desktop/main/index.ts#L102-L104",
+   "title": "Cate analytics and Sentry gating at v2.1.2",
+   "locator": "src/shells/desktop/main/index.ts L102-L104; src/shells/desktop/main/sentry.ts L27-L29; src/shells/desktop/ui/app/dialogs/WelcomeDialog.tsx L1-L4",
+   "sourceDate": null,
+   "retrievedAt": "2026-11-24",
+   "finding": "At v2.1.2 analytics are created with enabled: app.isPackaged and Sentry starts whenever the build is packaged and has a DSN; no setting, environment variable or consent gate disables either. The first-run welcome notice is informational only, with no choice.",
+   "visibility": "public",
+   "commit": "d233ffdfb515aa308b716c7726879dac26ebd356",
+   "path": "src/shells/desktop/main/index.ts"
   }
  ],
  "changes": [
@@ -6580,6 +6594,38 @@
     "reviewed": false
    },
    "evidenceIds": []
+  },
+  {
+   "date": "2026-11-24",
+   "author": "telemetry-researcher-a",
+   "type": "research-correction",
+   "summary": "Telemetry pass (atomic revision 2): default and off-switch location.",
+   "claimIds": [
+    "cate:OWN-03"
+   ],
+   "before": {
+    "support": "partial",
+    "answer": "Local-first: files and sessions stay on the runtime machine, telemetry and crash reports are always-on and undisablable, and agent traffic goes to user-configured providers under their terms. Retention, residency and training facts are partly unstated.",
+    "checkedAt": "2026-11-12",
+    "nextReviewAt": "2027-03-12",
+    "subanswers": {
+     "telemetry_defaults": "supported",
+     "telemetry_off_switch": "unknown"
+    }
+   },
+   "after": {
+    "support": "partial",
+    "answer": "Local-first: files and sessions stay on the runtime machine, telemetry and crash reports are always-on and undisablable, and agent traffic goes to user-configured providers under their terms. Retention, residency and training facts are partly unstated.",
+    "checkedAt": "2026-11-12",
+    "nextReviewAt": "2027-03-12",
+    "subanswers": {
+     "telemetry_defaults": "supported",
+     "telemetry_off_switch": "supported"
+    }
+   },
+   "evidenceIds": [
+    "tel-2611-src"
+   ]
   }
  ],
  "context": {
