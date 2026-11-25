@@ -5427,7 +5427,7 @@
     {
       "id": "swe-af:OWN-03",
       "criterionId": "OWN-03",
-      "answer": "SWE-AF code sends no telemetry (no matches for telemetry, analytics, posthog or sentry in node code). Code, prompts and diffs go to the chosen model provider and GitHub. The AgentField control plane sends anonymous usage telemetry by default with documented opt-out. Retention and residency are the operator's.",
+      "answer": "SWE-AF node code sends no telemetry (no matches for telemetry, analytics, posthog or sentry in node code). Code, prompts and diffs go to the chosen model provider and GitHub. The AgentField control plane (telemetry code at a9ed6a0) sends anonymous usage telemetry by default with a config or environment opt-out; CI variables only label events. Control-plane execution rows are kept forever unless an opt-in retention period is set; node artifacts have no retention setting. Training, residency and subprocessors depend on the operator and provider.",
       "support": "partial",
       "availability": "generally-available",
       "delivery": "native",
@@ -5436,7 +5436,7 @@
           "node",
           "controlplane"
         ],
-        "version": "SWE-AF default branch at commit b281a4c (2026-11-12; no tagged release); node ids swe-planner and swe-fast, Python and Go implementations; AgentField control plane 161cab6 for platform behavior",
+        "version": "SWE-AF default branch at commit b281a4c (2026-11-12; no tagged release); node ids swe-planner and swe-fast, Python and Go implementations; AgentField control plane 161cab6 for platform behavior and documentation, a9ed6a0 (2026-11-18) for telemetry code",
         "plan": null,
         "os": [],
         "executionModes": [],
@@ -5468,10 +5468,9 @@
         },
         "logs": {
           "support": "partial",
-          "answer": "Logs stay on the node host under .artifacts and in the control plane database; optional LiteLLM callbacks can export traces to LangFuse in the Python SDK.",
+          "answer": "Logs stay on the node host under .artifacts and in the control plane database. The AgentField Python SDK exports LLM call traces to LangFuse only when AGENTFIELD_LITELLM_CALLBACKS names the langfuse or langfuse_otel callback; nothing is registered by default.",
           "evidenceIds": [
-            "readme",
-            "afenv"
+            "tel-2611r4-litellm-callbacks"
           ]
         },
         "artifacts": {
@@ -5482,10 +5481,10 @@
           ]
         },
         "retention": {
-          "support": "unsupported",
-          "answer": "Bounded search of swe_af/ and go/ at the pinned commit found no implementation of retention settings; operators control disks.",
+          "support": "partial",
+          "answer": "The control plane runs cleanup by default but keeps finished execution rows forever (AGENTFIELD_EXECUTION_RETENTION_PERIOD defaults to 0s); setting a period such as 72h prunes older finished rows, and unreferenced payload files are swept after a 1h grace. A bounded search of swe_af/ and go/ at b281a4c found no retention setting for node artifacts under .artifacts; operators manage those disks.",
           "evidenceIds": [
-            "readme"
+            "tel-2611r4-cp-retention"
           ]
         },
         "deletion": {
@@ -5496,8 +5495,8 @@
           ]
         },
         "training": {
-          "support": "unsupported",
-          "answer": "Training use depends on the chosen model provider, outside SWE-AF.",
+          "support": "unknown",
+          "answer": "Unknown: no checked SWE-AF or AgentField README or documentation states whether data is used for training. Code and prompts go to the operator's chosen model provider, whose terms decide training use.",
           "evidenceIds": [
             "readme"
           ]
@@ -5526,9 +5525,9 @@
         },
         "telemetry_defaults": {
           "support": "supported",
-          "answer": "On by default: at a9ed6a0 the AgentField control plane that runs SWE-AF sends privacy-minimized installation and lifecycle telemetry unless it is explicitly disabled (IsEnabled is true when telemetry.enabled is unset); CI and DO_NOT_TRACK are not read. SWE-AF node code itself has no telemetry client.",
+          "answer": "On by default: at a9ed6a0 the AgentField control plane that runs SWE-AF sends privacy-minimized installation and lifecycle telemetry unless it is explicitly disabled (IsEnabled is true when telemetry.enabled is unset). CI does not disable it: detectUsageContext reads CI and other CI-provider variables only to label events as \"ci\", and DO_NOT_TRACK is not read. SWE-AF node code itself has no telemetry client.",
           "evidenceIds": [
-            "tel-2611-config-default"
+            "tel-2611r4-usage-context"
           ]
         },
         "telemetry_controls": {
@@ -5548,10 +5547,9 @@
         },
         "consent_prompt": {
           "support": "unsupported",
-          "answer": "No first-run consent dialog is documented for the control plane.",
+          "answer": "None: at a9ed6a0 the control plane creates and starts its telemetry service at server start whenever telemetry is enabled; Start enqueues control_plane_started and only writes a log line, with no prompt or consent step in the telemetry or server code.",
           "evidenceIds": [
-            "afenv",
-            "afreadme"
+            "tel-2611r4-usage-context"
           ]
         },
         "provider_separation": {
@@ -5563,15 +5561,14 @@
         }
       },
       "limitations": [
-        "logs: Logs stay on the node host under .artifacts and in the control plane database; optional LiteLLM callbacks can export traces to LangFuse in the Python SDK.",
-        "retention: Bounded search of swe_af/ and go/ at the pinned commit found no implementation of retention settings; operators control disks.",
+        "logs: Logs stay on the node host under .artifacts and in the control plane database; the AgentField Python SDK exports LLM traces to LangFuse only when AGENTFIELD_LITELLM_CALLBACKS lists a LangFuse callback.",
+        "retention: The control plane keeps finished execution rows forever by default; AGENTFIELD_EXECUTION_RETENTION_PERIOD enables pruning. Node artifacts under .artifacts have no retention setting.",
         "deletion: Delete artifacts or database rows manually; make clean targets exist for examples.",
-        "training: Training use depends on the chosen model provider, outside SWE-AF.",
+        "training: No checked SWE-AF or AgentField source states a training policy; training use by model providers follows the operator's provider terms.",
         "residency: Residency depends on the operator host and model provider; SWE-AF defines none.",
-        "subprocessors: No SWE-AF service exists; model providers are the operator's choice.",
-        "consent prompt: No first-run consent dialog is documented for the control plane."
+        "subprocessors: No SWE-AF service exists; model providers are the operator's choice."
       ],
-      "unknownReason": null,
+      "unknownReason": "Training: no checked SWE-AF or AgentField source states a training policy, and provider terms are outside the scoped product.",
       "evidenceIds": [
         "readme",
         "afenv",
@@ -5580,11 +5577,14 @@
         "deploy",
         "afreadme",
         "tel-2611-config-gate",
-        "tel-2611-config-default"
+        "tel-2611-config-default",
+        "tel-2611r4-litellm-callbacks",
+        "tel-2611r4-cp-retention",
+        "tel-2611r4-usage-context"
       ],
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
-      "researcher": "telemetry-researcher-g",
+      "researcher": "telemetry-researcher-h",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -6747,6 +6747,45 @@
       "visibility": "public",
       "commit": "a9ed6a03c0e1894f6ec33459b29c5e8de94c59de",
       "path": "control-plane/internal/config/config.go"
+    },
+    {
+      "id": "tel-2611r4-cp-retention",
+      "kind": "documented",
+      "url": "https://github.com/Agent-Field/agentfield/blob/161cab6a948b3cc7677a86d20c1a119ef56f6e4c/docs/ENVIRONMENT_VARIABLES.md#L199-L207",
+      "title": "AgentField environment variables: Execution cleanup and retention (control plane)",
+      "locator": "docs/ENVIRONMENT_VARIABLES.md lines 199-207 at 161cab6",
+      "sourceDate": "2026-11-16",
+      "retrievedAt": "2026-11-25",
+      "finding": "Control-plane cleanup is on by default (AGENTFIELD_EXECUTION_CLEANUP_ENABLED=true, every 5m) and marks stale executions timed out and garbage-collects unreferenced payload files after a 1h grace. AGENTFIELD_EXECUTION_RETENTION_PERIOD defaults to 0s, which keeps finished execution rows forever; pruning finished rows (for example 72h) is opt-in, and the most recent 1h is always preserved.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "tel-2611r4-usage-context",
+      "kind": "source-inspected",
+      "url": "https://github.com/Agent-Field/agentfield/blob/a9ed6a03c0e1894f6ec33459b29c5e8de94c59de/control-plane/internal/observability/telemetry.go#L198-L221",
+      "title": "AgentField control-plane telemetry service: detectUsageContext and Start",
+      "locator": "control-plane/internal/observability/telemetry.go lines 93-130 (NewTelemetryService), 198-221 (detectUsageContext, isTruthyEnvValue), 222-242 (Start); control-plane/internal/server/server.go lines 532-540 and 751",
+      "sourceDate": "2026-11-18",
+      "retrievedAt": "2026-11-25",
+      "finding": "detectUsageContext reads CI, GITHUB_ACTIONS, GITLAB_CI, BUILDKITE, CIRCLECI and JENKINS_URL only to label every event's usage context as \"ci\" (otherwise \"server\" or \"dev_or_local\"); a CI variable never stops collection. server.go creates the telemetry service whenever telemetry.IsEnabled() and starts it with the server; Start enqueues control_plane_started and only logs \"anonymous OSS telemetry enabled\". The service has no prompt or consent step, and a search of control-plane Go code for consent finds only unrelated package-install code.",
+      "visibility": "public",
+      "commit": "a9ed6a03c0e1894f6ec33459b29c5e8de94c59de",
+      "path": "control-plane/internal/observability/telemetry.go"
+    },
+    {
+      "id": "tel-2611r4-litellm-callbacks",
+      "kind": "source-inspected",
+      "url": "https://github.com/Agent-Field/agentfield/blob/161cab6a948b3cc7677a86d20c1a119ef56f6e4c/sdk/python/agentfield/litellm_observability.py#L1-L60",
+      "title": "AgentField Python SDK: opt-in LiteLLM observability callbacks",
+      "locator": "sdk/python/agentfield/litellm_observability.py lines 1-60 (AGENTFIELD_LITELLM_CALLBACKS, _LANGFUSE_CALLBACKS, register_callbacks); docs/llm-observability.md lines 8-26",
+      "sourceDate": "2026-11-16",
+      "retrievedAt": "2026-11-25",
+      "finding": "The Python SDK registers LiteLLM callbacks only when AGENTFIELD_LITELLM_CALLBACKS (or explicit callback names) lists them; with none configured it registers nothing. The langfuse and langfuse_otel callbacks receive AgentField trace metadata, and the docs set LANGFUSE_PUBLIC_KEY, LANGFUSE_SECRET_KEY and an optional LANGFUSE_HOST (default LangFuse Cloud) to export LLM call traces there.",
+      "visibility": "public",
+      "commit": "161cab6a948b3cc7677a86d20c1a119ef56f6e4c",
+      "path": "sdk/python/agentfield/litellm_observability.py"
     }
   ],
   "changes": [
@@ -6909,6 +6948,46 @@
         ]
       },
       "evidenceIds": []
+    },
+    {
+      "date": "2026-11-25",
+      "author": "telemetry-researcher-h",
+      "type": "research-correction",
+      "summary": "Round-4 fixes: control-plane retention from afenv, CI read only to label telemetry events, training unknown, consent and LangFuse claims cited to pinned source.",
+      "claimIds": [
+        "swe-af:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "SWE-AF code sends no telemetry (no matches for telemetry, analytics, posthog or sentry in node code). Code, prompts and diffs go to the chosen model provider and GitHub. The AgentField control plane sends anonymous usage telemetry by default with documented opt-out. Retention and residency are the operator's.",
+        "checkedAt": "2026-11-16",
+        "nextReviewAt": "2027-03-16",
+        "subanswers": {
+          "logs": "partial",
+          "retention": "unsupported",
+          "training": "unsupported",
+          "telemetry_defaults": "supported",
+          "consent_prompt": "unsupported"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "SWE-AF node code sends no telemetry (no matches for telemetry, analytics, posthog or sentry in node code). Code, prompts and diffs go to the chosen model provider and GitHub. The AgentField control plane (telemetry code at a9ed6a0) sends anonymous usage telemetry by default with a config or environment opt-out; CI variables only label events. Control-plane execution rows are kept forever unless an opt-in retention period is set; node artifacts have no retention setting. Training, residency and subprocessors depend on the operator and provider.",
+        "checkedAt": "2026-11-16",
+        "nextReviewAt": "2027-03-16",
+        "subanswers": {
+          "logs": "partial",
+          "retention": "partial",
+          "training": "unknown",
+          "telemetry_defaults": "supported",
+          "consent_prompt": "unsupported"
+        }
+      },
+      "evidenceIds": [
+        "tel-2611r4-litellm-callbacks",
+        "tel-2611r4-cp-retention",
+        "tel-2611r4-usage-context"
+      ]
     }
   ],
   "context": {
