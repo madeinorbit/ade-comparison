@@ -5011,7 +5011,7 @@
     {
       "id": "im-codes:OWN-03",
       "criterionId": "OWN-03",
-      "answer": "Self-hosted: code, chat, terminal output and memory stay on your server/daemon (raw and processed memory always local; processed summaries can sync to a user cloud pool); hosted app.im.codes stores credentials, session config, relayed chat/terminal output and push tokens; no sale or third-party sharing; no third-party analytics; bot secrets AES-256-GCM; no telemetry opt-out control found because no analytics are collected; training use and subprocessors not stated.",
+      "answer": "Self-hosted: code, chat, terminal output and memory stay on your server/daemon (raw and processed memory always local; processed summaries can sync to a user cloud pool); hosted app.im.codes stores credentials, session config, relayed chat/terminal output and push tokens; no sale or third-party sharing; no third-party analytics; bot secrets AES-256-GCM; at source revision 799fa96 the daemon uploads per-turn token-usage facts (session name, provider, agent, model, token counts, cost) at startup and every 60 seconds to the server it is bound to, which is the vendor-hosted app.im.codes for evaluation users, with no control other than binding to a self-hosted server; training use and subprocessors not stated.",
       "support": "partial",
       "availability": "generally-available",
       "delivery": "native",
@@ -5097,32 +5097,34 @@
           "evidenceIds": []
         },
         "telemetry_disclosure": {
-          "support": "supported",
-          "answer": "Privacy page states no third-party analytics or tracking cookies.",
+          "support": "partial",
+          "answer": "The privacy page states no third-party analytics or tracking cookies; it does not describe the daemon's automatic token-usage upload to the bound server, which the source at 799fa96 performs.",
           "evidenceIds": [
-            "privacy"
+            "privacy",
+            "tel-2611-usage-sync"
           ]
         },
         "telemetry_defaults": {
-          "support": "supported",
-          "answer": "No ADE telemetry: a bounded search of the pinned source (799fa96) found no analytics or crash-reporting client sending data to the vendor. The telemetry matches are not vendor telemetry: shared/memory-telemetry.ts and shared/timeline-delivery-telemetry.ts only feed in-process, non-persisted counters inside the user's own daemon and server; X-Platform/X-App-Version headers go into the auth audit_log of the server the user signs in to (self-hosted or the hosted account service) as login audit records; and --disable-telemetry is passed to the third-party Antigravity CLI to switch its telemetry off. Other matches are audio amplitude fields and DO_NOT_TRACK=1 for child npm processes. Consistent with the privacy page stating no third-party analytics.",
+          "support": "partial",
+          "answer": "On by default when bound to the vendor-hosted app.im.codes: at source revision 799fa96 (2026-11-16; scope names release android-v1.1-b8442c5) the daemon's usage-sync worker POSTs token-usage facts (session name, provider, agent type, model, token counts, context window, cost) at startup and every 60 seconds to the server it is bound to, so evaluation users of app.im.codes send them to the vendor, while a self-hosted server keeps them with its operator. A bounded search of the same revision found no third-party analytics or crash-reporting client: shared/memory-telemetry.ts and shared/timeline-delivery-telemetry.ts only feed in-process counters, X-Platform/X-App-Version headers are auth audit records on the sign-in server, and --disable-telemetry switches off the third-party Antigravity CLI's telemetry. The privacy page's no-third-party-analytics statement is consistent with that, but the code sends the usage feed.",
           "evidenceIds": [
+            "tel-2611-usage-sync",
             "tel-2611-im-codes-bounded"
           ]
         },
         "telemetry_controls": {
           "support": "unsupported",
-          "answer": "No analytics so no control; optional cloud memory sync is a separate setting.",
+          "answer": "No control: at 799fa96 the usage-sync worker starts whenever the daemon has server credentials, and no setting, flag or environment variable disables it; the only way to keep the facts away from the vendor is to bind to a self-hosted server. Optional cloud memory sync is a separate setting.",
           "evidenceIds": [
-            "privacy",
+            "tel-2611-usage-sync",
             "readme"
           ]
         },
         "telemetry_off_switch": {
-          "support": "not-applicable",
-          "answer": "Nothing to switch off: no ADE telemetry.",
+          "support": "partial",
+          "answer": "No off switch: a bounded search of 799fa96 (usage-sync, usageSync, USAGE_SYNC and disable/enabled terms across src, shared, server and web) found no setting, flag or environment variable that stops the token-usage upload; it runs whenever the daemon is bound, and only binding to a self-hosted server instead of app.im.codes keeps the facts from the vendor.",
           "evidenceIds": [
-            "tel-2611-im-codes-bounded"
+            "tel-2611-usage-sync"
           ]
         },
         "consent_prompt": {
@@ -5149,11 +5151,12 @@
         "readme",
         "claude",
         "tel-2611-im-codes-src",
-        "tel-2611-im-codes-bounded"
+        "tel-2611-im-codes-bounded",
+        "tel-2611-usage-sync"
       ],
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
-      "researcher": "telemetry-researcher-f",
+      "researcher": "telemetry-researcher-g",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -6089,7 +6092,7 @@
       "locator": "Recursive search of . for posthog, segment, amplitude, mixpanel, sentry, aptabase, telemetry, DO_NOT_TRACK, google-analytics, gtag, firebase/analytics, opentelemetry",
       "sourceDate": null,
       "retrievedAt": "2026-11-24",
-      "finding": "No ADE analytics, telemetry or crash-reporting client in the pinned source. Matches are audio \"amplitude\" fields and a DO_NOT_TRACK=1 value the daemon passes to child npm processes (src/daemon/agent-skills.ts); consistent with the privacy page stating no third-party analytics.",
+      "finding": "No third-party analytics or crash-reporting client in the pinned source. Matches are audio \"amplitude\" fields and a DO_NOT_TRACK=1 value the daemon passes to child npm processes (src/daemon/agent-skills.ts); consistent with the privacy page stating no third-party analytics. It does not cover the daemon's token-usage upload to the bound server (see tel-2611-usage-sync).",
       "visibility": "public",
       "commit": "799fa96ccc7168e101fa3af8378c30a5de1b1f14",
       "path": "."
@@ -6102,10 +6105,23 @@
       "locator": "shared/memory-telemetry.ts; shared/timeline-delivery-telemetry.ts; shared/metrics.ts lines 1-15; server/src/routes/auth.ts lines 96-115 (getAuthRequestMetadata, logAuthAudit); shared/agy-agent.ts line 70 and src/agent/agy-incognito-isolation.ts line 824; search terms posthog, segment, amplitude, mixpanel, sentry, aptabase, telemetry, DO_NOT_TRACK, google-analytics, gtag, firebase/analytics, opentelemetry, X-Platform, X-App-Version",
       "sourceDate": "2026-11-16",
       "retrievedAt": "2026-11-24",
-      "finding": "No ADE analytics or crash-reporting client sends data to the vendor. shared/memory-telemetry.ts and shared/timeline-delivery-telemetry.ts define label sets and counter names fed to shared/metrics.ts, an in-process, non-persisted Map in the user's own daemon and server. The X-Platform, X-App-Version and X-Bundle-Version request headers are written by server/src/routes/auth.ts into the audit_log table of whichever server the user signs in to (their self-hosted server or the hosted app.im.codes account service), as auth audit records rather than an analytics feed. shared/agy-agent.ts defines --disable-telemetry, which the daemon passes to the third-party Google Antigravity (agy) CLI to turn that tool's telemetry off. Other matches are audio amplitude fields and a DO_NOT_TRACK=1 value passed to child npm processes.",
+      "finding": "No third-party analytics or crash-reporting client sends data to the vendor. shared/memory-telemetry.ts and shared/timeline-delivery-telemetry.ts define label sets and counter names fed to shared/metrics.ts, an in-process, non-persisted Map in the user's own daemon and server. The X-Platform, X-App-Version and X-Bundle-Version request headers are written by server/src/routes/auth.ts into the audit_log table of whichever server the user signs in to (their self-hosted server or the hosted app.im.codes account service), as auth audit records rather than an analytics feed. shared/agy-agent.ts defines --disable-telemetry, which the daemon passes to the third-party Google Antigravity (agy) CLI to turn that tool's telemetry off. Other matches are audio amplitude fields and a DO_NOT_TRACK=1 value passed to child npm processes. This search covers analytics and crash-reporting clients only: separately, src/daemon/usage-sync-worker.ts uploads token-usage facts to the bound server, including the vendor-hosted app.im.codes (see tel-2611-usage-sync).",
       "visibility": "public",
       "commit": "799fa96ccc7168e101fa3af8378c30a5de1b1f14",
       "path": "."
+    },
+    {
+      "id": "tel-2611-usage-sync",
+      "kind": "source-inspected",
+      "url": "https://github.com/im4codes/imcodes/blob/799fa96ccc7168e101fa3af8378c30a5de1b1f14/src/daemon/usage-sync-worker.ts",
+      "title": "imcodes 799fa96 daemon usage-sync worker",
+      "locator": "src/daemon/lifecycle.ts lines 1731 and 2812-2830 (startUsageSyncWorker); src/daemon/usage-sync-worker.ts (DEFAULT_USAGE_SYNC_INTERVAL_MS 60000, POST to /api/server/:id/token-usage/ingest); shared/usage-analytics.ts lines 172-189 (UsageFact); server/src/routes/token-usage.ts lines 30 and 123; README.md lines 311-316 (app.im.codes evaluation instance, imcodes bind). Search for usage-sync, usageSync, USAGE_SYNC and disable/enabled terms across src, shared, server and web.",
+      "sourceDate": "2026-11-16",
+      "retrievedAt": "2026-11-25",
+      "finding": "Whenever the daemon has server credentials (after imcodes bind), lifecycle.ts starts the usage-sync worker, which POSTs batches of token-usage facts (session name and kind, provider, agent type, model, input/cache/output/total tokens, context window, cost) at startup and every 60 seconds to /api/server/:serverId/token-usage/ingest on the bound server; the server stores them and serves the user's token-usage summary. The README offers the vendor-hosted app.im.codes for evaluation (imcodes bind https://app.im.codes/bind/<api-key>), so evaluation users send these facts to the vendor; a self-hosted server keeps them with its operator. The only gate is the presence of credentials; no setting, flag or environment variable disables the upload.",
+      "visibility": "public",
+      "commit": "799fa96ccc7168e101fa3af8378c30a5de1b1f14",
+      "path": "src/daemon/usage-sync-worker.ts"
     }
   ],
   "changes": [
@@ -6196,6 +6212,45 @@
       },
       "evidenceIds": [
         "tel-2611-im-codes-bounded"
+      ]
+    },
+    {
+      "date": "2026-11-25",
+      "author": "telemetry-researcher-g",
+      "type": "research-correction",
+      "summary": "Telemetry default remapped to on-by-default (partial): at 799fa96 the daemon's usage-sync worker posts token-usage facts at startup and every 60 seconds to the bound server, including the vendor-hosted app.im.codes; no control stops it, so the off switch is none. The bounded finding now names this feed.",
+      "claimIds": [
+        "im-codes:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Self-hosted: code, chat, terminal output and memory stay on your server/daemon (raw and processed memory always local; processed summaries can sync to a user cloud pool); hosted app.im.codes stores credentials, session config, relayed chat/terminal output and push tokens; no sale or third-party sharing; no third-party analytics; bot secrets AES-256-GCM; no telemetry opt-out control found because no analytics are collected; training use and subprocessors not stated.",
+        "checkedAt": "2026-11-16",
+        "nextReviewAt": "2027-03-16",
+        "subanswers": {
+          "telemetry_disclosure": "supported",
+          "telemetry_defaults": "supported",
+          "telemetry_controls": "unsupported",
+          "telemetry_off_switch": "not-applicable"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Self-hosted: code, chat, terminal output and memory stay on your server/daemon (raw and processed memory always local; processed summaries can sync to a user cloud pool); hosted app.im.codes stores credentials, session config, relayed chat/terminal output and push tokens; no sale or third-party sharing; no third-party analytics; bot secrets AES-256-GCM; at source revision 799fa96 the daemon uploads per-turn token-usage facts (session name, provider, agent, model, token counts, cost) at startup and every 60 seconds to the server it is bound to, which is the vendor-hosted app.im.codes for evaluation users, with no control other than binding to a self-hosted server; training use and subprocessors not stated.",
+        "checkedAt": "2026-11-16",
+        "nextReviewAt": "2027-03-16",
+        "subanswers": {
+          "telemetry_disclosure": "partial",
+          "telemetry_defaults": "partial",
+          "telemetry_controls": "unsupported",
+          "telemetry_off_switch": "partial"
+        }
+      },
+      "evidenceIds": [
+        "privacy",
+        "tel-2611-usage-sync",
+        "tel-2611-im-codes-bounded",
+        "readme"
       ]
     }
   ],
