@@ -5128,7 +5128,7 @@
     {
       "id": "ai-maestro:OWN-03",
       "criterionId": "OWN-03",
-      "answer": "Everything stays on your hosts; the README states no telemetry, no account and no phone-home; Claude telemetry export is opt-in to your own receiver; optional TTS and push call third parties; the iPhone app sends crash reports unless disabled.",
+      "answer": "Dashboard: code, prompts, logs and artifacts stay on your hosts; the README states no telemetry, no account and no phone-home, and Claude telemetry export is opt-in to your own receiver. iPhone app: agent content goes directly to your hosts, but crash and error reports go to Sentry unless turned off, and the mobile policy names Apple, Expo (push), ElevenLabs (speech, with your key) and the host's AI and memory-classifier providers as processors.",
       "support": "partial",
       "availability": "generally-available",
       "delivery": "native",
@@ -5167,10 +5167,11 @@
           ]
         },
         "logs": {
-          "support": "supported",
-          "answer": "Logs stay local.",
+          "support": "partial",
+          "answer": "Dashboard and host logs stay on the user's hosts. The iPhone app sends crash and error reports (error, code location, app version, phone model, iOS version; host addresses removed) to Sentry, kept for a limited time, unless Send crash reports is turned off.",
           "evidenceIds": [
-            "readme"
+            "readme",
+            "tel-2611r4-mobile-processors"
           ]
         },
         "artifacts": {
@@ -5203,16 +5204,18 @@
           ]
         },
         "residency": {
-          "support": "supported",
-          "answer": "Host-local.",
+          "support": "partial",
+          "answer": "Dashboard data stays on the user's hosts. Data from the iPhone app leaves the phone for Sentry (crash reports), Apple (speech recognition, purchases, notification delivery) and Expo (push, if enabled); the mobile policy gives no processing location for them.",
           "evidenceIds": [
-            "readme"
+            "readme",
+            "tel-2611r4-mobile-processors"
           ]
         },
         "subprocessors": {
           "support": "partial",
-          "answer": "Expo push and TTS vendors if enabled.",
+          "answer": "The mobile policy names Apple (purchases, speech recognition, notification delivery), Sentry (crash reports, under agreement), Expo (notification delivery, only with notifications on), ElevenLabs (text-to-speech, only with the user's key), the memory-classifier provider and the host's AI provider. The dashboard host sends thin pushes through Expo. No complete processor list exists for the dashboard.",
           "evidenceIds": [
+            "tel-2611r4-mobile-processors",
             "pushexpo"
           ]
         },
@@ -5248,11 +5251,9 @@
           ]
         },
         "consent_prompt": {
-          "support": "unsupported",
-          "answer": "No consent dialog.",
-          "evidenceIds": [
-            "readme"
-          ]
+          "support": "unknown",
+          "answer": "Unknown: the dashboard sends no vendor telemetry, and the mobile policy says how to turn crash reports off but not whether the iPhone app asks first. The README says nothing about a prompt, which cannot establish its absence.",
+          "evidenceIds": []
         },
         "provider_separation": {
           "support": "supported",
@@ -5263,9 +5264,12 @@
         }
       },
       "limitations": [
-        "Version check is not documented as controllable."
+        "Version check is not documented as controllable.",
+        "logs: iPhone app crash and error reports leave the phone for Sentry; dashboard logs stay local.",
+        "residency: No processing location is given for Sentry, Apple or Expo.",
+        "consent prompt: Neither the dashboard sources nor the mobile policy say whether the iPhone app asks before sending crash reports."
       ],
-      "unknownReason": null,
+      "unknownReason": "Consent prompt: the mobile policy and dashboard sources do not say whether the closed-source iPhone app asks before sending crash reports; no installed app was tested.",
       "evidenceIds": [
         "readme",
         "secrets",
@@ -5279,11 +5283,12 @@
         "memviewer",
         "tel-2611-mobile-policy",
         "tel-2611-src",
-        "tel-2611-mobile-policy-dated"
+        "tel-2611-mobile-policy-dated",
+        "tel-2611r4-mobile-processors"
       ],
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
-      "researcher": "telemetry-researcher-g",
+      "researcher": "telemetry-researcher-h",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -6864,6 +6869,19 @@
       "visibility": "public",
       "commit": null,
       "path": null
+    },
+    {
+      "id": "tel-2611r4-mobile-processors",
+      "kind": "documented",
+      "url": "https://23blocks.com/policies/ai-maestro-mobile/",
+      "title": "AI Maestro Mobile Privacy Policy",
+      "locator": "What the app does with data (Crash reports, Notifications, Optional keys you add, Microphone and speech recognition); Your control, deletion and consent; Other companies",
+      "sourceDate": "2026-10-30",
+      "retrievedAt": "2026-11-25",
+      "finding": "The iPhone app sends crash and error reports (error, code location, app version, phone model, iOS version; host addresses removed) to Sentry, which 23blocks has an agreement with; reports are kept for a limited time. The policy names the other companies that handle data: Apple (purchases, speech recognition, notification delivery), Sentry (crash reports), Expo (notification delivery, only with notifications on), ElevenLabs (text-to-speech, only if the user adds a key), the memory-classifier provider and the host's AI provider; the host, not the app, sends data to the last two. Agent content travels directly between the phone and the user's hosts. The consent section covers deletion and iOS permission withdrawal; the policy does not say whether the app asks before sending crash reports and gives no processing location for Sentry, Apple or Expo.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
     }
   ],
   "changes": [
@@ -7374,6 +7392,44 @@
         }
       },
       "evidenceIds": []
+    },
+    {
+      "date": "2026-11-25",
+      "author": "telemetry-researcher-h",
+      "type": "research-correction",
+      "summary": "Round-4 fixes: logs and residency now cover the iPhone app's Sentry crash reports; subprocessors cite the mobile policy's processor list (ElevenLabs for speech, not Expo); consent prompt is unknown rather than resting on README silence.",
+      "claimIds": [
+        "ai-maestro:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Everything stays on your hosts; the README states no telemetry, no account and no phone-home; Claude telemetry export is opt-in to your own receiver; optional TTS and push call third parties; the iPhone app sends crash reports unless disabled.",
+        "checkedAt": "2026-11-16",
+        "nextReviewAt": "2027-03-16",
+        "subanswers": {
+          "logs": "supported",
+          "residency": "supported",
+          "subprocessors": "partial",
+          "consent_prompt": "unsupported"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Dashboard: code, prompts, logs and artifacts stay on your hosts; the README states no telemetry, no account and no phone-home, and Claude telemetry export is opt-in to your own receiver. iPhone app: agent content goes directly to your hosts, but crash and error reports go to Sentry unless turned off, and the mobile policy names Apple, Expo (push), ElevenLabs (speech, with your key) and the host's AI and memory-classifier providers as processors.",
+        "checkedAt": "2026-11-16",
+        "nextReviewAt": "2027-03-16",
+        "subanswers": {
+          "logs": "partial",
+          "residency": "partial",
+          "subprocessors": "partial",
+          "consent_prompt": "unknown"
+        }
+      },
+      "evidenceIds": [
+        "readme",
+        "tel-2611r4-mobile-processors",
+        "pushexpo"
+      ]
     }
   ],
   "context": {
