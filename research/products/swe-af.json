@@ -5470,6 +5470,8 @@
           "support": "partial",
           "answer": "Logs stay on the node host under .artifacts and in the control plane database. The AgentField Python SDK exports LLM call traces to LangFuse only when AGENTFIELD_LITELLM_CALLBACKS names the langfuse or langfuse_otel callback; nothing is registered by default.",
           "evidenceIds": [
+            "readme",
+            "afenv",
             "tel-2611r4-litellm-callbacks"
           ]
         },
@@ -5484,6 +5486,7 @@
           "support": "partial",
           "answer": "The control plane runs cleanup by default but keeps finished execution rows forever (AGENTFIELD_EXECUTION_RETENTION_PERIOD defaults to 0s); setting a period such as 72h prunes older finished rows, and unreferenced payload files are swept after a 1h grace. A bounded search of swe_af/ and go/ at b281a4c found no retention setting for node artifacts under .artifacts; operators manage those disks.",
           "evidenceIds": [
+            "readme",
             "tel-2611r4-cp-retention"
           ]
         },
@@ -5527,6 +5530,7 @@
           "support": "supported",
           "answer": "On by default: at a9ed6a0 the AgentField control plane that runs SWE-AF sends privacy-minimized installation and lifecycle telemetry unless it is explicitly disabled (IsEnabled is true when telemetry.enabled is unset). CI does not disable it: detectUsageContext reads CI and other CI-provider variables only to label events as \"ci\", and DO_NOT_TRACK is not read. SWE-AF node code itself has no telemetry client.",
           "evidenceIds": [
+            "tel-2611-config-default",
             "tel-2611r4-usage-context"
           ]
         },
@@ -6987,6 +6991,50 @@
         "tel-2611r4-litellm-callbacks",
         "tel-2611r4-cp-retention",
         "tel-2611r4-usage-context"
+      ]
+    },
+    {
+      "date": "2026-11-25",
+      "author": "telemetry-researcher-h",
+      "type": "research-correction",
+      "summary": "Restored atomic citations that the round-4 pass replaced instead of extending: logs keep readme and afenv, retention keeps the node-side readme search, and the telemetry default keeps the config.go default citation beside the new usage-context source.",
+      "claimIds": [
+        "swe-af:OWN-03"
+      ],
+      "before": {
+        "subanswerEvidence": {
+          "logs": [
+            "tel-2611r4-litellm-callbacks"
+          ],
+          "retention": [
+            "tel-2611r4-cp-retention"
+          ],
+          "telemetry_defaults": [
+            "tel-2611r4-usage-context"
+          ]
+        }
+      },
+      "after": {
+        "subanswerEvidence": {
+          "logs": [
+            "readme",
+            "afenv",
+            "tel-2611r4-litellm-callbacks"
+          ],
+          "retention": [
+            "readme",
+            "tel-2611r4-cp-retention"
+          ],
+          "telemetry_defaults": [
+            "tel-2611-config-default",
+            "tel-2611r4-usage-context"
+          ]
+        }
+      },
+      "evidenceIds": [
+        "readme",
+        "afenv",
+        "tel-2611-config-default"
       ]
     }
   ],
