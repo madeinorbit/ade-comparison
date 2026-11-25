@@ -5055,7 +5055,7 @@
     {
       "id": "roomote:OWN-03",
       "criterionId": "OWN-03",
-      "answer": "Code, prompts and artifacts stay in the operator deployment, sandbox and chosen inference and integration providers; integration credentials are held server-side. At v1.25.0 self-hosted deployments send no analytics or usage telemetry to Roomote, while managed Roomote Cloud deployments always send anonymous telemetry with no off switch (cookie consent covers only optional Intercom and PostHog); the daily version check reads GitHub's public API without an instance ID. Training use, residency and subprocessors belong to chosen providers.",
+      "answer": "Code, prompts and artifacts stay in the operator deployment, sandbox and chosen inference and integration providers; integration credentials are held server-side. At v1.25.0 the scoped self-hosted deployments send no analytics or usage telemetry to Roomote (privacy doc and source: every automatic analytics path is gated on R_CLOUD_ENABLED, and Sentry reports only to a DSN the operator sets); an admin can deliberately submit a platform-issue report to Roomote, and the daily version check reads GitHub's public API without an instance ID. Managed Roomote Cloud, outside this plan scope, always sends anonymous telemetry. Training use, residency and subprocessors belong to chosen providers.",
       "support": "partial",
       "availability": "generally-available",
       "delivery": "native",
@@ -5154,27 +5154,29 @@
           ]
         },
         "telemetry_defaults": {
-          "support": "partial",
-          "answer": "On by default (managed): Roomote Cloud deployments always send anonymous telemetry. Self-hosted deployments at v1.25.0 send no analytics or usage telemetry to Roomote, so the default depends on the deployment type.",
+          "support": "supported",
+          "answer": "No ADE telemetry (self-hosted): at v1.25.0 the privacy doc states self-hosted deployments send no analytics or usage telemetry to Roomote, and a bounded source search agrees: every automatic analytics and instance-report path is gated on R_CLOUD_ENABLED, Sentry reports only to a DSN the operator configures, and the only other call to Roomote is a platform-issue report an admin chooses to submit. Managed Roomote Cloud, outside this plan scope, always sends anonymous telemetry.",
           "evidenceIds": [
             "v125-privacy",
-            "tel-2611-privacy-doc"
+            "tel-2611-privacy-doc",
+            "tel-2611-selfhost-search"
           ]
         },
         "telemetry_controls": {
           "support": "partial",
-          "answer": "Managed deployments: no control over the anonymous telemetry; cookie consent controls only optional Intercom and PostHog. Self-hosted: no telemetry to control. The earlier setup switch and Settings > Deployment toggle no longer exist at v1.25.0.",
+          "answer": "Self-hosted: no vendor telemetry to control; operators choose whether to set a Sentry DSN for their own Sentry project. The earlier setup switch and Settings > Deployment toggle no longer exist at v1.25.0. (Managed Cloud, outside scope, offers no control over its anonymous telemetry.)",
           "evidenceIds": [
             "v125-privacy",
-            "tel-2611-privacy-doc"
+            "tel-2611-privacy-doc",
+            "tel-2611-selfhost-search"
           ]
         },
         "telemetry_off_switch": {
-          "support": "supported",
-          "answer": "No off switch: the v1.25.0 privacy doc states managed deployments always send anonymous telemetry, and cookie consent controls only optional Intercom and PostHog; self-hosted deployments have nothing to switch off.",
+          "support": "not-applicable",
+          "answer": "Not applicable in scope: self-hosted v1.25.0 deployments send no ADE telemetry, so there is nothing to switch off. (Managed Roomote Cloud, outside this plan scope, always sends anonymous telemetry with no off switch.)",
           "evidenceIds": [
             "v125-privacy",
-            "tel-2611-privacy-doc"
+            "tel-2611-selfhost-search"
           ]
         },
         "consent_prompt": {
@@ -5211,11 +5213,12 @@
         "v125-tasks",
         "v125-selfhost",
         "v125-envvars",
-        "v125-sessions"
+        "v125-sessions",
+        "tel-2611-selfhost-search"
       ],
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
-      "researcher": "telemetry-researcher-f",
+      "researcher": "telemetry-researcher-g",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -6664,6 +6667,19 @@
       "visibility": "public",
       "commit": null,
       "path": null
+    },
+    {
+      "id": "tel-2611-selfhost-search",
+      "kind": "source-inspected",
+      "url": "https://github.com/RooCodeInc/Roomote/blob/82aed50b6829232e1b5c156129d82517072de972/packages/telemetry/src/server/index.ts#L150-L159",
+      "title": "Roomote v1.25.0 telemetry gates (bounded source search)",
+      "locator": "packages/telemetry/src/server/index.ts isAnonymousAnalyticsEnabled (lines 150-159), captureEvent, captureTaskSettled, sendInstanceReport, submitPlatformIssueToPing; apps/web/src/app/api/telemetry/route.ts; apps/web/src/lib/server/setup-funnel-telemetry.ts; apps/web/src/components/layout/RootProviders.tsx (CloudConsentGate only when cloudEnabled); apps/api, apps/worker, apps/controller monitoring/sentry.ts; apps/web/src/instrumentation-client.ts. Terms: posthog, sentry, segment, amplitude, mixpanel, intercom, telemetry, analytics, R_PING_BASE_URL, excluding node_modules and tests.",
+      "sourceDate": "2026-11-24",
+      "retrievedAt": "2026-11-25",
+      "finding": "At tag v1.25.0 isAnonymousAnalyticsEnabled is true only when R_CLOUD_ENABLED marks a Roomote Cloud deployment (code comment: self-hosted deployments never send analytics); event capture, task-settled events, the instance report, the setup funnel and the browser telemetry route all check it, and the PostHog and Intercom consent gate renders only on Cloud. Sentry in the web, API, worker and controller services initialises only with a DSN the operator sets (SENTRY_DSN and service-specific variables, all optional). The only other call to ping.roomote.dev is submitPlatformIssueToPing, sent when an admin clicks to submit a specific platform-issue report. No PostHog, Segment, Amplitude or Mixpanel client runs on a self-hosted deployment.",
+      "visibility": "public",
+      "commit": "82aed50b6829232e1b5c156129d82517072de972",
+      "path": "packages/telemetry/src/server/index.ts"
     }
   ],
   "changes": [
@@ -6962,6 +6978,42 @@
         ]
       },
       "evidenceIds": []
+    },
+    {
+      "date": "2026-11-25",
+      "author": "telemetry-researcher-g",
+      "type": "research-correction",
+      "summary": "Restated telemetry for the scoped self-hosted plan: v1.25.0 self-hosted deployments send no ADE telemetry (bounded source search), so the default is none and the off switch is not applicable; managed Roomote Cloud telemetry is outside the scope.",
+      "claimIds": [
+        "roomote:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Code, prompts and artifacts stay in the operator deployment, sandbox and chosen inference and integration providers; integration credentials are held server-side. At v1.25.0 self-hosted deployments send no analytics or usage telemetry to Roomote, while managed Roomote Cloud deployments always send anonymous telemetry with no off switch (cookie consent covers only optional Intercom and PostHog); the daily version check reads GitHub's public API without an instance ID. Training use, residency and subprocessors belong to chosen providers.",
+        "checkedAt": "2026-11-16",
+        "nextReviewAt": "2027-03-16",
+        "subanswers": {
+          "telemetry_defaults": "partial",
+          "telemetry_controls": "partial",
+          "telemetry_off_switch": "supported"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Code, prompts and artifacts stay in the operator deployment, sandbox and chosen inference and integration providers; integration credentials are held server-side. At v1.25.0 the scoped self-hosted deployments send no analytics or usage telemetry to Roomote (privacy doc and source: every automatic analytics path is gated on R_CLOUD_ENABLED, and Sentry reports only to a DSN the operator sets); an admin can deliberately submit a platform-issue report to Roomote, and the daily version check reads GitHub's public API without an instance ID. Managed Roomote Cloud, outside this plan scope, always sends anonymous telemetry. Training use, residency and subprocessors belong to chosen providers.",
+        "checkedAt": "2026-11-16",
+        "nextReviewAt": "2027-03-16",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_controls": "partial",
+          "telemetry_off_switch": "not-applicable"
+        }
+      },
+      "evidenceIds": [
+        "v125-privacy",
+        "tel-2611-privacy-doc",
+        "tel-2611-selfhost-search"
+      ]
     }
   ],
   "context": {
