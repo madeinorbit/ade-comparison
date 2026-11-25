@@ -4071,7 +4071,7 @@
     {
       "id": "warp:OWN-03",
       "criterionId": "OWN-03",
-      "answer": "Turning off Help improve Warp stops product analytics and eligible content collection (AI interactions, console content), but the privacy page says collection preferences do not turn off product storage: cloud sync of Terminal AI conversations, shared sessions and factory runs have their own storage controls. Secret redaction is not applied to Session Sharing; visible secrets remain visible to authorized viewers. Session sharing uploads scrollback and live output to Warp servers. Shared-session data expires approximately one week after sharing. Stop sharing ends live access, but no per-session immediate-delete control is available before expiry; account-deletion jobs run every twenty-four hours. Warp documents Rudderstack analytics, Sentry crashes and an exhaustive event table. Help improve Warp covers high-level usage analytics and eligible content collection such as AI interactions and console inputs. Settings > Privacy separately disables Help improve Warp and Send crash reports. Warp's zero-data-retention agreements apply to supported models on every plan when Warp supplies the provider account.",
+      "answer": "Turning off Help improve Warp stops product analytics and eligible content collection (AI interactions, console content), but the privacy page says collection preferences do not turn off product storage: cloud sync of Terminal AI conversations, shared sessions and factory runs have their own storage controls. Secret redaction is not applied to Session Sharing; visible secrets remain visible to authorized viewers. Session sharing uploads scrollback and live output to Warp servers. Shared-session data expires approximately one week after sharing. Stop sharing ends live access, but no per-session immediate-delete control is available before expiry; account-deletion jobs run every twenty-four hours. Warp documents Rudderstack analytics, Sentry crashes and an exhaustive event table. Help improve Warp covers high-level usage analytics and eligible content collection such as AI interactions and console inputs. Settings > Privacy separately disables Help improve Warp and Send crash reports, but in code (2249469, f8223ce) a team force-enable or the server-assigned AgentModeAnalytics flag keeps telemetry on after a user opts out. Warp's zero-data-retention agreements apply to supported models on every plan when Warp supplies the provider account.",
       "support": "partial",
       "availability": "unknown",
       "delivery": "unknown",
@@ -4171,11 +4171,11 @@
           ]
         },
         "telemetry_off_switch": {
-          "support": "supported",
-          "answer": "In the app: Settings > Privacy toggles for Help improve Warp and Send crash reports.",
+          "support": "partial",
+          "answer": "In the app: Settings > Privacy toggles Help improve Warp and Send crash reports. The toggle is not authoritative in code: at 2249469 and still at f8223ce (2026-11-21), should_disable_telemetry drops telemetry only when the user opted out, the user's team has not force-enabled telemetry, and the server-assigned AgentModeAnalytics flag is off. Issue 15595 reporting this was closed on 2026-09-01 as working as intended, not fixed; the maintainer said the flag serves teams that force-enable telemetry for their own members and that no one is randomly enrolled. For other users the toggle stops ongoing telemetry.",
           "evidenceIds": [
-            "tel-2611-default",
-            "tel-2611-privacy"
+            "tel-2611r4-telemetry-gate",
+            "tel-2611-privacy-nov23"
           ]
         },
         "consent_prompt": {
@@ -4200,11 +4200,12 @@
         "tel-2611-default",
         "tel-2611-privacy",
         "tel-2611-privacy-nov23",
-        "tel-2611-privacy-storage"
+        "tel-2611-privacy-storage",
+        "tel-2611r4-telemetry-gate"
       ],
       "checkedAt": "2026-11-07",
       "nextReviewAt": "2026-11-21",
-      "researcher": "telemetry-researcher-g",
+      "researcher": "telemetry-researcher-h",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -5351,6 +5352,19 @@
       "visibility": "public",
       "commit": null,
       "path": null
+    },
+    {
+      "id": "tel-2611r4-telemetry-gate",
+      "kind": "source-inspected",
+      "url": "https://github.com/warpdotdev/warp/blob/2249469e5d24e472cee6ce97d3d324293f67db71/app/src/settings/privacy.rs#L198-L202",
+      "title": "Warp should_disable_telemetry gate, team force-enable and issue 15595",
+      "locator": "app/src/settings/privacy.rs lines 198-202 (should_disable_telemetry) at 2249469 and unchanged at f8223ce (2026-11-21); app/src/workspaces/user_workspaces.rs lines 765 and 1384-1388 (team telemetry_settings.force_enabled); app/src/server/experiments/mod.rs lines 88-89 (AgentModeAnalyticsExperiment); https://github.com/warpdotdev/warp/issues/15595",
+      "sourceDate": "2026-11-21",
+      "retrievedAt": "2026-11-25",
+      "finding": "Telemetry is dropped only when the user has turned Help improve Warp off, telemetry is not force-enabled, and the AgentModeAnalytics feature flag is off. is_telemetry_force_enabled comes from the current team's organization_settings.telemetry_settings.force_enabled, and a server-assigned AgentModeAnalyticsExperiment bucket sets the AgentModeAnalytics flag; either keeps telemetry on after the user opts out. The same gate is present at f8223ce (2026-11-21). Issue 15595 reported this override; a maintainer closed it on 2026-09-01 as working as intended (GitHub records the state reason as completed, with no code change), saying no one is randomly assigned forced telemetry, other users' setting is respected, and the bucket is used by certain teams that force-enable telemetry for their own members.",
+      "visibility": "public",
+      "commit": "2249469e5d24e472cee6ce97d3d324293f67db71",
+      "path": "app/src/settings/privacy.rs"
     }
   ],
   "changes": [
@@ -8113,6 +8127,37 @@
         ]
       },
       "evidenceIds": []
+    },
+    {
+      "date": "2026-11-25",
+      "author": "telemetry-researcher-h",
+      "type": "research-correction",
+      "summary": "Round-4 fix: the in-app off switch now states the should_disable_telemetry gate (team force-enable and the AgentModeAnalytics bucket override the user toggle) at 2249469 and f8223ce, and reports issue 15595 as closed working-as-intended.",
+      "claimIds": [
+        "warp:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Turning off Help improve Warp stops product analytics and eligible content collection (AI interactions, console content), but the privacy page says collection preferences do not turn off product storage: cloud sync of Terminal AI conversations, shared sessions and factory runs have their own storage controls. Secret redaction is not applied to Session Sharing; visible secrets remain visible to authorized viewers. Session sharing uploads scrollback and live output to Warp servers. Shared-session data expires approximately one week after sharing. Stop sharing ends live access, but no per-session immediate-delete control is available before expiry; account-deletion jobs run every twenty-four hours. Warp documents Rudderstack analytics, Sentry crashes and an exhaustive event table. Help improve Warp covers high-level usage analytics and eligible content collection such as AI interactions and console inputs. Settings > Privacy separately disables Help improve Warp and Send crash reports. Warp's zero-data-retention agreements apply to supported models on every plan when Warp supplies the provider account.",
+        "checkedAt": "2026-11-07",
+        "nextReviewAt": "2026-11-21",
+        "subanswers": {
+          "telemetry_off_switch": "supported"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Turning off Help improve Warp stops product analytics and eligible content collection (AI interactions, console content), but the privacy page says collection preferences do not turn off product storage: cloud sync of Terminal AI conversations, shared sessions and factory runs have their own storage controls. Secret redaction is not applied to Session Sharing; visible secrets remain visible to authorized viewers. Session sharing uploads scrollback and live output to Warp servers. Shared-session data expires approximately one week after sharing. Stop sharing ends live access, but no per-session immediate-delete control is available before expiry; account-deletion jobs run every twenty-four hours. Warp documents Rudderstack analytics, Sentry crashes and an exhaustive event table. Help improve Warp covers high-level usage analytics and eligible content collection such as AI interactions and console inputs. Settings > Privacy separately disables Help improve Warp and Send crash reports, but in code (2249469, f8223ce) a team force-enable or the server-assigned AgentModeAnalytics flag keeps telemetry on after a user opts out. Warp's zero-data-retention agreements apply to supported models on every plan when Warp supplies the provider account.",
+        "checkedAt": "2026-11-07",
+        "nextReviewAt": "2026-11-21",
+        "subanswers": {
+          "telemetry_off_switch": "partial"
+        }
+      },
+      "evidenceIds": [
+        "tel-2611r4-telemetry-gate",
+        "tel-2611-privacy-nov23"
+      ]
     }
   ],
   "context": {
