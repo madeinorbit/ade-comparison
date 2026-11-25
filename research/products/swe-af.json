@@ -5526,9 +5526,9 @@
         },
         "telemetry_defaults": {
           "support": "supported",
-          "answer": "On by default: the AgentField control plane that runs SWE-AF sends installation and lifecycle telemetry by default; SWE-AF node code itself has no telemetry client.",
+          "answer": "On by default: at a9ed6a0 the AgentField control plane that runs SWE-AF sends privacy-minimized installation and lifecycle telemetry unless it is explicitly disabled (IsEnabled is true when telemetry.enabled is unset); CI and DO_NOT_TRACK are not read. SWE-AF node code itself has no telemetry client.",
           "evidenceIds": [
-            "tel-2611-config"
+            "tel-2611-config-default"
           ]
         },
         "telemetry_controls": {
@@ -5543,8 +5543,7 @@
           "support": "supported",
           "answer": "Config only: at a9ed6a0 the AgentField control plane's telemetry stops only with AGENTFIELD_TELEMETRY_ENABLED=false (config.go line 1102) or telemetry.enabled: false in its config file; CI and DO_NOT_TRACK do not turn it off, and the control-plane UI has no setting.",
           "evidenceIds": [
-            "tel-2611-config-gate",
-            "tel-2611-config"
+            "tel-2611-config-gate"
           ]
         },
         "consent_prompt": {
@@ -5580,12 +5579,12 @@
         "manifest",
         "deploy",
         "afreadme",
-        "tel-2611-config",
-        "tel-2611-config-gate"
+        "tel-2611-config-gate",
+        "tel-2611-config-default"
       ],
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
-      "researcher": "telemetry-researcher-f",
+      "researcher": "telemetry-researcher-g",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -6735,6 +6734,19 @@
       "visibility": "public",
       "commit": "a9ed6a03c0e1894f6ec33459b29c5e8de94c59de",
       "path": "control-plane/internal/config/config.go"
+    },
+    {
+      "id": "tel-2611-config-default",
+      "kind": "source-inspected",
+      "url": "https://github.com/Agent-Field/agentfield/blob/a9ed6a03c0e1894f6ec33459b29c5e8de94c59de/control-plane/internal/config/config.go#L46-L63",
+      "title": "AgentField control-plane telemetry default at a9ed6a0",
+      "locator": "control-plane/internal/config/config.go lines 46-63 (TelemetryConfig, IsEnabled) and 1101-1105 (AGENTFIELD_TELEMETRY_ENABLED override); README.md line 555",
+      "sourceDate": "2026-11-18",
+      "retrievedAt": "2026-11-25",
+      "finding": "TelemetryConfig.IsEnabled returns true unless telemetry.enabled is explicitly false, so anonymous OSS usage telemetry is on when nothing is configured; the only override is AGENTFIELD_TELEMETRY_ENABLED (values other than true/1 disable it). The config code reads neither CI nor DO_NOT_TRACK. README line 555 says AgentField sends privacy-minimized installation and lifecycle telemetry by default, without prompts or execution payloads, and names AGENTFIELD_TELEMETRY_ENABLED=false to disable it.",
+      "visibility": "public",
+      "commit": "a9ed6a03c0e1894f6ec33459b29c5e8de94c59de",
+      "path": "control-plane/internal/config/config.go"
     }
   ],
   "changes": [
@@ -6829,6 +6841,74 @@
         "afenv",
         "tel-2611-config"
       ]
+    },
+    {
+      "date": "2026-11-25",
+      "author": "telemetry-researcher-g",
+      "type": "research-correction",
+      "summary": "Replaced the tel-2611-config citation, whose finding wrongly said CI or DO_NOT_TRACK turn control-plane telemetry off, with a corrected source inspection of the default at a9ed6a0.",
+      "claimIds": [
+        "swe-af:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "SWE-AF code sends no telemetry (no matches for telemetry, analytics, posthog or sentry in node code). Code, prompts and diffs go to the chosen model provider and GitHub. The AgentField control plane sends anonymous usage telemetry by default with documented opt-out. Retention and residency are the operator's.",
+        "checkedAt": "2026-11-16",
+        "nextReviewAt": "2027-03-16",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "supported"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "SWE-AF code sends no telemetry (no matches for telemetry, analytics, posthog or sentry in node code). Code, prompts and diffs go to the chosen model provider and GitHub. The AgentField control plane sends anonymous usage telemetry by default with documented opt-out. Retention and residency are the operator's.",
+        "checkedAt": "2026-11-16",
+        "nextReviewAt": "2027-03-16",
+        "subanswers": {
+          "telemetry_defaults": "supported",
+          "telemetry_off_switch": "supported"
+        }
+      },
+      "evidenceIds": [
+        "tel-2611-config-default",
+        "tel-2611-config-gate"
+      ]
+    },
+    {
+      "date": "2026-11-25",
+      "author": "telemetry-researcher-g",
+      "type": "research-correction",
+      "summary": "Removed the claim-level tel-2611-config citation: its finding wrongly said CI or DO_NOT_TRACK turn control-plane telemetry off; tel-2611-config-default and tel-2611-config-gate replace it.",
+      "claimIds": [
+        "swe-af:OWN-03"
+      ],
+      "before": {
+        "evidenceIds": [
+          "readme",
+          "afenv",
+          "creds",
+          "manifest",
+          "deploy",
+          "afreadme",
+          "tel-2611-config",
+          "tel-2611-config-gate",
+          "tel-2611-config-default"
+        ]
+      },
+      "after": {
+        "evidenceIds": [
+          "readme",
+          "afenv",
+          "creds",
+          "manifest",
+          "deploy",
+          "afreadme",
+          "tel-2611-config-gate",
+          "tel-2611-config-default"
+        ]
+      },
+      "evidenceIds": []
     }
   ],
   "context": {
