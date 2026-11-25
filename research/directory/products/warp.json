@@ -666,7 +666,12 @@
   "rationale": "Client default true.",
   "researcher": "telemetry-researcher-e",
   "contentHash": "065fb28775a843d666fe3936411a7321930ae93ac7cac457b368ccda1a0e88c2",
-  "review": null
+  "review": {
+   "state": "accepted",
+   "reviewer": "telemetry-reviewer-s",
+   "date": "2026-11-25",
+   "contentHash": "065fb28775a843d666fe3936411a7321930ae93ac7cac457b368ccda1a0e88c2"
+  }
  },
  "telemetry-off-switch": {
   "value": "in-app",
@@ -681,10 +686,10 @@
   "contentHash": "5ca0d119b5fa8740c5bdae2f666564f4356684333b5ee24a8eb7b0d0496820fb",
   "review": {
    "state": "changes-requested",
-   "reviewer": "telemetry-reviewer-t",
+   "reviewer": "telemetry-reviewer-s",
    "date": "2026-11-25",
-   "contentHash": "6bb5195de8b9b06f250ef69f7de3a526b195f2da90bea17a519ecb15ba329948",
-   "note": "The cited source at 2249469 privacy.rs lines 198-202 does not stop telemetry on user opt-out when AgentModeAnalytics is enabled (or telemetry is forced). The unconditional in-app off-switch answer omits that code/policy conflict; a closed issue does not establish a corrected scoped build."
+   "contentHash": "5ca0d119b5fa8740c5bdae2f666564f4356684333b5ee24a8eb7b0d0496820fb",
+   "note": "At 2249469 and f8223ce, AgentModeAnalytics independently overrides user opt-out even with team force_enabled=false. ServerExperiment::on_added_to sets the flag without a team-policy or consent check; auth_manager and update_manager apply the server bucket independently of organization telemetry settings. The maintainer says assignment is used only for certain teams, but the public client does not enforce that restriction. Under the source-based rule this is not a reliable in-app off switch. Map none with partial support and preserve the maintainer statement; team force_enabled alone is not the rejection reason."
   }
  }
 }
