@@ -5011,7 +5011,7 @@
     {
       "id": "im-codes:OWN-03",
       "criterionId": "OWN-03",
-      "answer": "Self-hosted: code, chat, terminal output and memory stay on your server/daemon (raw and processed memory always local; processed summaries can sync to a user cloud pool); hosted app.im.codes stores credentials, session config, relayed chat/terminal output and push tokens; no sale or third-party sharing; no third-party analytics; bot secrets AES-256-GCM; at source revision 799fa96 the daemon uploads per-turn token-usage facts (session name, provider, agent, model, token counts, cost) at startup and every 60 seconds to the server it is bound to, which is the vendor-hosted app.im.codes for evaluation users, with no control other than binding to a self-hosted server; training use and subprocessors not stated.",
+      "answer": "Self-hosted: code, chat, terminal output and memory stay on your server/daemon (raw and processed memory always local; processed summaries can sync to a user cloud pool); hosted app.im.codes stores credentials, session config, relayed chat/terminal output and push tokens; no sale or third-party sharing; no third-party analytics; bot secrets AES-256-GCM. The March 2026 privacy page says relayed data 'is not harvested or analyzed', but at source revision 799fa96 (2026-11-17 UTC) the daemon uploads per-turn token-usage facts (session name, provider, agent, model, token counts, cost) at startup and every 60 seconds to the server it is bound to, which aggregates them; for evaluation users that is the vendor-hosted app.im.codes, and there is no control other than binding to a self-hosted server. No retention period, training statement or subprocessor list is published.",
       "support": "partial",
       "availability": "generally-available",
       "delivery": "native",
@@ -5067,9 +5067,9 @@
         },
         "retention": {
           "support": "partial",
-          "answer": "Until deleted by the user; no schedule.",
+          "answer": "No retention period is stated: data stays until the user deletes it (export or delete at any time); hosted account deletion permanently removes all stored data, and a self-hosted server's data lives until its operator removes it.",
           "evidenceIds": [
-            "privacy"
+            "tel-2611r4-privacy-full"
           ]
         },
         "deletion": {
@@ -5080,11 +5080,9 @@
           ]
         },
         "training": {
-          "support": "unsupported",
-          "answer": "Privacy page states no sharing; no training statement.",
-          "evidenceIds": [
-            "privacy"
-          ]
+          "support": "unknown",
+          "answer": "Unknown: the privacy page states no sale, sharing or transfer to third parties but does not address training use; model traffic is governed by each agent provider's terms.",
+          "evidenceIds": []
         },
         "residency": {
           "support": "unknown",
@@ -5098,18 +5096,20 @@
         },
         "telemetry_disclosure": {
           "support": "partial",
-          "answer": "The privacy page states no third-party analytics or tracking cookies; it does not describe the daemon's automatic token-usage upload to the bound server, which the source at 799fa96 performs.",
+          "answer": "Partial: the privacy page states no third-party analytics or tracking cookies and that relayed data 'is not harvested or analyzed'; it does not describe the daemon's automatic token-usage upload, which the source at 799fa96 performs and the bound server aggregates into usage summaries.",
           "evidenceIds": [
             "privacy",
-            "tel-2611-usage-sync"
+            "tel-2611-usage-sync",
+            "tel-2611r4-privacy-full"
           ]
         },
         "telemetry_defaults": {
           "support": "partial",
-          "answer": "On by default when bound to the vendor-hosted app.im.codes: at source revision 799fa96 (2026-11-16; scope names release android-v1.1-b8442c5) the daemon's usage-sync worker POSTs token-usage facts (session name, provider, agent type, model, token counts, context window, cost) at startup and every 60 seconds to the server it is bound to, so evaluation users of app.im.codes send them to the vendor, while a self-hosted server keeps them with its operator. A bounded search of the same revision found no third-party analytics or crash-reporting client: shared/memory-telemetry.ts and shared/timeline-delivery-telemetry.ts only feed in-process counters, X-Platform/X-App-Version headers are auth audit records on the sign-in server, and --disable-telemetry switches off the third-party Antigravity CLI's telemetry. The privacy page's no-third-party-analytics statement is consistent with that, but the code sends the usage feed.",
+          "answer": "On by default when bound to the vendor-hosted app.im.codes: at source revision 799fa96 (committed 2026-11-17 03:01 UTC; scope names release android-v1.1-b8442c5) the daemon's usage-sync worker POSTs token-usage facts (session name, provider, agent type, model, token counts, context window, cost) at startup and every 60 seconds to the server it is bound to, so evaluation users of app.im.codes send them to the vendor, while a self-hosted server keeps them with its operator. This conflicts with the privacy page's promise that relayed data is not harvested or analyzed; the code decides. A bounded search of the same revision found no third-party analytics or crash-reporting client: shared/memory-telemetry.ts and shared/timeline-delivery-telemetry.ts only feed in-process counters, X-Platform/X-App-Version headers are auth audit records on the sign-in server, and --disable-telemetry switches off the third-party Antigravity CLI's telemetry.",
           "evidenceIds": [
             "tel-2611-usage-sync",
-            "tel-2611-im-codes-bounded"
+            "tel-2611-im-codes-bounded",
+            "tel-2611r4-privacy-full"
           ]
         },
         "telemetry_controls": {
@@ -5129,34 +5129,39 @@
         },
         "consent_prompt": {
           "support": "unsupported",
-          "answer": "No consent prompt documented.",
+          "answer": "None: at 799fa96 imcodes bind saves server credentials and restarts the daemon without asking anything or mentioning the usage upload, and the daemon starts the upload whenever credentials exist.",
           "evidenceIds": [
-            "privacy"
+            "tel-2611r4-bind-flow"
           ]
         },
         "provider_separation": {
           "support": "supported",
-          "answer": "Provider policies separate.",
+          "answer": "Model requests are made by the agents the daemon runs on the user's machine (Claude Code, Codex, Gemini CLI, Qwen and others, through tmux or their SDKs) under each provider's terms; the IM.codes server only relays traffic between the user's devices and the daemon.",
           "evidenceIds": [
-            "privacy"
+            "tel-2611r4-readme-arch",
+            "tel-2611r4-privacy-full"
           ]
         }
       },
       "limitations": [
-        "Hosted retention, subprocessors and residency not documented."
+        "Hosted retention period, subprocessors and residency not documented.",
+        "training: The privacy page does not address training use."
       ],
-      "unknownReason": "Hosted residency and subprocessors are business facts not stated.",
+      "unknownReason": "Hosted residency and subprocessors are business facts not stated; the privacy page does not address training use.",
       "evidenceIds": [
         "privacy",
         "readme",
         "claude",
         "tel-2611-im-codes-src",
         "tel-2611-im-codes-bounded",
-        "tel-2611-usage-sync"
+        "tel-2611-usage-sync",
+        "tel-2611r4-privacy-full",
+        "tel-2611r4-bind-flow",
+        "tel-2611r4-readme-arch"
       ],
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
-      "researcher": "telemetry-researcher-g",
+      "researcher": "telemetry-researcher-h",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -6122,6 +6127,45 @@
       "visibility": "public",
       "commit": "799fa96ccc7168e101fa3af8378c30a5de1b1f14",
       "path": "src/daemon/usage-sync-worker.ts"
+    },
+    {
+      "id": "tel-2611r4-privacy-full",
+      "kind": "documented",
+      "url": "https://github.com/im4codes/imcodes/blob/b8442c5ca3bd22046568258e84d30781dc6a79d0/landing/privacy.html",
+      "title": "IM.codes Privacy Policy (last updated March 2026)",
+      "locator": "Data Storage; What We Store; Data Ownership; Third-Party Sharing; Account Deletion; Cookies & Analytics",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-25",
+      "finding": "Data is stored on the user's own server or on app.im.codes; 'We do not operate centralized data collection infrastructure.' Users can export or delete their data at any time; hosted account deletion permanently removes all stored data, and removing a self-hosted server removes its data. No retention period is given. 'We do not sell, share, or transfer your data to third parties. The server acts as a relay ... data passes through but is not harvested or analyzed.' No third-party analytics or tracking cookies. The page says nothing about model training or a consent prompt.",
+      "visibility": "public",
+      "commit": "b8442c5ca3bd22046568258e84d30781dc6a79d0",
+      "path": "landing/privacy.html"
+    },
+    {
+      "id": "tel-2611r4-readme-arch",
+      "kind": "documented",
+      "url": "https://github.com/im4codes/imcodes/blob/b8442c5ca3bd22046568258e84d30781dc6a79d0/README.md#L301-L316",
+      "title": "IM.codes README: architecture and self-hosting",
+      "locator": "README.md lines 301 (daemon and agents) and 311-316 (app.im.codes evaluation instance)",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-25",
+      "finding": "The daemon on the developer machine runs the agents through tmux or local SDKs and gateways (Claude Code SDK, Codex SDK, OpenClaw gateway, Qwen); the server only relays connections between the user's devices and the daemon. The shared app.im.codes instance is for testing only, and self-hosting is strongly recommended.",
+      "visibility": "public",
+      "commit": "b8442c5ca3bd22046568258e84d30781dc6a79d0",
+      "path": "README.md"
+    },
+    {
+      "id": "tel-2611r4-bind-flow",
+      "kind": "source-inspected",
+      "url": "https://github.com/im4codes/imcodes/blob/799fa96ccc7168e101fa3af8378c30a5de1b1f14/src/bind/bind-flow.ts",
+      "title": "IM.codes bind flow and usage-sync start",
+      "locator": "src/bind/bind-flow.ts (all 430 lines: imcodes bind, credential save, daemon restart and service install); src/daemon/lifecycle.ts lines 2812-2830 (startUsageSyncWorker); search of src/bind and src/cli.ts for consent, confirm, prompt, readline and usage",
+      "sourceDate": "2026-11-17",
+      "retrievedAt": "2026-11-25",
+      "finding": "imcodes bind <url> registers the device, saves the server credentials and restarts or installs the daemon, printing only binding and service status; it asks no question and does not mention the token-usage upload. startUsageSyncWorker starts the upload whenever workerUrl, serverId and token are present, with no consent check. Commit 799fa96 is timestamped 2026-11-17 03:01 UTC (2026-11-16 in US time zones).",
+      "visibility": "public",
+      "commit": "799fa96ccc7168e101fa3af8378c30a5de1b1f14",
+      "path": "src/bind/bind-flow.ts"
     }
   ],
   "changes": [
@@ -6251,6 +6295,51 @@
         "tel-2611-usage-sync",
         "tel-2611-im-codes-bounded",
         "readme"
+      ]
+    },
+    {
+      "date": "2026-11-25",
+      "author": "telemetry-researcher-h",
+      "type": "research-correction",
+      "summary": "Round-4 fixes: training unknown; retention and provider separation cite the full privacy page and README; consent prompt rests on a bounded inspection of the bind flow; the privacy page's not-harvested-or-analyzed promise is set against the usage aggregation; 799fa96 dated in UTC.",
+      "claimIds": [
+        "im-codes:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Self-hosted: code, chat, terminal output and memory stay on your server/daemon (raw and processed memory always local; processed summaries can sync to a user cloud pool); hosted app.im.codes stores credentials, session config, relayed chat/terminal output and push tokens; no sale or third-party sharing; no third-party analytics; bot secrets AES-256-GCM; at source revision 799fa96 the daemon uploads per-turn token-usage facts (session name, provider, agent, model, token counts, cost) at startup and every 60 seconds to the server it is bound to, which is the vendor-hosted app.im.codes for evaluation users, with no control other than binding to a self-hosted server; training use and subprocessors not stated.",
+        "checkedAt": "2026-11-16",
+        "nextReviewAt": "2027-03-16",
+        "subanswers": {
+          "retention": "partial",
+          "training": "unsupported",
+          "telemetry_disclosure": "partial",
+          "telemetry_defaults": "partial",
+          "consent_prompt": "unsupported",
+          "provider_separation": "supported"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Self-hosted: code, chat, terminal output and memory stay on your server/daemon (raw and processed memory always local; processed summaries can sync to a user cloud pool); hosted app.im.codes stores credentials, session config, relayed chat/terminal output and push tokens; no sale or third-party sharing; no third-party analytics; bot secrets AES-256-GCM. The March 2026 privacy page says relayed data 'is not harvested or analyzed', but at source revision 799fa96 (2026-11-17 UTC) the daemon uploads per-turn token-usage facts (session name, provider, agent, model, token counts, cost) at startup and every 60 seconds to the server it is bound to, which aggregates them; for evaluation users that is the vendor-hosted app.im.codes, and there is no control other than binding to a self-hosted server. No retention period, training statement or subprocessor list is published.",
+        "checkedAt": "2026-11-16",
+        "nextReviewAt": "2027-03-16",
+        "subanswers": {
+          "retention": "partial",
+          "training": "unknown",
+          "telemetry_disclosure": "partial",
+          "telemetry_defaults": "partial",
+          "consent_prompt": "unsupported",
+          "provider_separation": "supported"
+        }
+      },
+      "evidenceIds": [
+        "tel-2611r4-privacy-full",
+        "tel-2611r4-bind-flow",
+        "tel-2611r4-readme-arch",
+        "tel-2611-usage-sync",
+        "tel-2611-im-codes-bounded",
+        "privacy"
       ]
     }
   ],
