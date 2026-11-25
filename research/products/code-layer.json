@@ -5122,21 +5122,21 @@
     },
     "telemetry_defaults": {
      "support": "partial",
-     "answer": "On by default: per the self-host build reference, the source holds no DSNs or analytics keys and HumanLayer's release workflows supply HumanLayer's own values at build time, so official HumanLayer builds and the hosted app carry Sentry DSNs and PostHog keys (the public table shows them only as PLACEHOLDER_* values). PostHog initialises whenever a key is present and Sentry whenever a DSN is set outside local environments, with no consent check. Builds from source send nothing because the keys are unset.",
+     "answer": "On by default: per the self-host build reference added in the newer source revision fb899cd (main, 2026-11-23; scope pins f9bd735, where this file does not yet exist), the source holds no DSNs or analytics keys and HumanLayer's release workflows supply HumanLayer's own values at build time, so official HumanLayer builds and the hosted app carry Sentry DSNs and PostHog keys (the public table shows them only as PLACEHOLDER_* values). PostHog initialises whenever a key is present and Sentry whenever a DSN is set outside local environments, with no consent check; posthog.ts and riptide-electron instrument.ts are byte-identical at f9bd735 and fb899cd. Builds from source send nothing because the keys are unset.",
      "evidenceIds": [
       "tel-2611-src-buildcfg"
      ]
     },
     "telemetry_controls": {
      "support": "partial",
-     "answer": "Only build-time keys gate PostHog and Sentry: unset keys in a build from source disable both. No runtime control for official builds was found.",
+     "answer": "Only build-time keys gate PostHog and Sentry (posthog.ts and instrument.ts, identical at f9bd735 and fb899cd; build reference at fb899cd): unset keys in a build from source disable both. No runtime control for official builds was found.",
      "evidenceIds": [
       "tel-2611-src-buildcfg"
      ]
     },
     "telemetry_off_switch": {
      "support": "partial",
-     "answer": "No off switch: a bounded search of apps and packages at main (posthog.ts, sentry.ts, riptide-electron instrument.ts; terms opt out, optIn, telemetry setting, DO_NOT_TRACK) finds no user setting or runtime variable that stops PostHog or Sentry in an official build; the only control is leaving the build-time keys unset when building from source.",
+     "answer": "No off switch: a bounded search of apps and packages at the newer source revision fb899cd (main, 2026-11-23; scope pins f9bd735, and the gating files posthog.ts and riptide-electron instrument.ts are byte-identical at both) for posthog.ts, sentry.ts, instrument.ts and the terms opt out, optIn, telemetry setting and DO_NOT_TRACK finds no user setting or runtime variable that stops PostHog or Sentry in an official build; the only control is leaving the build-time keys unset when building from source.",
      "evidenceIds": [
       "tel-2611-src-buildcfg"
      ]
@@ -5171,7 +5171,7 @@
    ],
    "checkedAt": "2026-11-07",
    "nextReviewAt": "2026-11-14",
-   "researcher": "telemetry-researcher-f",
+   "researcher": "telemetry-researcher-g",
    "publication": "public-candidate",
    "review": null,
    "contradictions": []
@@ -11201,6 +11201,38 @@
    "evidenceIds": [
     "tel-2611-src-buildcfg"
    ]
+  },
+  {
+   "date": "2026-11-25",
+   "author": "telemetry-researcher-g",
+   "type": "research-correction",
+   "summary": "Named the newer source revision fb899cd (main, 2026-11-23) that the telemetry default, controls and off-switch answers rely on; scope stays f9bd735, where posthog.ts and instrument.ts are byte-identical but build-config.md does not exist yet.",
+   "claimIds": [
+    "code-layer:OWN-03"
+   ],
+   "before": {
+    "support": "partial",
+    "answer": "Agents execute on user hosts while events/task artifacts sync through HumanLayer APIs/storage; model traffic can use configured provider gateways. Retention, residency and training policies were not audited. Saved daemon login includes a refresh token; host credentials/history volumes require persistence and limited access. Further scoped facts are recorded in the atomic answers. Telemetry (atomic revision 2): official builds and the hosted app send PostHog analytics and Sentry errors without a consent step; no user-facing off switch was found in the source (builds from source send nothing).",
+    "checkedAt": "2026-11-07",
+    "nextReviewAt": "2026-11-14",
+    "subanswers": {
+     "telemetry_defaults": "partial",
+     "telemetry_controls": "partial",
+     "telemetry_off_switch": "partial"
+    }
+   },
+   "after": {
+    "support": "partial",
+    "answer": "Agents execute on user hosts while events/task artifacts sync through HumanLayer APIs/storage; model traffic can use configured provider gateways. Retention, residency and training policies were not audited. Saved daemon login includes a refresh token; host credentials/history volumes require persistence and limited access. Further scoped facts are recorded in the atomic answers. Telemetry (atomic revision 2): official builds and the hosted app send PostHog analytics and Sentry errors without a consent step; no user-facing off switch was found in the source (builds from source send nothing).",
+    "checkedAt": "2026-11-07",
+    "nextReviewAt": "2026-11-14",
+    "subanswers": {
+     "telemetry_defaults": "partial",
+     "telemetry_controls": "partial",
+     "telemetry_off_switch": "partial"
+    }
+   },
+   "evidenceIds": []
   }
  ],
  "context": {
