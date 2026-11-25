@@ -4856,7 +4856,7 @@
     {
       "id": "vicoa:OWN-03",
       "criterionId": "OWN-03",
-      "answer": "Hosted: transcripts and messages are stored on Vicoa servers (code stays on your machine, sessions and messages sync), analytics and Sentry errors are collected; deletion by email; self-host keeps data in your Postgres.",
+      "answer": "Hosted: transcripts and messages are stored on Vicoa servers (code stays on your machine, but sessions, messages and any file contents an agent prints sync); message image attachments are stored in Vicoa's S3 bucket, while video and file previews stream from your daemon without server storage. The hosted web app sends PostHog analytics by default and the backend can report errors to Sentry; deletion by email. Self-host keeps data in your Postgres and S3, with analytics and Sentry only when the operator configures them.",
       "support": "partial",
       "availability": "generally-available",
       "delivery": "native",
@@ -4891,8 +4891,9 @@
         },
         "credentials": {
           "support": "partial",
-          "answer": "Agent credentials stay local; transcripts may contain secrets.",
+          "answer": "The Vicoa API key stays on the machine in ~/.vicoa/credentials.json or VICOA_API_KEY; agent and model-provider keys stay in the local agent's own configuration (for example ANTHROPIC_AUTH_TOKEN exported before running vicoa). Transcripts sync unredacted, so any credential an agent prints reaches the server.",
           "evidenceIds": [
+            "tel-2611r4-credentials",
             "features"
           ]
         },
@@ -4904,10 +4905,10 @@
           ]
         },
         "artifacts": {
-          "support": "partial",
-          "answer": "Uploaded media stored server-side (servers/api/media.py).",
+          "support": "supported",
+          "answer": "Message attachments uploaded in the web app are stored in S3 (Vicoa's bucket on the hosted service, the operator's AWS settings when self-hosted). Video and file previews are not stored: the media relay reads byte ranges from the user's own daemon and streams them to the viewer.",
           "evidenceIds": [
-            "routers"
+            "tel-2611r4-attachments"
           ]
         },
         "retention": {
@@ -4951,9 +4952,10 @@
         },
         "telemetry_defaults": {
           "support": "supported",
-          "answer": "On by default in v0.2.3 (commit 029355d; scoped v0.1.45 not separately checked): hosted web and desktop release builds initialize PostHog with the baked-in token; the backend reports errors to Sentry.",
+          "answer": "On by default for the hosted web app: as deployed on 2026-11-25, vicoa.ai bakes a PostHog project token into its main bundle, so the v0.1.45 client instrumentation initializes PostHog on every page with no user action, and the privacy policy says analytics are collected automatically from the web app and services. Self-hosted builds send PostHog analytics only if the operator supplies a token, and Sentry only with a configured SENTRY_DSN.",
           "evidenceIds": [
-            "tel-2611-posthog"
+            "tel-2611r4-hosted-posthog",
+            "tel-2611-privacy-logdata"
           ]
         },
         "telemetry_controls": {
@@ -4991,17 +4993,19 @@
         "faq",
         "features",
         "privacy",
-        "routers",
         "selfhost",
         "posthog",
         "telemetry",
         "readme",
         "tel-2611-posthog",
-        "tel-2611-privacy-logdata"
+        "tel-2611-privacy-logdata",
+        "tel-2611r4-credentials",
+        "tel-2611r4-attachments",
+        "tel-2611r4-hosted-posthog"
       ],
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
-      "researcher": "telemetry-researcher-g",
+      "researcher": "telemetry-researcher-h",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -5971,6 +5975,45 @@
       "visibility": "public",
       "commit": null,
       "path": null
+    },
+    {
+      "id": "tel-2611r4-hosted-posthog",
+      "kind": "source-inspected",
+      "url": "https://github.com/vicoa-ai/vicoa/blob/c5d8d97a1f54a30725396b5ffab9ccdf482a5d3b/apps/web/instrumentation-client.ts#L1-L16",
+      "title": "Vicoa web client PostHog initialization (v0.1.45) and the deployed vicoa.ai bundle",
+      "locator": "apps/web/instrumentation-client.ts lines 1-16 at c5d8d97; deployed https://vicoa.ai/_next/static/chunks/main-app-e7ce2f6ce15c9e57.js (module 82959) retrieved 2026-11-25",
+      "sourceDate": "2026-11-16",
+      "retrievedAt": "2026-11-25",
+      "finding": "The Next.js web app's global client instrumentation calls posthog.init whenever NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN was inlined at build time, then registers a surface super property; there is no consent check before init. The main-app bundle served by the hosted vicoa.ai web app on 2026-11-25 inlines a PostHog project key and calls init with api_host https://us.i.posthog.com, so the hosted web app sends PostHog analytics on load. Self-hosted builds initialize PostHog only if the operator supplies a token; SELF_HOSTING.md lists SENTRY_DSN as an optional key that self-disables when empty.",
+      "visibility": "public",
+      "commit": "c5d8d97a1f54a30725396b5ffab9ccdf482a5d3b",
+      "path": "apps/web/instrumentation-client.ts"
+    },
+    {
+      "id": "tel-2611r4-attachments",
+      "kind": "source-inspected",
+      "url": "https://github.com/vicoa-ai/vicoa/blob/c5d8d97a1f54a30725396b5ffab9ccdf482a5d3b/backend/src/backend/api/attachments.py#L117-L162",
+      "title": "Vicoa attachment upload, S3 storage wrapper and media relay",
+      "locator": "backend/src/backend/api/attachments.py lines 117-162 (POST /attachments); backend/src/shared/storage.py lines 1-31 (S3 bucket vicoa, attachments/{user_id}/ keys); backend/src/servers/api/media.py lines 1-13 (media relay); SELF_HOSTING.md line 357 (AWS_* for image attachments)",
+      "sourceDate": "2026-11-16",
+      "retrievedAt": "2026-11-25",
+      "finding": "Message attachments uploaded through POST /attachments are written to S3 (bucket vicoa, key attachments/{user_id}/{attachment_id}); self-hosters enable this with their own AWS_* settings. Video and file previews are not stored: media.py serves GET /api/v1/media/{token} by reading HTTP Range slices from the user's own daemon (read-file-range) and streaming them back through the relay.",
+      "visibility": "public",
+      "commit": "c5d8d97a1f54a30725396b5ffab9ccdf482a5d3b",
+      "path": "backend/src/backend/api/attachments.py"
+    },
+    {
+      "id": "tel-2611r4-credentials",
+      "kind": "documented",
+      "url": "https://github.com/vicoa-ai/vicoa/blob/c5d8d97a1f54a30725396b5ffab9ccdf482a5d3b/apps/web/content/docs/cli-commands.mdx#L28-L45",
+      "title": "Vicoa CLI commands: Authentication; Alternative models",
+      "locator": "apps/web/content/docs/cli-commands.mdx lines 28-45 (Authentication); apps/web/content/docs/alternative-models.mdx lines 22 and 44-48; README.md line 149 (BYO-key)",
+      "sourceDate": "2026-11-16",
+      "retrievedAt": "2026-11-25",
+      "finding": "The CLI resolves its Vicoa API key from --api-key, VICOA_API_KEY or ~/.vicoa/credentials.json, where vicoa --auth saves it. Vicoa is BYO-key: the agent uses whatever provider Claude Code is configured for, with keys such as ANTHROPIC_AUTH_TOKEN exported in the local shell before running vicoa.",
+      "visibility": "public",
+      "commit": "c5d8d97a1f54a30725396b5ffab9ccdf482a5d3b",
+      "path": "apps/web/content/docs/cli-commands.mdx"
     }
   ],
   "changes": [
@@ -6334,6 +6377,87 @@
       "evidenceIds": [
         "tel-2611-privacy-logdata"
       ]
+    },
+    {
+      "date": "2026-11-25",
+      "author": "telemetry-researcher-h",
+      "type": "research-correction",
+      "summary": "Round-4 fixes: telemetry default re-cited to the hosted vicoa.ai bundle and privacy policy; artifacts separate stored image attachments from daemon-streamed media; credentials cite the CLI and provider-key docs.",
+      "claimIds": [
+        "vicoa:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Hosted: transcripts and messages are stored on Vicoa servers (code stays on your machine, sessions and messages sync), analytics and Sentry errors are collected; deletion by email; self-host keeps data in your Postgres.",
+        "checkedAt": "2026-11-16",
+        "nextReviewAt": "2027-03-16",
+        "subanswers": {
+          "credentials": "partial",
+          "artifacts": "partial",
+          "telemetry_defaults": "supported"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Hosted: transcripts and messages are stored on Vicoa servers (code stays on your machine, but sessions, messages and any file contents an agent prints sync); message image attachments are stored in Vicoa's S3 bucket, while video and file previews stream from your daemon without server storage. The hosted web app sends PostHog analytics by default and the backend can report errors to Sentry; deletion by email. Self-host keeps data in your Postgres and S3, with analytics and Sentry only when the operator configures them.",
+        "checkedAt": "2026-11-16",
+        "nextReviewAt": "2027-03-16",
+        "subanswers": {
+          "credentials": "partial",
+          "artifacts": "supported",
+          "telemetry_defaults": "supported"
+        }
+      },
+      "evidenceIds": [
+        "tel-2611r4-credentials",
+        "features",
+        "tel-2611r4-attachments",
+        "tel-2611r4-hosted-posthog",
+        "tel-2611-privacy-logdata"
+      ]
+    },
+    {
+      "date": "2026-11-25",
+      "author": "telemetry-researcher-h",
+      "type": "research-correction",
+      "summary": "Removed the routers citation: its URL is tasks.py, it never showed server-side media storage, and no atomic answer cites it after the artifacts correction.",
+      "claimIds": [
+        "vicoa:OWN-03"
+      ],
+      "before": {
+        "evidenceIds": [
+          "faq",
+          "features",
+          "privacy",
+          "routers",
+          "selfhost",
+          "posthog",
+          "telemetry",
+          "readme",
+          "tel-2611-posthog",
+          "tel-2611-privacy-logdata",
+          "tel-2611r4-credentials",
+          "tel-2611r4-attachments",
+          "tel-2611r4-hosted-posthog"
+        ]
+      },
+      "after": {
+        "evidenceIds": [
+          "faq",
+          "features",
+          "privacy",
+          "selfhost",
+          "posthog",
+          "telemetry",
+          "readme",
+          "tel-2611-posthog",
+          "tel-2611-privacy-logdata",
+          "tel-2611r4-credentials",
+          "tel-2611r4-attachments",
+          "tel-2611r4-hosted-posthog"
+        ]
+      },
+      "evidenceIds": []
     }
   ],
   "context": {
