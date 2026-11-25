@@ -4759,7 +4759,7 @@
   {
    "id": "replicas:OWN-03",
    "criterionId": "OWN-03",
-   "answer": "Provider processing, masked analytics, history settings and deletion are disclosed.",
+   "answer": "Provider processing, masked PostHog analytics, history settings and deletion are disclosed. In-chat media is stored on Replicas servers, but first-party sources conflict on whether deleting its workspace removes it.",
    "support": "partial",
    "availability": "generally-available",
    "delivery": "native",
@@ -4806,12 +4806,11 @@
      "evidenceIds": []
     },
     "artifacts": {
-     "support": "supported",
-     "answer": "In-chat media retained beyond workspace lifetime until deletion request.",
+     "support": "partial",
+     "answer": "Media produced by workspace agents or uploaded in chat is stored persistently on Replicas servers for chat history and shared links, and can be deleted individually with replicas media delete, the API or the delete_media MCP tool, or by email request. Sources conflict on workspace deletion: the privacy policy (2026-10-25) says in-chat media persists beyond the workspace until a deletion request or account deletion, and the data-retention page's workspace-deletion paragraph says media a workspace shared stays until account deletion or a removal request, while the same page's uploaded-media paragraph says deleting its workspace removes the file. Which applies is unresolved.",
      "evidenceIds": [
-      "nov07-privacy",
-      "nov07-terms",
-      "nov07-retention"
+      "tel-2611r4-media-retention",
+      "tel-2611r4-privacy-media"
      ]
     },
     "retention": {
@@ -4874,13 +4873,9 @@
      ]
     },
     "consent_prompt": {
-     "support": "supported",
-     "answer": "iOS first AI sharing consent.",
-     "evidenceIds": [
-      "nov07-privacy",
-      "nov07-terms",
-      "nov07-retention"
-     ]
+     "support": "unknown",
+     "answer": "Unknown for the scoped web, desktop and cloud surfaces: the only documented consent step is the iOS app's AI-sharing consent, which is outside scope; the privacy policy describes no consent step for web or desktop analytics.",
+     "evidenceIds": []
     },
     "provider_separation": {
      "support": "supported",
@@ -4893,19 +4888,22 @@
     }
    },
    "limitations": [
-    "Not established by this source pass: credentials, logs, training, residency, subprocessors, telemetry_controls, telemetry_off_switch."
+    "Not established by this source pass: credentials, logs, training, residency, subprocessors, telemetry_controls, telemetry_off_switch, consent_prompt.",
+    "artifacts: The privacy policy and one data-retention paragraph keep workspace media after the workspace is deleted; another data-retention paragraph says deleting the workspace removes uploaded media."
    ],
-   "unknownReason": "Remaining atomic questions lack an explicit first-party answer in the checked material: credentials, logs, training, residency, subprocessors, telemetry_controls, telemetry_off_switch.",
+   "unknownReason": "Remaining atomic questions lack an explicit first-party answer in the checked material: credentials, logs, training, residency, subprocessors, telemetry_controls, telemetry_off_switch, and a consent prompt on the web, desktop or cloud surfaces.",
    "evidenceIds": [
     "nov07-privacy",
     "nov07-terms",
     "nov07-retention",
     "tel-2611-privacy",
-    "tel-2611-data-retention"
+    "tel-2611-data-retention",
+    "tel-2611r4-media-retention",
+    "tel-2611r4-privacy-media"
    ],
    "checkedAt": "2026-11-07",
    "nextReviewAt": "2026-12-07",
-   "researcher": "telemetry-researcher-g",
+   "researcher": "telemetry-researcher-h",
    "publication": "public-candidate",
    "review": null,
    "contradictions": []
@@ -6077,6 +6075,32 @@
    "sourceDate": null,
    "retrievedAt": "2026-11-25",
    "finding": "With Save chat and Canvas history on, chat transcripts and Canvas files stay available while a workspace sleeps or is archived. Turning it off stops Replicas saving new chat and Canvas history on its servers, so new history is available only while the workspace is awake; history saved earlier is kept and still shown. Browsers and phones keep a local copy of each opened chat (chats 14 days after last opened, other data 24 hours, up to 300 chats or 500 MB per organization) that can show the chat while the workspace sleeps, whether the setting is on or off; signing out or clearing site data removes it. Deleting a workspace deletes its saved chat and Canvas history, logs and repository state within about 30 minutes; the organization session-history copy of each chat and pull request review tours stay until account deletion. Repository files are stored separately and are not controlled by the setting.",
+   "visibility": "public",
+   "commit": null,
+   "path": null
+  },
+  {
+   "id": "tel-2611r4-media-retention",
+   "kind": "documented",
+   "url": "https://docs.replicas.dev/admin/data-retention.md",
+   "title": "Replicas data retention",
+   "locator": "workspace-deletion paragraph (line 13) and uploaded-media paragraph (line 19)",
+   "sourceDate": null,
+   "retrievedAt": "2026-11-25",
+   "finding": "The workspace-deletion paragraph says deleting a workspace deletes its saved chat and Canvas history, logs and repository state within about 30 minutes, and that 'Media a workspace shared stays until you delete your account or ask us to remove it.' The next paragraph says uploaded media (screenshots, GIFs, recordings and visuals) is kept until deleted with replicas media delete, the API or the delete_media MCP tool, 'or delete its workspace. Either removes the file', and its links, including images in pull requests, stop working.",
+   "visibility": "public",
+   "commit": null,
+   "path": null
+  },
+  {
+   "id": "tel-2611r4-privacy-media",
+   "kind": "documented",
+   "url": "https://replicas.dev/privacy",
+   "title": "Replicas Privacy Policy (last updated 2026-10-25)",
+   "locator": "02 Information We Collect > In-Chat Media; 06 Data Retention > In-Chat Media; Account deletion",
+   "sourceDate": "2026-10-25",
+   "retrievedAt": "2026-11-25",
+   "finding": "Media produced by workspace agents or uploaded at the user's request during chat (screenshots, screen recordings, diagrams, audio and other assets) is stored persistently, associated with the organization and workspace, and 'persists beyond the lifecycle of the workspace' to stay available in chat history and shared links. It is retained until the user requests deletion by emailing founders@replicas.dev; account deletion removes associated in-chat media within 30 days.",
    "visibility": "public",
    "commit": null,
    "path": null
@@ -7568,6 +7592,39 @@
     "tel-2611-data-retention",
     "nov07-privacy",
     "nov07-terms"
+   ]
+  },
+  {
+   "date": "2026-11-25",
+   "author": "telemetry-researcher-h",
+   "type": "research-correction",
+   "summary": "Round-4 fixes: the artifacts answer names the conflict between the privacy policy and data-retention paragraphs on whether media outlives its workspace; the iOS-only consent answer becomes unknown for the scoped web, desktop and cloud surfaces.",
+   "claimIds": [
+    "replicas:OWN-03"
+   ],
+   "before": {
+    "support": "partial",
+    "answer": "Provider processing, masked analytics, history settings and deletion are disclosed.",
+    "checkedAt": "2026-11-07",
+    "nextReviewAt": "2026-12-07",
+    "subanswers": {
+     "artifacts": "supported",
+     "consent_prompt": "supported"
+    }
+   },
+   "after": {
+    "support": "partial",
+    "answer": "Provider processing, masked PostHog analytics, history settings and deletion are disclosed. In-chat media is stored on Replicas servers, but first-party sources conflict on whether deleting its workspace removes it.",
+    "checkedAt": "2026-11-07",
+    "nextReviewAt": "2026-12-07",
+    "subanswers": {
+     "artifacts": "partial",
+     "consent_prompt": "unknown"
+    }
+   },
+   "evidenceIds": [
+    "tel-2611r4-media-retention",
+    "tel-2611r4-privacy-media"
    ]
   }
  ],
