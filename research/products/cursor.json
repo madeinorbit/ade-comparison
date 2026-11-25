@@ -4845,17 +4845,17 @@
         },
         "retention": {
           "support": "supported",
-          "answer": "Workspaces are recycled after idle; snapshots expire after 90 days of inactivity; conversation history is kept indefinitely by default and is deletable. Custom retention windows are early access for select Enterprise teams (cloud-network).",
+          "answer": "Workspaces are recycled after idle; environment snapshots are deleted after a rolling 30 days of inactivity (each start or resume extends the window) regardless of plan or policy. Conversation history is kept indefinitely by default; Enterprise team admins can choose a 90-day conversation retention policy instead, and custom windows are early access for select Enterprise teams.",
           "evidenceIds": [
-            "cloud-security",
-            "cloud-network"
+            "tel-2611-cloud-security-data",
+            "tel-2611-cloud-retention"
           ]
         },
         "deletion": {
           "support": "supported",
           "answer": "Delete Agent API removes conversation state; snapshots cannot be deleted on demand.",
           "evidenceIds": [
-            "cloud-security"
+            "tel-2611-cloud-security-data"
           ]
         },
         "training": {
@@ -4935,11 +4935,13 @@
         "api-endpoints",
         "analytics",
         "tel-2611-privacy",
-        "tel-2611-privacy-nov06"
+        "tel-2611-privacy-nov06",
+        "tel-2611-cloud-security-data",
+        "tel-2611-cloud-retention"
       ],
       "checkedAt": "2026-10-09",
       "nextReviewAt": "2026-11-08",
-      "researcher": "telemetry-researcher-f",
+      "researcher": "telemetry-researcher-g",
       "publication": "public-candidate",
       "review": null,
       "contradictions": []
@@ -7211,6 +7213,32 @@
       "sourceDate": "2026-11-06",
       "retrievedAt": "2026-11-24",
       "finding": "Device Information, Log Information (including error logs) and Usage Data are collected automatically from use of the Service. The sharing section says service providers include analytics providers among other categories but names no analytics vendor. Rights are exercised by contacting Cursor; no self-service telemetry opt-out is described.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "tel-2611-cloud-retention",
+      "kind": "documented",
+      "url": "https://cursor.com/docs/cloud-agent/security-network",
+      "title": "Cursor cloud agent security and network: Data retention",
+      "locator": "## Data retention; ### Cloud agent retention policies",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-25",
+      "finding": "Environment snapshots are kept for at most 30 days of inactivity, each start or resume extends that by another 30 days, and an unused snapshot is deleted automatically regardless of plan or policy; snapshots cannot be deleted on demand. Conversation history is kept indefinitely by default and the Delete Agent API permanently removes a transcript and its artifacts. Enterprise team admins can set a conversation retention policy of Indefinite or 90 days in Team Settings; a background job then deletes older conversations while snapshots keep the rolling 30-day window. Custom retention windows are in early access for select Enterprise teams.",
+      "visibility": "public",
+      "commit": null,
+      "path": null
+    },
+    {
+      "id": "tel-2611-cloud-security-data",
+      "kind": "documented",
+      "url": "https://cursor.com/docs/cloud-agent/security",
+      "title": "Cursor cloud agent security: stored data and deletion",
+      "locator": "## How Cloud Agents work (6. Recycle); ## What data is stored, where, and for how long; ## Data deletion",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-25",
+      "finding": "The runtime workspace is recycled automatically after the run goes idle (the timer refreshes on follow-up prompts). VM snapshots are kept for a rolling 30 days of inactivity, extended by each start or resume, then deleted automatically, and cannot be deleted on demand. Conversation state is kept indefinitely by default and deletable on demand: the Delete Agent API removes a transcript and its artifacts, and an Enterprise retention policy deletes conversations older than the chosen window.",
       "visibility": "public",
       "commit": null,
       "path": null
@@ -13636,6 +13664,39 @@
       },
       "evidenceIds": [
         "tel-2611-privacy-nov06"
+      ]
+    },
+    {
+      "date": "2026-11-25",
+      "author": "telemetry-researcher-g",
+      "type": "research-correction",
+      "summary": "Corrected cloud-agent retention: snapshots expire after a rolling 30 days of inactivity and 90 days is an optional Enterprise conversation-history policy; retention and deletion now cite the current security pages.",
+      "claimIds": [
+        "cursor:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Privacy Mode prevents training. Cloud Agents store repository code with documented retention; local agents send model context, and Cursor Origin separately hosts repositories. Usage analytics and Enterprise Conversation Insights are documented; broader telemetry and consent behavior were not observed. Telemetry (atomic revision 2): the privacy policy describes automatic usage, log and device collection; no telemetry off switch is documented (Privacy Mode covers training only).",
+        "checkedAt": "2026-10-09",
+        "nextReviewAt": "2026-11-08",
+        "subanswers": {
+          "retention": "supported",
+          "deletion": "supported"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Privacy Mode prevents training. Cloud Agents store repository code with documented retention; local agents send model context, and Cursor Origin separately hosts repositories. Usage analytics and Enterprise Conversation Insights are documented; broader telemetry and consent behavior were not observed. Telemetry (atomic revision 2): the privacy policy describes automatic usage, log and device collection; no telemetry off switch is documented (Privacy Mode covers training only).",
+        "checkedAt": "2026-10-09",
+        "nextReviewAt": "2026-11-08",
+        "subanswers": {
+          "retention": "supported",
+          "deletion": "supported"
+        }
+      },
+      "evidenceIds": [
+        "tel-2611-cloud-security-data",
+        "tel-2611-cloud-retention"
       ]
     }
   ],
