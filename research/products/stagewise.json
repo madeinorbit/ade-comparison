@@ -5167,10 +5167,11 @@
         },
         "telemetry_off_switch": {
           "support": "partial",
-          "answer": "In the app, partly: the settings telemetry control sets off, anonymous or full, but at off 1.31.1 still sends bypassOptOut events (app-launched, telemetry-level-changed, onboarding-completed and four experience-survey events) to PostHog.",
+          "answer": "No off switch for all ADE telemetry: the settings telemetry control sets off, anonymous or full, but at off 1.31.1 still sends bypassOptOut events (app-launched, telemetry-level-changed, onboarding-completed and four experience-survey events) to PostHog (telemetry.ts lines 1044-1055), and no setting, config key or runtime variable stops them because the PostHog key is injected at build time. The in-app control only reduces telemetry to that residual set.",
           "evidenceIds": [
             "tel-2611-default",
-            "tel-2611-bypass"
+            "tel-2611-bypass",
+            "tel-2611-posthog-buildkey"
           ]
         },
         "consent_prompt": {
@@ -5204,17 +5205,14 @@
         "onboarding",
         "tel-2611-default",
         "tel-2611-privacy-mdx",
-        "tel-2611-bypass"
+        "tel-2611-bypass",
+        "tel-2611-posthog-buildkey"
       ],
       "checkedAt": "2026-11-16",
       "nextReviewAt": "2027-03-16",
-      "researcher": "telemetry-researcher-f",
-      "publication": "public-reviewed",
-      "review": {
-        "reviewer": "telemetry-reviewer-v",
-        "date": "2026-11-25",
-        "contentHash": "c4f2cff4e236f587696f324f9843622ee078435129bf2adf1c91711ed14969b6"
-      },
+      "researcher": "telemetry-researcher-g",
+      "publication": "public-candidate",
+      "review": null,
       "contradictions": []
     },
     {
@@ -6637,6 +6635,19 @@
       "visibility": "public",
       "commit": "17a0123a0e896885465df36169457199d5225eb5",
       "path": "apps/website/content/legal/privacy.mdx"
+    },
+    {
+      "id": "tel-2611-posthog-buildkey",
+      "kind": "source-inspected",
+      "url": "https://github.com/stagewise-io/stagewise/blob/17a0123a0e896885465df36169457199d5225eb5/apps/browser/src/backend/services/telemetry.ts#L904-L909",
+      "title": "stagewise 1.31.1 PostHog client setup and build-time key",
+      "locator": "apps/browser/src/backend/services/telemetry.ts lines 904-909 and 1042-1057 (capture); apps/browser/vite.backend.config.ts line 49 (define POSTHOG_API_KEY)",
+      "sourceDate": null,
+      "retrievedAt": "2026-11-25",
+      "finding": "The PostHog client is created with POSTHOG_API_KEY, which vite.backend.config.ts injects at build time, and is disabled only when that build key is empty. capture() returns early only when the telemetry level is off and the event is not in the bypassOptOut list, or when no client exists. No user setting, config key or runtime environment variable gates the bypassOptOut events in an official build.",
+      "visibility": "public",
+      "commit": "17a0123a0e896885465df36169457199d5225eb5",
+      "path": "apps/browser/src/backend/services/telemetry.ts"
     }
   ],
   "changes": [
@@ -6825,6 +6836,38 @@
         "tel-2611-default",
         "tel-2611-privacy-mdx",
         "tel-2611-bypass"
+      ]
+    },
+    {
+      "date": "2026-11-25",
+      "author": "telemetry-researcher-g",
+      "type": "research-correction",
+      "summary": "Off-switch restated as none: the Settings off level cannot stop the bypassOptOut lifecycle and survey events, so no control stops ADE telemetry (partial, residual named).",
+      "claimIds": [
+        "stagewise:OWN-03"
+      ],
+      "before": {
+        "support": "partial",
+        "answer": "Code goes to the chosen model provider; stagewise account routing uses Vercel AI Gateway without zero-retention guarantee; PostHog telemetry has off, anonymous (default) and full levels. The privacy policy calls PostHog analytics opt-in, but the 1.31.1 code defaults to anonymous, and the off level still sends lifecycle and survey events.",
+        "checkedAt": "2026-11-16",
+        "nextReviewAt": "2027-03-16",
+        "subanswers": {
+          "telemetry_off_switch": "partial"
+        }
+      },
+      "after": {
+        "support": "partial",
+        "answer": "Code goes to the chosen model provider; stagewise account routing uses Vercel AI Gateway without zero-retention guarantee; PostHog telemetry has off, anonymous (default) and full levels. The privacy policy calls PostHog analytics opt-in, but the 1.31.1 code defaults to anonymous, and the off level still sends lifecycle and survey events.",
+        "checkedAt": "2026-11-16",
+        "nextReviewAt": "2027-03-16",
+        "subanswers": {
+          "telemetry_off_switch": "partial"
+        }
+      },
+      "evidenceIds": [
+        "tel-2611-default",
+        "tel-2611-bypass",
+        "tel-2611-posthog-buildkey"
       ]
     }
   ],
