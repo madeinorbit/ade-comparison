@@ -1,0 +1,205 @@
+{
+  "cli": {
+    "value": "yes",
+    "claimId": "lionclaw:ACC-05",
+    "evidenceIds": [
+      "lionclaw:cli"
+    ],
+    "checkedAt": "2026-11-26",
+    "rationale": "Own operator CLI.",
+    "researcher": "agent:ADE-226-source",
+    "contentHash": "f926343fda073e6a99d76fc104a96c0ab81d1f1742ae25d1d70919ff132f4535",
+    "review": {
+      "state": "accepted",
+      "reviewer": "agent:ADE-227-review",
+      "date": "2026-11-26",
+      "contentHash": "f926343fda073e6a99d76fc104a96c0ab81d1f1742ae25d1d70919ff132f4535"
+    }
+  },
+  "agents": {
+    "codex": {
+      "value": "yes",
+      "claimId": "lionclaw:ACC-02",
+      "evidenceIds": [
+        "lionclaw:codex",
+        "lionclaw:runtime"
+      ],
+      "checkedAt": "2026-11-26",
+      "rationale": "Native Codex driver.",
+      "researcher": "agent:ADE-226-source",
+      "contentHash": "278992c505e6d1c66e1b6460291e0ef1a52aafd5b91543595c4505f79d578823",
+      "review": {
+        "state": "accepted",
+        "reviewer": "agent:ADE-227-review",
+        "date": "2026-11-26",
+        "contentHash": "278992c505e6d1c66e1b6460291e0ef1a52aafd5b91543595c4505f79d578823"
+      }
+    },
+    "opencode": {
+      "value": "yes",
+      "claimId": "lionclaw:ACC-02",
+      "evidenceIds": [
+        "lionclaw:acp",
+        "lionclaw:runtime"
+      ],
+      "checkedAt": "2026-11-26",
+      "rationale": "Configured OpenCode ACP runtime.",
+      "researcher": "agent:ADE-226-source",
+      "contentHash": "74868cc2c80dd672f5800d4a25fc7d1c402abc5c2bf939b120a518b9d010906e",
+      "review": {
+        "state": "accepted",
+        "reviewer": "agent:ADE-227-review",
+        "date": "2026-11-26",
+        "contentHash": "74868cc2c80dd672f5800d4a25fc7d1c402abc5c2bf939b120a518b9d010906e"
+      }
+    }
+  },
+  "execution": {
+    "local": {
+      "value": "yes",
+      "claimId": "lionclaw:RUN-01",
+      "evidenceIds": [
+        "lionclaw:oci"
+      ],
+      "checkedAt": "2026-11-26",
+      "rationale": "User-host runtime container.",
+      "researcher": "agent:ADE-226-source",
+      "contentHash": "228231d6ad67757654bed8237f5176a8e9d3117c599eacf70399ba209b63e17b",
+      "review": {
+        "state": "accepted",
+        "reviewer": "agent:ADE-227-review",
+        "date": "2026-11-26",
+        "contentHash": "228231d6ad67757654bed8237f5176a8e9d3117c599eacf70399ba209b63e17b"
+      }
+    }
+  },
+  "isolation": {
+    "container": {
+      "value": "yes",
+      "claimId": "lionclaw:RUN-02",
+      "evidenceIds": [
+        "lionclaw:oci"
+      ],
+      "checkedAt": "2026-11-26",
+      "rationale": "Podman execution boundary.",
+      "researcher": "agent:ADE-227-review",
+      "contentHash": "f3323e4687a4816596228ed18f5a1a8bcd7e9a4c12546aea2a9ac4064e2069d7",
+      "review": {
+        "state": "accepted",
+        "reviewer": "agent:ADE-228-integration",
+        "date": "2026-11-26",
+        "contentHash": "f3323e4687a4816596228ed18f5a1a8bcd7e9a4c12546aea2a9ac4064e2069d7",
+        "note": "prepare_oci_process_launch constructs Podman run with explicit mounts and configured network/resource controls. This is an actual execution path, distinct from Git code separation and without a penetration-test claim."
+      }
+    }
+  },
+  "parallel-runs": {
+    "value": "yes",
+    "claimId": "lionclaw:COORD-01",
+    "evidenceIds": [
+      "lionclaw:core"
+    ],
+    "checkedAt": "2026-11-26",
+    "rationale": "Independent sessions; no empirical concurrency count.",
+    "researcher": "agent:ADE-227-review",
+    "contentHash": "c0cc8f39d34e0b15f15e31a1ec03eae996d782bdd2d7e45a832df43f01372a9b",
+    "review": {
+      "state": "accepted",
+      "reviewer": "agent:ADE-228-integration",
+      "date": "2026-11-26",
+      "contentHash": "c0cc8f39d34e0b15f15e31a1ec03eae996d782bdd2d7e45a832df43f01372a9b",
+      "note": "Kernel session_lock keys its mutex by session UUID and session actions spawn independently. Separate sessions can progress concurrently. The scheduler's sequential tick is explicitly excluded from a parallel scheduled-job claim."
+    }
+  },
+  "unattended-triggers": {
+    "value": "yes",
+    "claimId": "lionclaw:COORD-04",
+    "evidenceIds": [
+      "lionclaw:scheduler",
+      "lionclaw:jobs"
+    ],
+    "checkedAt": "2026-11-26",
+    "rationale": "Daemon once/cron/interval scheduling.",
+    "researcher": "agent:ADE-227-review",
+    "contentHash": "440680244e07ccec33ee4eb8294b5c10f4315cfaa4fdc76690b4489eb9133089",
+    "review": {
+      "state": "accepted",
+      "reviewer": "agent:ADE-228-integration",
+      "date": "2026-11-26",
+      "contentHash": "440680244e07ccec33ee4eb8294b5c10f4315cfaa4fdc76690b4489eb9133089",
+      "note": "JobSchedule defines once, interval and cron; the daemon run_loop calls tick and executes claimed jobs with durable state. Host availability and sequential scheduler dispatch remain scoped."
+    }
+  },
+  "license": {
+    "value": "mit",
+    "claimId": "lionclaw:OWN-01",
+    "evidenceIds": [
+      "lionclaw:license"
+    ],
+    "checkedAt": "2026-11-26",
+    "rationale": "MIT source.",
+    "researcher": "agent:ADE-226-source",
+    "contentHash": "230ff0df90eac9561c0692b14cb5ca80f816d7ba3d0b13484fc655d2e5161e6e",
+    "review": {
+      "state": "accepted",
+      "reviewer": "agent:ADE-227-review",
+      "date": "2026-11-26",
+      "contentHash": "230ff0df90eac9561c0692b14cb5ca80f816d7ba3d0b13484fc655d2e5161e6e"
+    }
+  },
+  "self-hosting": {
+    "value": "yes",
+    "claimId": "lionclaw:OWN-02",
+    "evidenceIds": [
+      "lionclaw:daemon",
+      "lionclaw:license"
+    ],
+    "checkedAt": "2026-11-26",
+    "rationale": "User-owned daemon/source.",
+    "researcher": "agent:ADE-226-source",
+    "contentHash": "7d69f14cd872916762fc0ef71dc2dfd13fbbb2296ff919e4bb1b36fff5e74712",
+    "review": {
+      "state": "accepted",
+      "reviewer": "agent:ADE-227-review",
+      "date": "2026-11-26",
+      "contentHash": "7d69f14cd872916762fc0ef71dc2dfd13fbbb2296ff919e4bb1b36fff5e74712"
+    }
+  },
+  "telemetry-default": {
+    "value": "none",
+    "claimId": "lionclaw:OWN-03",
+    "evidenceIds": [
+      "lionclaw:daemon",
+      "lionclaw:audit",
+      "lionclaw:journal"
+    ],
+    "checkedAt": "2026-11-26",
+    "rationale": "Local logs and functional channel/runtime traffic; no collector in scoped source.",
+    "researcher": "agent:ADE-226-source",
+    "contentHash": "efd18adb765494d8c0d62ef65b44cd16eef96e30df993316ffd20cf186fd79d3",
+    "review": {
+      "state": "accepted",
+      "reviewer": "agent:ADE-227-review",
+      "date": "2026-11-26",
+      "contentHash": "efd18adb765494d8c0d62ef65b44cd16eef96e30df993316ffd20cf186fd79d3"
+    }
+  },
+  "free-tier": {
+    "value": "yes",
+    "claimId": "lionclaw:OWN-08",
+    "evidenceIds": [
+      "lionclaw:license"
+    ],
+    "checkedAt": "2026-11-26",
+    "rationale": "Free source licence; external costs separate.",
+    "researcher": "agent:ADE-227-review",
+    "contentHash": "48ffb1291197be60157afd4aa99fb0f0ce01b16b8205ea5b73ec16a3d96d3d40",
+    "review": {
+      "state": "accepted",
+      "reviewer": "agent:ADE-228-integration",
+      "date": "2026-11-26",
+      "contentHash": "48ffb1291197be60157afd4aa99fb0f0ce01b16b8205ea5b73ec16a3d96d3d40",
+      "note": "The pinned MIT grant permits ongoing source use free of charge. OWN-08 retains Podman, hardware and coding-provider costs."
+    }
+  }
+}
