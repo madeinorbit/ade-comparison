@@ -25,7 +25,7 @@ function buildCard(p: FinderData['products'][number]) {
   const shot = node('a', { class: 'e-shot', href, tabindex: '-1', 'aria-hidden': 'true', 'data-open': '' },
     c.shot ? node('img', { src: `/media/${c.shot[0]}`, width: String(c.shot[1]), height: String(c.shot[2]), loading: 'lazy', decoding: 'async', alt: '' }) : node('span', { class: 'e-noshot' }, p.name))
   const text: Node[] = [node('h3', {}, node('a', { 'data-product-name': '', 'data-open': '', href }, p.name))]
-  if (c.when) text.push(node('p', { class: 'e-when' }, c.when), node('p', { class: 'e-sum' }, `${c.sum} `, node('a', { href: `${href}#lifecycle` }, 'Shutdown notice', vh(` for ${p.name}`))))
+  if (c.when) text.push(node('p', { class: 'e-when' }, c.when), node('p', { class: 'e-sum' }, node('span', { class: 'e-note' }, `${c.sum} `), node('a', { href: `${href}#lifecycle` }, 'Shutdown notice', vh(` for ${p.name}`))))
   else text.push(node('p', { class: 'e-sum' }, c.sum))
   if (c.stars || c.bench) text.push(node('p', { class: 'e-stars' },
     ...(c.stars ? [`${c.stars[0].toLocaleString('en-GB')} GitHub stars `, node('span', {}, `on ${c.stars[1]}`)] : []),
@@ -59,6 +59,11 @@ function initializeFinder(data: FinderData) {
   const status = $('#finder-status')
   const tray = $('#compare-tray')
   const sort = $<HTMLFieldSetElement>('#finder-sort')
+  const sortPhone = $<HTMLSelectElement>('#sort-m')
+  const need = $('#finder-controls')
+  const sheet = $('#need-sheet')
+  const opener = $<HTMLButtonElement>('#need-open')
+  const picks = $('#need-picks')
   const groupOf = new Map([...document.querySelectorAll<HTMLElement>('[data-word]')].map(w => [w.dataset.word!, w.closest('.grp')?.querySelector('dt')?.textContent || '']))
   const orderNote = $('#order-note')
   const fitOrder = orderNote.textContent!
@@ -184,9 +189,28 @@ function initializeFinder(data: FinderData) {
       if (w.getAttribute('aria-pressed') !== v) w.setAttribute('aria-pressed', v)
       w.querySelector('[data-word-state]')!.textContent = v === 'true' ? ', must-have' : v === 'mixed' ? ', nice-to-have' : ''
     }
-    $('#need-summary').textContent = state.must.length ? list(state.must.map(label)) + (state.nice.length ? `, plus ${state.nice.length} nice-to-have${state.nice.length === 1 ? '' : 's'}` : '') : state.nice.length ? `Nice to have: ${list(state.nice.map(label))}` : 'Nothing picked yet'
+    const summary = state.must.length ? list(state.must.map(label)) + (state.nice.length ? `, plus ${state.nice.length} nice-to-have${state.nice.length === 1 ? '' : 's'}` : '') : state.nice.length ? `Nice to have: ${list(state.nice.map(label))}` : 'Nothing picked yet'
+    // Phone: the situation card, the sticky bar's count and pick chips, and the sheet's button.
+    const situation = presets.find(p => p.id === state.preset)
+    need.dataset.picked = String(picked)
+    $('#situation-kind').textContent = situation ? 'Your situation' : 'Your picks'
+    $('#situation-name').textContent = situation ? situation.label : summary
+    const count = $('#need-count'), n = state.must.length + state.nice.length
+    count.hidden = !n; count.textContent = String(n)
+    picks.hidden = !n
+    picks.replaceChildren(...[...state.must.map(k => [k, false] as const), ...state.nice.map(k => [k, true] as const)].map(([key, nice]) => {
+      const li = document.createElement('li'), btn = document.createElement('button')
+      if (nice) li.className = 'nice'
+      btn.type = 'button'; btn.dataset.unpick = key
+      btn.append(label(key), vh(nice ? ', nice-to-have. Remove' : ', must-have. Remove'))
+      btn.insertAdjacentHTML('beforeend', '<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 6l12 12M18 6 6 18"/></svg>')
+      li.append(btn)
+      return li
+    }))
+    $('#sheet-go').textContent = state.must.length ? `Show ${counts.fits} that fit` : `Show all ${counts.fits}`
     if (query.value !== state.query) query.value = state.query
     for (const radio of sort.querySelectorAll<HTMLInputElement>('input')) radio.checked = radio.value === state.sort
+    sortPhone.value = state.sort
     orderNote.textContent = state.sort === 'stars' ? `Most must-haves first, then most GitHub stars. ${starred} of ${comparable.length} ADEs have a public count; the rest follow by fit. Stars measure attention, not quality.`
       : state.sort === 'name' ? 'A to Z within each group.' : fitOrder
     const preset = presets.find(p => p.id === state.preset)
@@ -231,8 +255,53 @@ function initializeFinder(data: FinderData) {
   const closeTips = (except?: Element) => document.querySelectorAll('.wt[data-open]').forEach(t => { if (t !== except) { t.removeAttribute('data-open'); t.querySelector('.wi')?.setAttribute('aria-expanded', 'false') } })
   document.addEventListener('keydown', e => { if (e.key === 'Escape') closeTips() })
 
+  // The phone's needs sheet: a modal over the page, opened from the sticky bar.
+  const sheetOpen = () => sheet.dataset.open === 'true'
+  function openSheet() {
+    sheet.dataset.open = 'true'
+    sheet.setAttribute('role', 'dialog'); sheet.setAttribute('aria-modal', 'true'); sheet.setAttribute('aria-labelledby', 'need-title')
+    opener.setAttribute('aria-expanded', 'true')
+    sheet.querySelector<HTMLElement>('.sheet-x')!.focus()
+    track('needs_sheet_open')
+  }
+  function closeSheet(results = false) {
+    sheet.dataset.open = 'false'
+    for (const a of ['role', 'aria-modal', 'aria-labelledby']) sheet.removeAttribute(a)
+    opener.setAttribute('aria-expanded', 'false')
+    if (results) $('#results').scrollIntoView({ block: 'start' })
+    opener.focus({ preventScroll: results })
+  }
+  document.addEventListener('keydown', e => {
+    if (!sheetOpen()) return
+    if (e.key === 'Escape' && !document.querySelector('.wt[data-open]')) { closeSheet(); return }
+    if (e.key !== 'Tab') return
+    // Keep keyboard focus inside the sheet while it is open.
+    const focusable = [...sheet.querySelectorAll<HTMLElement>('button, a[href]')].filter(el => el.offsetParent !== null)
+    const first = focusable[0], last = focusable.at(-1)!
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus() }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus() }
+  })
+
   document.addEventListener('click', e => {
     const target = e.target as HTMLElement
+    if (target === opener || opener.contains(target)) { openSheet(); return }
+    if (sheetOpen() && target === sheet) { closeSheet(); return }
+    const close = target.closest<HTMLElement>('[data-sheet-close]')
+    if (close) { closeSheet(close.hasAttribute('data-sheet-go')); return }
+    const unpick = target.closest<HTMLButtonElement>('[data-unpick]')
+    if (unpick) {
+      const key = unpick.dataset.unpick!
+      state.must = state.must.filter(k => k !== key); state.nice = state.nice.filter(k => k !== key); state.preset = null
+      save(); render(false)
+      opener.focus()
+      track('filter_toggle', { filter_key: key, filter_label: label(key), filter_group: groupOf.get(key), filter_state: 'off', picks_count: state.must.length + state.nice.length, location: 'pick_chip' })
+      trackSelection()
+      status.textContent = `${label(key)} removed. ${$('[data-count=fits]').textContent} fit, ${$('[data-count=kind-of]').textContent} fit kind of.`
+      return
+    }
+    const change = target.closest<HTMLButtonElement>('#situation-change')
+    if (change) { need.toggleAttribute('data-sit-open', true); change.setAttribute('aria-expanded', 'true'); $<HTMLElement>('#pre-list a').focus(); return }
+    if (target.closest('#pre-more')) { const pre = $('#pre-list'); pre.toggleAttribute('data-all', true); target.closest('#pre-more')!.setAttribute('aria-expanded', 'true'); pre.querySelector<HTMLElement>('a:nth-child(7)')?.focus(); return }
     const tip = target.closest<HTMLButtonElement>('[data-tip-for]')
     closeTips(tip?.parentElement || undefined)
     if (tip) {
@@ -262,6 +331,7 @@ function initializeFinder(data: FinderData) {
       const keep = state.query
       const order = state.sort
       state = parseState(new URL(preset.href).search, requirements); state.query = keep; state.sort = order
+      need.removeAttribute('data-sit-open'); $('#situation-change').setAttribute('aria-expanded', 'false')
       save(true); render()
       track('preset_select', { preset: preset.dataset.preset }); trackSelection()
       return
@@ -286,18 +356,17 @@ function initializeFinder(data: FinderData) {
       if (card && list) track('detail_open', { ade_id: card.dataset.productId, group: list.dataset.group, position: [...list.children].indexOf(card) + 1, sort: state.sort, has_picks: state.must.length + state.nice.length > 0 })
     }
     if (target.closest('#compare-clear')) { compared = []; save(); updateCompare(); status.textContent = 'Compare cleared.'; return }
-    if (target.closest('#reset-finder')) { state = { ...emptyState(), query: state.query, sort: state.sort }; save(true); render(); track('filters_reset'); return }
-    const toggle = target.closest<HTMLButtonElement>('#need-toggle')
-    if (toggle) {
-      const open = toggle.getAttribute('aria-expanded') !== 'true'
-      toggle.setAttribute('aria-expanded', String(open)); toggle.textContent = open ? 'Done' : 'Change'
-      $('#need-words').dataset.open = String(open)
-    }
+    if (target.closest('#reset-finder, [data-reset]')) { need.removeAttribute('data-sit-open'); state = { ...emptyState(), query: state.query, sort: state.sort }; save(true); render(); track('filters_reset'); return }
   })
   // A sheet opened over the Finder shows the same compare state as the list.
   document.addEventListener('sheet:open', updateCompare)
   sort.addEventListener('change', e => {
     const v = (e.target as HTMLInputElement).value
+    state.sort = v === 'stars' || v === 'name' ? v : 'fit'; save(); render()
+    track('sort_change', { sort: state.sort, has_picks: state.must.length + state.nice.length > 0 })
+  })
+  sortPhone.addEventListener('change', () => {
+    const v = sortPhone.value
     state.sort = v === 'stars' || v === 'name' ? v : 'fit'; save(); render()
     track('sort_change', { sort: state.sort, has_picks: state.must.length + state.nice.length > 0 })
   })

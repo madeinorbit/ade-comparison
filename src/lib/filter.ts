@@ -2,19 +2,19 @@ import type { Facet, Identity, Index, Requirement } from './types.ts'
 export type FilterRequirement = Pick<Requirement, 'key' | 'label' | 'anyOf'>
 export type FinderSort = 'fit' | 'stars' | 'name'
 export interface FinderState { must: string[]; nice: string[]; query: string; preset: string | null; sort: FinderSort }
-export interface Preset { id: string; label: string; must: string[]; nice: string[]; note?: string }
+export interface Preset { id: string; label: string; must: string[]; nice: string[]; note?: string; hint?: string }
 const localParallelNice = ['desktop-os:macos', 'agents:claude-code', 'agents:codex', 'byo-subscription', 'execution:local', 'isolation:worktree', 'pr-workflow', 'review-ui']
 export const presets: Preset[] = [
-  { id: 'away', label: 'Away from my desk', must: ['agents:claude-code', 'agents:codex', 'laptop-independent', 'any-phone-client'], nice: ['parallel-runs', 'review-ui', 'pr-workflow'] },
-  { id: 'mac-claude-parallel', label: 'Parallel Claude Code on my Mac', must: ['desktop-os:macos', 'agents:claude-code', 'parallel-runs'], nice: ['isolation:worktree', 'review-ui', 'pr-workflow'] },
-  { id: 'parallel-local', label: 'Parallel local agents', must: ['parallel-runs'], nice: localParallelNice, note: 'Parallel runs is required; the rest rank the list.' },
-  { id: 'windows', label: 'Windows', must: ['desktop-os:windows'], nice: ['review-ui'] },
-  { id: 'own-server', label: 'My own server', must: ['execution:own-server'], nice: ['laptop-independent', 'self-hosting'] },
-  { id: 'laptop-closed', label: 'Laptop closed', must: ['laptop-independent'], nice: ['execution:own-server', 'execution:vendor-cloud'] },
-  { id: 'phone', label: 'From my phone', must: ['any-phone-client'], nice: ['laptop-independent'] },
-  { id: 'open-source', label: 'Open source', must: ['open-source-license'], nice: ['self-hosting'] },
-  { id: 'privacy', label: 'No telemetry by default', must: ['no-default-telemetry'], nice: ['telemetry-easy-off', 'open-source-license', 'self-hosting'] },
-  { id: 'team', label: 'Team with SSO and roles', must: ['sso', 'roles'], nice: ['multiplayer', 'issue-tracking'] },
+  { id: 'away', hint: 'Phone, laptop closed', label: 'Away from my desk', must: ['agents:claude-code', 'agents:codex', 'laptop-independent', 'any-phone-client'], nice: ['parallel-runs', 'review-ui', 'pr-workflow'] },
+  { id: 'mac-claude-parallel', hint: 'Several sessions at once', label: 'Parallel Claude Code on my Mac', must: ['desktop-os:macos', 'agents:claude-code', 'parallel-runs'], nice: ['isolation:worktree', 'review-ui', 'pr-workflow'] },
+  { id: 'parallel-local', hint: 'On your computer', label: 'Parallel local agents', must: ['parallel-runs'], nice: localParallelNice, note: 'Parallel runs is required; the rest rank the list.' },
+  { id: 'windows', hint: 'Desktop app', label: 'Windows', must: ['desktop-os:windows'], nice: ['review-ui'] },
+  { id: 'own-server', hint: 'Your own hardware', label: 'My own server', must: ['execution:own-server'], nice: ['laptop-independent', 'self-hosting'] },
+  { id: 'laptop-closed', hint: 'Keeps running', label: 'Laptop closed', must: ['laptop-independent'], nice: ['execution:own-server', 'execution:vendor-cloud'] },
+  { id: 'phone', hint: 'App or browser', label: 'From my phone', must: ['any-phone-client'], nice: ['laptop-independent'] },
+  { id: 'open-source', hint: 'Open license', label: 'Open source', must: ['open-source-license'], nice: ['self-hosting'] },
+  { id: 'privacy', hint: 'No data sent by default', label: 'No telemetry by default', must: ['no-default-telemetry'], nice: ['telemetry-easy-off', 'open-source-license', 'self-hosting'] },
+  { id: 'team', hint: 'For a company', label: 'Team with SSO and roles', must: ['sso', 'roles'], nice: ['multiplayer', 'issue-tracking'] },
 ]
 export const emptyState = (): FinderState => ({ must: [], nice: [], query: '', preset: null, sort: 'fit' })
 export function requirementsFrom(facets: Facet[]): Requirement[] {
