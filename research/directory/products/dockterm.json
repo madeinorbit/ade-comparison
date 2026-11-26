@@ -1,0 +1,151 @@
+{
+  "agents": {
+    "claude-code": {
+      "value": "yes",
+      "claimId": "dockterm:ACC-02",
+      "evidenceIds": [
+        "dockterm:launch",
+        "dockterm:history"
+      ],
+      "checkedAt": "2026-11-26",
+      "rationale": "Dedicated launcher/history/activity integration.",
+      "researcher": "agent:ADE-226-source",
+      "contentHash": "d7a0f05295a7b53bf6ae1fead574d98d79b825f016e3314d9d886a0d17db2787",
+      "review": {
+        "state": "accepted",
+        "reviewer": "agent:ADE-227-review",
+        "date": "2026-11-26",
+        "contentHash": "d7a0f05295a7b53bf6ae1fead574d98d79b825f016e3314d9d886a0d17db2787"
+      }
+    }
+  },
+  "execution": {
+    "local": {
+      "value": "yes",
+      "claimId": "dockterm:RUN-01",
+      "evidenceIds": [
+        "dockterm:pty"
+      ],
+      "checkedAt": "2026-11-26",
+      "rationale": "PTY process spawns on user desktop.",
+      "researcher": "agent:ADE-226-source",
+      "contentHash": "81b0ee8f238ae3001aa768d579a6811aac9daea94d757215dfe8d4abfd0c0641",
+      "review": {
+        "state": "accepted",
+        "reviewer": "agent:ADE-227-review",
+        "date": "2026-11-26",
+        "contentHash": "81b0ee8f238ae3001aa768d579a6811aac9daea94d757215dfe8d4abfd0c0641"
+      }
+    }
+  },
+  "parallel-runs": {
+    "value": "yes",
+    "claimId": "dockterm:COORD-01",
+    "evidenceIds": [
+      "dockterm:pty"
+    ],
+    "checkedAt": "2026-11-26",
+    "rationale": "Independent local PTYs coexist; no performance claim.",
+    "researcher": "agent:ADE-226-source",
+    "contentHash": "9ad6b88bb9241d7be1869f1c01667fb1ee20482803912be997387acb373f8885",
+    "review": {
+      "state": "accepted",
+      "reviewer": "agent:ADE-227-review",
+      "date": "2026-11-26",
+      "contentHash": "9ad6b88bb9241d7be1869f1c01667fb1ee20482803912be997387acb373f8885"
+    }
+  },
+  "review-ui": {
+    "value": "yes",
+    "claimId": "dockterm:TEAM-05",
+    "evidenceIds": [
+      "dockterm:review"
+    ],
+    "checkedAt": "2026-11-26",
+    "rationale": "Native diff review panel.",
+    "researcher": "agent:ADE-227-review",
+    "contentHash": "bed8641601ec59add51e5d5b77a3a8facada8e316368fd1e37071b2f7b367042",
+    "review": {
+      "state": "accepted",
+      "reviewer": "agent:ADE-228-integration",
+      "date": "2026-11-26",
+      "contentHash": "bed8641601ec59add51e5d5b77a3a8facada8e316368fd1e37071b2f7b367042",
+      "note": "ReviewPanel selects working/session/checkpoint bases, lists file changes and invokes openDiff. This clears the diff-display threshold; TEAM-05 explicitly withholds approval queues and collaborative review."
+    }
+  },
+  "license": {
+    "value": "mit",
+    "claimId": "dockterm:OWN-01",
+    "evidenceIds": [
+      "dockterm:license"
+    ],
+    "checkedAt": "2026-11-26",
+    "rationale": "MIT main application source.",
+    "researcher": "agent:ADE-226-source",
+    "contentHash": "6bd9ad831cb309fed621d6c9d95e68141b162203edd35c791efd5f038ed6bfa8",
+    "review": {
+      "state": "accepted",
+      "reviewer": "agent:ADE-227-review",
+      "date": "2026-11-26",
+      "contentHash": "6bd9ad831cb309fed621d6c9d95e68141b162203edd35c791efd5f038ed6bfa8"
+    }
+  },
+  "self-hosting": {
+    "value": "yes",
+    "claimId": "dockterm:OWN-02",
+    "evidenceIds": [
+      "dockterm:pty",
+      "dockterm:license"
+    ],
+    "checkedAt": "2026-11-26",
+    "rationale": "Local source application can run on own host.",
+    "researcher": "agent:ADE-227-review",
+    "contentHash": "60964438cd6fd1aa40042df2ac338ee648faf5cc869b7203ba39a8d4a11cdf35",
+    "review": {
+      "state": "accepted",
+      "reviewer": "agent:ADE-228-integration",
+      "date": "2026-11-26",
+      "contentHash": "60964438cd6fd1aa40042df2ac338ee648faf5cc869b7203ba39a8d4a11cdf35",
+      "note": "The MIT application starts node-pty on the user's machine and stores its own state locally. The whole desktop core is available, not merely an execution worker. External coding harness accounts remain separate."
+    }
+  },
+  "telemetry-default": {
+    "value": "none",
+    "claimId": "dockterm:OWN-03",
+    "evidenceIds": [
+      "dockterm:update",
+      "dockterm:security",
+      "dockterm:settings"
+    ],
+    "checkedAt": "2026-11-26",
+    "rationale": "No analytics/crash collector in scoped app source; functional update polling remains disclosed.",
+    "researcher": "agent:ADE-227-review",
+    "contentHash": "7bafe02f59a71975f3ec476856c424d549c13bfc4ad6d5ddbee823d512d92d7f",
+    "review": {
+      "state": "accepted",
+      "reviewer": "agent:ADE-228-integration",
+      "date": "2026-11-26",
+      "contentHash": "7bafe02f59a71975f3ec476856c424d549c13bfc4ad6d5ddbee823d512d92d7f",
+      "note": "The verified full pinned archive contains no analytics, telemetry, PostHog, Segment, Sentry or crash-reporting sender in main/preload/renderer/package code. updateChecker only polls GitHub releases and retrieves installers; there is no evidence these requests count diagnostic events. Local activity/history capture is not vendor telemetry. The off-switch remains omitted."
+    }
+  },
+  "free-tier": {
+    "value": "yes",
+    "claimId": "dockterm:OWN-08",
+    "evidenceIds": [
+      "dockterm:readme",
+      "dockterm:license"
+    ],
+    "checkedAt": "2026-11-26",
+    "rationale": "Free local desktop/source; provider costs separate.",
+    "researcher": "agent:ADE-227-review",
+    "contentHash": "04ed5c8053d30b2345167eba513429077f4f2555d3598af03d92d538052f91d5",
+    "review": {
+      "state": "accepted",
+      "reviewer": "agent:ADE-228-integration",
+      "date": "2026-11-26",
+      "contentHash": "04ed5c8053d30b2345167eba513429077f4f2555d3598af03d92d538052f91d5",
+      "note": "README and MIT grant establish free desktop/source access. The ongoing_free atom excludes separately installed coding providers and hardware costs."
+    }
+  }
+}
