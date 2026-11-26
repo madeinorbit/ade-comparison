@@ -4,6 +4,8 @@ This catalog follows the approved 51-criterion framework in [comparison-framewor
 
 Committing and pushing research follows the root [AGENTS.md](../AGENTS.md): commit a product's inputs together with the rebuilt files, one product per commit, and run `npm run verify` before pushing.
 
+Use the bounded, packet-based process in [docs/research-workflow.md](../docs/research-workflow.md). Agree the comparison questions for a pass first. The full schema is an output format, not a requirement to investigate every question or retain complete source distributions in every pass. Research only new or changed facts; keep existing valid findings and reviews unchanged.
+
 ## Read and update
 
 - Read `criteria.json` for IDs, full judgment text and frozen atomic questions. Each subquestion names one part of its criterion; the full judgment defines how to test and interpret it. Do not invent keys or change their meaning in a product profile. Rubric changes apply to every full profile.
@@ -25,7 +27,7 @@ Code inspection needs a pinned commit and file path, plus a locator and an expla
 
 Every supported, partial or unsupported answer needs cited evidence. Unsupported requires an explicit restriction, a bounded source inspection of the scoped release, or a complete first-party list that omits the option, as defined in the framework; missing search results remain unknown.
 
-For a product with public source code, an unknown is not acceptable where the code can answer. Inspect the pinned release across all of the product's public repositories and answer supported, partial or unsupported, naming the paths and search terms checked. Keep unknown only for a closed component, a hosted service, a business fact such as price or certification, or an unreadable repository, and name that reason in `unknownReason`. Closed products keep their unknowns. Give unknowns a search/access gap in the answer and `unknownReason`. Partial results name the limitation. Reviewer acceptance is required for not-applicable. Keep contradictions visible.
+For public code, inspect the pinned files needed to answer the questions in the declared pass. Expand to related repositories or readable distributions when a selected finding depends on them; do not clone or exhaustively inspect every repository by default. Resolve a question when the inspected code establishes its answer. Questions outside the bounded pass remain unknown with that scope stated honestly, alongside specific closed-component, hosted-service, business or access gaps. Do not claim that uninspected code lacks a feature. Give unknowns a scope/search/access gap in the answer and `unknownReason`. Partial results name the limitation. Reviewer acceptance is required for not-applicable. Keep contradictions visible.
 
 Read atomic answers when judging a capability. A partly established criterion summary is not proof that all its parts work or that its unknown parts are missing. The criterion-level `support` field only marks a record as answered or unknown: set `partial` for any answered record that has an unknown or limited part. It is not a rating and is not exported to `data/`.
 

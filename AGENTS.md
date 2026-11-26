@@ -15,9 +15,11 @@ Every push to `main` runs `.github/workflows/deploy.yml`, which checks, builds a
 - Before committing, run `git status`. An untracked or modified file under `research/` that belongs to another product means someone else's work is in your working tree. Do not rebuild shared files on top of it.
 - Never hand-edit `data/` or `research/notes/review.json`. Regenerate them with `npm run data:build` and `node research/notes/review-summary.mjs`.
 
-## Work in your own checkout
+## Research packets and one integration checkout
 
-Parallel research passes in one working tree mix their changes to the shared files. Give each pass its own git worktree and branch (`git worktree add ../ade-<id> -b research/<id>`), and rebase onto `main` right before pushing.
+Follow [docs/research-workflow.md](docs/research-workflow.md). Research and review use the existing catalog read-only and write small, separately owned packets outside the checkout. They do not need their own project worktrees, full repository copies, dependency installs or generated site data. Share pinned source downloads through one bounded cache.
+
+Finish research and independent review for a small batch before integrating it. One writer uses one integration worktree for canonical inputs, media and generated files; never run overlapping builders. Reuse that workspace for the next batch after publication and cleanup. Rebase onto `main` right before pushing.
 
 ## Verify a clean checkout before every push
 
